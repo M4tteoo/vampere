@@ -1,0 +1,3 @@
+[submodule "data/case"]
+	path = data/case
+	url = https://github.com/Fa-Bee/sprintd-basel-green-ai-data.git
