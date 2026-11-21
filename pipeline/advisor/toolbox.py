@@ -58,8 +58,10 @@ class Toolbox:
         return r.get("environment") == "prod" or r.get("criticality_masterdata") == "high"
 
     def add(self, key, area, lever, title, description, effects, effort, rid, basis, finding=None,
-            status=None, start="2026-10-01", group=None, risks="", assumptions=""):
-        self.candidates.append({
+            status=None, start="2026-10-01", group=None, risks="", assumptions="", same_shares_as=None):
+        """same_shares_as: a combined variant (e.g. «pause and move») takes the calibrated shares of its base
+        candidate («pause»), so the two can never disagree; the variant only adds the relocation."""
+        self.candidates.append({"same_shares_as": same_shares_as,
             "key": key, "area": area, "lever": lever, "title": title, "description": description,
             "effects": effects, "effort_days": effort, "owner_role": self.owner(rid),
             "proposed_status": status or ("human" if self.is_prod(rid) else "ok"),
@@ -106,7 +108,8 @@ class Toolbox:
                          f"As auto-pause, plus migrate {rid} from {loc} to the Zurich region (cleaner grid).",
                          [self.eff(f"res:{rid}", share, relocate="CH", removes="idle_hours")], (3 if not self.is_prod(rid) else 4) + 3, rid,
                          [f"{rid}.idle_share", f"grid.{loc}", "grid.CH"], fk, group=f"res:{rid}",
-                         status="human", risks="migration of data and jobs; latency and price of the Zurich region to check",
+                         status="human", same_shares_as=f"C-{rid}-pause",
+                         risks="migration of data and jobs; latency and price of the Zurich region to check",
                          assumptions=f"{share:.0%} of hours removed; remaining load runs on the Zurich grid")
 
     def gpu(self):
@@ -129,7 +132,8 @@ class Toolbox:
                 self.add(f"C-{rid}-ondemand-ch", "platform", "relocate", f"Run {rid} on demand and move it to Zurich",
                          f"As on-demand, plus move the GPU server from {r['location']} to Zurich.",
                          [self.eff(f"res:{rid}", share, relocate="CH", removes="idle_hours")], 3.5, rid, [f"{rid}.gpu_utilisation", "grid.CH"], fk,
-                         group=f"res:{rid}", status="human", risks="GPU availability and price in Zurich to check")
+                         group=f"res:{rid}", status="human", same_shares_as=f"C-{rid}-ondemand",
+                         risks="GPU availability and price in Zurich to check")
 
     def servers(self):
         zombies, office = [], []
@@ -172,6 +176,46 @@ class Toolbox:
                      [self.eff(f"res:{rid}", 1 - keep, removes="idle_hours")], 2, rid, [f"{rid}.cpu_utilisation", f"{rid}.usage_vCPU-hour"],
                      fk, group="servers:office", status="human",
                      risks="protected servers in the resource (e.g. emergency fallback) must keep their size")
+            if self.res.get(rid, {}).get("location") in ("DE", "IE") and self.can_move(rid):
+                loc = self.res[rid]["location"]
+                self.add(f"C-{rid}-rightsize-ch", "servers", "relocate", f"Downsize {rid} and move it to Zurich",
+                         f"As the downsizing, plus move {rid} from {loc} to the provider's Zurich region (cleaner grid).",
+                         [self.eff(f"res:{rid}", 1 - keep, relocate="CH", removes="idle_hours")], 5, rid,
+                         [f"{rid}.cpu_utilisation", f"grid.{loc}", "grid.CH"], fk, group="servers:office", status="human",
+                         same_shares_as=f"C-{rid}-rightsize",
+                         risks="Zurich compute price differs (AWS m6i.large +18 %); test campaigns must be scheduled around the move")
+                self.add(f"C-{rid}-move-ch", "servers", "relocate", f"Move {rid} to Zurich (no other change)",
+                         f"Move {rid} from {loc} to the provider's Zurich region; servers keep running as today.",
+                         [self.eff(f"res:{rid}", 0.0, relocate="CH")], 3, rid, [f"grid.{loc}", "grid.CH"], None,
+                         group="servers:office", status="human",
+                         risks="Zurich compute price differs (AWS m6i.large +18 %)")
+
+    def relocations(self):
+        """Move a load to a cleaner grid WITHOUT switching anything off (data and service stay as they are).
+        Generic: every resource in DE/IE whose provider offers Zurich and that has no move option yet.
+        Also allowed for protected resources: nothing is reduced or deleted (the gate checks it)."""
+        covered = {e["scope"] for c in self.candidates if c["lever"] == "relocate" for e in c["effects"]}
+        for rid, r in self.res.items():
+            if r["location"] not in ("DE", "IE") or not self.can_move(rid) or f"res:{rid}" in covered:
+                continue
+            co2 = self.f(f"{rid}.co2", 0) or 0
+            if co2 < 20:
+                continue
+            storage = any(f.startswith(f"{rid}.usage_GB-day") for f in self.F)
+            area = "servers" if r["category"] == "server" else ("platform" if rid in ("dp-dev", "dp-prod", "gpu-ml", "db-fin", "pbi-kap") else "ai_other")
+            protected = rid in self.blocked_targets
+            fk = self.finding(f"L-{rid}", "driver", f"{rid} runs in {r['location']} (grid {self.f('grid.' + r['location'])} kg/kWh); "
+                              f"Zurich {self.f('grid.CH')} kg/kWh", [f"res:{rid}"],
+                              [f"{rid}.co2", f"grid.{r['location']}", "grid.CH", f"{rid}.co2_saved_if_moved_to_CH"],
+                              "The same load would emit less on the Zurich grid; the provider offers Zurich.")
+            self.add(f"C-{rid}-move-ch", area, "relocate", f"Move {rid} to Zurich" + (" (data kept)" if storage else ""),
+                     f"Move {rid} from {r['location']} to the provider's Zurich region. Nothing is switched off, reduced or deleted"
+                     + ("; retention obligations stay fully respected." if protected else "."),
+                     [self.eff(f"res:{rid}", 0.0, relocate="CH")], 4 if storage else 3, rid,
+                     [f"{rid}.co2", f"grid.{r['location']}", "grid.CH"], fk, group=f"move:{rid}", status="human",
+                     risks=("one-off transfer of the data (egress fee, not in the data); Zurich price to check" if storage
+                            else "Zurich price to check (AWS compute +18 %)"),
+                     assumptions="same energy, Zurich grid factor instead of " + r["location"])
 
     def licences(self):
         for lid, l in self.lic.items():
@@ -234,6 +278,12 @@ class Toolbox:
             self.add("C-ci-skip", "ai_other", "pipeline", "Skip nightly builds when nothing changed",
                      "The nightly build runs only if there were commits since the last one.",
                      [self.eff("res:cicd", nightly)], 0.5, "cicd", ["cicd.minutes_share_unchanged_nightly"], fk, group="res:cicd")
+            if self.res.get("cicd", {}).get("location") in ("DE", "IE") and self.can_move("cicd"):
+                self.add("C-ci-skip-ch", "ai_other", "relocate", "Skip unchanged nightly builds and run builds in Zurich",
+                         "As above, plus move the build runners to the provider's Zurich region.",
+                         [self.eff("res:cicd", nightly, relocate="CH")], 1.5, "cicd",
+                         ["cicd.minutes_share_unchanged_nightly", "grid.CH"], fk, group="res:cicd", status="human",
+                         same_shares_as="C-ci-skip", risks="runner price in Zurich to check")
         unopened = self.f("ai-report.unopened_share")
         if unopened and unopened > 0.5:
             fk = self.finding("W-report-agent", "waste", f"{unopened:.0%} of the report agent's reports are never opened",
@@ -280,7 +330,7 @@ class Toolbox:
                          "One of the biggest CO₂ sources.")
 
     def run(self) -> dict:
-        for lever in (self.drivers, self.idle_clusters, self.gpu, self.servers, self.licences, self.ai_models,
+        for lever in (self.drivers, self.idle_clusters, self.gpu, self.servers, self.relocations, self.licences, self.ai_models,
                       self.extras, self.kept):
             lever()
         return {"candidates": self.candidates, "findings": self.findings, "kept_on": self.kept_on}

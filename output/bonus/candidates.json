@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T15:08:07+01:00",
+  "generated_at": "2026-11-21T16:07:07+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -150,9 +150,9 @@
        "high": 0.0
       },
       "co2_kg": {
-       "low": 4.8,
-       "mid": 13.2,
-       "high": 30.6
+       "low": 3.4,
+       "mid": 11.5,
+       "high": 27.5
       }
      },
      "status": "ok",

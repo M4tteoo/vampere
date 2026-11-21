@@ -1,7 +1,7 @@
 {
   "meta": {
     "schema_version": "0.1",
-    "generated_at": "2026-11-21T15:08:05+01:00",
+    "generated_at": "2026-11-21T16:07:05+01:00",
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -1836,7 +1836,7 @@
       "issue_type": "advisor_check",
       "rows_affected": 1,
       "action": "plan check",
-      "detail": "A-ai_other-1: extra measure proposed by the ai_other agent (set to «a person decides» by code)",
+      "detail": "C-ai-marketing-Classify: dropped by the agent (This was a one-off script bug, not recurring demand.)",
       "amount_chf": null,
       "resource_id": null,
       "severity": "warn",
@@ -1849,7 +1849,7 @@
       "issue_type": "advisor_check",
       "rows_affected": 1,
       "action": "plan check",
-      "detail": "A-ai_other-2: extra measure proposed by the ai_other agent (set to «a person decides» by code)",
+      "detail": "A-platform-1: extra measure proposed by the platform agent (set to «a person decides» by code)",
       "amount_chf": null,
       "resource_id": null,
       "severity": "warn",
@@ -1859,9 +1859,35 @@
       "issue_id": "Q-0112",
       "category": null,
       "source_file": "advisor",
+      "issue_type": "advisor_check",
+      "rows_affected": 1,
+      "action": "plan check",
+      "detail": "A-servers-2: extra measure proposed by the servers agent (set to «a person decides» by code)",
+      "amount_chf": null,
+      "resource_id": null,
+      "severity": "warn",
+      "evidence": ""
+    },
+    {
+      "issue_id": "Q-0113",
+      "category": null,
+      "source_file": "advisor",
+      "issue_type": "advisor_check",
+      "rows_affected": 1,
+      "action": "plan check",
+      "detail": "A-ai_other-3: extra measure proposed by the ai_other agent (set to «a person decides» by code)",
+      "amount_chf": null,
+      "resource_id": null,
+      "severity": "warn",
+      "evidence": ""
+    },
+    {
+      "issue_id": "Q-0114",
+      "category": null,
+      "source_file": "advisor",
       "issue_type": "advisor_applied",
-      "rows_affected": 33,
-      "action": "29 findings, 33 measures, 16 limits; package CO2 −50.4%, cost −25.4%, effort 15.0 d",
+      "rows_affected": 38,
+      "action": "31 findings, 38 measures, 16 limits; package CO2 −47.2%, cost −25.7%, effort 15.0 d",
       "detail": "tickets withheld from the reader: 2; ignored by the reader: 0",
       "amount_chf": null,
       "resource_id": null,
@@ -1869,7 +1895,7 @@
       "evidence": ""
     },
     {
-      "issue_id": "Q-0113",
+      "issue_id": "Q-0115",
       "category": null,
       "source_file": "submission",
       "issue_type": "template_written",

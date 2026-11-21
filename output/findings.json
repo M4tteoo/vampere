@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T15:08:06+01:00",
+  "generated_at": "2026-11-21T16:07:07+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -399,29 +399,29 @@
    "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 29917.97,
-     "mid": 29954.88,
-     "high": 29999.63
+     "low": 59835.95,
+     "mid": 59909.77,
+     "high": 59999.27
     },
     "cost_eur": {
-     "low": 32358.32,
-     "mid": 32398.24,
-     "high": 32446.64
+     "low": 64716.64,
+     "mid": 64796.48,
+     "high": 64893.28
     },
     "cost_usd": {
-     "low": 37654.69,
-     "mid": 37701.14,
-     "high": 37757.46
+     "low": 75309.38,
+     "mid": 75402.28,
+     "high": 75514.93
     },
     "kwh": {
-     "low": 1794.2,
-     "mid": 2647.4,
-     "high": 4487.6
+     "low": 3240.6,
+     "mid": 4781.7,
+     "high": 8105.5
     },
     "co2_kg": {
-     "low": 1223.1,
-     "mid": 1823.9,
-     "high": 3675.6
+     "low": 1258.1,
+     "mid": 1993.8,
+     "high": 4007.4
     }
    },
    "measure_ids": [
@@ -540,14 +540,14 @@
      "high": 62761.18
     },
     "kwh": {
-     "low": 3820.2,
-     "mid": 5690.5,
-     "high": 9806.2
+     "low": 2665.7,
+     "mid": 3970.8,
+     "high": 6842.7
     },
     "co2_kg": {
-     "low": 217.8,
-     "mid": 626.0,
-     "high": 1255.2
+     "low": 151.9,
+     "mid": 436.8,
+     "high": 875.9
     }
    },
    "measure_ids": [
@@ -641,29 +641,29 @@
    "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 9457.13,
-     "mid": 9470.64,
-     "high": 9483.27
+     "low": 18914.26,
+     "mid": 18941.27,
+     "high": 18966.54
     },
     "cost_eur": {
-     "low": 10228.41,
-     "mid": 10243.02,
-     "high": 10256.68
+     "low": 20456.82,
+     "mid": 20486.03,
+     "high": 20513.36
     },
     "cost_usd": {
-     "low": 11902.48,
-     "mid": 11919.48,
-     "high": 11935.38
+     "low": 23804.97,
+     "mid": 23838.97,
+     "high": 23870.76
     },
     "kwh": {
-     "low": 617.6,
-     "mid": 964.3,
-     "high": 1662.8
+     "low": 969.2,
+     "mid": 1513.3,
+     "high": 2609.3
     },
     "co2_kg": {
-     "low": 406.6,
-     "mid": 643.5,
-     "high": 1318.9
+     "low": 390.3,
+     "mid": 651.3,
+     "high": 1331.9
     }
    },
    "measure_ids": [
@@ -1030,34 +1030,35 @@
    "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 33007.55,
-     "mid": 33093.41,
-     "high": 33138.94
+     "low": 51460.28,
+     "mid": 51599.16,
+     "high": 51670.33
     },
     "cost_eur": {
-     "low": 35699.81,
-     "mid": 35792.67,
-     "high": 35841.91
+     "low": 55657.67,
+     "mid": 55807.88,
+     "high": 55884.85
     },
     "cost_usd": {
-     "low": 41542.49,
-     "mid": 41650.55,
-     "high": 41707.85
+     "low": 64766.64,
+     "mid": 64941.43,
+     "high": 65031.0
     },
     "kwh": {
-     "low": 1290.8,
-     "mid": 1971.1,
-     "high": 3382.5
+     "low": 1561.4,
+     "mid": 2375.6,
+     "high": 4073.4
     },
     "co2_kg": {
-     "low": 310.9,
-     "mid": 532.3,
-     "high": 1275.9
+     "low": 397.4,
+     "mid": 658.6,
+     "high": 1677.9
     }
    },
    "measure_ids": [
     "M-07",
-    "M-08"
+    "M-08",
+    "M-09"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -1089,6 +1090,200 @@
   },
   {
    "id": "F-09",
+   "kind": "driver",
+   "title": "cicd runs in IE (grid 0.226 kg/kWh); Zurich 0.11 kg/kWh",
+   "entity_ids": [
+    "res:cicd"
+   ],
+   "evidence": [
+    {
+     "statement": "cicd baseline CO2",
+     "value": 25.5,
+     "unit": "kg CO2/year",
+     "source_files": [
+      "aws_costs.csv"
+     ],
+     "fact_id": "cicd.co2"
+    },
+    {
+     "statement": "grid mix IE (location-based)",
+     "value": 0.226,
+     "unit": "kg CO2/kWh",
+     "source_files": [
+      "pipeline/energy/factors.yaml"
+     ],
+     "fact_id": "grid.IE"
+    },
+    {
+     "statement": "grid mix CH (location-based)",
+     "value": 0.11,
+     "unit": "kg CO2/kWh",
+     "source_files": [
+      "pipeline/energy/factors.yaml"
+     ],
+     "fact_id": "grid.CH"
+    },
+    {
+     "statement": "cicd: CO2 saved per year if its load ran in CH (aws offers it); AWS compute in CH costs +18% vs IE (m6i.large list price, README)",
+     "value": 13.1,
+     "unit": "kg CO2/year",
+     "source_files": [
+      "extra/data_center_locations.csv"
+     ],
+     "fact_id": "cicd.co2_saved_if_moved_to_CH"
+    }
+   ],
+   "severity": "medium",
+   "impact": {
+    "cost_chf": {
+     "low": 5484.13,
+     "mid": 5566.27,
+     "high": 5599.52
+    },
+    "cost_eur": {
+     "low": 5930.19,
+     "mid": 6019.02,
+     "high": 6054.97
+    },
+    "cost_usd": {
+     "low": 6899.86,
+     "mid": 7003.21,
+     "high": 7045.05
+    },
+    "kwh": {
+     "low": 73.9,
+     "mid": 112.8,
+     "high": 199.8
+    },
+    "co2_kg": {
+     "low": 14.8,
+     "mid": 25.5,
+     "high": 70.3
+    }
+   },
+   "measure_ids": [
+    "M-11"
+   ],
+   "calc": {
+    "formula": "impact = baseline of the scopes",
+    "inputs": [],
+    "factor_ids": [
+     "energy_per_vcpu_hour",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0018",
+     "Q-0067"
+    ],
+    "note": "The same load would emit less on the Zurich grid; the provider offers Zurich."
+   },
+   "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
+  },
+  {
+   "id": "F-10",
+   "kind": "driver",
+   "title": "st-backup runs in IE (grid 0.226 kg/kWh); Zurich 0.11 kg/kWh",
+   "entity_ids": [
+    "res:st-backup"
+   ],
+   "evidence": [
+    {
+     "statement": "st-backup baseline CO2",
+     "value": 293.7,
+     "unit": "kg CO2/year",
+     "source_files": [
+      "aws_costs.csv"
+     ],
+     "fact_id": "st-backup.co2"
+    },
+    {
+     "statement": "grid mix IE (location-based)",
+     "value": 0.226,
+     "unit": "kg CO2/kWh",
+     "source_files": [
+      "pipeline/energy/factors.yaml"
+     ],
+     "fact_id": "grid.IE"
+    },
+    {
+     "statement": "grid mix CH (location-based)",
+     "value": 0.11,
+     "unit": "kg CO2/kWh",
+     "source_files": [
+      "pipeline/energy/factors.yaml"
+     ],
+     "fact_id": "grid.CH"
+    },
+    {
+     "statement": "st-backup: CO2 saved per year if its load ran in CH (aws offers it); price difference not in the data",
+     "value": 150.7,
+     "unit": "kg CO2/year",
+     "source_files": [
+      "extra/data_center_locations.csv"
+     ],
+     "fact_id": "st-backup.co2_saved_if_moved_to_CH"
+    }
+   ],
+   "severity": "high",
+   "impact": {
+    "cost_chf": {
+     "low": 9365.69,
+     "mid": 9396.6,
+     "high": 9410.09
+    },
+    "cost_eur": {
+     "low": 10131.62,
+     "mid": 10165.07,
+     "high": 10179.66
+    },
+    "cost_usd": {
+     "low": 11784.31,
+     "mid": 11823.21,
+     "high": 11840.18
+    },
+    "kwh": {
+     "low": 403.8,
+     "mid": 1299.3,
+     "high": 3130.6
+    },
+    "co2_kg": {
+     "low": 80.8,
+     "mid": 293.7,
+     "high": 1102.0
+    }
+   },
+   "measure_ids": [
+    "M-12"
+   ],
+   "calc": {
+    "formula": "impact = baseline of the scopes",
+    "inputs": [],
+    "factor_ids": [
+     "energy_per_gb_storage_day",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0022",
+     "Q-0071"
+    ],
+    "note": "The same load would emit less on the Zurich grid; the provider offers Zurich."
+   },
+   "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
+  },
+  {
+   "id": "F-11",
    "kind": "waste",
    "title": "CRM platform: 58% of paid seats active",
    "entity_ids": [
@@ -1180,7 +1375,7 @@
     }
    },
    "measure_ids": [
-    "M-09"
+    "M-13"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -1195,7 +1390,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-10",
+   "id": "F-12",
    "kind": "waste",
    "title": "Chat tool: 68% of paid seats active",
    "entity_ids": [
@@ -1292,7 +1487,7 @@
     }
    },
    "measure_ids": [
-    "M-10"
+    "M-14"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -1307,7 +1502,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-11",
+   "id": "F-13",
    "kind": "waste",
    "title": "ChatGPT Team: 14% of paid seats active",
    "entity_ids": [
@@ -1400,7 +1595,7 @@
     }
    },
    "measure_ids": [
-    "M-11"
+    "M-15"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -1415,7 +1610,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-12",
+   "id": "F-14",
    "kind": "waste",
    "title": "Design tool: 38% of paid seats active",
    "entity_ids": [
@@ -1506,7 +1701,7 @@
     }
    },
    "measure_ids": [
-    "M-12"
+    "M-16"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -1521,7 +1716,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-13",
+   "id": "F-15",
    "kind": "waste",
    "title": "E-signature: 30% of paid seats active",
    "entity_ids": [
@@ -1613,7 +1808,7 @@
     }
    },
    "measure_ids": [
-    "M-13"
+    "M-17"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -1628,7 +1823,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-14",
+   "id": "F-16",
    "kind": "waste",
    "title": "Knowledge base: 48% of paid seats active",
    "entity_ids": [
@@ -1721,7 +1916,7 @@
     }
    },
    "measure_ids": [
-    "M-14"
+    "M-18"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -1736,7 +1931,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-15",
+   "id": "F-17",
    "kind": "waste",
    "title": "Microsoft Copilot: 59% of paid seats active",
    "entity_ids": [
@@ -1833,7 +2028,7 @@
     }
    },
    "measure_ids": [
-    "M-15"
+    "M-19"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -1848,7 +2043,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-16",
+   "id": "F-18",
    "kind": "waste",
    "title": "Note-taking tool: 44% of paid seats active",
    "entity_ids": [
@@ -1939,7 +2134,7 @@
     }
    },
    "measure_ids": [
-    "M-16"
+    "M-20"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -1954,7 +2149,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-17",
+   "id": "F-19",
    "kind": "waste",
    "title": "Project management: 54% of paid seats active",
    "entity_ids": [
@@ -2046,7 +2241,7 @@
     }
    },
    "measure_ids": [
-    "M-17"
+    "M-21"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -2061,7 +2256,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-18",
+   "id": "F-20",
    "kind": "waste",
    "title": "Project scheduling: 59% of paid seats active",
    "entity_ids": [
@@ -2153,7 +2348,7 @@
     }
    },
    "measure_ids": [
-    "M-18"
+    "M-22"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -2168,7 +2363,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-19",
+   "id": "F-21",
    "kind": "waste",
    "title": "Survey tool: 12% of paid seats active",
    "entity_ids": [
@@ -2259,7 +2454,7 @@
     }
    },
    "measure_ids": [
-    "M-19"
+    "M-23"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -2274,7 +2469,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-20",
+   "id": "F-22",
    "kind": "waste",
    "title": "Ticket system: 63% of paid seats active",
    "entity_ids": [
@@ -2366,7 +2561,7 @@
     }
    },
    "measure_ids": [
-    "M-20"
+    "M-24"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -2381,7 +2576,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-21",
+   "id": "F-23",
    "kind": "waste",
    "title": "Video conferencing tool: 53% of paid seats active",
    "entity_ids": [
@@ -2478,7 +2673,7 @@
     }
    },
    "measure_ids": [
-    "M-21"
+    "M-25"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -2493,7 +2688,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-22",
+   "id": "F-24",
    "kind": "waste",
    "title": "ai-assistant: «Draft texts» runs on a large model",
    "entity_ids": [
@@ -2557,7 +2752,7 @@
     }
    },
    "measure_ids": [
-    "M-22"
+    "M-26"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -2578,7 +2773,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-23",
+   "id": "F-25",
    "kind": "waste",
    "title": "ai-assistant: «Summarise» runs on a large model",
    "entity_ids": [
@@ -2642,7 +2837,7 @@
     }
    },
    "measure_ids": [
-    "M-23"
+    "M-27"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -2663,7 +2858,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-24",
+   "id": "F-26",
    "kind": "waste",
    "title": "ai-assistant: «Translate» runs on a large model",
    "entity_ids": [
@@ -2727,7 +2922,7 @@
     }
    },
    "measure_ids": [
-    "M-24"
+    "M-28"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -2748,7 +2943,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-25",
+   "id": "F-27",
    "kind": "waste",
    "title": "ai-marketing: «Classify» runs on a large model",
    "entity_ids": [
@@ -2786,36 +2981,34 @@
    "severity": "medium",
    "impact": {
     "cost_chf": {
-     "low": 3428.91,
-     "mid": 3428.91,
-     "high": 3428.91
+     "low": 8164.08,
+     "mid": 8164.08,
+     "high": 8164.08
     },
     "cost_eur": {
-     "low": 3708.31,
-     "mid": 3708.31,
-     "high": 3708.31
+     "low": 8829.3,
+     "mid": 8829.3,
+     "high": 8829.3
     },
     "cost_usd": {
-     "low": 4312.29,
-     "mid": 4312.29,
-     "high": 4312.29
+     "low": 10267.36,
+     "mid": 10267.36,
+     "high": 10267.36
     },
     "kwh": {
-     "low": 19.6,
-     "mid": 97.9,
-     "high": 391.6
+     "low": 43.5,
+     "mid": 217.5,
+     "high": 870.2
     },
     "co2_kg": {
-     "low": 2.9,
-     "mid": 20.9,
-     "high": 117.5
+     "low": 6.5,
+     "mid": 46.3,
+     "high": 261.1
     }
    },
-   "measure_ids": [
-    "M-25"
-   ],
+   "measure_ids": [],
    "calc": {
-    "formula": "impact = savings of the linked measures",
+    "formula": "impact = baseline of the scopes",
     "inputs": [],
     "factor_ids": [
      "energy_per_1000_tokens",
@@ -2837,7 +3030,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-26",
+   "id": "F-28",
    "kind": "waste",
    "title": "6.6 TB of tables not read for over a year (no retention)",
    "entity_ids": [
@@ -2910,7 +3103,7 @@
     }
    },
    "measure_ids": [
-    "M-26"
+    "M-29"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -2934,7 +3127,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-27",
+   "id": "F-29",
    "kind": "waste",
    "title": "21% of nightly builds run without changes",
    "entity_ids": [
@@ -2972,33 +3165,34 @@
    "severity": "low",
    "impact": {
     "cost_chf": {
-     "low": 176.59,
-     "mid": 179.23,
-     "high": 180.3
+     "low": 353.18,
+     "mid": 358.47,
+     "high": 360.61
     },
     "cost_eur": {
-     "low": 190.95,
-     "mid": 193.81,
-     "high": 194.97
+     "low": 381.9,
+     "mid": 387.62,
+     "high": 389.94
     },
     "cost_usd": {
-     "low": 222.18,
-     "mid": 225.5,
-     "high": 226.85
+     "low": 444.35,
+     "mid": 451.01,
+     "high": 453.7
     },
     "kwh": {
-     "low": 2.4,
-     "mid": 3.6,
-     "high": 6.4
+     "low": 4.8,
+     "mid": 7.3,
+     "high": 12.9
     },
     "co2_kg": {
-     "low": 0.5,
-     "mid": 0.8,
-     "high": 2.3
+     "low": 11.2,
+     "mid": 14.3,
+     "high": 47.8
     }
    },
    "measure_ids": [
-    "M-27"
+    "M-30",
+    "M-31"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -3022,7 +3216,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-28",
+   "id": "F-30",
    "kind": "waste",
    "title": "91% of the report agent's reports are never opened",
    "entity_ids": [
@@ -3068,7 +3262,7 @@
     }
    },
    "measure_ids": [
-    "M-28"
+    "M-32"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -3091,7 +3285,7 @@
    "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"
   },
   {
-   "id": "F-29",
+   "id": "F-31",
    "kind": "waste",
    "title": "68% of new logs are kept 365 days",
    "entity_ids": [
@@ -3146,7 +3340,7 @@
     }
    },
    "measure_ids": [
-    "M-29"
+    "M-33"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",

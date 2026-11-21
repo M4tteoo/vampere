@@ -264,7 +264,12 @@ Steps 5–8 · Advisor veloce (branch fast-advisor, 21.11): architettura guidata
   ✔ Lettore dei ticket in 4 lotti paralleli (gpt-5.4: le restrizioni sono sicurezza; gira solo se cambiano i ticket) + controllo del codice: la restrizione deve riguardare la risorsa del ticket @done(26-11-21)
   ✔ Ottimizzatore (codice, esatto): obiettivi climate_first / best_value / francs_first, SEMPRE con margine di sicurezza (−40% CO₂ anche con i fattori pessimistici); budget come parametro (default CHF 16.500 per round di pianificazione) @done(26-11-21)
   ✔ Impronta digitale: stessi dati ⇒ stesse risposte riusate, nessuna energia AI; dati nuovi ⇒ l'analisi riparte da sola; measures.json «analysis» mostra quando, quanto tempo, quanta AI @done(26-11-21)
-  ☐ Calcolatore: valutare le ore inattive tolte alla potenza a vuoto (stesso modello del motore energia). Implementato ma SPENTO (config advisor.value_idle_hours_at_idle_power: false); acceso, nessun pacchetto raggiungeva −40% nel caso pessimistico → da rivedere col team
+  ✔ Calcolatore: le ore inattive tolte valgono la potenza a vuoto (stesso modello del motore energia); ACCESO (branch idle-power) @done(26-11-21)
+      - risparmi CO₂ delle pause più bassi e corretti: dp-prod −30%, GPU −21%, server di test −20%, dp-dev −10%
+  ✔ Nuova leva di spostamento verso una rete più pulita anche da sola (niente spento, dati mantenuti: ammessa anche per risorse protette come l'archivio backup) + varianti combinate (pausa+sposta, ridimensiona+sposta, build+sposta) che copiano le quote della variante base @done(26-11-21)
+      - risultato (climate first, 15 giornate): CO₂ −47,2% (fattori medi), costi −25,7% (CHF 121.900/anno, rientro in ~7 settimane); Monte Carlo: −40% nel 91% di 10.000 scenari (prima 54%)
+      - nel caso estremo (tutti i fattori al peggio insieme) −37,1%: servirebbero ~18 giornate → safety_met: false con nota
+  ☐ Decidere col team la definizione di «sicuro»: Monte Carlo (−40% in ≥ 90% degli scenari, proposta) oppure angolo estremo (nessun pacchetto entro CHF 16.500)
   ✔ Rete di sicurezza: se nessun pacchetto rispetta le regole, si mostra il migliore possibile con safety_met: false e una nota (mai un pacchetto vuoto) @done(26-11-21)
   ✔ Test: redteam 8/8, unit test 31/31, audit 55/55 @done(26-11-21)
   ☐ Pulsante «Ripeti analisi» nel frontend (serve un endpoint, p.es. nel server dell'assistente)

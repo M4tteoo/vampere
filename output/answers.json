@@ -1,7 +1,7 @@
 {
   "meta": {
     "schema_version": "0.1",
-    "generated_at": "2026-11-21T15:08:07+01:00",
+    "generated_at": "2026-11-21T16:07:07+01:00",
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -120,7 +120,7 @@
         "it_tickets.csv",
         "pipeline/energy/factors.yaml"
       ],
-      "answer": "Today gpu-ml-01 (Frankfurt) runs 168 of 168 h a week at 9.2 % average GPU utilisation. Measure M-04 «Run gpu-ml on demand»: effort 1.5 person-days (CHF 1,650); savings per year 9,471 CHF (range 9,457–9,483), 964 kWh (range 618–1,663) and 350.0 kg CO2 (range 203.8–715.0) location-based. Status: ok (decides: Head of Consulting).",
+      "answer": "Today gpu-ml-01 (Frankfurt) runs 168 of 168 h a week at 9.2 % average GPU utilisation. Measure M-04 «Use GPU only on demand»: effort 1.5 person-days (CHF 1,650); savings per year 9,471 CHF (range 9,457–9,483), 757 kWh (range 485–1,305) and 274.7 kg CO2 (range 159.9–561.0) location-based. Status: ok (decides: Head of Consulting).",
       "measure_id": "M-04",
       "effort_days": 1.5,
       "effort_chf": 1650.0,
@@ -141,20 +141,20 @@
           "high": 11935.38
         },
         "kwh": {
-          "low": 617.6,
-          "mid": 964.3,
-          "high": 1662.8
+          "low": 484.6,
+          "mid": 756.6,
+          "high": 1304.7
         },
         "co2_kg": {
-          "low": 203.8,
-          "mid": 350.0,
-          "high": 715.0
+          "low": 159.9,
+          "mid": 274.7,
+          "high": 561.0
         }
       },
       "status": "ok",
       "owner_role": "Head of Consulting",
       "limit_ids": [],
-      "calc": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.83",
+      "calc": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.65",
       "assumptions": [
         {
           "id": "energy_per_gpu_hour",

@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T15:08:07+01:00",
+  "generated_at": "2026-11-21T16:07:07+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -9,9 +9,9 @@
   "scenario": "ch_consumption"
  },
  "analysis": {
-  "analysed_at": "2026-11-21T15:04:57+01:00",
+  "analysed_at": "2026-11-21T16:07:03+01:00",
   "data_as_of": "2026-09-06",
-  "seconds": 14.3,
+  "seconds": 14.4,
   "timings": {
    "agents_s": 13.3
   },
@@ -28,20 +28,20 @@
     "advisor.agent.platform": 1,
     "advisor.agent.servers": 1
    },
-   "input_tokens": 18054,
-   "cached_input_tokens": 17408,
-   "output_tokens": 6236,
-   "reasoning_tokens": 3700,
-   "output_equivalent_tokens": 1619,
+   "input_tokens": 19456,
+   "cached_input_tokens": 0,
+   "output_tokens": 6548,
+   "reasoning_tokens": 3178,
+   "output_equivalent_tokens": 2123,
    "kwh": {
-    "low": 0.00016,
-    "mid": 0.00081,
-    "high": 0.00324
+    "low": 0.00021,
+    "mid": 0.00106,
+    "high": 0.00425
    },
    "co2_kg": {
-    "low": 2.4e-05,
-    "mid": 0.000172,
-    "high": 0.000971
+    "low": 3.2e-05,
+    "mid": 0.000226,
+    "high": 0.001274
    },
    "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
    "source": "measured during this run (token usage returned by the API)",
@@ -52,49 +52,49 @@
   "calls": [
    {
     "model": "gpt-5.4-mini",
-    "purpose": "advisor.agent.servers",
-    "input_tokens": 5379,
-    "cached_input_tokens": 5248,
-    "output_tokens": 1152,
-    "reasoning_tokens": 906,
-    "seconds": 7.4
-   },
-   {
-    "model": "gpt-5.4-mini",
     "purpose": "advisor.agent.licences",
-    "input_tokens": 4555,
-    "cached_input_tokens": 4352,
-    "output_tokens": 1336,
-    "reasoning_tokens": 357,
-    "seconds": 8.0
+    "input_tokens": 4621,
+    "cached_input_tokens": 0,
+    "output_tokens": 1455,
+    "reasoning_tokens": 381,
+    "seconds": 9.6
    },
    {
     "model": "gpt-5.4-mini",
     "purpose": "advisor.agent.platform",
-    "input_tokens": 3900,
-    "cached_input_tokens": 3712,
-    "output_tokens": 1574,
-    "reasoning_tokens": 1113,
-    "seconds": 9.8
+    "input_tokens": 3966,
+    "cached_input_tokens": 0,
+    "output_tokens": 1384,
+    "reasoning_tokens": 766,
+    "seconds": 9.6
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.servers",
+    "input_tokens": 5661,
+    "cached_input_tokens": 0,
+    "output_tokens": 1379,
+    "reasoning_tokens": 804,
+    "seconds": 10.9
    },
    {
     "model": "gpt-5.4-mini",
     "purpose": "advisor.agent.ai_other",
-    "input_tokens": 4220,
-    "cached_input_tokens": 4096,
-    "output_tokens": 2174,
-    "reasoning_tokens": 1324,
+    "input_tokens": 5208,
+    "cached_input_tokens": 0,
+    "output_tokens": 2330,
+    "reasoning_tokens": 1227,
     "seconds": 13.3
    }
   ],
   "previous": null,
   "reused": {
    "reader": true,
-   "agents": true
+   "agents": false
   },
   "fingerprint": {
    "reader": "ec92f0a50e9d67cf",
-   "agents": "d3953c8bb296dd61"
+   "agents": "150e8d85e2d3c6a3"
   }
  },
  "ai_footprint": {
@@ -105,20 +105,20 @@
    "advisor.agent.platform": 1,
    "advisor.agent.servers": 1
   },
-  "input_tokens": 18054,
-  "cached_input_tokens": 17408,
-  "output_tokens": 6236,
-  "reasoning_tokens": 3700,
-  "output_equivalent_tokens": 1619,
+  "input_tokens": 19456,
+  "cached_input_tokens": 0,
+  "output_tokens": 6548,
+  "reasoning_tokens": 3178,
+  "output_equivalent_tokens": 2123,
   "kwh": {
-   "low": 0.00016,
-   "mid": 0.00081,
-   "high": 0.00324
+   "low": 0.00021,
+   "mid": 0.00106,
+   "high": 0.00425
   },
   "co2_kg": {
-   "low": 2.4e-05,
-   "mid": 0.000172,
-   "high": 0.000971
+   "low": 3.2e-05,
+   "mid": 0.000226,
+   "high": 0.001274
   },
   "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
   "source": "measured during this run (token usage returned by the API)",
