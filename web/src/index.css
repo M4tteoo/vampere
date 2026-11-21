@@ -60,3 +60,15 @@ button:disabled { cursor: not-allowed; }
 .room-name {
   text-shadow: 0 0 6px #fff, 0 0 12px #fff, 0 0 2px #fff;
 }
+
+/* Intro «planimetria → 3D»: livello di riconoscimento sopra la pianta (solo muri, vetri e arredi, colorati). */
+.bp-detect svg { display: block; }
+.bp-detect svg > rect,
+.bp-detect #paper, .bp-detect #grid, .bp-detect #floors, .bp-detect #rooms, .bp-detect #dims, .bp-detect #entrance,
+.bp-detect #north, .bp-detect #scale, .bp-detect #legend, .bp-detect #titleblock { display: none; }
+.bp-detect #walls { fill: #7dffbf; stroke: #7dffbf; filter: drop-shadow(0 0 0.15px #3fd18b); }
+.bp-detect #frames { fill: #6fe3ff; stroke: #6fe3ff; }
+.bp-detect #glass { fill: rgba(111, 227, 255, 0.45); stroke: #6fe3ff; stroke-width: 0.05; }
+.bp-detect #furniture { stroke: #ffc55c; stroke-width: 0.05; opacity: var(--furn, 0); }
+.bp-detect #furniture path { fill: rgba(255, 197, 92, 0.18); }
+

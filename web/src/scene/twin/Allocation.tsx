@@ -11,6 +11,7 @@ import { focusPlanes, islandGhostMaterial, setClipBox, type Box2 } from './clip'
 import { GLOW, LED, PROVIDER, SCREEN } from './colors'
 import { useAnchors } from './Environment'
 import { useScreen } from './screen'
+import { BlueprintBuild, buildGroups } from './BlueprintBuild'
 
 const OFFICE = `${MODELS}/env_office_v1.glb`
 const ISLANDS = `${MODELS}/env_islands_v1.glb`
@@ -297,10 +298,12 @@ export function AllocationScene() {
   const seats = useMemo(() => data.layout.filter((i) => i.id.startsWith('seat:') && i.room && ROOMS.includes(i.room)), [data.layout])
   const used = useMemo(() => (room ? cloudResourcesOf(ctx, room) : new Set<string>()), [ctx, room])
 
+  // Raggruppate per reparto: nell'intro «planimetria → 3D» atterrano un reparto alla volta.
   const officeAssets = useMemo(() => {
-    const out: Record<string, Inst[]> = {}
-    const push = (asset: string, inst: Inst) => (out[asset] ??= []).push(inst)
+    const byRoom: Record<string, Record<string, Inst[]>> = {}
     for (const item of seats) {
+      const out = (byRoom[item.room!] ??= {})
+      const push = (asset: string, inst: Inst) => (out[asset] ??= []).push(inst)
       const st = statusOf(ctx, item)
       const accent = DEPT_ACCENT[item.room ?? ''] ?? '#E9E4DA'
       const base = { itemId: item.id, rotY: item.rotY, scale: 1, blink: false, activity: st.activity, pickable: true, room: item.room }
@@ -317,7 +320,7 @@ export function AllocationScene() {
         })
       }
     }
-    return out
+    return byRoom
   }, [seats, ctx])
 
   // Hardware di ogni isola: a colori (e cliccabile) se il reparto lo usa, fantasma altrimenti.
@@ -365,10 +368,17 @@ export function AllocationScene() {
   return (
     <group>
       <group ref={(g) => void (stageGroups.office = g)}>
-        <OfficeModel info={info} stage={stage} />
-        {Object.entries(officeAssets).map(([asset, list]) => (
-          <KitInstances key={asset} asset={asset} instances={list} onHover={onOfficeHover} onSelect={onOfficeSelect} pickRoom={room} />
+        <group ref={(g) => void (buildGroups.walls = g)}>
+          <OfficeModel info={info} stage={stage} />
+        </group>
+        {Object.entries(officeAssets).map(([r, assets]) => (
+          <group key={r} ref={(g) => void (buildGroups.rooms[r] = g)}>
+            {Object.entries(assets).map(([asset, list]) => (
+              <KitInstances key={asset} asset={asset} instances={list} onHover={onOfficeHover} onSelect={onOfficeSelect} pickRoom={room} />
+            ))}
+          </group>
         ))}
+        <BlueprintBuild />
         {room && <SelectionRing space="office" />}
       </group>
 

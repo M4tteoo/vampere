@@ -7,6 +7,8 @@ import { RoomTitle } from './ui/RoomTitle'
 import { ItemPanel } from './ui/ItemPanel'
 import { LocalAiPanel } from './ui/LocalAiPanel'
 import { SceneLabels } from './ui/SceneLabels'
+import { BlueprintIntro } from './ui/BlueprintIntro'
+import { useIntro } from './intro/store'
 import { useProgress } from '@react-three/drei'
 
 /** Demo passo per passo. Per ora: Allocation (chi consuma cosa). Gli altri passi sono in src/scene/SceneAll.tsx e src/ui/*Panel. */
@@ -14,6 +16,7 @@ export default function App() {
   const data = useApp((s) => s.data)
   const step = useApp((s) => s.step)
   const setData = useApp((s) => s.setData)
+  const introDone = useIntro((s) => s.phase === 'done')
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -42,9 +45,10 @@ export default function App() {
       <main className="relative min-h-0 flex-1">
         <Scene />
         <Loading />
+        <BlueprintIntro />
         <div className="pointer-events-none absolute inset-0 z-30">
-          <SceneLabels />
-          <RoomTitle />
+          {introDone && <SceneLabels />}
+          {introDone && <RoomTitle />}
           <ItemPanel />
           {step === 'local_ai' && <LocalAiPanel />}
         </div>
