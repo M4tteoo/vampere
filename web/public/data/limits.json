@@ -1,0 +1,12 @@
+[
+  { "id": "L1", "entity_id": "dp-prod", "type": "window", "title": "Chiusura finance", "text": "Ultimi 3 giorni lavorativi del mese, fino alle 04:00 circa.", "source": "it_tickets.csv · T-1029" },
+  { "id": "L2", "entity_id": "dp-prod", "type": "window", "title": "Elaborazioni notturne", "text": "ETL finito entro le 06:00, refresh Power BI entro le 07:30, export entro le 08:00.", "source": "extra/data_platform_jobs.csv" },
+  { "id": "L3", "entity_id": "dp-prod", "type": "human", "title": "Chi decide", "text": "Ogni modifica agli orari della piattaforma di produzione la decide il Head of IT.", "source": "mapping_departments_tools.csv" },
+  { "id": "L4", "entity_id": "dp-dev", "type": "window", "title": "Training trimestrale", "text": "Giorni 1–3 di gennaio, aprile, luglio, ottobre: il cluster deve essere acceso.", "source": "it_tickets.csv · T-1053" },
+  { "id": "L5", "entity_id": "gpu-ml", "type": "window", "title": "Training trimestrale", "text": "La GPU serve insieme al cluster di sviluppo nei giorni 1–3 del trimestre.", "source": "it_tickets.csv · T-1101" },
+  { "id": "L6", "entity_id": "vm-test", "type": "window", "title": "Freeze e test di accettazione", "text": "Durante un freeze (es. marzo 2026) l'ambiente di test deve restare disponibile.", "source": "it_tickets.csv · T-1204" },
+  { "id": "L7", "entity_id": "st-backup", "type": "block", "title": "Conservazione legale", "text": "I backup vanno conservati 10 anni per legge. Non cancellare.", "source": "it_tickets.csv · T-1039, T-1195" },
+  { "id": "L8", "entity_id": "dr-failover", "type": "block", "title": "Ambiente di emergenza", "text": "Deve restare acceso anche se non è mai sotto carico.", "source": "it_tickets.csv · T-1094" },
+  { "id": "L9", "entity_id": "pbi-kap", "type": "contradiction", "title": "Report del fornitore ≠ fattura", "text": "Report mensile del fornitore circa CHF 25.000, fattura Azure circa CHF 17.000. Usiamo la fattura (dettaglio per risorsa).", "source": "extra/provider_monthly_report.csv · azure_costs.csv" },
+  { "id": "L10", "entity_id": "ai-api", "type": "contradiction", "title": "Gateway AI ≠ fattura AI", "text": "I token del gateway non coincidono con quelli fatturati. Da spiegare quale fonte usiamo.", "source": "ai_usage.csv · extra/ai_invoice_monthly.csv" }
+]

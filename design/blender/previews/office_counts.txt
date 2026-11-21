@@ -1,0 +1,62 @@
+Asset                         Layout   Static decor
+agent_robot                       5              0
+agent_shelf                       0              1
+ai_orb                            8              0
+approval_desk                     1              0
+armchair                          0              4
+bench                             0              2
+board_table_10                    0              1
+cabinet_tall                      0              4
+chair_task                      119              0
+coffee_bar                        0              1
+console_kiosk                     4              0
+creative_table                    0              3
+desk_bench                      119              0
+licence_puck                    157              0
+m365_totem                        1              0
+meeting_chair                     0             18
+monitor_27                      102              0
+monitor_dual                     17              0
+phone_booth                       0              2
+pinboard                          0              1
+plant_large                       0              6
+plant_small                       0              1
+project_wall                      0              2
+quote_device                      1              0
+rack_compact                      8              0
+reception_desk                    0              1
+saas_terminal                    44              0
+sofa_2                            0              4
+standing_table                    0              1
+storage_cabinet                   3              0
+tablet_stand                      4              0
+text_machine                      1              0
+wall_calendar                     4              0
+wall_screen                      60              0
+wall_screen_large                 3              0
+whiteboard                        0              1
+
+Room                   Stable IDs   Layout instances   Static decor
+consulting                    128                214              7
+sales                          66                108              3
+marketing                      55                 81              3
+it                             73                107              1
+finance                        44                 70              9
+management                     28                 40             13
+hr                             28                 40              4
+reception                       0                  0              9
+corridor                        1                  1              4
+
+Room             Area m²   Desks   Pucks  Reports  SaaS   Infra  AI apps  Agents  Windows
+consulting         240.0      43      56       11     9       4        1       2        2
+sales              144.0      21      30        5     6       1        2       1        0
+marketing          120.0      13      24        8     7       1        2       0        0
+it                 195.0      17      22       12     8      11        1       1        1
+finance            117.0      13      11        9     7       1        1       1        1
+management         104.0       6       5       10     5       0        1       0        0
+hr                  60.0       6       9        5     6       0        2       0        0
+reception           55.0       0       0        0     0       0        0       0        0
+
+Static environment: 31,098 triangles
+Layout instances: 266,982 triangles
+Full scene: 298,080 / 300,000 triangles (1,920 available)

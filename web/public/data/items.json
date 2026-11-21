@@ -1,0 +1,3434 @@
+[
+ {
+  "id": "agent:code-agent",
+  "entity_id": "ai-api",
+  "label": "Code agent",
+  "kind": "agent",
+  "department": "it",
+  "state": "ok",
+  "headline": "5'924 runs per year · most frequent outcome: resolved (88%)",
+  "facts": [
+   {
+    "label": "Retries",
+    "value": "3'388"
+   },
+   {
+    "label": "Average steps",
+    "value": "7.5"
+   },
+   {
+    "label": "Trigger",
+    "value": "manual"
+   }
+  ],
+  "source": "extra/ai_agent_runs.jsonl"
+ },
+ {
+  "id": "agent:report-agent",
+  "entity_id": "ai-api",
+  "label": "Report agent",
+  "kind": "agent",
+  "department": "finance",
+  "state": "waste",
+  "headline": "371 runs per year · most frequent outcome: delivered (100%)",
+  "facts": [
+   {
+    "label": "Retries",
+    "value": "0"
+   },
+   {
+    "label": "Average steps",
+    "value": "8.0"
+   },
+   {
+    "label": "Trigger",
+    "value": "schedule"
+   }
+  ],
+  "source": "extra/ai_agent_runs.jsonl"
+ },
+ {
+  "id": "agent:research-agent",
+  "entity_id": "ai-api",
+  "label": "Research agent",
+  "kind": "agent",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "1'457 runs per year · most frequent outcome: resolved (85%)",
+  "facts": [
+   {
+    "label": "Retries",
+    "value": "2'389"
+   },
+   {
+    "label": "Average steps",
+    "value": "11.4"
+   },
+   {
+    "label": "Trigger",
+    "value": "schedule"
+   }
+  ],
+  "source": "extra/ai_agent_runs.jsonl"
+ },
+ {
+  "id": "agent:sales-agent",
+  "entity_id": "ai-api",
+  "label": "Sales agent",
+  "kind": "agent",
+  "department": "sales",
+  "state": "ok",
+  "headline": "3'383 runs per year · most frequent outcome: resolved (89%)",
+  "facts": [
+   {
+    "label": "Retries",
+    "value": "955"
+   },
+   {
+    "label": "Average steps",
+    "value": "4.3"
+   },
+   {
+    "label": "Trigger",
+    "value": "event"
+   }
+  ],
+  "source": "extra/ai_agent_runs.jsonl"
+ },
+ {
+  "id": "agent:support-agent",
+  "entity_id": "ai-api",
+  "label": "Support agent",
+  "kind": "agent",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "16'607 runs per year · most frequent outcome: resolved (73%)",
+  "facts": [
+   {
+    "label": "Retries",
+    "value": "12'049"
+   },
+   {
+    "label": "Average steps",
+    "value": "5.1"
+   },
+   {
+    "label": "Trigger",
+    "value": "ticket"
+   }
+  ],
+  "source": "extra/ai_agent_runs.jsonl"
+ },
+ {
+  "id": "ai-assistant:consulting",
+  "entity_id": "ai-api",
+  "label": "Office AI assistant",
+  "kind": "ai_app",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "939'050 requests per year · 94% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 7'422"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "1'661'296'225"
+   },
+   {
+    "label": "Main task",
+    "value": "Summarise (30%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-assistant:finance",
+  "entity_id": "ai-api",
+  "label": "Office AI assistant",
+  "kind": "ai_app",
+  "department": "finance",
+  "state": "ok",
+  "headline": "299'885 requests per year · 94% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'381"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "534'665'866"
+   },
+   {
+    "label": "Main task",
+    "value": "Summarise (30%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-assistant:hr",
+  "entity_id": "ai-api",
+  "label": "Office AI assistant",
+  "kind": "ai_app",
+  "department": "hr",
+  "state": "ok",
+  "headline": "172'122 requests per year · 95% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'370"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "306'030'300"
+   },
+   {
+    "label": "Main task",
+    "value": "Summarise (29%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-assistant:it",
+  "entity_id": "ai-api",
+  "label": "Office AI assistant",
+  "kind": "ai_app",
+  "department": "it",
+  "state": "ok",
+  "headline": "257'293 requests per year · 94% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'046"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "458'161'400"
+   },
+   {
+    "label": "Main task",
+    "value": "Summarise (30%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-assistant:management",
+  "entity_id": "ai-api",
+  "label": "Office AI assistant",
+  "kind": "ai_app",
+  "department": "management",
+  "state": "ok",
+  "headline": "128'062 requests per year · 94% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'019"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "229'488'231"
+   },
+   {
+    "label": "Main task",
+    "value": "Summarise (30%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-assistant:marketing",
+  "entity_id": "ai-api",
+  "label": "Office AI assistant",
+  "kind": "ai_app",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "385'417 requests per year · 94% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 3'067"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "688'082'454"
+   },
+   {
+    "label": "Main task",
+    "value": "Summarise (30%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-assistant:sales",
+  "entity_id": "ai-api",
+  "label": "Office AI assistant",
+  "kind": "ai_app",
+  "department": "sales",
+  "state": "ok",
+  "headline": "599'069 requests per year · 94% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 4'767"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "1'067'978'369"
+   },
+   {
+    "label": "Main task",
+    "value": "Summarise (30%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-chatbot",
+  "entity_id": "ai-api",
+  "label": "Knowledge chatbot",
+  "kind": "ai_app",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "121'847 requests per year · 50% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 291"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "77'970'467"
+   },
+   {
+    "label": "Main task",
+    "value": "Manual question (100%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-marketing",
+  "entity_id": "ai-api",
+  "label": "Marketing text analysis",
+  "kind": "ai_app",
+  "department": "marketing",
+  "state": "waste",
+  "headline": "7'239'938 requests per year · 100% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 11'557"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "3'985'087'440"
+   },
+   {
+    "label": "Main task",
+    "value": "Classify (100%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-quote",
+  "entity_id": "ai-api",
+  "label": "Quote generator",
+  "kind": "ai_app",
+  "department": "sales",
+  "state": "ok",
+  "headline": "57'506 requests per year · 100% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 513"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "56'238'667"
+   },
+   {
+    "label": "Main task",
+    "value": "Draft texts (100%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "lic:chatgpt:hr",
+  "entity_id": "ai-subs",
+  "label": "ChatGPT Team",
+  "kind": "licence",
+  "department": "hr",
+  "state": "waste",
+  "headline": "0 of 4 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 960"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "0"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-11-30 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:chatgpt:marketing",
+  "entity_id": "ai-subs",
+  "label": "ChatGPT Team",
+  "kind": "licence",
+  "department": "marketing",
+  "state": "waste",
+  "headline": "1 of 7 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'680"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "184"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-11-30 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:chatgpt:sales",
+  "entity_id": "ai-subs",
+  "label": "ChatGPT Team",
+  "kind": "licence",
+  "department": "sales",
+  "state": "waste",
+  "headline": "1 of 12 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'880"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "198"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-11-30 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:claude:consulting",
+  "entity_id": "ai-subs",
+  "label": "Claude Team",
+  "kind": "licence",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "17 of 20 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 4'800"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "6'613"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:claude:it",
+  "entity_id": "ai-subs",
+  "label": "Claude Team",
+  "kind": "licence",
+  "department": "it",
+  "state": "ok",
+  "headline": "6 of 8 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'920"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "2'893"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:claude:marketing",
+  "entity_id": "ai-subs",
+  "label": "Claude Team",
+  "kind": "licence",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "5 of 6 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'440"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "2'675"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:copilot:consulting",
+  "entity_id": "ai-subs",
+  "label": "Microsoft Copilot",
+  "kind": "licence",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "23 of 36 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 8'035"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "5'950"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:copilot:finance",
+  "entity_id": "ai-subs",
+  "label": "Microsoft Copilot",
+  "kind": "licence",
+  "department": "finance",
+  "state": "waste",
+  "headline": "5 of 11 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'455"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "1'584"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:copilot:hr",
+  "entity_id": "ai-subs",
+  "label": "Microsoft Copilot",
+  "kind": "licence",
+  "department": "hr",
+  "state": "waste",
+  "headline": "2 of 5 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'116"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "645"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:copilot:it",
+  "entity_id": "ai-subs",
+  "label": "Microsoft Copilot",
+  "kind": "licence",
+  "department": "it",
+  "state": "ok",
+  "headline": "9 of 14 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 3'125"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "2'937"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:copilot:management",
+  "entity_id": "ai-subs",
+  "label": "Microsoft Copilot",
+  "kind": "licence",
+  "department": "management",
+  "state": "ok",
+  "headline": "3 of 5 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'116"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "863"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:copilot:marketing",
+  "entity_id": "ai-subs",
+  "label": "Microsoft Copilot",
+  "kind": "licence",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "7 of 11 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'455"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "2'196"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "lic:copilot:sales",
+  "entity_id": "ai-subs",
+  "label": "Microsoft Copilot",
+  "kind": "licence",
+  "department": "sales",
+  "state": "ok",
+  "headline": "11 of 18 seats active",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 4'018"
+   },
+   {
+    "label": "Messages (30 days)",
+    "value": "3'155"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "ai_subscriptions.csv"
+ },
+ {
+  "id": "m365:consulting",
+  "entity_id": "saas",
+  "label": "Microsoft 365",
+  "kind": "m365",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "37 of 43 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 6'402"
+   },
+   {
+    "label": "Active licences",
+    "value": "37 / 43"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-06-30 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "m365:finance",
+  "entity_id": "saas",
+  "label": "Microsoft 365",
+  "kind": "m365",
+  "department": "finance",
+  "state": "ok",
+  "headline": "11 of 13 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'939"
+   },
+   {
+    "label": "Active licences",
+    "value": "11 / 13"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-06-30 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "m365:hr",
+  "entity_id": "saas",
+  "label": "Microsoft 365",
+  "kind": "m365",
+  "department": "hr",
+  "state": "ok",
+  "headline": "6 of 6 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 918"
+   },
+   {
+    "label": "Active licences",
+    "value": "6 / 6"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-06-30 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "m365:it",
+  "entity_id": "saas",
+  "label": "Microsoft 365",
+  "kind": "m365",
+  "department": "it",
+  "state": "ok",
+  "headline": "15 of 17 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'588"
+   },
+   {
+    "label": "Active licences",
+    "value": "15 / 17"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-06-30 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "m365:management",
+  "entity_id": "saas",
+  "label": "Microsoft 365",
+  "kind": "m365",
+  "department": "management",
+  "state": "ok",
+  "headline": "6 of 6 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 918"
+   },
+   {
+    "label": "Active licences",
+    "value": "6 / 6"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-06-30 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "m365:marketing",
+  "entity_id": "saas",
+  "label": "Microsoft 365",
+  "kind": "m365",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "12 of 13 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'939"
+   },
+   {
+    "label": "Active licences",
+    "value": "12 / 13"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-06-30 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "m365:sales",
+  "entity_id": "saas",
+  "label": "Microsoft 365",
+  "kind": "m365",
+  "department": "sales",
+  "state": "ok",
+  "headline": "19 of 21 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 3'213"
+   },
+   {
+    "label": "Active licences",
+    "value": "19 / 21"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-06-30 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "pbi-01",
+  "entity_id": "pbi-kap",
+  "label": "Revenue cockpit",
+  "kind": "report",
+  "department": "sales",
+  "state": "ok",
+  "headline": "1'122 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "13'465"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "2'024"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "64'635"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-02",
+  "entity_id": "pbi-kap",
+  "label": "Project controlling",
+  "kind": "report",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "828 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "9'930"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'494"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "53'388"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-03",
+  "entity_id": "pbi-kap",
+  "label": "HR key figures",
+  "kind": "report",
+  "department": "hr",
+  "state": "ok",
+  "headline": "146 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "1'756"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "504"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "3'030"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-04",
+  "entity_id": "pbi-kap",
+  "label": "Liquidity planning",
+  "kind": "report",
+  "department": "finance",
+  "state": "ok",
+  "headline": "452 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "5'423"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "996"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "19'952"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-05",
+  "entity_id": "pbi-kap",
+  "label": "Management dashboard",
+  "kind": "report",
+  "department": "management",
+  "state": "ok",
+  "headline": "273 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "3'272"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "976"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "31'268"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-06",
+  "entity_id": "pbi-kap",
+  "label": "Marketing campaigns 2024",
+  "kind": "report",
+  "department": "marketing",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 1'440 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "8"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "17'280"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "2'489'938"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-07",
+  "entity_id": "pbi-kap",
+  "label": "Legacy report receivables",
+  "kind": "report",
+  "department": "finance",
+  "state": "locked",
+  "headline": "Required by internal audit: must be kept.",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "668"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "8'688"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "1'045'246"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-08",
+  "entity_id": "pbi-kap",
+  "label": "Test report AI pilot",
+  "kind": "report",
+  "department": "it",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 716 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "14"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "8'592"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "820'133"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-09",
+  "entity_id": "pbi-kap",
+  "label": "Customer survey 2024",
+  "kind": "report",
+  "department": "marketing",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 361 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "16"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "4'332"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "311'435"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-10",
+  "entity_id": "pbi-kap",
+  "label": "Sales pipeline (old)",
+  "kind": "report",
+  "department": "sales",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 724 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "8"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "8'688"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "836'498"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-11",
+  "entity_id": "pbi-kap",
+  "label": "Staff IT 11",
+  "kind": "report",
+  "department": "it",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 1'240 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "9"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "14'883"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "4'271'548"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-12",
+  "entity_id": "pbi-kap",
+  "label": "Expenses Sales 12",
+  "kind": "report",
+  "department": "sales",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 1'392 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "12"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "16'698"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "5'378'854"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-13",
+  "entity_id": "pbi-kap",
+  "label": "IT operations Management 13 (copy)",
+  "kind": "report",
+  "department": "management",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 188 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "15"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "2'259"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "101'689"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-14",
+  "entity_id": "pbi-kap",
+  "label": "Budget Management 14",
+  "kind": "report",
+  "department": "management",
+  "state": "ok",
+  "headline": "38 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "454"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'764"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "86'000"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-15",
+  "entity_id": "pbi-kap",
+  "label": "Invoices Finance 15",
+  "kind": "report",
+  "department": "finance",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 812 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "12"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "9'747"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "1'053'910"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-16",
+  "entity_id": "pbi-kap",
+  "label": "Offers Finance 16",
+  "kind": "report",
+  "department": "finance",
+  "state": "ok",
+  "headline": "20 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "244"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'245"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "12'408"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-17",
+  "entity_id": "pbi-kap",
+  "label": "Quality Consulting 17",
+  "kind": "report",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "Opened 2 times a month, but refreshed 510 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "23"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "6'120"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "311'894"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-18",
+  "entity_id": "pbi-kap",
+  "label": "Staff IT 18",
+  "kind": "report",
+  "department": "it",
+  "state": "ok",
+  "headline": "134 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "1'610"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'245"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "31'200"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-19",
+  "entity_id": "pbi-kap",
+  "label": "Campaigns Finance 19",
+  "kind": "report",
+  "department": "finance",
+  "state": "ok",
+  "headline": "554 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "6'650"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'750"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "36'798"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-20",
+  "entity_id": "pbi-kap",
+  "label": "Customers Marketing 20",
+  "kind": "report",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "57 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "682"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'757"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "36'983"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-21",
+  "entity_id": "pbi-kap",
+  "label": "Absences IT 21 (quarterly)",
+  "kind": "report",
+  "department": "it",
+  "state": "ok",
+  "headline": "9 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "112"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'736"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "72'932"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-22",
+  "entity_id": "pbi-kap",
+  "label": "Offers IT 22",
+  "kind": "report",
+  "department": "it",
+  "state": "ok",
+  "headline": "162 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "1'946"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'984"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "47'595"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-23",
+  "entity_id": "pbi-kap",
+  "label": "Customers Consulting 23",
+  "kind": "report",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 1'023 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "10"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "12'274"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "2'498'667"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-24",
+  "entity_id": "pbi-kap",
+  "label": "IT operations Consulting 24",
+  "kind": "report",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 632 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "17"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "7'581"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "799'516"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-25",
+  "entity_id": "pbi-kap",
+  "label": "Offers Management 25",
+  "kind": "report",
+  "department": "management",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 354 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "10"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "4'248"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "255'560"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-26",
+  "entity_id": "pbi-kap",
+  "label": "Budget Finance 26 (quarterly)",
+  "kind": "report",
+  "department": "finance",
+  "state": "ok",
+  "headline": "9 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "106"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "996"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "19'951"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-27",
+  "entity_id": "pbi-kap",
+  "label": "Margin IT 27",
+  "kind": "report",
+  "department": "it",
+  "state": "ok",
+  "headline": "566 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "6'796"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "2'000"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "48'194"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-28",
+  "entity_id": "pbi-kap",
+  "label": "Invoices Consulting 28",
+  "kind": "report",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 506 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "17"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "6'069"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "517'664"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-29",
+  "entity_id": "pbi-kap",
+  "label": "Margin Finance 29",
+  "kind": "report",
+  "department": "finance",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 362 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "9"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "4'344"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "156'917"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-30",
+  "entity_id": "pbi-kap",
+  "label": "Liquidity HR 30 (copy)",
+  "kind": "report",
+  "department": "hr",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 124 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "9"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'482"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "26'537"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-31",
+  "entity_id": "pbi-kap",
+  "label": "Margin Management 31 (copy)",
+  "kind": "report",
+  "department": "management",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 124 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "15"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'494"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "44'844"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-32",
+  "entity_id": "pbi-kap",
+  "label": "Revenue IT 32",
+  "kind": "report",
+  "department": "it",
+  "state": "waste",
+  "headline": "Opened 2 times a month, but refreshed 476 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "21"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "5'712"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "639'070"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-33",
+  "entity_id": "pbi-kap",
+  "label": "Offers Finance 33",
+  "kind": "report",
+  "department": "finance",
+  "state": "waste",
+  "headline": "Opened 2 times a month, but refreshed 227 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "21"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "2'728"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "210'320"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-34",
+  "entity_id": "pbi-kap",
+  "label": "Tickets Management 34",
+  "kind": "report",
+  "department": "management",
+  "state": "ok",
+  "headline": "130 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "1'555"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "992"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "27'780"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-35",
+  "entity_id": "pbi-kap",
+  "label": "Campaigns Consulting 35",
+  "kind": "report",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "38 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "450"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'260"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "37'693"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-36",
+  "entity_id": "pbi-kap",
+  "label": "Expenses Management 36",
+  "kind": "report",
+  "department": "management",
+  "state": "ok",
+  "headline": "679 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "8'151"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'708"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "35'851"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-37",
+  "entity_id": "pbi-kap",
+  "label": "Utilisation Management 37",
+  "kind": "report",
+  "department": "management",
+  "state": "waste",
+  "headline": "Opened 0 times a month, but refreshed 690 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "6"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "8'280"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "570'092"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-38",
+  "entity_id": "pbi-kap",
+  "label": "Liquidity Marketing 38 (quarterly)",
+  "kind": "report",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "9 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "107"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'494"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "35'927"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-39",
+  "entity_id": "pbi-kap",
+  "label": "IT operations Marketing 39",
+  "kind": "report",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "524 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "6'284"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'260"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "38'040"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-40",
+  "entity_id": "pbi-kap",
+  "label": "Absences Sales 40",
+  "kind": "report",
+  "department": "sales",
+  "state": "ok",
+  "headline": "441 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "5'293"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'240"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "30'966"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-41",
+  "entity_id": "pbi-kap",
+  "label": "Budget IT 41",
+  "kind": "report",
+  "department": "it",
+  "state": "ok",
+  "headline": "354 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "4'244"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "496"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "6'928"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-42",
+  "entity_id": "pbi-kap",
+  "label": "Training Consulting 42",
+  "kind": "report",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 392 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "13"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "4'706"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "183'686"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-43",
+  "entity_id": "pbi-kap",
+  "label": "Suppliers Marketing 43",
+  "kind": "report",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "205 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "2'458"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'000"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "11'994"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-44",
+  "entity_id": "pbi-kap",
+  "label": "Campaigns IT 44",
+  "kind": "report",
+  "department": "it",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 1'418 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "16"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "17'014"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "5'588'779"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-45",
+  "entity_id": "pbi-kap",
+  "label": "Staff HR 45",
+  "kind": "report",
+  "department": "hr",
+  "state": "ok",
+  "headline": "20 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "244"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'984"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "95'223"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-46",
+  "entity_id": "pbi-kap",
+  "label": "Projects Consulting 46",
+  "kind": "report",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "326 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "3'916"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'500"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "17'934"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-47",
+  "entity_id": "pbi-kap",
+  "label": "Campaigns HR 47",
+  "kind": "report",
+  "department": "hr",
+  "state": "waste",
+  "headline": "Opened 2 times a month, but refreshed 724 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "22"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "8'688"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "1'257'454"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-48",
+  "entity_id": "pbi-kap",
+  "label": "Suppliers Marketing 48",
+  "kind": "report",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "2'083 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "24'997"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'500"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "53'780"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-49",
+  "entity_id": "pbi-kap",
+  "label": "Expenses Consulting 49",
+  "kind": "report",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "112 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "1'343"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'757"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "61'643"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-50",
+  "entity_id": "pbi-kap",
+  "label": "Pipeline Management 50",
+  "kind": "report",
+  "department": "management",
+  "state": "waste",
+  "headline": "Opened 2 times a month, but refreshed 166 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "27"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'992"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "111'338"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-51",
+  "entity_id": "pbi-kap",
+  "label": "Offers Marketing 51 (quarterly)",
+  "kind": "report",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "10 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "114"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'250"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "18'688"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-52",
+  "entity_id": "pbi-kap",
+  "label": "Training IT 52",
+  "kind": "report",
+  "department": "it",
+  "state": "waste",
+  "headline": "Opened 2 times a month, but refreshed 167 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "27"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "2'000"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "80'266"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-53",
+  "entity_id": "pbi-kap",
+  "label": "Training Consulting 53 (copy)",
+  "kind": "report",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "Opened 1 times a month, but refreshed 359 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "9"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "4'308"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "103'706"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-54",
+  "entity_id": "pbi-kap",
+  "label": "Projects IT 54",
+  "kind": "report",
+  "department": "it",
+  "state": "ok",
+  "headline": "258 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "3'094"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "741"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "11'110"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-55",
+  "entity_id": "pbi-kap",
+  "label": "Margin Management 55",
+  "kind": "report",
+  "department": "management",
+  "state": "waste",
+  "headline": "Opened 2 times a month, but refreshed 167 times",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "30"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "2'000"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "79'988"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-56",
+  "entity_id": "pbi-kap",
+  "label": "Revenue Sales 56",
+  "kind": "report",
+  "department": "sales",
+  "state": "ok",
+  "headline": "150 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "1'795"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "2'000"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "47'909"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-57",
+  "entity_id": "pbi-kap",
+  "label": "Utilisation HR 57",
+  "kind": "report",
+  "department": "hr",
+  "state": "ok",
+  "headline": "602 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "7'230"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'488"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "26'903"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-58",
+  "entity_id": "pbi-kap",
+  "label": "Expenses IT 58",
+  "kind": "report",
+  "department": "it",
+  "state": "ok",
+  "headline": "73 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "871"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'512"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "54'496"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-59",
+  "entity_id": "pbi-kap",
+  "label": "Margin Consulting 59",
+  "kind": "report",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "484 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "5'812"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "2'016"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "32'226"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "pbi-60",
+  "entity_id": "pbi-kap",
+  "label": "Tickets Finance 60",
+  "kind": "report",
+  "department": "finance",
+  "state": "ok",
+  "headline": "95 views a month",
+  "facts": [
+   {
+    "label": "Views per year",
+    "value": "1'138"
+   },
+   {
+    "label": "Refreshes per year",
+    "value": "1'757"
+   },
+   {
+    "label": "Refresh minutes per year",
+    "value": "85'762"
+   }
+  ],
+  "source": "extra/powerbi_usage.csv"
+ },
+ {
+  "id": "saas:accounting-software:finance",
+  "entity_id": "saas",
+  "label": "Accounting software",
+  "kind": "saas",
+  "department": "finance",
+  "state": "ok",
+  "headline": "8 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 4'560"
+   },
+   {
+    "label": "Active licences",
+    "value": "8 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-03-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:chat-tool:consulting",
+  "entity_id": "saas",
+  "label": "Chat tool",
+  "kind": "saas",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "24 of 34 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 3'216"
+   },
+   {
+    "label": "Active licences",
+    "value": "24 / 34"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:chat-tool:finance",
+  "entity_id": "saas",
+  "label": "Chat tool",
+  "kind": "saas",
+  "department": "finance",
+  "state": "ok",
+  "headline": "7 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 960"
+   },
+   {
+    "label": "Active licences",
+    "value": "7 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:chat-tool:hr",
+  "entity_id": "saas",
+  "label": "Chat tool",
+  "kind": "saas",
+  "department": "hr",
+  "state": "ok",
+  "headline": "4 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 480"
+   },
+   {
+    "label": "Active licences",
+    "value": "4 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:chat-tool:it",
+  "entity_id": "saas",
+  "label": "Chat tool",
+  "kind": "saas",
+  "department": "it",
+  "state": "ok",
+  "headline": "10 of 14 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'272"
+   },
+   {
+    "label": "Active licences",
+    "value": "10 / 14"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:chat-tool:management",
+  "entity_id": "saas",
+  "label": "Chat tool",
+  "kind": "saas",
+  "department": "management",
+  "state": "ok",
+  "headline": "4 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 480"
+   },
+   {
+    "label": "Active licences",
+    "value": "4 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:chat-tool:marketing",
+  "entity_id": "saas",
+  "label": "Chat tool",
+  "kind": "saas",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "7 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 960"
+   },
+   {
+    "label": "Active licences",
+    "value": "7 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:chat-tool:sales",
+  "entity_id": "saas",
+  "label": "Chat tool",
+  "kind": "saas",
+  "department": "sales",
+  "state": "ok",
+  "headline": "12 of 17 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'624"
+   },
+   {
+    "label": "Active licences",
+    "value": "12 / 17"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:crm-platform:marketing",
+  "entity_id": "saas",
+  "label": "CRM platform",
+  "kind": "saas",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "6 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 6'600"
+   },
+   {
+    "label": "Active licences",
+    "value": "6 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:crm-platform:sales",
+  "entity_id": "saas",
+  "label": "CRM platform",
+  "kind": "saas",
+  "department": "sales",
+  "state": "waste",
+  "headline": "10 of 17 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 11'165"
+   },
+   {
+    "label": "Active licences",
+    "value": "10 / 17"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:design-tool:marketing",
+  "entity_id": "saas",
+  "label": "Design tool",
+  "kind": "saas",
+  "department": "marketing",
+  "state": "waste",
+  "headline": "3 of 8 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'920"
+   },
+   {
+    "label": "Active licences",
+    "value": "3 / 8"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-10-31 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:e-signature:finance",
+  "entity_id": "saas",
+  "label": "E-signature",
+  "kind": "saas",
+  "department": "finance",
+  "state": "waste",
+  "headline": "3 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 3'000"
+   },
+   {
+    "label": "Active licences",
+    "value": "3 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-01-31 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:e-signature:sales",
+  "entity_id": "saas",
+  "label": "E-signature",
+  "kind": "saas",
+  "department": "sales",
+  "state": "waste",
+  "headline": "5 of 17 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 5'075"
+   },
+   {
+    "label": "Active licences",
+    "value": "5 / 17"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-01-31 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:hr-software:finance",
+  "entity_id": "saas",
+  "label": "HR software",
+  "kind": "saas",
+  "department": "finance",
+  "state": "ok",
+  "headline": "9 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'080"
+   },
+   {
+    "label": "Active licences",
+    "value": "9 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-05-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:hr-software:hr",
+  "entity_id": "saas",
+  "label": "HR software",
+  "kind": "saas",
+  "department": "hr",
+  "state": "ok",
+  "headline": "4 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 540"
+   },
+   {
+    "label": "Active licences",
+    "value": "4 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-05-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:hr-software:management",
+  "entity_id": "saas",
+  "label": "HR software",
+  "kind": "saas",
+  "department": "management",
+  "state": "ok",
+  "headline": "4 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 540"
+   },
+   {
+    "label": "Active licences",
+    "value": "4 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-05-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:knowledge-base:consulting",
+  "entity_id": "saas",
+  "label": "Knowledge base",
+  "kind": "saas",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "17 of 34 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 4'020"
+   },
+   {
+    "label": "Active licences",
+    "value": "17 / 34"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-04-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:knowledge-base:hr",
+  "entity_id": "saas",
+  "label": "Knowledge base",
+  "kind": "saas",
+  "department": "hr",
+  "state": "ok",
+  "headline": "3 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 600"
+   },
+   {
+    "label": "Active licences",
+    "value": "3 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-04-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:knowledge-base:it",
+  "entity_id": "saas",
+  "label": "Knowledge base",
+  "kind": "saas",
+  "department": "it",
+  "state": "waste",
+  "headline": "7 of 14 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'590"
+   },
+   {
+    "label": "Active licences",
+    "value": "7 / 14"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-04-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:note-taking-tool:consulting",
+  "entity_id": "saas",
+  "label": "Note-taking tool",
+  "kind": "saas",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "16 of 34 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 3'216"
+   },
+   {
+    "label": "Active licences",
+    "value": "16 / 34"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-11-30 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:password-manager:consulting",
+  "entity_id": "saas",
+  "label": "Password manager",
+  "kind": "saas",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "32 of 34 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'608"
+   },
+   {
+    "label": "Active licences",
+    "value": "32 / 34"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-09-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:password-manager:finance",
+  "entity_id": "saas",
+  "label": "Password manager",
+  "kind": "saas",
+  "department": "finance",
+  "state": "ok",
+  "headline": "9 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 480"
+   },
+   {
+    "label": "Active licences",
+    "value": "9 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-09-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:password-manager:hr",
+  "entity_id": "saas",
+  "label": "Password manager",
+  "kind": "saas",
+  "department": "hr",
+  "state": "ok",
+  "headline": "5 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 240"
+   },
+   {
+    "label": "Active licences",
+    "value": "5 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-09-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:password-manager:it",
+  "entity_id": "saas",
+  "label": "Password manager",
+  "kind": "saas",
+  "department": "it",
+  "state": "ok",
+  "headline": "12 of 14 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 636"
+   },
+   {
+    "label": "Active licences",
+    "value": "12 / 14"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-09-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:password-manager:management",
+  "entity_id": "saas",
+  "label": "Password manager",
+  "kind": "saas",
+  "department": "management",
+  "state": "ok",
+  "headline": "5 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 240"
+   },
+   {
+    "label": "Active licences",
+    "value": "5 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-09-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:password-manager:marketing",
+  "entity_id": "saas",
+  "label": "Password manager",
+  "kind": "saas",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "9 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 480"
+   },
+   {
+    "label": "Active licences",
+    "value": "9 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-09-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:password-manager:sales",
+  "entity_id": "saas",
+  "label": "Password manager",
+  "kind": "saas",
+  "department": "sales",
+  "state": "ok",
+  "headline": "16 of 17 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 812"
+   },
+   {
+    "label": "Active licences",
+    "value": "16 / 17"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-09-30 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:project-management:consulting",
+  "entity_id": "saas",
+  "label": "Project management",
+  "kind": "saas",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "18 of 34 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 5'065"
+   },
+   {
+    "label": "Active licences",
+    "value": "18 / 34"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-11-30 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:project-management:it",
+  "entity_id": "saas",
+  "label": "Project management",
+  "kind": "saas",
+  "department": "it",
+  "state": "waste",
+  "headline": "8 of 14 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'003"
+   },
+   {
+    "label": "Active licences",
+    "value": "8 / 14"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-11-30 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:project-scheduling:consulting",
+  "entity_id": "saas",
+  "label": "Project scheduling",
+  "kind": "saas",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "20 of 34 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 5'427"
+   },
+   {
+    "label": "Active licences",
+    "value": "20 / 34"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-01-31 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:project-scheduling:it",
+  "entity_id": "saas",
+  "label": "Project scheduling",
+  "kind": "saas",
+  "department": "it",
+  "state": "waste",
+  "headline": "8 of 14 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'146"
+   },
+   {
+    "label": "Active licences",
+    "value": "8 / 14"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-01-31 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:survey-tool:marketing",
+  "entity_id": "saas",
+  "label": "Survey tool",
+  "kind": "saas",
+  "department": "marketing",
+  "state": "waste",
+  "headline": "1 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 3'240"
+   },
+   {
+    "label": "Active licences",
+    "value": "1 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-12-31 · notice 60 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:ticket-system:consulting",
+  "entity_id": "saas",
+  "label": "Ticket system",
+  "kind": "saas",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "23 of 34 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 8'040"
+   },
+   {
+    "label": "Active licences",
+    "value": "23 / 34"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-11-30 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:ticket-system:it",
+  "entity_id": "saas",
+  "label": "Ticket system",
+  "kind": "saas",
+  "department": "it",
+  "state": "ok",
+  "headline": "9 of 14 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 3'180"
+   },
+   {
+    "label": "Active licences",
+    "value": "9 / 14"
+   },
+   {
+    "label": "Contract end",
+    "value": "2026-11-30 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:time-tracking:consulting",
+  "entity_id": "saas",
+  "label": "Time tracking",
+  "kind": "saas",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "32 of 34 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'814"
+   },
+   {
+    "label": "Active licences",
+    "value": "32 / 34"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-08-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:time-tracking:finance",
+  "entity_id": "saas",
+  "label": "Time tracking",
+  "kind": "saas",
+  "department": "finance",
+  "state": "ok",
+  "headline": "8 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 840"
+   },
+   {
+    "label": "Active licences",
+    "value": "8 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-08-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:time-tracking:hr",
+  "entity_id": "saas",
+  "label": "Time tracking",
+  "kind": "saas",
+  "department": "hr",
+  "state": "ok",
+  "headline": "4 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 420"
+   },
+   {
+    "label": "Active licences",
+    "value": "4 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-08-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:time-tracking:it",
+  "entity_id": "saas",
+  "label": "Time tracking",
+  "kind": "saas",
+  "department": "it",
+  "state": "ok",
+  "headline": "12 of 14 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'113"
+   },
+   {
+    "label": "Active licences",
+    "value": "12 / 14"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-08-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:time-tracking:management",
+  "entity_id": "saas",
+  "label": "Time tracking",
+  "kind": "saas",
+  "department": "management",
+  "state": "ok",
+  "headline": "4 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 420"
+   },
+   {
+    "label": "Active licences",
+    "value": "4 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-08-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:time-tracking:marketing",
+  "entity_id": "saas",
+  "label": "Time tracking",
+  "kind": "saas",
+  "department": "marketing",
+  "state": "ok",
+  "headline": "9 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 840"
+   },
+   {
+    "label": "Active licences",
+    "value": "9 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-08-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:time-tracking:sales",
+  "entity_id": "saas",
+  "label": "Time tracking",
+  "kind": "saas",
+  "department": "sales",
+  "state": "ok",
+  "headline": "15 of 17 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'421"
+   },
+   {
+    "label": "Active licences",
+    "value": "15 / 17"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-08-31 · notice 90 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:video-conferencing-tool:consulting",
+  "entity_id": "saas",
+  "label": "Video conferencing tool",
+  "kind": "saas",
+  "department": "consulting",
+  "state": "waste",
+  "headline": "18 of 34 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 4'342"
+   },
+   {
+    "label": "Active licences",
+    "value": "18 / 34"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:video-conferencing-tool:finance",
+  "entity_id": "saas",
+  "label": "Video conferencing tool",
+  "kind": "saas",
+  "department": "finance",
+  "state": "ok",
+  "headline": "6 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'296"
+   },
+   {
+    "label": "Active licences",
+    "value": "6 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:video-conferencing-tool:hr",
+  "entity_id": "saas",
+  "label": "Video conferencing tool",
+  "kind": "saas",
+  "department": "hr",
+  "state": "ok",
+  "headline": "3 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 648"
+   },
+   {
+    "label": "Active licences",
+    "value": "3 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:video-conferencing-tool:it",
+  "entity_id": "saas",
+  "label": "Video conferencing tool",
+  "kind": "saas",
+  "department": "it",
+  "state": "waste",
+  "headline": "8 of 14 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'717"
+   },
+   {
+    "label": "Active licences",
+    "value": "8 / 14"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:video-conferencing-tool:management",
+  "entity_id": "saas",
+  "label": "Video conferencing tool",
+  "kind": "saas",
+  "department": "management",
+  "state": "ok",
+  "headline": "3 of 5 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 648"
+   },
+   {
+    "label": "Active licences",
+    "value": "3 / 5"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:video-conferencing-tool:marketing",
+  "entity_id": "saas",
+  "label": "Video conferencing tool",
+  "kind": "saas",
+  "department": "marketing",
+  "state": "waste",
+  "headline": "5 of 10 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 1'296"
+   },
+   {
+    "label": "Active licences",
+    "value": "5 / 10"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ },
+ {
+  "id": "saas:video-conferencing-tool:sales",
+  "entity_id": "saas",
+  "label": "Video conferencing tool",
+  "kind": "saas",
+  "department": "sales",
+  "state": "waste",
+  "headline": "10 of 17 licences used in the last 30 days",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 2'192"
+   },
+   {
+    "label": "Active licences",
+    "value": "10 / 17"
+   },
+   {
+    "label": "Contract end",
+    "value": "2027-02-28 · notice 30 days"
+   }
+  ],
+  "source": "saas_contracts.csv (Final rows only)"
+ }
+]

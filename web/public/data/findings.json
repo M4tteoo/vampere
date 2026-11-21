@@ -1,0 +1,9 @@
+[
+  { "id": "F1", "entity_id": "dp-dev", "title": "Acceso 24 h, lavora 2 h", "evidence": "Media 2,1 h di lavoro effettivo su 24 h di accensione (91% inattivo), a Francoforte.", "severity": "high", "source": "data_platform_usage.csv" },
+  { "id": "F2", "entity_id": "gpu-ml", "title": "GPU accesa per un progetto chiuso", "evidence": "Utilizzo GPU 4–9%, accesa 720 h/mese. Pilota AI P-004 chiuso il 30.06.2025.", "severity": "high", "source": "server_metrics_weekly.csv · extra/projects.csv" },
+  { "id": "F3", "entity_id": "vm-test", "title": "13 server di test quasi fermi", "evidence": "CPU media 5%, accesi 720 h/mese. Riduzione T-1058 mai fatta; P-009 chiuso il 31.03.2026.", "severity": "medium", "source": "server_inventory.csv · it_tickets.csv" },
+  { "id": "F4", "entity_id": "ai-subs", "title": "Posti AI pagati e inattivi", "evidence": "ChatGPT Team: 86% dei posti inattivi; Copilot: 41%.", "severity": "medium", "source": "ai_subscriptions.csv" },
+  { "id": "F5", "entity_id": "orphans", "title": "Server senza proprietario", "evidence": "3 server con ultimo login nel 2024–2025 e CPU sotto lo 0,3%.", "severity": "low", "source": "server_inventory.csv" },
+  { "id": "F6", "entity_id": "ai-api", "title": "Modello grande per compiti semplici", "evidence": "«Classify» con Claude Sonnet è la voce AI più costosa.", "severity": "medium", "source": "ai_usage.csv" },
+  { "id": "F7", "entity_id": "cicd", "title": "Build notturni inutili", "evidence": "Il 21% dei build notturni gira con 0 commit nuovi.", "severity": "low", "source": "extra/ci_pipeline_runs.jsonl" }
+]

@@ -1,0 +1,101 @@
+[
+  {
+    "id": "M1", "title": "dp-dev: pausa automatica + spostamento a Zurigo",
+    "description": "Il cluster di sviluppo va in pausa quando è inattivo, riparte da solo per il training trimestrale e si sposta da Francoforte a Zurigo.",
+    "effort_days": 3, "savings": { "cost_chf": 29000, "kwh": 24000, "co2_kg": 9800 },
+    "status": "ok", "recommended": true, "start_month": "2026-10",
+    "effects": [{ "entity_id": "dp-dev", "kind": "move", "reduction": 0.95, "to": "CH" }],
+    "calc": { "formula": "(ore inattive evitate × kWh/nodo-ora × PUE) × mix; + differenza di mix DE→CH", "sources": ["data_platform_usage.csv", "it_tickets.csv (T-1053, T-1074)"] },
+    "sources": ["data_platform_usage.csv", "it_tickets.csv"]
+  },
+  {
+    "id": "M2", "title": "Server GPU solo su richiesta",
+    "description": "La GPU si accende su richiesta e nei giorni 1–3 di ogni trimestre per il training.",
+    "effort_days": 1.5, "savings": { "cost_chf": 8500, "kwh": 4300, "co2_kg": 1640 },
+    "status": "ok", "recommended": true, "start_month": "2026-10",
+    "effects": [{ "entity_id": "gpu-ml", "kind": "off", "reduction": 0.85 }],
+    "calc": { "formula": "(8760 h − ore necessarie) × kWh/GPU-ora × PUE × mix DE", "sources": ["server_metrics_weekly.csv", "it_tickets.csv (T-1035, T-1101)"] },
+    "sources": ["azure_costs.csv", "server_inventory.csv", "server_metrics_weekly.csv", "it_tickets.csv"]
+  },
+  {
+    "id": "M3", "title": "Server di test: da 64 a 16 vCPU, spenti di notte",
+    "description": "Riduzione prevista dopo il go-live (T-1058) + spegnimento notte e weekend, tranne durante freeze e test UAT.",
+    "effort_days": 2, "savings": { "cost_chf": 16000, "kwh": 3300, "co2_kg": 950 },
+    "status": "ok", "recommended": true, "start_month": "2026-10",
+    "effects": [{ "entity_id": "vm-test", "kind": "shrink", "reduction": 0.75 }],
+    "sources": ["aws_costs.csv", "server_inventory.csv", "it_tickets.csv (T-1058, T-1204)"]
+  },
+  {
+    "id": "M4", "title": "Dismettere i 3 server orfani",
+    "description": "poc-ki-2024, migration-alt e build-agent-old, dopo conferma del proprietario.",
+    "effort_days": 1, "savings": { "cost_chf": 5800, "kwh": 300, "co2_kg": 90 },
+    "status": "ok", "recommended": true, "start_month": "2026-10",
+    "effects": [{ "entity_id": "orphans", "kind": "off", "reduction": 1 }],
+    "sources": ["server_inventory.csv"]
+  },
+  {
+    "id": "M5", "title": "AI: modello piccolo per compiti semplici",
+    "description": "«Classify» nell'analisi testi di marketing passa a un modello piccolo + guardia anti-loop e alert di budget.",
+    "effort_days": 2, "savings": { "cost_chf": 9000, "kwh": 4000, "co2_kg": 1000 },
+    "status": "ok", "recommended": true, "start_month": "2026-10",
+    "effects": [{ "entity_id": "ai-api", "kind": "shrink", "reduction": 0.32 }],
+    "sources": ["ai_usage.csv", "it_tickets.csv (T-1212)"]
+  },
+  {
+    "id": "M6", "title": "Rightsizing licenze AI e SaaS",
+    "description": "Ridurre i posti inutilizzati (ChatGPT Team, Copilot, Survey, E-signature…) rispettando le disdette.",
+    "effort_days": 2, "savings": { "cost_chf": 32000, "kwh": 500, "co2_kg": 120 },
+    "status": "human", "owner_role": "Responsabili di reparto", "recommended": true, "start_month": "2026-12",
+    "reason": "Le licenze AI sono ordinate per reparto, non per persona (T-1128): ogni reparto conferma i posti da togliere.",
+    "effects": [
+      { "entity_id": "ai-subs", "kind": "shrink", "reduction": 0.45 },
+      { "entity_id": "saas", "kind": "shrink", "reduction": 0.25 },
+      { "entity_id": "seats", "kind": "off", "reduction": 1 }
+    ],
+    "sources": ["ai_subscriptions.csv", "saas_contracts.csv", "it_tickets.csv (T-1128)"]
+  },
+  {
+    "id": "M7", "title": "dp-prod: meno nodi fuori dalle finestre protette",
+    "description": "Ridurre i nodi di giorno nei periodi tranquilli, senza toccare ETL notturno, refresh Power BI e chiusura di fine mese.",
+    "effort_days": 2, "savings": { "cost_chf": 18000, "kwh": 13000, "co2_kg": 1300 },
+    "status": "human", "owner_role": "Head of IT", "recommended": true, "start_month": "2026-11",
+    "reason": "Finestre protette: chiusura finance (ultimi 3 giorni lavorativi fino alle 04:00, T-1029), ETL entro le 06:00, Power BI entro le 07:30.",
+    "effects": [{ "entity_id": "dp-prod", "kind": "shrink", "reduction": 0.2 }],
+    "sources": ["data_platform_usage.csv", "extra/data_platform_jobs.csv", "it_tickets.csv (T-1029)"]
+  },
+  {
+    "id": "M8", "title": "CI: niente build notturni senza modifiche",
+    "description": "Saltare il build notturno se non ci sono commit; meno rerun.",
+    "effort_days": 1, "savings": { "cost_chf": 1800, "kwh": 100, "co2_kg": 30 },
+    "status": "ok", "recommended": true, "start_month": "2026-10",
+    "effects": [{ "entity_id": "cicd", "kind": "shrink", "reduction": 0.3 }],
+    "sources": ["extra/ci_pipeline_runs.jsonl"]
+  },
+  {
+    "id": "X1", "title": "Spegnere dp-prod di notte e nel weekend",
+    "description": "Sembra un grande risparmio: la piattaforma è inattiva molte ore.",
+    "effort_days": 1, "savings": { "cost_chf": 40000, "kwh": 30000, "co2_kg": 3000 },
+    "status": "blocked", "owner_role": "Head of IT", "recommended": false,
+    "reason": "No: ETL notturno entro le 06:00, refresh Power BI entro le 07:30 e chiusura finance fino alle 04:00 (T-1029). Decide il Head of IT, eventualmente con M7.",
+    "effects": [{ "entity_id": "dp-prod", "kind": "off", "reduction": 0.5 }],
+    "sources": ["it_tickets.csv (T-1029)", "extra/data_platform_jobs.csv", "business_calendar.csv"]
+  },
+  {
+    "id": "X2", "title": "Cancellare l'archivio backup",
+    "description": "Quasi mai consultato.",
+    "effort_days": 0.5, "savings": { "cost_chf": 9100, "kwh": 100, "co2_kg": 28 },
+    "status": "blocked", "recommended": false,
+    "reason": "Obbligo legale di conservazione per 10 anni (T-1039). Una richiesta identica è già stata respinta (T-1195).",
+    "effects": [{ "entity_id": "st-backup", "kind": "off", "reduction": 1 }],
+    "sources": ["it_tickets.csv (T-1039, T-1195)"]
+  },
+  {
+    "id": "X3", "title": "Spegnere il server di emergenza",
+    "description": "Non è mai sotto carico.",
+    "effort_days": 0.5, "savings": { "cost_chf": 1900, "kwh": 100, "co2_kg": 29 },
+    "status": "blocked", "recommended": false,
+    "reason": "È l'ambiente di emergenza: deve restare acceso per decisione della direzione (T-1094).",
+    "effects": [{ "entity_id": "dr-failover", "kind": "off", "reduction": 1 }],
+    "sources": ["it_tickets.csv (T-1094)"]
+  }
+]

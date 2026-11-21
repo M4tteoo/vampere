@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+/* Stile ispirato ad Airbnb (DESIGN.md): tela bianca, testo quasi nero, forme morbide, un solo colore di brand.
+   Il brand qui è verde bosco (GreenOps) invece del rosa «Rausch», in armonia con i colori del plastico. */
+@theme {
+  --font-sans: "Inter Variable", "Inter", -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
+
+  --color-primary: #1f7a57;
+  --color-primary-active: #17603f;
+  --color-primary-soft: #e8f3ec;
+  --color-primary-disabled: #bfdccb;
+
+  --color-ink: #222222;
+  --color-body: #3f3f3f;
+  --color-muted: #6a6a6a;
+  --color-muted-soft: #929292;
+  --color-hairline: #dddddd;
+  --color-hairline-soft: #ebebeb;
+  --color-canvas: #ffffff;
+  --color-surface-soft: #f7f7f7;
+  --color-surface-strong: #f2f2f2;
+  --color-scene: #f3f0ea;
+
+  --color-warn: #a85a12;
+  --color-warn-soft: #fdf1e3;
+  --color-error: #c13515;
+  --color-error-soft: #fdecea;
+  --color-human: #2f66c8;
+  --color-human-soft: #eaf1fd;
+  --color-lock: #4e6385;
+  --color-lock-soft: #edf1f7;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+}
+
+html, body, #root { height: 100%; margin: 0; }
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv11", "ss01";
+}
+
+/* L'unico livello d'ombra del sistema (DESIGN.md → Elevation). */
+.pill-shadow {
+  box-shadow: rgba(0, 0, 0, 0.02) 0 0 0 1px, rgba(0, 0, 0, 0.04) 0 2px 6px 0, rgba(0, 0, 0, 0.1) 0 4px 8px 0;
+}
+
+.scroll-thin { scrollbar-width: thin; scrollbar-color: #dddddd transparent; }
+
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+
+/* Nomi dei reparti sulla pianta: solo testo, con un alone bianco per staccarsi dal pavimento. */
+.room-name {
+  text-shadow: 0 0 6px #fff, 0 0 12px #fff, 0 0 2px #fff;
+}

@@ -1,0 +1,12 @@
+[
+  { "source_file": "saas_contracts.csv", "issue": "Righe Draft accanto alle Final", "rows": 242, "action": "Scartate le Draft" },
+  { "source_file": "ai_subscriptions.csv", "issue": "Righe Draft accanto alle Final", "rows": 48, "action": "Scartate le Draft" },
+  { "source_file": "azure_costs.csv", "issue": "Righe duplicate", "rows": 7, "action": "Rimosse" },
+  { "source_file": "azure_costs.csv", "issue": "Costo mancante", "rows": 56, "action": "Stimato da quantità × prezzo medio, segnalato" },
+  { "source_file": "azure_costs.csv", "issue": "Valute CHF ed EUR mescolate", "rows": 0, "action": "EUR → CHF con il tasso del mese" },
+  { "source_file": "aws_costs.csv", "issue": "Account di test", "rows": 9, "action": "Escluse" },
+  { "source_file": "ai_usage.csv", "issue": "tokens_out mancanti", "rows": 876, "action": "Stimati dal rapporto medio out/in" },
+  { "source_file": "extra/log_volume.csv", "issue": "Unità in MB invece di GB", "rows": 637, "action": "Convertite in GB" },
+  { "source_file": "extra/m365_usage.csv", "issue": "Unità in MB invece di GB", "rows": 61, "action": "Convertite in GB" },
+  { "source_file": "hoster_invoice.csv", "issue": "Date DD.MM.YYYY, nessuna chiave di risorsa", "rows": 2002, "action": "Date convertite, collegate tramite mapping" }
+]

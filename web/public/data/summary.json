@@ -1,0 +1,25 @@
+{
+  "is_mock": true,
+  "baseline_period": "Sep 2025 – Aug 2026",
+  "baseline": { "cost_chf": 465000, "kwh": 118000, "co2_kg": 23500 },
+  "baseline_range": {
+    "kwh": { "low": 70000, "mid": 118000, "high": 190000 },
+    "co2_kg": { "low": 12000, "mid": 23500, "high": 38000 }
+  },
+  "target": { "co2_reduction": 0.4, "cost_reduction": 0.25, "budget_chf": 16500, "day_rate_chf": 1100 },
+  "departments": [
+    { "id": "consulting", "label": "Consulting", "fte": 39.4, "seats_total": 12, "seats_active": 8, "metrics": { "cost_chf": 98000, "kwh": 17000, "co2_kg": 3000 } },
+    { "id": "sales", "label": "Sales", "fte": 19.7, "seats_total": 6, "seats_active": 3, "metrics": { "cost_chf": 62000, "kwh": 8000, "co2_kg": 1400 } },
+    { "id": "management", "label": "Management", "fte": 8.0, "seats_total": 4, "seats_active": 3, "metrics": { "cost_chf": 35000, "kwh": 2700, "co2_kg": 600 } },
+    { "id": "finance", "label": "Finance", "fte": 10.2, "seats_total": 4, "seats_active": 3, "metrics": { "cost_chf": 38000, "kwh": 4500, "co2_kg": 900 } },
+    { "id": "marketing", "label": "Marketing", "fte": 12.1, "seats_total": 4, "seats_active": 2, "metrics": { "cost_chf": 54000, "kwh": 12000, "co2_kg": 2200 } },
+    { "id": "hr", "label": "HR", "fte": 6.3, "seats_total": 3, "seats_active": 2, "metrics": { "cost_chf": 18000, "kwh": 1800, "co2_kg": 400 } },
+    { "id": "it", "label": "IT", "fte": 14.2, "seats_total": 4, "seats_active": 4, "metrics": { "cost_chf": 160000, "kwh": 72000, "co2_kg": 15000 } }
+  ],
+  "locations": [
+    { "id": "CH", "label": "Zurich", "grid_kg_per_kwh": { "low": 0.09, "mid": 0.1, "high": 0.13 }, "grid_alt_kg_per_kwh": { "low": 0.02, "mid": 0.03, "high": 0.04 }, "source": "MOCK · to research (consumption mix incl. imports; alternative: production mix)" },
+    { "id": "DE", "label": "Frankfurt", "grid_kg_per_kwh": { "low": 0.33, "mid": 0.38, "high": 0.42 }, "source": "MOCK · to research (UBA / Electricity Maps)" },
+    { "id": "IE", "label": "Dublin", "grid_kg_per_kwh": { "low": 0.25, "mid": 0.29, "high": 0.33 }, "source": "MOCK · to research (SEAI / EirGrid)" },
+    { "id": "EU", "label": "AI & SaaS · location not stated", "grid_kg_per_kwh": { "low": 0.2, "mid": 0.25, "high": 0.3 }, "source": "MOCK · EU average, to research" }
+  ]
+}
