@@ -296,7 +296,8 @@ Step 9 · Mostrare ed esportare:
     Da fare: compilare ogni riga Must con basso / medio / alto + unità + fonte con data + calcolo; righe Bonus (market-based, crescita) solo se costruiamo quelle funzioni; generato dallo stesso motore, mai a mano
   ✔ Generare template_measures_package.csv @must @p1 @done(26-11-21)
     Fatto: pipeline/advisor/apply.py → output/submission/template_measures_package.csv (misure del pacchetto, numeri dal codice, stato e responsabile nei rischi)
-  ☐ Nota sul percorso verso l'operatività @must @p2
+  ✔ Nota sul percorso verso l'operatività @must @p2 @done(26-11-21)
+    Fatto: docs/path-to-operation.md
     Cos'è: breve nota su come diventa un sistema in produzione.
     Da fare: export mensili → la stessa pipeline in un notebook (Databricks / Fabric, che è il mondo di ALTYCA) → dashboard; connettori riusabili per altre PMI; chi lo gestisce e quanto costa
     Riferimento: case.md, ultima riga di «Prototype requirements»
@@ -368,7 +369,7 @@ Checklist di consegna (domenica 08:30):
   ☐ Prototipo funzionante sui dati forniti @must
   ✔ template_baseline_and_assumptions.csv compilato @must @done(26-11-21)
   ✔ template_measures_package.csv compilato @must @done(26-11-21)
-  ☐ Nota sul percorso verso l'operatività @must
+  ✔ Nota sul percorso verso l'operatività @must @done(26-11-21)
   ✔ Frase sull'energia della nostra AI @must @p3 @done(26-11-21)
   ☐ Prova del pitch: quadro d'insieme → una scoperta → il pacchetto → un caso limite, in 5 minuti @must
   ☐ Bozza consegnata sabato 15:00–15:30 @must

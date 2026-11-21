@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T11:55:05+01:00",
+  "generated_at": "2026-11-21T12:19:17+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -2052,11 +2052,15 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "locked",
+   "flags": [
+    "locked"
+   ],
    "finding_ids": [],
    "measure_ids": [],
-   "limit_ids": [],
+   "limit_ids": [
+    "L-06"
+   ],
    "calc": {
     "formula": "capacity-day × 24 h × (8 v-cores at 50 % + 25 GB) × PUE; cost as billed",
     "inputs": [],

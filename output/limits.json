@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T05:57:22+01:00",
+  "generated_at": "2026-11-21T12:19:18+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -191,7 +191,7 @@
    "type": "block",
    "title": "Legacy receivables report must stay available for internal audit, despite low usage outside closing periods.",
    "entity_ids": [
-    "res:pbi-07"
+    "res:pbi-kap"
    ],
    "period_text": "always",
    "occurrences": [],

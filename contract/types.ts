@@ -507,6 +507,7 @@ export interface ChatResponse {
   trace: { ref: string; tool: string; args: Record<string, unknown> }[];
   model: string;
   rounds: number;
+  ai_footprint: AiFootprint | null;             // energy / CO2 of this answer's LLM calls («this answer used 2.1 Wh»)
 }
 
 // ----------------------------------------------------------- jobs.json (A5)

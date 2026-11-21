@@ -10,6 +10,7 @@ from ..energy.engine import load_factors
 from ..export.frontend import MARKET_SUMS
 from ..harmonize.context import Context
 from .common import MEASURES_TEMPLATE, fill_baseline_row, patch_template, read_output, rng, write_json
+from .scope_rows import ScopeRows
 
 LEVELS = ("low", "mid", "high")
 NOTE = (
@@ -71,7 +72,7 @@ def _totals(rows: pd.DataFrame, factors: dict) -> dict:
     }
 
 
-def _measure_savings(measure: dict, recurring: pd.DataFrame, factors: dict) -> dict:
+def _measure_savings(measure: dict, baseline: pd.DataFrame, scopes: ScopeRows, factors: dict) -> dict:
     def unavailable(reason: str) -> dict:
         return {"co2_kg_market": None, "reason": reason}
 
@@ -86,13 +87,14 @@ def _measure_savings(measure: dict, recurring: pd.DataFrame, factors: dict) -> d
     selected_rows = []
     for effect in measure["effects"]:
         scope = effect["scope"]
-        kind, _, resource = scope.partition(":")
-        if kind != "res":
-            return unavailable(f"Unsupported scope: {scope}")
-        if resource in seen:
+        if scope in seen:
             return unavailable(f"Overlapping effects: {scope}")
-        seen.add(resource)
-        rows = recurring[recurring["resource_id"].eq(resource)]
+        seen.add(scope)
+        try:  # res: / srv: (share of its resource) / lic: / ai: (task × model class), same rows as the Calculator
+            mask, share = scopes.resolve(scope)
+        except ValueError as exc:
+            return unavailable(str(exc))
+        rows = baseline[mask]
         if rows.empty:
             return unavailable(f"No recurring baseline rows for {scope}")
         selected_rows.append(rows)
@@ -110,7 +112,7 @@ def _measure_savings(measure: dict, recurring: pd.DataFrame, factors: dict) -> d
                 delta_lo = before["low"] - (1 - energy) * after["high"]
                 delta_mid = before["mid"] - (1 - energy) * after["mid"]
                 delta_hi = before["high"] - (1 - energy) * after["low"]
-            kwh_lo, kwh_mid, kwh_hi = (group[f"kwh_{key}"].sum() for key in LEVELS)
+            kwh_lo, kwh_mid, kwh_hi = (group[f"kwh_{key}"].sum() * share for key in LEVELS)
             low += min(kwh_lo * delta_lo, kwh_hi * delta_lo)
             mid += kwh_mid * delta_mid
             high += max(kwh_lo * delta_hi, kwh_hi * delta_hi)
@@ -127,9 +129,9 @@ def run(ctx: Context) -> None:
     factors = _factors()
     facts = ctx.tables["fact_cost"]
     baseline = _enrich(facts[facts["in_baseline"]], factors)
-    recurring = baseline[~baseline["is_one_off"].eq(True)]
     measures = (read_output(ctx, "measures.json") or {}).get("measures", [])
-    savings = {m["id"]: _measure_savings(m, recurring, factors) for m in measures}
+    scopes = ScopeRows(baseline, read_output(ctx, "advisor/facts.json"), ctx.tables.get("stg_ai_usage"))
+    savings = {m["id"]: _measure_savings(m, baseline, scopes, factors) for m in measures}
     totals = _totals(baseline, factors)
     source = "AIB 2025 (DE/IE residual mix, EU attribute proxy); Swiss consumption mix proxy (CH)"
     co2 = totals["co2_kg_market"]

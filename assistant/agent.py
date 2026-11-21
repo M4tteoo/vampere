@@ -8,6 +8,8 @@ from __future__ import annotations
 import json
 from typing import Any, Callable
 
+from pipeline.energy.ai_footprint import footprint, usage_row
+
 from .data import DataStore
 from .llm import LLM
 from .prompts import ANSWER_SCHEMA, SYSTEM, VERIFY_FEEDBACK
@@ -33,6 +35,7 @@ class Assistant:
                            for h in (history or [])[-MAX_HISTORY:] if h.get("role") in ("user", "assistant")]
         inp.append({"role": "user", "content": question})
         trace: list[dict] = []
+        usage: list[dict] = []                 # token usage of this answer's LLM calls (→ ai_footprint)
         retries = self.s.verify_retries
         problems: list[str] = []
 
@@ -40,6 +43,8 @@ class Assistant:
             last = rounds == self.s.max_tool_rounds  # last round: answer with what is there, no more tools
             resp = self.llm.respond(input=inp, instructions=SYSTEM, schema=ANSWER_SCHEMA, tools=self.tools,
                                     tool_choice="none" if last else "auto")
+            if getattr(resp, "usage", None) is not None:
+                usage.append(usage_row(self.s.chat_model, "chat", resp.usage))
             inp += [o.model_dump(exclude_none=True) for o in resp.output]
             calls = [o for o in resp.output if o.type == "function_call"]
             if calls:
@@ -53,11 +58,11 @@ class Assistant:
                 inp.append({"role": "developer", "content": VERIFY_FEEDBACK.format(
                     problems="\n".join(f"- {p}" for p in problems))})
                 continue
-            return self._finish(answer, trace, problems, rounds)
+            return self._finish(answer, trace, problems, rounds, usage)
         return self._finish({"answer": "I could not complete the answer within the allowed number of steps.",
                              "formula": "", "numbers": [], "sources": [], "focus_entity_ids": [],
                              "caveats": [], "ignored_data_instructions": False},
-                            trace, ["tool round limit reached"], self.s.max_tool_rounds)
+                            trace, ["tool round limit reached"], self.s.max_tool_rounds, usage)
 
     def _call_tool(self, call: Any, trace: list[dict]) -> dict:
         ref = f"R{len(trace) + 1}"
@@ -71,7 +76,7 @@ class Assistant:
                 "output": json.dumps({"ref": ref, "tool": call.name, "result": result}, ensure_ascii=False,
                                      default=str)}
 
-    def _finish(self, answer: dict, trace: list[dict], problems: list[str], rounds: int) -> dict:
+    def _finish(self, answer: dict, trace: list[dict], problems: list[str], rounds: int, usage: list[dict]) -> dict:
         known = self.store.entity_ids()
         return {
             **answer,
@@ -81,4 +86,6 @@ class Assistant:
             "trace": [{"ref": t["ref"], "tool": t["tool"], "args": t["args"]} for t in trace],
             "model": self.s.chat_model,
             "rounds": rounds,
+            # energy of THIS answer, from the token usage the API returned (same factors as the company's AI)
+            "ai_footprint": footprint(usage, "measured for this answer (token usage returned by the API)") if usage else None,
         }

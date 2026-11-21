@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>GreenOps Basel · how it works</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+    <marker id="ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c27803"/>
+    </marker>
+    <style>
+      .title { font-size: 26px; font-weight: 700; fill: #0f172a; }
+      .sub   { font-size: 14px; fill: #475569; }
+      .num   { font-size: 13px; font-weight: 700; fill: #ffffff; }
+      .h     { font-size: 17px; font-weight: 700; fill: #0f172a; }
+      .hs    { font-size: 14px; font-weight: 700; fill: #0f172a; }
+      .t     { font-size: 13.5px; fill: #334155; }
+      .io    { font-size: 13px; font-weight: 600; fill: #1e3a8a; }
+      .ioa   { font-size: 13px; font-weight: 600; fill: #92400e; }
+      .tag   { font-size: 12.5px; font-weight: 600; }
+      .code  { fill: #eef4ff; stroke: #3b6fd8; stroke-width: 1.6; }
+      .ai    { fill: #fff4e0; stroke: #d98b0b; stroke-width: 1.6; }
+      .input { fill: #effcf3; stroke: #16a34a; stroke-width: 1.6; }
+      .use   { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 1.6; }
+      .flow  { stroke: #475569; stroke-width: 2.5; fill: none; marker-end: url(#a); }
+      .loop  { stroke: #c27803; stroke-width: 2; fill: none; stroke-dasharray: 6 4; marker-end: url(#ai); }
+    </style>
+  </defs>
+  <rect width="1400" height="860" fill="#ffffff"/>
+
+  <!-- header -->
+  <text x="24" y="42" class="title">GreenOps Basel · how it works</text>
+  <text x="24" y="68" class="sub">A company loads its exports. The pipeline cleans them, turns usage into energy and CO₂, finds waste, proposes a safe package of measures and explains every number.</text>
+
+  <rect x="24" y="84" width="430" height="26" rx="13" fill="#eef4ff" stroke="#3b6fd8"/>
+  <text x="40" y="102" class="tag" fill="#1e3a8a">Every run · seconds · offline · same data → same result</text>
+  <rect x="468" y="84" width="470" height="26" rx="13" fill="#fff4e0" stroke="#d98b0b"/>
+  <text x="484" y="102" class="tag" fill="#92400e">AI steps · when new data arrives (e.g. monthly) · result saved</text>
+  <rect x="952" y="84" width="424" height="26" rx="13" fill="#f5f3ff" stroke="#7c3aed"/>
+  <text x="968" y="102" class="tag" fill="#5b21b6">On demand · dashboard and chat over the results</text>
+
+  <!-- ========== 0 · company data -->
+  <rect x="24" y="134" width="230" height="430" rx="12" class="input"/>
+  <text x="40" y="164" class="h">Company data</text>
+  <text x="40" y="192" class="t">• cloud &amp; hosting invoices</text>
+  <text x="40" y="214" class="t">• servers and their usage</text>
+  <text x="40" y="236" class="t">• data platform activity</text>
+  <text x="40" y="258" class="t">• AI tools, tokens, licences</text>
+  <text x="40" y="280" class="t">• software contracts</text>
+  <text x="40" y="302" class="t">• IT tickets (free text)</text>
+  <text x="40" y="324" class="t">• calendar, org chart, FX</text>
+  <text x="40" y="354" class="t" font-style="italic">many systems, 3 currencies,</text>
+  <text x="40" y="372" class="t" font-style="italic">gaps, drafts, contradictions</text>
+  <line x1="40" y1="394" x2="238" y2="394" stroke="#16a34a" stroke-opacity="0.4"/>
+  <text x="40" y="420" class="hs">Researched factors</text>
+  <text x="40" y="444" class="t">• CO₂ of the grid per location</text>
+  <text x="40" y="466" class="t">• data-centre efficiency</text>
+  <text x="40" y="488" class="t">• energy per server hour,</text>
+  <text x="40" y="508" class="t">  GB, AI token, licence</text>
+  <text x="40" y="534" class="t" font-style="italic">each with source and range</text>
+
+  <!-- ========== 1 · clean & connect -->
+  <rect x="294" y="134" width="240" height="430" rx="12" class="code"/>
+  <circle cx="318" cy="160" r="13" fill="#3b6fd8"/><text x="318" y="165" class="num" text-anchor="middle">1</text>
+  <text x="340" y="166" class="h">Clean &amp; connect</text>
+  <text x="310" y="200" class="t">• one common format</text>
+  <text x="310" y="224" class="t">• currencies, units, dates</text>
+  <text x="310" y="244" class="t">  and names aligned</text>
+  <text x="310" y="268" class="t">• duplicates and drafts out</text>
+  <text x="310" y="292" class="t">• gaps estimated with a range,</text>
+  <text x="310" y="312" class="t">  never set to zero</text>
+  <text x="310" y="336" class="t">• contradictions flagged</text>
+  <text x="310" y="360" class="t">• every franc assigned to a</text>
+  <text x="310" y="380" class="t">  department and a tool</text>
+  <text x="310" y="404" class="t">• free text kept as data,</text>
+  <text x="310" y="424" class="t">  instructions to AI withheld</text>
+  <line x1="310" y1="452" x2="518" y2="452" stroke="#3b6fd8" stroke-opacity="0.35"/>
+  <text x="310" y="478" class="hs">out</text>
+  <text x="310" y="500" class="io">one clean, traceable dataset</text>
+  <text x="310" y="520" class="io">+ a log of every fix</text>
+
+  <!-- ========== 2 · energy & CO2 -->
+  <rect x="574" y="134" width="240" height="430" rx="12" class="code"/>
+  <circle cx="598" cy="160" r="13" fill="#3b6fd8"/><text x="598" y="165" class="num" text-anchor="middle">2</text>
+  <text x="620" y="166" class="h">Energy &amp; CO₂</text>
+  <text x="590" y="200" class="t">usage → energy (kWh)</text>
+  <text x="590" y="220" class="t">at the measured load,</text>
+  <text x="590" y="240" class="t">incl. data-centre overhead</text>
+  <text x="590" y="270" class="t">energy → CO₂ with the grid</text>
+  <text x="590" y="290" class="t">where the data centre is</text>
+  <text x="590" y="310" class="t">(Zurich · Frankfurt · Dublin)</text>
+  <text x="590" y="340" class="t">every figure low / mid / high</text>
+  <text x="590" y="370" class="t">baseline year as the starting</text>
+  <text x="590" y="390" class="t">point for the −40 % / −25 %</text>
+  <line x1="590" y1="452" x2="798" y2="452" stroke="#3b6fd8" stroke-opacity="0.35"/>
+  <text x="590" y="478" class="hs">out</text>
+  <text x="590" y="500" class="io">costs, energy and CO₂ by</text>
+  <text x="590" y="520" class="io">department, tool and location</text>
+
+  <!-- ========== 3 · find, decide, limits -->
+  <rect x="854" y="134" width="270" height="430" rx="12" fill="#ffffff" stroke="#3b6fd8" stroke-width="1.6"/>
+  <circle cx="878" cy="160" r="13" fill="#3b6fd8"/><text x="878" y="165" class="num" text-anchor="middle">3</text>
+  <text x="900" y="166" class="h">Find · Decide · Limits</text>
+
+  <rect x="868" y="184" width="242" height="62" rx="9" class="ai"/>
+  <text x="880" y="206" class="hs">AI reads the tickets</text>
+  <text x="880" y="226" class="t">in quarantine → protection</text>
+  <text x="880" y="242" class="t" dy="0">windows and blocks</text>
+
+  <rect x="868" y="258" width="242" height="62" rx="9" class="ai"/>
+  <text x="880" y="280" class="hs">AI advisor</text>
+  <text x="880" y="300" class="t">finds waste, proposes</text>
+  <text x="880" y="316" class="t">measures and a package</text>
+
+  <rect x="868" y="332" width="242" height="80" rx="9" class="code"/>
+  <text x="880" y="354" class="hs">Code checks everything</text>
+  <text x="880" y="374" class="t">computes every saving,</text>
+  <text x="880" y="392" class="t">applies the safety rules:</text>
+  <text x="880" y="408" class="t">ok · human decides · blocked</text>
+
+  <rect x="868" y="424" width="242" height="46" rx="9" class="code"/>
+  <text x="880" y="444" class="hs">Target check</text>
+  <text x="880" y="462" class="t">−40 % CO₂ · −25 % cost · budget</text>
+
+  <path d="M1088 246 L1088 257" class="flow"/>
+  <path d="M1088 320 L1088 331" class="flow"/>
+  <path d="M1088 412 L1088 423" class="flow"/>
+  <path d="M1110 447 C1136 447 1136 289 1112 289" class="loop"/>
+  <text x="1146" y="368" class="tag" fill="#92400e" text-anchor="middle" transform="rotate(-90 1146 368)">revise until met</text>
+
+  <text x="868" y="498" class="hs">out</text>
+  <text x="868" y="520" class="ioa">findings · measures · protection</text>
+  <text x="868" y="540" class="ioa">windows · recommended package</text>
+
+  <!-- ========== 4 · deeper insights -->
+  <rect x="1164" y="134" width="212" height="430" rx="12" class="code"/>
+  <circle cx="1188" cy="160" r="13" fill="#3b6fd8"/><text x="1188" y="165" class="num" text-anchor="middle">4</text>
+  <text x="1210" y="166" class="h">Deeper insights</text>
+  <text x="1180" y="200" class="hs">Forecast</text>
+  <text x="1180" y="218" class="t">next year, with / without</text>
+  <text x="1180" y="246" class="hs">How sure are we?</text>
+  <text x="1180" y="264" class="t">10,000 what-if scenarios</text>
+  <text x="1180" y="292" class="hs">Swiss mix switch</text>
+  <text x="1180" y="310" class="t">consumption vs production</text>
+  <text x="1180" y="338" class="hs">Market-based view</text>
+  <text x="1180" y="356" class="t">certificates, critically</text>
+  <text x="1180" y="384" class="hs">Behaviour groups</text>
+  <text x="1180" y="402" class="t">servers clustered</text>
+  <text x="1180" y="430" class="hs">Cleaner hours</text>
+  <text x="1180" y="448" class="t">move flexible jobs</text>
+  <line x1="1180" y1="470" x2="1360" y2="470" stroke="#3b6fd8" stroke-opacity="0.35"/>
+  <text x="1180" y="498" class="hs">out</text>
+  <text x="1180" y="520" class="io">trends, robustness,</text>
+  <text x="1180" y="540" class="io">trade-offs</text>
+
+  <!-- main flow -->
+  <path d="M254 349 L292 349" class="flow"/>
+  <path d="M534 349 L572 349" class="flow"/>
+  <path d="M814 349 L852 349" class="flow"/>
+  <path d="M1124 520 L1162 520" class="flow"/>
+
+  <!-- to results -->
+  <path d="M414 564 L414 610 L1270 610 L1270 564" stroke="#475569" stroke-width="2.5" fill="none"/>
+  <path d="M694 564 L694 610" stroke="#475569" stroke-width="2.5" fill="none"/>
+  <path d="M989 564 L989 610" stroke="#475569" stroke-width="2.5" fill="none"/>
+  <path d="M424 610 L424 654" class="flow"/>
+  <path d="M704 610 L704 654" class="flow"/>
+  <path d="M984 610 L984 654" class="flow"/>
+  <path d="M1255 610 L1255 654" class="flow"/>
+
+  <!-- ========== 5 · what you get -->
+  <text x="24" y="640" class="h">What you get</text>
+  <text x="24" y="662" class="t">every number opens its calculation</text>
+
+  <rect x="294" y="656" width="260" height="130" rx="12" class="use"/>
+  <text x="310" y="684" class="hs">Interactive dashboard</text>
+  <text x="310" y="708" class="t">the overall picture: Basel</text>
+  <text x="310" y="726" class="t">office ↔ data centres, drivers,</text>
+  <text x="310" y="744" class="t">waste, measures to switch on,</text>
+  <text x="310" y="762" class="t">locks and hand-overs</text>
+
+  <rect x="574" y="656" width="260" height="130" rx="12" class="use"/>
+  <text x="590" y="684" class="hs">Chat assistant</text>
+  <text x="590" y="708" class="t">answers questions about the</text>
+  <text x="590" y="726" class="t">data with number + source,</text>
+  <text x="590" y="744" class="t">read-only, ignores instructions</text>
+  <text x="590" y="762" class="t">hidden in the data</text>
+
+  <rect x="854" y="656" width="260" height="130" rx="12" class="use"/>
+  <text x="870" y="684" class="hs">Reports</text>
+  <text x="870" y="708" class="t">baseline &amp; assumptions and</text>
+  <text x="870" y="726" class="t">the package of measures,</text>
+  <text x="870" y="744" class="t">every factor with source,</text>
+  <text x="870" y="762" class="t">range and calculation</text>
+
+  <rect x="1134" y="656" width="242" height="130" rx="12" class="use"/>
+  <text x="1150" y="684" class="hs">Footprint of our own AI</text>
+  <text x="1150" y="708" class="t">energy and CO₂ of the AI</text>
+  <text x="1150" y="726" class="t">used by each analysis and</text>
+  <text x="1150" y="744" class="t">each chat answer, measured</text>
+  <text x="1150" y="762" class="t">from the real usage</text>
+
+  <!-- legend -->
+  <rect x="24" y="700" width="16" height="13" rx="3" class="input"/><text x="48" y="711" class="t">input</text>
+  <rect x="24" y="724" width="16" height="13" rx="3" class="code"/><text x="48" y="735" class="t">code: computes</text>
+  <rect x="24" y="748" width="16" height="13" rx="3" class="ai"/><text x="48" y="759" class="t">AI: reasons, never calculates</text>
+  <rect x="24" y="772" width="16" height="13" rx="3" class="use"/><text x="48" y="783" class="t">what users see</text>
+
+  <text x="24" y="830" class="sub">Safety by design: nothing is switched off automatically · blocked stays blocked · a named person decides when in doubt · text in the data is never treated as an instruction.</text>
+</svg>

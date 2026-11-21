@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T11:55:57+01:00",
+  "generated_at": "2026-11-21T12:19:18+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -175,20 +175,89 @@
    }
   },
   "M-03": {
-   "co2_kg_market": null,
-   "reason": "Unsupported scope: srv:poc-ki-2024"
+   "co2_kg_market": {
+    "low": 190.69,
+    "mid": 288.18,
+    "high": 493.4
+   },
+   "reason": null,
+   "calc": {
+    "formula": "recurring kWh × (origin factor − remaining energy share × destination factor)",
+    "inputs": [],
+    "factor_ids": [
+     "IE"
+    ],
+    "value_status": "estimated",
+    "issue_ids": [],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 5475
+   }
   },
   "M-04": {
-   "co2_kg_market": null,
-   "reason": "Unsupported scope: lic:Accounting software"
+   "co2_kg_market": {
+    "low": 0.0,
+    "mid": 0.0,
+    "high": 0.0
+   },
+   "reason": null,
+   "calc": {
+    "formula": "recurring kWh × (origin factor − remaining energy share × destination factor)",
+    "inputs": [],
+    "factor_ids": [
+     "EU"
+    ],
+    "value_status": "estimated",
+    "issue_ids": [],
+    "source_files": [
+     "ai_subscriptions.csv",
+     "saas_contracts.csv"
+    ],
+    "row_count": 816
+   }
   },
   "M-05": {
-   "co2_kg_market": null,
-   "reason": "Unsupported scope: ai:ai-assistant:Summarise:large"
+   "co2_kg_market": {
+    "low": 29.01,
+    "mid": 145.07,
+    "high": 580.28
+   },
+   "reason": null,
+   "calc": {
+    "formula": "recurring kWh × (origin factor − remaining energy share × destination factor)",
+    "inputs": [],
+    "factor_ids": [
+     "EU"
+    ],
+    "value_status": "estimated",
+    "issue_ids": [],
+    "source_files": [
+     "ai_usage.csv"
+    ],
+    "row_count": 10055
+   }
   },
   "M-06": {
-   "co2_kg_market": null,
-   "reason": "Unsupported scope: ai:ai-marketing:Classify:large"
+   "co2_kg_market": {
+    "low": 12.99,
+    "mid": 64.97,
+    "high": 259.86
+   },
+   "reason": null,
+   "calc": {
+    "formula": "recurring kWh × (origin factor − remaining energy share × destination factor)",
+    "inputs": [],
+    "factor_ids": [
+     "EU"
+    ],
+    "value_status": "estimated",
+    "issue_ids": [],
+    "source_files": [
+     "ai_usage.csv"
+    ],
+    "row_count": 358
+   }
   },
   "M-07": {
    "co2_kg_market": null,

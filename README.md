@@ -20,6 +20,15 @@ echo "OPENAI_API_KEY=sk-..." > .env          # local only, never committed (.env
 .venv/bin/python -m pipeline.advisor.redteam [--llm]   # prompt-injection tests
 ```
 
+Check everything before a demo or a commit (offline, under a minute):
+
+```bash
+.venv/bin/python -m unittest discover -s tests -t .   # unit tests + end-to-end output audit
+.venv/bin/python -m tests.audit_outputs              # the audit, readable: contract fields, ranges, ids, cross-module numbers
+```
+
+Architecture and pipeline flow: [docs/architecture.svg](docs/architecture.svg) · path to operation: [docs/path-to-operation.md](docs/path-to-operation.md) · pitch notes: [docs/pitch-notes.md](docs/pitch-notes.md)
+
 **How the work is split**
 
 | Who | Does what |

@@ -1,7 +1,7 @@
 {
   "meta": {
     "schema_version": "0.1",
-    "generated_at": "2026-11-21T05:57:22+01:00",
+    "generated_at": "2026-11-21T12:19:18+01:00",
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -105,6 +105,175 @@
       ],
       "calc": "inactive = licences_purchased − licences_active_30d; cost = inactive × price_per_seat (USD) × usd_chf of the month",
       "note": "Draft rows for the same month and cost center ignored (0 kept as Draft-only: none expected)."
+    },
+    "q2_decide": {
+      "question": "What does it bring to start the GPU server only when needed? State the effort and the savings in CHF and CO2 (location-based) per year.",
+      "utilisation": {
+        "gpu_avg_pct": 9.2,
+        "uptime_h_per_week": 168.0,
+        "weeks": 52
+      },
+      "sources": [
+        "azure_costs.csv (gpu-ml)",
+        "server_inventory.csv",
+        "server_metrics_weekly.csv",
+        "it_tickets.csv",
+        "pipeline/energy/factors.yaml"
+      ],
+      "answer": "Today gpu-ml-01 (Frankfurt) runs 168 of 168 h a week at 9.2 % average GPU utilisation. Measure M-02 «Auto-stop the GPU ML server outside quarterly training and booked runs»: effort 1.5 person-days (CHF 1,650); savings per year 9,340 CHF (range 9,326–9,352), 951 kWh (range 609–1,640) and 345.2 kg CO2 (range 201.0–705.1) location-based. Status: ok (decides: Head of Consulting). It respects: GPU environment is used for quarterly training on days 1 to 3 of January, April, July and October.",
+      "measure_id": "M-02",
+      "effort_days": 1.5,
+      "effort_chf": 1650.0,
+      "savings": {
+        "cost_chf": {
+          "low": 9326.33,
+          "mid": 9339.65,
+          "high": 9352.11
+        },
+        "cost_eur": {
+          "low": 10086.94,
+          "mid": 10101.35,
+          "high": 10114.82
+        },
+        "cost_usd": {
+          "low": 11737.87,
+          "mid": 11754.63,
+          "high": 11770.31
+        },
+        "kwh": {
+          "low": 609.1,
+          "mid": 951.0,
+          "high": 1639.8
+        },
+        "co2_kg": {
+          "low": 201.0,
+          "mid": 345.2,
+          "high": 705.1
+        }
+      },
+      "status": "ok",
+      "owner_role": "Head of Consulting",
+      "limit_ids": [
+        "L-05"
+      ],
+      "calc": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.82, energy × 0.82",
+      "assumptions": [
+        {
+          "id": "energy_per_gpu_hour",
+          "label": "Energy per GPU-hour (300-W class at 10 % GPU, incl. host)",
+          "unit": "kWh",
+          "low": 0.0786,
+          "mid": 0.1132,
+          "high": 0.1486,
+          "source": "data_dictionary.md (300-W class GPU); idle 10–30 % of TDP is an assumption for data-centre GPUs."
+        },
+        {
+          "id": "grid_mix_location_based_germany",
+          "label": "Germany (Frankfurt): national electricity mix",
+          "unit": "kg CO2 per kWh",
+          "low": 0.33,
+          "mid": 0.363,
+          "high": 0.43,
+          "source": "Umweltbundesamt, «Entwicklung der spezifischen Treibhausgas-Emissionen des deutschen Strommix 1990–2024» (Climate Change 13/2025) and UBA topic page «CO2-Emissionen pro Kilowattstunde Strom 2024»: 363 g CO2/kWh in 2024 (estimate), 386 g in 2023. Retrieved 2026-11-21."
+        }
+      ]
+    },
+    "q3_limits": {
+      "question": "May the production platform be switched off at night and at weekends?",
+      "answer": "Not as a general rule, and not without a decision. Nights: fixed jobs need the platform every day («Nightly ETL» starts 02:00 (median 1.5 h), must be done by 06:00; «PBI refresh large» starts 05:30 (median 1.2 h), must be done by 07:30), and finance closing needs it on the last 3 working days until 04:00 (T-1029). Weekends: 1.5 active h/day and 41.1 queries/day (working days: 10.33 h, 1952.6 queries), so mostly idle but not unused. A narrower switch-off outside these windows can be assessed; the Head of Consulting decides before anything changes.",
+      "usage_by_day_type": {
+        "holiday": {
+          "days": 47,
+          "active_h_per_day": 6.34,
+          "queries_per_day": 971.2
+        },
+        "last 3 working days": {
+          "days": 30,
+          "active_h_per_day": 20.57,
+          "queries_per_day": 5060.4
+        },
+        "other working day": {
+          "days": 189,
+          "active_h_per_day": 10.33,
+          "queries_per_day": 1952.6
+        },
+        "weekend": {
+          "days": 92,
+          "active_h_per_day": 1.5,
+          "queries_per_day": 41.1
+        }
+      },
+      "protection": [
+        {
+          "id": "L-01",
+          "type": "window",
+          "title": "Production platform is needed on the last three working days of each month until about 04:00.",
+          "period": "last 3 working days of every month from 00:00 until 04:00",
+          "source": {
+            "kind": "ticket",
+            "ref": "T-1029"
+          }
+        },
+        {
+          "id": "L-09",
+          "type": "window",
+          "title": "scheduled job «Month-end close» starts 18:00 (median 10.1 h); runs on 65 days a year",
+          "period": "see summary",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        },
+        {
+          "id": "L-10",
+          "type": "window",
+          "title": "scheduled job «Nightly ETL» starts 02:00 (median 1.5 h), must be done by 06:00",
+          "period": "every day from 02:00 until 06:00 (next 7 days shown)",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        },
+        {
+          "id": "L-11",
+          "type": "window",
+          "title": "scheduled job «PBI refresh large» starts 05:30 (median 1.2 h), must be done by 07:30",
+          "period": "every day from 05:30 until 07:30 (next 7 days shown)",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        },
+        {
+          "id": "L-12",
+          "type": "window",
+          "title": "scheduled job «Reporting export» starts 06:00 (median 0.5 h), must be done by 08:00; runs on 456 days a year",
+          "period": "see summary",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        },
+        {
+          "id": "L-13",
+          "type": "window",
+          "title": "scheduled job «Year-end close analysis» starts 20:00 (median 5.9 h); runs on 43 days a year",
+          "period": "see summary",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        }
+      ],
+      "decided_by": "Head of Consulting",
+      "measures_on_dp_prod": [],
+      "sources": [
+        "data_platform_usage.csv",
+        "it_tickets.csv (T-1029 and others, via the quarantined reader)",
+        "extra/data_platform_jobs.csv",
+        "business_calendar.csv",
+        "mapping_departments_tools.csv"
+      ]
     }
   }
 }

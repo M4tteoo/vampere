@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T11:55:03+01:00",
+  "generated_at": "2026-11-21T12:19:16+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -42,19 +42,19 @@
  },
  "baseline_recurring": {
   "cost_chf": {
-   "low": 473865.17,
+   "low": 473866.01,
    "mid": 474406.83,
-   "high": 474773.98
+   "high": 474773.14
   },
   "cost_eur": {
-   "low": 512582.2,
+   "low": 512583.11,
    "mid": 513168.12,
-   "high": 513565.27
+   "high": 513564.36
   },
   "cost_usd": {
-   "low": 596408.89,
+   "low": 596409.94,
    "mid": 597090.63,
-   "high": 597552.73
+   "high": 597551.67
   },
   "kwh": {
    "low": 14243.6,
@@ -108,19 +108,19 @@
    "reason": "One-off data egress due to file storage migration",
    "excess": {
     "cost_chf": {
-     "low": 365.47,
+     "low": 364.63,
      "mid": 365.2,
-     "high": 364.63
+     "high": 365.47
     },
     "cost_eur": {
-     "low": 394.22,
+     "low": 393.32,
      "mid": 393.93,
-     "high": 393.32
+     "high": 394.22
     },
     "cost_usd": {
-     "low": 462.72,
+     "low": 461.67,
      "mid": 462.38,
-     "high": 461.67
+     "high": 462.72
     },
     "kwh": {
      "low": 5.4,

@@ -90,10 +90,15 @@ class PackageModel:
         """Must reproduce the package in measures.json for its recorded mix."""
         got = self.levels(self.scenario)
         bad = []
+        # measures.json stores reductions as a contract Range (sorted low ≤ mid ≤ high); compare like with like
+        for key in ("co2", "cost"):
+            red = {lvl: float(got[lvl]["reduction"][key]) for lvl in LEVELS}
+            mine = {"low": min(red.values()), "mid": red["mid"], "high": max(red.values())}
+            for lvl in LEVELS:
+                want = self.package["reduction"][key][lvl]
+                if abs(mine[lvl] - want) > tol:
+                    bad.append(f"{key} {lvl}: {mine[lvl]:.4f} vs measures.json {want:.4f}")
         for lvl in LEVELS:
-            for key, want in (("co2", self.package["reduction"]["co2"][lvl]), ("cost", self.package["reduction"]["cost"][lvl])):
-                if abs(float(got[lvl]["reduction"][key]) - want) > tol:
-                    bad.append(f"{key} {lvl}: {float(got[lvl]['reduction'][key]):.4f} vs measures.json {want:.4f}")
             want = self.package["savings"]["co2_kg"][lvl]
             if abs(float(got[lvl]["savings"]["co2_kg"]) / want - 1) > tol:
                 bad.append(f"co2 savings {lvl}: {float(got[lvl]['savings']['co2_kg']):.1f} vs {want:.1f}")

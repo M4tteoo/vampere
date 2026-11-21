@@ -19,6 +19,11 @@ TZ = "Europe/Zurich"
 # ------------------------------------------------------------- helpers
 def _entity_ids(ctx: Context, scope: str) -> list[str]:
     kind, _, rest = scope.partition(":")
+    if kind == "res" and not ctx.tables["fact_cost"]["resource_id"].eq(rest).any():
+        # not billed itself (e.g. Power BI report pbi-07): point to the billed resource it runs on
+        pbi = ctx.tables.get("stg_powerbi_usage")
+        host = pbi.loc[pbi["report_id"] == rest, "resource_id"].dropna() if pbi is not None else []
+        return [f"res:{host.iat[0]}"] if len(host) else []
     if kind in ("res", "srv"):
         return [scope]
     if kind == "ai":
@@ -188,7 +193,9 @@ def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, raw_p
 
     package = {"measure_ids": [mkey[k] for k in pkg["measure_keys"]], "effort_days": pkg["effort_days"],
                "effort_chf": pkg["effort_chf"], "savings": metrics(pkg["savings"]),
-               "reduction": {k: {l: round(v, 4) for l, v in r.items()} for k, r in pkg["reduction"].items()},
+               # contract Range: low ≤ mid ≤ high (low factors give the HIGHER reduction, so sort)
+               "reduction": {k: {"low": round(min(r.values()), 4), "mid": round(r["mid"], 4), "high": round(max(r.values()), 4)}
+                             for k, r in pkg["reduction"].items()},
                "meets": pkg["meets"], "meets_at_low": pkg["meets_at_low"], "reasoning": plan["package"]["reasoning"],
                "edge_cases": [{"measure_id": mkey.get(e["measure_key"]), "explanation": e["explanation"]} for e in plan["edge_cases"]]}
 

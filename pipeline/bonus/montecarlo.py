@@ -47,7 +47,7 @@ def _quantile_triangular(u: np.ndarray, r: dict) -> np.ndarray:
 
 
 def _cost_draws(gen: np.random.Generator, pm: PackageModel, n: int) -> np.ndarray:
-    red = {lvl: float(pm.evaluate(at_level(factor_ranges("ch_consumption"), lvl), lvl)["reduction"]["cost"]) for lvl in LEVELS}
+    red = {lvl: float(pm.evaluate(at_level(factor_ranges(pm.scenario), lvl), lvl)["reduction"]["cost"]) for lvl in LEVELS}
     lo, hi = min(red.values()), max(red.values())
     return np.full(n, red["mid"]) if hi == lo else gen.triangular(lo, red["mid"], hi, n)
 
@@ -85,14 +85,15 @@ def run(ctx: Context) -> None:
     pm.check()
     gen = np.random.default_rng(SEED)
 
-    out, theta = _simulate(pm, "ch_consumption", gen)
+    scenario = pm.scenario                                          # the run's Swiss mix (config / --scenario)
+    out, theta = _simulate(pm, scenario, gen)
     co2 = np.asarray(out["reduction"]["co2"])
     cost = _cost_draws(gen, pm, N_DRAWS)
     budget = bool(pm.package["meets"]["budget"])
     both = (co2 >= TARGET["co2"]) & (cost >= TARGET["cost"]) & budget
 
     u = gen.random(N_DRAWS)                                         # stress: all factors at the same quantile
-    ranges = factor_ranges("ch_consumption")
+    ranges = factor_ranges(scenario)
     stress = np.asarray(pm.evaluate({p: _quantile_triangular(u, ranges[p]) for p in UNCERTAIN})["reduction"]["co2"])
 
     prod, _ = _simulate(pm, "ch_production", gen)
@@ -101,7 +102,7 @@ def run(ctx: Context) -> None:
     counts, edges = np.histogram(co2, bins=BINS)
     co2_sum = _summary(co2, TARGET["co2"])
     payload = {
-        "n_draws": N_DRAWS, "seed": SEED, "scenario": "ch_consumption",
+        "n_draws": N_DRAWS, "seed": SEED, "scenario": scenario,
         "package": {"measure_ids": pm.package["measure_ids"], "effort_days": pm.package["effort_days"],
                     "deterministic_mid": {"co2": round(float(pm.evaluate(at_level(ranges, "mid"))["reduction"]["co2"]), 4),
                                           "cost": round(float(pm.package["reduction"]["cost"]["mid"]), 4)}},
@@ -113,7 +114,7 @@ def run(ctx: Context) -> None:
         "package_savings_co2_kg": {f"p{p}": round(float(np.percentile(out["savings"]["co2_kg"], p)), 1) for p in PCT},
         "histogram": {"metric": "co2_reduction", "edges": [round(float(e), 4) for e in edges],
                       "counts": [int(c) for c in counts], "target": TARGET["co2"]},
-        "tornado": _tornado(pm, "ch_consumption"),
+        "tornado": _tornado(pm, scenario),
         "stress_all_factors_together": _summary(stress, TARGET["co2"]),
         "production_mix": _summary(prod_co2, TARGET["co2"]),
         "headline": f"The package reaches −40 % CO2 in {co2_sum['p_meet']:.0%} of {N_DRAWS:,} factor scenarios "

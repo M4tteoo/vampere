@@ -99,27 +99,8 @@ def apply(ctx: Context) -> None:
                 severity="warn")
         ctx.advisor = None
         return
-    if "ai_footprint" not in raw_p:
-        fp = _footprint_from_log(ctx)
-        if fp:
-            raw_p["ai_footprint"] = fp
-            _save("plan_raw.json", raw_p)
     constraints = _constraints(ctx, raw_c)
     ctx.advisor = _apply.build(ctx, facts, constraints, raw_c, raw_p)
-
-
-def _footprint_from_log(ctx: Context) -> dict | None:
-    """For an analysis saved before metering existed: take its calls (the last reader call and the
-    advisor rounds after it) from the local usage log, where the real token counts were written."""
-    log = ROOT / ctx.config["advisor"]["usage_log"]
-    if not log.exists():
-        return None
-    rows = [json.loads(l) for l in log.read_text(encoding="utf-8").splitlines() if l.strip()]
-    starts = [i for i, r in enumerate(rows) if r["purpose"] == "advisor.reader"]
-    if not starts:
-        return None
-    run = [rows[starts[-1]]] + [r for r in rows[starts[-1] + 1:] if r["purpose"].startswith("advisor.plan")]
-    return footprint(run, f"usage log of the saved run ({run[0]['at']} … {run[-1]['at']}, real token counts)")
 
 
 def export(ctx: Context) -> None:

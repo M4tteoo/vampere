@@ -94,6 +94,11 @@ class Calc:
 
 
 # ------------------------------------------------------------------ summary
+def _ordered(m: dict) -> dict:
+    """Contract Range: low ≤ mid ≤ high. Differences (event minus normal level) can invert the bounds."""
+    return {k: ({"low": min(r.values()), "mid": r["mid"], "high": max(r.values())} if r else r) for k, r in m.items()}
+
+
 def _one_off_excess(fc: pd.DataFrame, events: pd.DataFrame) -> list[dict]:
     out = []
     for e in events.itertuples():
@@ -109,7 +114,7 @@ def _one_off_excess(fc: pd.DataFrame, events: pd.DataFrame) -> list[dict]:
             ex = daily[inside].sum() - near.median() * inside.sum()
         out.append({"id": e.one_off_id, "resource_id": None if pd.isna(e.resource_id) else e.resource_id,
                     "ticket": e.ticket if isinstance(e.ticket, str) else None, "reason": e.reason,
-                    "excess": metrics(ex)})
+                    "excess": _ordered(metrics(ex))})
     return out
 
 
