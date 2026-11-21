@@ -217,8 +217,25 @@ def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, assem
             continue
         p_, _ = _package(calc, measures, opt["measure_keys"], mkey,
                          f"Optimal package for «{goal}» (optimiser, code)", edge)
-        packages[goal] = {"goal": goal, "feasible": True, **p_, "safety_met": opt.get("safety_met", True),
+        packages[goal] = {"goal": goal, "feasible": True, **p_, "safety_met": opt.get("safety_met"),
+                          "safety_rule": opt.get("safety_rule"), "p_meet_co2": opt.get("p_meet_co2"),
+                          "is_safest": bool(opt.get("is_safest")),
+                          **({"same_as": opt["same_as"]} if opt.get("same_as") else {}),
                           **({"note": opt["note"]} if opt.get("note") else {})}
+    dp = assembled["packages"].get(assembled["default_goal"], {})
+    package.update({"p_meet_co2": dp.get("p_meet_co2"), "is_safest": bool(dp.get("is_safest")), "safety_rule": dp.get("safety_rule")})
+    cfg_a = ctx.config["advisor"]
+    rules = {"co2_min": float(cfg_a["thresholds"]["co2"]), "cost_min": float(cfg_a["thresholds"]["cost"]),
+             "budget_chf": float(cfg_a["budget_chf"]), "chf_per_person_day": PERSON_DAY_CHF,
+             "baseline": {"cost_chf": round(float(calc.tot["cost_chf"]), 2), "kwh": round(float(calc.tot["kwh_mid"]), 1),
+                          "co2_kg": round(float(calc.tot["co2_kg_mid"]), 1)},
+             "how_to_recompute": "a package's measures do not overlap: totals = sum of the remaining measures' savings and "
+                                 "effort; reduction = savings / baseline; meets = reductions ≥ co2_min / cost_min and "
+                                 "effort_chf ≤ budget_chf; safety: see safety_scenarios.json"}
+    live = None
+    if assembled.get("live"):
+        live = {"baseline_co2_kg": assembled["live"]["baseline_co2"],
+                "measures": {mkey[k]: v for k, v in assembled["live"]["measures"].items() if k in mkey}}
     in_pkg_ids = set(package["measure_ids"])
     for m in out_m:
         m["in_package"] = m["id"] in in_pkg_ids
@@ -254,7 +271,7 @@ def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, assem
     kept = [{**k, "entity_ids": _entity_ids(ctx, k["target"] if ":" in k["target"] else f"res:{k['target']}")}
             for k in assembled["kept_on"]]
     return {"findings": out_f, "measures": out_m, "package": package, "packages": packages, "goals": assembled["goals"],
-            "kept_on": kept, "limits": limits, "constraints": constraints, "analysis": analysis,
+            "kept_on": kept, "limits": limits, "constraints": constraints, "analysis": analysis, "rules": rules, "live": live,
             "ignored": raw_c.get("ignored", []), "withheld": raw_c.get("withheld", []),
             "ai_footprint": analysis.get("ai_footprint")}
 
@@ -266,12 +283,18 @@ def export(ctx: Context) -> None:
     meta = _meta(ctx)
     files = {
         "measures.json": {"meta": meta, "measures": a["measures"], "package": a["package"],
-                          "packages": a["packages"], "goals": a["goals"], "kept_on": a["kept_on"],
+                          "packages": a["packages"], "goals": a["goals"], "kept_on": a["kept_on"], "rules": a["rules"],
                           "analysis": {k: v for k, v in a["analysis"].items() if k != "calls"},
                           "ai_footprint": a["ai_footprint"],
                           "additivity_note": "Measures are checked by code for overlap: savings of the package can be summed. "
                                              "Blocked measures are never part of the package."},
         "limits.json": {"meta": meta, "limits": a["limits"]},
+        **({"safety_scenarios.json": {
+            "meta": meta, "n_scenarios": len(a["live"]["baseline_co2_kg"]), "threshold_co2": a["rules"]["co2_min"],
+            "baseline_co2_kg": a["live"]["baseline_co2_kg"], "measures": a["live"]["measures"],
+            "how_to": "safe in X % (approx.) = share of scenarios j where Σ measures[m][j] over the package's remaining "
+                      "measures ≥ threshold_co2 × baseline_co2_kg[j]. The first N of the Monte Carlo panel's 10,000 draws "
+                      "(same seed): can differ from the panel's figure by about one point."}} if a.get("live") else {}),
         "advisor/report.json": {"meta": meta, "analysis": a["analysis"], "ai_footprint": a["ai_footprint"],
                                 "constraints": a["constraints"],
                                 "reader_ignored": a["ignored"], "reader_withheld": a["withheld"]},

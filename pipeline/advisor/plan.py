@@ -48,16 +48,31 @@ def assemble(ctx, facts: dict, constraints: list[dict], reviews: dict) -> dict:
     evaluated, problems = evaluate(calc, measures)
     baseline = {"cost_chf": calc.tot["cost_chf"], **{f"co2_kg_{l}": calc.tot[f"co2_kg_{l}"] for l in ("low", "mid", "high")}}
     thresholds = {"co2": float(cfg["thresholds"]["co2"]), "cost": float(cfg["thresholds"]["cost"])}
-    packages = all_goals(evaluated, baseline, float(cfg["budget_chf"]), thresholds, calc.resource_of)
+    mc = None
+    safety = cfg.get("safety") or {}
+    if safety.get("method", "monte_carlo") == "monte_carlo":
+        from .scenarios import Scenarios
+        sc = Scenarios(ctx, facts)
+        ms = safety.get("min_share_of_scenarios")
+        mc = {"S": [sc.co2_savings(m["_lines"]) for m in evaluated], "B": sc.baseline_co2,
+              "share": float(ms) if ms else None, "sample": int(safety.get("sample", 400)),
+              "share_by_goal": {g: float(v) for g, v in (safety.get("min_share_by_goal") or {}).items() if v}}
+    packages = all_goals(evaluated, baseline, float(cfg["budget_chf"]), thresholds, calc.resource_of, mc=mc)
     default = cfg["goal"]
     chosen = packages[default]
-    if not chosen["feasible"]:
-        notes.append(f"goal {default}: no package within the budget reaches the thresholds with pessimistic factors")
+    if chosen.get("safety_met") is False:
+        notes.append(f"goal {default}: no package within the budget meets the safety rule ({chosen.get('safety_rule')})")
     plan = {"findings": tb["findings"], "measures": measures,
             "package": {"measure_keys": chosen["measure_keys"],
                         "reasoning": f"Optimal package for goal «{default}» chosen by the optimiser (code) among "
                                      f"{sum(1 for m in evaluated if m['status'] != 'blocked')} eligible measures."},
             "edge_cases": [{"measure_key": m["key"], "explanation": "; ".join(m["gate_reasons"]) or m["risks"]}
                            for m in evaluated if m["status"] == "blocked"]}
+    live = None
+    if mc is not None:                         # per-measure CO2 savings in the first N scenarios, for live safety in the UI
+        nl = int(safety.get("live_scenarios", 1000))
+        live = {"baseline_co2": [round(float(v), 1) for v in sc.baseline_co2[:nl]],
+                "measures": {m["key"]: [round(float(v), 1) for v in sv[:nl]]
+                             for m, sv in zip(evaluated, mc["S"]) if m["status"] != "blocked"}}
     return {"plan": plan, "packages": packages, "default_goal": default, "kept_on": tb["kept_on"],
-            "notes": notes + problems, "goals": list(GOALS)}
+            "notes": notes + problems, "goals": list(GOALS) + (["safest"] if "safest" in packages else []), "live": live}

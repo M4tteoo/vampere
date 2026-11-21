@@ -99,6 +99,10 @@ compute:
   cpu_w_max:   {low: 2.50, mid: 3.63, high: 5.00}
   mem_w_per_gb: {low: 0.30, mid: 0.392, high: 0.50}
   default_utilisation: 0.50
+  # CPU utilisation of a server during hours WITHOUT work (used only by the advisor's savings calculator when a
+  # measure removes idle hours): monitoring agents, OS and cluster services keep running while no job runs.
+  # TEAM ASSUMPTION (proof of concept), shown in the submission table as an «Additional» row.
+  idle_background_utilisation: {low: 0.0, mid: 0.05, high: 0.10}
   source: >-
     Cloud Carbon Footprint methodology: average min/max W per vCPU AWS 0.74/3.5, Azure 0.78/3.76 (mid = mean),
     memory 0.392 W per GB; default utilisation 50 % when not measured. Retrieved 2026-11-21.

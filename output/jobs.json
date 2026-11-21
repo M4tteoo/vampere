@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T16:22:45+01:00",
+  "generated_at": "2026-11-21T19:40:55+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -1164,24 +1164,23 @@
  },
  "after_package": {
   "package_measures": [
-   "M-01",
+   "M-02",
    "M-03",
-   "M-04",
    "M-08",
-   "M-22",
-   "M-23",
+   "M-19",
    "M-25",
-   "M-27",
-   "M-29"
+   "M-36"
   ],
-  "relocated": {},
+  "relocated": {
+   "dp-dev": "CH"
+  },
   "energy_basis": {
    "dp-prod": "full",
-   "dp-dev": "full"
+   "dp-dev": "marginal"
   },
   "because_of": {
    "dp-dev": [
-    "M-01"
+    "M-02"
    ],
    "dp-prod": [
     "M-03"
@@ -1189,14 +1188,14 @@
   },
   "saving": {
    "saving_static": {
-    "low": 3.5,
+    "low": 3.0,
     "mid": 10.4,
-    "high": 24.2
+    "high": 24.7
    },
    "saving_dynamic": {
-    "low": 4.8,
-    "mid": 13.2,
-    "high": 30.6
+    "low": 3.4,
+    "mid": 11.5,
+    "high": 27.5
    }
   },
   "jobs": [
@@ -1227,37 +1226,37 @@
    {
     "job_name": "Dev smoke test",
     "resource_id": "dp-dev",
-    "location": "DE",
-    "basis": "full",
-    "suggested_start": "12:00",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "17:00",
     "saving_dynamic": {
-     "low": 0.86,
-     "mid": 1.62,
-     "high": 3.82
+     "low": 0.07,
+     "mid": 0.29,
+     "high": 0.81
     }
    },
    {
     "job_name": "Embedding update",
     "resource_id": "dp-dev",
-    "location": "DE",
-    "basis": "full",
-    "suggested_start": "12:00",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "18:00",
     "saving_dynamic": {
-     "low": 0.2,
-     "mid": 0.38,
-     "high": 0.89
+     "low": 0.26,
+     "mid": 1.12,
+     "high": 3.09
     }
    },
    {
     "job_name": "Test data refresh",
     "resource_id": "dp-dev",
-    "location": "DE",
-    "basis": "full",
-    "suggested_start": "17:00",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "18:00",
     "saving_dynamic": {
-     "low": 0.54,
-     "mid": 1.01,
-     "high": 2.39
+     "low": 0.01,
+     "mid": 0.06,
+     "high": 0.16
     }
    },
    {
@@ -1275,13 +1274,13 @@
    {
     "job_name": "Quarterly model training",
     "resource_id": "dp-dev",
-    "location": "DE",
-    "basis": "full",
-    "suggested_start": "00:00",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "03:00",
     "saving_dynamic": {
-     "low": 0.2,
-     "mid": 0.37,
-     "high": 0.87
+     "low": 0.06,
+     "mid": 0.26,
+     "high": 0.73
     }
    }
   ],

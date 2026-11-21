@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T16:22:46+01:00",
+  "generated_at": "2026-11-21T19:40:56+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -52,31 +52,28 @@
    },
    "package": {
     "measure_ids": [
-     "M-01",
+     "M-02",
      "M-03",
-     "M-04",
      "M-08",
-     "M-22",
-     "M-23",
+     "M-19",
      "M-25",
-     "M-27",
-     "M-29"
+     "M-36"
     ],
     "savings_co2_kg": {
-     "low": 1152.7,
-     "mid": 2260.7,
-     "high": 4935.9
+     "low": 1221.8,
+     "mid": 2173.9,
+     "high": 4505.1
     },
     "reduction": {
      "co2": {
-      "low": 0.4185,
-      "mid": 0.5043,
-      "high": 0.6096
+      "low": 0.3819,
+      "mid": 0.4849,
+      "high": 0.6462
      },
      "cost": {
-      "low": 0.2542,
-      "mid": 0.2545,
-      "high": 0.2548
+      "low": 0.2563,
+      "mid": 0.2566,
+      "high": 0.2568
      }
     },
     "meets": {
@@ -85,38 +82,35 @@
      "budget": true
     },
     "meets_at_low": {
-     "co2": true,
+     "co2": false,
      "cost": true
     }
    },
    "packages_by_goal": {
     "climate_first": {
      "measure_ids": [
-      "M-01",
+      "M-02",
       "M-03",
-      "M-04",
       "M-08",
-      "M-22",
-      "M-23",
+      "M-19",
       "M-25",
-      "M-27",
-      "M-29"
+      "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1152.7,
-      "mid": 2260.7,
-      "high": 4935.9
+      "low": 1221.8,
+      "mid": 2173.9,
+      "high": 4505.1
      },
      "reduction": {
       "co2": {
-       "low": 0.4185,
-       "mid": 0.5043,
-       "high": 0.6096
+       "low": 0.3819,
+       "mid": 0.4849,
+       "high": 0.6462
       },
       "cost": {
-       "low": 0.2542,
-       "mid": 0.2545,
-       "high": 0.2548
+       "low": 0.2563,
+       "mid": 0.2566,
+       "high": 0.2568
       }
      },
      "meets": {
@@ -125,7 +119,7 @@
       "budget": true
      },
      "meets_at_low": {
-      "co2": true,
+      "co2": false,
       "cost": true
      }
     },
@@ -133,27 +127,27 @@
      "measure_ids": [
       "M-01",
       "M-03",
-      "M-04",
       "M-08",
-      "M-21",
-      "M-22",
-      "M-29"
+      "M-25",
+      "M-26",
+      "M-33",
+      "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1147.1,
-      "mid": 2223.6,
-      "high": 4729.5
+      "low": 1071.9,
+      "mid": 2031.7,
+      "high": 4333.0
      },
      "reduction": {
       "co2": {
-       "low": 0.401,
-       "mid": 0.496,
-       "high": 0.6067
+       "low": 0.3673,
+       "mid": 0.4532,
+       "high": 0.5669
       },
       "cost": {
-       "low": 0.2533,
-       "mid": 0.2536,
-       "high": 0.2539
+       "low": 0.2549,
+       "mid": 0.2552,
+       "high": 0.2555
       }
      },
      "meets": {
@@ -162,7 +156,7 @@
       "budget": true
      },
      "meets_at_low": {
-      "co2": true,
+      "co2": false,
       "cost": true
      }
     },
@@ -170,30 +164,30 @@
      "measure_ids": [
       "M-01",
       "M-03",
-      "M-04",
       "M-08",
-      "M-09",
       "M-13",
       "M-15",
-      "M-21",
-      "M-22",
-      "M-29"
+      "M-17",
+      "M-19",
+      "M-25",
+      "M-33",
+      "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1147.1,
-      "mid": 2223.6,
-      "high": 4729.5
+      "low": 1068.6,
+      "mid": 2008.1,
+      "high": 4199.9
      },
      "reduction": {
       "co2": {
-       "low": 0.401,
-       "mid": 0.496,
-       "high": 0.6067
+       "low": 0.3561,
+       "mid": 0.4479,
+       "high": 0.5652
       },
       "cost": {
-       "low": 0.2952,
-       "mid": 0.2955,
-       "high": 0.2958
+       "low": 0.3005,
+       "mid": 0.3008,
+       "high": 0.3011
       }
      },
      "meets": {
@@ -202,7 +196,43 @@
       "budget": true
      },
      "meets_at_low": {
+      "co2": false,
+      "cost": true
+     }
+    },
+    "safest": {
+     "measure_ids": [
+      "M-02",
+      "M-03",
+      "M-08",
+      "M-19",
+      "M-25",
+      "M-36"
+     ],
+     "savings_co2_kg": {
+      "low": 1221.8,
+      "mid": 2173.9,
+      "high": 4505.1
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.3819,
+       "mid": 0.4849,
+       "high": 0.6462
+      },
+      "cost": {
+       "low": 0.2563,
+       "mid": 0.2566,
+       "high": 0.2568
+      }
+     },
+     "meets": {
       "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": false,
       "cost": true
      }
     }
@@ -210,62 +240,62 @@
    "measures": [
     {
      "id": "M-01",
-     "title": "Auto-pause dp-dev when idle",
+     "title": "Pause dev outside training",
      "status": "ok",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
-      "low": 592.1,
-      "mid": 961.0,
-      "high": 1929.7
+      "low": 567.7,
+      "mid": 921.4,
+      "high": 1850.1
      }
     },
     {
      "id": "M-02",
-     "title": "Pause dp-dev, move to Zurich",
+     "title": "Pause dev and move to CH",
      "status": "human",
-     "in_package": false,
+     "in_package": true,
      "co2_kg": {
-      "low": 631.0,
-      "mid": 862.9,
-      "high": 1746.0
+      "low": 729.1,
+      "mid": 1142.1,
+      "high": 2296.7
      }
     },
     {
      "id": "M-03",
-     "title": "Auto-pause dp-prod when idle",
+     "title": "Pause prod only when safe",
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 217.8,
-      "mid": 626.0,
-      "high": 1255.2
+      "low": 161.3,
+      "mid": 463.7,
+      "high": 929.9
      }
     },
     {
      "id": "M-04",
-     "title": "Run gpu-ml on demand",
+     "title": "Use GPU only on demand",
      "status": "ok",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
-      "low": 203.8,
-      "mid": 350.0,
-      "high": 715.0
+      "low": 162.0,
+      "mid": 278.2,
+      "high": 568.3
      }
     },
     {
      "id": "M-05",
-     "title": "Run gpu-ml in Zurich",
+     "title": "Use GPU on demand and move",
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 202.8,
-      "mid": 293.4,
-      "high": 603.9
+      "low": 230.8,
+      "mid": 377.7,
+      "high": 773.1
      }
     },
     {
      "id": "M-06",
-     "title": "Decommission forgotten servers",
+     "title": "Decommission 3 forgotten servers",
      "status": "human",
      "in_package": false,
      "co2_kg": {
@@ -276,28 +306,72 @@
     },
     {
      "id": "M-07",
-     "title": "Run test servers in office hours",
-     "status": "ok",
+     "title": "Run test and QA in office hours",
+     "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 189.0,
-      "mid": 324.1,
-      "high": 720.7
+      "low": 156.5,
+      "mid": 268.4,
+      "high": 601.5
      }
     },
     {
      "id": "M-08",
-     "title": "Rightsize vm-test after go-live",
+     "title": "Downsize vm-test",
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 121.9,
-      "mid": 208.2,
-      "high": 555.1
+      "low": 110.8,
+      "mid": 189.2,
+      "high": 504.6
      }
     },
     {
      "id": "M-09",
+     "title": "Downsize vm-test and move",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 147.8,
+      "mid": 234.6,
+      "high": 654.5
+     }
+    },
+    {
+     "id": "M-10",
+     "title": "Move vm-test to Zurich",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 116.2,
+      "mid": 142.5,
+      "high": 471.0
+     }
+    },
+    {
+     "id": "M-11",
+     "title": "Move cicd to Zurich",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 10.6,
+      "mid": 13.1,
+      "high": 44.8
+     }
+    },
+    {
+     "id": "M-12",
+     "title": "Move st-backup to Zurich",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 57.7,
+      "mid": 150.7,
+      "high": 701.3
+     }
+    },
+    {
+     "id": "M-13",
      "title": "Remove inactive CRM platform seats",
      "status": "human",
      "in_package": false,
@@ -308,7 +382,7 @@
      }
     },
     {
-     "id": "M-10",
+     "id": "M-14",
      "title": "Remove inactive Chat tool seats",
      "status": "human",
      "in_package": false,
@@ -319,7 +393,7 @@
      }
     },
     {
-     "id": "M-11",
+     "id": "M-15",
      "title": "Remove inactive ChatGPT Team seats",
      "status": "human",
      "in_package": false,
@@ -330,7 +404,7 @@
      }
     },
     {
-     "id": "M-12",
+     "id": "M-16",
      "title": "Remove inactive Design tool seats",
      "status": "human",
      "in_package": false,
@@ -341,7 +415,7 @@
      }
     },
     {
-     "id": "M-13",
+     "id": "M-17",
      "title": "Remove inactive E-signature seats",
      "status": "human",
      "in_package": false,
@@ -352,7 +426,7 @@
      }
     },
     {
-     "id": "M-14",
+     "id": "M-18",
      "title": "Remove inactive Knowledge base seats",
      "status": "human",
      "in_package": false,
@@ -363,10 +437,10 @@
      }
     },
     {
-     "id": "M-15",
+     "id": "M-19",
      "title": "Remove inactive Microsoft Copilot seats",
      "status": "human",
-     "in_package": false,
+     "in_package": true,
      "co2_kg": {
       "low": 0.0,
       "mid": 0.0,
@@ -374,7 +448,7 @@
      }
     },
     {
-     "id": "M-16",
+     "id": "M-20",
      "title": "Remove inactive Note-taking tool seats",
      "status": "human",
      "in_package": false,
@@ -385,7 +459,7 @@
      }
     },
     {
-     "id": "M-17",
+     "id": "M-21",
      "title": "Remove inactive Project management seats",
      "status": "human",
      "in_package": false,
@@ -396,7 +470,7 @@
      }
     },
     {
-     "id": "M-18",
+     "id": "M-22",
      "title": "Remove inactive Project scheduling seats",
      "status": "human",
      "in_package": false,
@@ -407,7 +481,7 @@
      }
     },
     {
-     "id": "M-19",
+     "id": "M-23",
      "title": "Remove inactive Survey tool seats",
      "status": "human",
      "in_package": false,
@@ -418,7 +492,7 @@
      }
     },
     {
-     "id": "M-20",
+     "id": "M-24",
      "title": "Remove inactive Ticket system seats",
      "status": "human",
      "in_package": false,
@@ -429,10 +503,10 @@
      }
     },
     {
-     "id": "M-21",
+     "id": "M-25",
      "title": "Remove inactive Video conferencing tool seats",
      "status": "human",
-     "in_package": false,
+     "in_package": true,
      "co2_kg": {
       "low": 0.0,
       "mid": 0.0,
@@ -440,10 +514,10 @@
      }
     },
     {
-     "id": "M-22",
-     "title": "Draft texts: default small model",
+     "id": "M-26",
+     "title": "Small model for draft texts",
      "status": "human",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
       "low": 3.3,
       "mid": 23.6,
@@ -451,10 +525,10 @@
      }
     },
     {
-     "id": "M-23",
-     "title": "Summarise: default small model",
+     "id": "M-27",
+     "title": "Small model for summaries",
      "status": "human",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
       "low": 2.2,
       "mid": 15.4,
@@ -462,8 +536,8 @@
      }
     },
     {
-     "id": "M-24",
-     "title": "Translate: default small model",
+     "id": "M-28",
+     "title": "Small model for translation",
      "status": "human",
      "in_package": false,
      "co2_kg": {
@@ -473,19 +547,8 @@
      }
     },
     {
-     "id": "M-25",
-     "title": "Classify: default small model",
-     "status": "human",
-     "in_package": true,
-     "co2_kg": {
-      "low": 2.9,
-      "mid": 20.9,
-      "high": 117.5
-     }
-    },
-    {
-     "id": "M-26",
-     "title": "Remove stale tables after review",
+     "id": "M-29",
+     "title": "Remove unread tables",
      "status": "human",
      "in_package": false,
      "co2_kg": {
@@ -495,10 +558,10 @@
      }
     },
     {
-     "id": "M-27",
+     "id": "M-30",
      "title": "Skip unchanged nightly builds",
      "status": "ok",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
       "low": 0.5,
       "mid": 0.8,
@@ -506,8 +569,19 @@
      }
     },
     {
-     "id": "M-28",
-     "title": "Run reports on request only",
+     "id": "M-31",
+     "title": "Skip builds and move to Zurich",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 10.7,
+      "mid": 13.5,
+      "high": 45.6
+     }
+    },
+    {
+     "id": "M-32",
+     "title": "Run reports on request",
      "status": "human",
      "in_package": false,
      "co2_kg": {
@@ -517,10 +591,10 @@
      }
     },
     {
-     "id": "M-29",
-     "title": "Shorten logs where allowed",
+     "id": "M-33",
+     "title": "Shorten log retention",
      "status": "human",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
       "low": 8.2,
       "mid": 54.9,
@@ -528,7 +602,7 @@
      }
     },
     {
-     "id": "M-30",
+     "id": "M-34",
      "title": "Reduce or switch off srv:dr-failover",
      "status": "blocked",
      "in_package": false,
@@ -539,7 +613,7 @@
      }
     },
     {
-     "id": "M-31",
+     "id": "M-35",
      "title": "Reduce or switch off st-backup",
      "status": "blocked",
      "in_package": false,
@@ -550,25 +624,36 @@
      }
     },
     {
-     "id": "M-32",
-     "title": "Prevent CI reruns",
+     "id": "M-36",
+     "title": "Retire idle GPU server",
      "status": "human",
-     "in_package": false,
+     "in_package": true,
      "co2_kg": {
-      "low": 0.7,
-      "mid": 1.3,
-      "high": 3.6
+      "low": 220.6,
+      "mid": 378.9,
+      "high": 773.9
      }
     },
     {
-     "id": "M-33",
-     "title": "Purge tmp schema",
+     "id": "M-37",
+     "title": "Move GPU server to Zurich",
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 1.2,
-      "mid": 7.6,
-      "high": 21.3
+      "low": 202.8,
+      "mid": 293.4,
+      "high": 603.9
+     }
+    },
+    {
+     "id": "M-38",
+     "title": "Small model for other assistant tasks",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 3.4,
+      "mid": 24.5,
+      "high": 137.8
      }
     }
    ]
@@ -615,31 +700,28 @@
    },
    "package": {
     "measure_ids": [
-     "M-01",
+     "M-02",
      "M-03",
-     "M-04",
      "M-08",
-     "M-22",
-     "M-23",
+     "M-19",
      "M-25",
-     "M-27",
-     "M-29"
+     "M-36"
     ],
     "savings_co2_kg": {
-     "low": 1006.0,
-     "mid": 1765.6,
-     "high": 3975.8
+     "low": 1139.0,
+     "mid": 1906.5,
+     "high": 3995.9
     },
     "reduction": {
      "co2": {
-      "low": 0.4287,
-      "mid": 0.5446,
-      "high": 0.6501
+      "low": 0.4309,
+      "mid": 0.5881,
+      "high": 0.7361
      },
      "cost": {
-      "low": 0.2542,
-      "mid": 0.2545,
-      "high": 0.2548
+      "low": 0.2563,
+      "mid": 0.2566,
+      "high": 0.2568
      }
     },
     "meets": {
@@ -655,31 +737,28 @@
    "packages_by_goal": {
     "climate_first": {
      "measure_ids": [
-      "M-01",
+      "M-02",
       "M-03",
-      "M-04",
       "M-08",
-      "M-22",
-      "M-23",
+      "M-19",
       "M-25",
-      "M-27",
-      "M-29"
+      "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1006.0,
-      "mid": 1765.6,
-      "high": 3975.8
+      "low": 1139.0,
+      "mid": 1906.5,
+      "high": 3995.9
      },
      "reduction": {
       "co2": {
-       "low": 0.4287,
-       "mid": 0.5446,
-       "high": 0.6501
+       "low": 0.4309,
+       "mid": 0.5881,
+       "high": 0.7361
       },
       "cost": {
-       "low": 0.2542,
-       "mid": 0.2545,
-       "high": 0.2548
+       "low": 0.2563,
+       "mid": 0.2566,
+       "high": 0.2568
       }
      },
      "meets": {
@@ -696,27 +775,27 @@
      "measure_ids": [
       "M-01",
       "M-03",
-      "M-04",
       "M-08",
-      "M-21",
-      "M-22",
-      "M-29"
+      "M-25",
+      "M-26",
+      "M-33",
+      "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1000.4,
-      "mid": 1728.5,
-      "high": 3769.3
+      "low": 961.9,
+      "mid": 1654.5,
+      "high": 3596.5
      },
      "reduction": {
       "co2": {
-       "low": 0.4065,
-       "mid": 0.5332,
-       "high": 0.6465
+       "low": 0.3878,
+       "mid": 0.5103,
+       "high": 0.6216
       },
       "cost": {
-       "low": 0.2533,
-       "mid": 0.2536,
-       "high": 0.2539
+       "low": 0.2549,
+       "mid": 0.2552,
+       "high": 0.2555
       }
      },
      "meets": {
@@ -725,7 +804,7 @@
       "budget": true
      },
      "meets_at_low": {
-      "co2": true,
+      "co2": false,
       "cost": true
      }
     },
@@ -733,30 +812,66 @@
      "measure_ids": [
       "M-01",
       "M-03",
-      "M-04",
       "M-08",
-      "M-09",
       "M-13",
       "M-15",
-      "M-21",
-      "M-22",
-      "M-29"
+      "M-17",
+      "M-19",
+      "M-25",
+      "M-33",
+      "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1000.4,
-      "mid": 1728.5,
-      "high": 3769.3
+      "low": 958.6,
+      "mid": 1630.9,
+      "high": 3463.4
      },
      "reduction": {
       "co2": {
-       "low": 0.4065,
-       "mid": 0.5332,
-       "high": 0.6465
+       "low": 0.3735,
+       "mid": 0.5031,
+       "high": 0.6195
       },
       "cost": {
-       "low": 0.2952,
-       "mid": 0.2955,
-       "high": 0.2958
+       "low": 0.3005,
+       "mid": 0.3008,
+       "high": 0.3011
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": false,
+      "cost": true
+     }
+    },
+    "safest": {
+     "measure_ids": [
+      "M-02",
+      "M-03",
+      "M-08",
+      "M-19",
+      "M-25",
+      "M-36"
+     ],
+     "savings_co2_kg": {
+      "low": 1139.0,
+      "mid": 1906.5,
+      "high": 3995.9
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4309,
+       "mid": 0.5881,
+       "high": 0.7361
+      },
+      "cost": {
+       "low": 0.2563,
+       "mid": 0.2566,
+       "high": 0.2568
       }
      },
      "meets": {
@@ -773,62 +888,62 @@
    "measures": [
     {
      "id": "M-01",
-     "title": "Auto-pause dp-dev when idle",
+     "title": "Pause dev outside training",
      "status": "ok",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
-      "low": 592.1,
-      "mid": 961.0,
-      "high": 1929.7
+      "low": 567.7,
+      "mid": 921.4,
+      "high": 1850.1
      }
     },
     {
      "id": "M-02",
-     "title": "Pause dp-dev, move to Zurich",
+     "title": "Pause dev and move to CH",
      "status": "human",
-     "in_package": false,
+     "in_package": true,
      "co2_kg": {
-      "low": 716.6,
-      "mid": 1135.8,
-      "high": 2254.8
+      "low": 751.0,
+      "mid": 1211.9,
+      "high": 2426.9
      }
     },
     {
      "id": "M-03",
-     "title": "Auto-pause dp-prod when idle",
+     "title": "Pause prod only when safe",
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 76.4,
-      "mid": 170.7,
-      "high": 392.2
+      "low": 56.6,
+      "mid": 126.5,
+      "high": 290.6
      }
     },
     {
      "id": "M-04",
-     "title": "Run gpu-ml on demand",
+     "title": "Use GPU only on demand",
      "status": "ok",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
-      "low": 203.8,
-      "mid": 350.0,
-      "high": 715.0
+      "low": 162.0,
+      "mid": 278.2,
+      "high": 568.3
      }
     },
     {
      "id": "M-05",
-     "title": "Run gpu-ml in Zurich",
+     "title": "Use GPU on demand and move",
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 230.3,
-      "mid": 386.2,
-      "high": 779.9
+      "low": 240.1,
+      "mid": 409.2,
+      "high": 832.8
      }
     },
     {
      "id": "M-06",
-     "title": "Decommission forgotten servers",
+     "title": "Decommission 3 forgotten servers",
      "status": "human",
      "in_package": false,
      "co2_kg": {
@@ -839,28 +954,72 @@
     },
     {
      "id": "M-07",
-     "title": "Run test servers in office hours",
-     "status": "ok",
+     "title": "Run test and QA in office hours",
+     "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 189.0,
-      "mid": 324.1,
-      "high": 720.7
+      "low": 156.5,
+      "mid": 268.4,
+      "high": 601.5
      }
     },
     {
      "id": "M-08",
-     "title": "Rightsize vm-test after go-live",
+     "title": "Downsize vm-test",
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 121.9,
-      "mid": 208.2,
-      "high": 555.1
+      "low": 110.8,
+      "mid": 189.2,
+      "high": 504.6
      }
     },
     {
      "id": "M-09",
+     "title": "Downsize vm-test and move",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 157.4,
+      "mid": 265.8,
+      "high": 713.4
+     }
+    },
+    {
+     "id": "M-10",
+     "title": "Move vm-test to Zurich",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 146.3,
+      "mid": 240.7,
+      "high": 656.0
+     }
+    },
+    {
+     "id": "M-11",
+     "title": "Move cicd to Zurich",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 13.3,
+      "mid": 22.1,
+      "high": 62.3
+     }
+    },
+    {
+     "id": "M-12",
+     "title": "Move st-backup to Zurich",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 72.7,
+      "mid": 254.7,
+      "high": 976.8
+     }
+    },
+    {
+     "id": "M-13",
      "title": "Remove inactive CRM platform seats",
      "status": "human",
      "in_package": false,
@@ -871,7 +1030,7 @@
      }
     },
     {
-     "id": "M-10",
+     "id": "M-14",
      "title": "Remove inactive Chat tool seats",
      "status": "human",
      "in_package": false,
@@ -882,7 +1041,7 @@
      }
     },
     {
-     "id": "M-11",
+     "id": "M-15",
      "title": "Remove inactive ChatGPT Team seats",
      "status": "human",
      "in_package": false,
@@ -893,7 +1052,7 @@
      }
     },
     {
-     "id": "M-12",
+     "id": "M-16",
      "title": "Remove inactive Design tool seats",
      "status": "human",
      "in_package": false,
@@ -904,7 +1063,7 @@
      }
     },
     {
-     "id": "M-13",
+     "id": "M-17",
      "title": "Remove inactive E-signature seats",
      "status": "human",
      "in_package": false,
@@ -915,7 +1074,7 @@
      }
     },
     {
-     "id": "M-14",
+     "id": "M-18",
      "title": "Remove inactive Knowledge base seats",
      "status": "human",
      "in_package": false,
@@ -926,10 +1085,10 @@
      }
     },
     {
-     "id": "M-15",
+     "id": "M-19",
      "title": "Remove inactive Microsoft Copilot seats",
      "status": "human",
-     "in_package": false,
+     "in_package": true,
      "co2_kg": {
       "low": 0.0,
       "mid": 0.0,
@@ -937,7 +1096,7 @@
      }
     },
     {
-     "id": "M-16",
+     "id": "M-20",
      "title": "Remove inactive Note-taking tool seats",
      "status": "human",
      "in_package": false,
@@ -948,7 +1107,7 @@
      }
     },
     {
-     "id": "M-17",
+     "id": "M-21",
      "title": "Remove inactive Project management seats",
      "status": "human",
      "in_package": false,
@@ -959,7 +1118,7 @@
      }
     },
     {
-     "id": "M-18",
+     "id": "M-22",
      "title": "Remove inactive Project scheduling seats",
      "status": "human",
      "in_package": false,
@@ -970,7 +1129,7 @@
      }
     },
     {
-     "id": "M-19",
+     "id": "M-23",
      "title": "Remove inactive Survey tool seats",
      "status": "human",
      "in_package": false,
@@ -981,7 +1140,7 @@
      }
     },
     {
-     "id": "M-20",
+     "id": "M-24",
      "title": "Remove inactive Ticket system seats",
      "status": "human",
      "in_package": false,
@@ -992,10 +1151,10 @@
      }
     },
     {
-     "id": "M-21",
+     "id": "M-25",
      "title": "Remove inactive Video conferencing tool seats",
      "status": "human",
-     "in_package": false,
+     "in_package": true,
      "co2_kg": {
       "low": 0.0,
       "mid": 0.0,
@@ -1003,10 +1162,10 @@
      }
     },
     {
-     "id": "M-22",
-     "title": "Draft texts: default small model",
+     "id": "M-26",
+     "title": "Small model for draft texts",
      "status": "human",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
       "low": 3.3,
       "mid": 23.6,
@@ -1014,10 +1173,10 @@
      }
     },
     {
-     "id": "M-23",
-     "title": "Summarise: default small model",
+     "id": "M-27",
+     "title": "Small model for summaries",
      "status": "human",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
       "low": 2.2,
       "mid": 15.4,
@@ -1025,8 +1184,8 @@
      }
     },
     {
-     "id": "M-24",
-     "title": "Translate: default small model",
+     "id": "M-28",
+     "title": "Small model for translation",
      "status": "human",
      "in_package": false,
      "co2_kg": {
@@ -1036,19 +1195,8 @@
      }
     },
     {
-     "id": "M-25",
-     "title": "Classify: default small model",
-     "status": "human",
-     "in_package": true,
-     "co2_kg": {
-      "low": 2.9,
-      "mid": 20.9,
-      "high": 117.5
-     }
-    },
-    {
-     "id": "M-26",
-     "title": "Remove stale tables after review",
+     "id": "M-29",
+     "title": "Remove unread tables",
      "status": "human",
      "in_package": false,
      "co2_kg": {
@@ -1058,10 +1206,10 @@
      }
     },
     {
-     "id": "M-27",
+     "id": "M-30",
      "title": "Skip unchanged nightly builds",
      "status": "ok",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
       "low": 0.5,
       "mid": 0.8,
@@ -1069,8 +1217,19 @@
      }
     },
     {
-     "id": "M-28",
-     "title": "Run reports on request only",
+     "id": "M-31",
+     "title": "Skip builds and move to Zurich",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 13.4,
+      "mid": 22.2,
+      "high": 62.6
+     }
+    },
+    {
+     "id": "M-32",
+     "title": "Run reports on request",
      "status": "human",
      "in_package": false,
      "co2_kg": {
@@ -1080,10 +1239,10 @@
      }
     },
     {
-     "id": "M-29",
-     "title": "Shorten logs where allowed",
+     "id": "M-33",
+     "title": "Shorten log retention",
      "status": "human",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
       "low": 2.9,
       "mid": 15.0,
@@ -1091,7 +1250,7 @@
      }
     },
     {
-     "id": "M-30",
+     "id": "M-34",
      "title": "Reduce or switch off srv:dr-failover",
      "status": "blocked",
      "in_package": false,
@@ -1102,7 +1261,7 @@
      }
     },
     {
-     "id": "M-31",
+     "id": "M-35",
      "title": "Reduce or switch off st-backup",
      "status": "blocked",
      "in_package": false,
@@ -1113,32 +1272,43 @@
      }
     },
     {
-     "id": "M-32",
-     "title": "Prevent CI reruns",
+     "id": "M-36",
+     "title": "Retire idle GPU server",
      "status": "human",
-     "in_package": false,
+     "in_package": true,
      "co2_kg": {
-      "low": 0.7,
-      "mid": 1.3,
-      "high": 3.6
+      "low": 220.6,
+      "mid": 378.9,
+      "high": 773.9
      }
     },
     {
-     "id": "M-33",
-     "title": "Purge tmp schema",
+     "id": "M-37",
+     "title": "Move GPU server to Zurich",
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 0.4,
-      "mid": 2.1,
-      "high": 6.7
+      "low": 230.3,
+      "mid": 386.2,
+      "high": 779.9
+     }
+    },
+    {
+     "id": "M-38",
+     "title": "Small model for other assistant tasks",
+     "status": "human",
+     "in_package": false,
+     "co2_kg": {
+      "low": 3.4,
+      "mid": 24.5,
+      "high": 137.8
      }
     }
    ]
   }
  },
  "holds_in_both": true,
- "conclusion": "The package (M-01, M-03, M-04, M-08, M-22, M-23, M-25, M-27, M-29) reaches −50.4% CO2 with the consumption mix and −54.5% with the production mix; cost −25.4% in both (CO2 factors do not change francs). It meets the target under both Swiss mixes. Over the full factor range: meets −40 % at the least favourable factors with the consumption mix, meets with the production mix.",
+ "conclusion": "The package (M-02, M-03, M-08, M-19, M-25, M-36) reaches −48.5% CO2 with the consumption mix and −58.8% with the production mix; cost −25.7% in both (CO2 factors do not change francs). It meets the target under both Swiss mixes. Over the full factor range: misses −40 % at the least favourable factors with the consumption mix, meets with the production mix.",
  "entities_co2_kg_production": {
   "dept:Consulting": {
    "low": 422.0,

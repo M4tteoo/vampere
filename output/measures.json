@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T16:22:45+01:00",
+  "generated_at": "2026-11-21T19:40:54+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -11,7 +11,7 @@
  "measures": [
   {
    "id": "M-01",
-   "title": "Auto-pause dp-dev when idle",
+   "title": "Pause dev outside training",
    "description": "dp-dev pauses after 30 min without work and starts on demand; protection windows stay covered by scheduled starts.",
    "type": "schedule",
    "entity_ids": [
@@ -42,23 +42,23 @@
      "high": 37757.46
     },
     "kwh": {
-     "low": 1794.2,
-     "mid": 2647.4,
-     "high": 4487.6
+     "low": 1720.2,
+     "mid": 2538.2,
+     "high": 4302.5
     },
     "co2_kg": {
-     "low": 592.1,
-     "mid": 961.0,
-     "high": 1929.7
+     "low": 567.7,
+     "mid": 921.4,
+     "high": 1850.1
     }
    },
    "status": "ok",
    "owner_role": "Head of IT",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": true,
+   "in_package": false,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-dev: cost × 0.78, energy × 0.78",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-dev: cost × 0.78, energy × 0.74",
     "inputs": [
      {
       "name": "res:dp-dev baseline cost",
@@ -88,33 +88,33 @@
      "Q-0075",
      "Q-0091"
     ],
-    "note": "Assumptions: Paused outside quarter-days 1-3 only. Risks: Short outages if pause rules misfire."
+    "note": "Assumptions: Idle share estimate is valid outside quarter days. Risks: Quarterly training days must stay online."
    },
    "effects": [
     {
      "scope": "res:dp-dev",
      "cost_share": 0.7762,
-     "energy_share": 0.7762,
+     "energy_share": 0.7441977143010007,
      "relocate_to": null,
      "base_cost_chf": 38591.71,
      "base_kwh": 3410.7,
      "base_co2_kg": 1238.1,
      "saved_cost_chf": 29954.88,
-     "saved_kwh": 2647.4,
-     "saved_co2_kg": 961.0,
+     "saved_kwh": 2538.2,
+     "saved_co2_kg": 921.4,
      "basis_fact_ids": [],
      "reasoning": ""
     }
    ],
    "proposed_status": "ok",
    "effort_reasoning": "",
-   "risks": "Short outages if pause rules misfire.",
-   "assumptions": "Paused outside quarter-days 1-3 only.",
+   "risks": "Quarterly training days must stay online.",
+   "assumptions": "Idle share estimate is valid outside quarter days.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
    "id": "M-02",
-   "title": "Pause dp-dev, move to Zurich",
+   "title": "Pause dev and move to CH",
    "description": "As auto-pause, plus migrate dp-dev from DE to the Zurich region (cleaner grid).",
    "type": "relocate",
    "entity_ids": [
@@ -130,38 +130,38 @@
    "effort_chf": 6600.0,
    "savings": {
     "cost_chf": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
+     "low": 29917.97,
+     "mid": 29954.88,
+     "high": 29999.63
     },
     "cost_eur": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
+     "low": 32358.32,
+     "mid": 32398.24,
+     "high": 32446.64
     },
     "cost_usd": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
+     "low": 37654.69,
+     "mid": 37701.14,
+     "high": 37757.46
     },
     "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
+     "low": 1720.2,
+     "mid": 2538.2,
+     "high": 4302.5
     },
     "co2_kg": {
-     "low": 631.0,
-     "mid": 862.9,
-     "high": 1746.0
+     "low": 729.1,
+     "mid": 1142.1,
+     "high": 2296.7
     }
    },
    "status": "human",
    "owner_role": "Head of IT",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": false,
+   "in_package": true,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-dev: cost × 0.00, energy × 0.00, rest moved to CH",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-dev: cost × 0.78, energy × 0.74, rest moved to CH",
     "inputs": [
      {
       "name": "res:dp-dev baseline cost",
@@ -171,7 +171,7 @@
      },
      {
       "name": "res:dp-dev cost share removed",
-      "value": 0.0,
+      "value": 0.7762,
       "unit": "share",
       "source": "advisor"
      }
@@ -191,33 +191,33 @@
      "Q-0075",
      "Q-0091"
     ],
-    "note": "Assumptions: Only CO2 changes from CH grid; price not in data. Risks: Cost impact unknown; needs finance decision."
+    "note": "Assumptions: Move affects only electricity source, not workload. Risks: Location change may need cost and platform sign-off."
    },
    "effects": [
     {
      "scope": "res:dp-dev",
-     "cost_share": 0.0,
-     "energy_share": 0.0,
+     "cost_share": 0.7762,
+     "energy_share": 0.7441977143010007,
      "relocate_to": "CH",
      "base_cost_chf": 38591.71,
      "base_kwh": 3410.7,
      "base_co2_kg": 1238.1,
-     "saved_cost_chf": 0.0,
-     "saved_kwh": 0.0,
-     "saved_co2_kg": 862.9,
+     "saved_cost_chf": 29954.88,
+     "saved_kwh": 2538.2,
+     "saved_co2_kg": 1142.1,
      "basis_fact_ids": [],
      "reasoning": ""
     }
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Cost impact unknown; needs finance decision.",
-   "assumptions": "Only CO2 changes from CH grid; price not in data.",
+   "risks": "Location change may need cost and platform sign-off.",
+   "assumptions": "Move affects only electricity source, not workload.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
    "id": "M-03",
-   "title": "Auto-pause dp-prod when idle",
+   "title": "Pause prod only when safe",
    "description": "dp-prod pauses after 30 min without work and starts on demand; protection windows stay covered by scheduled starts.",
    "type": "schedule",
    "entity_ids": [
@@ -253,14 +253,14 @@
      "high": 62761.18
     },
     "kwh": {
-     "low": 3820.2,
-     "mid": 5690.5,
-     "high": 9806.2
+     "low": 2830.1,
+     "mid": 4215.6,
+     "high": 7264.5
     },
     "co2_kg": {
-     "low": 217.8,
-     "mid": 626.0,
-     "high": 1255.2
+     "low": 161.3,
+     "mid": 463.7,
+     "high": 929.9
     }
    },
    "status": "human",
@@ -269,7 +269,7 @@
    "start_date": "2026-10-01",
    "in_package": true,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-prod: cost × 0.55, energy × 0.55",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-prod: cost × 0.55, energy × 0.41",
     "inputs": [
      {
       "name": "res:dp-prod baseline cost",
@@ -299,33 +299,33 @@
      "Q-0076",
      "Q-0092"
     ],
-    "note": "Assumptions: Pause only outside all listed production windows. Risks: Could interrupt nightly and month-end jobs."
+    "note": "Assumptions: Only idle time outside all required windows is paused. Risks: Many daily and month-end jobs limit safe pause windows."
    },
    "effects": [
     {
      "scope": "res:dp-prod",
      "cost_share": 0.5526,
-     "energy_share": 0.5526,
+     "energy_share": 0.40937186597478337,
      "relocate_to": null,
      "base_cost_chf": 90130.81,
      "base_kwh": 10297.7,
      "base_co2_kg": 1132.7,
      "saved_cost_chf": 49806.29,
-     "saved_kwh": 5690.5,
-     "saved_co2_kg": 626.0,
+     "saved_kwh": 4215.6,
+     "saved_co2_kg": 463.7,
      "basis_fact_ids": [],
      "reasoning": ""
     }
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Could interrupt nightly and month-end jobs.",
-   "assumptions": "Pause only outside all listed production windows.",
+   "risks": "Many daily and month-end jobs limit safe pause windows.",
+   "assumptions": "Only idle time outside all required windows is paused.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
    "id": "M-04",
-   "title": "Run gpu-ml on demand",
+   "title": "Use GPU only on demand",
    "description": "Stopped by default; started automatically for days 1–3 of each quarter and on request.",
    "type": "schedule",
    "entity_ids": [
@@ -354,23 +354,23 @@
      "high": 11935.38
     },
     "kwh": {
-     "low": 617.6,
-     "mid": 964.3,
-     "high": 1662.8
+     "low": 490.9,
+     "mid": 766.5,
+     "high": 1321.7
     },
     "co2_kg": {
-     "low": 203.8,
-     "mid": 350.0,
-     "high": 715.0
+     "low": 162.0,
+     "mid": 278.2,
+     "high": 568.3
     }
    },
    "status": "ok",
    "owner_role": "Head of Consulting",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": true,
+   "in_package": false,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.83",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.66",
     "inputs": [
      {
       "name": "res:gpu-ml baseline cost",
@@ -400,33 +400,33 @@
      "Q-0078",
      "Q-0104"
     ],
-    "note": "Assumptions: Keeps quarterly training days and current usage time. Risks: Training availability must stay intact."
+    "note": "Assumptions: Current usage pattern stays similar after scheduling. Risks: Quarterly training days must still work."
    },
    "effects": [
     {
      "scope": "res:gpu-ml",
      "cost_share": 0.8315,
-     "energy_share": 0.8315,
+     "energy_share": 0.6609327412499112,
      "relocate_to": null,
      "base_cost_chf": 11389.82,
      "base_kwh": 1159.7,
      "base_co2_kg": 421.0,
      "saved_cost_chf": 9470.64,
-     "saved_kwh": 964.3,
-     "saved_co2_kg": 350.0,
+     "saved_kwh": 766.5,
+     "saved_co2_kg": 278.2,
      "basis_fact_ids": [],
      "reasoning": ""
     }
    ],
    "proposed_status": "ok",
    "effort_reasoning": "",
-   "risks": "Training availability must stay intact.",
-   "assumptions": "Keeps quarterly training days and current usage time.",
+   "risks": "Quarterly training days must still work.",
+   "assumptions": "Current usage pattern stays similar after scheduling.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
    "id": "M-05",
-   "title": "Run gpu-ml in Zurich",
+   "title": "Use GPU on demand and move",
    "description": "As on-demand, plus move the GPU server from DE to Zurich.",
    "type": "relocate",
    "entity_ids": [
@@ -440,29 +440,29 @@
    "effort_chf": 3850.0,
    "savings": {
     "cost_chf": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
+     "low": 9457.13,
+     "mid": 9470.64,
+     "high": 9483.27
     },
     "cost_eur": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
+     "low": 10228.41,
+     "mid": 10243.02,
+     "high": 10256.68
     },
     "cost_usd": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
+     "low": 11902.48,
+     "mid": 11919.48,
+     "high": 11935.38
     },
     "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
+     "low": 490.9,
+     "mid": 766.5,
+     "high": 1321.7
     },
     "co2_kg": {
-     "low": 202.8,
-     "mid": 293.4,
-     "high": 603.9
+     "low": 230.8,
+     "mid": 377.7,
+     "high": 773.1
     }
    },
    "status": "human",
@@ -471,7 +471,7 @@
    "start_date": "2026-10-01",
    "in_package": false,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.00, energy × 0.00, rest moved to CH",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.66, rest moved to CH",
     "inputs": [
      {
       "name": "res:gpu-ml baseline cost",
@@ -481,7 +481,7 @@
      },
      {
       "name": "res:gpu-ml cost share removed",
-      "value": 0.0,
+      "value": 0.8315,
       "unit": "share",
       "source": "advisor"
      }
@@ -501,33 +501,33 @@
      "Q-0078",
      "Q-0104"
     ],
-    "note": "Assumptions: Only CO2 changes from CH grid; price not in data. Risks: Cost impact unknown; needs finance decision."
+    "note": "Assumptions: Move changes only grid mix, not runtime or capacity. Risks: Move needs confirmation on cost and operational impact."
    },
    "effects": [
     {
      "scope": "res:gpu-ml",
-     "cost_share": 0.0,
-     "energy_share": 0.0,
+     "cost_share": 0.8315,
+     "energy_share": 0.6609327412499112,
      "relocate_to": "CH",
      "base_cost_chf": 11389.82,
      "base_kwh": 1159.7,
      "base_co2_kg": 421.0,
-     "saved_cost_chf": 0.0,
-     "saved_kwh": 0.0,
-     "saved_co2_kg": 293.4,
+     "saved_cost_chf": 9470.64,
+     "saved_kwh": 766.5,
+     "saved_co2_kg": 377.7,
      "basis_fact_ids": [],
      "reasoning": ""
     }
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Cost impact unknown; needs finance decision.",
-   "assumptions": "Only CO2 changes from CH grid; price not in data.",
+   "risks": "Move needs confirmation on cost and operational impact.",
+   "assumptions": "Move changes only grid mix, not runtime or capacity.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
    "id": "M-06",
-   "title": "Decommission forgotten servers",
+   "title": "Decommission 3 forgotten servers",
    "description": "Snapshot, then delete poc-ki-2024, migration-alt, build-agent-old after the owner confirms.",
    "type": "decommission",
    "entity_ids": [
@@ -628,7 +628,7 @@
      "Q-0073",
      "Q-0106"
     ],
-    "note": "Assumptions: Owners confirm no business use or legal retention. Risks: Possible hidden dependency or retention need."
+    "note": "Assumptions: All three have no required business use. Risks: Hidden dependency or missing owner; verify before delete."
    },
    "effects": [
     {
@@ -676,13 +676,13 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Possible hidden dependency or retention need.",
-   "assumptions": "Owners confirm no business use or legal retention.",
+   "risks": "Hidden dependency or missing owner; verify before delete.",
+   "assumptions": "All three have no required business use.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
    "id": "M-07",
-   "title": "Run test servers in office hours",
+   "title": "Run test and QA in office hours",
    "description": "Automatic stop at 19:00 and on weekends, start at 07:00; kept on during announced test campaigns.",
    "type": "schedule",
    "entity_ids": [
@@ -721,23 +721,23 @@
      "high": 18384.69
     },
     "kwh": {
-     "low": 681.3,
-     "mid": 1050.0,
-     "high": 1805.4
+     "low": 573.0,
+     "mid": 882.1,
+     "high": 1516.4
     },
     "co2_kg": {
-     "low": 189.0,
-     "mid": 324.1,
-     "high": 720.7
+     "low": 156.5,
+     "mid": 268.4,
+     "high": 601.5
     }
    },
-   "status": "ok",
+   "status": "human",
    "owner_role": "Head of IT",
    "reason": "",
    "start_date": "2026-10-01",
    "in_package": false,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). srv:test-01: cost × 0.55, energy × 0.55 + srv:test-02: cost × 0.55, energy × 0.55 + srv:test-03: cost × 0.55, energy × 0.55 + srv:test-04: cost × 0.55, energy × 0.55 + srv:test-05: cost × 0.55, energy × 0.55 + srv:test-06: cost × 0.55, energy × 0.55 + srv:test-07: cost × 0.55, energy × 0.55 + srv:test-08: cost × 0.55, energy × 0.55 + srv:qa-regression-02: cost × 0.55, energy × 0.55 + srv:uat-shop: cost × 0.55, energy × 0.55 + srv:gpu-ml-01: cost × 0.55, energy × 0.55",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). srv:test-01: cost × 0.55, energy × 0.50 + srv:test-02: cost × 0.55, energy × 0.50 + srv:test-03: cost × 0.55, energy × 0.50 + srv:test-04: cost × 0.55, energy × 0.50 + srv:test-05: cost × 0.55, energy × 0.50 + srv:test-06: cost × 0.55, energy × 0.50 + srv:test-07: cost × 0.55, energy × 0.50 + srv:test-08: cost × 0.55, energy × 0.50 + srv:qa-regression-02: cost × 0.55, energy × 0.50 + srv:uat-shop: cost × 0.55, energy × 0.50 + srv:gpu-ml-01: cost × 0.55, energy × 0.43",
     "inputs": [
      {
       "name": "srv:test-01 baseline cost",
@@ -893,173 +893,173 @@
      "Q-0104",
      "Q-0106"
     ],
-    "note": "Assumptions: Nightly jobs can move or are unused. Risks: May affect overnight jobs or rare user access."
+    "note": "Assumptions: Office-hours-only downtime is acceptable for all listed servers. Risks: UAT and GPU workloads may need access outside office hours."
    },
    "effects": [
     {
      "scope": "srv:test-01",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 42.3,
-     "saved_co2_kg": 9.6,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-02",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 42.3,
-     "saved_co2_kg": 9.6,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-03",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 42.3,
-     "saved_co2_kg": 9.6,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-04",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1495.26,
      "base_kwh": 74.4,
      "base_co2_kg": 16.8,
      "saved_cost_chf": 817.01,
-     "saved_kwh": 40.7,
-     "saved_co2_kg": 9.2,
+     "saved_kwh": 37.0,
+     "saved_co2_kg": 8.4,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-05",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1524.87,
      "base_kwh": 75.9,
      "base_co2_kg": 17.2,
      "saved_cost_chf": 833.19,
-     "saved_kwh": 41.5,
-     "saved_co2_kg": 9.4,
+     "saved_kwh": 37.7,
+     "saved_co2_kg": 8.5,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-06",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 42.3,
-     "saved_co2_kg": 9.6,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-07",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1495.26,
      "base_kwh": 74.4,
      "base_co2_kg": 16.8,
      "saved_cost_chf": 817.01,
-     "saved_kwh": 40.7,
-     "saved_co2_kg": 9.2,
+     "saved_kwh": 37.0,
+     "saved_co2_kg": 8.4,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-08",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1495.26,
      "base_kwh": 74.4,
      "base_co2_kg": 16.8,
      "saved_cost_chf": 817.01,
-     "saved_kwh": 40.7,
-     "saved_co2_kg": 9.2,
+     "saved_kwh": 37.0,
+     "saved_co2_kg": 8.4,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:qa-regression-02",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 42.3,
-     "saved_co2_kg": 9.6,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:uat-shop",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1524.87,
      "base_kwh": 75.9,
      "base_co2_kg": 17.2,
      "saved_cost_chf": 833.19,
-     "saved_kwh": 41.5,
-     "saved_co2_kg": 9.4,
+     "saved_kwh": 37.7,
+     "saved_co2_kg": 8.5,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:gpu-ml-01",
      "cost_share": 0.5464,
-     "energy_share": 0.5464,
+     "energy_share": 0.43431587470709737,
      "relocate_to": null,
      "base_cost_chf": 11389.82,
      "base_kwh": 1159.7,
      "base_co2_kg": 421.0,
      "saved_cost_chf": 6223.4,
-     "saved_kwh": 633.7,
-     "saved_co2_kg": 230.0,
+     "saved_kwh": 503.7,
+     "saved_co2_kg": 182.8,
      "basis_fact_ids": [],
      "reasoning": ""
     }
    ],
-   "proposed_status": "ok",
+   "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "May affect overnight jobs or rare user access.",
-   "assumptions": "Nightly jobs can move or are unused.",
+   "risks": "UAT and GPU workloads may need access outside office hours.",
+   "assumptions": "Office-hours-only downtime is acceptable for all listed servers.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
    "id": "M-08",
-   "title": "Rightsize vm-test after go-live",
+   "title": "Downsize vm-test",
    "description": "Shrink vm-test to 25% of its vCPU (target 50 % CPU); scale up for test campaigns.",
    "type": "rightsize",
    "entity_ids": [
@@ -1090,14 +1090,14 @@
      "high": 23323.16
     },
     "kwh": {
-     "low": 609.5,
-     "mid": 921.1,
-     "high": 1577.0
+     "low": 554.0,
+     "mid": 837.3,
+     "high": 1433.5
     },
     "co2_kg": {
-     "low": 121.9,
-     "mid": 208.2,
-     "high": 555.1
+     "low": 110.8,
+     "mid": 189.2,
+     "high": 504.6
     }
    },
    "status": "human",
@@ -1106,7 +1106,7 @@
    "start_date": "2026-10-01",
    "in_package": true,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:vm-test: cost × 0.75, energy × 0.75",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:vm-test: cost × 0.75, energy × 0.68",
     "inputs": [
      {
       "name": "res:vm-test baseline cost",
@@ -1136,32 +1136,440 @@
      "Q-0073",
      "Q-0106"
     ],
-    "note": "Assumptions: Temporary project capacity can be reduced now. Risks: Needs project owner to confirm post-go-live sizing."
+    "note": "Assumptions: Acceptance testing and planned enlargement still require current size. Risks: Change must wait for freeze and project go-live."
    },
    "effects": [
     {
      "scope": "res:vm-test",
      "cost_share": 0.75,
-     "energy_share": 0.75,
+     "energy_share": 0.6817582200491376,
      "relocate_to": null,
      "base_cost_chf": 24674.33,
      "base_kwh": 1228.1,
      "base_co2_kg": 277.6,
      "saved_cost_chf": 18505.75,
-     "saved_kwh": 921.1,
-     "saved_co2_kg": 208.2,
+     "saved_kwh": 837.3,
+     "saved_co2_kg": 189.2,
      "basis_fact_ids": [],
      "reasoning": ""
     }
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Needs project owner to confirm post-go-live sizing.",
-   "assumptions": "Temporary project capacity can be reduced now.",
+   "risks": "Change must wait for freeze and project go-live.",
+   "assumptions": "Acceptance testing and planned enlargement still require current size.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
    "id": "M-09",
+   "title": "Downsize vm-test and move",
+   "description": "As the downsizing, plus move vm-test from IE to the provider's Zurich region (cleaner grid).",
+   "type": "relocate",
+   "entity_ids": [
+    "res:vm-test"
+   ],
+   "finding_ids": [
+    "F-08"
+   ],
+   "limit_ids": [
+    "L-02"
+   ],
+   "effort_days": 5.0,
+   "effort_chf": 5500.0,
+   "savings": {
+    "cost_chf": {
+     "low": 18452.73,
+     "mid": 18505.75,
+     "high": 18531.39
+    },
+    "cost_eur": {
+     "low": 19957.86,
+     "mid": 20015.21,
+     "high": 20042.94
+    },
+    "cost_usd": {
+     "low": 23224.16,
+     "mid": 23290.89,
+     "high": 23323.16
+    },
+    "kwh": {
+     "low": 554.0,
+     "mid": 837.3,
+     "high": 1433.5
+    },
+    "co2_kg": {
+     "low": 147.8,
+     "mid": 234.6,
+     "high": 654.5
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of IT",
+   "reason": "Safety gate: may affect protected ['srv:dr-failover'] (C-05) without addressing it",
+   "start_date": "2026-10-01",
+   "in_package": false,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:vm-test: cost × 0.75, energy × 0.68, rest moved to CH",
+    "inputs": [
+     {
+      "name": "res:vm-test baseline cost",
+      "value": 24674.33,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "res:vm-test cost share removed",
+      "value": 0.75,
+      "unit": "share",
+      "source": "advisor"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_vcpu_hour",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0024",
+     "Q-0073",
+     "Q-0106"
+    ],
+    "note": "Assumptions: AWS CH is available and the move is after freeze. Risks: Move plus resize needs business sign-off and outage planning."
+   },
+   "effects": [
+    {
+     "scope": "res:vm-test",
+     "cost_share": 0.75,
+     "energy_share": 0.6817582200491376,
+     "relocate_to": "CH",
+     "base_cost_chf": 24674.33,
+     "base_kwh": 1228.1,
+     "base_co2_kg": 277.6,
+     "saved_cost_chf": 18505.75,
+     "saved_kwh": 837.3,
+     "saved_co2_kg": 234.6,
+     "basis_fact_ids": [],
+     "reasoning": ""
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "",
+   "risks": "Move plus resize needs business sign-off and outage planning.",
+   "assumptions": "AWS CH is available and the move is after freeze.",
+   "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
+  },
+  {
+   "id": "M-10",
+   "title": "Move vm-test to Zurich",
+   "description": "Move vm-test from IE to the provider's Zurich region; servers keep running as today.",
+   "type": "relocate",
+   "entity_ids": [
+    "res:vm-test"
+   ],
+   "finding_ids": [],
+   "limit_ids": [
+    "L-02"
+   ],
+   "effort_days": 3.0,
+   "effort_chf": 3300.0,
+   "savings": {
+    "cost_chf": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_eur": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_usd": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "kwh": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "co2_kg": {
+     "low": 116.2,
+     "mid": 142.5,
+     "high": 471.0
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of IT",
+   "reason": "",
+   "start_date": "2026-10-01",
+   "in_package": false,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:vm-test: cost × 0.00, energy × 0.00, rest moved to CH",
+    "inputs": [
+     {
+      "name": "res:vm-test baseline cost",
+      "value": 24674.33,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "res:vm-test cost share removed",
+      "value": 0.0,
+      "unit": "share",
+      "source": "advisor"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_vcpu_hour",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0024",
+     "Q-0073",
+     "Q-0106"
+    ],
+    "note": "Assumptions: Relocation can wait until continuous availability is no longer required. Risks: No CO2 gain on cost/energy, and timing may disrupt testing."
+   },
+   "effects": [
+    {
+     "scope": "res:vm-test",
+     "cost_share": 0.0,
+     "energy_share": 0.0,
+     "relocate_to": "CH",
+     "base_cost_chf": 24674.33,
+     "base_kwh": 1228.1,
+     "base_co2_kg": 277.6,
+     "saved_cost_chf": 0.0,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 142.5,
+     "basis_fact_ids": [],
+     "reasoning": ""
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "",
+   "risks": "No CO2 gain on cost/energy, and timing may disrupt testing.",
+   "assumptions": "Relocation can wait until continuous availability is no longer required.",
+   "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
+  },
+  {
+   "id": "M-11",
+   "title": "Move cicd to Zurich",
+   "description": "Move cicd from IE to the provider's Zurich region. Nothing is switched off, reduced or deleted.",
+   "type": "relocate",
+   "entity_ids": [
+    "res:cicd"
+   ],
+   "finding_ids": [
+    "F-09"
+   ],
+   "limit_ids": [],
+   "effort_days": 3.0,
+   "effort_chf": 3300.0,
+   "savings": {
+    "cost_chf": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_eur": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_usd": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "kwh": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "co2_kg": {
+     "low": 10.6,
+     "mid": 13.1,
+     "high": 44.8
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of IT",
+   "reason": "",
+   "start_date": "2026-10-01",
+   "in_package": false,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:cicd: cost × 0.00, energy × 0.00, rest moved to CH",
+    "inputs": [
+     {
+      "name": "res:cicd baseline cost",
+      "value": 5566.27,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "res:cicd cost share removed",
+      "value": 0.0,
+      "unit": "share",
+      "source": "advisor"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_vcpu_hour",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0018",
+     "Q-0067"
+    ],
+    "note": "Assumptions: Only grid factor changes; runtime and usage stay equal. Risks: Prod timing and vendor choice need approval."
+   },
+   "effects": [
+    {
+     "scope": "res:cicd",
+     "cost_share": 0.0,
+     "energy_share": 0.0,
+     "relocate_to": "CH",
+     "base_cost_chf": 5566.27,
+     "base_kwh": 112.8,
+     "base_co2_kg": 25.5,
+     "saved_cost_chf": 0.0,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 13.1,
+     "basis_fact_ids": [],
+     "reasoning": ""
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "",
+   "risks": "Prod timing and vendor choice need approval.",
+   "assumptions": "Only grid factor changes; runtime and usage stay equal.",
+   "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
+  },
+  {
+   "id": "M-12",
+   "title": "Move st-backup to Zurich",
+   "description": "Move st-backup from IE to the provider's Zurich region. Nothing is switched off, reduced or deleted; retention obligations stay fully respected.",
+   "type": "relocate",
+   "entity_ids": [
+    "res:st-backup"
+   ],
+   "finding_ids": [
+    "F-10"
+   ],
+   "limit_ids": [
+    "L-03",
+    "L-06",
+    "L-13"
+   ],
+   "effort_days": 4.0,
+   "effort_chf": 4400.0,
+   "savings": {
+    "cost_chf": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_eur": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_usd": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "kwh": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "co2_kg": {
+     "low": 57.7,
+     "mid": 150.7,
+     "high": 701.3
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of IT",
+   "reason": "",
+   "start_date": "2026-10-01",
+   "in_package": false,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:st-backup: cost × 0.00, energy × 0.00, rest moved to CH",
+    "inputs": [
+     {
+      "name": "res:st-backup baseline cost",
+      "value": 9396.6,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "res:st-backup cost share removed",
+      "value": 0.0,
+      "unit": "share",
+      "source": "advisor"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_gb_storage_day",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0022",
+     "Q-0071"
+    ],
+    "note": "Assumptions: Only grid factor changes; data stays and backups continue. Risks: Backup window and retention obligations need review."
+   },
+   "effects": [
+    {
+     "scope": "res:st-backup",
+     "cost_share": 0.0,
+     "energy_share": 0.0,
+     "relocate_to": "CH",
+     "base_cost_chf": 9396.6,
+     "base_kwh": 1299.3,
+     "base_co2_kg": 293.7,
+     "saved_cost_chf": 0.0,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 150.7,
+     "basis_fact_ids": [],
+     "reasoning": ""
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "",
+   "risks": "Backup window and retention obligations need review.",
+   "assumptions": "Only grid factor changes; data stays and backups continue.",
+   "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
+  },
+  {
+   "id": "M-13",
    "title": "Remove inactive CRM platform seats",
    "description": "Reduce CRM platform seats to the active users plus a small buffer at the next possible date (2026-12-31).",
    "type": "licence",
@@ -1170,7 +1578,7 @@
     "lic:CRM platform@Sales"
    ],
    "finding_ids": [
-    "F-09"
+    "F-11"
    ],
    "limit_ids": [],
    "effort_days": 0.75,
@@ -1228,7 +1636,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at contract renewal. Risks: Verify no critical users before renewal."
+    "note": "Assumptions: Assumes inactive seats stay unused until renewal. Risks: Renewal cut needs owner approval; sales access may be affected."
    },
    "effects": [
     {
@@ -1248,12 +1656,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Verify no critical users before renewal.",
-   "assumptions": "Only inactive seats removed at contract renewal.",
+   "risks": "Renewal cut needs owner approval; sales access may be affected.",
+   "assumptions": "Assumes inactive seats stay unused until renewal.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-10",
+   "id": "M-14",
    "title": "Remove inactive Chat tool seats",
    "description": "Reduce Chat tool seats to the active users plus a small buffer at the next possible date (2026-10-01).",
    "type": "licence",
@@ -1267,7 +1675,7 @@
     "lic:Chat tool@Sales"
    ],
    "finding_ids": [
-    "F-10"
+    "F-12"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -1325,7 +1733,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at renewal. Risks: Check team coverage and shared accounts."
+    "note": "Assumptions: Assumes inactive seats are not needed for peak cover. Risks: Team usage may spike around projects; manager should confirm."
    },
    "effects": [
     {
@@ -1345,12 +1753,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Check team coverage and shared accounts.",
-   "assumptions": "Only inactive seats removed at renewal.",
+   "risks": "Team usage may spike around projects; manager should confirm.",
+   "assumptions": "Assumes inactive seats are not needed for peak cover.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-11",
+   "id": "M-15",
    "title": "Remove inactive ChatGPT Team seats",
    "description": "Reduce ChatGPT Team seats to the active users plus a small buffer at the next possible date (2026-10-01).",
    "type": "licence",
@@ -1360,7 +1768,7 @@
     "lic:ChatGPT Team@Sales"
    ],
    "finding_ids": [
-    "F-11"
+    "F-13"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -1418,7 +1826,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only unused seats removed at renewal. Risks: AI usage may spike for a few users."
+    "note": "Assumptions: Assumes only active users need direct seats. Risks: Very high cut; check if shared AI access is needed."
    },
    "effects": [
     {
@@ -1438,12 +1846,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "AI usage may spike for a few users.",
-   "assumptions": "Only unused seats removed at renewal.",
+   "risks": "Very high cut; check if shared AI access is needed.",
+   "assumptions": "Assumes only active users need direct seats.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-12",
+   "id": "M-16",
    "title": "Remove inactive Design tool seats",
    "description": "Reduce Design tool seats to the active users plus a small buffer at the next possible date (2026-10-01).",
    "type": "licence",
@@ -1451,7 +1859,7 @@
     "lic:Design tool@Marketing"
    ],
    "finding_ids": [
-    "F-12"
+    "F-14"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -1509,7 +1917,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Inactive seats removed at renewal only. Risks: Confirm designers still covered during peaks."
+    "note": "Assumptions: Assumes remaining users can cover design work. Risks: Small team can be blocked if roles overlap; confirm coverage."
    },
    "effects": [
     {
@@ -1529,12 +1937,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Confirm designers still covered during peaks.",
-   "assumptions": "Inactive seats removed at renewal only.",
+   "risks": "Small team can be blocked if roles overlap; confirm coverage.",
+   "assumptions": "Assumes remaining users can cover design work.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-13",
+   "id": "M-17",
    "title": "Remove inactive E-signature seats",
    "description": "Reduce E-signature seats to the active users plus a small buffer at the next possible date (2027-01-31).",
    "type": "licence",
@@ -1543,7 +1951,7 @@
     "lic:E-signature@Sales"
    ],
    "finding_ids": [
-    "F-13"
+    "F-15"
    ],
    "limit_ids": [],
    "effort_days": 0.75,
@@ -1601,7 +2009,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Inactive seats removed at renewal only. Risks: Legal signing capacity must not drop."
+    "note": "Assumptions: Assumes current signers are sufficient after cleanup. Risks: May affect approval flows; legal should confirm signer coverage."
    },
    "effects": [
     {
@@ -1621,12 +2029,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Legal signing capacity must not drop.",
-   "assumptions": "Inactive seats removed at renewal only.",
+   "risks": "May affect approval flows; legal should confirm signer coverage.",
+   "assumptions": "Assumes current signers are sufficient after cleanup.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-14",
+   "id": "M-18",
    "title": "Remove inactive Knowledge base seats",
    "description": "Reduce Knowledge base seats to the active users plus a small buffer at the next possible date (2027-04-30).",
    "type": "licence",
@@ -1636,7 +2044,7 @@
     "lic:Knowledge base@IT"
    ],
    "finding_ids": [
-    "F-14"
+    "F-16"
    ],
    "limit_ids": [],
    "effort_days": 0.75,
@@ -1694,7 +2102,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at renewal. Risks: Check editorial and admin access needs."
+    "note": "Assumptions: Assumes only active contributors need seats. Risks: Access gaps could hurt documentation work; confirm readers/editors."
    },
    "effects": [
     {
@@ -1714,12 +2122,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Check editorial and admin access needs.",
-   "assumptions": "Only inactive seats removed at renewal.",
+   "risks": "Access gaps could hurt documentation work; confirm readers/editors.",
+   "assumptions": "Assumes only active contributors need seats.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-15",
+   "id": "M-19",
    "title": "Remove inactive Microsoft Copilot seats",
    "description": "Reduce Microsoft Copilot seats to the active users plus a small buffer at the next possible date (2026-10-01).",
    "type": "licence",
@@ -1733,7 +2141,7 @@
     "lic:Microsoft Copilot@Sales"
    ],
    "finding_ids": [
-    "F-15"
+    "F-17"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -1769,7 +2177,7 @@
    "owner_role": "Head of Finance",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": false,
+   "in_package": true,
    "calc": {
     "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). lic:Microsoft Copilot: cost × 0.37, energy × 0.00",
     "inputs": [
@@ -1791,7 +2199,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at renewal. Risks: Ensure power users keep access."
+    "note": "Assumptions: Assumes inactive seats can be dropped without blocking users. Risks: Copilot use may be uneven; business owner should approve."
    },
    "effects": [
     {
@@ -1811,12 +2219,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Ensure power users keep access.",
-   "assumptions": "Only inactive seats removed at renewal.",
+   "risks": "Copilot use may be uneven; business owner should approve.",
+   "assumptions": "Assumes inactive seats can be dropped without blocking users.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-16",
+   "id": "M-20",
    "title": "Remove inactive Note-taking tool seats",
    "description": "Reduce Note-taking tool seats to the active users plus a small buffer at the next possible date (2026-10-01).",
    "type": "licence",
@@ -1824,7 +2232,7 @@
     "lic:Note-taking tool@Consulting"
    ],
    "finding_ids": [
-    "F-16"
+    "F-18"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -1882,7 +2290,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at renewal. Risks: Confirm meeting and sales coverage."
+    "note": "Assumptions: Assumes inactive seats are not needed for read access. Risks: Could break shared note access for occasional users; check first."
    },
    "effects": [
     {
@@ -1902,12 +2310,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Confirm meeting and sales coverage.",
-   "assumptions": "Only inactive seats removed at renewal.",
+   "risks": "Could break shared note access for occasional users; check first.",
+   "assumptions": "Assumes inactive seats are not needed for read access.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-17",
+   "id": "M-21",
    "title": "Remove inactive Project management seats",
    "description": "Reduce Project management seats to the active users plus a small buffer at the next possible date (2026-10-01).",
    "type": "licence",
@@ -1916,7 +2324,7 @@
     "lic:Project management@IT"
    ],
    "finding_ids": [
-    "F-17"
+    "F-19"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -1974,7 +2382,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at renewal. Risks: Project leads may need temporary access."
+    "note": "Assumptions: Assumes inactive users can stay off the tool. Risks: Project leads may need temporary access; confirm with owners."
    },
    "effects": [
     {
@@ -1994,12 +2402,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Project leads may need temporary access.",
-   "assumptions": "Only inactive seats removed at renewal.",
+   "risks": "Project leads may need temporary access; confirm with owners.",
+   "assumptions": "Assumes inactive users can stay off the tool.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-18",
+   "id": "M-22",
    "title": "Remove inactive Project scheduling seats",
    "description": "Reduce Project scheduling seats to the active users plus a small buffer at the next possible date (2027-01-31).",
    "type": "licence",
@@ -2008,7 +2416,7 @@
     "lic:Project scheduling@IT"
    ],
    "finding_ids": [
-    "F-18"
+    "F-20"
    ],
    "limit_ids": [],
    "effort_days": 0.75,
@@ -2066,7 +2474,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at renewal. Risks: Scheduling admins may be seasonal users."
+    "note": "Assumptions: Assumes removed seats are not needed for peak planning. Risks: Scheduling access is operational; confirm backup users first."
    },
    "effects": [
     {
@@ -2086,12 +2494,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Scheduling admins may be seasonal users.",
-   "assumptions": "Only inactive seats removed at renewal.",
+   "risks": "Scheduling access is operational; confirm backup users first.",
+   "assumptions": "Assumes removed seats are not needed for peak planning.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-19",
+   "id": "M-23",
    "title": "Remove inactive Survey tool seats",
    "description": "Reduce Survey tool seats to the active users plus a small buffer at the next possible date (2026-12-31).",
    "type": "licence",
@@ -2099,7 +2507,7 @@
     "lic:Survey tool@Marketing"
    ],
    "finding_ids": [
-    "F-19"
+    "F-21"
    ],
    "limit_ids": [],
    "effort_days": 0.75,
@@ -2157,7 +2565,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at renewal. Risks: Very high reduction; confirm campaign needs."
+    "note": "Assumptions: Assumes only one active user needs full access. Risks: Large cut; confirm campaign owners and survey admins."
    },
    "effects": [
     {
@@ -2177,12 +2585,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Very high reduction; confirm campaign needs.",
-   "assumptions": "Only inactive seats removed at renewal.",
+   "risks": "Large cut; confirm campaign owners and survey admins.",
+   "assumptions": "Assumes only one active user needs full access.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-20",
+   "id": "M-24",
    "title": "Remove inactive Ticket system seats",
    "description": "Reduce Ticket system seats to the active users plus a small buffer at the next possible date (2026-10-01).",
    "type": "licence",
@@ -2191,7 +2599,7 @@
     "lic:Ticket system@IT"
    ],
    "finding_ids": [
-    "F-20"
+    "F-22"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -2249,7 +2657,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at renewal. Risks: Support coverage must remain unchanged."
+    "note": "Assumptions: Assumes inactive seats are not needed for ticket handling. Risks: Support coverage may drop if occasional agents lose access."
    },
    "effects": [
     {
@@ -2269,12 +2677,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Support coverage must remain unchanged.",
-   "assumptions": "Only inactive seats removed at renewal.",
+   "risks": "Support coverage may drop if occasional agents lose access.",
+   "assumptions": "Assumes inactive seats are not needed for ticket handling.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-21",
+   "id": "M-25",
    "title": "Remove inactive Video conferencing tool seats",
    "description": "Reduce Video conferencing tool seats to the active users plus a small buffer at the next possible date (2026-10-01).",
    "type": "licence",
@@ -2288,7 +2696,7 @@
     "lic:Video conferencing tool@Sales"
    ],
    "finding_ids": [
-    "F-21"
+    "F-23"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -2324,7 +2732,7 @@
    "owner_role": "Head of Finance",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": false,
+   "in_package": true,
    "calc": {
     "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). lic:Video conferencing tool: cost × 0.42, energy × 0.00",
     "inputs": [
@@ -2346,7 +2754,7 @@
     "row_count": 0,
     "value_status": "observed",
     "issue_ids": [],
-    "note": "Assumptions: Only inactive seats removed at renewal. Risks: External meeting hosts need capacity."
+    "note": "Assumptions: Assumes inactive users do not host or present. Risks: Could hinder meeting coverage for occasional hosts; check first."
    },
    "effects": [
     {
@@ -2366,20 +2774,20 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "External meeting hosts need capacity.",
-   "assumptions": "Only inactive seats removed at renewal.",
+   "risks": "Could hinder meeting coverage for occasional hosts; check first.",
+   "assumptions": "Assumes inactive users do not host or present.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-22",
-   "title": "Draft texts: default small model",
+   "id": "M-26",
+   "title": "Small model for draft texts",
    "description": "Route the task to the small model; the large model stays available for complex cases.",
    "type": "model_switch",
    "entity_ids": [
     "res:ai-assistant"
    ],
    "finding_ids": [
-    "F-22"
+    "F-24"
    ],
    "limit_ids": [],
    "effort_days": 1.0,
@@ -2415,7 +2823,7 @@
    "owner_role": "Head of IT",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": true,
+   "in_package": false,
    "calc": {
     "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). ai:ai-assistant:Draft texts:large: cost × 0.42, energy × 0.45",
     "inputs": [
@@ -2443,7 +2851,7 @@
     "row_count": 26734,
     "value_status": "derived_cross_source",
     "issue_ids": [],
-    "note": "Assumptions: Applied only where reviewers accept simpler outputs. Risks: Text quality may drop for sensitive drafts."
+    "note": "Assumptions: 60% of requests move; savings only apply on those requests. Risks: Quality and user acceptance need a person’s sign-off."
    },
    "effects": [
     {
@@ -2463,20 +2871,20 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Text quality may drop for sensitive drafts.",
-   "assumptions": "Applied only where reviewers accept simpler outputs.",
+   "risks": "Quality and user acceptance need a person’s sign-off.",
+   "assumptions": "60% of requests move; savings only apply on those requests.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-23",
-   "title": "Summarise: default small model",
+   "id": "M-27",
+   "title": "Small model for summaries",
    "description": "Route the task to the small model; the large model stays available for complex cases.",
    "type": "model_switch",
    "entity_ids": [
     "res:ai-assistant"
    ],
    "finding_ids": [
-    "F-23"
+    "F-25"
    ],
    "limit_ids": [],
    "effort_days": 1.0,
@@ -2512,7 +2920,7 @@
    "owner_role": "Head of IT",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": true,
+   "in_package": false,
    "calc": {
     "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). ai:ai-assistant:Summarise:large: cost × 0.42, energy × 0.45",
     "inputs": [
@@ -2540,7 +2948,7 @@
     "row_count": 26734,
     "value_status": "derived_cross_source",
     "issue_ids": [],
-    "note": "Assumptions: Users can switch to large model when needed. Risks: Missing nuance in long or technical summaries."
+    "note": "Assumptions: 60% of requests move; savings only apply on those requests. Risks: Output quality may change for important summaries."
    },
    "effects": [
     {
@@ -2560,20 +2968,20 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Missing nuance in long or technical summaries.",
-   "assumptions": "Users can switch to large model when needed.",
+   "risks": "Output quality may change for important summaries.",
+   "assumptions": "60% of requests move; savings only apply on those requests.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-24",
-   "title": "Translate: default small model",
+   "id": "M-28",
+   "title": "Small model for translation",
    "description": "Route the task to the small model; the large model stays available for complex cases.",
    "type": "model_switch",
    "entity_ids": [
     "res:ai-assistant"
    ],
    "finding_ids": [
-    "F-24"
+    "F-26"
    ],
    "limit_ids": [],
    "effort_days": 1.0,
@@ -2637,7 +3045,7 @@
     "row_count": 26734,
     "value_status": "derived_cross_source",
     "issue_ids": [],
-    "note": "Assumptions: Large model remains available for critical translations. Risks: Terminology errors on legal or client texts."
+    "note": "Assumptions: 60% of requests move; savings only apply on those requests. Risks: Terminology quality needs spot checks."
    },
    "effects": [
     {
@@ -2657,121 +3065,20 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Terminology errors on legal or client texts.",
-   "assumptions": "Large model remains available for critical translations.",
+   "risks": "Terminology quality needs spot checks.",
+   "assumptions": "60% of requests move; savings only apply on those requests.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-25",
-   "title": "Classify: default small model",
-   "description": "Route the task to the small model; the large model stays available for complex cases.",
-   "type": "model_switch",
-   "entity_ids": [
-    "res:ai-marketing"
-   ],
-   "finding_ids": [
-    "F-25"
-   ],
-   "limit_ids": [],
-   "effort_days": 1.0,
-   "effort_chf": 1100.0,
-   "savings": {
-    "cost_chf": {
-     "low": 3428.91,
-     "mid": 3428.91,
-     "high": 3428.91
-    },
-    "cost_eur": {
-     "low": 3708.31,
-     "mid": 3708.31,
-     "high": 3708.31
-    },
-    "cost_usd": {
-     "low": 4312.29,
-     "mid": 4312.29,
-     "high": 4312.29
-    },
-    "kwh": {
-     "low": 19.6,
-     "mid": 97.9,
-     "high": 391.6
-    },
-    "co2_kg": {
-     "low": 2.9,
-     "mid": 20.9,
-     "high": 117.5
-    }
-   },
-   "status": "human",
-   "owner_role": "Head of Marketing",
-   "reason": "",
-   "start_date": "2026-10-01",
-   "in_package": true,
-   "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). ai:ai-marketing:Classify:large: cost × 0.42, energy × 0.45",
-    "inputs": [
-     {
-      "name": "ai:ai-marketing:Classify:large baseline cost",
-      "value": 8164.08,
-      "unit": "CHF",
-      "source": "fact_cost"
-     },
-     {
-      "name": "ai:ai-marketing:Classify:large cost share removed",
-      "value": 0.42,
-      "unit": "share",
-      "source": "advisor"
-     }
-    ],
-    "factor_ids": [
-     "energy_per_1000_tokens",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "ai_usage.csv",
-     "extra/ai_invoice_monthly.csv"
-    ],
-    "row_count": 385,
-    "value_status": "derived_cross_source",
-    "issue_ids": [
-     "Q-0086",
-     "Q-0099",
-     "Q-0103"
-    ],
-    "note": "Assumptions: Exclude the fixed bug traffic from recurring savings. Risks: Past script bug was one-off; quality must be checked."
-   },
-   "effects": [
-    {
-     "scope": "ai:ai-marketing:Classify:large",
-     "cost_share": 0.42,
-     "energy_share": 0.45,
-     "relocate_to": null,
-     "base_cost_chf": 8164.08,
-     "base_kwh": 217.5,
-     "base_co2_kg": 46.3,
-     "saved_cost_chf": 3428.91,
-     "saved_kwh": 97.9,
-     "saved_co2_kg": 20.9,
-     "basis_fact_ids": [],
-     "reasoning": ""
-    }
-   ],
-   "proposed_status": "human",
-   "effort_reasoning": "",
-   "risks": "Past script bug was one-off; quality must be checked.",
-   "assumptions": "Exclude the fixed bug traffic from recurring savings.",
-   "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
-  },
-  {
-   "id": "M-26",
-   "title": "Remove stale tables after review",
+   "id": "M-29",
+   "title": "Remove unread tables",
    "description": "Owners review the list; unread tables without retention are archived to cold storage or deleted.",
    "type": "storage",
    "entity_ids": [
     "res:dp-storage"
    ],
    "finding_ids": [
-    "F-26"
+    "F-28"
    ],
    "limit_ids": [],
    "effort_days": 2.0,
@@ -2838,7 +3145,7 @@
      "Q-0010",
      "Q-0077"
     ],
-    "note": "Assumptions: Owner confirms retention needs before deletion. Risks: Some old tables may still have business or legal value."
+    "note": "Assumptions: Only verified no-retention tables are removed. Risks: Retention flags are incomplete; owner must confirm deletions."
    },
    "effects": [
     {
@@ -2858,12 +3165,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Some old tables may still have business or legal value.",
-   "assumptions": "Owner confirms retention needs before deletion.",
+   "risks": "Retention flags are incomplete; owner must confirm deletions.",
+   "assumptions": "Only verified no-retention tables are removed.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-27",
+   "id": "M-30",
    "title": "Skip unchanged nightly builds",
    "description": "The nightly build runs only if there were commits since the last one.",
    "type": "pipeline",
@@ -2871,7 +3178,7 @@
     "res:cicd"
    ],
    "finding_ids": [
-    "F-27"
+    "F-29"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -2907,7 +3214,7 @@
    "owner_role": "Head of IT",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": true,
+   "in_package": false,
    "calc": {
     "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:cicd: cost × 0.03, energy × 0.03",
     "inputs": [
@@ -2938,7 +3245,7 @@
      "Q-0018",
      "Q-0067"
     ],
-    "note": "Assumptions: Change detection is reliable. Risks: Very low; only empty builds are skipped."
+    "note": "Assumptions: Nightly builds with no commits are safely skipped. Risks: Low risk; only suppresses no-change nightlies."
    },
    "effects": [
     {
@@ -2958,20 +3265,120 @@
    ],
    "proposed_status": "ok",
    "effort_reasoning": "",
-   "risks": "Very low; only empty builds are skipped.",
-   "assumptions": "Change detection is reliable.",
+   "risks": "Low risk; only suppresses no-change nightlies.",
+   "assumptions": "Nightly builds with no commits are safely skipped.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-28",
-   "title": "Run reports on request only",
+   "id": "M-31",
+   "title": "Skip builds and move to Zurich",
+   "description": "As above, plus move the build runners to the provider's Zurich region.",
+   "type": "relocate",
+   "entity_ids": [
+    "res:cicd"
+   ],
+   "finding_ids": [
+    "F-29"
+   ],
+   "limit_ids": [],
+   "effort_days": 1.5,
+   "effort_chf": 1650.0,
+   "savings": {
+    "cost_chf": {
+     "low": 176.59,
+     "mid": 179.23,
+     "high": 180.3
+    },
+    "cost_eur": {
+     "low": 190.95,
+     "mid": 193.81,
+     "high": 194.97
+    },
+    "cost_usd": {
+     "low": 222.18,
+     "mid": 225.5,
+     "high": 226.85
+    },
+    "kwh": {
+     "low": 2.4,
+     "mid": 3.6,
+     "high": 6.4
+    },
+    "co2_kg": {
+     "low": 10.7,
+     "mid": 13.5,
+     "high": 45.6
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of IT",
+   "reason": "",
+   "start_date": "2026-10-01",
+   "in_package": false,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:cicd: cost × 0.03, energy × 0.03, rest moved to CH",
+    "inputs": [
+     {
+      "name": "res:cicd baseline cost",
+      "value": 5566.27,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "res:cicd cost share removed",
+      "value": 0.0322,
+      "unit": "share",
+      "source": "advisor"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_vcpu_hour",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0018",
+     "Q-0067"
+    ],
+    "note": "Assumptions: Only grid factor changes; skip logic stays unchanged. Risks: Relocation needs an owner decision; pipeline behavior is fine."
+   },
+   "effects": [
+    {
+     "scope": "res:cicd",
+     "cost_share": 0.0322,
+     "energy_share": 0.0322,
+     "relocate_to": "CH",
+     "base_cost_chf": 5566.27,
+     "base_kwh": 112.8,
+     "base_co2_kg": 25.5,
+     "saved_cost_chf": 179.23,
+     "saved_kwh": 3.6,
+     "saved_co2_kg": 13.5,
+     "basis_fact_ids": [],
+     "reasoning": ""
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "",
+   "risks": "Relocation needs an owner decision; pipeline behavior is fine.",
+   "assumptions": "Only grid factor changes; skip logic stays unchanged.",
+   "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
+  },
+  {
+   "id": "M-32",
+   "title": "Run reports on request",
    "description": "The report agent runs when someone asks for a report instead of on a schedule.",
    "type": "other",
    "entity_ids": [
     "res:ai-report"
    ],
    "finding_ids": [
-    "F-28"
+    "F-30"
    ],
    "limit_ids": [],
    "effort_days": 0.5,
@@ -3037,7 +3444,7 @@
     "issue_ids": [
      "Q-0088"
     ],
-    "note": "Assumptions: Unopened reports can be replaced by ad hoc runs. Risks: Some stakeholders may still expect automatic delivery."
+    "note": "Assumptions: Unopened reports can be made pull-based. Risks: Push reporting may be needed for some teams."
    },
    "effects": [
     {
@@ -3057,20 +3464,20 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Some stakeholders may still expect automatic delivery.",
-   "assumptions": "Unopened reports can be replaced by ad hoc runs.",
+   "risks": "Push reporting may be needed for some teams.",
+   "assumptions": "Unopened reports can be made pull-based.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-29",
-   "title": "Shorten logs where allowed",
+   "id": "M-33",
+   "title": "Shorten log retention",
    "description": "Services without a retention obligation keep logs 90 days; older logs go to cheap archive.",
    "type": "storage",
    "entity_ids": [
     "res:logs"
    ],
    "finding_ids": [
-    "F-29"
+    "F-31"
    ],
    "limit_ids": [],
    "effort_days": 1.0,
@@ -3106,7 +3513,7 @@
    "owner_role": "Head of IT",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": true,
+   "in_package": false,
    "calc": {
     "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:logs: cost × 0.36, energy × 0.36",
     "inputs": [
@@ -3137,7 +3544,7 @@
      "Q-0031",
      "Q-0081"
     ],
-    "note": "Assumptions: Keep exceptions for regulated or debugging logs. Risks: May hinder incident review or compliance checks."
+    "note": "Assumptions: Only services allowed to keep 90 days are changed. Risks: Legal and troubleshooting needs vary by service."
    },
    "effects": [
     {
@@ -3157,12 +3564,12 @@
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "May hinder incident review or compliance checks.",
-   "assumptions": "Keep exceptions for regulated or debugging logs.",
+   "risks": "Legal and troubleshooting needs vary by service.",
+   "assumptions": "Only services allowed to keep 90 days are changed.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-30",
+   "id": "M-34",
    "title": "Reduce or switch off srv:dr-failover",
    "description": "srv:dr-failover looks underused, but it is protected.",
    "type": "decommission",
@@ -3263,7 +3670,7 @@
    "generated_by": "toolbox (code); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-31",
+   "id": "M-35",
    "title": "Reduce or switch off st-backup",
    "description": "st-backup looks underused, but it is protected.",
    "type": "storage",
@@ -3365,110 +3772,12 @@
    "generated_by": "toolbox (code); numbers, status gate and package choice by code"
   },
   {
-   "id": "M-32",
-   "title": "Prevent CI reruns",
-   "description": "Reduce automatic reruns unless the cause is clear.",
+   "id": "M-36",
+   "title": "Retire idle GPU server",
+   "description": "Decommission srv:gpu-ml-01 if it is no longer needed for quarterly training.",
    "type": "other",
    "entity_ids": [
-    "res:cicd"
-   ],
-   "finding_ids": [],
-   "limit_ids": [],
-   "effort_days": 1.0,
-   "effort_chf": 1100.0,
-   "savings": {
-    "cost_chf": {
-     "low": 276.95,
-     "mid": 281.1,
-     "high": 282.78
-    },
-    "cost_eur": {
-     "low": 299.47,
-     "mid": 303.96,
-     "high": 305.78
-    },
-    "cost_usd": {
-     "low": 348.44,
-     "mid": 353.66,
-     "high": 355.77
-    },
-    "kwh": {
-     "low": 3.7,
-     "mid": 5.7,
-     "high": 10.1
-    },
-    "co2_kg": {
-     "low": 0.7,
-     "mid": 1.3,
-     "high": 3.6
-    }
-   },
-   "status": "human",
-   "owner_role": "Head of IT",
-   "reason": "",
-   "start_date": "2026-10-01",
-   "in_package": false,
-   "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:cicd: cost × 0.05, energy × 0.05",
-    "inputs": [
-     {
-      "name": "res:cicd baseline cost",
-      "value": 5566.27,
-      "unit": "CHF",
-      "source": "fact_cost"
-     },
-     {
-      "name": "res:cicd cost share removed",
-      "value": 0.0505,
-      "unit": "share",
-      "source": "advisor"
-     }
-    ],
-    "factor_ids": [
-     "energy_per_vcpu_hour",
-     "grid_mix_location_based_ireland",
-     "pue"
-    ],
-    "source_files": [
-     "aws_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0018",
-     "Q-0067"
-    ],
-    "note": "Assumptions: Reruns are mostly avoidable and not compliance-critical. Risks: May slow troubleshooting after flaky failures."
-   },
-   "effects": [
-    {
-     "scope": "res:cicd",
-     "cost_share": 0.0505,
-     "energy_share": 0.0505,
-     "relocate_to": null,
-     "base_cost_chf": 5566.27,
-     "base_kwh": 112.8,
-     "base_co2_kg": 25.5,
-     "saved_cost_chf": 281.1,
-     "saved_kwh": 5.7,
-     "saved_co2_kg": 1.3,
-     "basis_fact_ids": [],
-     "reasoning": ""
-    }
-   ],
-   "proposed_status": "human",
-   "effort_reasoning": "",
-   "risks": "May slow troubleshooting after flaky failures.",
-   "assumptions": "Reruns are mostly avoidable and not compliance-critical.",
-   "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
-  },
-  {
-   "id": "M-33",
-   "title": "Purge tmp schema",
-   "description": "Delete temporary tables in tmp schema after validation.",
-   "type": "other",
-   "entity_ids": [
-    "res:dp-storage"
+    "srv:gpu-ml-01"
    ],
    "finding_ids": [],
    "limit_ids": [],
@@ -3476,55 +3785,55 @@
    "effort_chf": 2200.0,
    "savings": {
     "cost_chf": {
-     "low": 874.01,
-     "mid": 874.93,
-     "high": 875.84
+     "low": 10236.22,
+     "mid": 10250.84,
+     "high": 10264.51
     },
     "cost_eur": {
-     "low": 945.44,
-     "mid": 946.44,
-     "high": 947.41
+     "low": 11071.04,
+     "mid": 11086.85,
+     "high": 11101.64
     },
     "cost_usd": {
-     "low": 1099.85,
-     "mid": 1101.0,
-     "high": 1102.14
+     "low": 12883.03,
+     "mid": 12901.42,
+     "high": 12918.63
     },
     "kwh": {
-     "low": 21.5,
-     "mid": 69.0,
-     "high": 166.4
+     "low": 668.5,
+     "mid": 1043.8,
+     "high": 1799.7
     },
     "co2_kg": {
-     "low": 1.2,
-     "mid": 7.6,
-     "high": 21.3
+     "low": 220.6,
+     "mid": 378.9,
+     "high": 773.9
     }
    },
    "status": "human",
    "owner_role": "Head of IT",
    "reason": "",
    "start_date": "2026-10-01",
-   "in_package": false,
+   "in_package": true,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-storage: cost × 0.14, energy × 0.14",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). srv:gpu-ml-01: cost × 0.90, energy × 0.90",
     "inputs": [
      {
-      "name": "res:dp-storage baseline cost",
-      "value": 6321.77,
+      "name": "srv:gpu-ml-01 baseline cost",
+      "value": 11389.82,
       "unit": "CHF",
       "source": "fact_cost"
      },
      {
-      "name": "res:dp-storage cost share removed",
-      "value": 0.1384,
+      "name": "srv:gpu-ml-01 cost share removed",
+      "value": 0.9,
       "unit": "share",
       "source": "advisor"
      }
     ],
     "factor_ids": [
-     "energy_per_gb_storage_day",
-     "grid_mix_location_based_switzerland",
+     "energy_per_gpu_hour",
+     "grid_mix_location_based_germany",
      "pue"
     ],
     "source_files": [
@@ -3533,85 +3842,329 @@
     "row_count": 365,
     "value_status": "estimated",
     "issue_ids": [
-     "Q-0010",
-     "Q-0077"
+     "Q-0011",
+     "Q-0078",
+     "Q-0104"
     ],
-    "note": "Assumptions: tmp schema data is safe to remove after review. Risks: Temporary objects may still be needed by some jobs."
+    "note": "Assumptions: No hidden workloads depend on this server. Risks: Training dependency may still exist."
    },
    "effects": [
     {
-     "scope": "res:dp-storage",
-     "cost_share": 0.1384,
-     "energy_share": 0.1384,
+     "scope": "srv:gpu-ml-01",
+     "cost_share": 0.9,
+     "energy_share": 0.9,
      "relocate_to": null,
-     "base_cost_chf": 6321.77,
-     "base_kwh": 498.9,
-     "base_co2_kg": 54.9,
-     "saved_cost_chf": 874.93,
-     "saved_kwh": 69.0,
-     "saved_co2_kg": 7.6,
+     "base_cost_chf": 11389.82,
+     "base_kwh": 1159.7,
+     "base_co2_kg": 421.0,
+     "saved_cost_chf": 10250.84,
+     "saved_kwh": 1043.8,
+     "saved_co2_kg": 378.9,
      "basis_fact_ids": [],
      "reasoning": ""
     }
    ],
    "proposed_status": "human",
    "effort_reasoning": "",
-   "risks": "Temporary objects may still be needed by some jobs.",
-   "assumptions": "tmp schema data is safe to remove after review.",
+   "risks": "Training dependency may still exist.",
+   "assumptions": "No hidden workloads depend on this server.",
+   "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
+  },
+  {
+   "id": "M-37",
+   "title": "Move GPU server to Zurich",
+   "description": "Relocate gpu-ml to CH to cut location-based emissions.",
+   "type": "other",
+   "entity_ids": [
+    "res:gpu-ml"
+   ],
+   "finding_ids": [],
+   "limit_ids": [],
+   "effort_days": 3.0,
+   "effort_chf": 3300.0,
+   "savings": {
+    "cost_chf": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_eur": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_usd": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "kwh": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "co2_kg": {
+     "low": 202.8,
+     "mid": 293.4,
+     "high": 603.9
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of IT",
+   "reason": "",
+   "start_date": "2026-10-01",
+   "in_package": false,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.00, energy × 0.00, rest moved to CH",
+    "inputs": [
+     {
+      "name": "res:gpu-ml baseline cost",
+      "value": 11389.82,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "res:gpu-ml cost share removed",
+      "value": 0.0,
+      "unit": "share",
+      "source": "advisor"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_gpu_hour",
+     "grid_mix_location_based_germany",
+     "pue"
+    ],
+    "source_files": [
+     "azure_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0011",
+     "Q-0078",
+     "Q-0104"
+    ],
+    "note": "Assumptions: Azure CH is an approved deployment option. Risks: Training days must still work during quarter starts."
+   },
+   "effects": [
+    {
+     "scope": "res:gpu-ml",
+     "cost_share": 0.0,
+     "energy_share": 0.0,
+     "relocate_to": "CH",
+     "base_cost_chf": 11389.82,
+     "base_kwh": 1159.7,
+     "base_co2_kg": 421.0,
+     "saved_cost_chf": 0.0,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 293.4,
+     "basis_fact_ids": [],
+     "reasoning": ""
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "",
+   "risks": "Training days must still work during quarter starts.",
+   "assumptions": "Azure CH is an approved deployment option.",
+   "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
+  },
+  {
+   "id": "M-38",
+   "title": "Small model for other assistant tasks",
+   "description": "Default smaller models for remaining expensive assistant tasks after quality review.",
+   "type": "other",
+   "entity_ids": [
+    "res:ai-assistant"
+   ],
+   "finding_ids": [],
+   "limit_ids": [],
+   "effort_days": 2.0,
+   "effort_chf": 2200.0,
+   "savings": {
+    "cost_chf": {
+     "low": 3078.26,
+     "mid": 3078.26,
+     "high": 3078.26
+    },
+    "cost_eur": {
+     "low": 3331.21,
+     "mid": 3331.21,
+     "high": 3331.21
+    },
+    "cost_usd": {
+     "low": 3873.43,
+     "mid": 3873.43,
+     "high": 3873.43
+    },
+    "kwh": {
+     "low": 23.0,
+     "mid": 114.8,
+     "high": 459.2
+    },
+    "co2_kg": {
+     "low": 3.4,
+     "mid": 24.5,
+     "high": 137.8
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of Consulting",
+   "reason": "",
+   "start_date": "2026-10-01",
+   "in_package": false,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). ai:ai-assistant:Analyse table:large: cost × 0.42, energy × 0.45 + ai:ai-assistant:Manual question:large: cost × 0.42, energy × 0.45 + ai:ai-assistant:Review contract:large: cost × 0.42, energy × 0.45",
+    "inputs": [
+     {
+      "name": "ai:ai-assistant:Analyse table:large baseline cost",
+      "value": 2909.06,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "ai:ai-assistant:Manual question:large baseline cost",
+      "value": 1431.04,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "ai:ai-assistant:Review contract:large baseline cost",
+      "value": 2989.08,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "ai:ai-assistant:Analyse table:large cost share removed",
+      "value": 0.42,
+      "unit": "share",
+      "source": "advisor"
+     },
+     {
+      "name": "ai:ai-assistant:Manual question:large cost share removed",
+      "value": 0.42,
+      "unit": "share",
+      "source": "advisor"
+     },
+     {
+      "name": "ai:ai-assistant:Review contract:large cost share removed",
+      "value": 0.42,
+      "unit": "share",
+      "source": "advisor"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_1000_tokens",
+     "grid_mix_location_based_eu"
+    ],
+    "source_files": [
+     "ai_usage.csv",
+     "extra/ai_invoice_monthly.csv"
+    ],
+    "row_count": 26734,
+    "value_status": "derived_cross_source",
+    "issue_ids": [],
+    "note": "Assumptions: Only a qualified subset of requests can move to small models. Risks: Quality impact for contract review needs approval."
+   },
+   "effects": [
+    {
+     "scope": "ai:ai-assistant:Analyse table:large",
+     "cost_share": 0.42,
+     "energy_share": 0.45,
+     "relocate_to": null,
+     "base_cost_chf": 2909.06,
+     "base_kwh": 100.4,
+     "base_co2_kg": 21.4,
+     "saved_cost_chf": 1221.81,
+     "saved_kwh": 45.2,
+     "saved_co2_kg": 9.6,
+     "basis_fact_ids": [],
+     "reasoning": ""
+    },
+    {
+     "scope": "ai:ai-assistant:Manual question:large",
+     "cost_share": 0.42,
+     "energy_share": 0.45,
+     "relocate_to": null,
+     "base_cost_chf": 1431.04,
+     "base_kwh": 55.1,
+     "base_co2_kg": 11.7,
+     "saved_cost_chf": 601.04,
+     "saved_kwh": 24.8,
+     "saved_co2_kg": 5.3,
+     "basis_fact_ids": [],
+     "reasoning": ""
+    },
+    {
+     "scope": "ai:ai-assistant:Review contract:large",
+     "cost_share": 0.42,
+     "energy_share": 0.45,
+     "relocate_to": null,
+     "base_cost_chf": 2989.08,
+     "base_kwh": 99.6,
+     "base_co2_kg": 21.2,
+     "saved_cost_chf": 1255.41,
+     "saved_kwh": 44.8,
+     "saved_co2_kg": 9.5,
+     "basis_fact_ids": [],
+     "reasoning": ""
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "",
+   "risks": "Quality impact for contract review needs approval.",
+   "assumptions": "Only a qualified subset of requests can move to small models.",
    "generated_by": "candidate from the toolbox (code), calibrated by an area agent (gpt-5.4-mini); numbers, status gate and package choice by code"
   }
  ],
  "package": {
   "measure_ids": [
-   "M-01",
+   "M-02",
    "M-03",
-   "M-04",
    "M-08",
-   "M-22",
-   "M-23",
+   "M-19",
    "M-25",
-   "M-27",
-   "M-29"
+   "M-36"
   ],
   "effort_days": 15.0,
   "effort_chf": 16500.0,
   "savings": {
    "cost_chf": {
-    "low": 120741.78,
-    "mid": 120894.85,
-    "high": 121028.31
+    "low": 121754.44,
+    "mid": 121894.38,
+    "high": 122018.71
    },
    "cost_eur": {
-    "low": 130621.29,
-    "mid": 130786.88,
-    "high": 130931.26
+    "low": 131707.91,
+    "mid": 131859.29,
+    "high": 131993.79
    },
    "cost_usd": {
-    "low": 151983.3,
-    "mid": 152175.97,
-    "high": 152343.96
+    "low": 153257.54,
+    "mid": 153433.68,
+    "high": 153590.19
    },
    "kwh": {
-    "low": 7044.2,
-    "mid": 11006.7,
-    "high": 19769.1
+    "low": 5772.8,
+    "mid": 8634.9,
+    "high": 14800.3
    },
    "co2_kg": {
-    "low": 1152.7,
-    "mid": 2260.7,
-    "high": 4935.9
+    "low": 1221.8,
+    "mid": 2173.9,
+    "high": 4505.1
    }
   },
   "reduction": {
    "cost": {
-    "low": 0.2542,
-    "mid": 0.2545,
-    "high": 0.2548
+    "low": 0.2563,
+    "mid": 0.2566,
+    "high": 0.2568
    },
    "co2": {
-    "low": 0.4185,
-    "mid": 0.5043,
-    "high": 0.6096
+    "low": 0.3819,
+    "mid": 0.4849,
+    "high": 0.6462
    }
   },
   "meets": {
@@ -3620,76 +4173,76 @@
    "budget": true
   },
   "meets_at_low": {
-   "co2": true,
+   "co2": false,
    "cost": true
   },
-  "reasoning": "Optimal package for goal «climate_first» chosen by the optimiser (code) among 31 eligible measures.",
+  "reasoning": "Optimal package for goal «climate_first» chosen by the optimiser (code) among 36 eligible measures.",
   "edge_cases": [
    {
-    "measure_id": "M-30",
+    "measure_id": "M-34",
     "explanation": "touches ['srv:dr-failover'] which must not be reduced (C-05: Emergency fallback server must remain running at all times per management requirement.)"
    },
    {
-    "measure_id": "M-31",
+    "measure_id": "M-35",
     "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
    }
   ],
-  "goal": "climate_first"
+  "goal": "climate_first",
+  "p_meet_co2": 0.947,
+  "is_safest": true,
+  "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (minimum 70%)"
  },
  "packages": {
   "climate_first": {
    "goal": "climate_first",
    "feasible": true,
    "measure_ids": [
-    "M-01",
+    "M-02",
     "M-03",
-    "M-04",
     "M-08",
-    "M-22",
-    "M-23",
+    "M-19",
     "M-25",
-    "M-27",
-    "M-29"
+    "M-36"
    ],
    "effort_days": 15.0,
    "effort_chf": 16500.0,
    "savings": {
     "cost_chf": {
-     "low": 120741.78,
-     "mid": 120894.85,
-     "high": 121028.31
+     "low": 121754.44,
+     "mid": 121894.38,
+     "high": 122018.71
     },
     "cost_eur": {
-     "low": 130621.29,
-     "mid": 130786.88,
-     "high": 130931.26
+     "low": 131707.91,
+     "mid": 131859.29,
+     "high": 131993.79
     },
     "cost_usd": {
-     "low": 151983.3,
-     "mid": 152175.97,
-     "high": 152343.96
+     "low": 153257.54,
+     "mid": 153433.68,
+     "high": 153590.19
     },
     "kwh": {
-     "low": 7044.2,
-     "mid": 11006.7,
-     "high": 19769.1
+     "low": 5772.8,
+     "mid": 8634.9,
+     "high": 14800.3
     },
     "co2_kg": {
-     "low": 1152.7,
-     "mid": 2260.7,
-     "high": 4935.9
+     "low": 1221.8,
+     "mid": 2173.9,
+     "high": 4505.1
     }
    },
    "reduction": {
     "cost": {
-     "low": 0.2542,
-     "mid": 0.2545,
-     "high": 0.2548
+     "low": 0.2563,
+     "mid": 0.2566,
+     "high": 0.2568
     },
     "co2": {
-     "low": 0.4185,
-     "mid": 0.5043,
-     "high": 0.6096
+     "low": 0.3819,
+     "mid": 0.4849,
+     "high": 0.6462
     }
    },
    "meets": {
@@ -3698,21 +4251,24 @@
     "budget": true
    },
    "meets_at_low": {
-    "co2": true,
+    "co2": false,
     "cost": true
    },
    "reasoning": "Optimal package for «climate_first» (optimiser, code)",
    "edge_cases": [
     {
-     "measure_id": "M-30",
+     "measure_id": "M-34",
      "explanation": "touches ['srv:dr-failover'] which must not be reduced (C-05: Emergency fallback server must remain running at all times per management requirement.)"
     },
     {
-     "measure_id": "M-31",
+     "measure_id": "M-35",
      "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
     }
    ],
-   "safety_met": true
+   "safety_met": true,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (minimum 70%)",
+   "p_meet_co2": 0.947,
+   "is_safest": true
   },
   "best_value": {
    "goal": "best_value",
@@ -3720,51 +4276,51 @@
    "measure_ids": [
     "M-01",
     "M-03",
-    "M-04",
     "M-08",
-    "M-21",
-    "M-22",
-    "M-29"
+    "M-25",
+    "M-26",
+    "M-33",
+    "M-36"
    ],
-   "effort_days": 13.0,
-   "effort_chf": 14300.0,
+   "effort_days": 13.5,
+   "effort_chf": 14850.0,
    "savings": {
     "cost_chf": {
-     "low": 120332.71,
-     "mid": 120483.13,
-     "high": 120615.52
+     "low": 121111.8,
+     "mid": 121263.33,
+     "high": 121396.76
     },
     "cost_eur": {
-     "low": 130178.06,
-     "mid": 130340.79,
-     "high": 130484.01
+     "low": 131020.69,
+     "mid": 131184.62,
+     "high": 131328.97
     },
     "cost_usd": {
-     "low": 151472.87,
-     "mid": 151662.22,
-     "high": 151828.87
+     "low": 152453.41,
+     "mid": 152644.16,
+     "high": 152812.12
     },
     "kwh": {
-     "low": 7007.7,
-     "mid": 10832.9,
-     "high": 19082.0
+     "low": 5939.0,
+     "mid": 9244.5,
+     "high": 16348.8
     },
     "co2_kg": {
-     "low": 1147.1,
-     "mid": 2223.6,
-     "high": 4729.5
+     "low": 1071.9,
+     "mid": 2031.7,
+     "high": 4333.0
     }
    },
    "reduction": {
     "cost": {
-     "low": 0.2533,
-     "mid": 0.2536,
-     "high": 0.2539
+     "low": 0.2549,
+     "mid": 0.2552,
+     "high": 0.2555
     },
     "co2": {
-     "low": 0.401,
-     "mid": 0.496,
-     "high": 0.6067
+     "low": 0.3673,
+     "mid": 0.4532,
+     "high": 0.5669
     }
    },
    "meets": {
@@ -3773,21 +4329,24 @@
     "budget": true
    },
    "meets_at_low": {
-    "co2": true,
+    "co2": false,
     "cost": true
    },
    "reasoning": "Optimal package for «best_value» (optimiser, code)",
    "edge_cases": [
     {
-     "measure_id": "M-30",
+     "measure_id": "M-34",
      "explanation": "touches ['srv:dr-failover'] which must not be reduced (C-05: Emergency fallback server must remain running at all times per management requirement.)"
     },
     {
-     "measure_id": "M-31",
+     "measure_id": "M-35",
      "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
     }
    ],
-   "safety_met": true
+   "safety_met": true,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (minimum 80%)",
+   "p_meet_co2": 0.8395,
+   "is_safest": false
   },
   "francs_first": {
    "goal": "francs_first",
@@ -3795,54 +4354,54 @@
    "measure_ids": [
     "M-01",
     "M-03",
-    "M-04",
     "M-08",
-    "M-09",
     "M-13",
     "M-15",
-    "M-21",
-    "M-22",
-    "M-29"
+    "M-17",
+    "M-19",
+    "M-25",
+    "M-33",
+    "M-36"
    ],
    "effort_days": 15.0,
    "effort_chf": 16500.0,
    "savings": {
     "cost_chf": {
-     "low": 140257.26,
-     "mid": 140407.68,
-     "high": 140540.07
+     "low": 142740.69,
+     "mid": 142892.22,
+     "high": 143025.65
     },
     "cost_eur": {
-     "low": 151723.07,
-     "mid": 151885.79,
-     "high": 152029.0
+     "low": 154407.38,
+     "mid": 154571.3,
+     "high": 154715.64
     },
     "cost_usd": {
-     "low": 176546.33,
-     "mid": 176735.67,
-     "high": 176902.32
+     "low": 179672.71,
+     "mid": 179863.45,
+     "high": 180031.4
     },
     "kwh": {
-     "low": 7007.7,
-     "mid": 10832.9,
-     "high": 19082.0
+     "low": 5916.8,
+     "mid": 9133.6,
+     "high": 15905.2
     },
     "co2_kg": {
-     "low": 1147.1,
-     "mid": 2223.6,
-     "high": 4729.5
+     "low": 1068.6,
+     "mid": 2008.1,
+     "high": 4199.9
     }
    },
    "reduction": {
     "cost": {
-     "low": 0.2952,
-     "mid": 0.2955,
-     "high": 0.2958
+     "low": 0.3005,
+     "mid": 0.3008,
+     "high": 0.3011
     },
     "co2": {
-     "low": 0.401,
-     "mid": 0.496,
-     "high": 0.6067
+     "low": 0.3561,
+     "mid": 0.4479,
+     "high": 0.5652
     }
    },
    "meets": {
@@ -3851,27 +4410,109 @@
     "budget": true
    },
    "meets_at_low": {
-    "co2": true,
+    "co2": false,
     "cost": true
    },
    "reasoning": "Optimal package for «francs_first» (optimiser, code)",
    "edge_cases": [
     {
-     "measure_id": "M-30",
+     "measure_id": "M-34",
      "explanation": "touches ['srv:dr-failover'] which must not be reduced (C-05: Emergency fallback server must remain running at all times per management requirement.)"
     },
     {
-     "measure_id": "M-31",
+     "measure_id": "M-35",
      "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
     }
    ],
-   "safety_met": true
+   "safety_met": true,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (minimum 70%)",
+   "p_meet_co2": 0.7497,
+   "is_safest": false
+  },
+  "safest": {
+   "goal": "safest",
+   "feasible": true,
+   "measure_ids": [
+    "M-02",
+    "M-03",
+    "M-08",
+    "M-19",
+    "M-25",
+    "M-36"
+   ],
+   "effort_days": 15.0,
+   "effort_chf": 16500.0,
+   "savings": {
+    "cost_chf": {
+     "low": 121754.44,
+     "mid": 121894.38,
+     "high": 122018.71
+    },
+    "cost_eur": {
+     "low": 131707.91,
+     "mid": 131859.29,
+     "high": 131993.79
+    },
+    "cost_usd": {
+     "low": 153257.54,
+     "mid": 153433.68,
+     "high": 153590.19
+    },
+    "kwh": {
+     "low": 5772.8,
+     "mid": 8634.9,
+     "high": 14800.3
+    },
+    "co2_kg": {
+     "low": 1221.8,
+     "mid": 2173.9,
+     "high": 4505.1
+    }
+   },
+   "reduction": {
+    "cost": {
+     "low": 0.2563,
+     "mid": 0.2566,
+     "high": 0.2568
+    },
+    "co2": {
+     "low": 0.3819,
+     "mid": 0.4849,
+     "high": 0.6462
+    }
+   },
+   "meets": {
+    "co2": true,
+    "cost": true,
+    "budget": true
+   },
+   "meets_at_low": {
+    "co2": false,
+    "cost": true
+   },
+   "reasoning": "Optimal package for «safest» (optimiser, code)",
+   "edge_cases": [
+    {
+     "measure_id": "M-34",
+     "explanation": "touches ['srv:dr-failover'] which must not be reduced (C-05: Emergency fallback server must remain running at all times per management requirement.)"
+    },
+    {
+     "measure_id": "M-35",
+     "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
+    }
+   ],
+   "safety_met": null,
+   "safety_rule": "the highest share of 10,000 Monte Carlo scenarios reaching −40% CO2",
+   "p_meet_co2": 0.947,
+   "is_safest": true,
+   "same_as": "climate_first"
   }
  },
  "goals": [
   "climate_first",
   "best_value",
-  "francs_first"
+  "francs_first",
+  "safest"
  ],
  "kept_on": [
   {
@@ -3911,10 +4552,22 @@
    ]
   }
  ],
+ "rules": {
+  "co2_min": 0.4,
+  "cost_min": 0.25,
+  "budget_chf": 16500.0,
+  "chf_per_person_day": 1100,
+  "baseline": {
+   "cost_chf": 475079.26,
+   "kwh": 25169.6,
+   "co2_kg": 4483.1
+  },
+  "how_to_recompute": "a package's measures do not overlap: totals = sum of the remaining measures' savings and effort; reduction = savings / baseline; meets = reductions ≥ co2_min / cost_min and effort_chf ≤ budget_chf; safety: see safety_scenarios.json"
+ },
  "analysis": {
-  "analysed_at": "2026-11-21T15:04:57+01:00",
+  "analysed_at": "2026-11-21T16:07:03+01:00",
   "data_as_of": "2026-09-06",
-  "seconds": 14.3,
+  "seconds": 14.4,
   "timings": {
    "agents_s": 13.3
   },
@@ -3931,20 +4584,20 @@
     "advisor.agent.platform": 1,
     "advisor.agent.servers": 1
    },
-   "input_tokens": 18054,
-   "cached_input_tokens": 17408,
-   "output_tokens": 6236,
-   "reasoning_tokens": 3700,
-   "output_equivalent_tokens": 1619,
+   "input_tokens": 19456,
+   "cached_input_tokens": 0,
+   "output_tokens": 6548,
+   "reasoning_tokens": 3178,
+   "output_equivalent_tokens": 2123,
    "kwh": {
-    "low": 0.00016,
-    "mid": 0.00081,
-    "high": 0.00324
+    "low": 0.00021,
+    "mid": 0.00106,
+    "high": 0.00425
    },
    "co2_kg": {
-    "low": 2.4e-05,
-    "mid": 0.000172,
-    "high": 0.000971
+    "low": 3.2e-05,
+    "mid": 0.000226,
+    "high": 0.001274
    },
    "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
    "source": "measured during this run (token usage returned by the API)",
@@ -3959,7 +4612,7 @@
   },
   "fingerprint": {
    "reader": "ec92f0a50e9d67cf",
-   "agents": "d3953c8bb296dd61"
+   "agents": "150e8d85e2d3c6a3"
   }
  },
  "ai_footprint": {
@@ -3970,20 +4623,20 @@
    "advisor.agent.platform": 1,
    "advisor.agent.servers": 1
   },
-  "input_tokens": 18054,
-  "cached_input_tokens": 17408,
-  "output_tokens": 6236,
-  "reasoning_tokens": 3700,
-  "output_equivalent_tokens": 1619,
+  "input_tokens": 19456,
+  "cached_input_tokens": 0,
+  "output_tokens": 6548,
+  "reasoning_tokens": 3178,
+  "output_equivalent_tokens": 2123,
   "kwh": {
-   "low": 0.00016,
-   "mid": 0.00081,
-   "high": 0.00324
+   "low": 0.00021,
+   "mid": 0.00106,
+   "high": 0.00425
   },
   "co2_kg": {
-   "low": 2.4e-05,
-   "mid": 0.000172,
-   "high": 0.000971
+   "low": 3.2e-05,
+   "mid": 0.000226,
+   "high": 0.001274
   },
   "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
   "source": "measured during this run (token usage returned by the API)",
