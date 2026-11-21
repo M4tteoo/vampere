@@ -1,0 +1,154 @@
+{
+ "paper": {
+  "x": -29.7,
+  "z": -18.2,
+  "w": 59.4,
+  "h": 42.0
+ },
+ "building": {
+  "minX": -21.0,
+  "minZ": -14.0,
+  "maxX": 21.0,
+  "maxZ": 14.0
+ },
+ "cut": 0.9,
+ "rooms": {
+  "consulting": {
+   "min": [
+    -21.0,
+    -14.0
+   ],
+   "max": [
+    -0.5,
+    0.5
+   ],
+   "area": 290.3,
+   "name": "CONSULTING",
+   "no": "1.01"
+  },
+  "corridor": {
+   "min": [
+    -21.0,
+    -0.8
+   ],
+   "max": [
+    21.0,
+    3.5
+   ],
+   "area": 249.4,
+   "name": "CORRIDOR",
+   "no": "1.10"
+  },
+  "entry_gallery": {
+   "min": [
+    19.0,
+    2.2
+   ],
+   "max": [
+    21.0,
+    9.6
+   ],
+   "area": 29.6,
+   "name": "ENTRY",
+   "no": "1.12"
+  },
+  "finance": {
+   "min": [
+    -8.4,
+    3.5
+   ],
+   "max": [
+    1.6,
+    14.0
+   ],
+   "area": 102.5,
+   "name": "FINANCE",
+   "no": "1.06"
+  },
+  "hr": {
+   "min": [
+    11.0,
+    2.2
+   ],
+   "max": [
+    19.0,
+    9.6
+   ],
+   "area": 57.8,
+   "name": "HR",
+   "no": "1.04"
+  },
+  "it": {
+   "min": [
+    -21.0,
+    3.5
+   ],
+   "max": [
+    -8.4,
+    14.0
+   ],
+   "area": 129.2,
+   "name": "IT",
+   "no": "1.07"
+  },
+  "management": {
+   "min": [
+    1.6,
+    3.5
+   ],
+   "max": [
+    11.0,
+    14.0
+   ],
+   "area": 96.4,
+   "name": "MANAGEMENT",
+   "no": "1.05"
+  },
+  "marketing": {
+   "min": [
+    12.0,
+    -14.0
+   ],
+   "max": [
+    21.0,
+    -0.8
+   ],
+   "area": 116.0,
+   "name": "MARKETING",
+   "no": "1.03"
+  },
+  "reception": {
+   "min": [
+    11.0,
+    9.6
+   ],
+   "max": [
+    21.0,
+    14.0
+   ],
+   "area": 88.0,
+   "name": "RECEPTION",
+   "no": "1.11"
+  },
+  "sales": {
+   "min": [
+    -0.5,
+    -14.0
+   ],
+   "max": [
+    12.0,
+    0.5
+   ],
+   "area": 177.0,
+   "name": "SALES",
+   "no": "1.02"
+  }
+ },
+ "counts": {
+  "wall_segments": 704,
+  "glass_segments": 504,
+  "workstations": 119,
+  "furniture": 276,
+  "axes": 15
+ }
+}

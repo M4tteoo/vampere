@@ -412,10 +412,12 @@ export function AllocationScene() {
   const seats = useMemo(() => data.layout.filter((i) => i.id.startsWith('seat:') && i.room && ROOMS.includes(i.room)), [data.layout])
   const used = useMemo(() => (room ? cloudResourcesOf(ctx, room) : new Set<string>()), [ctx, room])
 
+  // Raggruppate per reparto: nell'intro «planimetria → 3D» atterrano un reparto alla volta.
   const officeAssets = useMemo(() => {
-    const out: Record<string, Inst[]> = {}
-    const push = (asset: string, inst: Inst) => (out[asset] ??= []).push(inst)
+    const byRoom: Record<string, Record<string, Inst[]>> = {}
     for (const item of seats) {
+      const out = (byRoom[item.room!] ??= {})
+      const push = (asset: string, inst: Inst) => (out[asset] ??= []).push(inst)
       const st = statusOf(ctx, item)
       const accent = DEPT_ACCENT[item.room ?? ''] ?? '#E9E4DA'
       const unit = unitOf(ctx, item) ?? undefined

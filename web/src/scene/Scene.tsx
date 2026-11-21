@@ -64,6 +64,8 @@ function CameraRig() {
   const step = useApp((s) => s.step)
   const size = useThree((s) => s.size)
   const layout = useStageLayout()
+  // Durante l'estrusione la camera la guida l'intro; alla fine si torna alla pianta.
+  const building = useIntro((s) => s.phase === 'build')
 
   useEffect(() => {
     const c = ref.current

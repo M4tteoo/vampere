@@ -1,4 +1,5 @@
 import { useApp, type Step } from '../store'
+import { useIntro } from '../intro/store'
 
 /** Passi della demo, nell'ordine in cui li racconta. Misure e limiti stanno dentro il passo 2 (interruttore), l'export nei passi 2 e 3. */
 export const STEPS: { id: Step; label: string }[] = [
@@ -62,6 +63,16 @@ export function Header() {
       </nav>
 
       <div className="flex w-48 items-center justify-end gap-2">
+        <button
+          onClick={() => {
+            setRoom(null)
+            useIntro.getState().replay()
+          }}
+          title="Replay: build the twin from the floor plan"
+          className="rounded-full border border-hairline px-4 py-2 text-[14px] font-medium whitespace-nowrap text-ink transition hover:bg-surface-soft"
+        >
+          Floor plan
+        </button>
         {isMock && <span className="rounded-full border border-hairline px-2.5 py-1 text-[12px] font-medium text-muted">Demo data</span>}
         {hasLocalAi && (
           // Vista consultiva a parte: non è un passo della pipeline e non cambia nessun numero.
