@@ -1,0 +1,1190 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T11:49:15+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "default": "ch_consumption",
+ "scenarios": {
+  "ch_consumption": {
+   "grid_ch": {
+    "low": 0.057,
+    "mid": 0.11,
+    "high": 0.128
+   },
+   "baseline": {
+    "kwh": {
+     "low": 14264.5,
+     "mid": 25169.6,
+     "high": 51439.6
+    },
+    "co2_kg": {
+     "low": 1890.8,
+     "mid": 4483.1,
+     "high": 11795.6
+    },
+    "co2_by_location": {
+     "CH": {
+      "low": 529.1,
+      "mid": 1706.5,
+      "high": 3669.3
+     },
+     "DE": {
+      "low": 1007.9,
+      "mid": 1659.1,
+      "high": 3345.9
+     },
+     "IE": {
+      "low": 258.4,
+      "mid": 597.4,
+      "high": 1914.2
+     },
+     "EU": {
+      "low": 95.4,
+      "mid": 520.2,
+      "high": 2866.2
+     }
+    }
+   },
+   "package": {
+    "measure_ids": [
+     "M-01",
+     "M-02",
+     "M-03",
+     "M-04",
+     "M-05",
+     "M-06"
+    ],
+    "savings_co2_kg": {
+     "low": 1060.9,
+     "mid": 1799.1,
+     "high": 4089.2
+    },
+    "reduction": {
+     "co2": {
+      "low": 0.3467,
+      "mid": 0.4013,
+      "high": 0.5611
+     },
+     "cost": {
+      "low": 0.2705,
+      "mid": 0.2707,
+      "high": 0.2709
+     }
+    },
+    "meets": {
+     "co2": true,
+     "cost": true,
+     "budget": true
+    },
+    "meets_at_low": {
+     "co2": false,
+     "cost": true
+    }
+   },
+   "measures": [
+    {
+     "id": "M-01",
+     "title": "Auto-pause and region-move the development data platform",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 743.0,
+      "mid": 1181.8,
+      "high": 2375.0
+     }
+    },
+    {
+     "id": "M-02",
+     "title": "Auto-stop the GPU ML server outside quarterly training and booked runs",
+     "status": "ok",
+     "in_package": true,
+     "co2_kg": {
+      "low": 201.0,
+      "mid": 345.2,
+      "high": 705.1
+     }
+    },
+    {
+     "id": "M-03",
+     "title": "Scale back test environments: remove dead servers and stop the rest off-hours",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 103.4,
+      "mid": 176.6,
+      "high": 471.0
+     }
+    },
+    {
+     "id": "M-04",
+     "title": "Reclaim inactive SaaS and AI subscription seats",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     }
+    },
+    {
+     "id": "M-05",
+     "title": "Route low-risk office-assistant tasks to small models by default",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 9.3,
+      "mid": 66.0,
+      "high": 371.6
+     }
+    },
+    {
+     "id": "M-06",
+     "title": "Switch marketing classification mostly to a small model",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 4.2,
+      "mid": 29.5,
+      "high": 166.4
+     }
+    },
+    {
+     "id": "M-07",
+     "title": "Delete third backup copies to save storage",
+     "status": "blocked",
+     "in_package": false,
+     "co2_kg": {
+      "low": 12.0,
+      "mid": 43.5,
+      "high": 163.3
+     }
+    },
+    {
+     "id": "M-08",
+     "title": "Shut down the DR failover server",
+     "status": "blocked",
+     "in_package": false,
+     "co2_kg": {
+      "low": 10.4,
+      "mid": 17.8,
+      "high": 47.5
+     }
+    }
+   ]
+  },
+  "ch_production": {
+   "grid_ch": {
+    "low": 0.02,
+    "mid": 0.03,
+    "high": 0.04
+   },
+   "baseline": {
+    "kwh": {
+     "low": 14264.5,
+     "mid": 25169.6,
+     "high": 51439.6
+    },
+    "co2_kg": {
+     "low": 1547.4,
+     "mid": 3242.0,
+     "high": 9273.0
+    },
+    "co2_by_location": {
+     "CH": {
+      "low": 185.6,
+      "mid": 465.4,
+      "high": 1146.7
+     },
+     "DE": {
+      "low": 1007.9,
+      "mid": 1659.1,
+      "high": 3345.9
+     },
+     "IE": {
+      "low": 258.4,
+      "mid": 597.4,
+      "high": 1914.2
+     },
+     "EU": {
+      "low": 95.4,
+      "mid": 520.2,
+      "high": 2866.2
+     }
+    }
+   },
+   "package": {
+    "measure_ids": [
+     "M-01",
+     "M-02",
+     "M-03",
+     "M-04",
+     "M-05",
+     "M-06"
+    ],
+    "savings_co2_kg": {
+     "low": 1073.7,
+     "mid": 1840.1,
+     "high": 4165.5
+    },
+    "reduction": {
+     "co2": {
+      "low": 0.4492,
+      "mid": 0.5676,
+      "high": 0.6939
+     },
+     "cost": {
+      "low": 0.2705,
+      "mid": 0.2707,
+      "high": 0.2709
+     }
+    },
+    "meets": {
+     "co2": true,
+     "cost": true,
+     "budget": true
+    },
+    "meets_at_low": {
+     "co2": true,
+     "cost": true
+    }
+   },
+   "measures": [
+    {
+     "id": "M-01",
+     "title": "Auto-pause and region-move the development data platform",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 755.9,
+      "mid": 1222.7,
+      "high": 2451.3
+     }
+    },
+    {
+     "id": "M-02",
+     "title": "Auto-stop the GPU ML server outside quarterly training and booked runs",
+     "status": "ok",
+     "in_package": true,
+     "co2_kg": {
+      "low": 201.0,
+      "mid": 345.2,
+      "high": 705.1
+     }
+    },
+    {
+     "id": "M-03",
+     "title": "Scale back test environments: remove dead servers and stop the rest off-hours",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 103.4,
+      "mid": 176.6,
+      "high": 471.0
+     }
+    },
+    {
+     "id": "M-04",
+     "title": "Reclaim inactive SaaS and AI subscription seats",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     }
+    },
+    {
+     "id": "M-05",
+     "title": "Route low-risk office-assistant tasks to small models by default",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 9.3,
+      "mid": 66.0,
+      "high": 371.6
+     }
+    },
+    {
+     "id": "M-06",
+     "title": "Switch marketing classification mostly to a small model",
+     "status": "human",
+     "in_package": true,
+     "co2_kg": {
+      "low": 4.2,
+      "mid": 29.5,
+      "high": 166.4
+     }
+    },
+    {
+     "id": "M-07",
+     "title": "Delete third backup copies to save storage",
+     "status": "blocked",
+     "in_package": false,
+     "co2_kg": {
+      "low": 12.0,
+      "mid": 43.5,
+      "high": 163.3
+     }
+    },
+    {
+     "id": "M-08",
+     "title": "Shut down the DR failover server",
+     "status": "blocked",
+     "in_package": false,
+     "co2_kg": {
+      "low": 10.4,
+      "mid": 17.8,
+      "high": 47.5
+     }
+    }
+   ]
+  }
+ },
+ "holds_in_both": true,
+ "conclusion": "The package (M-01, M-02, M-03, M-04, M-05, M-06) reaches −40.1% CO2 with the consumption mix and −56.8% with the production mix; cost −27.1% in both (CO2 factors do not change francs). It meets the target under both Swiss mixes. Over the full factor range: misses −40 % at the least favourable factors with the consumption mix, meets with the production mix.",
+ "entities_co2_kg_production": {
+  "dept:Consulting": {
+   "low": 422.0,
+   "mid": 928.2,
+   "high": 2597.2
+  },
+  "dept:Finance": {
+   "low": 16.8,
+   "mid": 62.8,
+   "high": 278.2
+  },
+  "dept:HR": {
+   "low": 4.2,
+   "mid": 22.8,
+   "high": 121.1
+  },
+  "dept:IT": {
+   "low": 1061.4,
+   "mid": 1979.8,
+   "high": 4940.3
+  },
+  "dept:Management": {
+   "low": 3.5,
+   "mid": 18.2,
+   "high": 96.8
+  },
+  "dept:Marketing": {
+   "low": 18.7,
+   "mid": 116.2,
+   "high": 655.8
+  },
+  "dept:Sales": {
+   "low": 20.5,
+   "mid": 113.4,
+   "high": 582.1
+  },
+  "dept:Test account": {
+   "low": 0.4,
+   "mid": 0.6,
+   "high": 1.7
+  },
+  "loc:CH": {
+   "low": 185.6,
+   "mid": 465.4,
+   "high": 1146.7
+  },
+  "loc:DE": {
+   "low": 1007.9,
+   "mid": 1659.1,
+   "high": 3345.9
+  },
+  "loc:IE": {
+   "low": 258.4,
+   "mid": 597.4,
+   "high": 1914.2
+  },
+  "loc:EU": {
+   "low": 95.4,
+   "mid": 520.2,
+   "high": 2866.2
+  },
+  "res:ai-agent": {
+   "low": 1.5,
+   "mid": 10.6,
+   "high": 60.0
+  },
+  "res:ai-agent2": {
+   "low": 2.3,
+   "mid": 16.4,
+   "high": 92.3
+  },
+  "res:ai-assistant": {
+   "low": 25.8,
+   "mid": 183.1,
+   "high": 1031.6
+  },
+  "res:ai-chatbot": {
+   "low": 0.3,
+   "mid": 2.4,
+   "high": 13.3
+  },
+  "res:ai-marketing": {
+   "low": 9.4,
+   "mid": 66.6,
+   "high": 375.4
+  },
+  "res:ai-quote": {
+   "low": 0.7,
+   "mid": 4.7,
+   "high": 26.4
+  },
+  "res:ai-report": {
+   "low": 0.1,
+   "mid": 0.6,
+   "high": 3.2
+  },
+  "res:cicd": {
+   "low": 14.8,
+   "mid": 25.5,
+   "high": 70.3
+  },
+  "res:db-fin": {
+   "low": 8.2,
+   "mid": 18.1,
+   "high": 41.4
+  },
+  "res:dp-dev": {
+   "low": 762.8,
+   "mid": 1238.1,
+   "high": 2486.0
+  },
+  "res:dp-prod": {
+   "low": 138.3,
+   "mid": 308.9,
+   "high": 709.8
+  },
+  "res:dp-storage": {
+   "low": 3.1,
+   "mid": 15.0,
+   "high": 48.1
+  },
+  "res:gpu-ml": {
+   "low": 245.1,
+   "mid": 421.0,
+   "high": 859.9
+  },
+  "res:logs": {
+   "low": 8.1,
+   "mid": 42.0,
+   "high": 124.0
+  },
+  "res:net-egress": {
+   "low": 0.8,
+   "mid": 2.5,
+   "high": 13.2
+  },
+  "res:pbi-kap": {
+   "low": 3.8,
+   "mid": 8.5,
+   "high": 19.7
+  },
+  "res:saas-m365": {
+   "low": 9.2,
+   "mid": 39.1,
+   "high": 183.8
+  },
+  "res:saas-other": {
+   "low": 40.9,
+   "mid": 174.3,
+   "high": 818.4
+  },
+  "res:sandbox": {
+   "low": 0.4,
+   "mid": 0.6,
+   "high": 1.7
+  },
+  "res:st-archive": {
+   "low": 3.7,
+   "mid": 17.8,
+   "high": 57.1
+  },
+  "res:st-backup": {
+   "low": 80.8,
+   "mid": 293.7,
+   "high": 1102.0
+  },
+  "res:st-proj": {
+   "low": 2.5,
+   "mid": 12.7,
+   "high": 37.5
+  },
+  "res:sub-chatgpt": {
+   "low": 0.1,
+   "mid": 0.4,
+   "high": 4.7
+  },
+  "res:sub-claude": {
+   "low": 2.1,
+   "mid": 9.1,
+   "high": 107.2
+  },
+  "res:sub-copilot": {
+   "low": 3.0,
+   "mid": 12.8,
+   "high": 150.0
+  },
+  "res:support": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.0
+  },
+  "res:vm-app": {
+   "low": 16.9,
+   "mid": 38.6,
+   "high": 89.4
+  },
+  "res:vm-test": {
+   "low": 162.5,
+   "mid": 277.6,
+   "high": 740.2
+  },
+  "res:web-cdn": {
+   "low": 0.4,
+   "mid": 1.3,
+   "high": 6.5
+  },
+  "srv:app-01": {
+   "low": 1.3,
+   "mid": 3.1,
+   "high": 7.1
+  },
+  "srv:app-02": {
+   "low": 1.4,
+   "mid": 3.2,
+   "high": 7.5
+  },
+  "srv:app-03": {
+   "low": 1.5,
+   "mid": 3.3,
+   "high": 7.7
+  },
+  "srv:app-04": {
+   "low": 1.4,
+   "mid": 3.2,
+   "high": 7.5
+  },
+  "srv:app-05": {
+   "low": 1.4,
+   "mid": 3.2,
+   "high": 7.5
+  },
+  "srv:app-06": {
+   "low": 1.4,
+   "mid": 3.2,
+   "high": 7.4
+  },
+  "srv:app-07": {
+   "low": 1.4,
+   "mid": 3.2,
+   "high": 7.4
+  },
+  "srv:app-08": {
+   "low": 1.4,
+   "mid": 3.2,
+   "high": 7.4
+  },
+  "srv:app-09": {
+   "low": 1.4,
+   "mid": 3.2,
+   "high": 7.5
+  },
+  "srv:app-10": {
+   "low": 1.5,
+   "mid": 3.3,
+   "high": 7.7
+  },
+  "srv:app-11": {
+   "low": 1.4,
+   "mid": 3.2,
+   "high": 7.5
+  },
+  "srv:app-12": {
+   "low": 1.4,
+   "mid": 3.2,
+   "high": 7.4
+  },
+  "srv:test-01": {
+   "low": 10.2,
+   "mid": 17.5,
+   "high": 46.7
+  },
+  "srv:test-02": {
+   "low": 10.2,
+   "mid": 17.5,
+   "high": 46.7
+  },
+  "srv:test-03": {
+   "low": 10.2,
+   "mid": 17.5,
+   "high": 46.7
+  },
+  "srv:test-04": {
+   "low": 9.8,
+   "mid": 16.8,
+   "high": 44.9
+  },
+  "srv:test-05": {
+   "low": 10.1,
+   "mid": 17.2,
+   "high": 45.8
+  },
+  "srv:test-06": {
+   "low": 10.2,
+   "mid": 17.5,
+   "high": 46.7
+  },
+  "srv:test-07": {
+   "low": 9.8,
+   "mid": 16.8,
+   "high": 44.9
+  },
+  "srv:test-08": {
+   "low": 9.8,
+   "mid": 16.8,
+   "high": 44.9
+  },
+  "srv:qa-regression-01": {
+   "low": 10.2,
+   "mid": 17.5,
+   "high": 46.7
+  },
+  "srv:qa-regression-02": {
+   "low": 10.2,
+   "mid": 17.5,
+   "high": 46.7
+  },
+  "srv:uat-portal": {
+   "low": 10.4,
+   "mid": 17.8,
+   "high": 47.5
+  },
+  "srv:uat-shop": {
+   "low": 10.1,
+   "mid": 17.2,
+   "high": 45.8
+  },
+  "srv:dr-failover": {
+   "low": 10.4,
+   "mid": 17.8,
+   "high": 47.5
+  },
+  "srv:poc-ki-2024": {
+   "low": 9.8,
+   "mid": 16.8,
+   "high": 44.9
+  },
+  "srv:migration-alt": {
+   "low": 10.4,
+   "mid": 17.8,
+   "high": 47.5
+  },
+  "srv:build-agent-old": {
+   "low": 10.2,
+   "mid": 17.5,
+   "high": 46.7
+  },
+  "srv:sbx-alex-01": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-bea-02": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-chris-03": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-dana-04": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-eli-05": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-fay-06": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-alex-07": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-bea-08": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-chris-09": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-dana-10": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-eli-11": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-fay-12": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-alex-13": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-bea-14": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-chris-15": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-dana-16": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-eli-17": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-fay-18": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-alex-19": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-bea-20": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-chris-21": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-dana-22": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-eli-23": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:sbx-fay-24": {
+   "low": 0.0,
+   "mid": 0.0,
+   "high": 0.1
+  },
+  "srv:gpu-ml-01": {
+   "low": 245.1,
+   "mid": 421.0,
+   "high": 859.9
+  },
+  "lic:Accounting software@Finance": {
+   "low": 0.8,
+   "mid": 3.3,
+   "high": 15.3
+  },
+  "lic:CRM platform@Marketing": {
+   "low": 0.5,
+   "mid": 2.2,
+   "high": 10.4
+  },
+  "lic:CRM platform@Sales": {
+   "low": 0.9,
+   "mid": 3.8,
+   "high": 17.8
+  },
+  "lic:Chat tool@Consulting": {
+   "low": 2.1,
+   "mid": 8.8,
+   "high": 41.1
+  },
+  "lic:Chat tool@Finance": {
+   "low": 0.6,
+   "mid": 2.6,
+   "high": 12.3
+  },
+  "lic:Chat tool@HR": {
+   "low": 0.3,
+   "mid": 1.3,
+   "high": 6.0
+  },
+  "lic:Chat tool@IT": {
+   "low": 0.8,
+   "mid": 3.4,
+   "high": 16.0
+  },
+  "lic:Chat tool@Management": {
+   "low": 0.3,
+   "mid": 1.2,
+   "high": 5.5
+  },
+  "lic:Chat tool@Marketing": {
+   "low": 0.6,
+   "mid": 2.7,
+   "high": 12.5
+  },
+  "lic:Chat tool@Sales": {
+   "low": 1.1,
+   "mid": 4.5,
+   "high": 21.2
+  },
+  "lic:ChatGPT Team@HR": {
+   "low": 0.0,
+   "mid": 0.1,
+   "high": 0.7
+  },
+  "lic:ChatGPT Team@Marketing": {
+   "low": 0.0,
+   "mid": 0.1,
+   "high": 1.4
+  },
+  "lic:ChatGPT Team@Sales": {
+   "low": 0.1,
+   "mid": 0.2,
+   "high": 2.6
+  },
+  "lic:Claude Team@Consulting": {
+   "low": 1.3,
+   "mid": 5.4,
+   "high": 63.1
+  },
+  "lic:Claude Team@IT": {
+   "low": 0.5,
+   "mid": 2.1,
+   "high": 24.8
+  },
+  "lic:Claude Team@Marketing": {
+   "low": 0.4,
+   "mid": 1.6,
+   "high": 19.3
+  },
+  "lic:Design tool@Marketing": {
+   "low": 0.3,
+   "mid": 1.2,
+   "high": 5.4
+  },
+  "lic:E-signature@Finance": {
+   "low": 0.3,
+   "mid": 1.2,
+   "high": 5.4
+  },
+  "lic:E-signature@Sales": {
+   "low": 0.4,
+   "mid": 1.9,
+   "high": 9.0
+  },
+  "lic:HR software@Finance": {
+   "low": 0.7,
+   "mid": 3.2,
+   "high": 14.8
+  },
+  "lic:HR software@HR": {
+   "low": 0.4,
+   "mid": 1.5,
+   "high": 7.2
+  },
+  "lic:HR software@Management": {
+   "low": 0.4,
+   "mid": 1.5,
+   "high": 7.2
+  },
+  "lic:Knowledge base@Consulting": {
+   "low": 1.5,
+   "mid": 6.3,
+   "high": 29.4
+  },
+  "lic:Knowledge base@HR": {
+   "low": 0.2,
+   "mid": 0.8,
+   "high": 3.9
+  },
+  "lic:Knowledge base@IT": {
+   "low": 0.6,
+   "mid": 2.4,
+   "high": 11.4
+  },
+  "lic:Microsoft 365@Consulting": {
+   "low": 3.3,
+   "mid": 14.0,
+   "high": 65.5
+  },
+  "lic:Microsoft 365@Finance": {
+   "low": 1.0,
+   "mid": 4.2,
+   "high": 19.9
+  },
+  "lic:Microsoft 365@HR": {
+   "low": 0.5,
+   "mid": 1.9,
+   "high": 9.2
+  },
+  "lic:Microsoft 365@IT": {
+   "low": 1.3,
+   "mid": 5.7,
+   "high": 26.8
+  },
+  "lic:Microsoft 365@Management": {
+   "low": 0.5,
+   "mid": 1.9,
+   "high": 9.2
+  },
+  "lic:Microsoft 365@Marketing": {
+   "low": 1.0,
+   "mid": 4.3,
+   "high": 20.1
+  },
+  "lic:Microsoft 365@Sales": {
+   "low": 1.7,
+   "mid": 7.0,
+   "high": 33.0
+  },
+  "lic:Microsoft Copilot@Consulting": {
+   "low": 1.1,
+   "mid": 4.8,
+   "high": 56.6
+  },
+  "lic:Microsoft Copilot@Finance": {
+   "low": 0.3,
+   "mid": 1.1,
+   "high": 13.1
+  },
+  "lic:Microsoft Copilot@HR": {
+   "low": 0.1,
+   "mid": 0.3,
+   "high": 3.5
+  },
+  "lic:Microsoft Copilot@IT": {
+   "low": 0.5,
+   "mid": 2.0,
+   "high": 22.9
+  },
+  "lic:Microsoft Copilot@Management": {
+   "low": 0.1,
+   "mid": 0.5,
+   "high": 6.0
+  },
+  "lic:Microsoft Copilot@Marketing": {
+   "low": 0.4,
+   "mid": 1.6,
+   "high": 18.5
+  },
+  "lic:Microsoft Copilot@Sales": {
+   "low": 0.6,
+   "mid": 2.5,
+   "high": 29.3
+  },
+  "lic:Note-taking tool@Consulting": {
+   "low": 1.3,
+   "mid": 5.7,
+   "high": 26.7
+  },
+  "lic:Password manager@Consulting": {
+   "low": 2.8,
+   "mid": 11.8,
+   "high": 55.3
+  },
+  "lic:Password manager@Finance": {
+   "low": 0.8,
+   "mid": 3.5,
+   "high": 16.3
+  },
+  "lic:Password manager@HR": {
+   "low": 0.4,
+   "mid": 1.8,
+   "high": 8.4
+  },
+  "lic:Password manager@IT": {
+   "low": 1.1,
+   "mid": 4.6,
+   "high": 21.8
+  },
+  "lic:Password manager@Management": {
+   "low": 0.4,
+   "mid": 1.8,
+   "high": 8.6
+  },
+  "lic:Password manager@Marketing": {
+   "low": 0.8,
+   "mid": 3.5,
+   "high": 16.2
+  },
+  "lic:Password manager@Sales": {
+   "low": 1.4,
+   "mid": 5.9,
+   "high": 27.6
+  },
+  "lic:Project management@Consulting": {
+   "low": 1.6,
+   "mid": 6.9,
+   "high": 32.4
+  },
+  "lic:Project management@IT": {
+   "low": 0.6,
+   "mid": 2.7,
+   "high": 12.9
+  },
+  "lic:Project scheduling@Consulting": {
+   "low": 1.7,
+   "mid": 7.4,
+   "high": 35.0
+  },
+  "lic:Project scheduling@IT": {
+   "low": 0.7,
+   "mid": 3.1,
+   "high": 14.5
+  },
+  "lic:Survey tool@Marketing": {
+   "low": 0.1,
+   "mid": 0.4,
+   "high": 2.1
+  },
+  "lic:Ticket system@Consulting": {
+   "low": 1.9,
+   "mid": 8.1,
+   "high": 37.8
+  },
+  "lic:Ticket system@IT": {
+   "low": 0.7,
+   "mid": 3.2,
+   "high": 14.8
+  },
+  "lic:Time tracking@Consulting": {
+   "low": 2.6,
+   "mid": 11.1,
+   "high": 52.0
+  },
+  "lic:Time tracking@Finance": {
+   "low": 0.8,
+   "mid": 3.3,
+   "high": 15.4
+  },
+  "lic:Time tracking@HR": {
+   "low": 0.4,
+   "mid": 1.7,
+   "high": 7.8
+  },
+  "lic:Time tracking@IT": {
+   "low": 1.0,
+   "mid": 4.4,
+   "high": 20.8
+  },
+  "lic:Time tracking@Management": {
+   "low": 0.4,
+   "mid": 1.6,
+   "high": 7.3
+  },
+  "lic:Time tracking@Marketing": {
+   "low": 0.8,
+   "mid": 3.4,
+   "high": 15.7
+  },
+  "lic:Time tracking@Sales": {
+   "low": 1.3,
+   "mid": 5.8,
+   "high": 27.0
+  },
+  "lic:Video conferencing tool@Consulting": {
+   "low": 1.6,
+   "mid": 6.8,
+   "high": 31.8
+  },
+  "lic:Video conferencing tool@Finance": {
+   "low": 0.5,
+   "mid": 2.0,
+   "high": 9.6
+  },
+  "lic:Video conferencing tool@HR": {
+   "low": 0.3,
+   "mid": 1.1,
+   "high": 5.1
+  },
+  "lic:Video conferencing tool@IT": {
+   "low": 0.6,
+   "mid": 2.7,
+   "high": 12.9
+  },
+  "lic:Video conferencing tool@Management": {
+   "low": 0.3,
+   "mid": 1.2,
+   "high": 5.4
+  },
+  "lic:Video conferencing tool@Marketing": {
+   "low": 0.5,
+   "mid": 1.9,
+   "high": 9.2
+  },
+  "lic:Video conferencing tool@Sales": {
+   "low": 0.8,
+   "mid": 3.4,
+   "high": 15.9
+  }
+ },
+ "calc": {
+  "formula": "CO2 = Σ lines kWh × grid factor of the line's location; Swiss lines × (production / consumption factor). Package savings re-valued with the advisor's rules (share of each scope + relocation term) on the same measures; reduction = savings / actual baseline",
+  "inputs": [
+   {
+    "name": "grid CH consumption (mid)",
+    "value": 0.11,
+    "unit": "kg CO2/kWh",
+    "source": "factors.yaml"
+   },
+   {
+    "name": "grid CH production (mid)",
+    "value": 0.03,
+    "unit": "kg CO2/kWh",
+    "source": "factors.yaml variants"
+   }
+  ],
+  "factor_ids": [
+   "grid_mix_location_based_switzerland"
+  ],
+  "source_files": [
+   "fact_cost",
+   "measures.json"
+  ],
+  "row_count": 36660,
+  "value_status": "estimated",
+  "issue_ids": [],
+  "note": "Checked: linear model = energy engine, package model = measures.json (consumption mix, all levels)."
+ }
+}

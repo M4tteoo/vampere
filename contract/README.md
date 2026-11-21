@@ -44,7 +44,9 @@ Findings, measures and limits are written by an LLM (the advisor and the ticket 
 | `limits.json` | protection windows, blocks, hand-overs, contradictions, with concrete dates | LLM ticket reader + scheduler (code) | **available now** |
 | forecast | `forecast.json` | A2 | 52 weeks in monthly buckets; `without` uses original history and `with` uses already-optimized history (`null` if absent); final month is prorated |
 | optimized history | `optimized_history.json` | Step 9 | Replay coverage: applied, skipped, and human-confirmation measures; optimized history itself is in DuckDB |
-| bonus | `montecarlo.json`, `jobs.json`, `clusters.json` | bonus steps | defined when built |
+| scenarios | `scenarios.json` | B2 | Swiss mix switch: baseline + package under consumption and production mix, CO₂ per entity for the production mix (`ScenariosFile`) |
+| montecarlo | `montecarlo.json` | B1 | probability of reaching the targets over 10,000 factor draws, histogram, tornado (`MonteCarloFile`) |
+| bonus | `jobs.json`, `clusters.json` | A5, A4 | `JobsFile`, `ClustersFile` |
 
 ## Changes from the first list in frontend-3d.todo
 

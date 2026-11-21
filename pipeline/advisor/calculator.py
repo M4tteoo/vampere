@@ -32,7 +32,9 @@ class Calculator:
         self.base_all = fc[fc["in_baseline"]]
         self.rec = self.base_all[~self.base_all["is_one_off"].fillna(False)]
         self.tot = self.base_all[SUMS].sum()
-        self.grid = {k: v for k, v in load_factors()["grid"].items()}
+        # Swiss factor of the run's scenario (consumption / production mix), as the energy engine uses it
+        scenario = ctx.config.get("scenario", "ch_consumption")
+        self.grid = {k: (v["variants"][scenario] if "variants" in v else v) for k, v in load_factors()["grid"].items()}
         srv = pd.DataFrame(facts["servers"]).set_index("id")
         self.srv_res = srv["resource"].to_dict()
         self.srv_share = {s: facts["facts"].get(f"{s}.share_of_resource", {}).get("value", 0) for s in srv.index}

@@ -97,6 +97,8 @@ Example: moving dp-dev to Zurich is `{dp-dev, DE, +X kWh}` plus `{dp-dev, CH, �
 
 ### B2 · Swiss mix switch (`scenarios.py`)
 
+**Status: done.** In-process, no second pipeline run (CO₂ = kWh × grid of each line's location, only Swiss lines change). Same package, CO₂ re-valued: −40.1 % (consumption) / −56.8 % (production); meets under both mixes; at the least favourable factors only under the production mix. `scenarios.json` also has every entity's CO₂ for the production mix (the scene recolours). Fixed on the way: the advisor's Calculator used the consumption factor for relocations to Zurich in every scenario.
+
 **Goal:** the whole picture with the Swiss production mix (~0.030) as well as the consumption mix (0.110), and proof that the package holds in both.
 
 - **Already there:** `config.yaml: scenario`, and `factors.yaml` grid CH `variants` used by the engine. `Meta.scenario` is in every file.
@@ -108,6 +110,8 @@ Example: moving dp-dev to Zurich is `{dp-dev, DE, +X kWh}` plus `{dp-dev, CH, �
 - **Note:** with the production mix, Zurich weighs much less, so −40% CO₂ leans even more on Frankfurt (dp-dev, GPU) and Dublin (vm-test). That is a good robustness argument if it holds.
 
 ### B1 · Monte Carlo (`montecarlo.py` + `pipeline/energy/linear.py`)
+
+**Status: done.** Linear model = engine (≤ 1e-8), package model = measures.json (`package_eval.py`, shared with B2). 10,000 triangular draws, seed 2037: −40 % CO₂ reached in **54 %** of draws (median −40.3 %, p5–p95 −35.4 % … −46.5 %), −25 % cost in 100 %; production mix 100 %. Tornado: the Zurich grid factor drives the spread most (−49.9 % at low, −37.6 % at high), then storage energy. → The package sits right on the line: a measure on Zurich load would add margin. Uses `effects` from measures.json directly, so no `breakdown` field was needed.
 
 **Goal:** "the package meets −40% CO₂ in X% of scenarios", plus a histogram.
 

@@ -524,3 +524,63 @@ export interface CarbonJob {
   kwh_per_run: Record<"marginal" | "full", Range> | null;
   co2_kg_year: Record<"marginal" | "full", Record<"now" | "saving_static" | "saving_dynamic", Range>> | null;
 }
+
+// ------------------------------------------------------ scenarios.json (B2)
+/** Swiss mix switch. The toggle «consumption / production» swaps the Swiss grid factor:
+ *  indicators use scenarios[s].package.reduction, the scene recolours from
+ *  entities_co2_kg_production (consumption values = entities.json). The package is the
+ *  same in both: chosen once (consumption mix), only its CO2 is re-valued. */
+export interface ScenarioResult {
+  grid_ch: Range;                                   // kg CO2 / kWh used for Zurich
+  baseline: { kwh: Range; co2_kg: Range; co2_by_location: Record<LocationCode, Range> };
+  package: {
+    measure_ids: string[];
+    savings_co2_kg: Range;
+    reduction: { co2: Range; cost: Range };         // sorted low ≤ mid ≤ high
+    meets: { co2: boolean; cost: boolean; budget: boolean };   // at mid
+    meets_at_low: { co2: boolean; cost: boolean };             // at the least favourable factors
+  };
+  measures: { id: string; title: string; status: MeasureStatus; in_package: boolean; co2_kg: Range }[];
+}
+
+export interface ScenariosFile {
+  meta: Meta;
+  default: ScenarioId;
+  scenarios: Record<ScenarioId, ScenarioResult>;
+  holds_in_both: boolean;                           // package meets target + budget under both mixes (mid)
+  conclusion: string;                               // one sentence for the panel
+  entities_co2_kg_production: Record<string, Range>; // entity id → CO2 under the production mix
+  calc: Calc;
+}
+
+// ---------------------------------------------------- montecarlo.json (B1)
+/** «The package reaches −40 % CO2 in X % of scenarios»: histogram + big sentence + tornado. */
+export interface MonteCarloSummary {
+  p_meet: number;                                   // share of draws reaching the target, 0..1
+  percentiles: Record<"p5" | "p25" | "p50" | "p75" | "p95", number>; // reduction, 0..1
+  mean: number;
+}
+
+export interface MonteCarloFile {
+  meta: Meta;
+  n_draws: number;
+  seed: number;
+  scenario: ScenarioId;
+  package: { measure_ids: string[]; effort_days: number; deterministic_mid: { co2: number; cost: number } };
+  target: { co2: number; cost: number };
+  budget_met: boolean;
+  co2_reduction: MonteCarloSummary;
+  cost_reduction: MonteCarloSummary;
+  p_meet_both: number;                              // CO2 and cost and budget in the same draw
+  baseline_co2_kg: Record<string, number>;          // percentiles
+  package_savings_co2_kg: Record<string, number>;
+  histogram: { metric: "co2_reduction"; edges: number[]; counts: number[]; target: number }; // edges: N+1 values (0..1)
+  tornado: {                                        // sorted by swing, largest first
+    factor: string; label: string; range: Range;
+    reduction_at_low: number; reduction_at_mid: number; reduction_at_high: number; swing: number;
+  }[];
+  stress_all_factors_together: MonteCarloSummary;   // all factors at the same quantile (extreme)
+  production_mix: MonteCarloSummary;                // same simulation, Swiss production mix (B2)
+  headline: string;
+  calc: Calc;
+}

@@ -1,6 +1,6 @@
-# Pitch notes · bonus features (track 2)
+# Pitch notes · bonus features
 
-What to say about carbon-aware shifting (A5), clustering (A4) and the assistant (A1). Every number comes from the pipeline outputs (`output/jobs.json`, `output/clusters.json`, `output/assistant/eval_report.json`). Re-check them after the last pipeline run.
+What to say about carbon-aware shifting (A5), clustering (A4), the assistant (A1), the Swiss mix switch (B2) and the Monte Carlo (B1). Every number comes from the pipeline outputs (`output/jobs.json`, `output/clusters.json`, `output/assistant/eval_report.json`). Re-check them after the last pipeline run.
 
 ---
 
@@ -116,6 +116,39 @@ Logged on Pietro's machine (assistant development and tests, free-text classifie
   - the **advisor runs** (ticket reader + planning rounds) on Sebastiano's machine: they are in the `output/assistant/usage.jsonl` on that machine
   - the AI used while *building* (coding assistants), per team member
   Add both before the pitch (see `docs/after-step6-checklist.md`, section 5).
+
+## B2 · Swiss mix switch (production vs consumption mix)
+
+> "Switzerland's CO₂ per kWh depends on a choice: count only what Swiss plants produce (30 g), or what Swiss sockets actually draw, imports included (110 g). We chose the second, the honest one. And the package holds under both."
+
+| | Consumption mix (our choice) | Production mix |
+|---|---|---|
+| Zurich grid factor | 0.110 kg/kWh | 0.030 kg/kWh |
+| Baseline CO₂ | 4,483 kg | 3,242 kg |
+| Zurich's share | 1,706 kg (largest island) | 465 kg (Frankfurt becomes the largest) |
+| Package CO₂ reduction | **−40.1%** | **−56.8%** |
+| Package cost reduction | −27.1% | −27.1% (CO₂ factors don't change francs) |
+| Meets the target at the least favourable factors | no (−34.7%) | yes (−44.9%) |
+
+- **Why the package gets *better* with the cleaner Swiss mix:** its biggest measure (M-01) moves dp-dev *to* Zurich. The cleaner Zurich is, the more that move saves (1,223 kg instead of 1,182 kg), while most of the remaining Zurich load weighs less in the baseline.
+- **What to show:** the toggle. The Zurich island fades, Frankfurt becomes the hotspot, the indicators move, and the package stays green.
+- **Method in one line:** every line's CO₂ is its kWh × the grid factor of its location, so only the Swiss lines change. Same package, re-valued, no second analysis needed.
+
+## B1 · Monte Carlo: how sure are we?
+
+> "Every factor we researched is a range, not a number. We ran the package 10,000 times with random factor values inside those ranges. It reaches −40% CO₂ in 54% of the cases: right on the line. Here is what drives it, and what would make it safe."
+
+- **Result** (`output/montecarlo.json`, 10,000 draws, fixed seed):
+  - −40% CO₂ in **54%** of the scenarios. Median −40.3%; 90% of the scenarios lie between −35.4% and −46.5%.
+  - −25% cost in **100%**; budget always met.
+  - With the Swiss production mix: −40% in **100%** (median −53%).
+  - Stress test, all factors high or low together: 53%. The result doesn't depend on assuming the factors are independent.
+- **Tornado, what moves the result:**
+  1. **Zurich grid factor:** −49.9% at its low end, −37.6% at its high end. Most Zurich load (production platform, storage, database) is untouched by the package, so a dirtier Zurich inflates the baseline more than the savings.
+  2. **Storage energy per GB:** same mechanism. Storage sits mostly in Zurich and isn't reduced.
+  3. **Frankfurt grid factor:** a dirtier Frankfurt makes the dp-dev move *more* valuable.
+- **The honest message:** the deterministic answer ("−40.1%, target met") hides that we're on the line. Our tool shows it, and points to the fix: one more measure on **Zurich load** (e.g. dp-prod outside its protection windows, storage tiers) would push the package clearly over −40%.
+- **Why it's trustworthy:** the simulation recomputes the *same* engine (a linear copy, checked against it to 1e-8) and the *same* package rules (checked against the advisor's `measures.json` at low/mid/high). No separate model to believe.
 
 ---
 
