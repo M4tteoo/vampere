@@ -1,0 +1,30 @@
+source: saas_contracts.csv
+system: Licence management (SaaS contracts)
+table: stg_saas_contracts
+dates: {month: "%Y-%m-%d"}
+transforms:
+  - keep_final: {key: [month, contract, cost_center]}
+  - map_values: {column: contract, target: resource_id, ref_key: saas_resources}
+  - cost_center_department: {column: cost_center, target: department}
+cost:
+  date: month
+  grain: month
+  provider: provider
+  service: {fixed: SaaS licence}
+  location: {fixed: EU}
+  quantity: licences_purchased
+  unit: {fixed: licence-month}
+  amount: amount
+  currency: currency
+  cost_center_column: cost_center
+  tool_column: contract
+  method: "licences × price per licence (contract)"
+activity:
+  - date: month
+    period: month
+    entity: contract
+    entity_type: saas_contract
+    department: department
+    metrics:
+      licences_purchased: licences
+      licences_active_30d: licences

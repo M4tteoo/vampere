@@ -1,0 +1,11 @@
+source: extra/data_platform_jobs.csv
+system: Scheduler
+table: stg_data_platform_jobs
+dates: {date: "%Y-%m-%d"}
+transforms:
+  - parse_time_window: {column: time_window}
+activity:
+  - entity: job_name
+    entity_type: job
+    agg: {}
+    metrics: {duration_h: hours}

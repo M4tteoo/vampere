@@ -1,0 +1,6 @@
+source: extra/headcount.csv
+system: HR
+table: alloc_headcount
+dates: {month: "%Y-%m-%d"}
+transforms:
+  - department_alias: {column: department}

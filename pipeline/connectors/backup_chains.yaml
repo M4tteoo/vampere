@@ -1,0 +1,8 @@
+source: extra/backup_chains.csv
+system: Backup administration (snapshot)
+table: stg_backup_chains
+strings: [last_restore_test]
+transforms:
+  - add_constant: {column: resource_id, value: st-backup}
+  - cost_center_department: {column: cost_center, target: department}
+  - flag_missing: {column: last_restore_test, issue: missing_value, action: "backup copies without any recorded restore test"}

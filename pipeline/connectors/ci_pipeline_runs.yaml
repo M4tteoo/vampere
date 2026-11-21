@@ -1,0 +1,21 @@
+source: extra/ci_pipeline_runs.jsonl
+format: jsonl
+system: Build service (CI workflow runs)
+table: stg_ci_pipeline_runs
+month_from: date
+transforms:
+  - coalesce: {target: duration_seconds, sources: [metrics_duration_s, metrics_duration_sec]}
+  - date_part: {column: started_at, target: date}
+  - normalize_project: {columns: [project_id]}
+  - add_constant: {column: resource_id, value: cicd}
+  - impute_group_median: {column: metrics_cpu_h, group: [pipeline, repo]}
+  - impute_group_median: {column: duration_seconds, group: [pipeline, repo]}
+  - add_constant: {column: runs, value: 1}
+activity:
+  - entity: repo
+    entity_type: repository
+    agg: {}
+    metrics:
+      runs: runs
+      duration_seconds: seconds
+      metrics_cpu_h: cpu-hour

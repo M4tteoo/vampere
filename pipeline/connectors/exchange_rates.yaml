@@ -1,0 +1,4 @@
+source: exchange_rates.csv
+system: Finance (ECB reference rates via Deutsche Bundesbank, monthly averages)
+table: fx_monthly
+dates: {month: "%Y-%m-%d"}

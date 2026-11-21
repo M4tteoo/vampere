@@ -45,6 +45,8 @@ Contratto dati (identico per mock e dati veri):
       - limits.json: [{entity_id, type: window | block | human | contradiction, period, text, source (ticket / file)}]
       - quality.json: [{source_file, issue, rows, action}] + contatori totali
       - factors.json: fattori con basso / medio / alto + fonte (per i pannelli «calcolo» e per l'interruttore del mix svizzero)
+      - fx.json: tassi mensili per tutte le coppie CHF/EUR/USD + tassi medi di baseline → selettore della valuta (CHF/EUR/USD); i valori restano cost_chf nei JSON, la conversione è solo di visualizzazione
+        (i risparmi delle misure sono calcolati dal backend ai tassi di baseline: convertirli con i tassi medi di baseline, non con quelli del mese)
       - (bonus) forecast.json, montecarlo.json, jobs.json, clusters.json
   ☐ Caricatore dati unico (un solo punto da cambiare: mock → veri) @must @p1
     Costo: tempo 30m · peso basso
@@ -80,6 +82,9 @@ Pannelli 2D (sempre visibili accanto al 3D):
   ☐ Barra degli indicatori: CO₂, CHF, budget @must @p1
     Costo: tempo 2h · peso basso
     Da fare: tre indicatori che si riempiono: −X% CO₂ (target 40%), −Y% costi (target 25%), CHF usati su 16.500; verde quando il target è raggiunto
+  ☐ Selettore della valuta (CHF / EUR / USD) @nostro @p2
+    Costo: tempo 30m · peso basso
+    Da fare: legge fx.json; converte solo la visualizzazione; target e budget restano definiti in CHF
   ☐ Selettore della metrica (CHF / kWh / CO₂) @must @p1
     Costo: tempo 1h · peso basso
     Da fare: ricolora stanze e isole e cambia lo spessore dei cavi secondo la metrica scelta

@@ -1,0 +1,31 @@
+source: ai_subscriptions.csv
+system: Licence management (AI subscriptions)
+table: stg_ai_subscriptions
+dates: {month: "%Y-%m-%d"}
+transforms:
+  - keep_final: {key: [month, product, cost_center]}
+  - map_values: {column: product, target: resource_id, ref_key: subscription_resources}
+  - cost_center_department: {column: cost_center, target: department}
+cost:
+  date: month
+  grain: month
+  provider: provider
+  service: {fixed: AI subscription}
+  location: {fixed: EU}
+  quantity: licences_purchased
+  unit: {fixed: seat-month}
+  amount: amount
+  currency: currency
+  cost_center_column: cost_center
+  tool_column: product
+  method: "seats × price per seat (contract)"
+activity:
+  - date: month
+    period: month
+    entity: product
+    entity_type: subscription
+    department: department
+    metrics:
+      licences_purchased: seats
+      licences_active_30d: seats
+      messages_30d: messages

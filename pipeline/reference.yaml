@@ -1,0 +1,110 @@
+# Reference data used by the harmonizer. Unlike config.yaml these are facts
+# (with a source), not tunables. Edit only when the underlying fact changes.
+
+cost_centers:   # data_dictionary.md «General rules»
+  4000: Consulting
+  4100: Sales
+  4200: Finance
+  4300: Marketing
+  4400: HR
+  4500: IT
+  4900: Management
+  9000: Overhead
+  9100: Test account
+
+department_aliases:       # spelling used by a source → our department name
+  People: HR              # m365_usage.csv uses «People»
+
+# Region label in the exports → grid location code (location-based CO2)
+regions:
+  "Switzerland (Zurich)": CH
+  "Switzerland (Geneva)": CH
+  "Switzerland (Lausanne)": CH
+  "Germany (Frankfurt)": DE
+  "Ireland (Dublin)": IE
+  "Netherlands (Amsterdam)": NL
+  "France (Paris)": FR
+  "Sweden (Stockholm)": SE
+  "EU (mixed)": EU
+  "USA (mixed)": US
+
+# The four categories required by the case: cloud, server, ai, saas
+resource_categories:
+  server: [vm-app, vm-test, sandbox, gpu-ml]
+  ai: [ai-assistant, ai-quote, ai-marketing, ai-chatbot, ai-agent, ai-agent2, ai-report,
+       sub-copilot, sub-claude, sub-chatgpt]
+  saas: [saas-m365, saas-other, m365-usage]
+  # everything else (data platform, database, storage, reporting, network,
+  # build service, support, hoster) → cloud
+  default: cloud
+
+# Hoster invoice has no resource key: Item label = tool name in the mapping.
+# (resolved automatically against mapping_departments_tools.csv)
+
+# Server name → billing resource. Verified: AWS vm-test bills 1,536 vCPU-h/day
+# = the 16 non-sandbox AWS servers × 4 vCPU × 24 h.
+server_resource_rules:   # first matching regex wins
+  - {pattern: "^app-",     resource_id: vm-app}
+  - {pattern: "^sbx-",     resource_id: sandbox}
+  - {pattern: "^gpu-ml",   resource_id: gpu-ml}
+  - {pattern: ".*",        resource_id: vm-test}
+
+# AI list prices in USD per 1 million tokens (input, cached input, output).
+# Source: README «Real and synthetic data» (platform.claude.com pricing,
+# developers.openai.com, as of 12.11.2026). Mini prices fitted on the gateway
+# rows (median relative error 0.15 %), consistent with list prices.
+ai_list_prices_usd_per_mtok:
+  "Claude Sonnet 4.6":          {input: 3.00, cached: 0.30,  output: 15.00}
+  "GPT-5.4":                    {input: 2.50, cached: 0.25,  output: 15.00}
+  "Azure OpenAI GPT-5.4":       {input: 2.50, cached: 0.25,  output: 15.00}
+  "GPT-5.4 mini":               {input: 0.75, cached: 0.075, output: 4.50}
+  "Azure OpenAI GPT-5.4 mini":  {input: 0.75, cached: 0.075, output: 4.50}
+
+ai_agent_resources:      # ai_agent_runs.jsonl agent → ai_usage resource_id
+  support-agent: ai-agent
+  report-agent: ai-report
+  code-agent: ai-agent2
+  research-agent: ai-agent2
+  sales-agent: ai-agent2
+
+subscription_resources:  # ai_subscriptions.csv product → resource_id
+  "Microsoft Copilot": sub-copilot
+  "Claude Team": sub-claude
+  "ChatGPT Team": sub-chatgpt
+
+saas_resources:          # saas_contracts.csv contract → resource_id
+  "Microsoft 365": saas-m365
+  default: saas-other
+
+# Locations of services that are not billed per region
+default_locations:
+  ai_api: EU             # data_center_locations.csv: AI provider (API) «EU (mixed)»
+  saas: EU               # README: «AI providers and SaaS run in the EU (mixed)»
+
+# One-off events in the data. Curated by a human from tickets; the anomaly
+# detector only proposes candidates. Kept in the actual baseline, tagged
+# is_one_off so measures cannot claim savings on them.
+one_offs:
+  - id: OO-1
+    resource_id: ai-marketing
+    start: 2026-03-17
+    end: 2026-03-19
+    ticket: T-1212
+    reason: "Script stuck in an endless loop (bug, fixed after three days)"
+  - id: OO-2
+    resource_id: net-egress
+    start: 2026-01-12
+    end: 2026-01-14
+    ticket: T-1189
+    reason: "One-off data egress due to file storage migration"
+  - id: OO-3
+    charge_category: Credit
+    reason: "SLA credits (refunds) are not recurring spend"
+
+# Spikes that tickets declare as normal business (not one-offs, not waste)
+expected_peaks:
+  - resource_id: ai-marketing
+    start: 2025-11-24
+    end: 2025-11-30
+    ticket: T-1163
+    reason: "Campaign week, higher volume expected and normal"

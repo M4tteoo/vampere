@@ -1,0 +1,27 @@
+source: extra/ai_agent_runs.jsonl
+format: jsonl
+system: Agent observability log
+table: stg_ai_agent_runs
+month_from: date
+transforms:
+  - coalesce: {target: duration_seconds, sources: [duration_s, duration_seconds]}
+  - date_part: {column: start, target: date}
+  - map_values: {column: agent, target: resource_id, ref_key: ai_agent_resources}
+  - normalize_project: {columns: [project_id]}
+  - impute_group_median: {column: usage_tokens_in, group: agent}
+  - impute_group_median: {column: usage_cache_read_tokens, group: agent}
+  - impute_group_median: {column: usage_tokens_out, group: agent}
+  - add_constant: {column: runs, value: 1}
+activity:
+  - entity: agent
+    entity_type: agent
+    department: department
+    agg: {}
+    metrics:
+      runs: runs
+      steps: steps
+      tool_calls: calls
+      retries: retries
+      usage_tokens_in: tokens
+      usage_tokens_out: tokens
+      duration_seconds: seconds

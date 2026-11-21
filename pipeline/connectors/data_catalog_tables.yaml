@@ -1,0 +1,8 @@
+source: extra/data_catalog_tables.csv
+system: Data catalogue, as of 06.09.2026
+table: stg_data_catalog_tables
+strings: [project_id, retention_required, last_read]
+transforms:
+  - normalize_project: {columns: [project_id]}
+  - add_constant: {column: resource_id, value: dp-storage}
+  - cost_center_department: {column: owner_cost_center, target: owner_department}

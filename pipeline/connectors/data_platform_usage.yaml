@@ -1,0 +1,19 @@
+source: data_platform_usage.csv
+system: Platform monitoring (Databricks-like system tables)
+table: stg_data_platform_usage
+dates: {date: "%Y-%m-%d"}
+transforms:
+  - dedupe_exact
+  - compute: {target: node_hours, expr: "node_count * runtime_h"}
+  - compute: {target: active_node_hours, expr: "node_count * active_use_h"}
+  - compute: {target: idle_ratio, expr: "1 - active_use_h / runtime_h"}
+activity:
+  - entity: resource_id
+    entity_type: resource
+    metrics:
+      node_count: nodes
+      runtime_h: hours
+      active_use_h: hours
+      node_hours: node-hour
+      active_node_hours: node-hour
+      query_count: queries

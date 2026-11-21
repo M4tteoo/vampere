@@ -8,3 +8,7 @@ __pycache__/
 node_modules/
 dist/
 .vercel/
+
+# pipeline outputs (regenerate with: python -m pipeline.run)
+output/*.duckdb
+output/*.duckdb.wal

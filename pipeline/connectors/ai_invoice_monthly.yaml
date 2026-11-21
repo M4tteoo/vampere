@@ -1,0 +1,4 @@
+source: extra/ai_invoice_monthly.csv
+system: AI provider invoices
+table: stg_ai_invoice_monthly
+dates: {month: "%Y-%m-%d"}

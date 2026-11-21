@@ -1,0 +1,18 @@
+source: extra/powerbi_usage.csv
+system: Reporting administration
+table: stg_powerbi_usage
+rename: {resource_id: report_id}
+strings: [report_type]
+dates: {date: "%Y-%m-%d"}
+transforms:
+  - fill_from_group: {column: report_type, group: report_id}
+  - add_constant: {column: resource_id, value: pbi-kap}
+activity:
+  - entity: report_id
+    entity_type: report
+    department: department
+    metrics:
+      refresh_count: refreshes
+      refresh_duration_min: minutes
+      view_count: views
+      active_user_count: users

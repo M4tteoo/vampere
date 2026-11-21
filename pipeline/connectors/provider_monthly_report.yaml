@@ -1,0 +1,4 @@
+source: extra/provider_monthly_report.csv
+system: Cloud provider monthly overview
+table: stg_provider_monthly_report
+dates: {month: "%Y-%m-%d"}
