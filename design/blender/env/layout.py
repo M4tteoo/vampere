@@ -371,6 +371,8 @@ def build_layout():
     for room in DEPTS:
         layout.desktop("ai-assistant:" + room, room, "ai_orb")
     layout.desktop("ai-chatbot", "hr", "ai_orb")
+    # The knowledge chatbot is shared: Consulting uses it too (department on each ai_usage.csv row).
+    layout.desktop("ai-chatbot:consulting", "consulting", "ai_orb")
     layout.desktop("ai-quote", "sales", "quote_device")
     for room, agents in AGENTS.items():
         for i, agent in enumerate(agents):

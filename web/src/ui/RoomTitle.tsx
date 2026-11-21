@@ -35,6 +35,8 @@ export function RoomTitle() {
   if (!room) return null
   const d = data.summary.departments.find((x) => x.id === room)
   if (!d) return null
+  // Quota di questo reparto sulle risorse condivise (già inclusa nei totali).
+  const shared = data.entities.reduce((a, e) => a + (e.allocation?.find((x) => x.department === room)?.share ?? 0) * e.metrics.cost_chf, 0)
 
   return (
     <>
@@ -59,6 +61,7 @@ export function RoomTitle() {
         </div>
         <p className="mt-1 text-[15px] text-muted">
           {d.fte} FTE · {fmtMetric(d.metrics.cost_chf, 'cost_chf')} · {fmtMetric(d.metrics.kwh, 'kwh')} · {fmtMetric(d.metrics.co2_kg, 'co2_kg')} per year
+          {shared > 0 && <span className="text-muted-soft"> · incl. {fmtMetric(shared, 'cost_chf')} of shared services</span>}
         </p>
         <p className="mt-2 text-[12px] text-muted-soft">Click an object to see what it consumes · ← → rotate · Esc back</p>
       </div>

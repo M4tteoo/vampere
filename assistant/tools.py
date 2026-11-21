@@ -166,7 +166,8 @@ def search_entities(store: DataStore, text: str | None, kind: str | None, depart
     hits = [e for e in ents
             if (not q or q in e["id"].lower() or q in e["label"].lower() or q in str(e.get("tool") or "").lower())
             and (not kind or e["kind"] == kind)
-            and (not department or str(e.get("department") or "").lower() == department.lower())
+            and (not department or department.lower() in
+                 [str(e.get("department") or "").lower()] + [a["department"].lower() for a in e.get("allocation", [])])
             and (not location or e.get("location") == location)]
     key = {"cost": "cost_chf", "kwh": "kwh", "co2": "co2_kg"}[sort_by or "cost"]
     hits.sort(key=lambda e: -((e["metrics"].get(key) or {}).get("mid") or 0))

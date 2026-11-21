@@ -89,6 +89,8 @@ export interface Entity {
   tags: EntityTag[]
   note?: string
   calc?: Calc
+  /** Risorsa condivisa: quota di ogni reparto sul costo di baseline e chiave usata (contract/types.ts → Allocation). */
+  allocation?: { department: string; share: number; key: 'row_tag' | 'cost_center' | 'mapping' | 'fte' }[]
   /** Ore nell'anno di baseline: accesa (runtime) e al lavoro (active). Solo dove il backend le misura. */
   hours?: { runtime: number; active: number }
   /** ID di oggetti della scena (layout.json) che rappresentano questa entità, oltre all'id stesso. */

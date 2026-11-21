@@ -27,7 +27,8 @@ Findings, measures and limits are written by an LLM (the advisor and the ticket 
 7. **Dates** are ISO. Months are the first day of the month. Times are local Europe/Zurich with offset.
 8. **Text from the data is untrusted** (some of it contains prompt injections). Fields such as `Limit.quote` must be rendered as **plain text only**, never as HTML or markdown. If `quote_risk = "flagged"`, show "[withheld]" with a link to the quality issue.
 9. **Entity state.** The backend decides it; the frontend only paints it. `flags` lists every state that applies; `state` is the primary one, with precedence `locked > handover > contradiction > waste > driver > normal`. A contradiction takes that precedence only when it is **material**, meaning above the materiality threshold in `pipeline/config.yaml` (the same rule as hand-overs). An immaterial contradiction ranks below the other states but **always stays in `flags`** and in the calc panel (`issue_ids`), so the scene must show it, for example as a small ⚠️ badge. Nothing is hidden.
-10. **Measures can be summed.** The backend defines them without overlap, so the frontend may add up the savings of any selection to update the indicators. Blocked measures are never in `package`.
+10. **Shared resources.** A resource used by several departments (mapping «Overhead», e.g. the office AI assistant, Microsoft 365, AI subscriptions) has `department: null` and an `allocation` list: each department's share of its baseline cost and the key used (`row_tag`, `cost_center`, `mapping`, `fte`). Rule: who uses it pays (row tag or cost center); what is left unallocated is split by FTE.
+11. **Measures can be summed.** The backend defines them without overlap, so the frontend may add up the savings of any selection to update the indicators. Blocked measures are never in `package`.
 
 ## Files
 

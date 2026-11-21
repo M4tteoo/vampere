@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { useApp } from '../store'
 import { fmtMetric } from '../data/compute'
-import { DEPT_LABEL, labelOf, makeCtx, resourceOf, statusOf, type Ctx, type Visual } from '../data/twin'
-import type { Calc, LayoutItem, MetricKey } from '../data/types'
+import { DEPT_ACCENT, DEPT_LABEL, labelOf, makeCtx, resourceOf, statusOf, type Ctx, type Visual } from '../data/twin'
+import type { Calc, Entity, LayoutItem, MetricKey, Metrics } from '../data/types'
 import { PANEL_W } from '../scene/Scene'
 import { Chip, Row, type Tone } from './primitives'
 
@@ -102,6 +102,7 @@ function Body({ ctx, item }: { ctx: Ctx; item: LayoutItem }) {
     <>
       <div className="flex flex-wrap gap-1.5">
         <Chip tone={STATE[st.visual].tone}>{st.visual === 'waste' ? wasteLabel(item) : STATE[st.visual].label}</Chip>
+        {e?.allocation && <Chip tone="human">Shared resource</Chip>}
         {loc && <Chip>{loc.id === 'EU' ? 'Provider · location not stated' : `Runs in ${loc.label}`}</Chip>}
       </div>
 
@@ -119,10 +120,15 @@ function Body({ ctx, item }: { ctx: Ctx; item: LayoutItem }) {
         </section>
       )}
 
+      {eff && e?.allocation && <SharedSplit allocation={e.allocation} room={item.room ?? ''} metrics={eff.metrics} />}
+
       {eff && e && (
         <section className="mt-6">
-          <h3 className="text-[16px] font-semibold text-ink">{whole ? 'Consumption per year' : `Part of · ${e.label}`}</h3>
-          {!whole && <p className="mt-0.5 text-[13px] text-muted">Totals of the whole resource, shared by all its objects.</p>}
+          <h3 className="text-[16px] font-semibold text-ink">
+            {e.allocation ? `Whole resource · ${e.label}` : whole ? 'Consumption per year' : `Part of · ${e.label}`}
+          </h3>
+          {e.allocation && <p className="mt-0.5 text-[13px] text-muted">Per year, all departments together.</p>}
+          {!whole && !e.allocation && <p className="mt-0.5 text-[13px] text-muted">Totals of the whole resource, shared by all its objects.</p>}
           <div className="mt-3 grid grid-cols-3 gap-2">
             {METRICS.map((m) => (
               <div key={m.key} className="rounded-[8px] bg-surface-soft px-3 py-2.5">
@@ -170,6 +176,54 @@ function Body({ ctx, item }: { ctx: Ctx; item: LayoutItem }) {
         <p className="mt-5 text-[14px] text-body">No consumption data is linked to this object yet.</p>
       )}
     </>
+  )
+}
+
+const KEY_LABEL: Record<string, string> = { row_tag: 'by usage', cost_center: 'by cost centre', mapping: 'by owner', fte: 'by headcount (FTE)' }
+
+/** Risorsa condivisa: quota di questo reparto + barra con tutti i reparti e la chiave di ripartizione. */
+function SharedSplit({ allocation, room, metrics }: { allocation: NonNullable<Entity['allocation']>; room: string; metrics: Metrics }) {
+  const mine = allocation.find((a) => a.department === room)
+  const keys = [...new Set(allocation.map((a) => KEY_LABEL[a.key]))]
+  return (
+    <section className="mt-6">
+      <h3 className="text-[16px] font-semibold text-ink">Share of {DEPT_LABEL[room] ?? room}</h3>
+      <p className="mt-0.5 text-[13px] text-muted">
+        Used by {allocation.length} departments. Who uses it pays: split {keys.join(' and ')}.
+      </p>
+      {mine && (
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          {METRICS.map((m) => (
+            <div key={m.key} className="rounded-[8px] bg-primary-soft px-3 py-2.5">
+              <div className="text-[12px] font-medium text-primary">{m.label}</div>
+              <div className="text-[16px] font-semibold text-ink tabular-nums">{fmtMetric(metrics[m.key] * mine.share, m.key)}</div>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="mt-4 flex h-3 overflow-hidden rounded-full">
+        {allocation.map((a) => (
+          <div
+            key={a.department}
+            title={`${DEPT_LABEL[a.department] ?? a.department} ${Math.round(a.share * 100)}%`}
+            style={{ width: `${a.share * 100}%`, background: DEPT_ACCENT[a.department] ?? '#ccc', opacity: !mine || a.department === room ? 1 : 0.35 }}
+          />
+        ))}
+      </div>
+      <ul className="mt-2 divide-y divide-hairline-soft">
+        {allocation.map((a) => (
+          <li key={a.department} className={`flex items-center justify-between py-1.5 text-[13px] ${a.department === room ? 'font-semibold text-ink' : 'text-body'}`}>
+            <span className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full" style={{ background: DEPT_ACCENT[a.department] ?? '#ccc' }} />
+              {DEPT_LABEL[a.department] ?? a.department}
+            </span>
+            <span className="tabular-nums">
+              {Math.round(a.share * 1000) / 10}% <span className="font-normal text-muted">· {KEY_LABEL[a.key]}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 

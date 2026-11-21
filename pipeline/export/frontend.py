@@ -194,6 +194,33 @@ def _utilisation(ctx: Context) -> dict[str, dict]:
     return out
 
 
+def _allocation_key(method: str) -> str:
+    """allocation_method of a cost row → the key shown to the user."""
+    if method.startswith("shared"):
+        return "fte"
+    if method.startswith("row:"):
+        return "cost_center" if "cost_center" in method else "row_tag"
+    return "mapping"
+
+
+def _allocation(rows: pd.DataFrame, dim_row) -> list[dict] | None:
+    """Split of a shared resource (mapping «Overhead», or billed to several departments).
+
+    The rows are already allocated one by one (row tag → row cost center → mapping), so the
+    split is simply each department's share of the resource's baseline cost. None = not shared.
+    """
+    by_dept = rows.groupby("department")["cost_chf"].sum()
+    by_dept = by_dept[by_dept > 0]
+    overhead = dim_row is not None and dim_row.get("department") == "Overhead"
+    if len(by_dept) < 2 and not overhead:
+        return None
+    total = by_dept.sum()
+    return [{"department": dept,
+             "share": _r(v / total, 4),
+             "key": _allocation_key(rows.loc[rows["department"] == dept, "allocation_method"].mode().iat[0])}
+            for dept, v in by_dept.sort_values(ascending=False).items()]
+
+
 def build_entities(ctx: Context, calc: Calc) -> tuple[dict, dict]:
     fc = ctx.tables["fact_cost"]
     b = fc[fc["in_baseline"]]
@@ -238,12 +265,16 @@ def build_entities(ctx: Context, calc: Calc) -> tuple[dict, dict]:
         loc = rows["location"].mode().iat[0] if rows["location"].notna().any() else None
         u = util.get(rid, {})
         flags = ["contradiction"] if rid in contra else []
+        alloc = _allocation(rows, d)
         e = base(f"res:{rid}", "resource", d["tool"] if d is not None else rid, f"loc:{loc}" if loc else None, rows,
                  f"{rows['energy_method'].mode().iat[0]}; cost as billed",
                  note=f"utilisation basis: {u['basis']}" if u else None,
-                 department=rows["department"].mode().iat[0], tool=d["tool"] if d is not None else None,
+                 department=None if alloc else rows["department"].mode().iat[0],
+                 tool=d["tool"] if d is not None else None,
                  category=rows["category"].iat[0], location=loc,
                  utilisation=_r(u.get("utilisation"), 3), idle_ratio=_r(u.get("idle_ratio"), 3))
+        if alloc:
+            e["allocation"] = alloc
         e["flags"] = flags
         e["state"] = ("contradiction" if rid in contra_material
                       else "driver" if "driver" in flags

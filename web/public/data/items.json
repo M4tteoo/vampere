@@ -292,17 +292,41 @@
   "entity_id": "ai-api",
   "label": "Knowledge chatbot",
   "kind": "ai_app",
-  "department": "consulting",
+  "department": "hr",
   "state": "ok",
-  "headline": "121'847 requests per year · 50% on a large model",
+  "headline": "48'548 requests per year · 49% on a large model",
   "facts": [
    {
     "label": "Cost per year",
-    "value": "CHF 291"
+    "value": "CHF 116"
    },
    {
     "label": "Tokens (in + out)",
-    "value": "77'970'467"
+    "value": "31'195'960"
+   },
+   {
+    "label": "Main task",
+    "value": "Manual question (100%)"
+   }
+  ],
+  "source": "ai_usage.csv"
+ },
+ {
+  "id": "ai-chatbot:consulting",
+  "entity_id": "ai-api",
+  "label": "Knowledge chatbot",
+  "kind": "ai_app",
+  "department": "consulting",
+  "state": "ok",
+  "headline": "73'299 requests per year · 50% on a large model",
+  "facts": [
+   {
+    "label": "Cost per year",
+    "value": "CHF 175"
+   },
+   {
+    "label": "Tokens (in + out)",
+    "value": "46'774'507"
    },
    {
     "label": "Main task",

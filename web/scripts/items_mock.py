@@ -116,9 +116,12 @@ for (rid, dept), g in ai.groupby(["resource_id", "department"]):
     d = DEPT.get(dept)
     if rid == "ai-assistant":
         key = f"ai-assistant:{d}"
+    elif f"{rid}:{d}" in ids:
+        key = f"{rid}:{d}"  # shared AI app with one device per department (e.g. ai-chatbot:consulting)
     elif rid in AI_ITEM and rid not in items:
         key = AI_ITEM[rid]
-        g = ai[ai.resource_id == rid]
+        if not any(i.startswith(rid + ":") for i in ids):
+            g = ai[ai.resource_id == rid]
     else:
         continue
     big = g[g.model_class == "large"].requests.sum() / max(1, g.requests.sum())

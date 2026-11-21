@@ -139,6 +139,9 @@ export interface Entity {
   utilisation: number | null;   // 0..1 (CPU, active seats, active hours: see calc)
   idle_ratio: number | null;    // 0..1 (running but not working)
   seats?: { purchased: number; active: number };  // license_group
+  /** Shared resource (mapping «Overhead», or billed to several departments): department is null and
+   *  this lists each department's share of the baseline cost, with the key that allocated it. */
+  allocation?: Allocation[];
   fte?: number;                 // room
   /** Primary visual state. Precedence: locked > handover > contradiction > waste > driver > normal.
    *  A contradiction takes precedence only when material (above the materiality threshold,
@@ -149,6 +152,12 @@ export interface Entity {
   measure_ids: string[];
   limit_ids: string[];
   calc: Calc;
+}
+
+export interface Allocation {
+  department: string;           // "Sales"
+  share: number;                // 0..1 of the resource's baseline cost; shares sum to 1
+  key: "row_tag" | "cost_center" | "mapping" | "fte"; // how the rows were allocated
 }
 
 export interface EntitiesFile {

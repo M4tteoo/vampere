@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T12:19:17+01:00",
+  "generated_at": "2026-11-21T13:27:14+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -1095,7 +1095,7 @@
    "kind": "resource",
    "label": "Office AI assistant",
    "parent_id": "loc:EU",
-   "department": "Consulting",
+   "department": null,
    "tool": "Office AI assistant",
    "category": "ai",
    "location": "EU",
@@ -1159,14 +1159,51 @@
     "row_count": 26734,
     "value_status": "derived_cross_source",
     "issue_ids": []
-   }
+   },
+   "allocation": [
+    {
+     "department": "Consulting",
+     "share": 0.3364,
+     "key": "row_tag"
+    },
+    {
+     "department": "Sales",
+     "share": 0.216,
+     "key": "row_tag"
+    },
+    {
+     "department": "Marketing",
+     "share": 0.1389,
+     "key": "row_tag"
+    },
+    {
+     "department": "Finance",
+     "share": 0.1078,
+     "key": "row_tag"
+    },
+    {
+     "department": "IT",
+     "share": 0.0927,
+     "key": "row_tag"
+    },
+    {
+     "department": "HR",
+     "share": 0.062,
+     "key": "row_tag"
+    },
+    {
+     "department": "Management",
+     "share": 0.0461,
+     "key": "row_tag"
+    }
+   ]
   },
   {
    "id": "res:ai-chatbot",
    "kind": "resource",
    "label": "Knowledge chatbot",
    "parent_id": "loc:EU",
-   "department": "Consulting",
+   "department": null,
    "tool": "Knowledge chatbot",
    "category": "ai",
    "location": "EU",
@@ -1223,7 +1260,19 @@
     "row_count": 1522,
     "value_status": "derived_cross_source",
     "issue_ids": []
-   }
+   },
+   "allocation": [
+    {
+     "department": "Consulting",
+     "share": 0.6023,
+     "key": "row_tag"
+    },
+    {
+     "department": "HR",
+     "share": 0.3977,
+     "key": "row_tag"
+    }
+   ]
   },
   {
    "id": "res:ai-marketing",
@@ -2085,7 +2134,7 @@
    "kind": "resource",
    "label": "Microsoft 365 (licences)",
    "parent_id": "loc:EU",
-   "department": "Consulting",
+   "department": null,
    "tool": "Microsoft 365 (licences)",
    "category": "saas",
    "location": "EU",
@@ -2145,14 +2194,51 @@
     "row_count": 84,
     "value_status": "observed",
     "issue_ids": []
-   }
+   },
+   "allocation": [
+    {
+     "department": "Consulting",
+     "share": 0.3573,
+     "key": "cost_center"
+    },
+    {
+     "department": "Sales",
+     "share": 0.1793,
+     "key": "cost_center"
+    },
+    {
+     "department": "IT",
+     "share": 0.1445,
+     "key": "cost_center"
+    },
+    {
+     "department": "Finance",
+     "share": 0.1082,
+     "key": "cost_center"
+    },
+    {
+     "department": "Marketing",
+     "share": 0.1082,
+     "key": "cost_center"
+    },
+    {
+     "department": "HR",
+     "share": 0.0512,
+     "key": "cost_center"
+    },
+    {
+     "department": "Management",
+     "share": 0.0512,
+     "key": "cost_center"
+    }
+   ]
   },
   {
    "id": "res:saas-other",
    "kind": "resource",
    "label": "Other SaaS contracts",
    "parent_id": "loc:EU",
-   "department": "Consulting",
+   "department": null,
    "tool": "Other SaaS contracts",
    "category": "saas",
    "location": "EU",
@@ -2212,7 +2298,44 @@
     "row_count": 576,
     "value_status": "observed",
     "issue_ids": []
-   }
+   },
+   "allocation": [
+    {
+     "department": "Consulting",
+     "share": 0.3405,
+     "key": "cost_center"
+    },
+    {
+     "department": "Sales",
+     "share": 0.2187,
+     "key": "cost_center"
+    },
+    {
+     "department": "Marketing",
+     "share": 0.1478,
+     "key": "cost_center"
+    },
+    {
+     "department": "IT",
+     "share": 0.1246,
+     "key": "cost_center"
+    },
+    {
+     "department": "Finance",
+     "share": 0.1197,
+     "key": "cost_center"
+    },
+    {
+     "department": "HR",
+     "share": 0.0268,
+     "key": "cost_center"
+    },
+    {
+     "department": "Management",
+     "share": 0.022,
+     "key": "cost_center"
+    }
+   ]
   },
   {
    "id": "res:sandbox",
@@ -2496,7 +2619,7 @@
    "kind": "resource",
    "label": "ChatGPT Team (subscription)",
    "parent_id": "loc:EU",
-   "department": "HR",
+   "department": null,
    "tool": "ChatGPT Team (subscription)",
    "category": "ai",
    "location": "EU",
@@ -2556,14 +2679,31 @@
     "row_count": 36,
     "value_status": "observed",
     "issue_ids": []
-   }
+   },
+   "allocation": [
+    {
+     "department": "Sales",
+     "share": 0.5217,
+     "key": "cost_center"
+    },
+    {
+     "department": "Marketing",
+     "share": 0.3043,
+     "key": "cost_center"
+    },
+    {
+     "department": "HR",
+     "share": 0.1739,
+     "key": "cost_center"
+    }
+   ]
   },
   {
    "id": "res:sub-claude",
    "kind": "resource",
    "label": "Claude Team (subscription)",
    "parent_id": "loc:EU",
-   "department": "Consulting",
+   "department": null,
    "tool": "Claude Team (subscription)",
    "category": "ai",
    "location": "EU",
@@ -2623,14 +2763,31 @@
     "row_count": 36,
     "value_status": "observed",
     "issue_ids": []
-   }
+   },
+   "allocation": [
+    {
+     "department": "Consulting",
+     "share": 0.5882,
+     "key": "cost_center"
+    },
+    {
+     "department": "IT",
+     "share": 0.2353,
+     "key": "cost_center"
+    },
+    {
+     "department": "Marketing",
+     "share": 0.1765,
+     "key": "cost_center"
+    }
+   ]
   },
   {
    "id": "res:sub-copilot",
    "kind": "resource",
    "label": "Microsoft Copilot (subscription)",
    "parent_id": "loc:EU",
-   "department": "Consulting",
+   "department": null,
    "tool": "Microsoft Copilot (subscription)",
    "category": "ai",
    "location": "EU",
@@ -2690,7 +2847,44 @@
     "row_count": 84,
     "value_status": "observed",
     "issue_ids": []
-   }
+   },
+   "allocation": [
+    {
+     "department": "Consulting",
+     "share": 0.36,
+     "key": "cost_center"
+    },
+    {
+     "department": "Sales",
+     "share": 0.18,
+     "key": "cost_center"
+    },
+    {
+     "department": "IT",
+     "share": 0.14,
+     "key": "cost_center"
+    },
+    {
+     "department": "Finance",
+     "share": 0.11,
+     "key": "cost_center"
+    },
+    {
+     "department": "Marketing",
+     "share": 0.11,
+     "key": "cost_center"
+    },
+    {
+     "department": "HR",
+     "share": 0.05,
+     "key": "cost_center"
+    },
+    {
+     "department": "Management",
+     "share": 0.05,
+     "key": "cost_center"
+    }
+   ]
   },
   {
    "id": "res:support",

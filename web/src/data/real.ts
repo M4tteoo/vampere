@@ -26,6 +26,7 @@ interface REntity {
   utilisation: number | null
   idle_ratio: number | null
   seats?: { purchased: number; active: number }
+  allocation?: { department: string; share: number; key: 'row_tag' | 'cost_center' | 'mapping' | 'fte' }[]
   fte?: number
   state: string
   flags: string[]
@@ -57,6 +58,7 @@ const SCENE_IDS: Record<string, string[]> = {
   'ai-agent': ['agent:support-agent'],
   'ai-agent2': ['agent:sales-agent', 'agent:research-agent', 'agent:code-agent'],
   'ai-report': ['agent:report-agent'],
+  'ai-chatbot': ['ai-chatbot:consulting'],
 }
 
 /** Posti di licenza: lic:<Prodotto>@<Reparto> → gruppi della scena (postazioni, dischetti AI, terminali SaaS). */
@@ -134,6 +136,7 @@ export async function loadReal(base: string, items: ItemInfo[], layout: LayoutIt
     },
     scene_ids,
     hours: hours.get(id),
+    allocation: e.allocation?.map((a) => ({ ...a, department: dept(a.department) })),
   })
 
   const entities: Entity[] = []
