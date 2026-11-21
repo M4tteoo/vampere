@@ -258,10 +258,17 @@ Step 4 · Baseline: la fotografia di partenza:
     Riferimenti: README «Submission» (baseline year) · template, prime 3 righe
 
 Step 5 · Find: trovare i driver e gli sprechi:
-  ☐ Classifica dei driver principali @must @p1
+  ✔ Classifica dei driver principali @must @p1 @done(26-11-21)
+    Fatto: pipeline/find/rules.py → findings «driver» (top 5 per CO₂ + top 5 per costo) + sedi «sporche»: Francoforte 37% della CO₂ con l'11% dei costi, Dublino 13% con l'8%
     Cos'è: cosa pesa di più in CHF, kWh e CO₂.
     Da fare: top-N per risorsa, tool, reparto e sede, in tre viste (CHF / kWh / CO₂)
-  ☐ Regole di spreco, ognuna con il numero che la prova @must @p1
+  ✔ Regole di spreco, ognuna con il numero che la prova @must @p1 @done(26-11-21)
+    Fatto: 13 regole semplici (soglie in config.yaml «find»), dati strutturati soltanto (i ticket sono citati per risorsa e data, mai interpretati) → output/findings.json (35 finding con prove e importo in gioco; gli importi si sovrappongono, non sommarli)
+      - dp-dev inattivo 91% · dp-prod inattivo 65% (notti/weekend → Step 7) · GPU 24/7 al 9%, progetto P-004 chiuso da 433 giorni
+      - 10 server di test quasi fermi nel 92% delle settimane (regola: sotto 10% di CPU in almeno 3 settimane su 4, così il test di marzo non nasconde un server quasi sempre fermo) · 3 server dimenticati
+      - 11 licenze sotto il 60% di uso (ChatGPT Team 14%, Survey 12%, E-signature 30%…; CO₂ ≈ 0, solo costo) · «Classify» su modello grande (CHF 8k)
+      - extra: 10,5 TB di tabelle non lette · 21 sorgenti con backup triplo · 19 report Power BI quasi mai aperti · 21% build notturni senza modifiche · 91% report dell'agente mai aperti · 36% traffico bot
+      - anomalie: loop di marzo (già risolto) · egress di gennaio · ai-agent 18–20 maggio (non spiegata → persona)
     Cos'è: cose accese o pagate ma non usate.
     Da fare (output/findings.json, ogni finding con prova + fonte):
       - cluster con active/runtime < 20% → dp-dev (2,1 h di lavoro su 24, Francoforte)
@@ -271,7 +278,8 @@ Step 5 · Find: trovare i driver e gli sprechi:
       - licenze attive / acquistate < 60% → ChatGPT Team, Copilot, Survey tool, E-signature, Design tool, CRM…
       - modello grande per compiti semplici → «Classify» con Sonnet nell'analisi testi di marketing
       - anomalie (z-score sul giornaliero) → loop di marzo 2026
-  ☐ Risposta alla domanda d'esempio 1 @must @p1
+  ✔ Risposta alla domanda d'esempio 1 @must @p1 @done(26-11-21)
+    Fatto: output/answers.json → 67 posti AI su 157 inattivi ad agosto 2026, CHF 1.223,51 al mese (ChatGPT Team 21/23, Copilot 40/100, Claude Team 6/34)
     Cos'è: «Quanti posti AI erano acquistati ma non attivi ad agosto 2026, e quanto costano al mese?»
     Da fare: posti acquistati e attivi per prodotto, costo in CHF, file di origine (example_questions.md)
 

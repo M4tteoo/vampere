@@ -20,7 +20,8 @@ from .harmonize import post, reconcile, store
 from .harmonize.context import Context
 from .harmonize.engine import run_connector
 from .energy import engine as energy
-from .export import frontend, submission
+from .export import answers, frontend, submission
+from .find import rules as find
 
 
 def _args(argv: list[str] | None) -> argparse.Namespace:
@@ -51,9 +52,11 @@ def main(argv: list[str] | None = None) -> int:
     energy.compute(ctx)
     bonus.after_energy(ctx)      # bonus modules that add columns to fact_cost (e.g. market-based CO2)
     post.apply_materiality(ctx)
+    find.find(ctx)
     submission.write_baseline(ctx)
     store.write(ctx)
     frontend.export(ctx)
+    answers.write(ctx)
     status = bonus.after_export(ctx)  # bonus modules that write their own outputs
     _summary(ctx, time.time() - t0)
     if status:
@@ -76,6 +79,9 @@ def _summary(ctx: Context, secs: float) -> None:
           f"CHF {b['cost_chf'].sum() - oo['excess_chf'].sum():,.0f}")
     iss = pd.DataFrame(ctx.issues)
     print("\nIssues by severity:", iss["severity"].value_counts().to_dict())
+    fd = ctx.tables["findings"]
+    print(f"\nFindings: {len(fd)} ({fd['kind'].value_counts().to_dict()})")
+    print(fd[["finding_id", "kind", "severity", "impact_cost_chf", "impact_co2_kg", "title"]].round(0).to_string(index=False))
 
 
 if __name__ == "__main__":

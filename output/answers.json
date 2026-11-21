@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-21T04:39:17+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
+  },
+  "answers": {
+    "q1_find": {
+      "question": "How many AI subscription seats were purchased but not active in August 2026, and what do they cost per month?",
+      "answer": "67 of 157 AI seats were not active in August 2026, costing CHF 1,223.51 per month (USD → CHF at 0.8076, the August 2026 ECB average).",
+      "table": [
+        {
+          "product": "ChatGPT Team",
+          "purchased": 23,
+          "active": 2,
+          "inactive": 21,
+          "price_per_seat_usd": 25.0,
+          "inactive_cost_usd_per_month": 525.0,
+          "inactive_cost_chf_per_month": 423.99,
+          "by_cost_center": {
+            "4100": {
+              "purchased": 12,
+              "active": 1
+            },
+            "4300": {
+              "purchased": 7,
+              "active": 1
+            },
+            "4400": {
+              "purchased": 4,
+              "active": 0
+            }
+          }
+        },
+        {
+          "product": "Claude Team",
+          "purchased": 34,
+          "active": 28,
+          "inactive": 6,
+          "price_per_seat_usd": 25.0,
+          "inactive_cost_usd_per_month": 150.0,
+          "inactive_cost_chf_per_month": 121.14,
+          "by_cost_center": {
+            "4000": {
+              "purchased": 20,
+              "active": 17
+            },
+            "4300": {
+              "purchased": 6,
+              "active": 5
+            },
+            "4500": {
+              "purchased": 8,
+              "active": 6
+            }
+          }
+        },
+        {
+          "product": "Microsoft Copilot",
+          "purchased": 100,
+          "active": 60,
+          "inactive": 40,
+          "price_per_seat_usd": 21.0,
+          "inactive_cost_usd_per_month": 840.0,
+          "inactive_cost_chf_per_month": 678.38,
+          "by_cost_center": {
+            "4000": {
+              "purchased": 36,
+              "active": 23
+            },
+            "4100": {
+              "purchased": 18,
+              "active": 11
+            },
+            "4200": {
+              "purchased": 11,
+              "active": 5
+            },
+            "4300": {
+              "purchased": 11,
+              "active": 7
+            },
+            "4400": {
+              "purchased": 5,
+              "active": 2
+            },
+            "4500": {
+              "purchased": 14,
+              "active": 9
+            },
+            "4900": {
+              "purchased": 5,
+              "active": 3
+            }
+          }
+        }
+      ],
+      "sources": [
+        "ai_subscriptions.csv (contract_status = Final; Draft rows next to Final versions dropped)",
+        "exchange_rates.csv (usd_chf, 2026-08)"
+      ],
+      "calc": "inactive = licences_purchased − licences_active_30d; cost = inactive × price_per_seat (USD) × usd_chf of the month",
+      "note": "Draft rows for the same month and cost center ignored (0 kept as Draft-only: none expected)."
+    }
+  }
+}

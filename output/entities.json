@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T03:58:49+01:00",
+  "generated_at": "2026-11-21T04:39:16+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -640,9 +640,14 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "driver",
+   "flags": [
+    "driver"
+   ],
+   "finding_ids": [
+    "F-02",
+    "F-07"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -726,9 +731,15 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "driver",
+   "flags": [
+    "driver"
+   ],
+   "finding_ids": [
+    "F-01",
+    "F-03",
+    "F-08"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -793,9 +804,15 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "driver",
+   "flags": [
+    "driver"
+   ],
+   "finding_ids": [
+    "F-04",
+    "F-05",
+    "F-09"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -863,9 +880,13 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "driver",
+   "flags": [
+    "driver"
+   ],
+   "finding_ids": [
+    "F-06"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -937,7 +958,9 @@
    "idle_ratio": null,
    "state": "normal",
    "flags": [],
-   "finding_ids": [],
+   "finding_ids": [
+    "F-27"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1176,9 +1199,14 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-26",
+    "F-28"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1300,9 +1328,13 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-34"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1361,9 +1393,15 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste",
+    "driver"
+   ],
+   "finding_ids": [
+    "F-09",
+    "F-30"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1486,12 +1524,17 @@
    },
    "utilisation": 0.087,
    "idle_ratio": 0.913,
-   "state": "driver",
+   "state": "waste",
    "flags": [
-    "driver",
-    "contradiction"
+    "contradiction",
+    "waste",
+    "driver"
    ],
-   "finding_ids": [],
+   "finding_ids": [
+    "F-01",
+    "F-08",
+    "F-10"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1553,12 +1596,16 @@
    },
    "utilisation": 0.35,
    "idle_ratio": 0.65,
-   "state": "driver",
+   "state": "waste",
    "flags": [
-    "driver",
-    "contradiction"
+    "contradiction",
+    "waste",
+    "driver"
    ],
-   "finding_ids": [],
+   "finding_ids": [
+    "F-02",
+    "F-11"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1620,9 +1667,13 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-31"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1682,11 +1733,16 @@
    },
    "utilisation": 0.092,
    "idle_ratio": null,
-   "state": "driver",
+   "state": "waste",
    "flags": [
+    "waste",
     "driver"
    ],
-   "finding_ids": [],
+   "finding_ids": [
+    "F-03",
+    "F-08",
+    "F-12"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1812,7 +1868,9 @@
    "idle_ratio": null,
    "state": "normal",
    "flags": [],
-   "finding_ids": [],
+   "finding_ids": [
+    "F-29"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1874,9 +1932,15 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste",
+    "driver"
+   ],
+   "finding_ids": [
+    "F-07",
+    "F-33"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1994,9 +2058,13 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "driver",
+   "flags": [
+    "driver"
+   ],
+   "finding_ids": [
+    "F-06"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -2177,11 +2245,16 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "driver",
+   "state": "waste",
    "flags": [
+    "waste",
     "driver"
    ],
-   "finding_ids": [],
+   "finding_ids": [
+    "F-04",
+    "F-09",
+    "F-32"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -2601,11 +2674,16 @@
    },
    "utilisation": 0.109,
    "idle_ratio": null,
-   "state": "driver",
+   "state": "waste",
    "flags": [
+    "waste",
     "driver"
    ],
-   "finding_ids": [],
+   "finding_ids": [
+    "F-05",
+    "F-09",
+    "F-13"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -2669,7 +2747,9 @@
    "idle_ratio": null,
    "state": "normal",
    "flags": [],
-   "finding_ids": [],
+   "finding_ids": [
+    "F-35"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -3629,9 +3709,13 @@
    },
    "utilisation": 0.102,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -3705,9 +3789,13 @@
    },
    "utilisation": 0.124,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -3781,9 +3869,13 @@
    },
    "utilisation": 0.104,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -3857,9 +3949,13 @@
    },
    "utilisation": 0.121,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -3933,9 +4029,13 @@
    },
    "utilisation": 0.124,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -4009,9 +4109,13 @@
    },
    "utilisation": 0.138,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -4541,9 +4645,13 @@
    },
    "utilisation": 0.004,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -4617,9 +4725,14 @@
    },
    "utilisation": 0.002,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13",
+    "F-14"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -4693,9 +4806,14 @@
    },
    "utilisation": 0.001,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13",
+    "F-14"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -4769,9 +4887,14 @@
    },
    "utilisation": 0.003,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-13",
+    "F-14"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -6645,9 +6768,13 @@
    },
    "utilisation": 0.092,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-12"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -6783,9 +6910,13 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-15"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -6845,9 +6976,13 @@
    },
    "utilisation": 0.588,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-15"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -7341,9 +7476,13 @@
    },
    "utilisation": 0.0,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-16"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -7403,9 +7542,13 @@
    },
    "utilisation": 0.143,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-16"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -7465,9 +7608,13 @@
    },
    "utilisation": 0.083,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-16"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -7713,9 +7860,13 @@
    },
    "utilisation": 0.375,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-17"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -7775,9 +7926,13 @@
    },
    "utilisation": 0.3,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-18"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -7837,9 +7992,13 @@
    },
    "utilisation": 0.294,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-18"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -8085,9 +8244,13 @@
    },
    "utilisation": 0.5,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-19"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -8147,9 +8310,13 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-19"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -8209,9 +8376,13 @@
    },
    "utilisation": 0.5,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-19"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -8767,9 +8938,13 @@
    },
    "utilisation": 0.455,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-20"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -8829,9 +9004,13 @@
    },
    "utilisation": 0.4,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-20"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -8953,9 +9132,13 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-20"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -9139,9 +9322,13 @@
    },
    "utilisation": 0.471,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-21"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -9635,9 +9822,13 @@
    },
    "utilisation": 0.529,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-22"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -9697,9 +9888,13 @@
    },
    "utilisation": 0.571,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-22"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -9759,9 +9954,13 @@
    },
    "utilisation": 0.588,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-23"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -9883,9 +10082,13 @@
    },
    "utilisation": 0.1,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-24"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -10503,9 +10706,13 @@
    },
    "utilisation": 0.529,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-25"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -10565,9 +10772,13 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-25"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -10627,9 +10838,13 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-25"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -10689,9 +10904,13 @@
    },
    "utilisation": 0.571,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-25"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -10813,9 +11032,13 @@
    },
    "utilisation": 0.5,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-25"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -10875,9 +11098,13 @@
    },
    "utilisation": 0.588,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "waste",
+   "flags": [
+    "waste"
+   ],
+   "finding_ids": [
+    "F-25"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {

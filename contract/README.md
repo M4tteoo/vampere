@@ -36,7 +36,7 @@ The pipeline writes JSON files; the 3D frontend reads them. This folder fixes th
 | `entities.json` | every object in the scene with metrics, state and links | Steps 4–7 | **available now** (states preliminary: driver / contradiction until Steps 5–7) |
 | `timeseries.json` | monthly series for every entity, daily for dp-prod, dp-dev, gpu-ml | Step 4 | **available now** |
 | `factors.json` | conversion factors with low / mid / high + source | Step 3 | **available now** |
-| `findings.json` | drivers and waste, each with its numerical evidence | Step 5 | after Step 5 |
+| `findings.json` | drivers and waste, each with its numerical evidence | Step 5 | **available now** |
 | `measures.json` | measures + recommended package + target check | Steps 6–8 | after Step 8 |
 | `limits.json` | protection windows, blocks, hand-overs, contradictions, with concrete dates | Step 7 | after Step 7 |
 | bonus | `forecast.json`, `montecarlo.json`, `jobs.json`, `clusters.json` | bonus steps | defined when built |

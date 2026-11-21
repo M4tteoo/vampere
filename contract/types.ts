@@ -203,6 +203,8 @@ export interface Evidence {
 export interface FindingsFile {
   meta: Meta;
   findings: Finding[];
+  /** Impacts are amounts at stake, they can overlap: never sum them. */
+  additivity_note: string;
 }
 
 // --------------------------------------------------------- measures.json

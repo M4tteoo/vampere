@@ -331,14 +331,48 @@ def build_timeseries(ctx: Context, members: dict) -> dict:
     return {"meta": _meta(ctx), "series": series}
 
 
+# ------------------------------------------------------------------- states
+PRECEDENCE = ["locked", "handover", "contradiction", "waste", "driver"]
+
+
+def apply_findings(ctx: Context, entities: dict) -> None:
+    """Merge finding flags and links into the entities and set the primary
+    state: locked > handover > material contradiction > waste > driver >
+    immaterial contradiction > normal (contract/README.md, rule 9)."""
+    flags = getattr(ctx, "finding_flags", {})
+    links = getattr(ctx, "finding_links", {})
+    iss = pd.DataFrame(ctx.issues)
+    material = set(iss.loc[iss["issue_type"].eq("contradiction") & iss["severity"].isin(["warn", "handover"])
+                           & iss["resource_id"].notna(), "resource_id"])
+    for e in entities["entities"]:
+        fl = set(e["flags"]) | flags.get(e["id"], set())
+        e["flags"] = [s for s in PRECEDENCE if s in fl]
+        e["finding_ids"] = sorted(links.get(e["id"], set()))
+        rid = e["id"][4:] if e["id"].startswith("res:") else None
+        state = "normal"
+        for s in PRECEDENCE:
+            if s in fl and (s != "contradiction" or rid in material):
+                state = s
+                break
+        if state == "normal" and "contradiction" in fl:
+            state = "contradiction"
+        e["state"] = state
+
+
 # ---------------------------------------------------------------------- run
 def export(ctx: Context) -> None:
     fc = ctx.tables["fact_cost"]
     calc = Calc(ctx, fc)
     summary = build_summary(ctx, calc)
     entities, members = build_entities(ctx, calc)
+    apply_findings(ctx, entities)
     ts = build_timeseries(ctx, members)
-    for name, obj in (("summary.json", summary), ("entities.json", entities), ("timeseries.json", ts)):
+    findings = {"meta": _meta(ctx), "findings": getattr(ctx, "findings", []),
+                "additivity_note": "impact = yearly amount at stake in the baseline year, not a saving; impacts of "
+                                   "different findings can overlap (e.g. a forgotten server is also a low-CPU server) "
+                                   "and must not be summed. Savings are in measures.json."}
+    for name, obj in (("summary.json", summary), ("entities.json", entities), ("timeseries.json", ts),
+                      ("findings.json", findings)):
         with open(ctx.output_dir / name, "w", encoding="utf-8") as fh:
             json.dump(obj, fh, ensure_ascii=False, indent=1)
     ctx.export_summary = summary
