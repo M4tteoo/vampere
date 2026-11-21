@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T15:08:08+01:00",
+  "generated_at": "2026-11-21T15:24:37+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -87,6 +87,124 @@
     "meets_at_low": {
      "co2": true,
      "cost": true
+    }
+   },
+   "packages_by_goal": {
+    "climate_first": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-22",
+      "M-23",
+      "M-25",
+      "M-27",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1152.7,
+      "mid": 2260.7,
+      "high": 4935.9
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4185,
+       "mid": 0.5043,
+       "high": 0.6096
+      },
+      "cost": {
+       "low": 0.2542,
+       "mid": 0.2545,
+       "high": 0.2548
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
+    },
+    "best_value": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-21",
+      "M-22",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1147.1,
+      "mid": 2223.6,
+      "high": 4729.5
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.401,
+       "mid": 0.496,
+       "high": 0.6067
+      },
+      "cost": {
+       "low": 0.2533,
+       "mid": 0.2536,
+       "high": 0.2539
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
+    },
+    "francs_first": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-09",
+      "M-13",
+      "M-15",
+      "M-21",
+      "M-22",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1147.1,
+      "mid": 2223.6,
+      "high": 4729.5
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.401,
+       "mid": 0.496,
+       "high": 0.6067
+      },
+      "cost": {
+       "low": 0.2952,
+       "mid": 0.2955,
+       "high": 0.2958
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
     }
    },
    "measures": [
@@ -532,6 +650,124 @@
     "meets_at_low": {
      "co2": true,
      "cost": true
+    }
+   },
+   "packages_by_goal": {
+    "climate_first": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-22",
+      "M-23",
+      "M-25",
+      "M-27",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1006.0,
+      "mid": 1765.6,
+      "high": 3975.8
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4287,
+       "mid": 0.5446,
+       "high": 0.6501
+      },
+      "cost": {
+       "low": 0.2542,
+       "mid": 0.2545,
+       "high": 0.2548
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
+    },
+    "best_value": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-21",
+      "M-22",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1000.4,
+      "mid": 1728.5,
+      "high": 3769.3
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4065,
+       "mid": 0.5332,
+       "high": 0.6465
+      },
+      "cost": {
+       "low": 0.2533,
+       "mid": 0.2536,
+       "high": 0.2539
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
+    },
+    "francs_first": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-09",
+      "M-13",
+      "M-15",
+      "M-21",
+      "M-22",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1000.4,
+      "mid": 1728.5,
+      "high": 3769.3
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4065,
+       "mid": 0.5332,
+       "high": 0.6465
+      },
+      "cost": {
+       "low": 0.2952,
+       "mid": 0.2955,
+       "high": 0.2958
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
     }
    },
    "measures": [

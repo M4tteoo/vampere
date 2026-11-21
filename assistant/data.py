@@ -48,6 +48,21 @@ class DataStore:
     def entity_ids(self) -> set[str]:
         return {e["id"] for e in (self.output("entities.json") or {}).get("entities", [])}
 
+    def related_ids(self, entity_id: str) -> set[str]:
+        """The entity, its parent resource and its children (a server ↔ its resource): measures may act on
+        either level (e.g. M-04 on res:gpu-ml, M-07 on srv:gpu-ml-01). Rooms, locations and the company are
+        not expanded (their «children» are half the scene)."""
+        ents = (self.output("entities.json") or {}).get("entities", [])
+        by_id = {e["id"]: e for e in ents}
+        out = {entity_id}
+        if not entity_id.startswith(("res:", "srv:", "lic:", "ai:")):
+            return out
+        parent = (by_id.get(entity_id) or {}).get("parent_id")
+        if parent and parent.startswith("res:"):
+            out.add(parent)
+        out |= {e["id"] for e in ents if e.get("parent_id") == entity_id}
+        return out
+
     # ------------------------------------------------------------- free text
     def text_risk(self, text: str | None) -> str:
         return risk_of(text, self._risk)

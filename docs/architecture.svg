@@ -107,9 +107,9 @@
   <text x="880" y="242" class="t" dy="0">windows and blocks</text>
 
   <rect x="868" y="258" width="242" height="62" rx="9" class="ai"/>
-  <text x="880" y="280" class="hs">AI advisor</text>
-  <text x="880" y="300" class="t">finds waste, proposes</text>
-  <text x="880" y="316" class="t">measures and a package</text>
+  <text x="880" y="280" class="hs">Code finds waste · AI refines</text>
+  <text x="880" y="300" class="t">4 small AI agents in parallel</text>
+  <text x="880" y="316" class="t">make the measures realistic</text>
 
   <rect x="868" y="332" width="242" height="80" rx="9" class="code"/>
   <text x="880" y="354" class="hs">Code checks everything</text>
@@ -118,14 +118,12 @@
   <text x="880" y="408" class="t">ok · human decides · blocked</text>
 
   <rect x="868" y="424" width="242" height="46" rx="9" class="code"/>
-  <text x="880" y="444" class="hs">Target check</text>
-  <text x="880" y="462" class="t">−40 % CO₂ · −25 % cost · budget</text>
+  <text x="880" y="444" class="hs">Optimiser: best package</text>
+  <text x="880" y="462" class="t">per goal · −40 % CO₂ · −25 % · budget</text>
 
   <path d="M1088 246 L1088 257" class="flow"/>
   <path d="M1088 320 L1088 331" class="flow"/>
   <path d="M1088 412 L1088 423" class="flow"/>
-  <path d="M1110 447 C1136 447 1136 289 1112 289" class="loop"/>
-  <text x="1146" y="368" class="tag" fill="#92400e" text-anchor="middle" transform="rotate(-90 1146 368)">revise until met</text>
 
   <text x="868" y="498" class="hs">out</text>
   <text x="868" y="520" class="ioa">findings · measures · protection</text>

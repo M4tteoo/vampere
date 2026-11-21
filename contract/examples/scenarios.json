@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T11:49:15+01:00",
+  "generated_at": "2026-11-21T15:18:54+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -53,27 +53,30 @@
    "package": {
     "measure_ids": [
      "M-01",
-     "M-02",
      "M-03",
      "M-04",
-     "M-05",
-     "M-06"
+     "M-08",
+     "M-22",
+     "M-23",
+     "M-25",
+     "M-27",
+     "M-29"
     ],
     "savings_co2_kg": {
-     "low": 1060.9,
-     "mid": 1799.1,
-     "high": 4089.2
+     "low": 1152.7,
+     "mid": 2260.7,
+     "high": 4935.9
     },
     "reduction": {
      "co2": {
-      "low": 0.3467,
-      "mid": 0.4013,
-      "high": 0.5611
+      "low": 0.4185,
+      "mid": 0.5043,
+      "high": 0.6096
      },
      "cost": {
-      "low": 0.2705,
-      "mid": 0.2707,
-      "high": 0.2709
+      "low": 0.2542,
+      "mid": 0.2545,
+      "high": 0.2548
      }
     },
     "meets": {
@@ -82,97 +85,193 @@
      "budget": true
     },
     "meets_at_low": {
-     "co2": false,
+     "co2": true,
      "cost": true
+    }
+   },
+   "packages_by_goal": {
+    "climate_first": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-22",
+      "M-23",
+      "M-25",
+      "M-27",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1152.7,
+      "mid": 2260.7,
+      "high": 4935.9
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4185,
+       "mid": 0.5043,
+       "high": 0.6096
+      },
+      "cost": {
+       "low": 0.2542,
+       "mid": 0.2545,
+       "high": 0.2548
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
+    },
+    "best_value": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-21",
+      "M-22",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1147.1,
+      "mid": 2223.6,
+      "high": 4729.5
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.401,
+       "mid": 0.496,
+       "high": 0.6067
+      },
+      "cost": {
+       "low": 0.2533,
+       "mid": 0.2536,
+       "high": 0.2539
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
+    },
+    "francs_first": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-09",
+      "M-13",
+      "M-15",
+      "M-21",
+      "M-22",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1147.1,
+      "mid": 2223.6,
+      "high": 4729.5
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.401,
+       "mid": 0.496,
+       "high": 0.6067
+      },
+      "cost": {
+       "low": 0.2952,
+       "mid": 0.2955,
+       "high": 0.2958
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
     }
    },
    "measures": [
     {
      "id": "M-01",
-     "title": "Auto-pause and region-move the development data platform",
-     "status": "human",
+     "title": "Auto-pause dp-dev when idle",
+     "status": "ok",
      "in_package": true,
      "co2_kg": {
-      "low": 743.0,
-      "mid": 1181.8,
-      "high": 2375.0
+      "low": 592.1,
+      "mid": 961.0,
+      "high": 1929.7
      }
     },
     {
      "id": "M-02",
-     "title": "Auto-stop the GPU ML server outside quarterly training and booked runs",
-     "status": "ok",
-     "in_package": true,
+     "title": "Pause dp-dev, move to Zurich",
+     "status": "human",
+     "in_package": false,
      "co2_kg": {
-      "low": 201.0,
-      "mid": 345.2,
-      "high": 705.1
+      "low": 631.0,
+      "mid": 862.9,
+      "high": 1746.0
      }
     },
     {
      "id": "M-03",
-     "title": "Scale back test environments: remove dead servers and stop the rest off-hours",
+     "title": "Auto-pause dp-prod when idle",
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 103.4,
-      "mid": 176.6,
-      "high": 471.0
+      "low": 217.8,
+      "mid": 626.0,
+      "high": 1255.2
      }
     },
     {
      "id": "M-04",
-     "title": "Reclaim inactive SaaS and AI subscription seats",
-     "status": "human",
+     "title": "Run gpu-ml on demand",
+     "status": "ok",
      "in_package": true,
      "co2_kg": {
-      "low": 0.0,
-      "mid": 0.0,
-      "high": 0.0
+      "low": 203.8,
+      "mid": 350.0,
+      "high": 715.0
      }
     },
     {
      "id": "M-05",
-     "title": "Route low-risk office-assistant tasks to small models by default",
+     "title": "Run gpu-ml in Zurich",
      "status": "human",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
-      "low": 9.3,
-      "mid": 66.0,
-      "high": 371.6
+      "low": 202.8,
+      "mid": 293.4,
+      "high": 603.9
      }
     },
     {
      "id": "M-06",
-     "title": "Switch marketing classification mostly to a small model",
+     "title": "Decommission forgotten servers",
      "status": "human",
-     "in_package": true,
-     "co2_kg": {
-      "low": 4.2,
-      "mid": 29.5,
-      "high": 166.4
-     }
-    },
-    {
-     "id": "M-07",
-     "title": "Delete third backup copies to save storage",
-     "status": "blocked",
      "in_package": false,
      "co2_kg": {
-      "low": 12.0,
-      "mid": 43.5,
-      "high": 163.3
-     }
-    },
-    {
-     "id": "M-08",
-     "title": "Shut down the DR failover server",
-     "status": "blocked",
-     "in_package": false,
-     "co2_kg": {
-      "low": 10.4,
-      "mid": 17.8,
-      "high": 47.5
+      "low": 30.5,
+      "mid": 52.1,
+      "high": 139.0
      }
     }
    ]
@@ -220,27 +319,30 @@
    "package": {
     "measure_ids": [
      "M-01",
-     "M-02",
      "M-03",
      "M-04",
-     "M-05",
-     "M-06"
+     "M-08",
+     "M-22",
+     "M-23",
+     "M-25",
+     "M-27",
+     "M-29"
     ],
     "savings_co2_kg": {
-     "low": 1073.7,
-     "mid": 1840.1,
-     "high": 4165.5
+     "low": 1006.0,
+     "mid": 1765.6,
+     "high": 3975.8
     },
     "reduction": {
      "co2": {
-      "low": 0.4492,
-      "mid": 0.5676,
-      "high": 0.6939
+      "low": 0.4287,
+      "mid": 0.5446,
+      "high": 0.6501
      },
      "cost": {
-      "low": 0.2705,
-      "mid": 0.2707,
-      "high": 0.2709
+      "low": 0.2542,
+      "mid": 0.2545,
+      "high": 0.2548
      }
     },
     "meets": {
@@ -253,135 +355,231 @@
      "cost": true
     }
    },
+   "packages_by_goal": {
+    "climate_first": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-22",
+      "M-23",
+      "M-25",
+      "M-27",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1006.0,
+      "mid": 1765.6,
+      "high": 3975.8
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4287,
+       "mid": 0.5446,
+       "high": 0.6501
+      },
+      "cost": {
+       "low": 0.2542,
+       "mid": 0.2545,
+       "high": 0.2548
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
+    },
+    "best_value": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-21",
+      "M-22",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1000.4,
+      "mid": 1728.5,
+      "high": 3769.3
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4065,
+       "mid": 0.5332,
+       "high": 0.6465
+      },
+      "cost": {
+       "low": 0.2533,
+       "mid": 0.2536,
+       "high": 0.2539
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
+    },
+    "francs_first": {
+     "measure_ids": [
+      "M-01",
+      "M-03",
+      "M-04",
+      "M-08",
+      "M-09",
+      "M-13",
+      "M-15",
+      "M-21",
+      "M-22",
+      "M-29"
+     ],
+     "savings_co2_kg": {
+      "low": 1000.4,
+      "mid": 1728.5,
+      "high": 3769.3
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4065,
+       "mid": 0.5332,
+       "high": 0.6465
+      },
+      "cost": {
+       "low": 0.2952,
+       "mid": 0.2955,
+       "high": 0.2958
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
+      "cost": true
+     }
+    }
+   },
    "measures": [
     {
      "id": "M-01",
-     "title": "Auto-pause and region-move the development data platform",
-     "status": "human",
+     "title": "Auto-pause dp-dev when idle",
+     "status": "ok",
      "in_package": true,
      "co2_kg": {
-      "low": 755.9,
-      "mid": 1222.7,
-      "high": 2451.3
+      "low": 592.1,
+      "mid": 961.0,
+      "high": 1929.7
      }
     },
     {
      "id": "M-02",
-     "title": "Auto-stop the GPU ML server outside quarterly training and booked runs",
-     "status": "ok",
-     "in_package": true,
+     "title": "Pause dp-dev, move to Zurich",
+     "status": "human",
+     "in_package": false,
      "co2_kg": {
-      "low": 201.0,
-      "mid": 345.2,
-      "high": 705.1
+      "low": 716.6,
+      "mid": 1135.8,
+      "high": 2254.8
      }
     },
     {
      "id": "M-03",
-     "title": "Scale back test environments: remove dead servers and stop the rest off-hours",
+     "title": "Auto-pause dp-prod when idle",
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 103.4,
-      "mid": 176.6,
-      "high": 471.0
+      "low": 76.4,
+      "mid": 170.7,
+      "high": 392.2
      }
     },
     {
      "id": "M-04",
-     "title": "Reclaim inactive SaaS and AI subscription seats",
-     "status": "human",
+     "title": "Run gpu-ml on demand",
+     "status": "ok",
      "in_package": true,
      "co2_kg": {
-      "low": 0.0,
-      "mid": 0.0,
-      "high": 0.0
+      "low": 203.8,
+      "mid": 350.0,
+      "high": 715.0
      }
     },
     {
      "id": "M-05",
-     "title": "Route low-risk office-assistant tasks to small models by default",
+     "title": "Run gpu-ml in Zurich",
      "status": "human",
-     "in_package": true,
+     "in_package": false,
      "co2_kg": {
-      "low": 9.3,
-      "mid": 66.0,
-      "high": 371.6
+      "low": 230.3,
+      "mid": 386.2,
+      "high": 779.9
      }
     },
     {
      "id": "M-06",
-     "title": "Switch marketing classification mostly to a small model",
+     "title": "Decommission forgotten servers",
      "status": "human",
-     "in_package": true,
-     "co2_kg": {
-      "low": 4.2,
-      "mid": 29.5,
-      "high": 166.4
-     }
-    },
-    {
-     "id": "M-07",
-     "title": "Delete third backup copies to save storage",
-     "status": "blocked",
      "in_package": false,
      "co2_kg": {
-      "low": 12.0,
-      "mid": 43.5,
-      "high": 163.3
-     }
-    },
-    {
-     "id": "M-08",
-     "title": "Shut down the DR failover server",
-     "status": "blocked",
-     "in_package": false,
-     "co2_kg": {
-      "low": 10.4,
-      "mid": 17.8,
-      "high": 47.5
+      "low": 30.5,
+      "mid": 52.1,
+      "high": 139.0
      }
     }
    ]
   }
  },
  "holds_in_both": true,
- "conclusion": "The package (M-01, M-02, M-03, M-04, M-05, M-06) reaches −40.1% CO2 with the consumption mix and −56.8% with the production mix; cost −27.1% in both (CO2 factors do not change francs). It meets the target under both Swiss mixes. Over the full factor range: misses −40 % at the least favourable factors with the consumption mix, meets with the production mix.",
+ "conclusion": "The package (M-01, M-03, M-04, M-08, M-22, M-23, M-25, M-27, M-29) reaches −50.4% CO2 with the consumption mix and −54.5% with the production mix; cost −25.4% in both (CO2 factors do not change francs). It meets the target under both Swiss mixes. Over the full factor range: meets −40 % at the least favourable factors with the consumption mix, meets with the production mix.",
  "entities_co2_kg_production": {
   "dept:Consulting": {
    "low": 422.0,
    "mid": 928.2,
    "high": 2597.2
   },
+  "dept:Finance": {
+   "low": 16.8,
+   "mid": 62.8,
+   "high": 278.2
+  },
+  "dept:HR": {
+   "low": 4.2,
+   "mid": 22.8,
+   "high": 121.1
+  },
   "dept:IT": {
    "low": 1061.4,
    "mid": 1979.8,
    "high": 4940.3
   },
-  "loc:CH": {
-   "low": 185.6,
-   "mid": 465.4,
-   "high": 1146.7
+  "dept:Management": {
+   "low": 3.5,
+   "mid": 18.2,
+   "high": 96.8
   },
-  "loc:DE": {
-   "low": 1007.9,
-   "mid": 1659.1,
-   "high": 3345.9
+  "dept:Marketing": {
+   "low": 18.7,
+   "mid": 116.2,
+   "high": 655.8
   },
-  "res:dp-dev": {
-   "low": 762.8,
-   "mid": 1238.1,
-   "high": 2486.0
-  },
-  "res:dp-prod": {
-   "low": 138.3,
-   "mid": 308.9,
-   "high": 709.8
-  },
-  "srv:gpu-ml-01": {
-   "low": 245.1,
-   "mid": 421.0,
-   "high": 859.9
+  "dept:Sales": {
+   "low": 20.5,
+   "mid": 113.4,
+   "high": 582.1
   }
  },
  "calc": {
@@ -410,6 +608,6 @@
   "row_count": 36660,
   "value_status": "estimated",
   "issue_ids": [],
-  "note": "Checked: linear model = energy engine, package model = measures.json (consumption mix, all levels)."
+  "note": "Checked: linear model = energy engine, package model = measures.json (run mix, all levels)."
  }
 }

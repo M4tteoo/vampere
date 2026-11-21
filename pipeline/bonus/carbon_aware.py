@@ -325,13 +325,15 @@ def _after_package(ctx: Context, simulate) -> dict | None:
     saving = {pol: rng(*(sum(j["co2_kg_year"][basis[j["resource_id"]]][pol][l] for j in rows) for l in LEVELS), nd=1)
               for pol in ("saving_static", "saving_dynamic")}
     effort_used = mf["package"]["effort_days"]
+    cfg = ctx.config.get("advisor", {})
+    budget_days = round(float(cfg.get("budget_chf", 16500)) / 1100, 2)     # the optimiser's budget (CHF 1,100 per day)
     return {"package_measures": mf["package"]["measure_ids"], "relocated": loc_of, "energy_basis": basis,
             "because_of": by, "saving": saving,
             "jobs": [{"job_name": j["job_name"], "resource_id": j["resource_id"], "location": j["location"],
                       "basis": basis[j["resource_id"]], "suggested_start": j["suggested_start"],
                       "saving_dynamic": j["co2_kg_year"][basis[j["resource_id"]]]["saving_dynamic"]} for j in rows],
-            "fits_budget": effort_used + EFFORT_DAYS <= 15,
-            "note": f"The package already uses {effort_used} of 15 person-days: adding {EFFORT_DAYS} d for carbon-aware "
+            "fits_budget": effort_used + EFFORT_DAYS <= budget_days,
+            "note": f"The package already uses {effort_used} of {budget_days:g} person-days: adding {EFFORT_DAYS} d for carbon-aware "
                     "scheduling exceeds the budget unless another measure is trimmed."}
 
 

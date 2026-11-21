@@ -614,6 +614,9 @@ export interface ScenarioResult {
     meets: { co2: boolean; cost: boolean; budget: boolean };   // at mid
     meets_at_low: { co2: boolean; cost: boolean };             // at the least favourable factors
   };
+  /** The same, for every feasible goal package of the optimiser (measures.json → packages); the mix toggle
+   *  shows packages_by_goal[selected goal]. `package` = the recommended goal (measures.json → package.goal). */
+  packages_by_goal: Partial<Record<GoalId, ScenarioResult["package"]>>;
   measures: { id: string; title: string; status: MeasureStatus; in_package: boolean; co2_kg: Range }[];
 }
 
@@ -640,6 +643,7 @@ export interface MonteCarloFile {
   n_draws: number;
   seed: number;
   scenario: ScenarioId;
+  goal: GoalId;                                     // the recommended goal; top-level figures are for its package
   package: { measure_ids: string[]; effort_days: number; deterministic_mid: { co2: number; cost: number } };
   target: { co2: number; cost: number };
   budget_met: boolean;
@@ -655,6 +659,12 @@ export interface MonteCarloFile {
   }[];
   stress_all_factors_together: MonteCarloSummary;   // all factors at the same quantile (extreme)
   production_mix: MonteCarloSummary;                // same simulation, Swiss production mix (B2)
+  /** Every feasible goal package on the SAME draws (fair comparison); by_goal[goal] equals the top level. */
+  by_goal: Partial<Record<GoalId, {
+    measure_ids: string[]; effort_days: number;
+    co2_reduction: MonteCarloSummary; cost_reduction: MonteCarloSummary; p_meet_both: number;
+    stress_all_factors_together: MonteCarloSummary;
+  }>>;
   headline: string;
   calc: Calc;
 }

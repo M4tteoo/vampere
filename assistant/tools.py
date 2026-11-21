@@ -496,13 +496,15 @@ ANALYSIS_ITEMS = {"findings": "findings", "measures": "measures", "limits": "lim
 
 
 @tool("Results of the analysis steps: findings (drivers, waste, anomalies with evidence), measures (effort, "
-      "savings, status ok / human / blocked, owner), the recommended package (target check), limits "
+      "savings, status ok / human / blocked, owner), the recommended package (target check) plus the optimal package "
+      "for each goal (climate_first / best_value / francs_first), the «deliberately kept on» list (resources that "
+      "look unused but must not be reduced, with the reason) and when / how the analysis ran, limits "
       "(protection windows, blocks, hand-overs, contradictions), behaviour clusters and jobs (carbon-aware "
       "shifting: which scheduled jobs may move to cleaner hours, CO2 saved, hourly grid profiles). "
       "Recommendations must come from here: never invent a measure or a status.",
       kind=_s("which result", list(ANALYSIS_FILES), nullable=False),
       item_id=_s("one item, e.g. F-01, M-03, L-02, C-2"),
-      entity_id=_s("only items about this entity id"))
+      entity_id=_s("only items about this entity id (includes its parent resource and child servers)"))
 def analysis(store: DataStore, kind: str, item_id: str | None, entity_id: str | None) -> dict:
     data = store.output(ANALYSIS_FILES[kind])
     if data is None:
@@ -510,13 +512,16 @@ def analysis(store: DataStore, kind: str, item_id: str | None, entity_id: str | 
                 "note": f"{ANALYSIS_FILES[kind]} is not produced yet: the team is still building this step. "
                         "Say so instead of guessing."}
     if kind == "package":
-        return {"package": data["package"], "additivity_note": data.get("additivity_note"),
-                "source": "output/measures.json"}
+        analysis_info = {k: v for k, v in (data.get("analysis") or {}).items() if k not in ("calls", "fingerprint")}
+        return {"recommended_goal": data["package"].get("goal"), "package": data["package"],
+                "packages_by_goal": data.get("packages"), "kept_on": data.get("kept_on"), "analysis": analysis_info,
+                "additivity_note": data.get("additivity_note"), "source": "output/measures.json"}
     items = data[ANALYSIS_ITEMS[kind]]
     if item_id:
         items = [i for i in items if item_id in (i.get("id"), i.get("job_name"))]
-    if entity_id:
-        items = [i for i in items if entity_id in i.get("entity_ids", []) or i.get("entity_id") == entity_id]
+    if entity_id:   # also the parent resource / child servers: measures act on either level
+        rel = store.related_ids(entity_id)
+        items = [i for i in items if rel & set(i.get("entity_ids", [])) or i.get("entity_id") in rel]
     if kind == "jobs":
         return {"kind": kind, "items": items[:25], "totals": data["totals"], "method": data["method"],
                 "profile_source": data["profile_source"], "source": "output/jobs.json"}

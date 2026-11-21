@@ -111,6 +111,17 @@ class RealDataTest(unittest.TestCase):
     def test_package_model_equals_measures_json(self):
         self.pm.check()
 
+    def test_every_goal_package_equals_measures_json(self):
+        """The optimiser's packages (climate first / best value / francs first) are reproduced too."""
+        from pipeline.bonus.package_eval import PackageModel
+        pm = PackageModel(self.ctx)
+        self.assertEqual(pm.goals()[0], pm.default_goal)              # the recommended goal first
+        for g in pm.goals():
+            pm.use(g).check()
+            self.assertEqual({m["id"] for m in pm.measures}, set(pm.packages[g]["measure_ids"]))
+        pm.use(None)
+        self.assertEqual(pm.package["measure_ids"], self.pm.package["measure_ids"])
+
     def test_entity_production_totals_match_production_scenario(self):
         from pipeline.bonus.common import read_output
         from pipeline.bonus.scenarios import _entities_production

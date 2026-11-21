@@ -6,7 +6,8 @@ so only the Swiss lines change. Baseline and package come from the linear model
 (pipeline/energy/linear.py, checked against the engine) and the package model
 (package_eval.py, checked against measures.json). The measures are the SAME as in
 measures.json (the package is chosen once, under our consumption mix); only their
-CO2 is re-valued.
+CO2 is re-valued. `packages_by_goal` does the same for each goal package of the optimiser
+(climate first / best value / francs first), so the mix toggle works whichever goal is picked.
 
 Output: output/scenarios.json (contract ScenariosFile). The scene can recolour
 from `entities_co2_kg` (production mix); the consumption values are entities.json.
@@ -31,9 +32,19 @@ def _sorted(d: dict, nd: int = 4) -> dict:
     return rng(lo, d["mid"], hi, nd=nd)
 
 
-def _scenario(pm: PackageModel, sc: str) -> dict:
+def _package(pm: PackageModel, sc: str) -> dict:
     L = pm.levels(sc)
     red = {k: {lvl: float(L[lvl]["reduction"][k]) for lvl in LEVELS} for k in ("co2", "cost")}
+    return {"measure_ids": pm.package["measure_ids"],
+            "savings_co2_kg": rng(*(float(L[l]["savings"]["co2_kg"]) for l in LEVELS), nd=1),
+            "reduction": {k: _sorted(v) for k, v in red.items()},
+            "meets": {"co2": red["co2"]["mid"] >= TARGET["co2"], "cost": red["cost"]["mid"] >= TARGET["cost"],
+                      "budget": bool(pm.package["meets"]["budget"])},
+            "meets_at_low": {k: min(v.values()) >= TARGET[k] for k, v in red.items()}}
+
+
+def _scenario(pm: PackageModel, sc: str) -> dict:
+    L = pm.levels(sc)
     r = factor_ranges(sc)
     measures = []
     for m in pm.all_measures:
@@ -46,14 +57,19 @@ def _scenario(pm: PackageModel, sc: str) -> dict:
                      "co2_kg": rng(*(float(L[l]["baseline"]["co2_kg"]) for l in LEVELS), nd=1),
                      "co2_by_location": {loc: rng(*(float(L[l]["baseline"]["co2_by_location"][loc]) for l in LEVELS), nd=1)
                                          for loc in LOCATIONS}},
-        "package": {"measure_ids": pm.package["measure_ids"],
-                    "savings_co2_kg": rng(*(float(L[l]["savings"]["co2_kg"]) for l in LEVELS), nd=1),
-                    "reduction": {k: _sorted(v) for k, v in red.items()},
-                    "meets": {"co2": red["co2"]["mid"] >= TARGET["co2"], "cost": red["cost"]["mid"] >= TARGET["cost"],
-                              "budget": bool(pm.package["meets"]["budget"])},
-                    "meets_at_low": {k: min(v.values()) >= TARGET[k] for k, v in red.items()}},
+        "package": _package(pm, sc),
+        "packages_by_goal": _by_goal(pm, sc),
         "measures": measures,
     }
+
+
+def _by_goal(pm: PackageModel, sc: str) -> dict:
+    out = {}
+    for g in pm.goals():
+        pm.use(g).check()
+        out[g] = _package(pm, sc)
+    pm.use(None)
+    return out
 
 
 def _entities_production(ctx: Context) -> dict[str, dict]:
@@ -84,6 +100,7 @@ def _entities_production(ctx: Context) -> dict[str, dict]:
 
 
 def run(ctx: Context) -> None:
+    TARGET.update(ctx.config.get("advisor", {}).get("thresholds", {}))   # same thresholds as the advisor's optimiser
     b = ctx.tables["fact_cost"]
     check_linear(b[b["in_baseline"]].reset_index(drop=True), ctx.config.get("scenario", "ch_consumption"))
     pm = PackageModel(ctx)

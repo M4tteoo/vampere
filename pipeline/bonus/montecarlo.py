@@ -12,6 +12,8 @@ Also reported:
   tornado     reduction with one factor at low / high, all others at mid (what drives the spread)
   stress      all factors move together (one random quantile for all): the «all low / all high» extreme
   production  the same simulation with the Swiss production mix (B2)
+  by_goal     the same draws for every goal package of the optimiser (climate first / best value /
+              francs first), so the UI can show the certainty of the goal the manager picks
 
 Output: output/montecarlo.json (contract MonteCarloFile).
 """
@@ -52,6 +54,11 @@ def _cost_draws(gen: np.random.Generator, pm: PackageModel, n: int) -> np.ndarra
     return np.full(n, red["mid"]) if hi == lo else gen.triangular(lo, red["mid"], hi, n)
 
 
+def _pct(x: float) -> str:
+    """Share for the headline: never round 99.9 % up to «100 %»."""
+    return f"{x:.0%}" if x in (0.0, 1.0) or 0.01 <= x <= 0.99 else f"{x:.1%}"
+
+
 def _summary(red: np.ndarray, target: float) -> dict:
     return {"p_meet": round(float((red >= target).mean()), 4),
             "percentiles": {f"p{p}": round(float(np.percentile(red, p)), 4) for p in PCT},
@@ -80,7 +87,25 @@ def _tornado(pm: PackageModel, scenario: str) -> list[dict]:
     return [{**r, "reduction_at_mid": round(base, 4)} for r in rows]
 
 
+def _by_goal(pm: PackageModel, theta: dict, theta_stress: dict) -> dict:
+    """Every feasible goal on the SAME factor draws as the main simulation (common random numbers: a fair
+    comparison, and the recommended goal gives exactly the top-level figures)."""
+    out = {}
+    for g in pm.goals():
+        pm.use(g).check()
+        co2 = np.asarray(pm.evaluate(theta)["reduction"]["co2"])
+        cost = _cost_draws(np.random.default_rng(SEED + 1), pm, N_DRAWS)
+        budget = bool(pm.package["meets"]["budget"])
+        out[g] = {"measure_ids": pm.package["measure_ids"], "effort_days": pm.package["effort_days"],
+                  "co2_reduction": _summary(co2, TARGET["co2"]), "cost_reduction": _summary(cost, TARGET["cost"]),
+                  "p_meet_both": round(float(((co2 >= TARGET["co2"]) & (cost >= TARGET["cost"]) & budget).mean()), 4),
+                  "stress_all_factors_together": _summary(np.asarray(pm.evaluate(theta_stress)["reduction"]["co2"]), TARGET["co2"])}
+    pm.use(None)
+    return out
+
+
 def run(ctx: Context) -> None:
+    TARGET.update(ctx.config.get("advisor", {}).get("thresholds", {}))   # same thresholds as the advisor's optimiser
     pm = PackageModel(ctx)
     pm.check()
     gen = np.random.default_rng(SEED)
@@ -94,15 +119,19 @@ def run(ctx: Context) -> None:
 
     u = gen.random(N_DRAWS)                                         # stress: all factors at the same quantile
     ranges = factor_ranges(scenario)
-    stress = np.asarray(pm.evaluate({p: _quantile_triangular(u, ranges[p]) for p in UNCERTAIN})["reduction"]["co2"])
+    theta_stress = {p: _quantile_triangular(u, ranges[p]) for p in UNCERTAIN}
+    stress = np.asarray(pm.evaluate(theta_stress)["reduction"]["co2"])
 
     prod, _ = _simulate(pm, "ch_production", gen)
     prod_co2 = np.asarray(prod["reduction"]["co2"])
 
+    by_goal = _by_goal(pm, theta, theta_stress)
+    # the recommended goal: same cost draws as the top level, so both views show the same figures
+    by_goal[pm.goal].update(cost_reduction=_summary(cost, TARGET["cost"]), p_meet_both=round(float(both.mean()), 4))
     counts, edges = np.histogram(co2, bins=BINS)
     co2_sum = _summary(co2, TARGET["co2"])
     payload = {
-        "n_draws": N_DRAWS, "seed": SEED, "scenario": scenario,
+        "n_draws": N_DRAWS, "seed": SEED, "scenario": scenario, "goal": pm.goal,
         "package": {"measure_ids": pm.package["measure_ids"], "effort_days": pm.package["effort_days"],
                     "deterministic_mid": {"co2": round(float(pm.evaluate(at_level(ranges, "mid"))["reduction"]["co2"]), 4),
                                           "cost": round(float(pm.package["reduction"]["cost"]["mid"]), 4)}},
@@ -117,8 +146,9 @@ def run(ctx: Context) -> None:
         "tornado": _tornado(pm, scenario),
         "stress_all_factors_together": _summary(stress, TARGET["co2"]),
         "production_mix": _summary(prod_co2, TARGET["co2"]),
-        "headline": f"The package reaches −40 % CO2 in {co2_sum['p_meet']:.0%} of {N_DRAWS:,} factor scenarios "
-                    f"(median −{co2_sum['percentiles']['p50']:.1%}); −25 % cost in {float((cost >= TARGET['cost']).mean()):.0%}.",
+        "by_goal": by_goal,
+        "headline": f"The package reaches −40 % CO2 in {_pct(co2_sum['p_meet'])} of {N_DRAWS:,} factor scenarios "
+                    f"(median −{co2_sum['percentiles']['p50']:.1%}); −25 % cost in {_pct(float((cost >= TARGET['cost']).mean()))}.",
         "calc": {
             "formula": "for each of N draws: factors ~ triangular(low, mid, high) independently; reduction = package CO2 "
                        "savings / baseline CO2, both recomputed with the drawn factors (linear energy model + package model)",
