@@ -1,22 +1,24 @@
+what d
+
 # Bonus plan · GreenOps Basel
 
 Two people build the bonus features while the rest of the team works on the UI and on Steps 5–8 (findings, measures, limits, optimizer). Each bonus is its own module, so we can work in parallel without editing the same files.
 
 ## Scope
 
-| Feature | Module | Status |
-|---|---|---|
-| A3 · Market-based CO₂ | `pipeline/bonus/market.py` | in |
-| B2 · Swiss mix switch (production vs consumption) | `pipeline/bonus/scenarios.py` | in |
-| A5 · Carbon-aware load shifting | `pipeline/bonus/carbon_aware.py` | in (lowest priority) |
-| A4 · Clustering | `pipeline/bonus/clusters.py` | in |
-| A2 · Forecast | `pipeline/bonus/forecast.py` | in |
-| A1 · Chat assistant | `assistant/` (separate package) | in |
-| B1 · Monte Carlo | `pipeline/bonus/montecarlo.py` (+ `pipeline/energy/linear.py`) | in |
-| B3 · Every number opens / B8 · Intake log | already in place | keep: every bonus number carries a `calc` |
-| A6 · CI pipelines | – | out |
-| B5 · Approval queue | – | out |
-| B4 · Savings calendar | – | out as its own module. The forecast uses `Measure.start_date` from Step 6 anyway |
+| Feature                                            | Module                                                             | Status                                                                             |
+| -------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| A3 · Market-based CO₂                            | `pipeline/bonus/market.py`                                       | in                                                                                 |
+| B2 · Swiss mix switch (production vs consumption) | `pipeline/bonus/scenarios.py`                                    | in                                                                                 |
+| A5 · Carbon-aware load shifting                   | `pipeline/bonus/carbon_aware.py`                                 | in (lowest priority)                                                               |
+| A4 · Clustering                                   | `pipeline/bonus/clusters.py`                                     | in                                                                                 |
+| A2 · Forecast                                     | `pipeline/bonus/forecast.py`                                     | in                                                                                 |
+| A1 · Chat assistant                               | `assistant/` (separate package)                                  | in                                                                                 |
+| B1 · Monte Carlo                                  | `pipeline/bonus/montecarlo.py` (+ `pipeline/energy/linear.py`) | in                                                                                 |
+| B3 · Every number opens / B8 · Intake log        | already in place                                                   | keep: every bonus number carries a `calc`                                        |
+| A6 · CI pipelines                                 | –                                                                 | out                                                                                |
+| B5 · Approval queue                               | –                                                                 | out                                                                                |
+| B4 · Savings calendar                             | –                                                                 | out as its own module. The forecast uses `Measure.start_date` from Step 6 anyway |
 
 ## Ground rules
 
@@ -188,40 +190,40 @@ Example: moving dp-dev to Zurich is `{dp-dev, DE, +X kWh}` plus `{dp-dev, CH, �
 
 It's a separate package (`assistant/`) because it's a server, not a pipeline step, with its own `requirements-assistant.txt`.
 
-| Sub-module | What | Can start now? |
-|---|---|---|
-| `assistant/llm.py` | Adapter around the LLM access sprintd provides (provider still to confirm: **ask the organisers now**). Logs tokens per call to `output/ai_usage_log.jsonl`, which also gives us the "energy of our own AI" sentence. | yes, once we have access |
-| `assistant/tools.py` | **Read-only** tools over DuckDB (`read_only=True`) and the JSON files. No free SQL. Tools: `query_metrics(scope, metric, period)`, `get_entity(id)`, `explain_calculation(id)`, `get_finding(id)`, `get_measure(id)`, `get_limit(id)`, `list_issues(filter)`, `get_factor(id)`, `get_forecast(year)`, `calculate(expression)`. The safe arithmetic tool means derived numbers also come from a tool. Each tool returns `{value, unit, formula, source_files, ids}`. | yes, on today's DuckDB and JSON |
-| `assistant/classify_text.py` | LLM classifier over the `free_text` table → `text_risk` (ok / flagged + reason). The text goes in strictly as data, the output is structured, and results are cached in `assistant/text_risk_cache.json` (hash → label, model, date) and committed, so the pipeline stays offline and deterministic. The Step 7 owner reads it for `Limit.quote_risk`. | yes |
-| `assistant/server.py` | A small HTTP API: `POST /chat` → tool loop. The system prompt holds the only authority. Free text returned by tools is wrapped as untrusted data, and flagged texts are redacted with a link to the issue. There is no tool that changes or switches off anything. The response returns `focus_entity_ids` so the camera can move. | yes |
-| `assistant/verify.py` | Answer check: every number in the answer must match a tool result (allowing for rounding); every recommendation must match a measure status from the Step 7 checks. If it fails, regenerate once, otherwise answer with a warning. | yes |
-| `assistant/tests/` | Attack suite: the injections already in the data plus about 20 of our own (in data fields and in user messages), and the 3 example questions as regression tests. One command runs them and prints the pass rate for the pitch. | yes. The example answers improve once Steps 5–7 land |
+| Sub-module                     | What                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Can start now?                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `assistant/llm.py`           | Adapter around the LLM access sprintd provides (provider still to confirm: **ask the organisers now**). Logs tokens per call to `output/ai_usage_log.jsonl`, which also gives us the "energy of our own AI" sentence.                                                                                                                                                                                                                                                                     | yes, once we have access                              |
+| `assistant/tools.py`         | **Read-only** tools over DuckDB (`read_only=True`) and the JSON files. No free SQL. Tools: `query_metrics(scope, metric, period)`, `get_entity(id)`, `explain_calculation(id)`, `get_finding(id)`, `get_measure(id)`, `get_limit(id)`, `list_issues(filter)`, `get_factor(id)`, `get_forecast(year)`, `calculate(expression)`. The safe arithmetic tool means derived numbers also come from a tool. Each tool returns `{value, unit, formula, source_files, ids}`. | yes, on today's DuckDB and JSON                       |
+| `assistant/classify_text.py` | LLM classifier over the `free_text` table → `text_risk` (ok / flagged + reason). The text goes in strictly as data, the output is structured, and results are cached in `assistant/text_risk_cache.json` (hash → label, model, date) and committed, so the pipeline stays offline and deterministic. The Step 7 owner reads it for `Limit.quote_risk`.                                                                                                                                  | yes                                                   |
+| `assistant/server.py`        | A small HTTP API: `POST /chat` → tool loop. The system prompt holds the only authority. Free text returned by tools is wrapped as untrusted data, and flagged texts are redacted with a link to the issue. There is no tool that changes or switches off anything. The response returns `focus_entity_ids` so the camera can move.                                                                                                                                                           | yes                                                   |
+| `assistant/verify.py`        | Answer check: every number in the answer must match a tool result (allowing for rounding); every recommendation must match a measure status from the Step 7 checks. If it fails, regenerate once, otherwise answer with a warning.                                                                                                                                                                                                                                                                | yes                                                   |
+| `assistant/tests/`           | Attack suite: the injections already in the data plus about 20 of our own (in data fields and in user messages), and the 3 example questions as regression tests. One command runs them and prints the pass rate for the pitch.                                                                                                                                                                                                                                                                   | yes. The example answers improve once Steps 5–7 land |
 
 - **Contract:** add the `ChatRequest` / `ChatResponse` types (`answer`, `numbers[] {value, unit, tool, ref}`, `sources[]`, `focus_entity_ids[]`, `warnings[]`) to `types.ts` so the UI can build the panel on a mock.
 - **Demo safety:** cache the answers to the 3 example questions, so the pitch works without a network connection.
 
 ## Who does what
 
-| | Person 1 · Numbers track | Person 2 · Behaviour and assistant track |
-|---|---|---|
-| first | 0 · Shared foundation (together) | 0 · Shared foundation (together) + ask sprintd for AI access |
-| 1 | A3 Market-based | A1 tools + text classifier |
-| 2 | B2 Swiss mix switch (CLI + double run) | A4 Clustering |
-| 3 | B1 linear model + sampler (baseline) | A1 server + verify + attack suite |
-| 4 | A2 Forecast (without package) | A5 Carbon-aware |
+|                    | Person 1 · Numbers track                                        | Person 2 · Behaviour and assistant track                                                |
+| ------------------ | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| first              | 0 · Shared foundation (together)                                | 0 · Shared foundation (together) + ask sprintd for AI access                            |
+| 1                  | A3 Market-based                                                  | A1 tools + text classifier                                                               |
+| 2                  | B2 Swiss mix switch (CLI + double run)                           | A4 Clustering                                                                            |
+| 3                  | B1 linear model + sampler (baseline)                             | A1 server + verify + attack suite                                                        |
+| 4                  | A2 Forecast (without package)                                    | A5 Carbon-aware                                                                          |
 | when Step 6/8 land | A3 market savings, B2 package check, B1 package, A2 with package | A1: answers to the 3 example questions, recommendations checked against measure statuses |
 
 **Cut line if time runs out**, in this order: A5 → B1 v2 (keep v1) → A2 seasonality → A1 verify (keep the read-only tools and the redaction).
 
 ## Files we touch outside our modules (tell the team)
 
-| File | Change | Why |
-|---|---|---|
-| `pipeline/run.py` | 2 hook calls (`bonus.after_energy`, `bonus.after_export`) + `--scenario` / `--out` flags | registry, B2 |
-| `pipeline/config.yaml` | `bonus:` section | toggles |
-| `pipeline/export/frontend.py` | `metrics()` / `SUMS`: include `co2_kg_market_*` when the columns exist (about 3 lines) | A3 in summary and entities |
-| `contract/types.ts` + `contract/examples/` | bonus section: `ForecastFile`, `MonteCarloFile`, `ClustersFile`, `JobsFile`, `ScenariosFile`, `MarketFile`, chat types; optional `Measure.breakdown` | the UI builds in parallel |
-| `requirements.txt` | scikit-learn (if used) | A4 |
+| File                                           | Change                                                                                                                                                             | Why                        |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
+| `pipeline/run.py`                            | 2 hook calls (`bonus.after_energy`, `bonus.after_export`) + `--scenario` / `--out` flags                                                                   | registry, B2               |
+| `pipeline/config.yaml`                       | `bonus:` section                                                                                                                                                 | toggles                    |
+| `pipeline/export/frontend.py`                | `metrics()` / `SUMS`: include `co2_kg_market_*` when the columns exist (about 3 lines)                                                                       | A3 in summary and entities |
+| `contract/types.ts` + `contract/examples/` | bonus section: `ForecastFile`, `MonteCarloFile`, `ClustersFile`, `JobsFile`, `ScenariosFile`, `MarketFile`, chat types; optional `Measure.breakdown` | the UI builds in parallel  |
+| `requirements.txt`                           | scikit-learn (if used)                                                                                                                                             | A4                         |
 
 ## What we can do right now, without waiting for anyone
 
