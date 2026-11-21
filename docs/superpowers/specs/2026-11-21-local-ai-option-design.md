@@ -62,29 +62,55 @@ Fields:
 
 ## Calculation (`pipeline/bonus/local_ai.py`, deterministic, no LLM)
 
-For each workload × model × hardware:
+Rent, setup and maintenance are fixed costs shared by every workload on a GPU. So feasibility and energy are computed per **fit** (workload × model × hardware), while cost and break-even are computed per **scenario** (hardware × model × set of workloads).
+
+### Fits (workload × model × hardware)
 
 1. **Feasibility.**
-   - Model VRAM at the chosen quantisation, plus KV-cache for the typical context, fits the hardware VRAM.
-   - Throughput is at least the peak tokens/s.
-   - Model tier is at least the required tier.
+   - The model's weight memory × 1.2 (runtime and KV-cache headroom) must fit the hardware VRAM.
+   - The batched throughput (mid) must be at least the workload's peak tokens/s in year 3, after token growth.
+   - The model tier must be at least the workload tier.
+   - The model must have a throughput figure for the hardware's GPU class.
 
-   Every rejection keeps a reason string, e.g. "70B Q4 needs 42 GB, gpu-ml-01 has 24 GB".
-2. **GPU hours** = yearly output-equivalent tokens / throughput, plus idle time.
-   - Owned and already always on (`gpu-ml-01`): count only the **incremental** energy and cost of the active hours.
-   - New hardware: take the cheaper of always-on and office-hours-only.
-3. **3-year cost in CHF.**
-   - Local = rent or lease + electricity (when not included) + one-off setup (`setup_days` × CHF 1,100) + maintenance (`maint_days_per_year` × CHF 1,100 × 3).
-   - API = baseline API cost × 3, scaled by the growth assumptions already in `forecast.json`. They are read, not recomputed.
-   - **Break-even month**: the first month when cumulative local cost falls below cumulative API cost, or `null`.
-4. **Energy and CO₂.** kWh = hours × W × PUE. CO₂ uses the location grid factor. The factor ids come from `factors.json` (same factors as the rest of the product). `co2_kg_market` is optional.
-5. **Ranges.** Every figure is `{low, mid, high}`, from the low/high bounds of throughput, prices and factors.
-6. **Selection.**
-   - Per workload: the best option by cost and the best option by CO₂.
-   - **Consolidated** options: several workloads on one GPU, first of all "all feasible workloads on `gpu-ml-01`".
-7. **Pros and cons** come from rules, each backed by a number. Examples:
-   - pros: private data stays in CH or DE under company control, no per-token price risk, fixed cost, uses idle GPU;
-   - cons: lower quality on `advanced` tasks, ops skills needed, single point of failure, model updates, and peak throughput margin when it is low.
+   Every rejection keeps a reason string, e.g. "Llama 3.3 70B (4-bit) needs 48 GB with headroom; gpu-ml-01 has 48 GB".
+2. **GPU hours per year** = output-equivalent tokens / batched throughput / 3600. Output-equivalent tokens use the same formula as the energy engine: output + 0.1 × uncached input + 0.01 × cached input.
+
+### Scenarios (hardware × model × workload set)
+
+- **Workload sets:**
+  - `all`: all 7 workloads.
+  - `hybrid`: every workload except `advanced` ones, which stay on the API.
+  - `single`: one per workload, to see if it pays off on its own.
+- **Model choice:** for each hardware and set, the feasible model with the lowest energy. Ties go to the lowest weight memory.
+- **On-hours per year:**
+  - Hourly-billed cloud hardware runs in office hours only: baseline workdays (`dim_date.workday`) × 10 h.
+  - Monthly hardware (hoster) is on 8,760 h per year.
+- **3-year local cost (CHF):**
+  - rent: on-hours × hourly price, or 12 × monthly price, per year;
+  - setup, once: `setup_days` × CHF 1,100;
+  - maintenance: `maint_days_per_year` × CHF 1,100 per year.
+
+  Electricity is included in cloud and hoster prices.
+- **`gpu-ml-01` (owned) and measure M-04.** The package already contains M-04 "Run gpu-ml on demand", which stops the GPU outside quarter days. Running inference there in office hours gives back part of that saving. This is recorded in `interacts_with` (measure id, title, CHF per year) and counted as the rent of `gpu-ml-01`, at the hourly rate derived from `azure_costs.csv` (baseline cost / baseline hours). A second figure, "vs today (24/7, without M-04)", is shown only in `calc.inputs`. M-04 itself is not changed.
+- **3-year API cost** = baseline API cost of the moved workloads, from `fact_cost`, year y × (1 + token growth)^y for y = 1, 2, 3. Token growth comes from `forecast.json` (`assumptions[id=token_growth]`). It is read, not recomputed.
+- **Break-even month**: the first month m (1…36) where cumulative local cost (setup + m × monthly cost) ≤ cumulative API cost, or `null`.
+- **Energy and CO₂:**
+  - kWh = (on-hours × idle W + GPU hours × (TDP − idle W)) / 1000 × PUE, plus host W × on-hours;
+  - CO₂ = kWh × location grid factor.
+
+  The factor ids (`pue`, `pue_hoster`, `grid_mix_location_based_*`) and the GPU idle range come from `pipeline/energy/factors.yaml`, the same factors used by the rest of the product.
+- **Ranges:**
+  - `low` = cheap prices, high throughput, low factors, few person-days;
+  - `high` = the opposite.
+
+  Break-even uses local high against API low for its pessimistic bound.
+- **Pros and cons** come from rules, each backed by a number:
+  - **pros:** private data stays in CH or DE under company control; API cost avoided; energy and CO₂ change; GPU utilisation goes up; no per-token price risk.
+  - **cons:** quality gap on `advanced` tasks; setup person-days against the CHF 16,500 budget; maintenance per year; single point of failure; quarterly training weeks share `gpu-ml-01` (ticket T-1101); M-04 saving given back; capacity or quota not guaranteed in CH regions; estimated prices.
+- **Best:**
+  - `by_cost`: the feasible scenario with the highest 3-year saving (mid);
+  - `by_co2`: the feasible scenario with the lowest CO₂ (mid);
+  - for each workload, the fit with the lowest energy.
 
 **Read-only guarantee:** the module only reads the existing outputs. It writes only `output/local_ai.json`.
 
@@ -95,21 +121,21 @@ New type `LocalAiFile` in `contract/types.ts`, mirrored in `web/src/data/types.t
 ```ts
 interface LocalAiFile {
   meta: Meta;
-  advisory: true;
+  advisory: true;                 // information only, a human decides
   horizon_years: 3;
-  workloads: LocalAiWorkload[];   // id, label, resource_id, tool, quality_tier, tasks[], tokens per year, peak_tps, api: Metrics, calc
-  models: LocalAiModel[];         // catalogue entries with source and source_date
-  hardware: LocalAiHardware[];    // id, label, provider, location, vram_gb, tdp_w, price, owned, entity_id
-  options: LocalAiOption[];       // workload × model × hw: feasible, reasons[], tco_3y: Range, kwh/co2_kg: Range, breakeven_month, pros[], cons[], calc
-  best: { workload_id: string; by_cost: string | null; by_co2: string | null }[];
-  consolidated: LocalAiOption[];  // workload_ids[] instead of workload_id
-  totals: { api_3y: Metrics; local_best_3y: Metrics };
+  note: string;
+  workloads: LocalAiWorkload[];   // tier, tasks[], tokens, out_eq_tokens, peak_tps, api (Metrics, baseline year), calc
+  models: LocalAiModel[];         // catalogue entries with source, source_date, estimate
+  hardware: LocalAiHardware[];    // vram, tdp, idle, price, location, owned, entity_id, factor ids
+  fits: LocalAiFit[];             // workload × model × hardware: feasible, reasons[], tps, gpu_hours_per_year
+  scenarios: LocalAiScenario[];   // hardware × model × set: api_3y, local_3y, savings_3y, breakeven_month, interacts_with, pros, cons, calc
+  best: { by_cost: string | null; by_co2: string | null; by_workload: { workload_id: string; fit: string | null }[] };
+  assumptions: LocalAiAssumption[];
 }
 ```
 
 - Add `contract/examples/local_ai.json` and a row in the `contract/README.md` file table.
-- Wire the module into `bonus.after_export`, like the other bonus modules. When the module fails, only this file is missing and the pipeline still succeeds.
-
+- Enable the module through `bonus.enabled` in `pipeline/config.yaml`; it runs in `bonus.after_export`. When the module fails, only this file is missing and the pipeline still succeeds.
 ## UI
 
 - Add a fifth mode, **"Local AI"**, in `web/src/ui/Nav.tsx`, `web/src/ui/ModePanel.tsx` and `web/src/store.ts`. It carries the badge "Advisory, no numbers changed".
