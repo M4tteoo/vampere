@@ -97,6 +97,11 @@ def _summary(ctx: Context, secs: float) -> None:
     r = p["reduction"]
     print(f"Package (*): CO2 −{r['co2']['mid']:.1%} · cost −{r['cost']['mid']:.1%} · effort {p['effort_days']} d "
           f"(CHF {p['effort_chf']:,.0f}) · meets {p['meets']}")
+    fp = a.get("ai_footprint")
+    if fp:
+        print(f"AI used by this analysis: {fp['calls']} LLM calls · {fp['output_equivalent_tokens']:,} eq. tokens · "
+              f"{fp['kwh']['mid'] * 1000:.1f} Wh ({fp['kwh']['low'] * 1000:.1f}–{fp['kwh']['high'] * 1000:.1f}) · "
+              f"{fp['co2_kg']['mid'] * 1000:.1f} g CO2")
 
 
 if __name__ == "__main__":

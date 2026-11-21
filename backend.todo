@@ -355,15 +355,18 @@ Nostre proposte:
     Da fare: campionare i fattori (distribuzione triangolare basso / medio / alto), 5.000–10.000 prove, percentuale di prove che raggiungono i target + distribuzione per il grafico (output/montecarlo.json)
 
 Secondario (non agire subito):
-  ☐ Energia consumata dalla nostra AI durante l'hackathon @must @p3
+  ✔ Energia consumata dall'AI del nostro strumento @must @p3 @done(26-11-21)
+    Fatto (decisione del team: conta il consumo quando l'UTENTE usa lo strumento, non lo sviluppo): pipeline/energy/ai_footprint.py; ogni analisi registra i token di ogni chiamata LLM (lettore + giri dell'advisor) → measures.json «ai_footprint» (stessi fattori dell'AI dell'azienda: 0,5 Wh per 1000 token equivalenti, mix EU)
+      - analisi salvata (token reali dal log): 3 chiamate, ~21,5 Wh (4,3–85,8), ~4,6 g CO₂
+      - da fare (chatbot, collega): mostrare lo stesso per ogni risposta riusando pipeline/energy/ai_footprint.py
     Cos'è: una breve frase su quanta energia ha usato la nostra AI. Formalmente è richiesta (case.md «Technology» e «Key presentation elements»), ma da quanto ci hanno detto conta poco: farla alla fine.
     Da fare: token usati × fattore per 1000 token × mix della rete; una frase nel pitch e nella consegna
 
 Checklist di consegna (domenica 08:30):
   ☐ Prototipo funzionante sui dati forniti @must
-  ☐ template_baseline_and_assumptions.csv compilato @must
-  ☐ template_measures_package.csv compilato @must
+  ✔ template_baseline_and_assumptions.csv compilato @must @done(26-11-21)
+  ✔ template_measures_package.csv compilato @must @done(26-11-21)
   ☐ Nota sul percorso verso l'operatività @must
-  ☐ Frase sull'energia della nostra AI @must @p3
+  ✔ Frase sull'energia della nostra AI @must @p3 @done(26-11-21)
   ☐ Prova del pitch: quadro d'insieme → una scoperta → il pacchetto → un caso limite, in 5 minuti @must
   ☐ Bozza consegnata sabato 15:00–15:30 @must

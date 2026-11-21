@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 from types import SimpleNamespace
 
+from ..energy.ai_footprint import footprint, usage_row
 from ..harmonize.context import ROOT, Context
 from . import apply as _apply
 from . import facts as _facts
@@ -26,13 +27,27 @@ from . import planner, reader
 ADVISOR_DIR = ROOT / "output" / "advisor"
 
 
-def _llm(ctx: Context):
-    from assistant.llm import LLM               # shared OpenAI client (logs tokens for «energy of our AI»)
+class Metered:
+    """Wraps the LLM client and records the token usage of every call of this run,
+    so the energy of the tool's own AI use is reported with the results."""
+
+    def __init__(self, llm, model: str):
+        self.llm, self.model, self.calls = llm, model, []
+
+    def respond(self, **kw):
+        resp = self.llm.respond(**kw)
+        if getattr(resp, "usage", None) is not None:
+            self.calls.append(usage_row(kw.get("model") or self.model, kw.get("purpose", "advisor"), resp.usage))
+        return resp
+
+
+def _llm(ctx: Context) -> Metered:
+    from assistant.llm import LLM               # shared OpenAI client (also logs tokens to usage_log)
     from assistant.settings import load_env
     load_env()
     cfg = ctx.config["advisor"]
-    return LLM(SimpleNamespace(chat_model=cfg["model"], reasoning_effort=cfg["reasoning_effort"],
-                               usage_log=ROOT / cfg["usage_log"]))
+    return Metered(LLM(SimpleNamespace(chat_model=cfg["model"], reasoning_effort=cfg["reasoning_effort"],
+                                       usage_log=ROOT / cfg["usage_log"])), cfg["model"])
 
 
 def _save(name: str, obj) -> None:
@@ -54,6 +69,7 @@ def run_llm(ctx: Context) -> None:
     constraints = _constraints(ctx, raw_c)
     facts = _facts.build(ctx)
     result = planner.plan(ctx, llm, facts, constraints, max_rounds=int(ctx.config["advisor"]["max_rounds"]))
+    result["ai_footprint"] = footprint(llm.calls, "measured during this run (token usage returned by the API)")
     _save("plan_raw.json", result)
 
 
@@ -82,8 +98,27 @@ def apply(ctx: Context) -> None:
                 severity="warn")
         ctx.advisor = None
         return
+    if "ai_footprint" not in raw_p:
+        fp = _footprint_from_log(ctx)
+        if fp:
+            raw_p["ai_footprint"] = fp
+            _save("plan_raw.json", raw_p)
     constraints = _constraints(ctx, raw_c)
     ctx.advisor = _apply.build(ctx, facts, constraints, raw_c, raw_p)
+
+
+def _footprint_from_log(ctx: Context) -> dict | None:
+    """For an analysis saved before metering existed: take its calls (the last reader call and the
+    advisor rounds after it) from the local usage log, where the real token counts were written."""
+    log = ROOT / ctx.config["advisor"]["usage_log"]
+    if not log.exists():
+        return None
+    rows = [json.loads(l) for l in log.read_text(encoding="utf-8").splitlines() if l.strip()]
+    starts = [i for i, r in enumerate(rows) if r["purpose"] == "advisor.reader"]
+    if not starts:
+        return None
+    run = [rows[starts[-1]]] + [r for r in rows[starts[-1] + 1:] if r["purpose"].startswith("advisor.plan")]
+    return footprint(run, f"usage log of the saved run ({run[0]['at']} … {run[-1]['at']}, real token counts)")
 
 
 def export(ctx: Context) -> None:

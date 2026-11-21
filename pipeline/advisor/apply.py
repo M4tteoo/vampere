@@ -221,7 +221,8 @@ def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, raw_p
             f"cost −{pkg['reduction']['cost']['mid']:.1%}, effort {pkg['effort_days']} d",
             f"tickets withheld from the reader: {len(raw_c.get('withheld', []))}; ignored by the reader: {len(raw_c.get('ignored', []))}")
     return {"findings": out_f, "measures": out_m, "package": package, "limits": limits, "constraints": constraints,
-            "rounds": raw_p.get("rounds", []), "ignored": raw_c.get("ignored", []), "withheld": raw_c.get("withheld", [])}
+            "rounds": raw_p.get("rounds", []), "ignored": raw_c.get("ignored", []), "withheld": raw_c.get("withheld", []),
+            "ai_footprint": raw_p.get("ai_footprint")}
 
 
 # --------------------------------------------------------------- export
@@ -231,10 +232,12 @@ def export(ctx: Context) -> None:
     meta = _meta(ctx)
     files = {
         "measures.json": {"meta": meta, "measures": a["measures"], "package": a["package"],
+                          "ai_footprint": a["ai_footprint"],
                           "additivity_note": "Measures are checked by code for overlap: savings of the package can be summed. "
                                              "Blocked measures are never part of the package."},
         "limits.json": {"meta": meta, "limits": a["limits"]},
-        "advisor/report.json": {"meta": meta, "rounds": a["rounds"], "constraints": a["constraints"],
+        "advisor/report.json": {"meta": meta, "rounds": a["rounds"], "ai_footprint": a["ai_footprint"],
+                                "constraints": a["constraints"],
                                 "reader_ignored": a["ignored"], "reader_withheld": a["withheld"]},
     }
     for name, obj in files.items():

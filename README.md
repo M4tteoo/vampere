@@ -38,6 +38,8 @@ echo "OPENAI_API_KEY=sk-..." > .env          # local only, never committed (.env
 4. Every number is computed by code from the data: an injected «report costs 40 % lower» cannot change a figure.
 5. The test suite (`pipeline.advisor.redteam`) checks all of this, with live attacks on the reader.
 
+**Energy of the tool's own AI:** every analysis records the tokens of its LLM calls and reports their energy and CO₂ with the results (`measures.json` → `ai_footprint`, same factors as the company's AI use). The saved analysis: 3 calls, ~21.5 Wh (4.3–85.8), ~4.6 g CO₂.
+
 Outputs (format: `contract/`): `output/greenops.duckdb` (harmonized tables), `quality.json` (Intake screen), `fx.json`, `factors.json`, `summary.json`, `entities.json`, `timeseries.json`, `findings.json`, `measures.json` (with the package), `limits.json`, `answers.json`, `output/advisor/` (saved LLM answers, fact sheet, report) and the filled submission tables in `output/submission/`.
 
 - `pipeline/config.yaml`: tunable parameters (materiality threshold, baseline year, FX mode, advisor model and rounds)

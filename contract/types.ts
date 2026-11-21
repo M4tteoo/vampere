@@ -242,10 +242,27 @@ export interface Package {
   meets_at_low: { co2: boolean; cost: boolean };                      // robustness: met even with the least favourable factor set
 }
 
+/** Energy and CO2 of the tool's own LLM calls in the run that produced these results. */
+export interface AiFootprint {
+  calls: number;
+  calls_by_purpose: Record<string, number>;   // e.g. advisor.reader, advisor.plan.r1
+  input_tokens: number;
+  cached_input_tokens: number;
+  output_tokens: number;                       // incl. reasoning tokens
+  reasoning_tokens: number;
+  output_equivalent_tokens: number;
+  kwh: Range;
+  co2_kg: Range;
+  formula: string;
+  source: string;
+  models: string[];
+}
+
 export interface MeasuresFile {
   meta: Meta;
   measures: Measure[];
   package: Package;
+  ai_footprint: AiFootprint | null;           // «this analysis used N LLM calls, X Wh, Y g CO2»
   /** Measures are defined without overlap, so the frontend may sum savings of
    *  any selection. Blocked measures are never part of a package. */
   additivity_note: string;

@@ -864,5 +864,33 @@
     "budget": true
    }
   }
- ]
+ ],
+ "ai_footprint": {
+  "calls": 3,
+  "calls_by_purpose": {
+   "advisor.plan.r1": 1,
+   "advisor.plan.r2": 1,
+   "advisor.reader": 1
+  },
+  "input_tokens": 83242,
+  "cached_input_tokens": 33536,
+  "output_tokens": 37606,
+  "reasoning_tokens": 22065,
+  "output_equivalent_tokens": 42912,
+  "kwh": {
+   "low": 0.00429,
+   "mid": 0.02146,
+   "high": 0.08582
+  },
+  "co2_kg": {
+   "low": 0.000644,
+   "mid": 0.00457,
+   "high": 0.025747
+  },
+  "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
+  "source": "usage log of the saved run (2026-11-21T05:15:53+01:00 … 2026-11-21T05:21:28+01:00, real token counts)",
+  "models": [
+   "gpt-5.4"
+  ]
+ }
 }
