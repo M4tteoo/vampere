@@ -37,7 +37,11 @@ A measure is a list of effects. Each effect says which share of a scope's yearly
   (but removing INACTIVE seats saves money, not energy: licence energy counts active use only, code applies this);
   a smaller AI model saves ~70 % of cost (price ratio 0.30) and ~75 % of energy for the moved share.
 - relocate_to (CH/DE/IE) moves the remaining load to another grid: it changes CO2, not cost (set cost_share 0
-  unless you have a reason).
+  unless you have a reason). Only to a location the resource's provider offers (ENTITIES → regions_offered;
+  code rejects anything else). Facts «<resource>.co2_saved_if_moved_to_<LOC>» give the CO2 effect.
+- Extra-source facts (Power BI reports, data catalogue, logs, agents, closed projects, M365) describe waste in
+  detail: e.g. a Power BI capacity is billed per day, so a clean-up saves energy only; francs need a smaller
+  capacity (facts pbi-kap.downsize_*; a human decision).
 - Measures must not overlap: two measures must not remove the same cost twice (code checks it).
 - One-off events (facts one_off.*) are not recurring: never claim savings on them.
 - Code computes all CHF, kWh and CO2 from your shares. Never write your own savings numbers.

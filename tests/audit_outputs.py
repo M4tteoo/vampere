@@ -40,7 +40,7 @@ def contract_problems(R: Path) -> list[str]:
              "findings.json": "FindingsFile", "measures.json": "MeasuresFile", "limits.json": "LimitsFile",
              "factors.json": "FactorsFile", "quality.json": "QualityFile", "fx.json": "FxFile",
              "clusters.json": "ClustersFile", "jobs.json": "JobsFile", "scenarios.json": "ScenariosFile",
-             "montecarlo.json": "MonteCarloFile", "forecast.json": "ForecastFile", "market.json": None,
+             "montecarlo.json": "MonteCarloFile", "forecast.json": "ForecastFile", "market.json": None, "insights.json": "InsightsFile",
              "bonus/candidates.json": "CandidatesFile"}
     ITEMS = {"entities.json": ("entities", "Entity"), "findings.json": ("findings", "Finding"),
              "measures.json": ("measures", "Measure"), "limits.json": ("limits", "Limit"), "factors.json": ("factors", "Factor"),
@@ -176,6 +176,22 @@ def number_checks(R: Path) -> list[tuple]:
     res.append((True, "forecast 12-month CO2 without / with (info)", round(yr_wo), round(yr_w) if yr_w else None))
     res.append((yr_w is not None and yr_w < yr_wo, "forecast: with package < without", round(1 - yr_w / yr_wo, 3) if yr_w else None, f"package {P['reduction']['co2']['mid']}"))
     res.append((True, "forecast first month cost without vs baseline/12 (info)", f0["without"]["cost_chf"]["mid"], round(S["baseline_recurring"]["cost_chf"]["mid"] / 12, 1)))
+    # extra-source insights
+    IN = J("insights.json")
+    extra_files = {f"extra/{p.name}" for p in (R / "data/case/extra").iterdir() if p.suffix in (".csv", ".jsonl")}
+    res.append(({s_["file"] for s_ in IN["sources"]} == extra_files and all(s_["used_for"] for s_ in IN["sources"]),
+                "insights: every extra source is used by a feature", len(IN["sources"]), len(extra_files)))
+    pbi = next(c for c in IN["cards"] if c["id"] == "powerbi")
+    cap = con.execute("select sum(cost_chf) from fact_cost where in_baseline and not coalesce(is_one_off, false) and resource_id='pbi-kap'").fetchone()[0]
+    eq("insights: Power BI capacity cost = fact_cost", next(n["value"] for n in pbi["numbers"] if n["label"] == "capacity cost"), cap)
+    res.append((len(IN["powerbi"]["reports"]) == con.execute("select count(distinct report_id) from stg_powerbi_usage").fetchone()[0],
+                "insights: every Power BI report classified", len(IN["powerbi"]["reports"]), ""))
+    reloc_ok = all(o["to"] in IN["regions"]["offered"][o["provider"]]["locations"] for o in IN["regions"]["options"])
+    res.append((reloc_ok, "insights: relocation options only to offered regions", "", ""))
+    pkg_moves = [(e["scope"], e["relocate_to"]) for m in inpk for e in m["effects"] if e.get("relocate_to")]
+    res.append((all(any(o["resource_id"] == s_.split(":")[1] and o["to"] == t for o in IN["regions"]["options"]) for s_, t in pkg_moves),
+                "package relocations are offered by the provider", pkg_moves, ""))
+
     # answers & quality
     q1 = A["answers"]["q1_find"]["answer"]; res.append(("67" in q1 and "1,223.51" in q1, "answers.json Q1 = 67 seats, CHF 1,223.51", q1[:60], ""))
     res.append((len(A["answers"]) >= 3, "answers.json has the 3 example questions", list(A["answers"]), ""))

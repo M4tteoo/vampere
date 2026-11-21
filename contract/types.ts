@@ -623,3 +623,66 @@ export interface MonteCarloFile {
   headline: string;
   calc: Calc;
 }
+
+// ------------------------------------------------------- insights.json (extra sources)
+/** Evidence from the 15 extra sources, one card per topic (see docs/extra-sources.md).
+ *  Cards are NOT measures: potentials are upper bounds, not additive with the package. */
+export interface InsightCard {
+  id: "powerbi" | "regions" | "data_catalog" | "logs" | "ci_builds" | "ai_agents" | "web_traffic"
+    | "backups" | "closed_projects" | "project_footprint" | "m365";
+  title: string;
+  source_files: string[];
+  headline: string;                               // one sentence for the card
+  numbers: { label: string; value: number; unit: string }[];
+  potential: {
+    action: string;
+    metrics: Metrics;                             // upper bound per year if acted on
+    status: MeasureStatus;                        // ok / human / blocked
+    decided_by: string | null;
+    note: string;
+  } | null;
+  protected: string[];                            // what must not be touched, and why
+  entity_ids: string[];                           // objects in the scene to highlight
+  advisor_fact_ids: string[];                     // the facts the advisor gets for this topic
+  calc: Calc;
+  steps?: { step: string; status: MeasureStatus; decided_by: string | null; metrics: Metrics | null;
+            fits?: boolean; note: string }[];     // powerbi: clean-up, then downsizing
+  safety_rule?: string;                           // regions
+  by_agent?: { agent: string; runs: number; retries_per_run: number; output_tokens: number }[];
+  by_department?: { department: string; active_users_admin: number; licences_active: number;
+                    licences_purchased: number; difference_active: number }[];   // m365
+  energy_check?: { bottom_up_kwh: Range; baseline_kwh: number; consistent: boolean; baseline_changed: false;
+                   sources: string[] };            // m365
+  allocation_note?: string;                       // project_footprint
+}
+
+export interface PowerBiReport {
+  report_id: string; report: string; department: string; type: string;
+  class: "in_use" | "unused" | "duplicate" | "quarterly" | "protected";
+  action: string; refreshes: number; refresh_hours: number; views: number; tickets: string[];
+  parent_id: "res:pbi-kap";                       // screens on the Power BI rack
+}
+
+export interface RelocationOption {
+  resource_id: string; entity_id?: string; provider: string; from: LocationCode; to: string;
+  kwh?: number; co2_kg_saved: Range | null;       // null: no researched grid factor for that location
+  cost_note?: string; note?: string;
+}
+
+export interface InsightsFile {
+  meta: Meta;
+  cards: InsightCard[];
+  sources: { file: string; used_for: string[] }[];          // every extra source → where it is used
+  powerbi: { reports: PowerBiReport[] };
+  regions: {
+    offered: Record<string, { locations: string[]; used: string[];
+                              regions: { region: string; location: string; used: boolean }[] }>;
+    options: RelocationOption[];                            // sorted by CO2 saved
+    unused_regions: { provider: string; region: string; location: string; used: false }[];  // grey islands
+  };
+  closed_projects: { project_id: string; project: string; ended: ISODate; resources: string[]; metrics: Metrics }[];
+  projects: { project_id: string; project: string | null; type: "internal" | "customer" | null; customer: string | null;
+              status: string | null; rechargeable: "yes" | "partly" | "no" | null;
+              direct: Metrics; allocated_by_hours: Metrics; total: Metrics }[];
+  note: string;
+}

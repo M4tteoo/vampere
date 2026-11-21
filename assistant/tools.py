@@ -11,6 +11,7 @@ answers must cite, and the verifier checks every number against these results.
 from __future__ import annotations
 
 import ast
+import json
 import math
 import operator
 from dataclasses import dataclass
@@ -527,6 +528,36 @@ def analysis(store: DataStore, kind: str, item_id: str | None, entity_id: str | 
         items = [dict(lim, quote=wrap(lim["quote"], store)) if lim.get("quote") else lim for lim in items]
     return {"kind": kind, "items": items[:25], "truncated": len(items) > 25,
             "source": f"output/{ANALYSIS_FILES[kind]}"}
+
+
+INSIGHT_TOPICS = ["powerbi", "regions", "data_catalog", "logs", "ci_builds", "ai_agents", "web_traffic", "backups",
+                  "closed_projects", "project_footprint", "m365"]
+INSIGHT_DETAILS = ["powerbi_reports", "relocation_options", "projects", "closed_projects", "sources"]
+
+
+@tool("Evidence from the extra sources, computed by code (independent of the advisor): Power BI reports refreshed "
+      "for nobody and capacity downsizing, where else a resource could run (regions offered, CO2 per move), "
+      "unread data tables, log retention, CI builds without changes, AI agents (unopened reports, retries), bot "
+      "traffic, backups, closed projects still billing, CO2 per client project, Microsoft 365 use vs licences. "
+      "topic = one card (headline, numbers, upper-bound potential, what is protected); detail = a full table. "
+      "Potentials are NOT measures and not additive with the package.",
+      topic=_s("one insight card", INSIGHT_TOPICS),
+      detail=_s("a detail table instead of a card", INSIGHT_DETAILS),
+      filter=_s("optional text filter on the detail rows (report name, resource id, project, class…)"))
+def extra_insights(store: DataStore, topic: str | None, detail: str | None, filter: str | None) -> dict:
+    data = _need(store, "insights.json")
+    if detail:
+        rows = {"powerbi_reports": data["powerbi"]["reports"], "relocation_options": data["regions"]["options"],
+                "projects": data["projects"], "closed_projects": data["closed_projects"], "sources": data["sources"]}[detail]
+        if filter:
+            f = filter.lower()
+            rows = [r for r in rows if f in json.dumps(r, ensure_ascii=False).lower()]
+        return {"detail": detail, "rows": rows[:40], "matches": len(rows), "source": "output/insights.json"}
+    if topic:
+        card = next((c for c in data["cards"] if c["id"] == topic), None)
+        return {"card": card, "source": "output/insights.json"} if card else {"error": f"no card {topic}"}
+    return {"cards": [{"id": c["id"], "title": c["title"], "headline": c["headline"]} for c in data["cards"]],
+            "note": data.get("note"), "source": "output/insights.json"}
 
 
 _OPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, ast.Div: operator.truediv,

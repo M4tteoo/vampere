@@ -48,6 +48,7 @@ Findings, measures and limits are written by an LLM (the advisor and the ticket 
 | market | `market.json` | A3 | Side-by-side baseline and provider totals on the same kWh; factors, proxy coverage, and estimated savings for supported measures (`MarketFile`) |
 | scenarios | `scenarios.json` | B2 | Swiss mix switch: baseline + package under consumption and production mix, CO₂ per entity for the production mix (`ScenariosFile`) |
 | montecarlo | `montecarlo.json` | B1 | probability of reaching the targets over 10,000 factor draws, histogram, tornado (`MonteCarloFile`) |
+| insights | `insights.json` | extra sources | one card per extra-source topic (Power BI, regions, catalogue, logs, CI, agents, web, backups, closed projects, project footprint, M365) + Power BI report list, relocation options, projects (`InsightsFile`, see docs/extra-sources.md) |
 | bonus | `jobs.json`, `clusters.json` | A5, A4 | `JobsFile`, `ClustersFile` |
 
 `Metrics.co2_kg_market` is optional and appears on actual baseline totals, breakdowns, flows, and entities. It is not exported for the recurring baseline, timeseries, or optimized history. For A3 calculation details, use `market.json`: its `calc.factor_ids` reference location keys in that file's `factors`, and `market_basis_kwh` splits energy by the factor basis. An unavailable measure has `co2_kg_market: null` and an explanation.

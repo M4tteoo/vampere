@@ -20,6 +20,7 @@ import pandas as pd
 from ..energy.engine import load_factors
 from ..export.frontend import SUMS, metrics
 from ..harmonize.context import Context
+from ..insights.regions import provider_key
 
 PERSON_DAY_CHF = 1100
 STRICTNESS = {"ok": 0, "human": 1, "blocked": 2}
@@ -47,6 +48,9 @@ class Calculator:
                             if not (c["type"] == "window" and c["schedule"].get("kind") == "date_range"
                                     and (c["schedule"].get("end_date") or "9999") < asof)]
         self.scopes = self._scopes(facts)
+        # relocation rule (data_center_locations.csv): only to a location the scope's provider offers
+        self.offered = {p: set(locs) for p, locs in facts.get("regions_offered", {}).items()}
+        self.res_provider = {r["id"]: r.get("provider") for r in facts.get("resources", [])}
 
     # ------------------------------------------------------------ scopes
     def _scopes(self, facts: dict) -> list[str]:
@@ -114,6 +118,12 @@ class Calculator:
                 es = max(0.0, cs - (1 - act)) / act if act > 0 else 0.0
             s = pd.Series({c: b[c] * (cs if c.startswith("cost") else es) for c in SUMS})
             to = e.get("relocate_to")
+            if to and self.offered:
+                prov = provider_key(self.res_provider.get(self.resource_of(sc)))
+                if prov in self.offered and to not in self.offered[prov]:
+                    problems.append(f"{sc}: {self.res_provider.get(self.resource_of(sc))} offers no region in {to} "
+                                    f"(only {sorted(self.offered[prov])}, data_center_locations.csv)")
+                    continue
             frm = self.location(sc)
             if to and frm and to != frm and frm in self.grid and to in self.grid:
                 for lvl, col in (("low", "co2_kg_low"), ("mid", "co2_kg_mid"), ("high", "co2_kg_high")):

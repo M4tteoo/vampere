@@ -150,6 +150,21 @@ Logged on Pietro's machine (assistant development and tests, free-text classifie
 - **The honest message:** the deterministic answer ("−40.1%, target met") hides that we're on the line. Our tool shows it, and points to the fix: one more measure on **Zurich load** (e.g. dp-prod outside its protection windows, storage tiers) would push the package clearly over −40%.
 - **Why it's trustworthy:** the simulation recomputes the *same* engine (a linear copy, checked against it to 1e-8) and the *same* package rules (checked against the advisor's `measures.json` at low/mid/high). No separate model to believe.
 
+## Extra sources: every file tells a story
+
+> "We didn't stop at the 13 core files. All 15 extra sources feed a feature, and code computes every number, so the evidence doesn't depend on what the AI happens to pick."
+
+- **Power BI, a two-step trade-off:** 21 of 60 reports are refreshed daily but opened fewer than 30 times a year. With 4 copies and 4 quarterly reports, that's **79 % of the refresh load**.
+  - Cleaning up saves energy but **not francs**: the capacity is billed per day.
+  - Francs only come when the capacity can then be made one tier smaller, about **CHF 12,000 a year**. That's a decision for IT and Finance, with the load data attached.
+  - The audit report pbi-07 stays locked (T-1167).
+- **Zombie projects:** the AI pilot P-004 ended on 30.06.2025, but its GPU server is still billing: **CHF 23,259 and 708 kg CO₂** in the baseline year. In total, 4 closed projects still cost CHF 27,095.
+- **Where else could it run?** The providers' region list shows unused options, e.g. **AWS Zurich**. The GPU to Zurich would save 293 kg CO₂, the test servers to Zurich 142 kg but at +18 % compute price. **The advisor may only move a load to a region its provider really offers; code checks it.**
+- **CO₂ per client project:** from the time tracking, client projects caused about 530 kg CO₂, of which about 420 kg is rechargeable work. A consulting firm can report that to its clients (their Scope 3).
+- **Cross-checks instead of blind trust:** the M365 admin data confirms the licence data (+2 %), and our SaaS energy assumption sits inside a bottom-up range from storage and video minutes.
+
+Details and sources: `docs/extra-sources.md`.
+
 ---
 
 ### Sources

@@ -1,0 +1,4175 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T13:30:12+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "cards": [
+  {
+   "id": "powerbi",
+   "title": "Power BI: reports refreshed for nobody",
+   "source_files": [
+    "extra/powerbi_usage.csv",
+    "azure_costs.csv",
+    "it_tickets.csv"
+   ],
+   "headline": "21 of 60 reports are refreshed daily but opened fewer than 30 times a year; with 4 copies and 4 quarterly reports they use 79% of the refresh load. The capacity costs CHF 24,084 a year whatever runs on it.",
+   "numbers": [
+    {
+     "label": "reports",
+     "value": 60,
+     "unit": "reports"
+    },
+    {
+     "label": "unused (refreshed, < 30 views/year)",
+     "value": 21,
+     "unit": "reports"
+    },
+    {
+     "label": "duplicate copies",
+     "value": 4,
+     "unit": "reports"
+    },
+    {
+     "label": "quarterly",
+     "value": 4,
+     "unit": "reports"
+    },
+    {
+     "label": "protected (regulatory / audit)",
+     "value": 1,
+     "unit": "reports"
+    },
+    {
+     "label": "refresh hours per year",
+     "value": 19872.9333,
+     "unit": "h"
+    },
+    {
+     "label": "refresh load removable",
+     "value": 0.7913,
+     "unit": "share"
+    },
+    {
+     "label": "capacity load after clean-up",
+     "value": 0.2087,
+     "unit": "share of today"
+    },
+    {
+     "label": "capacity cost",
+     "value": 24083.615,
+     "unit": "CHF/year"
+    }
+   ],
+   "potential": {
+    "action": "clean up the reports, then move the capacity one tier down",
+    "metrics": {
+     "cost_chf": {
+      "low": 12037.75,
+      "mid": 12041.81,
+      "high": 12045.34
+     },
+     "cost_eur": {
+      "low": 13019.48,
+      "mid": 13023.86,
+      "high": 13027.68
+     },
+     "cost_usd": {
+      "low": 15150.37,
+      "mid": 15155.47,
+      "high": 15159.92
+     },
+     "kwh": {
+      "low": 116.9,
+      "mid": 176.0,
+      "high": 306.4
+     },
+     "co2_kg": {
+      "low": 6.7,
+      "mid": 19.4,
+      "high": 39.2
+     }
+    },
+    "status": "human",
+    "decided_by": "Head of IT + Head of Finance",
+    "note": "upper bound if acted on; not additive with the package (the advisor decides, code computes)"
+   },
+   "protected": [
+    "pbi-07 «Legacy report receivables»: keep as is (regulatory / ticket) (T-1167)"
+   ],
+   "entity_ids": [
+    "res:pbi-kap"
+   ],
+   "advisor_fact_ids": [
+    "pbi-kap.reports_unused",
+    "pbi-kap.refresh_load_removable_share",
+    "pbi-kap.cleanup_energy_share",
+    "pbi-kap.downsize_fits_half",
+    "pbi-kap.downsize_cost_share",
+    "pbi-kap.cleanup_and_downsize_energy_share"
+   ],
+   "calc": {
+    "formula": "clean-up: refresh minutes of unused reports and copies removed, quarterly reports keep 1/3; capacity utilisation ∝ refresh load (engine: 8 v-cores, 25 GB, 50 %); downsizing: half the v-cores and memory, cost × 0.5 (ASSUMPTION: capacity price ∝ capacity units)",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/powerbi_usage.csv",
+     "azure_costs.csv",
+     "it_tickets.csv"
+    ],
+    "row_count": 39904,
+    "value_status": "estimated",
+    "issue_ids": []
+   },
+   "steps": [
+    {
+     "step": "clean-up",
+     "status": "ok",
+     "decided_by": "Head of IT",
+     "metrics": {
+      "cost_chf": {
+       "low": 0.0,
+       "mid": 0.0,
+       "high": 0.0
+      },
+      "cost_eur": {
+       "low": 0.0,
+       "mid": 0.0,
+       "high": 0.0
+      },
+      "cost_usd": {
+       "low": 0.0,
+       "mid": 0.0,
+       "high": 0.0
+      },
+      "kwh": {
+       "low": 62.4,
+       "mid": 93.9,
+       "high": 163.5
+      },
+      "co2_kg": {
+       "low": 3.6,
+       "mid": 10.3,
+       "high": 20.9
+      }
+     },
+     "note": "less load, same bill: saves energy and CO2 only"
+    },
+    {
+     "step": "downsize one tier",
+     "status": "human",
+     "decided_by": "Head of IT + Head of Finance",
+     "metrics": {
+      "cost_chf": {
+       "low": 12037.75,
+       "mid": 12041.81,
+       "high": 12045.34
+      },
+      "cost_eur": {
+       "low": 13019.48,
+       "mid": 13023.86,
+       "high": 13027.68
+      },
+      "cost_usd": {
+       "low": 15150.37,
+       "mid": 15155.47,
+       "high": 15159.92
+      },
+      "kwh": {
+       "low": 116.9,
+       "mid": 176.0,
+       "high": 306.4
+      },
+      "co2_kg": {
+       "low": 6.7,
+       "mid": 19.4,
+       "high": 39.2
+      }
+     },
+     "fits": true,
+     "note": "price assumed proportional to capacity units (verify on the Azure price page); a paused pay-as-you-go capacity also stops compute billing (Microsoft Learn: pause and resume)"
+    }
+   ]
+  },
+  {
+   "id": "regions",
+   "title": "Where else could it run?",
+   "source_files": [
+    "extra/data_center_locations.csv",
+    "factors.yaml"
+   ],
+   "headline": "8 regions of our providers are available but unused (e.g. AWS Zurich). Largest single gain: dp-dev DE → CH, 863 kg CO2 a year.",
+   "numbers": [
+    {
+     "label": "regions offered by our providers",
+     "value": 13,
+     "unit": "regions"
+    },
+    {
+     "label": "regions used",
+     "value": 5,
+     "unit": "locations"
+    },
+    {
+     "label": "relocation options with a CO2 gain",
+     "value": 6,
+     "unit": "options"
+    }
+   ],
+   "potential": null,
+   "protected": [],
+   "entity_ids": [
+    "res:cicd",
+    "res:db-fin",
+    "res:dp-dev",
+    "res:dp-prod",
+    "res:dp-storage",
+    "res:gpu-ml",
+    "res:net-egress",
+    "res:pbi-kap",
+    "res:sandbox",
+    "res:st-archive",
+    "res:st-backup",
+    "res:vm-app",
+    "res:vm-test"
+   ],
+   "advisor_fact_ids": [
+    "cicd.co2_saved_if_moved_to_CH",
+    "dp-dev.co2_saved_if_moved_to_CH",
+    "gpu-ml.co2_saved_if_moved_to_CH",
+    "st-backup.co2_saved_if_moved_to_CH",
+    "vm-test.co2_saved_if_moved_to_CH"
+   ],
+   "calc": {
+    "formula": "CO2 saved = recurring kWh × (grid at today's location − grid at the other location of the same provider)",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/data_center_locations.csv",
+     "factors.yaml"
+    ],
+    "row_count": 36634,
+    "value_status": "observed",
+    "issue_ids": []
+   },
+   "safety_rule": "The advisor may only relocate a load to a location its provider offers (checked by code)."
+  },
+  {
+   "id": "data_catalog",
+   "title": "Data platform: tables nobody reads",
+   "source_files": [
+    "extra/data_catalog_tables.csv",
+    "azure_costs.csv"
+   ],
+   "headline": "9.2 TB of 27.6 TB are unread for a year or temporary and not under retention (33% of the stored volume); 3.9 TB need an owner's answer on retention.",
+   "numbers": [
+    {
+     "label": "tables",
+     "value": 500,
+     "unit": "tables"
+    },
+    {
+     "label": "catalogue volume",
+     "value": 27638.94,
+     "unit": "GB"
+    },
+    {
+     "label": "unread > 1 year, no retention",
+     "value": 6576.37,
+     "unit": "GB"
+    },
+    {
+     "label": "schema tmp",
+     "value": 3824.64,
+     "unit": "GB"
+    },
+    {
+     "label": "unread, retention unknown",
+     "value": 3898.04,
+     "unit": "GB"
+    },
+    {
+     "label": "unread but retention required (keep)",
+     "value": 1138.66,
+     "unit": "GB"
+    }
+   ],
+   "potential": {
+    "action": "archive or delete unread and temporary tables",
+    "metrics": {
+     "cost_chf": {
+      "low": 2107.56,
+      "mid": 2109.78,
+      "high": 2111.95
+     },
+     "cost_eur": {
+      "low": 2279.8,
+      "mid": 2282.2,
+      "high": 2284.55
+     },
+     "cost_usd": {
+      "low": 2652.12,
+      "mid": 2654.91,
+      "high": 2657.65
+     },
+     "kwh": {
+      "low": 51.7,
+      "mid": 166.5,
+      "high": 401.1
+     },
+     "co2_kg": {
+      "low": 2.9,
+      "mid": 18.3,
+      "high": 51.3
+     }
+    },
+    "status": "human",
+    "decided_by": "Head of Consulting",
+    "note": "upper bound if acted on; not additive with the package (the advisor decides, code computes)"
+   },
+   "protected": [
+    "tables with retention_required = yes stay, even if never read"
+   ],
+   "entity_ids": [
+    "res:dp-storage"
+   ],
+   "advisor_fact_ids": [
+    "dp-storage.stale_gb_no_retention",
+    "dp-storage.tmp_schema_gb",
+    "dp-storage.removable_share"
+   ],
+   "calc": {
+    "formula": "share = GB of (unread > 1 year or schema tmp) without retention / catalogue GB; catalogue GB = dp-storage GB-days / 365 (checked in reconcile); potential = share × dp-storage",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/data_catalog_tables.csv",
+     "azure_costs.csv"
+    ],
+    "row_count": 500,
+    "value_status": "estimated",
+    "issue_ids": []
+   }
+  },
+  {
+   "id": "logs",
+   "title": "Logs kept for a year",
+   "source_files": [
+    "extra/log_volume.csv",
+    "hoster_invoice.csv"
+   ],
+   "headline": "68% of the log volume is kept 365 days. Keeping 90 days unless a service needs more would cut the stored log volume by 69%.",
+   "numbers": [
+    {
+     "label": "services",
+     "value": 20,
+     "unit": "services"
+    },
+    {
+     "label": "log volume per year",
+     "value": 68216.15,
+     "unit": "GB"
+    },
+    {
+     "label": "kept 365 days",
+     "value": 0.6756,
+     "unit": "share"
+    },
+    {
+     "label": "kept 180 days",
+     "value": 0.1487,
+     "unit": "share"
+    },
+    {
+     "label": "kept 90 days",
+     "value": 0.1758,
+     "unit": "share"
+    }
+   ],
+   "potential": {
+    "action": "default retention 90 days, longer only where required",
+    "metrics": {
+     "cost_chf": {
+      "low": 9586.04,
+      "mid": 9608.45,
+      "high": 9626.03
+     },
+     "cost_eur": {
+      "low": 10368.44,
+      "mid": 10392.68,
+      "high": 10411.69
+     },
+     "cost_usd": {
+      "low": 12063.02,
+      "mid": 12091.23,
+      "high": 12113.34
+     },
+     "kwh": {
+      "low": 278.5,
+      "mid": 964.0,
+      "high": 2135.7
+     },
+     "co2_kg": {
+      "low": 15.9,
+      "mid": 106.0,
+      "high": 273.4
+     }
+    },
+    "status": "human",
+    "decided_by": "Head of IT",
+    "note": "upper bound if acted on; not additive with the package (the advisor decides, code computes)"
+   },
+   "protected": [
+    "services with a legal or security retention need keep theirs (to be confirmed per service)"
+   ],
+   "entity_ids": [
+    "res:logs"
+   ],
+   "advisor_fact_ids": [
+    "logs.volume_share_retention_365d",
+    "logs.retention_90d_stored_share_saved"
+   ],
+   "calc": {
+    "formula": "stored GB ∝ Σ volume × retention days; share = 1 − Σ volume × min(retention, 90) / Σ volume × retention",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/log_volume.csv",
+     "hoster_invoice.csv"
+    ],
+    "row_count": 7196,
+    "value_status": "estimated",
+    "issue_ids": []
+   }
+  },
+  {
+   "id": "ci_builds",
+   "title": "Builds that change nothing",
+   "source_files": [
+    "extra/ci_pipeline_runs.jsonl",
+    "aws_costs.csv"
+   ],
+   "headline": "21% of the nightly builds run with no new commit; skipping them saves 3.2% of all build minutes. All builds run in aws-eu-west-1 (Dublin).",
+   "numbers": [
+    {
+     "label": "runs",
+     "value": 21063,
+     "unit": "runs"
+    },
+    {
+     "label": "nightly builds without changes",
+     "value": 0.2118,
+     "unit": "share"
+    },
+    {
+     "label": "build minutes on unchanged nightlies",
+     "value": 0.0322,
+     "unit": "share"
+    },
+    {
+     "label": "re-runs",
+     "value": 0.0505,
+     "unit": "share"
+    },
+    {
+     "label": "runs in Dublin",
+     "value": 1.0,
+     "unit": "share"
+    }
+   ],
+   "potential": {
+    "action": "skip the nightly build when nothing changed",
+    "metrics": {
+     "cost_chf": {
+      "low": 176.78,
+      "mid": 179.42,
+      "high": 180.5
+     },
+     "cost_eur": {
+      "low": 191.16,
+      "mid": 194.02,
+      "high": 195.18
+     },
+     "cost_usd": {
+      "low": 222.41,
+      "mid": 225.74,
+      "high": 227.09
+     },
+     "kwh": {
+      "low": 2.4,
+      "mid": 3.6,
+      "high": 6.4
+     },
+     "co2_kg": {
+      "low": 0.5,
+      "mid": 0.8,
+      "high": 2.3
+     }
+    },
+    "status": "ok",
+    "decided_by": "Head of IT",
+    "note": "upper bound if acted on; not additive with the package (the advisor decides, code computes)"
+   },
+   "protected": [],
+   "entity_ids": [
+    "res:cicd"
+   ],
+   "advisor_fact_ids": [
+    "cicd.nightly_without_changes_share",
+    "cicd.minutes_share_unchanged_nightly",
+    "cicd.rerun_share"
+   ],
+   "calc": {
+    "formula": "share = build seconds of nightly builds with 0 commits since the last one / all build seconds; runner minutes are billed (2 × build time, checked in reconcile)",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/ci_pipeline_runs.jsonl",
+     "aws_costs.csv"
+    ],
+    "row_count": 21063,
+    "value_status": "estimated",
+    "issue_ids": []
+   }
+  },
+  {
+   "id": "ai_agents",
+   "title": "AI agents: reports nobody opens",
+   "source_files": [
+    "extra/ai_agent_runs.jsonl",
+    "ai_usage.csv"
+   ],
+   "headline": "91% of the report-agent's reports are never opened; generating them on request would remove most of its usage. The research-agent retries 1.6 times per run on average.",
+   "numbers": [
+    {
+     "label": "agent runs",
+     "value": 27742,
+     "unit": "runs"
+    },
+    {
+     "label": "report-agent outputs never opened",
+     "value": 0.9057,
+     "unit": "share"
+    },
+    {
+     "label": "research-agent retries per run",
+     "value": 1.6397,
+     "unit": "retries"
+    },
+    {
+     "label": "research-agent runs with retries",
+     "value": 0.0528,
+     "unit": "share"
+    }
+   ],
+   "potential": {
+    "action": "report-agent on request instead of on schedule",
+    "metrics": {
+     "cost_chf": {
+      "low": 101.84,
+      "mid": 101.84,
+      "high": 101.84
+     },
+     "cost_eur": {
+      "low": 110.15,
+      "mid": 110.15,
+      "high": 110.15
+     },
+     "cost_usd": {
+      "low": 128.12,
+      "mid": 128.12,
+      "high": 128.12
+     },
+     "kwh": {
+      "low": 0.5,
+      "mid": 2.4,
+      "high": 9.8
+     },
+     "co2_kg": {
+      "low": 0.1,
+      "mid": 0.5,
+      "high": 2.9
+     }
+    },
+    "status": "ok",
+    "decided_by": "Head of Finance",
+    "note": "upper bound if acted on; not additive with the package (the advisor decides, code computes)"
+   },
+   "protected": [],
+   "entity_ids": [
+    "res:ai-report",
+    "res:ai-agent2"
+   ],
+   "advisor_fact_ids": [
+    "ai-report.unopened_share",
+    "ai-agent2.research_retries_per_run"
+   ],
+   "calc": {
+    "formula": "share of report-agent runs whose report was never opened × ai-report recurring baseline",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/ai_agent_runs.jsonl",
+     "ai_usage.csv"
+    ],
+    "row_count": 27742,
+    "value_status": "estimated",
+    "issue_ids": []
+   },
+   "by_agent": [
+    {
+     "agent": "code-agent",
+     "runs": 5924,
+     "retries_per_run": 0.57,
+     "output_tokens": 18576603
+    },
+    {
+     "agent": "report-agent",
+     "runs": 371,
+     "retries_per_run": 0.0,
+     "output_tokens": 1302437
+    },
+    {
+     "agent": "research-agent",
+     "runs": 1457,
+     "retries_per_run": 1.64,
+     "output_tokens": 6984773
+    },
+    {
+     "agent": "sales-agent",
+     "runs": 3383,
+     "retries_per_run": 0.28,
+     "output_tokens": 6022850
+    },
+    {
+     "agent": "support-agent",
+     "runs": 16607,
+     "retries_per_run": 0.73,
+     "output_tokens": 29733224
+    }
+   ]
+  },
+  {
+   "id": "web_traffic",
+   "title": "Web traffic: a third are bots",
+   "source_files": [
+    "extra/web_traffic.csv",
+    "hoster_invoice.csv"
+   ],
+   "headline": "36% of the delivered web volume goes to bots (sampled data scaled ×10).",
+   "numbers": [
+    {
+     "label": "delivered volume",
+     "value": 14778.25,
+     "unit": "GB/year"
+    },
+    {
+     "label": "bot share of volume",
+     "value": 0.3648,
+     "unit": "share"
+    },
+    {
+     "label": "requests",
+     "value": 36947470,
+     "unit": "requests/year"
+    }
+   ],
+   "potential": {
+    "action": "block or rate-limit unwanted bots (keep search engines)",
+    "metrics": {
+     "cost_chf": {
+      "low": 405.54,
+      "mid": 409.58,
+      "high": 410.53
+     },
+     "cost_eur": {
+      "low": 438.67,
+      "mid": 443.04,
+      "high": 444.08
+     },
+     "cost_usd": {
+      "low": 510.29,
+      "mid": 515.38,
+      "high": 516.58
+     },
+     "kwh": {
+      "low": 7.1,
+      "mid": 16.4,
+      "high": 58.9
+     },
+     "co2_kg": {
+      "low": 0.4,
+      "mid": 1.8,
+      "high": 7.5
+     }
+    },
+    "status": "human",
+    "decided_by": "Head of Marketing",
+    "note": "upper bound if acted on; not additive with the package (the advisor decides, code computes)"
+   },
+   "protected": [
+    "useful bots (search engines, monitoring) must keep access"
+   ],
+   "entity_ids": [
+    "res:web-cdn"
+   ],
+   "advisor_fact_ids": [
+    "web-cdn.bot_share"
+   ],
+   "calc": {
+    "formula": "bot share = Σ bot % × GB / Σ GB (sample rate applied); upper bound: all bot traffic removed",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/web_traffic.csv",
+     "hoster_invoice.csv"
+    ],
+    "row_count": 8688,
+    "value_status": "estimated",
+    "issue_ids": []
+   }
+  },
+  {
+   "id": "backups",
+   "title": "Backups: three tools, legal retention",
+   "source_files": [
+    "extra/backup_chains.csv",
+    "aws_costs.csv",
+    "it_tickets.csv"
+   ],
+   "headline": "21 of 36 sources are backed up by all three tools (15% of backup volume in third copies), and 29 copies have never been restore-tested. The archive is under a 10-year legal retention: deletion is blocked.",
+   "numbers": [
+    {
+     "label": "sources",
+     "value": 36,
+     "unit": "sources"
+    },
+    {
+     "label": "sources in 3 tools",
+     "value": 21,
+     "unit": "sources"
+    },
+    {
+     "label": "third copies",
+     "value": 0.1482,
+     "unit": "share of GB"
+    },
+    {
+     "label": "copies without restore test",
+     "value": 29,
+     "unit": "copies"
+    },
+    {
+     "label": "GB with 10-year retention",
+     "value": 0.3026,
+     "unit": "share"
+    }
+   ],
+   "potential": {
+    "action": "drop third copies (only where no retention applies)",
+    "metrics": {
+     "cost_chf": {
+      "low": 1387.85,
+      "mid": 1392.43,
+      "high": 1394.43
+     },
+     "cost_eur": {
+      "low": 1501.35,
+      "mid": 1506.3,
+      "high": 1508.46
+     },
+     "cost_usd": {
+      "low": 1746.25,
+      "mid": 1752.01,
+      "high": 1754.53
+     },
+     "kwh": {
+      "low": 59.8,
+      "mid": 192.5,
+      "high": 463.9
+     },
+     "co2_kg": {
+      "low": 12.0,
+      "mid": 43.5,
+      "high": 163.3
+     }
+    },
+    "status": "blocked",
+    "decided_by": "Head of IT",
+    "note": "upper bound if acted on; not additive with the package (the advisor decides, code computes)"
+   },
+   "protected": [
+    "10-year legal retention (T-1039); deletion request rejected (T-1195)"
+   ],
+   "entity_ids": [
+    "res:st-backup"
+   ],
+   "advisor_fact_ids": [
+    "st-backup.sources_in_3_tools",
+    "st-backup.third_copy_share",
+    "st-backup.copies_without_restore_test"
+   ],
+   "calc": {
+    "formula": "share = GB of the third copy of sources in 3 tools / all backup GB",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/backup_chains.csv",
+     "aws_costs.csv",
+     "it_tickets.csv"
+    ],
+    "row_count": 78,
+    "value_status": "estimated",
+    "issue_ids": []
+   }
+  },
+  {
+   "id": "closed_projects",
+   "title": "Closed projects still running",
+   "source_files": [
+    "extra/projects.csv",
+    "azure_costs.csv",
+    "aws_costs.csv"
+   ],
+   "headline": "4 completed projects still have resources billing after their end: CHF 27,095 and 735 kg CO2 in the baseline year (largest: P-004 Internal AI pilot, ended 2025-06-30).",
+   "numbers": [
+    {
+     "label": "completed projects with costs after the end",
+     "value": 4,
+     "unit": "projects"
+    },
+    {
+     "label": "cost after the end",
+     "value": 27094.7884,
+     "unit": "CHF/year"
+    },
+    {
+     "label": "CO2 after the end",
+     "value": 735.2821,
+     "unit": "kg/year"
+    }
+   ],
+   "potential": {
+    "action": "confirm with the project owner, then switch off or re-assign",
+    "metrics": {
+     "cost_chf": {
+      "low": 27060.69,
+      "mid": 27094.79,
+      "high": 27130.15
+     },
+     "cost_eur": {
+      "low": 29254.07,
+      "mid": 29290.93,
+      "high": 29329.15
+     },
+     "cost_usd": {
+      "low": 33991.5,
+      "mid": 34034.33,
+      "high": 34078.74
+     },
+     "kwh": {
+      "low": 1488.2,
+      "mid": 2284.0,
+      "high": 3944.4
+     },
+     "co2_kg": {
+      "low": 433.0,
+      "mid": 735.3,
+      "high": 1525.9
+     }
+    },
+    "status": "human",
+    "decided_by": "project owner",
+    "note": "upper bound if acted on; not additive with the package (the advisor decides, code computes)"
+   },
+   "protected": [],
+   "entity_ids": [
+    "res:ai-agent2",
+    "res:dp-dev",
+    "res:dp-prod",
+    "res:dp-storage",
+    "res:gpu-ml",
+    "res:pbi-kap",
+    "res:sandbox",
+    "res:st-proj",
+    "res:vm-app",
+    "res:vm-test"
+   ],
+   "advisor_fact_ids": [
+    "project.P-004.cost_after_end",
+    "project.P-004.co2_after_end",
+    "project.P-006.cost_after_end",
+    "project.P-006.co2_after_end",
+    "project.P-008.cost_after_end",
+    "project.P-008.co2_after_end",
+    "project.P-009.cost_after_end",
+    "project.P-009.co2_after_end"
+   ],
+   "calc": {
+    "formula": "Σ baseline lines tagged with a completed project and dated after its end",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/projects.csv",
+     "azure_costs.csv",
+     "aws_costs.csv"
+    ],
+    "row_count": 701,
+    "value_status": "estimated",
+    "issue_ids": []
+   }
+  },
+  {
+   "id": "project_footprint",
+   "title": "CO2 per client project",
+   "source_files": [
+    "extra/project_hours_monthly.csv",
+    "extra/projects.csv",
+    "extra/headcount.csv"
+   ],
+   "headline": "Client projects caused 531 kg CO2 in the baseline year; about 423 kg belong to rechargeable work and can be reported to the clients (Scope 3 for them).",
+   "numbers": [
+    {
+     "label": "projects",
+     "value": 15,
+     "unit": "projects"
+    },
+    {
+     "label": "client projects",
+     "value": 5,
+     "unit": "projects"
+    },
+    {
+     "label": "client project CO2",
+     "value": 531.0,
+     "unit": "kg/year"
+    },
+    {
+     "label": "rechargeable CO2 (partly = 50 %)",
+     "value": 422.75,
+     "unit": "kg/year"
+    }
+   ],
+   "potential": null,
+   "protected": [],
+   "entity_ids": [],
+   "advisor_fact_ids": [],
+   "calc": {
+    "formula": "project = tagged lines + Σ months, departments: untagged department lines × project hours / (FTE × 182 h); time not booked on projects stays unassigned",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/project_hours_monthly.csv",
+     "extra/projects.csv",
+     "extra/headcount.csv"
+    ],
+    "row_count": 271,
+    "value_status": "observed",
+    "issue_ids": []
+   },
+   "allocation_note": "Departments are allocated directly (tags, cost centers, mapping); no shared Overhead remains, so FTE vs hours makes no difference there. Hours are used for the project view."
+  },
+  {
+   "id": "m365",
+   "title": "Microsoft 365: real use vs licences",
+   "source_files": [
+    "extra/m365_usage.csv",
+    "saas_contracts.csv"
+   ],
+   "headline": "Admin data shows 104 active users vs 102 active licences (+2%): the licence data is confirmed; 11% of the purchased seats are unused. Bottom-up energy 100 kWh/year (range 33–4,595) vs 184 kWh in our baseline: consistent.",
+   "numbers": [
+    {
+     "label": "active users (admin, average)",
+     "value": 104.02,
+     "unit": "users"
+    },
+    {
+     "label": "active licences (contracts)",
+     "value": 102.0833,
+     "unit": "licences"
+    },
+    {
+     "label": "purchased licences",
+     "value": 117.0833,
+     "unit": "licences"
+    },
+    {
+     "label": "unused purchased seats",
+     "value": 0.1116,
+     "unit": "share"
+    },
+    {
+     "label": "Teams video minutes",
+     "value": 353382,
+     "unit": "min/year"
+    },
+    {
+     "label": "storage",
+     "value": 5416.406,
+     "unit": "GB (average)"
+    },
+    {
+     "label": "energy bottom-up (mid)",
+     "value": 99.5907,
+     "unit": "kWh/year"
+    },
+    {
+     "label": "energy in our baseline",
+     "value": 183.75,
+     "unit": "kWh/year"
+    }
+   ],
+   "potential": null,
+   "protected": [],
+   "entity_ids": [
+    "res:saas-m365"
+   ],
+   "advisor_fact_ids": [
+    "saas-m365.active_users_admin",
+    "saas-m365.unused_seat_share"
+   ],
+   "calc": {
+    "formula": "licences: mean weekly active users vs mean monthly active licences; energy: storage GB-days × storage factor + video minutes × kWh/min (data volume × network factor; high: Obringer et al. 2021)",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+     "extra/m365_usage.csv",
+     "saas_contracts.csv"
+    ],
+    "row_count": 350,
+    "value_status": "observed",
+    "issue_ids": []
+   },
+   "by_department": [
+    {
+     "department": "Consulting",
+     "active_users_admin": 37.1,
+     "licences_active": 36.4,
+     "licences_purchased": 41.8,
+     "difference_active": 0.018
+    },
+    {
+     "department": "Finance",
+     "active_users_admin": 11.2,
+     "licences_active": 11.1,
+     "licences_purchased": 12.7,
+     "difference_active": 0.009
+    },
+    {
+     "department": "HR",
+     "active_users_admin": 5.6,
+     "licences_active": 5.1,
+     "licences_purchased": 6.0,
+     "difference_active": 0.106
+    },
+    {
+     "department": "IT",
+     "active_users_admin": 14.9,
+     "licences_active": 14.9,
+     "licences_purchased": 16.9,
+     "difference_active": 0.0
+    },
+    {
+     "department": "Management",
+     "active_users_admin": 5.5,
+     "licences_active": 5.1,
+     "licences_purchased": 6.0,
+     "difference_active": 0.09
+    },
+    {
+     "department": "Marketing",
+     "active_users_admin": 11.2,
+     "licences_active": 11.2,
+     "licences_purchased": 12.7,
+     "difference_active": -0.001
+    },
+    {
+     "department": "Sales",
+     "active_users_admin": 18.5,
+     "licences_active": 18.3,
+     "licences_purchased": 21.0,
+     "difference_active": 0.01
+    }
+   ],
+   "energy_check": {
+    "bottom_up_kwh": {
+     "low": 32.6,
+     "mid": 99.6,
+     "high": 4595.0
+    },
+    "baseline_kwh": 183.8,
+    "consistent": true,
+    "baseline_changed": false,
+    "sources": [
+     "factors.yaml (storage, network)",
+     "Obringer et al. 2021, Resources, Conservation & Recycling 167"
+    ]
+   }
+  }
+ ],
+ "sources": [
+  {
+   "file": "extra/data_platform_jobs.csv",
+   "used_for": [
+    "carbon-aware timing (jobs.json)",
+    "protection windows for the advisor",
+    "example Q3"
+   ]
+  },
+  {
+   "file": "extra/data_catalog_tables.csv",
+   "used_for": [
+    "card data_catalog",
+    "advisor facts dp-storage.*",
+    "consistency check (reconcile)"
+   ]
+  },
+  {
+   "file": "extra/powerbi_usage.csv",
+   "used_for": [
+    "card powerbi (report hygiene, capacity downsizing)",
+    "advisor facts pbi-kap.*",
+    "pbi-07 lock"
+   ]
+  },
+  {
+   "file": "extra/ai_agent_runs.jsonl",
+   "used_for": [
+    "card ai_agents",
+    "advisor facts ai-report.*, ai-agent2.*",
+    "consistency check (reconcile)"
+   ]
+  },
+  {
+   "file": "extra/ai_invoice_monthly.csv",
+   "used_for": [
+    "AI invoice vs gateway contradiction",
+    "invoice adjustment in the totals"
+   ]
+  },
+  {
+   "file": "extra/m365_usage.csv",
+   "used_for": [
+    "card m365 (licence cross-check, energy check)",
+    "advisor facts saas-m365.*"
+   ]
+  },
+  {
+   "file": "extra/web_traffic.csv",
+   "used_for": [
+    "card web_traffic",
+    "advisor fact web-cdn.bot_share",
+    "consistency check (reconcile)"
+   ]
+  },
+  {
+   "file": "extra/ci_pipeline_runs.jsonl",
+   "used_for": [
+    "card ci_builds",
+    "advisor facts cicd.*",
+    "relocation option (regions)"
+   ]
+  },
+  {
+   "file": "extra/log_volume.csv",
+   "used_for": [
+    "card logs",
+    "advisor facts logs.*"
+   ]
+  },
+  {
+   "file": "extra/backup_chains.csv",
+   "used_for": [
+    "card backups (blocked edge case)",
+    "advisor facts st-backup.*"
+   ]
+  },
+  {
+   "file": "extra/data_center_locations.csv",
+   "used_for": [
+    "card regions (relocation options, unused regions)",
+    "advisor safety rule: only offered regions"
+   ]
+  },
+  {
+   "file": "extra/provider_monthly_report.csv",
+   "used_for": [
+    "provider report vs invoices contradiction (limits)"
+   ]
+  },
+  {
+   "file": "extra/headcount.csv",
+   "used_for": [
+    "FTE allocation key",
+    "forecast seat growth",
+    "card project_footprint"
+   ]
+  },
+  {
+   "file": "extra/projects.csv",
+   "used_for": [
+    "card closed_projects",
+    "card project_footprint",
+    "advisor facts (project status)"
+   ]
+  },
+  {
+   "file": "extra/project_hours_monthly.csv",
+   "used_for": [
+    "card project_footprint (CO2 per client project, hours as allocation key)"
+   ]
+  }
+ ],
+ "powerbi": {
+  "reports": [
+   {
+    "report_id": "pbi-30",
+    "report": "Liquidity HR 30 (copy)",
+    "department": "HR",
+    "type": "management",
+    "class": "duplicate",
+    "action": "retire the copy",
+    "refreshes": 1482,
+    "refresh_hours": 73.7,
+    "views": 9,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-53",
+    "report": "Training Consulting 53 (copy)",
+    "department": "Consulting",
+    "type": "operational",
+    "class": "duplicate",
+    "action": "retire the copy",
+    "refreshes": 4308,
+    "refresh_hours": 144.0,
+    "views": 9,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-13",
+    "report": "IT operations Management 13 (copy)",
+    "department": "Management",
+    "type": "operational",
+    "class": "duplicate",
+    "action": "retire the copy",
+    "refreshes": 2259,
+    "refresh_hours": 188.3,
+    "views": 15,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-31",
+    "report": "Margin Management 31 (copy)",
+    "department": "Management",
+    "type": "operational",
+    "class": "duplicate",
+    "action": "retire the copy",
+    "refreshes": 1494,
+    "refresh_hours": 124.6,
+    "views": 15,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-55",
+    "report": "Margin Management 55",
+    "department": "Management",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 2000,
+    "refresh_hours": 166.6,
+    "views": 30,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-16",
+    "report": "Offers Finance 16",
+    "department": "Finance",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1245,
+    "refresh_hours": 41.4,
+    "views": 244,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-45",
+    "report": "Staff HR 45",
+    "department": "HR",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1984,
+    "refresh_hours": 198.4,
+    "views": 244,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-35",
+    "report": "Campaigns Consulting 35",
+    "department": "Consulting",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1260,
+    "refresh_hours": 125.6,
+    "views": 450,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-14",
+    "report": "Budget Management 14",
+    "department": "Management",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1764,
+    "refresh_hours": 204.8,
+    "views": 454,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-20",
+    "report": "Customers Marketing 20",
+    "department": "Marketing",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1757,
+    "refresh_hours": 88.1,
+    "views": 682,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-58",
+    "report": "Expenses IT 58",
+    "department": "IT",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1512,
+    "refresh_hours": 151.4,
+    "views": 871,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-60",
+    "report": "Tickets Finance 60",
+    "department": "Finance",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1757,
+    "refresh_hours": 204.2,
+    "views": 1138,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-49",
+    "report": "Expenses Consulting 49",
+    "department": "Consulting",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1757,
+    "refresh_hours": 146.8,
+    "views": 1343,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-34",
+    "report": "Tickets Management 34",
+    "department": "Management",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 992,
+    "refresh_hours": 115.7,
+    "views": 1555,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-18",
+    "report": "Staff IT 18",
+    "department": "IT",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1245,
+    "refresh_hours": 104.0,
+    "views": 1610,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-03",
+    "report": "HR key figures",
+    "department": "HR",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 504,
+    "refresh_hours": 25.3,
+    "views": 1756,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-56",
+    "report": "Revenue Sales 56",
+    "department": "Sales",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 2000,
+    "refresh_hours": 99.8,
+    "views": 1795,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-22",
+    "report": "Offers IT 22",
+    "department": "IT",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1984,
+    "refresh_hours": 99.2,
+    "views": 1946,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-43",
+    "report": "Suppliers Marketing 43",
+    "department": "Marketing",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1000,
+    "refresh_hours": 50.0,
+    "views": 2458,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-54",
+    "report": "Projects IT 54",
+    "department": "IT",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 741,
+    "refresh_hours": 61.7,
+    "views": 3094,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-05",
+    "report": "Management dashboard",
+    "department": "Management",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 976,
+    "refresh_hours": 130.3,
+    "views": 3272,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-46",
+    "report": "Projects Consulting 46",
+    "department": "Consulting",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1500,
+    "refresh_hours": 49.8,
+    "views": 3916,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-41",
+    "report": "Budget IT 41",
+    "department": "IT",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 496,
+    "refresh_hours": 57.7,
+    "views": 4244,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-40",
+    "report": "Absences Sales 40",
+    "department": "Sales",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1240,
+    "refresh_hours": 103.2,
+    "views": 5293,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-04",
+    "report": "Liquidity planning",
+    "department": "Finance",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 996,
+    "refresh_hours": 83.1,
+    "views": 5423,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-59",
+    "report": "Margin Consulting 59",
+    "department": "Consulting",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 2016,
+    "refresh_hours": 67.1,
+    "views": 5812,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-39",
+    "report": "IT operations Marketing 39",
+    "department": "Marketing",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1260,
+    "refresh_hours": 126.8,
+    "views": 6284,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-19",
+    "report": "Campaigns Finance 19",
+    "department": "Finance",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1750,
+    "refresh_hours": 87.6,
+    "views": 6650,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-27",
+    "report": "Margin IT 27",
+    "department": "IT",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 2000,
+    "refresh_hours": 100.4,
+    "views": 6796,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-57",
+    "report": "Utilisation HR 57",
+    "department": "HR",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1488,
+    "refresh_hours": 74.7,
+    "views": 7230,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-36",
+    "report": "Expenses Management 36",
+    "department": "Management",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1708,
+    "refresh_hours": 85.4,
+    "views": 8151,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-02",
+    "report": "Project controlling",
+    "department": "Consulting",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1494,
+    "refresh_hours": 148.3,
+    "views": 9930,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-01",
+    "report": "Revenue cockpit",
+    "department": "Sales",
+    "type": "management",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 2024,
+    "refresh_hours": 134.7,
+    "views": 13465,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-48",
+    "report": "Suppliers Marketing 48",
+    "department": "Marketing",
+    "type": "operational",
+    "class": "in_use",
+    "action": "keep",
+    "refreshes": 1500,
+    "refresh_hours": 149.4,
+    "views": 24997,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-07",
+    "report": "Legacy report receivables",
+    "department": "Finance",
+    "type": "regulatory",
+    "class": "protected",
+    "action": "keep as is (regulatory / ticket)",
+    "refreshes": 8688,
+    "refresh_hours": 725.9,
+    "views": 668,
+    "tickets": [
+     "T-1167"
+    ],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-26",
+    "report": "Budget Finance 26 (quarterly)",
+    "department": "Finance",
+    "type": "management",
+    "class": "quarterly",
+    "action": "refresh only in closing months",
+    "refreshes": 996,
+    "refresh_hours": 83.1,
+    "views": 106,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-38",
+    "report": "Liquidity Marketing 38 (quarterly)",
+    "department": "Marketing",
+    "type": "management",
+    "class": "quarterly",
+    "action": "refresh only in closing months",
+    "refreshes": 1494,
+    "refresh_hours": 99.8,
+    "views": 107,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-21",
+    "report": "Absences IT 21 (quarterly)",
+    "department": "IT",
+    "type": "management",
+    "class": "quarterly",
+    "action": "refresh only in closing months",
+    "refreshes": 1736,
+    "refresh_hours": 173.6,
+    "views": 112,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-51",
+    "report": "Offers Marketing 51 (quarterly)",
+    "department": "Marketing",
+    "type": "management",
+    "class": "quarterly",
+    "action": "refresh only in closing months",
+    "refreshes": 1250,
+    "refresh_hours": 62.3,
+    "views": 114,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-37",
+    "report": "Utilisation Management 37",
+    "department": "Management",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 8280,
+    "refresh_hours": 413.1,
+    "views": 6,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-06",
+    "report": "Marketing campaigns 2024",
+    "department": "Marketing",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 17280,
+    "refresh_hours": 864.6,
+    "views": 8,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-10",
+    "report": "Sales pipeline (old)",
+    "department": "Sales",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 8688,
+    "refresh_hours": 580.9,
+    "views": 8,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-11",
+    "report": "Staff IT 11",
+    "department": "IT",
+    "type": "management",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 14883,
+    "refresh_hours": 1736.4,
+    "views": 9,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-29",
+    "report": "Margin Finance 29",
+    "department": "Finance",
+    "type": "management",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 4344,
+    "refresh_hours": 217.9,
+    "views": 9,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-23",
+    "report": "Customers Consulting 23",
+    "department": "Consulting",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 12274,
+    "refresh_hours": 1224.8,
+    "views": 10,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-25",
+    "report": "Offers Management 25",
+    "department": "Management",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 4248,
+    "refresh_hours": 354.9,
+    "views": 10,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-12",
+    "report": "Expenses Sales 12",
+    "department": "Sales",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 16698,
+    "refresh_hours": 1948.9,
+    "views": 12,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-15",
+    "report": "Invoices Finance 15",
+    "department": "Finance",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 9747,
+    "refresh_hours": 650.6,
+    "views": 12,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-42",
+    "report": "Training Consulting 42",
+    "department": "Consulting",
+    "type": "management",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 4706,
+    "refresh_hours": 235.5,
+    "views": 13,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-08",
+    "report": "Test report AI pilot",
+    "department": "IT",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 8592,
+    "refresh_hours": 569.5,
+    "views": 14,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-09",
+    "report": "Customer survey 2024",
+    "department": "Marketing",
+    "type": "management",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 4332,
+    "refresh_hours": 432.5,
+    "views": 16,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-44",
+    "report": "Campaigns IT 44",
+    "department": "IT",
+    "type": "management",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 17014,
+    "refresh_hours": 1981.8,
+    "views": 16,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-24",
+    "report": "IT operations Consulting 24",
+    "department": "Consulting",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 7581,
+    "refresh_hours": 634.5,
+    "views": 17,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-28",
+    "report": "Invoices Consulting 28",
+    "department": "Consulting",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 6069,
+    "refresh_hours": 507.5,
+    "views": 17,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-32",
+    "report": "Revenue IT 32",
+    "department": "IT",
+    "type": "management",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 5712,
+    "refresh_hours": 665.7,
+    "views": 21,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-33",
+    "report": "Offers Finance 33",
+    "department": "Finance",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 2728,
+    "refresh_hours": 318.7,
+    "views": 21,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-47",
+    "report": "Campaigns HR 47",
+    "department": "HR",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 8688,
+    "refresh_hours": 873.2,
+    "views": 22,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-17",
+    "report": "Quality Consulting 17",
+    "department": "Consulting",
+    "type": "management",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 6120,
+    "refresh_hours": 305.8,
+    "views": 23,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-50",
+    "report": "Pipeline Management 50",
+    "department": "Management",
+    "type": "management",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 1992,
+    "refresh_hours": 232.0,
+    "views": 27,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   },
+   {
+    "report_id": "pbi-52",
+    "report": "Training IT 52",
+    "department": "IT",
+    "type": "operational",
+    "class": "unused",
+    "action": "stop scheduled refresh (on demand) or retire",
+    "refreshes": 2000,
+    "refresh_hours": 167.2,
+    "views": 27,
+    "tickets": [],
+    "parent_id": "res:pbi-kap"
+   }
+  ]
+ },
+ "regions": {
+  "offered": {
+   "ai provider (api)": {
+    "locations": [
+     "EU",
+     "US"
+    ],
+    "used": [
+     "EU"
+    ],
+    "regions": [
+     {
+      "region": "EU (mixed)",
+      "location": "EU",
+      "used": true
+     },
+     {
+      "region": "USA (mixed)",
+      "location": "US",
+      "used": false
+     }
+    ]
+   },
+   "aws": {
+    "locations": [
+     "CH",
+     "DE",
+     "IE",
+     "SE"
+    ],
+    "used": [
+     "IE"
+    ],
+    "regions": [
+     {
+      "region": "Ireland (Dublin)",
+      "location": "IE",
+      "used": true
+     },
+     {
+      "region": "Germany (Frankfurt)",
+      "location": "DE",
+      "used": false
+     },
+     {
+      "region": "Switzerland (Zurich)",
+      "location": "CH",
+      "used": false
+     },
+     {
+      "region": "Sweden (Stockholm)",
+      "location": "SE",
+      "used": false
+     }
+    ]
+   },
+   "azure": {
+    "locations": [
+     "CH",
+     "DE",
+     "FR",
+     "NL"
+    ],
+    "used": [
+     "CH",
+     "DE"
+    ],
+    "regions": [
+     {
+      "region": "Switzerland (Zurich)",
+      "location": "CH",
+      "used": true
+     },
+     {
+      "region": "Switzerland (Geneva)",
+      "location": "CH",
+      "used": false
+     },
+     {
+      "region": "Germany (Frankfurt)",
+      "location": "DE",
+      "used": true
+     },
+     {
+      "region": "Netherlands (Amsterdam)",
+      "location": "NL",
+      "used": false
+     },
+     {
+      "region": "France (Paris)",
+      "location": "FR",
+      "used": false
+     }
+    ]
+   },
+   "swiss hoster": {
+    "locations": [
+     "CH"
+    ],
+    "used": [
+     "CH"
+    ],
+    "regions": [
+     {
+      "region": "Switzerland (Zurich)",
+      "location": "CH",
+      "used": true
+     },
+     {
+      "region": "Switzerland (Lausanne)",
+      "location": "CH",
+      "used": false
+     }
+    ]
+   }
+  },
+  "options": [
+   {
+    "resource_id": "dp-dev",
+    "entity_id": "res:dp-dev",
+    "provider": "azure",
+    "from": "DE",
+    "to": "CH",
+    "kwh": 3410.7,
+    "co2_kg_saved": {
+     "low": 631.0,
+     "mid": 862.9,
+     "high": 1746.0
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "gpu-ml",
+    "entity_id": "res:gpu-ml",
+    "provider": "azure",
+    "from": "DE",
+    "to": "CH",
+    "kwh": 1159.7,
+    "co2_kg_saved": {
+     "low": 202.8,
+     "mid": 293.4,
+     "high": 603.9
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "st-backup",
+    "entity_id": "res:st-backup",
+    "provider": "aws",
+    "from": "IE",
+    "to": "CH",
+    "kwh": 1299.3,
+    "co2_kg_saved": {
+     "low": 57.7,
+     "mid": 150.7,
+     "high": 701.3
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "vm-test",
+    "entity_id": "res:vm-test",
+    "provider": "aws",
+    "from": "IE",
+    "to": "CH",
+    "kwh": 1228.1,
+    "co2_kg_saved": {
+     "low": 116.2,
+     "mid": 142.5,
+     "high": 471.0
+    },
+    "cost_note": "AWS compute in CH costs +18% vs IE (m6i.large list price, README)"
+   },
+   {
+    "resource_id": "cicd",
+    "entity_id": "res:cicd",
+    "provider": "aws",
+    "from": "IE",
+    "to": "CH",
+    "kwh": 112.8,
+    "co2_kg_saved": {
+     "low": 10.6,
+     "mid": 13.1,
+     "high": 44.8
+    },
+    "cost_note": "AWS compute in CH costs +18% vs IE (m6i.large list price, README)"
+   },
+   {
+    "resource_id": "sandbox",
+    "entity_id": "res:sandbox",
+    "provider": "aws",
+    "from": "IE",
+    "to": "CH",
+    "kwh": 2.9,
+    "co2_kg_saved": {
+     "low": 0.3,
+     "mid": 0.3,
+     "high": 1.1
+    },
+    "cost_note": "AWS compute in CH costs +18% vs IE (m6i.large list price, README)"
+   },
+   {
+    "resource_id": "ai-agent",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "ai-agent2",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "ai-assistant",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "ai-chatbot",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "ai-marketing",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "ai-quote",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "ai-report",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "cicd",
+    "provider": "aws",
+    "from": "IE",
+    "to": "SE",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "db-fin",
+    "provider": "azure",
+    "from": "CH",
+    "to": "FR",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "db-fin",
+    "provider": "azure",
+    "from": "CH",
+    "to": "NL",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "dp-dev",
+    "provider": "azure",
+    "from": "DE",
+    "to": "FR",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "dp-dev",
+    "provider": "azure",
+    "from": "DE",
+    "to": "NL",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "dp-prod",
+    "provider": "azure",
+    "from": "CH",
+    "to": "FR",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "dp-prod",
+    "provider": "azure",
+    "from": "CH",
+    "to": "NL",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "dp-storage",
+    "provider": "azure",
+    "from": "CH",
+    "to": "FR",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "dp-storage",
+    "provider": "azure",
+    "from": "CH",
+    "to": "NL",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "gpu-ml",
+    "provider": "azure",
+    "from": "DE",
+    "to": "FR",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "gpu-ml",
+    "provider": "azure",
+    "from": "DE",
+    "to": "NL",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "net-egress",
+    "provider": "aws",
+    "from": "CH",
+    "to": "SE",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "pbi-kap",
+    "provider": "azure",
+    "from": "CH",
+    "to": "FR",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "pbi-kap",
+    "provider": "azure",
+    "from": "CH",
+    "to": "NL",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "saas-other",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "sandbox",
+    "provider": "aws",
+    "from": "IE",
+    "to": "SE",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "st-archive",
+    "provider": "aws",
+    "from": "CH",
+    "to": "SE",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "st-backup",
+    "provider": "aws",
+    "from": "IE",
+    "to": "SE",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "sub-chatgpt",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "sub-claude",
+    "provider": "ai provider (api)",
+    "from": "EU",
+    "to": "US",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "vm-app",
+    "provider": "azure",
+    "from": "CH",
+    "to": "FR",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "vm-app",
+    "provider": "azure",
+    "from": "CH",
+    "to": "NL",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "vm-test",
+    "provider": "aws",
+    "from": "IE",
+    "to": "SE",
+    "co2_kg_saved": null,
+    "note": "no researched grid factor for this location"
+   },
+   {
+    "resource_id": "sandbox",
+    "entity_id": "res:sandbox",
+    "provider": "aws",
+    "from": "IE",
+    "to": "DE",
+    "kwh": 2.9,
+    "co2_kg_saved": {
+     "low": -0.4,
+     "mid": -0.4,
+     "high": -0.2
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "net-egress",
+    "entity_id": "res:net-egress",
+    "provider": "aws",
+    "from": "CH",
+    "to": "IE",
+    "kwh": 72.3,
+    "co2_kg_saved": {
+     "low": -63.4,
+     "mid": -8.4,
+     "high": -4.8
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "cicd",
+    "entity_id": "res:cicd",
+    "provider": "aws",
+    "from": "IE",
+    "to": "DE",
+    "kwh": 112.8,
+    "co2_kg_saved": {
+     "low": -15.6,
+     "mid": -15.5,
+     "high": -9.6
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "net-egress",
+    "entity_id": "res:net-egress",
+    "provider": "aws",
+    "from": "CH",
+    "to": "DE",
+    "kwh": 72.3,
+    "co2_kg_saved": {
+     "low": -85.5,
+     "mid": -18.3,
+     "high": -9.2
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "st-archive",
+    "entity_id": "res:st-archive",
+    "provider": "aws",
+    "from": "CH",
+    "to": "IE",
+    "kwh": 592.1,
+    "co2_kg_saved": {
+     "low": -319.5,
+     "mid": -68.7,
+     "high": -26.3
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "pbi-kap",
+    "entity_id": "res:pbi-kap",
+    "provider": "azure",
+    "from": "CH",
+    "to": "DE",
+    "kwh": 282.8,
+    "co2_kg_saved": {
+     "low": -148.7,
+     "mid": -71.6,
+     "high": -51.3
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "dp-storage",
+    "entity_id": "res:dp-storage",
+    "provider": "azure",
+    "from": "CH",
+    "to": "DE",
+    "kwh": 498.9,
+    "co2_kg_saved": {
+     "low": -363.0,
+     "mid": -126.2,
+     "high": -42.3
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "st-archive",
+    "entity_id": "res:st-archive",
+    "provider": "aws",
+    "from": "CH",
+    "to": "DE",
+    "kwh": 592.1,
+    "co2_kg_saved": {
+     "low": -430.8,
+     "mid": -149.8,
+     "high": -50.2
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "db-fin",
+    "entity_id": "res:db-fin",
+    "provider": "azure",
+    "from": "CH",
+    "to": "DE",
+    "kwh": 603.8,
+    "co2_kg_saved": {
+     "low": -312.4,
+     "mid": -152.8,
+     "high": -111.6
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "vm-test",
+    "entity_id": "res:vm-test",
+    "provider": "aws",
+    "from": "IE",
+    "to": "DE",
+    "kwh": 1228.1,
+    "co2_kg_saved": {
+     "low": -168.3,
+     "mid": -168.3,
+     "high": -105.6
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "st-backup",
+    "entity_id": "res:st-backup",
+    "provider": "aws",
+    "from": "IE",
+    "to": "DE",
+    "kwh": 1299.3,
+    "co2_kg_saved": {
+     "low": -244.2,
+     "mid": -178.0,
+     "high": -52.5
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "vm-app",
+    "entity_id": "res:vm-app",
+    "provider": "azure",
+    "from": "CH",
+    "to": "DE",
+    "kwh": 1286.9,
+    "co2_kg_saved": {
+     "low": -675.2,
+     "mid": -325.6,
+     "high": -231.5
+    },
+    "cost_note": "price difference not in the data"
+   },
+   {
+    "resource_id": "dp-prod",
+    "entity_id": "res:dp-prod",
+    "provider": "azure",
+    "from": "CH",
+    "to": "DE",
+    "kwh": 10297.7,
+    "co2_kg_saved": {
+     "low": -5359.2,
+     "mid": -2605.3,
+     "high": -1887.3
+    },
+    "cost_note": "price difference not in the data"
+   }
+  ],
+  "unused_regions": [
+   {
+    "provider": "ai provider (api)",
+    "region": "USA (mixed)",
+    "location": "US",
+    "used": false
+   },
+   {
+    "provider": "aws",
+    "region": "Germany (Frankfurt)",
+    "location": "DE",
+    "used": false
+   },
+   {
+    "provider": "aws",
+    "region": "Switzerland (Zurich)",
+    "location": "CH",
+    "used": false
+   },
+   {
+    "provider": "aws",
+    "region": "Sweden (Stockholm)",
+    "location": "SE",
+    "used": false
+   },
+   {
+    "provider": "azure",
+    "region": "Switzerland (Geneva)",
+    "location": "CH",
+    "used": false
+   },
+   {
+    "provider": "azure",
+    "region": "Netherlands (Amsterdam)",
+    "location": "NL",
+    "used": false
+   },
+   {
+    "provider": "azure",
+    "region": "France (Paris)",
+    "location": "FR",
+    "used": false
+   },
+   {
+    "provider": "swiss hoster",
+    "region": "Switzerland (Lausanne)",
+    "location": "CH",
+    "used": false
+   }
+  ]
+ },
+ "closed_projects": [
+  {
+   "project_id": "P-004",
+   "project": "Internal AI pilot",
+   "ended": "2025-06-30",
+   "resources": [
+    "dp-dev",
+    "gpu-ml",
+    "sandbox",
+    "vm-test"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 23227.99,
+     "mid": 23258.55,
+     "high": 23290.69
+    },
+    "cost_eur": {
+     "low": 25124.46,
+     "mid": 25157.52,
+     "high": 25192.28
+    },
+    "cost_usd": {
+     "low": 29229.81,
+     "mid": 29268.26,
+     "high": 29308.7
+    },
+    "kwh": {
+     "low": 1346.1,
+     "mid": 2034.4,
+     "high": 3475.4
+    },
+    "co2_kg": {
+     "low": 424.8,
+     "mid": 707.6,
+     "high": 1464.2
+    }
+   }
+  },
+  {
+   "project_id": "P-006",
+   "project": "Customer Beta: reporting setup",
+   "ended": "2026-06-30",
+   "resources": [
+    "ai-agent2",
+    "dp-prod",
+    "dp-storage",
+    "pbi-kap",
+    "st-proj"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 2287.48,
+     "mid": 2289.0,
+     "high": 2290.37
+    },
+    "cost_eur": {
+     "low": 2459.46,
+     "mid": 2461.09,
+     "high": 2462.57
+    },
+    "cost_usd": {
+     "low": 2826.22,
+     "mid": 2828.09,
+     "high": 2829.79
+    },
+    "kwh": {
+     "low": 89.5,
+     "mid": 147.9,
+     "high": 273.7
+    },
+    "co2_kg": {
+     "low": 5.1,
+     "mid": 16.5,
+     "high": 36.6
+    }
+   }
+  },
+  {
+   "project_id": "P-009",
+   "project": "Customer portal relaunch",
+   "ended": "2026-03-31",
+   "resources": [
+    "vm-app"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 1154.23,
+     "mid": 1156.25,
+     "high": 1158.09
+    },
+    "cost_eur": {
+     "low": 1246.0,
+     "mid": 1248.18,
+     "high": 1250.17
+    },
+    "cost_usd": {
+     "low": 1441.72,
+     "mid": 1444.24,
+     "high": 1446.55
+    },
+    "kwh": {
+     "low": 41.2,
+     "mid": 62.5,
+     "high": 108.5
+    },
+    "co2_kg": {
+     "low": 2.3,
+     "mid": 6.9,
+     "high": 13.9
+    }
+   }
+  },
+  {
+   "project_id": "P-008",
+   "project": "Customer Delta: migration",
+   "ended": "2025-09-30",
+   "resources": [
+    "st-proj"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 390.99,
+     "mid": 390.99,
+     "high": 390.99
+    },
+    "cost_eur": {
+     "low": 424.14,
+     "mid": 424.14,
+     "high": 424.14
+    },
+    "cost_usd": {
+     "low": 493.74,
+     "mid": 493.74,
+     "high": 493.74
+    },
+    "kwh": {
+     "low": 11.3,
+     "mid": 39.2,
+     "high": 86.8
+    },
+    "co2_kg": {
+     "low": 0.6,
+     "mid": 4.3,
+     "high": 11.1
+    }
+   }
+  }
+ ],
+ "projects": [
+  {
+   "project_id": "P-003",
+   "project": "Data platform",
+   "type": "internal",
+   "customer": null,
+   "status": "ongoing",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 101272.66,
+     "mid": 101368.35,
+     "high": 101479.11
+    },
+    "cost_eur": {
+     "low": 109573.3,
+     "mid": 109676.84,
+     "high": 109796.67
+    },
+    "cost_usd": {
+     "low": 127516.64,
+     "mid": 127637.13,
+     "high": 127776.59
+    },
+    "kwh": {
+     "low": 6933.7,
+     "mid": 10716.4,
+     "high": 18833.2
+    },
+    "co2_kg": {
+     "low": 871.3,
+     "mid": 1831.3,
+     "high": 3734.2
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 10944.44,
+     "mid": 10947.05,
+     "high": 10950.1
+    },
+    "cost_eur": {
+     "low": 11836.18,
+     "mid": 11839.0,
+     "high": 11842.29
+    },
+    "cost_usd": {
+     "low": 13778.6,
+     "mid": 13781.89,
+     "high": 13785.72
+    },
+    "kwh": {
+     "low": 90.3,
+     "mid": 176.1,
+     "high": 474.3
+    },
+    "co2_kg": {
+     "low": 8.2,
+     "mid": 28.3,
+     "high": 115.8
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 112217.1,
+     "mid": 112315.4,
+     "high": 112429.2
+    },
+    "cost_eur": {
+     "low": 121409.48,
+     "mid": 121515.84,
+     "high": 121638.96
+    },
+    "cost_usd": {
+     "low": 141295.24,
+     "mid": 141419.02,
+     "high": 141562.31
+    },
+    "kwh": {
+     "low": 7024.0,
+     "mid": 10892.5,
+     "high": 19307.6
+    },
+    "co2_kg": {
+     "low": 879.5,
+     "mid": 1859.5,
+     "high": 3850.0
+    }
+   }
+  },
+  {
+   "project_id": "P-004",
+   "project": "Internal AI pilot",
+   "type": "internal",
+   "customer": null,
+   "status": "completed",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 23227.99,
+     "mid": 23258.55,
+     "high": 23290.69
+    },
+    "cost_eur": {
+     "low": 25124.46,
+     "mid": 25157.52,
+     "high": 25192.28
+    },
+    "cost_usd": {
+     "low": 29229.81,
+     "mid": 29268.26,
+     "high": 29308.7
+    },
+    "kwh": {
+     "low": 1346.1,
+     "mid": 2034.4,
+     "high": 3475.4
+    },
+    "co2_kg": {
+     "low": 424.8,
+     "mid": 707.6,
+     "high": 1464.2
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_eur": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_usd": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "kwh": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "co2_kg": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 23227.99,
+     "mid": 23258.55,
+     "high": 23290.69
+    },
+    "cost_eur": {
+     "low": 25124.46,
+     "mid": 25157.52,
+     "high": 25192.28
+    },
+    "cost_usd": {
+     "low": 29229.81,
+     "mid": 29268.26,
+     "high": 29308.7
+    },
+    "kwh": {
+     "low": 1346.1,
+     "mid": 2034.4,
+     "high": 3475.4
+    },
+    "co2_kg": {
+     "low": 424.8,
+     "mid": 707.6,
+     "high": 1464.2
+    }
+   }
+  },
+  {
+   "project_id": "P-015",
+   "project": "General operations",
+   "type": "internal",
+   "customer": null,
+   "status": "ongoing",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 72831.02,
+     "mid": 72994.25,
+     "high": 73065.64
+    },
+    "cost_eur": {
+     "low": 78771.01,
+     "mid": 78947.56,
+     "high": 79024.77
+    },
+    "cost_usd": {
+     "low": 91630.73,
+     "mid": 91836.1,
+     "high": 91925.92
+    },
+    "kwh": {
+     "low": 1245.4,
+     "mid": 3286.3,
+     "high": 8314.8
+    },
+    "co2_kg": {
+     "low": 139.8,
+     "mid": 573.6,
+     "high": 2175.5
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 19605.61,
+     "mid": 19608.2,
+     "high": 19611.35
+    },
+    "cost_eur": {
+     "low": 21204.6,
+     "mid": 21207.41,
+     "high": 21210.81
+    },
+    "cost_usd": {
+     "low": 24674.65,
+     "mid": 24677.92,
+     "high": 24681.88
+    },
+    "kwh": {
+     "low": 110.9,
+     "mid": 237.8,
+     "high": 678.7
+    },
+    "co2_kg": {
+     "low": 11.3,
+     "mid": 41.4,
+     "high": 177.1
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 92436.62,
+     "mid": 92602.45,
+     "high": 92676.99
+    },
+    "cost_eur": {
+     "low": 99975.62,
+     "mid": 100154.96,
+     "high": 100235.59
+    },
+    "cost_usd": {
+     "low": 116305.37,
+     "mid": 116514.01,
+     "high": 116607.8
+    },
+    "kwh": {
+     "low": 1356.3,
+     "mid": 3524.1,
+     "high": 8993.5
+    },
+    "co2_kg": {
+     "low": 151.1,
+     "mid": 615.0,
+     "high": 2352.6
+    }
+   }
+  },
+  {
+   "project_id": "P-001",
+   "project": "Customer portal",
+   "type": "internal",
+   "customer": null,
+   "status": "ongoing",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 38519.3,
+     "mid": 38697.0,
+     "high": 38792.53
+    },
+    "cost_eur": {
+     "low": 41670.11,
+     "mid": 41862.35,
+     "high": 41965.69
+    },
+    "cost_usd": {
+     "low": 48477.92,
+     "mid": 48701.56,
+     "high": 48821.78
+    },
+    "kwh": {
+     "low": 1218.4,
+     "mid": 2461.3,
+     "high": 4852.2
+    },
+    "co2_kg": {
+     "low": 145.5,
+     "mid": 364.7,
+     "high": 935.1
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 7488.52,
+     "mid": 7492.57,
+     "high": 7497.19
+    },
+    "cost_eur": {
+     "low": 8102.67,
+     "mid": 8107.05,
+     "high": 8112.06
+    },
+    "cost_usd": {
+     "low": 9431.76,
+     "mid": 9436.86,
+     "high": 9442.69
+    },
+    "kwh": {
+     "low": 111.3,
+     "mid": 188.4,
+     "high": 412.4
+    },
+    "co2_kg": {
+     "low": 8.5,
+     "mid": 26.0,
+     "high": 83.2
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 46007.82,
+     "mid": 46189.57,
+     "high": 46289.72
+    },
+    "cost_eur": {
+     "low": 49772.77,
+     "mid": 49969.4,
+     "high": 50077.75
+    },
+    "cost_usd": {
+     "low": 57909.65,
+     "mid": 58138.42,
+     "high": 58264.48
+    },
+    "kwh": {
+     "low": 1329.6,
+     "mid": 2649.7,
+     "high": 5264.6
+    },
+    "co2_kg": {
+     "low": 154.0,
+     "mid": 390.6,
+     "high": 1018.2
+    }
+   }
+  },
+  {
+   "project_id": "P-005",
+   "project": "Customer Alpha: data strategy",
+   "type": "customer",
+   "customer": "Customer Alpha",
+   "status": "ongoing",
+   "rechargeable": "partly",
+   "direct": {
+    "cost_chf": {
+     "low": 20871.04,
+     "mid": 20881.93,
+     "high": 20893.62
+    },
+    "cost_eur": {
+     "low": 22580.0,
+     "mid": 22591.77,
+     "high": 22604.42
+    },
+    "cost_usd": {
+     "low": 26305.39,
+     "mid": 26319.11,
+     "high": 26333.85
+    },
+    "kwh": {
+     "low": 1044.7,
+     "mid": 1749.8,
+     "high": 3292.6
+    },
+    "co2_kg": {
+     "low": 60.7,
+     "mid": 198.8,
+     "high": 463.5
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 10046.97,
+     "mid": 10046.97,
+     "high": 10046.97
+    },
+    "cost_eur": {
+     "low": 10857.46,
+     "mid": 10857.46,
+     "high": 10857.46
+    },
+    "cost_usd": {
+     "low": 12628.03,
+     "mid": 12628.03,
+     "high": 12628.03
+    },
+    "kwh": {
+     "low": 27.7,
+     "mid": 83.1,
+     "high": 319.4
+    },
+    "co2_kg": {
+     "low": 4.2,
+     "mid": 17.7,
+     "high": 95.8
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 30918.02,
+     "mid": 30928.9,
+     "high": 30940.6
+    },
+    "cost_eur": {
+     "low": 33437.46,
+     "mid": 33449.23,
+     "high": 33461.88
+    },
+    "cost_usd": {
+     "low": 38933.44,
+     "mid": 38947.14,
+     "high": 38961.87
+    },
+    "kwh": {
+     "low": 1072.4,
+     "mid": 1832.8,
+     "high": 3612.0
+    },
+    "co2_kg": {
+     "low": 64.8,
+     "mid": 216.5,
+     "high": 559.3
+    }
+   }
+  },
+  {
+   "project_id": "P-007",
+   "project": "Customer Gamma: AI assistant",
+   "type": "customer",
+   "customer": "Customer Gamma",
+   "status": "ongoing",
+   "rechargeable": "yes",
+   "direct": {
+    "cost_chf": {
+     "low": 9822.97,
+     "mid": 9824.09,
+     "high": 9825.23
+    },
+    "cost_eur": {
+     "low": 10635.03,
+     "mid": 10636.24,
+     "high": 10637.48
+    },
+    "cost_usd": {
+     "low": 12353.6,
+     "mid": 12355.0,
+     "high": 12356.44
+    },
+    "kwh": {
+     "low": 725.4,
+     "mid": 1133.4,
+     "high": 2019.2
+    },
+    "co2_kg": {
+     "low": 74.1,
+     "mid": 174.0,
+     "high": 367.1
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 9640.09,
+     "mid": 9640.09,
+     "high": 9640.09
+    },
+    "cost_eur": {
+     "low": 10413.87,
+     "mid": 10413.87,
+     "high": 10413.87
+    },
+    "cost_usd": {
+     "low": 12111.42,
+     "mid": 12111.42,
+     "high": 12111.42
+    },
+    "kwh": {
+     "low": 26.5,
+     "mid": 79.5,
+     "high": 305.4
+    },
+    "co2_kg": {
+     "low": 4.0,
+     "mid": 16.9,
+     "high": 91.6
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 19463.06,
+     "mid": 19464.18,
+     "high": 19465.32
+    },
+    "cost_eur": {
+     "low": 21048.91,
+     "mid": 21050.11,
+     "high": 21051.35
+    },
+    "cost_usd": {
+     "low": 24465.02,
+     "mid": 24466.42,
+     "high": 24467.86
+    },
+    "kwh": {
+     "low": 751.9,
+     "mid": 1212.9,
+     "high": 2324.6
+    },
+    "co2_kg": {
+     "low": 78.0,
+     "mid": 190.9,
+     "high": 458.7
+    }
+   }
+  },
+  {
+   "project_id": "P-006",
+   "project": "Customer Beta: reporting setup",
+   "type": "customer",
+   "customer": "Customer Beta",
+   "status": "completed",
+   "rechargeable": "yes",
+   "direct": {
+    "cost_chf": {
+     "low": 11361.28,
+     "mid": 11366.94,
+     "high": 11371.85
+    },
+    "cost_eur": {
+     "low": 12280.95,
+     "mid": 12287.06,
+     "high": 12292.37
+    },
+    "cost_usd": {
+     "low": 14280.26,
+     "mid": 14287.37,
+     "high": 14293.54
+    },
+    "kwh": {
+     "low": 499.0,
+     "mid": 809.3,
+     "high": 1477.2
+    },
+    "co2_kg": {
+     "low": 28.6,
+     "mid": 89.9,
+     "high": 194.6
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 7943.97,
+     "mid": 7943.97,
+     "high": 7943.97
+    },
+    "cost_eur": {
+     "low": 8595.06,
+     "mid": 8595.06,
+     "high": 8595.06
+    },
+    "cost_usd": {
+     "low": 10025.24,
+     "mid": 10025.24,
+     "high": 10025.24
+    },
+    "kwh": {
+     "low": 21.7,
+     "mid": 65.1,
+     "high": 250.5
+    },
+    "co2_kg": {
+     "low": 3.3,
+     "mid": 13.9,
+     "high": 75.1
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 19305.25,
+     "mid": 19310.91,
+     "high": 19315.82
+    },
+    "cost_eur": {
+     "low": 20876.01,
+     "mid": 20882.12,
+     "high": 20887.43
+    },
+    "cost_usd": {
+     "low": 24305.48,
+     "mid": 24312.6,
+     "high": 24318.78
+    },
+    "kwh": {
+     "low": 520.6,
+     "mid": 874.4,
+     "high": 1727.7
+    },
+    "co2_kg": {
+     "low": 31.8,
+     "mid": 103.7,
+     "high": 269.8
+    }
+   }
+  },
+  {
+   "project_id": "P-002",
+   "project": "Webshop",
+   "type": "internal",
+   "customer": null,
+   "status": "ongoing",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 8882.22,
+     "mid": 8915.21,
+     "high": 8927.93
+    },
+    "cost_eur": {
+     "low": 9599.22,
+     "mid": 9634.86,
+     "high": 9648.62
+    },
+    "cost_usd": {
+     "low": 11172.12,
+     "mid": 11213.6,
+     "high": 11229.61
+    },
+    "kwh": {
+     "low": 213.0,
+     "mid": 352.7,
+     "high": 808.3
+    },
+    "co2_kg": {
+     "low": 36.2,
+     "mid": 68.3,
+     "high": 200.8
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 10290.99,
+     "mid": 10293.06,
+     "high": 10295.56
+    },
+    "cost_eur": {
+     "low": 11147.12,
+     "mid": 11149.36,
+     "high": 11152.07
+    },
+    "cost_usd": {
+     "low": 12967.99,
+     "mid": 12970.61,
+     "high": 12973.75
+    },
+    "kwh": {
+     "low": 71.1,
+     "mid": 157.6,
+     "high": 463.5
+    },
+    "co2_kg": {
+     "low": 6.6,
+     "mid": 26.6,
+     "high": 119.0
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 19173.21,
+     "mid": 19208.27,
+     "high": 19223.49
+    },
+    "cost_eur": {
+     "low": 20746.3,
+     "mid": 20784.23,
+     "high": 20800.7
+    },
+    "cost_usd": {
+     "low": 24140.07,
+     "mid": 24184.21,
+     "high": 24203.37
+    },
+    "kwh": {
+     "low": 284.1,
+     "mid": 510.3,
+     "high": 1271.8
+    },
+    "co2_kg": {
+     "low": 42.8,
+     "mid": 94.9,
+     "high": 319.8
+    }
+   }
+  },
+  {
+   "project_id": "P-013",
+   "project": "Pre-sales and quotes",
+   "type": "internal",
+   "customer": null,
+   "status": "ongoing",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 5115.88,
+     "mid": 5115.88,
+     "high": 5115.88
+    },
+    "cost_eur": {
+     "low": 5536.59,
+     "mid": 5536.59,
+     "high": 5536.59
+    },
+    "cost_usd": {
+     "low": 6438.25,
+     "mid": 6438.25,
+     "high": 6438.25
+    },
+    "kwh": {
+     "low": 37.0,
+     "mid": 185.1,
+     "high": 740.2
+    },
+    "co2_kg": {
+     "low": 5.6,
+     "mid": 39.4,
+     "high": 222.1
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 24444.45,
+     "mid": 24444.45,
+     "high": 24444.45
+    },
+    "cost_eur": {
+     "low": 26432.73,
+     "mid": 26432.73,
+     "high": 26432.73
+    },
+    "cost_usd": {
+     "low": 30757.74,
+     "mid": 30757.74,
+     "high": 30757.74
+    },
+    "kwh": {
+     "low": 49.3,
+     "mid": 148.0,
+     "high": 554.3
+    },
+    "co2_kg": {
+     "low": 7.4,
+     "mid": 31.5,
+     "high": 166.3
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 29560.33,
+     "mid": 29560.33,
+     "high": 29560.33
+    },
+    "cost_eur": {
+     "low": 31969.32,
+     "mid": 31969.32,
+     "high": 31969.32
+    },
+    "cost_usd": {
+     "low": 37195.99,
+     "mid": 37195.99,
+     "high": 37195.99
+    },
+    "kwh": {
+     "low": 86.3,
+     "mid": 333.0,
+     "high": 1294.6
+    },
+    "co2_kg": {
+     "low": 12.9,
+     "mid": 70.9,
+     "high": 388.4
+    }
+   }
+  },
+  {
+   "project_id": "P-011",
+   "project": "Marketing campaigns",
+   "type": "internal",
+   "customer": null,
+   "status": "ongoing",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 5311.49,
+     "mid": 5311.49,
+     "high": 5311.49
+    },
+    "cost_eur": {
+     "low": 5743.66,
+     "mid": 5743.66,
+     "high": 5743.66
+    },
+    "cost_usd": {
+     "low": 6677.89,
+     "mid": 6677.89,
+     "high": 6677.89
+    },
+    "kwh": {
+     "low": 28.3,
+     "mid": 141.5,
+     "high": 565.8
+    },
+    "co2_kg": {
+     "low": 4.2,
+     "mid": 30.1,
+     "high": 169.7
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 15844.72,
+     "mid": 15844.72,
+     "high": 15844.72
+    },
+    "cost_eur": {
+     "low": 17170.88,
+     "mid": 17170.88,
+     "high": 17170.88
+    },
+    "cost_usd": {
+     "low": 19963.11,
+     "mid": 19963.11,
+     "high": 19963.11
+    },
+    "kwh": {
+     "low": 38.4,
+     "mid": 152.4,
+     "high": 613.6
+    },
+    "co2_kg": {
+     "low": 5.8,
+     "mid": 32.5,
+     "high": 184.1
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 21156.22,
+     "mid": 21156.22,
+     "high": 21156.22
+    },
+    "cost_eur": {
+     "low": 22914.55,
+     "mid": 22914.55,
+     "high": 22914.55
+    },
+    "cost_usd": {
+     "low": 26641.0,
+     "mid": 26641.0,
+     "high": 26641.0
+    },
+    "kwh": {
+     "low": 66.7,
+     "mid": 293.9,
+     "high": 1179.4
+    },
+    "co2_kg": {
+     "low": 10.0,
+     "mid": 62.6,
+     "high": 353.8
+    }
+   }
+  },
+  {
+   "project_id": "P-014",
+   "project": "Training",
+   "type": "internal",
+   "customer": null,
+   "status": "ongoing",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 4155.79,
+     "mid": 4155.82,
+     "high": 4155.84
+    },
+    "cost_eur": {
+     "low": 4496.46,
+     "mid": 4496.49,
+     "high": 4496.51
+    },
+    "cost_usd": {
+     "low": 5226.46,
+     "mid": 5226.5,
+     "high": 5226.53
+    },
+    "kwh": {
+     "low": 31.0,
+     "mid": 152.8,
+     "high": 609.3
+    },
+    "co2_kg": {
+     "low": 4.7,
+     "mid": 32.6,
+     "high": 182.9
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 3724.22,
+     "mid": 3724.22,
+     "high": 3724.22
+    },
+    "cost_eur": {
+     "low": 4027.87,
+     "mid": 4027.87,
+     "high": 4027.87
+    },
+    "cost_usd": {
+     "low": 4687.32,
+     "mid": 4687.32,
+     "high": 4687.32
+    },
+    "kwh": {
+     "low": 11.0,
+     "mid": 33.1,
+     "high": 122.4
+    },
+    "co2_kg": {
+     "low": 1.7,
+     "mid": 7.0,
+     "high": 36.7
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 7880.01,
+     "mid": 7880.03,
+     "high": 7880.06
+    },
+    "cost_eur": {
+     "low": 8524.33,
+     "mid": 8524.36,
+     "high": 8524.39
+    },
+    "cost_usd": {
+     "low": 9913.78,
+     "mid": 9913.82,
+     "high": 9913.85
+    },
+    "kwh": {
+     "low": 42.0,
+     "mid": 185.9,
+     "high": 731.7
+    },
+    "co2_kg": {
+     "low": 6.3,
+     "mid": 39.6,
+     "high": 219.6
+    }
+   }
+  },
+  {
+   "project_id": "P-009",
+   "project": "Customer portal relaunch",
+   "type": "internal",
+   "customer": null,
+   "status": "completed",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 2411.49,
+     "mid": 2417.57,
+     "high": 2423.14
+    },
+    "cost_eur": {
+     "low": 2602.38,
+     "mid": 2608.95,
+     "high": 2614.95
+    },
+    "cost_usd": {
+     "low": 3025.39,
+     "mid": 3033.02,
+     "high": 3040.0
+    },
+    "kwh": {
+     "low": 86.3,
+     "mid": 131.0,
+     "high": 227.3
+    },
+    "co2_kg": {
+     "low": 4.9,
+     "mid": 14.4,
+     "high": 29.1
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 2141.7,
+     "mid": 2142.62,
+     "high": 2143.53
+    },
+    "cost_eur": {
+     "low": 2314.75,
+     "mid": 2315.74,
+     "high": 2316.72
+    },
+    "cost_usd": {
+     "low": 2703.97,
+     "mid": 2705.13,
+     "high": 2706.27
+    },
+    "kwh": {
+     "low": 33.2,
+     "mid": 55.7,
+     "high": 119.7
+    },
+    "co2_kg": {
+     "low": 2.5,
+     "mid": 7.6,
+     "high": 23.5
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 4553.19,
+     "mid": 4560.19,
+     "high": 4566.66
+    },
+    "cost_eur": {
+     "low": 4917.12,
+     "mid": 4924.69,
+     "high": 4931.68
+    },
+    "cost_usd": {
+     "low": 5729.33,
+     "mid": 5738.15,
+     "high": 5746.29
+    },
+    "kwh": {
+     "low": 119.6,
+     "mid": 186.7,
+     "high": 347.0
+    },
+    "co2_kg": {
+     "low": 7.4,
+     "mid": 22.0,
+     "high": 52.6
+    }
+   }
+  },
+  {
+   "project_id": "P-010",
+   "project": "Customer Epsilon: process analysis",
+   "type": "customer",
+   "customer": "Customer Epsilon",
+   "status": "ongoing",
+   "rechargeable": "yes",
+   "direct": {
+    "cost_chf": {
+     "low": 434.08,
+     "mid": 434.08,
+     "high": 434.08
+    },
+    "cost_eur": {
+     "low": 470.15,
+     "mid": 470.15,
+     "high": 470.15
+    },
+    "cost_usd": {
+     "low": 547.92,
+     "mid": 547.92,
+     "high": 547.92
+    },
+    "kwh": {
+     "low": 12.6,
+     "mid": 43.8,
+     "high": 97.0
+    },
+    "co2_kg": {
+     "low": 0.7,
+     "mid": 4.8,
+     "high": 12.4
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 5066.57,
+     "mid": 5066.57,
+     "high": 5066.57
+    },
+    "cost_eur": {
+     "low": 5500.28,
+     "mid": 5500.28,
+     "high": 5500.28
+    },
+    "cost_usd": {
+     "low": 6379.86,
+     "mid": 6379.86,
+     "high": 6379.86
+    },
+    "kwh": {
+     "low": 14.4,
+     "mid": 43.1,
+     "high": 165.8
+    },
+    "co2_kg": {
+     "low": 2.2,
+     "mid": 9.2,
+     "high": 49.7
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 5500.65,
+     "mid": 5500.65,
+     "high": 5500.65
+    },
+    "cost_eur": {
+     "low": 5970.43,
+     "mid": 5970.43,
+     "high": 5970.43
+    },
+    "cost_usd": {
+     "low": 6927.78,
+     "mid": 6927.78,
+     "high": 6927.78
+    },
+    "kwh": {
+     "low": 27.0,
+     "mid": 86.8,
+     "high": 262.8
+    },
+    "co2_kg": {
+     "low": 2.9,
+     "mid": 14.0,
+     "high": 62.2
+    }
+   }
+  },
+  {
+   "project_id": "P-008",
+   "project": "Customer Delta: migration",
+   "type": "customer",
+   "customer": "Customer Delta",
+   "status": "completed",
+   "rechargeable": "yes",
+   "direct": {
+    "cost_chf": {
+     "low": 442.48,
+     "mid": 442.48,
+     "high": 442.48
+    },
+    "cost_eur": {
+     "low": 479.21,
+     "mid": 479.21,
+     "high": 479.21
+    },
+    "cost_usd": {
+     "low": 558.34,
+     "mid": 558.34,
+     "high": 558.34
+    },
+    "kwh": {
+     "low": 12.8,
+     "mid": 44.3,
+     "high": 98.2
+    },
+    "co2_kg": {
+     "low": 0.7,
+     "mid": 4.9,
+     "high": 12.6
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 650.92,
+     "mid": 650.92,
+     "high": 650.92
+    },
+    "cost_eur": {
+     "low": 696.17,
+     "mid": 696.17,
+     "high": 696.17
+    },
+    "cost_usd": {
+     "low": 816.72,
+     "mid": 816.72,
+     "high": 816.72
+    },
+    "kwh": {
+     "low": 1.7,
+     "mid": 5.0,
+     "high": 19.4
+    },
+    "co2_kg": {
+     "low": 0.2,
+     "mid": 1.1,
+     "high": 5.8
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 1093.4,
+     "mid": 1093.4,
+     "high": 1093.4
+    },
+    "cost_eur": {
+     "low": 1175.39,
+     "mid": 1175.39,
+     "high": 1175.39
+    },
+    "cost_usd": {
+     "low": 1375.06,
+     "mid": 1375.06,
+     "high": 1375.06
+    },
+    "kwh": {
+     "low": 14.5,
+     "mid": 49.3,
+     "high": 117.6
+    },
+    "co2_kg": {
+     "low": 1.0,
+     "mid": 5.9,
+     "high": 18.4
+    }
+   }
+  },
+  {
+   "project_id": "P-012",
+   "project": "Recruiting",
+   "type": "internal",
+   "customer": null,
+   "status": "ongoing",
+   "rechargeable": "no",
+   "direct": {
+    "cost_chf": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_eur": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "cost_usd": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "kwh": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "co2_kg": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    }
+   },
+   "allocated_by_hours": {
+    "cost_chf": {
+     "low": 2516.67,
+     "mid": 2516.67,
+     "high": 2516.67
+    },
+    "cost_eur": {
+     "low": 2721.73,
+     "mid": 2721.73,
+     "high": 2721.73
+    },
+    "cost_usd": {
+     "low": 3167.74,
+     "mid": 3167.74,
+     "high": 3167.74
+    },
+    "kwh": {
+     "low": 7.6,
+     "mid": 22.7,
+     "high": 79.4
+    },
+    "co2_kg": {
+     "low": 1.1,
+     "mid": 4.8,
+     "high": 23.8
+    }
+   },
+   "total": {
+    "cost_chf": {
+     "low": 2516.67,
+     "mid": 2516.67,
+     "high": 2516.67
+    },
+    "cost_eur": {
+     "low": 2721.73,
+     "mid": 2721.73,
+     "high": 2721.73
+    },
+    "cost_usd": {
+     "low": 3167.74,
+     "mid": 3167.74,
+     "high": 3167.74
+    },
+    "kwh": {
+     "low": 7.6,
+     "mid": 22.7,
+     "high": 79.4
+    },
+    "co2_kg": {
+     "low": 1.1,
+     "mid": 4.8,
+     "high": 23.8
+    }
+   }
+  }
+ ],
+ "note": "Cards are evidence from the extra sources with an upper-bound potential each; they are not additive with the package (measures.json), which the advisor builds and code computes."
+}

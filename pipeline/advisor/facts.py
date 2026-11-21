@@ -233,6 +233,14 @@ def build(ctx: Context) -> dict:
         F.add(f"logs.volume_share_retention_{int(ret)}d", g2["log_gb"].sum() / l["log_gb"].sum(), "share",
               f"share of new log volume kept {int(ret)} days", "extra/log_volume.csv")
 
+    # ---------------------------------- extra insights (pipeline/insights, code only)
+    # Power BI report hygiene, relocation options, catalogue / logs / agents shares,
+    # closed projects still billing, M365 cross-check: numbers with ids, no free text.
+    from .. import insights
+    for fid, value, unit, statement, source in insights.advisor_facts(ctx):
+        F.add(fid, value, unit, statement, source)
+    regions_offered = {p: v["locations"] for p, v in insights.offered(ctx).items()}
+
     # ------------------------------------------------ one-offs and anomalies
     oo = ctx.tables["one_off_events"]
     for e in oo.itertuples():
@@ -244,5 +252,7 @@ def build(ctx: Context) -> dict:
 
     return {"facts": F.items, "resources": resources, "servers": servers, "licences": licences,
             "ai_tasks": ai_tasks, "anomalies": anomalies,
+            # locations each provider offers (data_center_locations.csv): a relocation must stay inside them
+            "regions_offered": regions_offered,
             "calendar": {"baseline": [b0, b1], "data_as_of": str(asof.date()),
                          "note": "quarter days 1–3 = Jan/Apr/Jul/Oct; month-end = last 3 working days (business_calendar.csv)"}}

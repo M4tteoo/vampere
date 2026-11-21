@@ -5786,6 +5786,254 @@
     "extra/log_volume.csv"
    ]
   },
+  "pbi-kap.reports_total": {
+   "value": 60.0,
+   "unit": "reports",
+   "statement": "Power BI reports on the capacity",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.reports_unused": {
+   "value": 21.0,
+   "unit": "reports",
+   "statement": "reports refreshed but opened < 30 times a year (not copies, not quarterly, not protected)",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.reports_duplicate": {
+   "value": 4.0,
+   "unit": "reports",
+   "statement": "reports that are «(copy)» duplicates",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.reports_quarterly": {
+   "value": 4.0,
+   "unit": "reports",
+   "statement": "quarterly reports (needed in closing months only)",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.reports_protected": {
+   "value": 1.0,
+   "unit": "reports",
+   "statement": "regulatory or ticket-protected reports (keep)",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.refresh_load_removable_share": {
+   "value": 0.7913,
+   "unit": "share",
+   "statement": "share of refresh minutes removed by the clean-up (unused + copies + quarterly outside closing months)",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.cleanup_energy_share": {
+   "value": 0.332,
+   "unit": "share",
+   "statement": "energy share of the capacity saved by the clean-up (cost unchanged: billed per day)",
+   "sources": [
+    "factors.yaml capacity model"
+   ]
+  },
+  "pbi-kap.downsize_fits_half": {
+   "value": 1.0,
+   "unit": "flag",
+   "statement": "1 if the load after clean-up fits 80 % of half the capacity",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.downsize_cost_share": {
+   "value": 0.5,
+   "unit": "share",
+   "statement": "cost share saved by moving one tier down (ASSUMPTION: price ∝ capacity units; human decision)",
+   "sources": [
+    "Azure capacity SKUs"
+   ]
+  },
+  "pbi-kap.cleanup_and_downsize_energy_share": {
+   "value": 0.6222,
+   "unit": "share",
+   "statement": "energy share saved by clean-up + one tier down",
+   "sources": [
+    "factors.yaml capacity model"
+   ]
+  },
+  "cicd.co2_saved_if_moved_to_CH": {
+   "value": 13.1,
+   "unit": "kg CO2/year",
+   "statement": "cicd: CO2 saved per year if its load ran in CH (aws offers it); AWS compute in CH costs +18% vs IE (m6i.large list price, README)",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "dp-dev.co2_saved_if_moved_to_CH": {
+   "value": 862.9,
+   "unit": "kg CO2/year",
+   "statement": "dp-dev: CO2 saved per year if its load ran in CH (azure offers it); price difference not in the data",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "gpu-ml.co2_saved_if_moved_to_CH": {
+   "value": 293.4,
+   "unit": "kg CO2/year",
+   "statement": "gpu-ml: CO2 saved per year if its load ran in CH (azure offers it); price difference not in the data",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "st-backup.co2_saved_if_moved_to_CH": {
+   "value": 150.7,
+   "unit": "kg CO2/year",
+   "statement": "st-backup: CO2 saved per year if its load ran in CH (aws offers it); price difference not in the data",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "vm-test.co2_saved_if_moved_to_CH": {
+   "value": 142.5,
+   "unit": "kg CO2/year",
+   "statement": "vm-test: CO2 saved per year if its load ran in CH (aws offers it); AWS compute in CH costs +18% vs IE (m6i.large list price, README)",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "dp-storage.removable_share": {
+   "value": 0.3337,
+   "unit": "share",
+   "statement": "share of stored GB that is unread > 1 year or temporary and not under retention",
+   "sources": [
+    "extra/data_catalog_tables.csv"
+   ]
+  },
+  "dp-storage.stale_gb_retention_unknown_share": {
+   "value": 0.141,
+   "unit": "share",
+   "statement": "share of stored GB unread > 1 year with an empty retention flag (owner must answer)",
+   "sources": [
+    "extra/data_catalog_tables.csv"
+   ]
+  },
+  "logs.retention_90d_stored_share_saved": {
+   "value": 0.6888,
+   "unit": "share",
+   "statement": "share of stored log GB saved if every service kept logs at most 90 days",
+   "sources": [
+    "extra/log_volume.csv"
+   ]
+  },
+  "ai-agent2.research_retries_per_run": {
+   "value": 1.6397,
+   "unit": "retries",
+   "statement": "average retries per research-agent run (part of ai-agent2)",
+   "sources": [
+    "extra/ai_agent_runs.jsonl"
+   ]
+  },
+  "st-backup.copies_without_restore_test": {
+   "value": 29.0,
+   "unit": "copies",
+   "statement": "backup copies never restore-tested (a risk, not a saving)",
+   "sources": [
+    "extra/backup_chains.csv"
+   ]
+  },
+  "project.P-004.cost_after_end": {
+   "value": 23258.6,
+   "unit": "CHF/year",
+   "statement": "P-004 (Internal AI pilot) ended 2025-06-30: cost still billed in the baseline year",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-004.co2_after_end": {
+   "value": 707.6,
+   "unit": "kg CO2/year",
+   "statement": "P-004: CO2 of resources still running after the project end",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-006.cost_after_end": {
+   "value": 2289.0,
+   "unit": "CHF/year",
+   "statement": "P-006 (Customer Beta: reporting setup) ended 2026-06-30: cost still billed in the baseline year",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-006.co2_after_end": {
+   "value": 16.5,
+   "unit": "kg CO2/year",
+   "statement": "P-006: CO2 of resources still running after the project end",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-008.cost_after_end": {
+   "value": 391.0,
+   "unit": "CHF/year",
+   "statement": "P-008 (Customer Delta: migration) ended 2025-09-30: cost still billed in the baseline year",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-008.co2_after_end": {
+   "value": 4.3074,
+   "unit": "kg CO2/year",
+   "statement": "P-008: CO2 of resources still running after the project end",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-009.cost_after_end": {
+   "value": 1156.2,
+   "unit": "CHF/year",
+   "statement": "P-009 (Customer portal relaunch) ended 2026-03-31: cost still billed in the baseline year",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-009.co2_after_end": {
+   "value": 6.877,
+   "unit": "kg CO2/year",
+   "statement": "P-009: CO2 of resources still running after the project end",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "saas-m365.active_users_admin": {
+   "value": 104.0,
+   "unit": "users",
+   "statement": "M365 active users (admin data, weekly average)",
+   "sources": [
+    "extra/m365_usage.csv"
+   ]
+  },
+  "saas-m365.unused_seat_share": {
+   "value": 0.1116,
+   "unit": "share",
+   "statement": "M365 purchased seats without an active user (admin data)",
+   "sources": [
+    "extra/m365_usage.csv"
+   ]
+  },
+  "saas-m365.admin_vs_licence_difference": {
+   "value": 0.019,
+   "unit": "share",
+   "statement": "admin active users vs licence data active (consistency)",
+   "sources": [
+    "extra/m365_usage.csv"
+   ]
+  },
   "one_off.OO-1.excess": {
    "value": 3307.2,
    "unit": "CHF",
@@ -7747,6 +7995,27 @@
    "explained_by": null
   }
  ],
+ "regions_offered": {
+  "ai provider (api)": [
+   "EU",
+   "US"
+  ],
+  "aws": [
+   "CH",
+   "DE",
+   "IE",
+   "SE"
+  ],
+  "azure": [
+   "CH",
+   "DE",
+   "FR",
+   "NL"
+  ],
+  "swiss hoster": [
+   "CH"
+  ]
+ },
  "calendar": {
   "baseline": [
    "2025-09-01",
