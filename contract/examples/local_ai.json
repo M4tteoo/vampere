@@ -1,0 +1,973 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T16:08:24+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "advisory": true,
+ "horizon_years": 3,
+ "note": "Information only, a human decides. Compares the company's own AI workloads on open-weight models with the current APIs; no number in measures, summary or forecast is changed.",
+ "catalog_date": "2026-11-21",
+ "workloads": [
+  {
+   "id": "wl:office-assistant",
+   "label": "Office AI assistant",
+   "resource_id": "ai-assistant",
+   "tool": "Office AI assistant",
+   "why_private": "contracts, tables, summaries of internal documents",
+   "tier": "standard",
+   "tasks": [
+    {
+     "task_type": "Draft texts",
+     "tier": "standard",
+     "cost_share": 0.276,
+     "out_eq_tokens": 503242525
+    },
+    {
+     "task_type": "Summarise",
+     "tier": "standard",
+     "cost_share": 0.2275,
+     "out_eq_tokens": 349514754
+    },
+    {
+     "task_type": "Translate",
+     "tier": "basic",
+     "cost_share": 0.1597,
+     "out_eq_tokens": 295991167
+    },
+    {
+     "task_type": "Review contract",
+     "tier": "advanced",
+     "cost_share": 0.1368,
+     "out_eq_tokens": 203303112
+    },
+    {
+     "task_type": "Analyse table",
+     "tier": "standard",
+     "cost_share": 0.1332,
+     "out_eq_tokens": 204905725
+    },
+    {
+     "task_type": "Manual question",
+     "tier": "basic",
+     "cost_share": 0.0668,
+     "out_eq_tokens": 119851993
+    }
+   ],
+   "models_today": [
+    "Azure OpenAI GPT-5.4",
+    "Azure OpenAI GPT-5.4 mini"
+   ],
+   "tokens_in": 3636730500,
+   "tokens_in_cache": 181766606,
+   "tokens_out": 1329495221,
+   "out_eq_tokens": 1676809276,
+   "requests": 2769033,
+   "peak_tps": 272.5,
+   "peak_tps_year3": 561.2,
+   "api": {
+    "cost_chf": {
+     "low": 23356.32,
+     "mid": 23356.32,
+     "high": 23356.32
+    },
+    "cost_eur": {
+     "low": 25276.12,
+     "mid": 25276.12,
+     "high": 25276.12
+    },
+    "cost_usd": {
+     "low": 29389.51,
+     "mid": 29389.51,
+     "high": 29389.51
+    },
+    "kwh": {
+     "low": 171.9,
+     "mid": 859.7,
+     "high": 3438.7
+    },
+    "co2_kg": {
+     "low": 25.8,
+     "mid": 183.1,
+     "high": 1031.6
+    }
+   },
+   "calc": {
+    "formula": "API cost, kWh and CO2 of the baseline year without one-off events (fact_cost); tokens from ai_usage.csv",
+    "inputs": [
+     {
+      "name": "output-equivalent tokens",
+      "value": 1676809276,
+      "unit": "tokens",
+      "source": "ai_usage.csv"
+     },
+     {
+      "name": "peak tokens/s",
+      "value": 272.5,
+      "unit": "tokens/s",
+      "source": "ai_usage.csv"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_1000_tokens",
+     "grid_mix_location_based_eu"
+    ],
+    "source_files": [
+     "ai_usage.csv",
+     "extra/ai_invoice_monthly.csv"
+    ],
+    "row_count": 26734,
+    "value_status": "derived_cross_source",
+    "issue_ids": [],
+    "note": "tier = highest tier among task types with ≥ 20% of the API cost; peak = busiest day's output-equivalent tokens / (10 h × 3600 s)"
+   }
+  },
+  {
+   "id": "wl:marketing-classify",
+   "label": "Marketing text analysis",
+   "resource_id": "ai-marketing",
+   "tool": "Marketing text analysis",
+   "why_private": "customer texts",
+   "tier": "basic",
+   "tasks": [
+    {
+     "task_type": "Classify",
+     "tier": "basic",
+     "cost_share": 1.0,
+     "out_eq_tokens": 435088008
+    }
+   ],
+   "models_today": [
+    "Claude Sonnet 4.6"
+   ],
+   "tokens_in": 2494024163,
+   "tokens_in_cache": 0,
+   "tokens_out": 185685592,
+   "out_eq_tokens": 435088008,
+   "requests": 6207504,
+   "peak_tps": 95.9,
+   "peak_tps_year3": 197.6,
+   "api": {
+    "cost_chf": {
+     "low": 8800.08,
+     "mid": 8800.08,
+     "high": 8800.08
+    },
+    "cost_eur": {
+     "low": 9520.31,
+     "mid": 9520.31,
+     "high": 9520.31
+    },
+    "cost_usd": {
+     "low": 11069.09,
+     "mid": 11069.09,
+     "high": 11069.09
+    },
+    "kwh": {
+     "low": 46.7,
+     "mid": 233.6,
+     "high": 934.4
+    },
+    "co2_kg": {
+     "low": 7.0,
+     "mid": 49.8,
+     "high": 280.3
+    }
+   },
+   "calc": {
+    "formula": "API cost, kWh and CO2 of the baseline year without one-off events (fact_cost); tokens from ai_usage.csv",
+    "inputs": [
+     {
+      "name": "output-equivalent tokens",
+      "value": 435088008,
+      "unit": "tokens",
+      "source": "ai_usage.csv"
+     },
+     {
+      "name": "peak tokens/s",
+      "value": 95.9,
+      "unit": "tokens/s",
+      "source": "ai_usage.csv"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_1000_tokens",
+     "grid_mix_location_based_eu"
+    ],
+    "source_files": [
+     "ai_usage.csv",
+     "extra/ai_invoice_monthly.csv"
+    ],
+    "row_count": 382,
+    "value_status": "derived_cross_source",
+    "issue_ids": [
+     "Q-0086",
+     "Q-0099",
+     "Q-0103"
+    ],
+    "note": "tier = highest tier among task types with ≥ 20% of the API cost; peak = busiest day's output-equivalent tokens / (10 h × 3600 s)"
+   }
+  }
+ ],
+ "models": [
+  {
+   "id": "gpt-oss-20b",
+   "label": "gpt-oss-20b (MXFP4)",
+   "params_b": 21,
+   "active_params_b": 3.6,
+   "format": "MXFP4 (native)",
+   "weights_gb": 12.8,
+   "licence": "Apache 2.0",
+   "commercial_use": true,
+   "context_k": 128,
+   "tier": "standard",
+   "languages": "partial (English-centric)",
+   "quality_note": "MMLU-Pro ≈ 74; AA Intelligence Index ≈ 25.",
+   "throughput": {
+    "a40": {
+     "low": 1800,
+     "mid": 2650,
+     "high": 3500
+    },
+    "l40s": {
+     "low": 2500,
+     "mid": 3750,
+     "high": 5000
+    },
+    "a100_80": {
+     "low": 4000,
+     "mid": 6000,
+     "high": 8000
+    }
+   },
+   "source": "https://huggingface.co/openai/gpt-oss-20b",
+   "estimate": true
+  },
+  {
+   "id": "gpt-oss-120b",
+   "label": "gpt-oss-120b (MXFP4)",
+   "params_b": 117,
+   "active_params_b": 5.1,
+   "format": "MXFP4 (native)",
+   "weights_gb": 61,
+   "licence": "Apache 2.0",
+   "commercial_use": true,
+   "context_k": 128,
+   "tier": "advanced",
+   "languages": "partial to yes",
+   "quality_note": "MMLU-Pro ≈ 79; AA Intelligence Index ≈ 33, still clearly below Sonnet 4.x / GPT-5 (≈ 60–70) on contract review and multi-step agents.",
+   "throughput": {
+    "a100_80": {
+     "low": 1500,
+     "mid": 2250,
+     "high": 3000
+    }
+   },
+   "source": "https://huggingface.co/openai/gpt-oss-120b; does not fit a 48 GB GPU",
+   "estimate": true
+  }
+ ],
+ "hardware": [
+  {
+   "id": "hw:gpu-ml-01",
+   "label": "gpu-ml-01 as it is (Azure Frankfurt)",
+   "provider": "Azure",
+   "location": "DE",
+   "gpu": "1 GPU of the 300-W class (assumed NVIDIA A40, 48 GB)",
+   "gpu_class": "a40",
+   "vram_gb": 48,
+   "tdp_w": 300,
+   "billing": "hourly",
+   "owned": true,
+   "entity_id": "srv:gpu-ml-01",
+   "measure_ids": [
+    "M-04"
+   ],
+   "note": "VRAM is not in the data (only «300-W class»): A40 48 GB assumed. With an A100 80 GB PCIe (also 300 W), gpt-oss-120b would fit.",
+   "source": "server_inventory.csv, azure_costs.csv, data_dictionary.md; idle W from pipeline/energy/factors.yaml",
+   "estimate": true,
+   "idle_w": {
+    "low": 30.0,
+    "mid": 60.0,
+    "high": 90.0
+   },
+   "host_w": {
+    "low": 22.4,
+    "mid": 30.3,
+    "high": 39.2
+   },
+   "price_chf_per_hour": {
+    "low": 1.298,
+    "mid": 1.3,
+    "high": 1.302
+   },
+   "price_chf_per_month": null,
+   "on_hours_per_year": 2530,
+   "extra_setup_days": 0.0,
+   "pue_factor_id": "pue",
+   "grid_factor_id": "grid_mix_location_based_germany"
+  },
+  {
+   "id": "hw:azure-a100-zrh",
+   "label": "Azure NC24ads A100 v4 (Zurich, 80 GB)",
+   "provider": "Azure",
+   "location": "CH",
+   "gpu": "NVIDIA A100 80 GB PCIe",
+   "gpu_class": "a100_80",
+   "vram_gb": 80,
+   "tdp_w": 300,
+   "billing": "hourly",
+   "owned": false,
+   "entity_id": null,
+   "measure_ids": [],
+   "note": "Pay-as-you-go list price, Linux, Switzerland North. 1-year reserved ≈ 3.43 USD/h but billed 24/7, so dearer for office hours.",
+   "source": "https://prices.azure.com/api/retail/prices?$filter=armRegionName eq 'switzerlandnorth' and armSkuName eq 'Standard_NC24ads_A100_v4' (queried 2026-11-21); NVIDIA A100 datasheet (300 W)",
+   "estimate": false,
+   "idle_w": {
+    "low": 50.0,
+    "mid": 55.0,
+    "high": 60.0
+   },
+   "host_w": {
+    "low": 82.8,
+    "mid": 111.4,
+    "high": 143.6
+   },
+   "price_chf_per_hour": {
+    "low": 4.173,
+    "mid": 4.173,
+    "high": 4.173
+   },
+   "price_chf_per_month": null,
+   "on_hours_per_year": 2530,
+   "extra_setup_days": 0.0,
+   "pue_factor_id": "pue",
+   "grid_factor_id": "grid_mix_location_based_switzerland"
+  }
+ ],
+ "fits": [
+  {
+   "id": "wl:office-assistant|gpt-oss-20b|hw:gpu-ml-01",
+   "workload_id": "wl:office-assistant",
+   "model_id": "gpt-oss-20b",
+   "hardware_id": "hw:gpu-ml-01",
+   "feasible": true,
+   "reasons": [],
+   "tps": {
+    "low": 1800.0,
+    "mid": 2650.0,
+    "high": 3500.0
+   },
+   "gpu_hours_per_year": {
+    "low": 133.1,
+    "mid": 175.8,
+    "high": 258.8
+   },
+   "kwh_per_year": {
+    "low": 30.7,
+    "mid": 49.8,
+    "high": 107.6
+   },
+   "co2_kg_per_year": {
+    "low": 10.14,
+    "mid": 18.07,
+    "high": 46.27
+   }
+  },
+  {
+   "id": "wl:office-assistant|gpt-oss-120b|hw:gpu-ml-01",
+   "workload_id": "wl:office-assistant",
+   "model_id": "gpt-oss-120b",
+   "hardware_id": "hw:gpu-ml-01",
+   "feasible": false,
+   "reasons": [
+    "gpt-oss-120b (MXFP4) needs 73 GB with headroom, hardware has 48 GB"
+   ],
+   "tps": null,
+   "gpu_hours_per_year": null,
+   "kwh_per_year": null,
+   "co2_kg_per_year": null
+  }
+ ],
+ "scenarios": [
+  {
+   "id": "sc:all@hw:gpu-ml-01",
+   "label": "All 7 workloads on gpu-ml-01 as it is (Azure Frankfurt)",
+   "hardware_id": "hw:gpu-ml-01",
+   "workload_ids": [
+    "wl:office-assistant",
+    "wl:marketing-classify",
+    "wl:other-agents",
+    "wl:support-agent",
+    "wl:quote-generator",
+    "wl:knowledge-chatbot",
+    "wl:report-agent"
+   ],
+   "kept_on_api": [],
+   "peak_tps_year3": 840.3,
+   "model_id": null,
+   "alternatives": [],
+   "feasible": false,
+   "reasons": [
+    "no catalogue model reaches tier «advanced» and fits 48 GB on gpu-ml-01 as it is (Azure Frankfurt)"
+   ]
+  },
+  {
+   "id": "sc:hybrid@hw:gpu-ml-01",
+   "label": "Hybrid: 4 workloads on gpu-ml-01 as it is (Azure Frankfurt), agents stay on the API",
+   "hardware_id": "hw:gpu-ml-01",
+   "workload_ids": [
+    "wl:office-assistant",
+    "wl:marketing-classify",
+    "wl:quote-generator",
+    "wl:knowledge-chatbot"
+   ],
+   "kept_on_api": [
+    "wl:other-agents",
+    "wl:support-agent",
+    "wl:report-agent"
+   ],
+   "peak_tps_year3": 668.7,
+   "model_id": "gpt-oss-20b",
+   "alternatives": [
+    "qwen3-30b-a3b"
+   ],
+   "feasible": true,
+   "reasons": [],
+   "utilisation": 0.1153,
+   "api_3y": {
+    "cost_chf": {
+     "low": 159004.39,
+     "mid": 163372.34,
+     "high": 171174.37
+    },
+    "cost_eur": {
+     "low": 171971.0,
+     "mid": 176695.15,
+     "high": 185133.43
+    },
+    "cost_usd": {
+     "low": 200125.09,
+     "mid": 205622.66,
+     "high": 215442.4
+    },
+    "kwh": {
+     "low": 1085.1,
+     "mid": 5575.8,
+     "high": 23369.0
+    },
+    "co2_kg": {
+     "low": 162.9,
+     "mid": 1188.1,
+     "high": 7010.7
+    }
+   },
+   "local_3y": {
+    "cost_chf": {
+     "low": 70354.5,
+     "mid": 94568.58,
+     "high": 135281.74
+    },
+    "cost_eur": {
+     "low": 76091.83,
+     "mid": 102280.53,
+     "high": 146313.8
+    },
+    "cost_usd": {
+     "low": 88549.14,
+     "mid": 119025.3,
+     "high": 170267.44
+    },
+    "kwh": {
+     "low": 692.8,
+     "mid": 1130.5,
+     "high": 2050.7
+    },
+    "co2_kg": {
+     "low": 228.6,
+     "mid": 410.4,
+     "high": 881.8
+    }
+   },
+   "savings_3y": {
+    "cost_chf": {
+     "low": 23722.65,
+     "mid": 68803.76,
+     "high": 100819.87
+    },
+    "cost_eur": {
+     "low": 25657.2,
+     "mid": 74414.63,
+     "high": 109041.61
+    },
+    "cost_usd": {
+     "low": 29857.65,
+     "mid": 86597.35,
+     "high": 126893.26
+    },
+    "kwh": {
+     "low": -965.6,
+     "mid": 4445.3,
+     "high": 22676.2
+    },
+    "co2_kg": {
+     "low": -718.9,
+     "mid": 777.8,
+     "high": 6782.1
+    }
+   },
+   "setup_chf": {
+    "low": 11000.0,
+    "mid": 18700.0,
+    "high": 26400.0
+   },
+   "yearly_chf": {
+    "low": 19785.0,
+    "mid": 25290.0,
+    "high": 36294.0
+   },
+   "breakeven_month": {
+    "low": 8,
+    "mid": 17,
+    "high": 33
+   },
+   "interacts_with": [
+    {
+     "measure_id": "M-04",
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
+     "cost_chf_per_year": {
+      "low": 3285.0,
+      "mid": 3290.0,
+      "high": 3294.0
+     },
+     "note": "M-04 stops gpu-ml-01 outside quarter days. Inference in office hours keeps it on 2530 h/year: this rent is the part of the M-04 saving given back (counted in the local cost). M-04 itself is not changed."
+    }
+   ],
+   "pros": [
+    "Private data of 4 workload(s) stays on Azure in DE under company control instead of an external AI API (EU, location not stated).",
+    "API cost avoided over 3 years: CHF 163,372 (growing 27%/year).",
+    "3-year CO2: 410 kg local vs 1,188 kg via API.",
+    "No per-token price risk: cost is fixed and known in advance.",
+    "Uses hardware the company already has (srv:gpu-ml-01); GPU busy 12% of on-hours instead of ≈ 5 %."
+   ],
+   "cons": [
+    "Setup 17 person-days (CHF 18,700), 113% of this round's CHF 16,500 budget.",
+    "Operations 20 person-days/year (CHF 22,000): model updates, patching, incidents.",
+    "Quality: gpt-oss-20b (MXFP4) (MMLU-Pro ≈ 74; AA Intelligence Index ≈ 25.) instead of Azure OpenAI GPT-5.4, Azure OpenAI GPT-5.4 mini, Claude Sonnet 4.6, GPT-5.4, GPT-5.4 mini.",
+    "Single GPU = single point of failure; no provider SLA on model quality.",
+    "Languages: gpt-oss-20b (MXFP4) is partial (English-centric); texts in Basel are mostly German, test quality first. Alternative with full DE / FR / IT support: Qwen3-30B-A3B MoE (4-bit).",
+    "3 advanced workload(s) stay on the API: two AI stacks to run.",
+    "Quarterly training (ticket T-1101) shares gpu-ml-01 on quarter days: inference slows down then.",
+    "Price or capacity is an estimate: VRAM is not in the data (only «300-W class»): A40 48 GB assumed. With an A100 80 GB PCIe (also 300 W), gpt-oss-120b would fit."
+   ],
+   "calc": {
+    "formula": "local = setup + 3 × (rent + operations); rent = on-hours × CHF/h (or 12 × CHF/month); API = Σ_y baseline API × (1 + token growth)^y; kWh = (on-h × (idle W + host W) + GPU-h × (TDP − idle W)) / 1000 × PUE; GPU-h = output-equivalent tokens / tokens/s / 3600; CO2 = kWh × grid",
+    "inputs": [
+     {
+      "name": "output-equivalent tokens (baseline year)",
+      "value": 2187704123,
+      "unit": "tokens",
+      "source": "ai_usage.csv"
+     },
+     {
+      "name": "tokens/s (mid)",
+      "value": 2650,
+      "unit": "tokens/s",
+      "source": "local_ai_catalog.yaml"
+     },
+     {
+      "name": "on-hours per year",
+      "value": 2530,
+      "unit": "h",
+      "source": "dim_date (workdays) / catalogue"
+     },
+     {
+      "name": "rent per year (mid)",
+      "value": 3289.53,
+      "unit": "CHF",
+      "source": "local_ai_catalog.yaml / azure_costs.csv"
+     },
+     {
+      "name": "setup person-days (mid)",
+      "value": 17.0,
+      "unit": "person-days",
+      "source": "local_ai_catalog.yaml"
+     },
+     {
+      "name": "token growth (mid)",
+      "value": 27.23,
+      "unit": "%/year",
+      "source": "forecast.json"
+     },
+     {
+      "name": "API baseline cost (mid)",
+      "value": 33000.65,
+      "unit": "CHF/year",
+      "source": "fact_cost"
+     },
+     {
+      "name": "vs today (24/7, without M-04): extra rent",
+      "value": 0,
+      "unit": "CHF/year",
+      "source": "gpu-ml-01 already billed 24/7 in the baseline"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_1000_tokens",
+     "grid_mix_location_based_germany",
+     "pue"
+    ],
+    "source_files": [
+     "ai_usage.csv",
+     "azure_costs.csv",
+     "server_inventory.csv",
+     "local_ai_catalog.yaml"
+    ],
+    "row_count": 29012,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0086",
+     "Q-0087",
+     "Q-0099",
+     "Q-0103"
+    ],
+    "note": "Advisory only: no number in measures, summary or forecast is changed."
+   }
+  },
+  {
+   "id": "sc:all@hw:azure-a100-zrh",
+   "label": "All 7 workloads on Azure NC24ads A100 v4 (Zurich, 80 GB)",
+   "hardware_id": "hw:azure-a100-zrh",
+   "workload_ids": [
+    "wl:office-assistant",
+    "wl:marketing-classify",
+    "wl:other-agents",
+    "wl:support-agent",
+    "wl:quote-generator",
+    "wl:knowledge-chatbot",
+    "wl:report-agent"
+   ],
+   "kept_on_api": [],
+   "peak_tps_year3": 840.3,
+   "model_id": "gpt-oss-120b",
+   "alternatives": [],
+   "feasible": true,
+   "reasons": [],
+   "utilisation": 0.1511,
+   "api_3y": {
+    "cost_chf": {
+     "low": 184978.88,
+     "mid": 190060.37,
+     "high": 199136.92
+    },
+    "cost_eur": {
+     "low": 200063.68,
+     "mid": 205559.56,
+     "high": 215376.29
+    },
+    "cost_usd": {
+     "low": 232816.94,
+     "mid": 239212.57,
+     "high": 250636.44
+    },
+    "kwh": {
+     "low": 1209.9,
+     "mid": 6217.4,
+     "high": 26057.9
+    },
+    "co2_kg": {
+     "low": 181.6,
+     "mid": 1324.8,
+     "high": 7817.3
+    }
+   },
+   "local_3y": {
+    "cost_chf": {
+     "low": 95471.9,
+     "mid": 122971.9,
+     "high": 166971.9
+    },
+    "cost_eur": {
+     "low": 103257.51,
+     "mid": 133000.1,
+     "high": 180588.25
+    },
+    "cost_usd": {
+     "low": 120162.23,
+     "mid": 154774.11,
+     "high": 210153.11
+    },
+    "kwh": {
+     "low": 1415.5,
+     "mid": 1920.0,
+     "high": 3204.3
+    },
+    "co2_kg": {
+     "low": 80.7,
+     "mid": 211.2,
+     "high": 410.1
+    }
+   },
+   "savings_3y": {
+    "cost_chf": {
+     "low": 18006.98,
+     "mid": 67088.47,
+     "high": 103665.02
+    },
+    "cost_eur": {
+     "low": 19475.43,
+     "mid": 72559.46,
+     "high": 112118.78
+    },
+    "cost_usd": {
+     "low": 22663.83,
+     "mid": 84438.47,
+     "high": 130474.21
+    },
+    "kwh": {
+     "low": -1994.4,
+     "mid": 4297.5,
+     "high": 24642.5
+    },
+    "co2_kg": {
+     "low": -228.5,
+     "mid": 1113.6,
+     "high": 7736.6
+    }
+   },
+   "setup_chf": {
+    "low": 14300.0,
+    "mid": 25300.0,
+    "high": 36300.0
+   },
+   "yearly_chf": {
+    "low": 27057.0,
+    "mid": 32557.0,
+    "high": 43557.0
+   },
+   "breakeven_month": {
+    "low": 11,
+    "mid": 21,
+    "high": null
+   },
+   "interacts_with": [],
+   "pros": [
+    "Private data of 7 workload(s) stays on Azure in CH under company control instead of an external AI API (EU, location not stated).",
+    "API cost avoided over 3 years: CHF 190,060 (growing 27%/year).",
+    "3-year CO2: 211 kg local vs 1,325 kg via API.",
+    "No per-token price risk: cost is fixed and known in advance."
+   ],
+   "cons": [
+    "Setup 23 person-days (CHF 25,300), 153% of this round's CHF 16,500 budget.",
+    "Operations 20 person-days/year (CHF 22,000): model updates, patching, incidents.",
+    "Quality: gpt-oss-120b (MXFP4) (MMLU-Pro ≈ 79; AA Intelligence Index ≈ 33, still clearly below Sonnet 4.x / GPT-5 (≈ 60–70) on contract review and multi-step agents.) instead of Azure OpenAI GPT-5.4, Azure OpenAI GPT-5.4 mini, Claude Sonnet 4.6, GPT-5.4, GPT-5.4 mini.",
+    "Single GPU = single point of failure; no provider SLA on model quality.",
+    "Includes advanced tasks (agents, contracts): the open-weight gap is largest there.",
+    "Languages: gpt-oss-120b (MXFP4) is partial to yes; texts in Basel are mostly German, test quality first."
+   ],
+   "calc": {
+    "formula": "local = setup + 3 × (rent + operations); rent = on-hours × CHF/h (or 12 × CHF/month); API = Σ_y baseline API × (1 + token growth)^y; kWh = (on-h × (idle W + host W) + GPU-h × (TDP − idle W)) / 1000 × PUE; GPU-h = output-equivalent tokens / tokens/s / 3600; CO2 = kWh × grid",
+    "inputs": [
+     {
+      "name": "output-equivalent tokens (baseline year)",
+      "value": 2433247820,
+      "unit": "tokens",
+      "source": "ai_usage.csv"
+     },
+     {
+      "name": "tokens/s (mid)",
+      "value": 2250,
+      "unit": "tokens/s",
+      "source": "local_ai_catalog.yaml"
+     },
+     {
+      "name": "on-hours per year",
+      "value": 2530,
+      "unit": "h",
+      "source": "dim_date (workdays) / catalogue"
+     },
+     {
+      "name": "rent per year (mid)",
+      "value": 10557.3,
+      "unit": "CHF",
+      "source": "local_ai_catalog.yaml / azure_costs.csv"
+     },
+     {
+      "name": "setup person-days (mid)",
+      "value": 23.0,
+      "unit": "person-days",
+      "source": "local_ai_catalog.yaml"
+     },
+     {
+      "name": "token growth (mid)",
+      "value": 27.23,
+      "unit": "%/year",
+      "source": "forecast.json"
+     },
+     {
+      "name": "API baseline cost (mid)",
+      "value": 38391.54,
+      "unit": "CHF/year",
+      "source": "fact_cost"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_1000_tokens",
+     "grid_mix_location_based_switzerland",
+     "pue"
+    ],
+    "source_files": [
+     "ai_usage.csv",
+     "azure_costs.csv",
+     "server_inventory.csv",
+     "local_ai_catalog.yaml"
+    ],
+    "row_count": 30099,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0084",
+     "Q-0085",
+     "Q-0086",
+     "Q-0087",
+     "Q-0088",
+     "Q-0099",
+     "Q-0102",
+     "Q-0103"
+    ],
+    "note": "Advisory only: no number in measures, summary or forecast is changed."
+   }
+  }
+ ],
+ "best": {
+  "by_cost": "sc:hybrid@hw:gpu-ml-01",
+  "by_co2": "sc:all@hw:azure-a100-zrh",
+  "by_workload": [
+   {
+    "workload_id": "wl:office-assistant",
+    "fit": "wl:office-assistant|gpt-oss-20b|hw:azure-a100-zrh"
+   },
+   {
+    "workload_id": "wl:marketing-classify",
+    "fit": "wl:marketing-classify|gpt-oss-20b|hw:azure-a100-zrh"
+   }
+  ]
+ },
+ "assumptions": [
+  {
+   "id": "person_day_chf",
+   "label": "person day chf",
+   "value": 1100,
+   "unit": "CHF",
+   "source": "data/case/README.md: 1 person-day = CHF 1,100",
+   "estimate": false
+  },
+  {
+   "id": "office_hours_per_workday",
+   "label": "office hours per workday",
+   "value": 10,
+   "unit": "h",
+   "source": "Assumption: hourly-billed GPUs are started for office hours only (07:00–17:00 on workdays, dim_date.workday).",
+   "estimate": true
+  },
+  {
+   "id": "vram_headroom",
+   "label": "vram headroom",
+   "value": 1.2,
+   "unit": "ratio",
+   "source": "Weights × 1.2 for runtime and KV cache (vLLM deployment guidance: keep 10–20 % free for KV cache).",
+   "estimate": true
+  },
+  {
+   "id": "host_cpu_utilisation",
+   "label": "host cpu utilisation",
+   "value": 0.1,
+   "unit": "ratio",
+   "source": "Assumption: inference is GPU-bound; the host CPU mostly idles (server_metrics_weekly.csv gpu-ml-01 CPU ≈ 4–6 %).",
+   "estimate": true
+  },
+  {
+   "id": "setup_platform_days",
+   "label": "setup platform days",
+   "value": {
+    "low": 6.0,
+    "mid": 9.0,
+    "high": 12.0
+   },
+   "unit": "person-days",
+   "source": "Estimate from typical task breakdowns: endpoint on the GPU host (vLLM, drivers, TLS) 2–4, auth layer 2–4, monitoring 2–4 person-days. vLLM deployment docs (docs.vllm.ai/en/latest/deployment/) describe the steps.",
+   "estimate": true
+  },
+  {
+   "id": "setup_per_workload_days",
+   "label": "setup per workload days",
+   "value": {
+    "low": 1.0,
+    "mid": 2.0,
+    "high": 3.0
+   },
+   "unit": "person-days",
+   "source": "Estimate: point one tool at an OpenAI-compatible local endpoint, re-test prompts and outputs.",
+   "estimate": true
+  },
+  {
+   "id": "maint_days_per_year",
+   "label": "maint days per year",
+   "value": {
+    "low": 15.0,
+    "mid": 20.0,
+    "high": 30.0
+   },
+   "unit": "person-days per year",
+   "source": "Estimate: model updates, vLLM / driver / OS patching, incidents, re-evaluation (≈ 0.07–0.15 FTE).",
+   "estimate": true
+  },
+  {
+   "id": "token_growth",
+   "label": "token growth",
+   "value": {
+    "low": 25.64,
+    "mid": 27.23,
+    "high": 30.0
+   },
+   "unit": "%/year",
+   "source": "output/forecast.json (assumptions.token_growth)",
+   "estimate": true
+  },
+  {
+   "id": "gpu_ml_hourly_chf",
+   "label": "gpu-ml-01 price per GPU-hour",
+   "value": {
+    "low": 1.298,
+    "mid": 1.3,
+    "high": 1.302
+   },
+   "unit": "CHF/h",
+   "source": "azure_costs.csv: baseline cost / 8760 billed GPU-hours (365 rows)",
+   "estimate": false
+  },
+  {
+   "id": "office_hours_per_year",
+   "label": "office hours per year",
+   "value": 2530,
+   "unit": "h",
+   "source": "business_calendar.csv: 253 workdays in the baseline × 10 h",
+   "estimate": true
+  },
+  {
+   "id": "fx_baseline_avg",
+   "label": "exchange rates (baseline average)",
+   "value": {
+    "EUR": 0.9246,
+    "USD": 0.7945
+   },
+   "unit": "CHF per unit",
+   "source": "exchange_rates.csv",
+   "estimate": false
+  }
+ ]
+}

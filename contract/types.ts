@@ -731,3 +731,90 @@ export interface InsightsFile {
               direct: Metrics; allocated_by_hours: Metrics; total: Metrics }[];
   note: string;
 }
+
+// ---------------------------------------------------------------- local AI (advisory, local_ai.json)
+// Could the company's own AI workloads run on open-weight models on hardware it has or can rent?
+// Information only: no number in measures, summary or forecast is changed. A human decides.
+
+export type LocalAiTier = "basic" | "standard" | "advanced";
+/** Like Range, but a bound is null when there is no break-even within the horizon. */
+export interface MonthRange { low: number | null; mid: number | null; high: number | null; }
+
+export interface LocalAiWorkload {
+  id: string;                     // "wl:office-assistant"
+  label: string; resource_id: string; tool: string; why_private: string;
+  tier: LocalAiTier;              // highest tier among task types with >= 20 % of the API cost
+  tasks: { task_type: string; tier: LocalAiTier; cost_share: number; out_eq_tokens: number }[];
+  models_today: string[];
+  tokens_in: number; tokens_in_cache: number; tokens_out: number;
+  out_eq_tokens: number;          // output + 0.1 x uncached input + 0.01 x cached input (as the energy engine)
+  requests: number;
+  peak_tps: number; peak_tps_year3: number;   // busiest day / office hours, without one-off events
+  api: Metrics;                   // baseline year without one-offs
+  calc: Calc;
+}
+
+export interface LocalAiModel {
+  id: string; label: string; params_b: number; active_params_b: number | null; format: string;
+  weights_gb: number; licence: string; commercial_use: boolean; context_k: number;
+  tier: LocalAiTier; languages: string; quality_note: string;
+  throughput: Record<string, Range>;          // GPU class -> batched tokens/s
+  source: string; estimate: boolean;
+}
+
+export interface LocalAiHardware {
+  id: string;                     // "hw:gpu-ml-01"
+  label: string; provider: string; location: LocationCode; gpu: string; gpu_class: string;
+  vram_gb: number; tdp_w: number; idle_w: Range; host_w: Range;
+  billing: "hourly" | "monthly";
+  price_chf_per_hour: Range | null; price_chf_per_month: Range | null;
+  on_hours_per_year: number;      // hourly: office hours; monthly: 8,760
+  extra_setup_days: number;
+  owned: boolean; entity_id: string | null;   // "srv:gpu-ml-01"
+  measure_ids: string[];          // measures it interacts with (e.g. M-04)
+  pue_factor_id: string; grid_factor_id: string;
+  note: string; source: string; estimate: boolean;
+}
+
+export interface LocalAiFit {
+  id: string;                     // "<workload>|<model>|<hardware>"
+  workload_id: string; model_id: string; hardware_id: string;
+  feasible: boolean; reasons: string[];
+  tps: Range | null; gpu_hours_per_year: Range | null;
+  kwh_per_year: Range | null; co2_kg_per_year: Range | null;   // generation only, without idle
+}
+
+export interface LocalAiScenario {
+  id: string;                     // "sc:hybrid@hw:gpu-ml-01", "sc:all@...", "sc:<workload>@..."
+  label: string; hardware_id: string;
+  workload_ids: string[]; kept_on_api: string[];
+  peak_tps_year3: number;
+  model_id: string | null; alternatives: string[];
+  feasible: boolean; reasons: string[];
+  // present only when feasible:
+  utilisation?: number;           // GPU busy share of on-hours, year 1
+  api_3y?: Metrics; local_3y?: Metrics; savings_3y?: Metrics;   // savings may be negative
+  setup_chf?: Range; yearly_chf?: Range;
+  breakeven_month?: MonthRange;   // low = earliest, high = latest; null = not within 36 months
+  interacts_with?: { measure_id: string; title: string; in_package: boolean;
+                     cost_chf_per_year: Range | null; note: string }[];
+  pros?: string[]; cons?: string[];
+  calc?: Calc;
+}
+
+export interface LocalAiFile {
+  meta: Meta;
+  advisory: true;
+  horizon_years: number;          // 3
+  note: string;
+  catalog_date: ISODate;
+  workloads: LocalAiWorkload[];
+  models: LocalAiModel[];
+  hardware: LocalAiHardware[];
+  fits: LocalAiFit[];
+  scenarios: LocalAiScenario[];
+  best: { by_cost: string | null; by_co2: string | null;
+          by_workload: { workload_id: string; fit: string | null }[] };
+  assumptions: { id: string; label: string; value: number | Range | Record<string, number>;
+                 unit: string; source: string; estimate: boolean }[];
+}
