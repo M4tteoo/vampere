@@ -55,7 +55,8 @@ def assemble(ctx, facts: dict, constraints: list[dict], reviews: dict) -> dict:
         sc = Scenarios(ctx, facts)
         ms = safety.get("min_share_of_scenarios")
         mc = {"S": [sc.co2_savings(m["_lines"]) for m in evaluated], "B": sc.baseline_co2,
-              "share": float(ms) if ms else None, "sample": int(safety.get("sample", 400))}
+              "share": float(ms) if ms else None, "sample": int(safety.get("sample", 400)),
+              "share_by_goal": {g: float(v) for g, v in (safety.get("min_share_by_goal") or {}).items() if v}}
     packages = all_goals(evaluated, baseline, float(cfg["budget_chf"]), thresholds, calc.resource_of, mc=mc)
     default = cfg["goal"]
     chosen = packages[default]

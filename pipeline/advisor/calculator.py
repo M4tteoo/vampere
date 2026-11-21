@@ -113,7 +113,8 @@ class Calculator:
             p = lambda x, xg: cpu(x) + sh["vcore_mem_gb"] * wmem  # noqa: E731
         else:
             p = lambda x, xg: cpu(x) + sh["vcpu_mem_gb"] * wmem  # noqa: E731
-        r = min(1.0, p(0.0, 0.0) / p(u, ug))
+        u_idle = min(float(c.get("idle_background_utilisation", {}).get("mid", 0.0)), u)   # background load while idle
+        r = min(1.0, p(u_idle, 0.0) / p(u, ug))
         self._idle_cache[scope] = r
         return r
 

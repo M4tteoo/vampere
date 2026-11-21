@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T18:43:31+01:00",
+  "generated_at": "2026-11-21T19:34:07+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -60,15 +60,15 @@
      "M-36"
     ],
     "savings_co2_kg": {
-     "low": 1197.3,
-     "mid": 2114.7,
-     "high": 4376.2
+     "low": 1221.8,
+     "mid": 2173.9,
+     "high": 4505.1
     },
     "reduction": {
      "co2": {
-      "low": 0.371,
-      "mid": 0.4717,
-      "high": 0.6332
+      "low": 0.3819,
+      "mid": 0.4849,
+      "high": 0.6462
      },
      "cost": {
       "low": 0.2563,
@@ -97,15 +97,15 @@
       "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1197.3,
-      "mid": 2114.7,
-      "high": 4376.2
+      "low": 1221.8,
+      "mid": 2173.9,
+      "high": 4505.1
      },
      "reduction": {
       "co2": {
-       "low": 0.371,
-       "mid": 0.4717,
-       "high": 0.6332
+       "low": 0.3819,
+       "mid": 0.4849,
+       "high": 0.6462
       },
       "cost": {
        "low": 0.2563,
@@ -128,25 +128,26 @@
       "M-01",
       "M-03",
       "M-08",
-      "M-15",
-      "M-19",
+      "M-25",
+      "M-26",
+      "M-33",
       "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1008.6,
-      "mid": 1856.7,
-      "high": 3854.1
+      "low": 1071.9,
+      "mid": 2031.7,
+      "high": 4333.0
      },
      "reduction": {
       "co2": {
-       "low": 0.3267,
-       "mid": 0.4142,
-       "high": 0.5334
+       "low": 0.3673,
+       "mid": 0.4532,
+       "high": 0.5669
       },
       "cost": {
-       "low": 0.2542,
-       "mid": 0.2545,
-       "high": 0.2547
+       "low": 0.2549,
+       "mid": 0.2552,
+       "high": 0.2555
       }
      },
      "meets": {
@@ -163,31 +164,30 @@
      "measure_ids": [
       "M-01",
       "M-03",
-      "M-04",
       "M-08",
       "M-13",
       "M-15",
       "M-17",
       "M-19",
-      "M-21",
       "M-25",
-      "M-33"
+      "M-33",
+      "M-36"
      ],
      "savings_co2_kg": {
-      "low": 956.2,
-      "mid": 1807.3,
-      "high": 3782.7
+      "low": 1068.6,
+      "mid": 2008.1,
+      "high": 4199.9
      },
      "reduction": {
       "co2": {
-       "low": 0.3207,
-       "mid": 0.4031,
-       "high": 0.5057
+       "low": 0.3561,
+       "mid": 0.4479,
+       "high": 0.5652
       },
       "cost": {
-       "low": 0.3052,
-       "mid": 0.3055,
-       "high": 0.3058
+       "low": 0.3005,
+       "mid": 0.3008,
+       "high": 0.3011
       }
      },
      "meets": {
@@ -210,15 +210,15 @@
       "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1197.3,
-      "mid": 2114.7,
-      "high": 4376.2
+      "low": 1221.8,
+      "mid": 2173.9,
+      "high": 4505.1
      },
      "reduction": {
       "co2": {
-       "low": 0.371,
-       "mid": 0.4717,
-       "high": 0.6332
+       "low": 0.3819,
+       "mid": 0.4849,
+       "high": 0.6462
       },
       "cost": {
        "low": 0.2563,
@@ -244,9 +244,9 @@
      "status": "ok",
      "in_package": false,
      "co2_kg": {
-      "low": 534.7,
-      "mid": 867.9,
-      "high": 1742.7
+      "low": 567.7,
+      "mid": 921.4,
+      "high": 1850.1
      }
     },
     {
@@ -255,9 +255,9 @@
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 723.4,
-      "mid": 1125.9,
-      "high": 2264.7
+      "low": 729.1,
+      "mid": 1142.1,
+      "high": 2296.7
      }
     },
     {
@@ -266,9 +266,9 @@
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 151.9,
-      "mid": 436.8,
-      "high": 875.9
+      "low": 161.3,
+      "mid": 463.7,
+      "high": 929.9
      }
     },
     {
@@ -277,9 +277,9 @@
      "status": "ok",
      "in_package": false,
      "co2_kg": {
-      "low": 159.9,
-      "mid": 274.7,
-      "high": 561.0
+      "low": 162.0,
+      "mid": 278.2,
+      "high": 568.3
      }
     },
     {
@@ -288,9 +288,9 @@
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 230.4,
-      "mid": 376.6,
-      "high": 770.9
+      "low": 230.8,
+      "mid": 377.7,
+      "high": 773.1
      }
     },
     {
@@ -310,9 +310,9 @@
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 150.9,
-      "mid": 258.7,
-      "high": 577.3
+      "low": 156.5,
+      "mid": 268.4,
+      "high": 601.5
      }
     },
     {
@@ -321,9 +321,9 @@
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 101.4,
-      "mid": 173.1,
-      "high": 461.7
+      "low": 110.8,
+      "mid": 189.2,
+      "high": 504.6
      }
     },
     {
@@ -332,9 +332,9 @@
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 145.1,
-      "mid": 226.7,
-      "high": 638.9
+      "low": 147.8,
+      "mid": 234.6,
+      "high": 654.5
      }
     },
     {
@@ -708,15 +708,15 @@
      "M-36"
     ],
     "savings_co2_kg": {
-     "low": 1124.3,
-     "mid": 1878.6,
-     "high": 3926.2
+     "low": 1139.0,
+     "mid": 1906.5,
+     "high": 3995.9
     },
     "reduction": {
      "co2": {
-      "low": 0.4234,
-      "mid": 0.5795,
-      "high": 0.7266
+      "low": 0.4309,
+      "mid": 0.5881,
+      "high": 0.7361
      },
      "cost": {
       "low": 0.2563,
@@ -745,15 +745,15 @@
       "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1124.3,
-      "mid": 1878.6,
-      "high": 3926.2
+      "low": 1139.0,
+      "mid": 1906.5,
+      "high": 3995.9
      },
      "reduction": {
       "co2": {
-       "low": 0.4234,
-       "mid": 0.5795,
-       "high": 0.7266
+       "low": 0.4309,
+       "mid": 0.5881,
+       "high": 0.7361
       },
       "cost": {
        "low": 0.2563,
@@ -776,25 +776,26 @@
       "M-01",
       "M-03",
       "M-08",
-      "M-15",
-      "M-19",
+      "M-25",
+      "M-26",
+      "M-33",
       "M-36"
      ],
      "savings_co2_kg": {
-      "low": 910.0,
-      "mid": 1539.0,
-      "high": 3252.0
+      "low": 961.9,
+      "mid": 1654.5,
+      "high": 3596.5
      },
      "reduction": {
       "co2": {
-       "low": 0.3507,
-       "mid": 0.4747,
-       "high": 0.5881
+       "low": 0.3878,
+       "mid": 0.5103,
+       "high": 0.6216
       },
       "cost": {
-       "low": 0.2542,
-       "mid": 0.2545,
-       "high": 0.2547
+       "low": 0.2549,
+       "mid": 0.2552,
+       "high": 0.2555
       }
      },
      "meets": {
@@ -811,31 +812,30 @@
      "measure_ids": [
       "M-01",
       "M-03",
-      "M-04",
       "M-08",
       "M-13",
       "M-15",
       "M-17",
       "M-19",
-      "M-21",
       "M-25",
-      "M-33"
+      "M-33",
+      "M-36"
      ],
      "savings_co2_kg": {
-      "low": 852.2,
-      "mid": 1449.8,
-      "high": 3083.3
+      "low": 958.6,
+      "mid": 1630.9,
+      "high": 3463.4
      },
      "reduction": {
       "co2": {
-       "low": 0.3325,
-       "mid": 0.4472,
-       "high": 0.5507
+       "low": 0.3735,
+       "mid": 0.5031,
+       "high": 0.6195
       },
       "cost": {
-       "low": 0.3052,
-       "mid": 0.3055,
-       "high": 0.3058
+       "low": 0.3005,
+       "mid": 0.3008,
+       "high": 0.3011
       }
      },
      "meets": {
@@ -858,15 +858,15 @@
       "M-36"
      ],
      "savings_co2_kg": {
-      "low": 1124.3,
-      "mid": 1878.6,
-      "high": 3926.2
+      "low": 1139.0,
+      "mid": 1906.5,
+      "high": 3995.9
      },
      "reduction": {
       "co2": {
-       "low": 0.4234,
-       "mid": 0.5795,
-       "high": 0.7266
+       "low": 0.4309,
+       "mid": 0.5881,
+       "high": 0.7361
       },
       "cost": {
        "low": 0.2563,
@@ -892,9 +892,9 @@
      "status": "ok",
      "in_package": false,
      "co2_kg": {
-      "low": 534.7,
-      "mid": 867.9,
-      "high": 1742.7
+      "low": 567.7,
+      "mid": 921.4,
+      "high": 1850.1
      }
     },
     {
@@ -903,9 +903,9 @@
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 749.0,
-      "mid": 1207.5,
-      "high": 2416.9
+      "low": 751.0,
+      "mid": 1211.9,
+      "high": 2426.9
      }
     },
     {
@@ -914,9 +914,9 @@
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 53.3,
-      "mid": 119.1,
-      "high": 273.7
+      "low": 56.6,
+      "mid": 126.5,
+      "high": 290.6
      }
     },
     {
@@ -925,9 +925,9 @@
      "status": "ok",
      "in_package": false,
      "co2_kg": {
-      "low": 159.9,
-      "mid": 274.7,
-      "high": 561.0
+      "low": 162.0,
+      "mid": 278.2,
+      "high": 568.3
      }
     },
     {
@@ -936,9 +936,9 @@
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 240.0,
-      "mid": 408.9,
-      "high": 832.1
+      "low": 240.1,
+      "mid": 409.2,
+      "high": 832.8
      }
     },
     {
@@ -958,9 +958,9 @@
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 150.9,
-      "mid": 258.7,
-      "high": 577.3
+      "low": 156.5,
+      "mid": 268.4,
+      "high": 601.5
      }
     },
     {
@@ -969,9 +969,9 @@
      "status": "human",
      "in_package": true,
      "co2_kg": {
-      "low": 101.4,
-      "mid": 173.1,
-      "high": 461.7
+      "low": 110.8,
+      "mid": 189.2,
+      "high": 504.6
      }
     },
     {
@@ -980,9 +980,9 @@
      "status": "human",
      "in_package": false,
      "co2_kg": {
-      "low": 156.4,
-      "mid": 263.7,
-      "high": 708.5
+      "low": 157.4,
+      "mid": 265.8,
+      "high": 713.4
      }
     },
     {
@@ -1308,7 +1308,7 @@
   }
  },
  "holds_in_both": true,
- "conclusion": "The package (M-02, M-03, M-08, M-19, M-25, M-36) reaches −47.2% CO2 with the consumption mix and −58.0% with the production mix; cost −25.7% in both (CO2 factors do not change francs). It meets the target under both Swiss mixes. Over the full factor range: misses −40 % at the least favourable factors with the consumption mix, meets with the production mix.",
+ "conclusion": "The package (M-02, M-03, M-08, M-19, M-25, M-36) reaches −48.5% CO2 with the consumption mix and −58.8% with the production mix; cost −25.7% in both (CO2 factors do not change francs). It meets the target under both Swiss mixes. Over the full factor range: misses −40 % at the least favourable factors with the consumption mix, meets with the production mix.",
  "entities_co2_kg_production": {
   "dept:Consulting": {
    "low": 422.0,

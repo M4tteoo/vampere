@@ -216,6 +216,13 @@ def template_rows(F: dict | None = None) -> list[dict]:
          **{k: v / 1000 for k, v in F["ai_messages"]["wh_per_message"].items()},
          "source": F["ai_messages"]["source"], "calculation": F["ai_messages"]["calculation"],
          "applies_to": ["seat-month"], "must_or_bonus": "Must"},
+        {"id": "idle_background_utilisation", "label": "CPU background load during idle hours (advisor savings only)",
+         "unit": "share", **c.get("idle_background_utilisation", {"low": 0.0, "mid": 0.0, "high": 0.0}),
+         "source": "Team assumption (proof of concept): monitoring agents, operating system and cluster services keep "
+                   "running while no job runs.",
+         "calculation": "When a measure removes idle hours, the energy saved is valued at the power of a server at this "
+                        "background load (Cloud Carbon Footprint power model), not at 0 % CPU.",
+         "applies_to": ["schedule", "rightsize measures"], "must_or_bonus": "Extra"},
         {"id": "energy_per_active_saas_licence_month", "label": "Energy per active SaaS licence-month", "unit": "kWh",
          **F["saas"]["kwh_per_active_licence_month"], "source": F["saas"]["source"],
          "calculation": F["saas"]["calculation"], "applies_to": ["licence-month"], "must_or_bonus": "Extra"},

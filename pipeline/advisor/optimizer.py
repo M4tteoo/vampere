@@ -184,21 +184,23 @@ def all_goals(measures, baseline, budget_chf, thresholds, resource_of, mc: dict 
     Safety is REPORTED for every package (share of Monte Carlo scenarios reaching the CO2 threshold), not required,
     unless mc["share"] sets a minimum. Adds «safest» (highest share) and flags it: if it equals a goal's package,
     `same_as` names that goal and both carry is_safest. Never returns an empty package (falls back, with a note)."""
-    min_share = mc.get("share") if mc else None
     n_draws = np.asarray(mc["B"]).size if mc else 0
-    rule = (f"case rules; safety = share of {n_draws:,} Monte Carlo scenarios reaching −{thresholds['co2']:.0%} CO2"
-            + (f" (minimum {min_share:.0%})" if min_share else " (reported, not required)")) if mc else "case rules"
     out = {}
     for g in GOALS:
-        r = optimise(measures, baseline, g, bool(min_share), budget_chf, thresholds, resource_of, mc=mc)
+        # risk appetite per option: a goal-specific minimum safety (e.g. best value ≥ 80 %), else the general one
+        min_share = ((mc.get("share_by_goal") or {}).get(g, mc.get("share"))) if mc else None
+        mc_g = {**mc, "share": min_share} if mc else None
+        rule = (f"case rules; safety = share of {n_draws:,} Monte Carlo scenarios reaching −{thresholds['co2']:.0%} CO2"
+                + (f" (minimum {min_share:.0%})" if min_share else " (reported, not required)")) if mc else "case rules"
+        r = optimise(measures, baseline, g, bool(min_share), budget_chf, thresholds, resource_of, mc=mc_g)
         r["safety_met"] = r["feasible"] if min_share else None
         if not r["feasible"]:
-            r = optimise(measures, baseline, g, False, budget_chf, thresholds, resource_of, mc=mc)
+            r = optimise(measures, baseline, g, False, budget_chf, thresholds, resource_of, mc=mc_g)
             if min_share:
                 r["safety_met"] = False
                 r["note"] = f"no package within the budget is safe in {min_share:.0%} of scenarios: this one meets the case rules"
             if not r["feasible"]:
-                r = optimise(measures, baseline, "climate_first", False, budget_chf, {"co2": 0.0, "cost": 0.0}, resource_of, mc=mc)
+                r = optimise(measures, baseline, "climate_first", False, budget_chf, {"co2": 0.0, "cost": 0.0}, resource_of, mc=mc_g)
                 r["goal"] = g
                 r["note"] = "no package within the budget reaches the thresholds: this is the most CO2 the budget allows"
             r["feasible"] = True
@@ -207,7 +209,7 @@ def all_goals(measures, baseline, budget_chf, thresholds, resource_of, mc: dict 
     if mc:
         sf = safest(measures, baseline, budget_chf, thresholds, resource_of, mc)
         if sf["feasible"]:
-            sf["safety_rule"] = rule
+            sf["safety_rule"] = f"the highest share of {n_draws:,} Monte Carlo scenarios reaching −{thresholds['co2']:.0%} CO2"
             out["safest"] = sf
         best = max((v.get("p_meet_co2") or 0) for v in out.values())
         for gk, v in out.items():

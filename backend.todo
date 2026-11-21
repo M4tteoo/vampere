@@ -270,8 +270,10 @@ Steps 5–8 · Advisor veloce (branch fast-advisor, 21.11): architettura guidata
       - risultato (climate first, 15 giornate): CO₂ −47,2% (fattori medi), costi −25,7% (CHF 121.900/anno, rientro in ~7 settimane); Monte Carlo: −40% nel 91% di 10.000 scenari (prima 54%)
       - nel caso estremo (tutti i fattori al peggio insieme) −37,1%: servirebbero ~18 giornate → safety_met: false con nota
   ✔ «Sicuro in X%» = quota dei 10.000 scenari Monte Carlo in cui il pacchetto raggiunge ancora −40% CO₂ (stessi scenari e modello del pannello) @done(26-11-21)
-      - PRIMA LE OPZIONI (approccio human first): la sicurezza è RIPORTATA per ogni opzione, non imposta (config advisor.safety.min_share_of_scenarios: null; con 0.9 diventa un requisito)
-      - quarta opzione «safest» (o flag sull'obiettivo uguale: same_as); oggi: climate first −47,2% CO₂ sicuro al 91% ★ · best value −41,4%, 12 giornate, 40% · francs first −30,6% costi, 24%
+      - PRIMA LE OPZIONI (approccio human first), ognuna con la sua propensione al rischio: climate first = più CO₂ (la più sicura per costruzione) · best value = il piano più economico sicuro ≥ 80% · francs first = più franchi, sicuro ≥ 70% (config advisor.safety)
+      - ipotesi del team (dichiarata nella tabella come «Additional»): durante le ore inattive un server ha il 5% di carico di fondo (agenti, OS, servizi del cluster; intervallo 0–10%)
+      - opzioni: climate first −48,5% CO₂, CHF 121.900/anno, 15 giornate, sicuro al 95% ★ · best value −45,3%, CHF 121.300/anno, 13,5 giornate, 84% · francs first −44,8%, CHF 142.900/anno, 15 giornate, 75%
+      - quarta opzione «safest» (o flag sull'obiettivo uguale: same_as)
   ✔ L'utente apre un'opzione e TOGLIE misure: totali, budget e sicurezza ricalcolati dal vivo (measures.json → rules, output/safety_scenarios.json con 1.000 scenari) @done(26-11-21)
   ☐ Aggiungere misure da altre opzioni (servono regole di conflitto nei dati): più avanti
   ✔ Rete di sicurezza: se nessun pacchetto rispetta le regole, si mostra il migliore possibile con safety_met: false e una nota (mai un pacchetto vuoto) @done(26-11-21)

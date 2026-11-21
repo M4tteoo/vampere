@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T18:43:31+01:00",
+  "generated_at": "2026-11-21T19:34:07+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -23,7 +23,7 @@
   ],
   "effort_days": 15.0,
   "deterministic_mid": {
-   "co2": 0.4717,
+   "co2": 0.4849,
    "cost": 0.2566
   }
  },
@@ -33,15 +33,15 @@
  },
  "budget_met": true,
  "co2_reduction": {
-  "p_meet": 0.9085,
+  "p_meet": 0.947,
   "percentiles": {
-   "p5": 0.3881,
-   "p25": 0.4233,
-   "p50": 0.45,
-   "p75": 0.4766,
-   "p95": 0.5162
+   "p5": 0.3989,
+   "p25": 0.4349,
+   "p50": 0.4621,
+   "p75": 0.4888,
+   "p95": 0.5288
   },
-  "mean": 0.4506
+  "mean": 0.4625
  },
  "cost_reduction": {
   "p_meet": 1.0,
@@ -54,7 +54,7 @@
   },
   "mean": 0.2566
  },
- "p_meet_both": 0.9085,
+ "p_meet_both": 0.947,
  "baseline_co2_kg": {
   "p5": 4280.8,
   "p25": 4792.5,
@@ -63,78 +63,78 @@
   "p95": 6292.2
  },
  "package_savings_co2_kg": {
-  "p5": 1955.1,
-  "p25": 2161.4,
-  "p50": 2321.6,
-  "p75": 2510.0,
-  "p95": 2805.5
+  "p5": 2005.1,
+  "p25": 2218.7,
+  "p50": 2382.7,
+  "p75": 2576.5,
+  "p95": 2879.6
  },
  "histogram": {
   "metric": "co2_reduction",
   "edges": [
-   0.3189,
-   0.3281,
-   0.3372,
-   0.3463,
-   0.3554,
-   0.3645,
-   0.3736,
-   0.3827,
-   0.3919,
-   0.401,
-   0.4101,
-   0.4192,
-   0.4283,
-   0.4374,
-   0.4465,
-   0.4557,
-   0.4648,
-   0.4739,
-   0.483,
-   0.4921,
-   0.5012,
-   0.5103,
-   0.5195,
-   0.5286,
-   0.5377,
-   0.5468,
-   0.5559,
-   0.565,
-   0.5742,
-   0.5833,
-   0.5924
+   0.3287,
+   0.3378,
+   0.347,
+   0.3561,
+   0.3653,
+   0.3745,
+   0.3836,
+   0.3928,
+   0.4019,
+   0.4111,
+   0.4202,
+   0.4294,
+   0.4386,
+   0.4477,
+   0.4569,
+   0.466,
+   0.4752,
+   0.4844,
+   0.4935,
+   0.5027,
+   0.5118,
+   0.521,
+   0.5301,
+   0.5393,
+   0.5485,
+   0.5576,
+   0.5668,
+   0.5759,
+   0.5851,
+   0.5943,
+   0.6034
   ],
   "counts": [
    1,
    2,
-   7,
-   36,
-   50,
-   103,
-   167,
-   255,
-   356,
-   518,
-   645,
-   802,
-   829,
-   890,
-   923,
-   904,
-   791,
-   704,
-   560,
-   458,
-   334,
-   255,
-   151,
-   121,
-   57,
-   45,
-   16,
-   11,
    6,
-   3
+   36,
+   47,
+   95,
+   163,
+   239,
+   325,
+   514,
+   622,
+   766,
+   823,
+   860,
+   904,
+   901,
+   810,
+   742,
+   572,
+   488,
+   365,
+   256,
+   180,
+   127,
+   62,
+   50,
+   24,
+   9,
+   6,
+   5
   ],
   "target": 0.4
  },
@@ -147,10 +147,10 @@
     "mid": 0.5,
     "high": 2.0
    },
-   "reduction_at_low": 0.4969,
-   "reduction_at_high": 0.3963,
-   "swing": 0.1006,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.5108,
+   "reduction_at_high": 0.4074,
+   "swing": 0.1035,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "storage",
@@ -160,10 +160,10 @@
     "mid": 4.7e-05,
     "high": 8.6e-05
    },
-   "reduction_at_low": 0.5191,
-   "reduction_at_high": 0.4227,
-   "swing": 0.0964,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.5337,
+   "reduction_at_high": 0.4345,
+   "swing": 0.0991,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "grid_CH",
@@ -173,10 +173,10 @@
     "mid": 0.11,
     "high": 0.128
    },
-   "reduction_at_low": 0.5349,
-   "reduction_at_high": 0.4552,
-   "swing": 0.0797,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.5454,
+   "reduction_at_high": 0.4691,
+   "swing": 0.0763,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "saas_kwh",
@@ -186,10 +186,10 @@
     "mid": 0.15,
     "high": 0.5
    },
-   "reduction_at_low": 0.4872,
-   "reduction_at_high": 0.4245,
-   "swing": 0.0626,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.5008,
+   "reduction_at_high": 0.4364,
+   "swing": 0.0644,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "grid_DE",
@@ -199,10 +199,10 @@
     "mid": 0.363,
     "high": 0.43
    },
-   "reduction_at_low": 0.4542,
-   "reduction_at_high": 0.5039,
-   "swing": 0.0497,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4679,
+   "reduction_at_high": 0.5162,
+   "swing": 0.0484,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "grid_EU",
@@ -212,10 +212,10 @@
     "mid": 0.213,
     "high": 0.3
    },
-   "reduction_at_low": 0.4885,
-   "reduction_at_high": 0.4504,
-   "swing": 0.0381,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.5021,
+   "reduction_at_high": 0.463,
+   "swing": 0.0392,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "mem_w_per_gb",
@@ -225,10 +225,10 @@
     "mid": 0.392,
     "high": 0.5
    },
-   "reduction_at_low": 0.4551,
-   "reduction_at_high": 0.488,
-   "swing": 0.0329,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4679,
+   "reduction_at_high": 0.5017,
+   "swing": 0.0338,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "pue_hyperscaler",
@@ -238,10 +238,10 @@
     "mid": 1.18,
     "high": 1.54
    },
-   "reduction_at_low": 0.4662,
-   "reduction_at_high": 0.4903,
-   "swing": 0.024,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4793,
+   "reduction_at_high": 0.504,
+   "swing": 0.0247,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "cpu_w_min",
@@ -251,10 +251,10 @@
     "mid": 0.76,
     "high": 1.0
    },
-   "reduction_at_low": 0.4609,
-   "reduction_at_high": 0.4808,
-   "swing": 0.0199,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4736,
+   "reduction_at_high": 0.4944,
+   "swing": 0.0207,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "gpu_idle_w",
@@ -264,10 +264,10 @@
     "mid": 60.0,
     "high": 90.0
    },
-   "reduction_at_low": 0.4617,
-   "reduction_at_high": 0.4813,
-   "swing": 0.0195,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4752,
+   "reduction_at_high": 0.4942,
+   "swing": 0.0189,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "ai_message_wh",
@@ -277,10 +277,10 @@
     "mid": 0.3,
     "high": 2.5
    },
-   "reduction_at_low": 0.4733,
-   "reduction_at_high": 0.4551,
-   "swing": 0.0182,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4865,
+   "reduction_at_high": 0.4678,
+   "swing": 0.0187,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "grid_IE",
@@ -290,10 +290,10 @@
     "mid": 0.226,
     "high": 0.352
    },
-   "reduction_at_low": 0.4745,
-   "reduction_at_high": 0.4591,
-   "swing": 0.0154,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4875,
+   "reduction_at_high": 0.4733,
+   "swing": 0.0142,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "pue_hoster",
@@ -303,10 +303,10 @@
     "mid": 1.5,
     "high": 1.8
    },
-   "reduction_at_low": 0.4746,
-   "reduction_at_high": 0.4674,
-   "swing": 0.0072,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4879,
+   "reduction_at_high": 0.4805,
+   "swing": 0.0074,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "network",
@@ -316,10 +316,10 @@
     "mid": 0.002,
     "high": 0.006
    },
-   "reduction_at_low": 0.4725,
-   "reduction_at_high": 0.4687,
-   "swing": 0.0037,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4857,
+   "reduction_at_high": 0.4819,
+   "swing": 0.0038,
+   "reduction_at_mid": 0.4849
   },
   {
    "factor": "cpu_w_max",
@@ -329,33 +329,33 @@
     "mid": 3.63,
     "high": 5.0
    },
-   "reduction_at_low": 0.4728,
-   "reduction_at_high": 0.4705,
-   "swing": 0.0024,
-   "reduction_at_mid": 0.4717
+   "reduction_at_low": 0.4857,
+   "reduction_at_high": 0.4841,
+   "swing": 0.0015,
+   "reduction_at_mid": 0.4849
   }
  ],
  "stress_all_factors_together": {
-  "p_meet": 0.8782,
+  "p_meet": 0.9458,
   "percentiles": {
-   "p5": 0.388,
-   "p25": 0.4176,
-   "p50": 0.4518,
-   "p75": 0.4931,
-   "p95": 0.5569
+   "p5": 0.3992,
+   "p25": 0.4293,
+   "p50": 0.4639,
+   "p75": 0.5054,
+   "p95": 0.5695
   },
-  "mean": 0.4589
+  "mean": 0.4709
  },
  "production_mix": {
-  "p_meet": 0.9962,
+  "p_meet": 0.9974,
   "percentiles": {
-   "p5": 0.445,
-   "p25": 0.4928,
-   "p50": 0.5261,
-   "p75": 0.5596,
-   "p95": 0.6066
+   "p5": 0.452,
+   "p25": 0.5007,
+   "p50": 0.5343,
+   "p75": 0.5683,
+   "p95": 0.6155
   },
-  "mean": 0.5262
+  "mean": 0.5344
  },
  "by_goal": {
   "climate_first": {
@@ -369,15 +369,15 @@
    ],
    "effort_days": 15.0,
    "co2_reduction": {
-    "p_meet": 0.9085,
+    "p_meet": 0.947,
     "percentiles": {
-     "p5": 0.3881,
-     "p25": 0.4233,
-     "p50": 0.45,
-     "p75": 0.4766,
-     "p95": 0.5162
+     "p5": 0.3989,
+     "p25": 0.4349,
+     "p50": 0.4621,
+     "p75": 0.4888,
+     "p95": 0.5288
     },
-    "mean": 0.4506
+    "mean": 0.4625
    },
    "cost_reduction": {
     "p_meet": 1.0,
@@ -390,17 +390,17 @@
     },
     "mean": 0.2566
    },
-   "p_meet_both": 0.9085,
+   "p_meet_both": 0.947,
    "stress_all_factors_together": {
-    "p_meet": 0.8782,
+    "p_meet": 0.9458,
     "percentiles": {
-     "p5": 0.388,
-     "p25": 0.4176,
-     "p50": 0.4518,
-     "p75": 0.4931,
-     "p95": 0.5569
+     "p5": 0.3992,
+     "p25": 0.4293,
+     "p50": 0.4639,
+     "p75": 0.5054,
+     "p95": 0.5695
     },
-    "mean": 0.4589
+    "mean": 0.4709
    }
   },
   "best_value": {
@@ -408,94 +408,94 @@
     "M-01",
     "M-03",
     "M-08",
-    "M-15",
-    "M-19",
+    "M-25",
+    "M-26",
+    "M-33",
     "M-36"
    ],
-   "effort_days": 12.0,
+   "effort_days": 13.5,
    "co2_reduction": {
-    "p_meet": 0.3969,
+    "p_meet": 0.8395,
     "percentiles": {
-     "p5": 0.3394,
-     "p25": 0.3694,
-     "p50": 0.3914,
-     "p75": 0.4135,
-     "p95": 0.4447
+     "p5": 0.3809,
+     "p25": 0.4094,
+     "p50": 0.4299,
+     "p75": 0.4505,
+     "p95": 0.48
     },
-    "mean": 0.3916
+    "mean": 0.4301
    },
    "cost_reduction": {
     "p_meet": 1.0,
     "percentiles": {
-     "p5": 0.2543,
-     "p25": 0.2544,
-     "p50": 0.2545,
-     "p75": 0.2545,
-     "p95": 0.2546
+     "p5": 0.255,
+     "p25": 0.2552,
+     "p50": 0.2552,
+     "p75": 0.2553,
+     "p95": 0.2554
     },
-    "mean": 0.2544
+    "mean": 0.2552
    },
-   "p_meet_both": 0.3969,
+   "p_meet_both": 0.8395,
    "stress_all_factors_together": {
-    "p_meet": 0.4424,
+    "p_meet": 0.7992,
     "percentiles": {
-     "p5": 0.3409,
-     "p25": 0.3656,
-     "p50": 0.3935,
-     "p75": 0.4259,
-     "p95": 0.4749
+     "p5": 0.3811,
+     "p25": 0.4051,
+     "p50": 0.4322,
+     "p75": 0.4633,
+     "p95": 0.5103
     },
-    "mean": 0.3983
+    "mean": 0.4367
    }
   },
   "francs_first": {
    "measure_ids": [
     "M-01",
     "M-03",
-    "M-04",
     "M-08",
     "M-13",
     "M-15",
     "M-17",
     "M-19",
-    "M-21",
     "M-25",
-    "M-33"
+    "M-33",
+    "M-36"
    ],
    "effort_days": 15.0,
    "co2_reduction": {
-    "p_meet": 0.2388,
+    "p_meet": 0.7497,
     "percentiles": {
-     "p5": 0.3315,
-     "p25": 0.3596,
-     "p50": 0.3796,
-     "p75": 0.3988,
-     "p95": 0.4262
+     "p5": 0.3684,
+     "p25": 0.4,
+     "p50": 0.4225,
+     "p75": 0.4441,
+     "p95": 0.4751
     },
-    "mean": 0.3793
+    "mean": 0.4221
    },
    "cost_reduction": {
     "p_meet": 1.0,
     "percentiles": {
-     "p5": 0.3053,
-     "p25": 0.3054,
-     "p50": 0.3055,
-     "p75": 0.3056,
-     "p95": 0.3057
+     "p5": 0.3006,
+     "p25": 0.3007,
+     "p50": 0.3008,
+     "p75": 0.3009,
+     "p95": 0.301
     },
-    "mean": 0.3055
+    "mean": 0.3008
    },
-   "p_meet_both": 0.2388,
+   "p_meet_both": 0.7497,
    "stress_all_factors_together": {
-    "p_meet": 0.3333,
+    "p_meet": 0.7133,
     "percentiles": {
-     "p5": 0.3336,
-     "p25": 0.3562,
-     "p50": 0.3816,
-     "p75": 0.4104,
-     "p95": 0.4535
+     "p5": 0.3705,
+     "p25": 0.3959,
+     "p50": 0.4245,
+     "p75": 0.4572,
+     "p95": 0.5061
     },
-    "mean": 0.3855
+    "mean": 0.4291
    }
   },
   "safest": {
@@ -509,15 +509,15 @@
    ],
    "effort_days": 15.0,
    "co2_reduction": {
-    "p_meet": 0.9085,
+    "p_meet": 0.947,
     "percentiles": {
-     "p5": 0.3881,
-     "p25": 0.4233,
-     "p50": 0.45,
-     "p75": 0.4766,
-     "p95": 0.5162
+     "p5": 0.3989,
+     "p25": 0.4349,
+     "p50": 0.4621,
+     "p75": 0.4888,
+     "p95": 0.5288
     },
-    "mean": 0.4506
+    "mean": 0.4625
    },
    "cost_reduction": {
     "p_meet": 1.0,
@@ -530,21 +530,21 @@
     },
     "mean": 0.2566
    },
-   "p_meet_both": 0.9085,
+   "p_meet_both": 0.947,
    "stress_all_factors_together": {
-    "p_meet": 0.8782,
+    "p_meet": 0.9458,
     "percentiles": {
-     "p5": 0.388,
-     "p25": 0.4176,
-     "p50": 0.4518,
-     "p75": 0.4931,
-     "p95": 0.5569
+     "p5": 0.3992,
+     "p25": 0.4293,
+     "p50": 0.4639,
+     "p75": 0.5054,
+     "p95": 0.5695
     },
-    "mean": 0.4589
+    "mean": 0.4709
    }
   }
  },
- "headline": "The package reaches −40 % CO2 in 91% of 10,000 factor scenarios (median −45.0%); −25 % cost in 100%.",
+ "headline": "The package reaches −40 % CO2 in 95% of 10,000 factor scenarios (median −46.2%); −25 % cost in 100%.",
  "calc": {
   "formula": "for each of N draws: factors ~ triangular(low, mid, high) independently; reduction = package CO2 savings / baseline CO2, both recomputed with the drawn factors (linear energy model + package model)",
   "inputs": [

@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T18:43:30+01:00",
+  "generated_at": "2026-11-21T19:34:06+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -133,9 +133,9 @@
  "measure_savings": {
   "M-01": {
    "co2_kg_market": {
-    "low": 1136.61,
-    "mid": 1677.11,
-    "high": 2842.87
+    "low": 1206.67,
+    "mid": 1780.49,
+    "high": 3018.1
    },
    "reason": null,
    "calc": {
@@ -154,9 +154,9 @@
   },
   "M-02": {
    "co2_kg_market": {
-    "low": 1532.97,
-    "mid": 2280.31,
-    "high": 3956.97
+    "low": 1545.75,
+    "mid": 2296.52,
+    "high": 3971.21
    },
    "reason": null,
    "calc": {
@@ -176,9 +176,9 @@
   },
   "M-03": {
    "co2_kg_market": {
-    "low": 151.95,
-    "mid": 436.79,
-    "high": 875.87
+    "low": 161.31,
+    "mid": 463.72,
+    "high": 929.86
    },
    "reason": null,
    "calc": {
@@ -197,9 +197,9 @@
   },
   "M-04": {
    "co2_kg_market": {
-    "low": 339.94,
-    "mid": 530.76,
-    "high": 915.18
+    "low": 344.37,
+    "mid": 537.68,
+    "high": 927.12
    },
    "reason": null,
    "calc": {
@@ -218,9 +218,9 @@
   },
   "M-05": {
    "co2_kg_market": {
-    "low": 487.99,
-    "mid": 769.18,
-    "high": 1363.12
+    "low": 488.8,
+    "mid": 770.26,
+    "high": 1364.09
    },
    "reason": null,
    "calc": {
@@ -261,9 +261,9 @@
   },
   "M-07": {
    "co2_kg_market": {
-    "low": 307.86,
-    "mid": 476.45,
-    "high": 819.99
+    "low": 318.63,
+    "mid": 492.87,
+    "high": 848.15
    },
    "reason": null,
    "calc": {
@@ -284,9 +284,9 @@
   },
   "M-08": {
    "co2_kg_market": {
-    "low": 186.92,
-    "mid": 282.48,
-    "high": 483.65
+    "low": 204.29,
+    "mid": 308.74,
+    "high": 528.6
    },
    "reason": null,
    "calc": {
@@ -305,9 +305,9 @@
   },
   "M-09": {
    "co2_kg_market": {
-    "low": 260.52,
-    "mid": 402.03,
-    "high": 730.26
+    "low": 266.55,
+    "mid": 409.86,
+    "high": 737.21
    },
    "reason": null,
    "calc": {

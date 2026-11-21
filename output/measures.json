@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T18:43:30+01:00",
+  "generated_at": "2026-11-21T19:34:06+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -42,14 +42,14 @@
      "high": 37757.46
     },
     "kwh": {
-     "low": 1620.3,
-     "mid": 2390.9,
-     "high": 4052.7
+     "low": 1720.2,
+     "mid": 2538.2,
+     "high": 4302.5
     },
     "co2_kg": {
-     "low": 534.7,
-     "mid": 867.9,
-     "high": 1742.7
+     "low": 567.7,
+     "mid": 921.4,
+     "high": 1850.1
     }
    },
    "status": "ok",
@@ -58,7 +58,7 @@
    "start_date": "2026-10-01",
    "in_package": false,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-dev: cost × 0.78, energy × 0.70",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-dev: cost × 0.78, energy × 0.74",
     "inputs": [
      {
       "name": "res:dp-dev baseline cost",
@@ -94,14 +94,14 @@
     {
      "scope": "res:dp-dev",
      "cost_share": 0.7762,
-     "energy_share": 0.7009881767722962,
+     "energy_share": 0.7441977143010007,
      "relocate_to": null,
      "base_cost_chf": 38591.71,
      "base_kwh": 3410.7,
      "base_co2_kg": 1238.1,
      "saved_cost_chf": 29954.88,
-     "saved_kwh": 2390.9,
-     "saved_co2_kg": 867.9,
+     "saved_kwh": 2538.2,
+     "saved_co2_kg": 921.4,
      "basis_fact_ids": [],
      "reasoning": ""
     }
@@ -145,14 +145,14 @@
      "high": 37757.46
     },
     "kwh": {
-     "low": 1620.3,
-     "mid": 2390.9,
-     "high": 4052.7
+     "low": 1720.2,
+     "mid": 2538.2,
+     "high": 4302.5
     },
     "co2_kg": {
-     "low": 723.4,
-     "mid": 1125.9,
-     "high": 2264.7
+     "low": 729.1,
+     "mid": 1142.1,
+     "high": 2296.7
     }
    },
    "status": "human",
@@ -161,7 +161,7 @@
    "start_date": "2026-10-01",
    "in_package": true,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-dev: cost × 0.78, energy × 0.70, rest moved to CH",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-dev: cost × 0.78, energy × 0.74, rest moved to CH",
     "inputs": [
      {
       "name": "res:dp-dev baseline cost",
@@ -197,14 +197,14 @@
     {
      "scope": "res:dp-dev",
      "cost_share": 0.7762,
-     "energy_share": 0.7009881767722962,
+     "energy_share": 0.7441977143010007,
      "relocate_to": "CH",
      "base_cost_chf": 38591.71,
      "base_kwh": 3410.7,
      "base_co2_kg": 1238.1,
      "saved_cost_chf": 29954.88,
-     "saved_kwh": 2390.9,
-     "saved_co2_kg": 1125.9,
+     "saved_kwh": 2538.2,
+     "saved_co2_kg": 1142.1,
      "basis_fact_ids": [],
      "reasoning": ""
     }
@@ -253,14 +253,14 @@
      "high": 62761.18
     },
     "kwh": {
-     "low": 2665.7,
-     "mid": 3970.8,
-     "high": 6842.7
+     "low": 2830.1,
+     "mid": 4215.6,
+     "high": 7264.5
     },
     "co2_kg": {
-     "low": 151.9,
-     "mid": 436.8,
-     "high": 875.9
+     "low": 161.3,
+     "mid": 463.7,
+     "high": 929.9
     }
    },
    "status": "human",
@@ -269,7 +269,7 @@
    "start_date": "2026-10-01",
    "in_package": true,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-prod: cost × 0.55, energy × 0.39",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-prod: cost × 0.55, energy × 0.41",
     "inputs": [
      {
       "name": "res:dp-prod baseline cost",
@@ -305,14 +305,14 @@
     {
      "scope": "res:dp-prod",
      "cost_share": 0.5526,
-     "energy_share": 0.3856029552859785,
+     "energy_share": 0.40937186597478337,
      "relocate_to": null,
      "base_cost_chf": 90130.81,
      "base_kwh": 10297.7,
      "base_co2_kg": 1132.7,
      "saved_cost_chf": 49806.29,
-     "saved_kwh": 3970.8,
-     "saved_co2_kg": 436.8,
+     "saved_kwh": 4215.6,
+     "saved_co2_kg": 463.7,
      "basis_fact_ids": [],
      "reasoning": ""
     }
@@ -354,14 +354,14 @@
      "high": 11935.38
     },
     "kwh": {
-     "low": 484.6,
-     "mid": 756.6,
-     "high": 1304.7
+     "low": 490.9,
+     "mid": 766.5,
+     "high": 1321.7
     },
     "co2_kg": {
-     "low": 159.9,
-     "mid": 274.7,
-     "high": 561.0
+     "low": 162.0,
+     "mid": 278.2,
+     "high": 568.3
     }
    },
    "status": "ok",
@@ -370,7 +370,7 @@
    "start_date": "2026-10-01",
    "in_package": false,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.65",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.66",
     "inputs": [
      {
       "name": "res:gpu-ml baseline cost",
@@ -406,14 +406,14 @@
     {
      "scope": "res:gpu-ml",
      "cost_share": 0.8315,
-     "energy_share": 0.6524246588664744,
+     "energy_share": 0.6609327412499112,
      "relocate_to": null,
      "base_cost_chf": 11389.82,
      "base_kwh": 1159.7,
      "base_co2_kg": 421.0,
      "saved_cost_chf": 9470.64,
-     "saved_kwh": 756.6,
-     "saved_co2_kg": 274.7,
+     "saved_kwh": 766.5,
+     "saved_co2_kg": 278.2,
      "basis_fact_ids": [],
      "reasoning": ""
     }
@@ -455,14 +455,14 @@
      "high": 11935.38
     },
     "kwh": {
-     "low": 484.6,
-     "mid": 756.6,
-     "high": 1304.7
+     "low": 490.9,
+     "mid": 766.5,
+     "high": 1321.7
     },
     "co2_kg": {
-     "low": 230.4,
-     "mid": 376.6,
-     "high": 770.9
+     "low": 230.8,
+     "mid": 377.7,
+     "high": 773.1
     }
    },
    "status": "human",
@@ -471,7 +471,7 @@
    "start_date": "2026-10-01",
    "in_package": false,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.65, rest moved to CH",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.66, rest moved to CH",
     "inputs": [
      {
       "name": "res:gpu-ml baseline cost",
@@ -507,14 +507,14 @@
     {
      "scope": "res:gpu-ml",
      "cost_share": 0.8315,
-     "energy_share": 0.6524246588664744,
+     "energy_share": 0.6609327412499112,
      "relocate_to": "CH",
      "base_cost_chf": 11389.82,
      "base_kwh": 1159.7,
      "base_co2_kg": 421.0,
      "saved_cost_chf": 9470.64,
-     "saved_kwh": 756.6,
-     "saved_co2_kg": 376.6,
+     "saved_kwh": 766.5,
+     "saved_co2_kg": 377.7,
      "basis_fact_ids": [],
      "reasoning": ""
     }
@@ -721,14 +721,14 @@
      "high": 18384.69
     },
     "kwh": {
-     "low": 547.6,
-     "mid": 843.5,
-     "high": 1450.2
+     "low": 573.0,
+     "mid": 882.1,
+     "high": 1516.4
     },
     "co2_kg": {
-     "low": 150.9,
-     "mid": 258.7,
-     "high": 577.3
+     "low": 156.5,
+     "mid": 268.4,
+     "high": 601.5
     }
    },
    "status": "human",
@@ -737,7 +737,7 @@
    "start_date": "2026-10-01",
    "in_package": false,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). srv:test-01: cost × 0.55, energy × 0.45 + srv:test-02: cost × 0.55, energy × 0.45 + srv:test-03: cost × 0.55, energy × 0.45 + srv:test-04: cost × 0.55, energy × 0.45 + srv:test-05: cost × 0.55, energy × 0.45 + srv:test-06: cost × 0.55, energy × 0.45 + srv:test-07: cost × 0.55, energy × 0.45 + srv:test-08: cost × 0.55, energy × 0.45 + srv:qa-regression-02: cost × 0.55, energy × 0.45 + srv:uat-shop: cost × 0.55, energy × 0.45 + srv:gpu-ml-01: cost × 0.55, energy × 0.43",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). srv:test-01: cost × 0.55, energy × 0.50 + srv:test-02: cost × 0.55, energy × 0.50 + srv:test-03: cost × 0.55, energy × 0.50 + srv:test-04: cost × 0.55, energy × 0.50 + srv:test-05: cost × 0.55, energy × 0.50 + srv:test-06: cost × 0.55, energy × 0.50 + srv:test-07: cost × 0.55, energy × 0.50 + srv:test-08: cost × 0.55, energy × 0.50 + srv:qa-regression-02: cost × 0.55, energy × 0.50 + srv:uat-shop: cost × 0.55, energy × 0.50 + srv:gpu-ml-01: cost × 0.55, energy × 0.43",
     "inputs": [
      {
       "name": "srv:test-01 baseline cost",
@@ -899,154 +899,154 @@
     {
      "scope": "srv:test-01",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 35.2,
-     "saved_co2_kg": 7.9,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-02",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 35.2,
-     "saved_co2_kg": 7.9,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-03",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 35.2,
-     "saved_co2_kg": 7.9,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-04",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1495.26,
      "base_kwh": 74.4,
      "base_co2_kg": 16.8,
      "saved_cost_chf": 817.01,
-     "saved_kwh": 33.8,
-     "saved_co2_kg": 7.6,
+     "saved_kwh": 37.0,
+     "saved_co2_kg": 8.4,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-05",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1524.87,
      "base_kwh": 75.9,
      "base_co2_kg": 17.2,
      "saved_cost_chf": 833.19,
-     "saved_kwh": 34.5,
-     "saved_co2_kg": 7.8,
+     "saved_kwh": 37.7,
+     "saved_co2_kg": 8.5,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-06",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 35.2,
-     "saved_co2_kg": 7.9,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-07",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1495.26,
      "base_kwh": 74.4,
      "base_co2_kg": 16.8,
      "saved_cost_chf": 817.01,
-     "saved_kwh": 33.8,
-     "saved_co2_kg": 7.6,
+     "saved_kwh": 37.0,
+     "saved_co2_kg": 8.4,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:test-08",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1495.26,
      "base_kwh": 74.4,
      "base_co2_kg": 16.8,
      "saved_cost_chf": 817.01,
-     "saved_kwh": 33.8,
-     "saved_co2_kg": 7.6,
+     "saved_kwh": 37.0,
+     "saved_co2_kg": 8.4,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:qa-regression-02",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1554.48,
      "base_kwh": 77.4,
      "base_co2_kg": 17.5,
      "saved_cost_chf": 849.37,
-     "saved_kwh": 35.2,
-     "saved_co2_kg": 7.9,
+     "saved_kwh": 38.4,
+     "saved_co2_kg": 8.7,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:uat-shop",
      "cost_share": 0.5464,
-     "energy_share": 0.4544470878620496,
+     "energy_share": 0.49668358857979833,
      "relocate_to": null,
      "base_cost_chf": 1524.87,
      "base_kwh": 75.9,
      "base_co2_kg": 17.2,
      "saved_cost_chf": 833.19,
-     "saved_kwh": 34.5,
-     "saved_co2_kg": 7.8,
+     "saved_kwh": 37.7,
+     "saved_co2_kg": 8.5,
      "basis_fact_ids": [],
      "reasoning": ""
     },
     {
      "scope": "srv:gpu-ml-01",
      "cost_share": 0.5464,
-     "energy_share": 0.4287249953152635,
+     "energy_share": 0.43431587470709737,
      "relocate_to": null,
      "base_cost_chf": 11389.82,
      "base_kwh": 1159.7,
      "base_co2_kg": 421.0,
      "saved_cost_chf": 6223.4,
-     "saved_kwh": 497.2,
-     "saved_co2_kg": 180.5,
+     "saved_kwh": 503.7,
+     "saved_co2_kg": 182.8,
      "basis_fact_ids": [],
      "reasoning": ""
     }
@@ -1090,14 +1090,14 @@
      "high": 23323.16
     },
     "kwh": {
-     "low": 506.9,
-     "mid": 766.1,
-     "high": 1311.6
+     "low": 554.0,
+     "mid": 837.3,
+     "high": 1433.5
     },
     "co2_kg": {
-     "low": 101.4,
-     "mid": 173.1,
-     "high": 461.7
+     "low": 110.8,
+     "mid": 189.2,
+     "high": 504.6
     }
    },
    "status": "human",
@@ -1106,7 +1106,7 @@
    "start_date": "2026-10-01",
    "in_package": true,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:vm-test: cost × 0.75, energy × 0.62",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:vm-test: cost × 0.75, energy × 0.68",
     "inputs": [
      {
       "name": "res:vm-test baseline cost",
@@ -1142,14 +1142,14 @@
     {
      "scope": "res:vm-test",
      "cost_share": 0.75,
-     "energy_share": 0.6237835210405147,
+     "energy_share": 0.6817582200491376,
      "relocate_to": null,
      "base_cost_chf": 24674.33,
      "base_kwh": 1228.1,
      "base_co2_kg": 277.6,
      "saved_cost_chf": 18505.75,
-     "saved_kwh": 766.1,
-     "saved_co2_kg": 173.1,
+     "saved_kwh": 837.3,
+     "saved_co2_kg": 189.2,
      "basis_fact_ids": [],
      "reasoning": ""
     }
@@ -1193,14 +1193,14 @@
      "high": 23323.16
     },
     "kwh": {
-     "low": 506.9,
-     "mid": 766.1,
-     "high": 1311.6
+     "low": 554.0,
+     "mid": 837.3,
+     "high": 1433.5
     },
     "co2_kg": {
-     "low": 145.1,
-     "mid": 226.7,
-     "high": 638.9
+     "low": 147.8,
+     "mid": 234.6,
+     "high": 654.5
     }
    },
    "status": "human",
@@ -1209,7 +1209,7 @@
    "start_date": "2026-10-01",
    "in_package": false,
    "calc": {
-    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:vm-test: cost × 0.75, energy × 0.62, rest moved to CH",
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:vm-test: cost × 0.75, energy × 0.68, rest moved to CH",
     "inputs": [
      {
       "name": "res:vm-test baseline cost",
@@ -1245,14 +1245,14 @@
     {
      "scope": "res:vm-test",
      "cost_share": 0.75,
-     "energy_share": 0.6237835210405147,
+     "energy_share": 0.6817582200491376,
      "relocate_to": "CH",
      "base_cost_chf": 24674.33,
      "base_kwh": 1228.1,
      "base_co2_kg": 277.6,
      "saved_cost_chf": 18505.75,
-     "saved_kwh": 766.1,
-     "saved_co2_kg": 226.7,
+     "saved_kwh": 837.3,
+     "saved_co2_kg": 234.6,
      "basis_fact_ids": [],
      "reasoning": ""
     }
@@ -4145,14 +4145,14 @@
     "high": 153590.19
    },
    "kwh": {
-    "low": 5461.5,
-    "mid": 8171.5,
-    "high": 14006.8
+    "low": 5772.8,
+    "mid": 8634.9,
+    "high": 14800.3
    },
    "co2_kg": {
-    "low": 1197.3,
-    "mid": 2114.7,
-    "high": 4376.2
+    "low": 1221.8,
+    "mid": 2173.9,
+    "high": 4505.1
    }
   },
   "reduction": {
@@ -4162,9 +4162,9 @@
     "high": 0.2568
    },
    "co2": {
-    "low": 0.371,
-    "mid": 0.4717,
-    "high": 0.6332
+    "low": 0.3819,
+    "mid": 0.4849,
+    "high": 0.6462
    }
   },
   "meets": {
@@ -4188,9 +4188,9 @@
    }
   ],
   "goal": "climate_first",
-  "p_meet_co2": 0.9085,
+  "p_meet_co2": 0.947,
   "is_safest": true,
-  "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)"
+  "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (minimum 70%)"
  },
  "packages": {
   "climate_first": {
@@ -4223,14 +4223,14 @@
      "high": 153590.19
     },
     "kwh": {
-     "low": 5461.5,
-     "mid": 8171.5,
-     "high": 14006.8
+     "low": 5772.8,
+     "mid": 8634.9,
+     "high": 14800.3
     },
     "co2_kg": {
-     "low": 1197.3,
-     "mid": 2114.7,
-     "high": 4376.2
+     "low": 1221.8,
+     "mid": 2173.9,
+     "high": 4505.1
     }
    },
    "reduction": {
@@ -4240,9 +4240,9 @@
      "high": 0.2568
     },
     "co2": {
-     "low": 0.371,
-     "mid": 0.4717,
-     "high": 0.6332
+     "low": 0.3819,
+     "mid": 0.4849,
+     "high": 0.6462
     }
    },
    "meets": {
@@ -4265,9 +4265,9 @@
      "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
     }
    ],
-   "safety_met": null,
-   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)",
-   "p_meet_co2": 0.9085,
+   "safety_met": true,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (minimum 70%)",
+   "p_meet_co2": 0.947,
    "is_safest": true
   },
   "best_value": {
@@ -4277,49 +4277,50 @@
     "M-01",
     "M-03",
     "M-08",
-    "M-15",
-    "M-19",
+    "M-25",
+    "M-26",
+    "M-33",
     "M-36"
    ],
-   "effort_days": 12.0,
-   "effort_chf": 13200.0,
+   "effort_days": 13.5,
+   "effort_chf": 14850.0,
    "savings": {
     "cost_chf": {
-     "low": 120748.4,
-     "mid": 120888.34,
-     "high": 121012.67
+     "low": 121111.8,
+     "mid": 121263.33,
+     "high": 121396.76
     },
     "cost_eur": {
-     "low": 130619.71,
-     "mid": 130771.09,
-     "high": 130905.59
+     "low": 131020.69,
+     "mid": 131184.62,
+     "high": 131328.97
     },
     "cost_usd": {
-     "low": 151991.03,
-     "mid": 152167.17,
-     "high": 152323.68
+     "low": 152453.41,
+     "mid": 152644.16,
+     "high": 152812.12
     },
     "kwh": {
-     "low": 5461.5,
-     "mid": 8171.5,
-     "high": 14006.8
+     "low": 5939.0,
+     "mid": 9244.5,
+     "high": 16348.8
     },
     "co2_kg": {
-     "low": 1008.6,
-     "mid": 1856.7,
-     "high": 3854.1
+     "low": 1071.9,
+     "mid": 2031.7,
+     "high": 4333.0
     }
    },
    "reduction": {
     "cost": {
-     "low": 0.2542,
-     "mid": 0.2545,
-     "high": 0.2547
+     "low": 0.2549,
+     "mid": 0.2552,
+     "high": 0.2555
     },
     "co2": {
-     "low": 0.3267,
-     "mid": 0.4142,
-     "high": 0.5334
+     "low": 0.3673,
+     "mid": 0.4532,
+     "high": 0.5669
     }
    },
    "meets": {
@@ -4342,9 +4343,9 @@
      "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
     }
    ],
-   "safety_met": null,
-   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)",
-   "p_meet_co2": 0.3969,
+   "safety_met": true,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (minimum 80%)",
+   "p_meet_co2": 0.8395,
    "is_safest": false
   },
   "francs_first": {
@@ -4353,55 +4354,54 @@
    "measure_ids": [
     "M-01",
     "M-03",
-    "M-04",
     "M-08",
     "M-13",
     "M-15",
     "M-17",
     "M-19",
-    "M-21",
     "M-25",
-    "M-33"
+    "M-33",
+    "M-36"
    ],
    "effort_days": 15.0,
    "effort_chf": 16500.0,
    "savings": {
     "cost_chf": {
-     "low": 144978.82,
-     "mid": 145129.24,
-     "high": 145261.62
+     "low": 142740.69,
+     "mid": 142892.22,
+     "high": 143025.65
     },
     "cost_eur": {
-     "low": 156828.09,
-     "mid": 156990.81,
-     "high": 157134.02
+     "low": 154407.38,
+     "mid": 154571.3,
+     "high": 154715.64
     },
     "cost_usd": {
-     "low": 182489.66,
-     "mid": 182679.0,
-     "high": 182845.64
+     "low": 179672.71,
+     "mid": 179863.45,
+     "high": 180031.4
     },
     "kwh": {
-     "low": 5421.6,
-     "mid": 8383.1,
-     "high": 14616.6
+     "low": 5916.8,
+     "mid": 9133.6,
+     "high": 15905.2
     },
     "co2_kg": {
-     "low": 956.2,
-     "mid": 1807.3,
-     "high": 3782.7
+     "low": 1068.6,
+     "mid": 2008.1,
+     "high": 4199.9
     }
    },
    "reduction": {
     "cost": {
-     "low": 0.3052,
-     "mid": 0.3055,
-     "high": 0.3058
+     "low": 0.3005,
+     "mid": 0.3008,
+     "high": 0.3011
     },
     "co2": {
-     "low": 0.3207,
-     "mid": 0.4031,
-     "high": 0.5057
+     "low": 0.3561,
+     "mid": 0.4479,
+     "high": 0.5652
     }
    },
    "meets": {
@@ -4424,9 +4424,9 @@
      "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
     }
    ],
-   "safety_met": null,
-   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)",
-   "p_meet_co2": 0.2388,
+   "safety_met": true,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (minimum 70%)",
+   "p_meet_co2": 0.7497,
    "is_safest": false
   },
   "safest": {
@@ -4459,14 +4459,14 @@
      "high": 153590.19
     },
     "kwh": {
-     "low": 5461.5,
-     "mid": 8171.5,
-     "high": 14006.8
+     "low": 5772.8,
+     "mid": 8634.9,
+     "high": 14800.3
     },
     "co2_kg": {
-     "low": 1197.3,
-     "mid": 2114.7,
-     "high": 4376.2
+     "low": 1221.8,
+     "mid": 2173.9,
+     "high": 4505.1
     }
    },
    "reduction": {
@@ -4476,9 +4476,9 @@
      "high": 0.2568
     },
     "co2": {
-     "low": 0.371,
-     "mid": 0.4717,
-     "high": 0.6332
+     "low": 0.3819,
+     "mid": 0.4849,
+     "high": 0.6462
     }
    },
    "meets": {
@@ -4502,8 +4502,8 @@
     }
    ],
    "safety_met": null,
-   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)",
-   "p_meet_co2": 0.9085,
+   "safety_rule": "the highest share of 10,000 Monte Carlo scenarios reaching −40% CO2",
+   "p_meet_co2": 0.947,
    "is_safest": true,
    "same_as": "climate_first"
   }

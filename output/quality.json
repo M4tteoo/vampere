@@ -1,7 +1,7 @@
 {
   "meta": {
     "schema_version": "0.1",
-    "generated_at": "2026-11-21T18:43:28+01:00",
+    "generated_at": "2026-11-21T19:34:04+01:00",
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -1887,7 +1887,7 @@
       "source_file": "advisor",
       "issue_type": "advisor_applied",
       "rows_affected": 38,
-      "action": "31 findings, 38 measures, 16 limits; package CO2 −47.2%, cost −25.7%, effort 15.0 d",
+      "action": "31 findings, 38 measures, 16 limits; package CO2 −48.5%, cost −25.7%, effort 15.0 d",
       "detail": "tickets withheld from the reader: 2; ignored by the reader: 0",
       "amount_chf": null,
       "resource_id": null,
@@ -1899,7 +1899,7 @@
       "category": null,
       "source_file": "submission",
       "issue_type": "template_written",
-      "rows_affected": 21,
+      "rows_affected": 22,
       "action": "template_baseline_and_assumptions.csv filled from the engine",
       "detail": "Must rows without value: none",
       "amount_chf": null,
