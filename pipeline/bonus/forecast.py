@@ -94,8 +94,9 @@ def _prepare_history(ctx: Context, table: str, first: pd.Timestamp, fx: dict[str
 
 
 def _project(rates: dict, season: dict, seats: np.ndarray, ai: np.ndarray, month: pd.Timestamp,
-             years: float, month_fraction: float) -> dict:
+             years: float, month_fraction: float) -> tuple[dict, dict]:
     categories = defaultdict(lambda: np.zeros((3, 3)))
+    resources = defaultdict(lambda: np.zeros((3, 3)))
     for (resource, category, location, _, unit), run_rate in rates.items():
         growth = seats if unit in SEAT_UNITS else ai if unit == "tokens" else 0
         values = run_rate * (1 + growth) ** years
@@ -108,7 +109,8 @@ def _project(rates: dict, season: dict, seats: np.ndarray, ai: np.ndarray, month
         if location in {"DE", "IE"}:
             values[2, 0] *= 0.97 ** years
         categories[category] += values * month_fraction
-    return categories
+        resources[(resource, category)] += values * month_fraction
+    return categories, resources
 
 
 def build_forecast(ctx: Context) -> dict:
@@ -140,9 +142,11 @@ def build_forecast(ctx: Context) -> dict:
         month_end = min(month + pd.offsets.MonthBegin(), end_exclusive)
         month_fraction = (month_end - month).days / month.days_in_month
         years = step / 12
-        without = _project(original_rates, original_season, seats, ai, month, years, month_fraction)
-        with_ = _project(optimized[0], optimized[1], seats, ai, month, years, month_fraction) if optimized else None
+        without, without_res = _project(original_rates, original_season, seats, ai, month, years, month_fraction)
+        with_, with_res = (_project(optimized[0], optimized[1], seats, ai, month, years, month_fraction)
+                           if optimized else (None, None))
         categories = without.keys() | (with_.keys() if with_ is not None else set())
+        resources = without_res.keys() | (with_res.keys() if with_res is not None else set())
         months.append({
             "month": month.date().isoformat(),
             "without": _format(sum(without.values(), zero), fx),
@@ -150,6 +154,11 @@ def build_forecast(ctx: Context) -> dict:
             "by_category": {cat: {"without": _format(without.get(cat, zero), fx),
                                   "with": _format(with_.get(cat, zero), fx) if with_ is not None else None}
                             for cat in sorted(categories)},
+            "by_resource": {resource: {"category": category,
+                                       "without": _format(without_res.get((resource, category), zero), fx),
+                                       "with": _format(with_res.get((resource, category), zero), fx)
+                                       if with_res is not None else None}
+                            for resource, category in sorted(resources, key=str)},
         })
 
     return {

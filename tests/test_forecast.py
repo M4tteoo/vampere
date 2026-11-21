@@ -71,6 +71,7 @@ class ForecastTest(unittest.TestCase):
         for month in forecast["months"]:
             self.assertIsNone(month["with"])
             self.assertIsNone(month["by_category"]["cloud"]["with"])
+            self.assertIsNone(month["by_resource"]["dp-dev"]["with"])
 
     def test_both_histories_get_the_same_projection_rules_and_partial_month(self):
         months = ("2026-06-01", "2026-07-01", "2026-08-01")
@@ -83,6 +84,12 @@ class ForecastTest(unittest.TestCase):
         self.assertEqual(sep["by_category"]["server"]["without"]["kwh"]["mid"], 0)
         self.assertEqual(oct_["by_category"]["cloud"]["without"]["kwh"]["mid"], 120)
         self.assertEqual(oct_["by_category"]["cloud"]["with"]["kwh"]["mid"], 60)
+        resources = sep["by_resource"]
+        self.assertEqual(resources["dp-prod"]["category"], "cloud")
+        self.assertEqual(resources["dp-prod"]["without"]["cost_chf"]["mid"], 310)
+        self.assertEqual(resources["dp-prod"]["with"]["cost_chf"]["mid"], 155)
+        self.assertEqual(resources["new-server"]["without"]["cost_chf"]["mid"], 0)
+        self.assertEqual(resources["new-server"]["with"]["cost_chf"]["mid"], 10)
         last_cloud = forecast["months"][-1]["by_category"]["cloud"]
         self.assertEqual(last_cloud["without"]["cost_chf"]["mid"], 360)
         self.assertEqual(last_cloud["with"]["cost_chf"]["mid"], 180)

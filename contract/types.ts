@@ -496,7 +496,12 @@ export interface OptimizedHistoryCoverage {
 export interface ForecastFile {
   meta: Meta;
   horizon: { start: ISODate; end_exclusive: ISODate };
-  months: (ForecastComparison & { month: ISODate; by_category: Partial<Record<Category, ForecastComparison>> })[];
+  months: (ForecastComparison & {
+    month: ISODate;
+    by_category: Partial<Record<Category, ForecastComparison>>;
+    /** One entry per consuming resource (resource_id); sums to the month total. */
+    by_resource: Record<string, ForecastComparison & { category: Category }>;
+  })[];
   events: { date: ISODate; resource_id: string; label: string; source: string }[];
   assumptions: {
     id: string;
