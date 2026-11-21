@@ -145,6 +145,8 @@ Example: moving dp-dev to Zurich is `{dp-dev, DE, +X kWh}` plus `{dp-dev, CH, �
 
 ### A4 · Clustering (`clusters.py`)
 
+**Status: done.** k = 4 (silhouette 0.71): on demand (24 sandboxes) · always on, almost idle (dp-dev, gpu-ml-01, dr-failover, 3 orphans: 54 % of the clustered CO₂) · always on, lightly used (test / UAT / QA) · steady workload (app servers + dp-prod). No outliers at robust z > 3; `differs_by` explains every member.
+
 **Goal:** group servers and clusters by behaviour, name the groups, and explain the outliers.
 
 - **Inputs** (all already clean): `stg_server_metrics_weekly` (53 servers, about 97 weeks: CPU avg/max, RAM, network, uptime_h, GPU), `stg_server_inventory` (type, owner, last_login, environment, project), `stg_data_platform_usage` (runtime vs active hours for dp-prod and dp-dev).
@@ -173,6 +175,8 @@ Example: moving dp-dev to Zurich is `{dp-dev, DE, +X kWh}` plus `{dp-dev, CH, �
 - **Can start now:** yes, fully.
 
 ### A1 · Chat assistant (`assistant/`)
+
+**Status: done (v1).** OpenAI Responses API (`gpt-5.4`, classifier `gpt-5.4-mini`). 16 read-only tools, number verifier, HTTP API, attack suite 23/23 (example 3/3, injections in the data 5/5, planted 5/5, user attacks 10/10). The classifier flags exactly the 4 injections in the data. Answers get richer automatically once findings, measures and limits exist (`analysis` tool).
 
 **Goal:** answers questions about the data and the measures, and every answer shows its number, formula and source.
 

@@ -12,3 +12,6 @@ dist/
 # pipeline outputs (regenerate with: python -m pipeline.run)
 output/**/*.duckdb
 output/**/*.duckdb.wal
+
+# assistant: per-call token log (energy of our own AI), local only
+output/assistant/usage.jsonl

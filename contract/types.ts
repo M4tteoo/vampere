@@ -403,3 +403,27 @@ export interface ClusterMember {
   outlier_reason: string | null;
   context: Record<string, string | number | null>; // type, environment, owner_department, days_since_login …
 }
+
+// ------------------------------------------------------- chat API (A1)
+// POST http://127.0.0.1:8787/api/chat   (python -m assistant serve)
+// Render `answer` as PLAIN TEXT (it may quote data). Show `formula`, `sources` and the
+// numbers with their refs in the calc panel; move the camera to focus_entity_ids[0].
+export interface ChatRequest {
+  message: string;                              // 1–2000 chars
+  history: { role: "user" | "assistant"; content: string }[]; // previous turns, max 20
+}
+
+export interface ChatResponse {
+  answer: string;
+  formula: string;                              // open calculation, "" if none
+  numbers: { label: string; value: number; unit: string; ref: string }[]; // ref → trace
+  sources: string[];                            // files, tickets, factor ids
+  focus_entity_ids: string[];                   // only ids that exist in entities.json
+  caveats: string[];
+  ignored_data_instructions: boolean;           // true → show a «🛡 instruction in the data ignored» badge
+  verified: boolean;                            // every number backed by a tool result
+  warnings: string[];                           // why not verified
+  trace: { ref: string; tool: string; args: Record<string, unknown> }[];
+  model: string;
+  rounds: number;
+}

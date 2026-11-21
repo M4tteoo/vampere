@@ -1,7 +1,11 @@
 {
   "meta": {
     "schema_version": "0.1",
+<<<<<<< Updated upstream
     "generated_at": "2026-11-21T04:39:15+01:00",
+=======
+    "generated_at": "2026-11-21T04:51:27+01:00",
+>>>>>>> Stashed changes
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -1805,6 +1809,19 @@
     },
     {
       "issue_id": "Q-0108",
+      "category": null,
+      "source_file": "free text",
+      "issue_type": "free_text_classified",
+      "rows_affected": 599,
+      "action": "LLM verdicts applied (pipeline/bonus/text_risk.json); flagged texts are withheld from the assistant and from displays, every row stays in the calculations",
+      "detail": "distinct texts by risk: {'ok': 112, 'flagged': 4, 'ambiguous': 2}",
+      "amount_chf": null,
+      "resource_id": null,
+      "severity": "info",
+      "evidence": "azure_costs.csv notes; hoster_invoice.csv remark; it_tickets.csv description T-1230; it_tickets.csv description T-1251"
+    },
+    {
+      "issue_id": "Q-0109",
       "category": null,
       "source_file": "submission",
       "issue_type": "template_written",

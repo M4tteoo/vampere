@@ -50,14 +50,14 @@ def main(argv: list[str] | None = None) -> int:
     post.tag_one_offs(ctx)
     post.detect_anomalies(ctx)
     energy.compute(ctx)
-    bonus.after_energy(ctx)      # bonus modules that add columns to fact_cost (e.g. market-based CO2)
+    status = bonus.after_energy(ctx)    # bonus modules that add columns to fact_cost (e.g. market-based CO2)
     post.apply_materiality(ctx)
     find.find(ctx)
     submission.write_baseline(ctx)
     store.write(ctx)
     frontend.export(ctx)
     answers.write(ctx)
-    status = bonus.after_export(ctx)  # bonus modules that write their own outputs
+    status |= bonus.after_export(ctx)   # bonus modules that write their own outputs
     _summary(ctx, time.time() - t0)
     if status:
         print("\nBonus modules:", status)

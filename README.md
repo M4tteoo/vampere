@@ -33,6 +33,27 @@ Reads all 28 exports and writes `output/greenops.duckdb` (harmonized tables), `o
 
 Main tables: `fact_cost` (every franc, with native amount, CHF/EUR/USD, value status and range, department, source row), `fact_activity` (physical quantities), `issues`, `free_text` (inert text, `text_risk` for a later LLM classifier), `dim_*`, `stg_*` (one cleaned table per source). Views: `v_cost_baseline`, `v_cost_allocated`, `v_focus_cost`, `v_coverage`.
 
+## Assistant (bonus A1)
+
+A chat assistant on the pipeline results (OpenAI, `assistant/config.yaml`). It only **reads**: 16 read-only tools over DuckDB and `output/*.json`; every number in an answer is checked against the tool results before it is returned.
+
+```bash
+uv pip install -p .venv -r requirements-assistant.txt
+echo "OPENAI_API_KEY=sk-..." > .env            # never committed
+.venv/bin/python -m assistant ask "How many AI seats were unused in August 2026?"
+.venv/bin/python -m assistant serve             # POST http://127.0.0.1:8787/api/chat (contract: ChatRequest / ChatResponse)
+.venv/bin/python -m assistant eval              # attack suite + the 3 example questions
+.venv/bin/python -m assistant classify          # only when free texts change → pipeline/bonus/text_risk.json
+```
+
+Defence against the prompt injections hidden in the data:
+1. No AI in the calculations: pipeline, formulas and rules are code.
+2. Free texts are classified once by an LLM (`text_risk`: ok / ambiguous / flagged). The verdicts are committed, so the pipeline stays offline. Flagged texts are withheld everywhere.
+3. Tools are read-only; data text reaches the model only wrapped as untrusted data.
+4. Authority comes only from the system prompt and the user; approvals written in the data count for nothing.
+5. Verifier: every number must come from a tool result. Numbers from unclassified or flagged text never count.
+6. Attack suite (`assistant/evals/cases.yaml`): the injections in the data, injections planted into tool results, and user attacks.
+
 ## Structure
 
 - `case.md` — case description

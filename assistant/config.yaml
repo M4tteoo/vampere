@@ -1,0 +1,17 @@
+# GreenOps assistant (bonus A1). Secrets are NOT here: OPENAI_API_KEY comes from .env.
+
+chat_model: gpt-5.4            # answers + tool use (Responses API)
+classifier_model: gpt-5.4-mini # free-text risk classifier (python -m assistant classify)
+reasoning_effort: low          # none | low | medium | high
+max_tool_rounds: 8             # tool-call rounds per answer before giving up
+verify_retries: 1              # re-asks when the answer contains numbers no tool returned
+
+# Data the tools read (read-only). Paths relative to the repository root.
+output_dir: output
+duckdb_file: output/greenops.duckdb
+usage_log: output/assistant/usage.jsonl   # tokens per call → «energy of our own AI»
+
+server:
+  host: 127.0.0.1
+  port: 8787
+  cors_origins: ["http://localhost:5173", "http://127.0.0.1:5173"]
