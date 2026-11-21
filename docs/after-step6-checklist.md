@@ -86,6 +86,7 @@ File: `docs/pitch-notes.md`
 
 The sentence in `docs/pitch-notes.md` currently counts **only the chat assistant** (about 65 Wh, about 14 g CO₂ so far). Before the pitch, add **every** AI use:
 
+- [ ] **One command for the total:** `.venv/bin/python -m assistant energy <every usage.jsonl you collected> [--advisor-estimate]` sums the logs with the factors below. `--advisor-estimate` adds the saved final advisor run, rebuilt from `output/advisor/`. Leave it out if the advisor runs are already in a log you pass, otherwise they are counted twice.
 - [ ] **Chat assistant (A1):** `output/assistant/usage.jsonl` logs every call (development, tests, demo). It's local and git-ignored, so **each person who ran the assistant** must sum their own file.
 - [ ] **The other LLM my teammate is building:** it must log its calls in the **same format**, one JSON line per call:
   ```json
