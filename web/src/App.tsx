@@ -52,7 +52,8 @@ export default function App() {
 
   return (
     <div className="flex h-full flex-col bg-white">
-      <Header />
+      {/* Durante l'intro niente barra: si vede solo la pianta. */}
+      {introDone && <Header />}
       <Ticker />
       <main className="relative min-h-0 flex-1">
         <Scene />

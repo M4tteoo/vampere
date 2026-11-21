@@ -292,7 +292,7 @@ function Legend({ compact }: { compact: boolean }) {
   const scale = heat.scale ? { lo: heat.scale.lo, hi: heat.scale.hi, metric: heat.metric } : null
   if (!open)
     return (
-      <div className="pointer-events-auto absolute bottom-6 left-6">
+      <div className={`pointer-events-auto absolute left-6 ${compact ? 'bottom-[150px]' : 'bottom-6'}`}>
         <PillButton onClick={() => setOpen(true)}>How to read the map</PillButton>
       </div>
     )
@@ -303,7 +303,7 @@ function Legend({ compact }: { compact: boolean }) {
   ]
   const eu = x.series.get('loc:EU')?.co2_kg.reduce((a, v) => a + v, 0) ?? 0
   return (
-    <div className="pill-shadow pointer-events-auto absolute bottom-6 left-6 w-[264px] rounded-[14px] bg-white p-4 text-[12px] text-body">
+    <div className={`pill-shadow pointer-events-auto absolute left-6 w-[264px] rounded-[14px] bg-white p-4 text-[12px] text-body ${compact ? 'bottom-[150px]' : 'bottom-6'}`}>
       <div className="flex items-center justify-between">
         <h3 className="text-[14px] font-semibold text-ink">How to read the map</h3>
         <button onClick={() => setOpen(false)} aria-label="Close" className="text-muted hover:text-ink">
@@ -515,7 +515,7 @@ function ForecastCharts({ x, onClose }: { x: Extra; onClose: () => void }) {
   if (!fc) return null
   const pkgGoal = GOAL_LABEL[fc.goal] ?? fc.goal
   return (
-    <aside className="pill-shadow pointer-events-auto absolute top-6 right-6 bottom-6 flex flex-col overflow-hidden rounded-[14px] bg-white" style={{ width: PANEL_W }}>
+    <aside className="pill-shadow pointer-events-auto absolute top-6 right-6 flex max-h-[calc(100%-48px)] flex-col overflow-hidden rounded-[14px] bg-white" style={{ width: PANEL_W }}>
       <div className="flex items-start justify-between gap-4 px-6 pt-6">
         <div>
           <div className="text-[13px] text-muted">Sep 2026 – Aug 2027 · forecast</div>

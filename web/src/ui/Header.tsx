@@ -1,9 +1,9 @@
 import { useApp, type Step } from '../store'
-import { useIntro } from '../intro/store'
+import { Logo } from './Logo'
 
 /** Passi della demo, nell'ordine in cui li racconta. Misure e limiti stanno dentro il passo 2 (interruttore), l'export nei passi 2 e 3. */
 export const STEPS: { id: Step; label: string }[] = [
-  { id: 'allocation', label: 'Who uses what' },
+  { id: 'allocation', label: 'Consumption map' },
   { id: 'baseline', label: 'Baseline & hotspots' },
   { id: 'packages', label: 'Packages' },
   { id: 'forecast', label: 'Next 12 months' },
@@ -17,7 +17,6 @@ export function Header() {
   const simDone = useApp((s) => s.simDone)
   const isMock = useApp((s) => s.data?.summary.is_mock)
   const hasExtra = useApp((s) => !!s.data?.extra)
-  const hasLocalAi = useApp((s) => !!s.data?.localAi)
 
   const ready = (id: Step): { ok: boolean; why?: string } => {
     if (id === 'allocation') return { ok: true }
@@ -29,10 +28,7 @@ export function Header() {
   return (
     <header className="relative z-40 flex h-[88px] shrink-0 items-center justify-between bg-white px-8">
       <button onClick={() => setRoom(null)} className="flex w-48 items-center gap-2" aria-label="Back to the floor plan">
-        <svg viewBox="0 0 32 32" className="h-7 w-7 text-primary" fill="currentColor" aria-hidden>
-          <path d="M27 5c-9.5-.4-17.6 2.6-20.4 9.3-1.6 3.8-.8 7.4 1.2 9.9-1.3 1.3-2.3 2.6-3 3.8l1.7 1c.7-1.2 1.7-2.5 3-3.8 2.5 1.6 6.1 2 9.6.2C25.5 22.3 27.8 13.8 27 5zm-6 6.4c-3.6 2.2-7.4 5.4-10.4 8.7l-1.4-1.4c3.1-3.4 7-6.7 10.8-9z" />
-        </svg>
-        <span className="text-[20px] font-semibold tracking-[-0.4px] text-primary">greenops</span>
+        <Logo />
       </button>
 
       <nav className="pill-shadow flex h-16 items-center rounded-full border border-hairline bg-white px-3">
@@ -63,31 +59,7 @@ export function Header() {
       </nav>
 
       <div className="flex w-48 items-center justify-end gap-2">
-        <button
-          onClick={() => {
-            // L'intro costruisce l'ufficio «vero»: si torna al passo 1.
-            if (step !== 'allocation') setStep('allocation')
-            setRoom(null)
-            useIntro.getState().replay()
-          }}
-          title="Replay: build the twin from the floor plan"
-          className="rounded-full border border-hairline px-4 py-2 text-[14px] font-medium whitespace-nowrap text-ink transition hover:bg-surface-soft"
-        >
-          Floor plan
-        </button>
         {isMock && <span className="rounded-full border border-hairline px-2.5 py-1 text-[12px] font-medium text-muted">Demo data</span>}
-        {hasLocalAi && (
-          // Vista consultiva a parte: non è un passo della pipeline e non cambia nessun numero.
-          <button
-            onClick={() => setStep(step === 'local_ai' ? 'allocation' : 'local_ai')}
-            title="Advisory view: open-weight models on available servers"
-            className={`rounded-full border px-4 py-2 text-[14px] font-medium whitespace-nowrap transition ${
-              step === 'local_ai' ? 'border-ink bg-ink text-white' : 'border-hairline text-ink hover:bg-surface-soft'
-            }`}
-          >
-            Local AI
-          </button>
-        )}
       </div>
     </header>
   )

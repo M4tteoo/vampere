@@ -113,5 +113,5 @@ function CameraRig() {
     c.setLookAt(pos.x, pos.y, pos.z, target.x, target.y, target.z, true)
   }, [room, panel, size, layout, step, building])
 
-  return <CameraControls ref={ref} makeDefault enabled={false} smoothTime={0.7} minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
+  return <CameraControls ref={ref} makeDefault enabled={false} smoothTime={0.45} minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
 }

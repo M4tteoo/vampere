@@ -55,6 +55,7 @@ export function SceneLabels() {
             active={stage === 'office'}
             hovered={hoverId === 'stage:office'}
             title="Software & services"
+            left
             sub={`${seats} computers · licences, SaaS and AI`}
             onClick={() => setStage('office')}
           />
@@ -153,8 +154,8 @@ function HeatLabels() {
 }
 
 /** Titolo di un palco: grande e scuro quando è in primo piano, piccolo e cliccabile quando è di lato. */
-function StageTitle(props: { at?: [number, number]; active: boolean; hovered: boolean; title: string; sub: string; onClick: () => void }) {
-  const { at, active, hovered, title, sub, onClick } = props
+function StageTitle(props: { at?: [number, number]; active: boolean; hovered: boolean; title: string; sub: string; onClick: () => void; left?: boolean }) {
+  const { at, active, hovered, title, sub, onClick, left } = props
   if (!at) return null
   return (
     <button
@@ -164,8 +165,10 @@ function StageTitle(props: { at?: [number, number]; active: boolean; hovered: bo
       className={`pointer-events-auto absolute -translate-x-1/2 -translate-y-full text-center whitespace-nowrap transition ${active ? 'cursor-default' : 'opacity-80 hover:opacity-100'}`}
     >
       <div className={`font-semibold tracking-[-0.3px] ${active ? 'text-[18px] text-ink' : `text-[14px] ${hovered ? 'text-primary' : 'text-body'}`}`}>
+        {/* La freccia indica dove sta il palco laterale: a sinistra l'ufficio, a destra le isole. */}
+        {!active && left && <span className="mr-1">←</span>}
         {title}
-        {!active && <span className="ml-1">→</span>}
+        {!active && !left && <span className="ml-1">→</span>}
       </div>
       <div className={`text-muted ${active ? 'text-[13px]' : 'text-[12px]'}`}>{sub}</div>
     </button>

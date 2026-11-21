@@ -25,14 +25,12 @@ export function ItemPanel() {
 
   return (
     <aside
-      className="pill-shadow pointer-events-auto absolute top-6 right-6 bottom-6 flex flex-col overflow-hidden rounded-[14px] bg-white"
+      className="pill-shadow pointer-events-auto absolute top-6 right-6 flex max-h-[calc(100%-48px)] flex-col overflow-hidden rounded-[14px] bg-white"
       style={{ width: PANEL_W }}
     >
       <div className="flex items-start justify-between gap-4 px-6 pt-6">
         <div className="min-w-0">
-          <div className="text-[13px] text-muted">
-            {headerOf(ctx, item)}
-          </div>
+          {!seat && <div className="text-[13px] text-muted">{headerOf(ctx, item)}</div>}
           <h2 className="mt-1 text-[22px] leading-tight font-medium tracking-[-0.44px] text-ink">
             {seat ? `${DEPT_LABEL[item.room ?? ''] ?? ''} computers` : labelOf(ctx, item)}
           </h2>

@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { BLUEPRINT_URL, LAND_S, SCAN_S, useIntro, type BlueprintMeta, type PaperRect } from '../intro/store'
 import { loadBlueprintMeta, BUILD_ORDER } from '../scene/twin/BlueprintBuild'
+import { Logo } from './Logo'
 
 const LOG_W = 360
 /** Colore del riconoscimento (muri e vetrate, locali): lo stesso di .bp-detect #walls in index.css. */
 const DETECT = '#7dffbf'
 const ASPECT = 59.4 / 42
-const SAMPLE_NAME = 'A-101_Floor-plan_Level-01.svg'
+const PLAN_NAME = 'A-101_Floor-plan_Level-01.svg'
 
 /** Passi della «lettura» della pianta: [inizio, fine] in secondi dall'inizio della scansione. */
 const STEPS: { at: [number, number]; title: string }[] = [
@@ -36,48 +37,30 @@ export function BlueprintIntro() {
 // ---------------------------------------------------------------------------------------------------------
 function Upload() {
   const start = useIntro((s) => s.start)
-  const skip = useIntro((s) => s.skip)
-  const [over, setOver] = useState(false)
   const input = useRef<HTMLInputElement>(null)
 
   return (
-    <div
-      className="pointer-events-auto absolute inset-0 z-50 grid place-items-center bg-white"
-      onDragOver={(e) => {
-        e.preventDefault()
-        setOver(true)
-      }}
-      onDragLeave={() => setOver(false)}
-      onDrop={(e) => {
-        e.preventDefault()
-        setOver(false)
-        const f = e.dataTransfer.files[0]
-        if (f) start(f.name)
-      }}
-    >
-      <button onClick={skip} className="absolute top-5 right-8 text-[14px] font-medium text-muted hover:text-ink">
-        Skip intro
-      </button>
+    <div className="pointer-events-auto absolute inset-0 z-50 grid place-items-center bg-white">
+      <div className="absolute top-7 left-8">
+        <Logo />
+      </div>
 
       <div className="flex w-[min(880px,92vw)] flex-col items-center text-center">
         <p className="text-[13px] font-semibold tracking-[0.12em] text-primary uppercase">Digital twin setup</p>
         <h1 className="mt-3 text-[36px] leading-tight font-semibold tracking-[-0.6px] text-ink">Start from your floor plan</h1>
-        <p className="mt-3 max-w-[560px] text-[16px] text-muted">
-          Upload an architectural plan. GreenOps reads walls, rooms and workstations and builds the 3D office from its module library.
-        </p>
+        <p className="mt-3 max-w-[560px] text-[16px] text-muted">Vampére reads walls, rooms and workstations and builds the 3D office from its module library.</p>
 
-        <div
-          onClick={() => input.current?.click()}
-          className={`mt-9 flex w-full cursor-pointer flex-col items-center rounded-[var(--radius-lg)] border-2 border-dashed px-8 py-10 transition ${
-            over ? 'border-primary bg-primary-soft' : 'border-hairline hover:border-muted-soft hover:bg-surface-soft'
-          }`}
-        >
-          <svg viewBox="0 0 48 48" className={`h-12 w-12 ${over ? 'text-primary' : 'text-muted-soft'}`} fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-            <path d="M8 34v6h32v-6" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M24 30V8m0 0-8 8m8-8 8 8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <p className="mt-4 text-[18px] font-semibold text-ink">{over ? 'Release to import' : 'Drop a floor plan here'}</p>
-          <p className="mt-1 text-[14px] text-muted">DWG · DXF · PDF · SVG · PNG — or click to browse</p>
+        <div className="mt-10 flex w-full items-center justify-between">
+          <h2 className="text-[16px] font-semibold text-ink">Your floor plans</h2>
+          <button
+            onClick={() => input.current?.click()}
+            className="flex items-center gap-2 rounded-full border border-hairline px-4 py-2 text-[14px] font-medium text-ink hover:bg-surface-soft"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden>
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Upload a plan
+          </button>
           <input
             ref={input}
             type="file"
@@ -90,28 +73,14 @@ function Upload() {
           />
         </div>
 
-        <div className="mt-6 flex w-full items-center gap-4 text-[13px] text-muted-soft">
-          <span className="h-px flex-1 bg-hairline" />
-          or try the sample
-          <span className="h-px flex-1 bg-hairline" />
-        </div>
-
-        <div className="pill-shadow mt-6 flex w-full items-center gap-5 rounded-[var(--radius-md)] bg-white p-3 text-left">
-          <img src={BLUEPRINT_URL} alt="Sample floor plan A-101" className="h-[92px] w-[130px] rounded-[var(--radius-sm)] border border-hairline-soft object-cover" />
+        <div className="pill-shadow mt-4 flex w-full items-center gap-5 rounded-[var(--radius-md)] bg-white p-3 text-left">
+          <img src={BLUEPRINT_URL} alt="Floor plan A-101" className="h-[92px] w-[130px] rounded-[var(--radius-sm)] border border-hairline-soft object-cover" />
           <div className="min-w-0 flex-1">
             <p className="text-[16px] font-semibold text-ink">A-101 · Floor plan · Level 01</p>
             <p className="mt-0.5 text-[14px] text-muted">Basel head office · 1:100 on A2 · as built</p>
           </div>
-          <a
-            href={BLUEPRINT_URL}
-            download={SAMPLE_NAME}
-            onClick={(e) => e.stopPropagation()}
-            className="rounded-full border border-hairline px-4 py-2.5 text-[14px] font-medium text-ink hover:bg-surface-soft"
-          >
-            Download
-          </a>
-          <button onClick={() => start(SAMPLE_NAME)} className="rounded-full bg-primary px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-primary-active">
-            Use sample plan
+          <button onClick={() => start(PLAN_NAME)} className="rounded-full bg-primary px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-primary-active">
+            Build the 3D twin
           </button>
         </div>
       </div>
@@ -126,7 +95,6 @@ function Reading() {
   const fileName = useIntro((s) => s.fileName)
   const paper = useIntro((s) => s.paper)
   const next = useIntro((s) => s.next)
-  const skip = useIntro((s) => s.skip)
   const root = useRef<HTMLDivElement>(null)
   const [meta, setMeta] = useState<BlueprintMeta | null>(null)
   const [svg, setSvg] = useState<string | null>(null)
@@ -203,11 +171,6 @@ function Reading() {
 
       {phase === 'scan' && meta && <Log t={t} fileName={fileName} />}
 
-      {phase !== 'build' && (
-        <button onClick={skip} className="absolute top-5 right-8 z-10 text-[14px] font-medium text-muted hover:text-ink">
-          Skip
-        </button>
-      )}
     </div>
   )
 }

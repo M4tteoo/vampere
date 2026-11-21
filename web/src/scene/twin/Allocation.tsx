@@ -34,6 +34,8 @@ export const ISLAND_LABEL: Record<string, string> = { zurich: 'Zurich', frankfur
 /** Altezza del palco laterale rispetto a quello principale, e spazio fra i due (in larghezze del principale). */
 const SIDE = 0.36
 const GAP = 0.16
+/** Aria intorno alle isole al centro (1 = toccano i bordi): più alto = isole più piccole. */
+const ISLAND_ROOM = 1.35
 /** Altezza dei muri, per l'ingombro. */
 const WALL_H = 2.6
 /** Spazio occupato dalla UI (px), per scegliere la disposizione delle isole. */
@@ -308,34 +310,44 @@ function roomLayout(info: OfficeInfo, isl: Record<string, IslandInfo>, room: str
   const pivot = new Vector3(r.center.x, WALL_H / 2, r.center.z)
   const office = extent(corners(new Vector3(b.minX, 0, b.minZ), new Vector3(b.maxX, WALL_H, b.maxZ), pivot))
 
+  // Migliore disposizione in righe (per le isole date) e ingombro sullo schermo.
+  const bestArrange = (names: string[]) => {
+    const exts = names.map((n) => extent(ellipse(isl[n].box.min, isl[n].box.max, isl[n].center)))
+    let best: (ReturnType<typeof arrange> & { below: boolean }) | null = null
+    let bestFit = 0
+    for (const rows of rowings(names.length)) {
+      const a = arrange(exts, rows)
+      const sOff = Math.min((SIDE * a.h) / office.h, (0.5 * a.w) / office.w)
+      const fit = Math.min(aspect / (2 * a.w * (1 + GAP) + 2 * office.w * sOff), 1 / (2 * a.h))
+      if (fit > bestFit) {
+        bestFit = fit
+        best = { ...a, below: rows.some((n) => n > 1) }
+      }
+    }
+    return best!
+  }
+
   const offsets: Record<string, Vector3> = {}
   let stack: { w: number; h: number } | null = null
   let labelBelow = false
   const list = shown.filter((n) => isl[n])
+  // Riferimento fisso: tutte e tre le isole, con un po' d'aria. Le isole hanno sempre la stessa grandezza,
+  // qualunque sia il numero mostrato (con una sola, il palco è semplicemente più vuoto).
+  const all = ISLAND_ORDER.filter((n) => isl[n])
+  const refA = all.length ? bestArrange(all) : null
+  const ref = refA ? { w: refA.w * ISLAND_ROOM, h: refA.h * ISLAND_ROOM } : null
   if (list.length) {
-    const exts = list.map((n) => extent(ellipse(isl[n].box.min, isl[n].box.max, isl[n].center)))
-    // La disposizione migliore è quella in cui le isole, al centro e con l'ufficio piccolo a sinistra, vengono più grandi.
-    let best: ReturnType<typeof arrange> | null = null
-    let bestFit = 0
-    for (const rows of rowings(list.length)) {
-      const side = rows.some((n) => n > 1)
-      const a = arrange(exts, rows)
-      const sOff = Math.min((SIDE * a.h) / office.h, (0.5 * a.w) / office.w)
-      const totalW = 2 * a.w * (1 + GAP) + 2 * office.w * sOff
-      const fit = Math.min(aspect / totalW, 1 / (2 * a.h))
-      if (fit > bestFit) {
-        bestFit = fit
-        best = a
-        labelBelow = side
-      }
-    }
-    list.forEach((n, i) => (offsets[n] = RIGHT.clone().multiplyScalar(best!.pos[i][0]).addScaledVector(UP, best!.pos[i][1])))
-    stack = { w: best!.w, h: best!.h }
+    const best = bestArrange(list)
+    list.forEach((n, i) => (offsets[n] = RIGHT.clone().multiplyScalar(best.pos[i][0]).addScaledVector(UP, best.pos[i][1])))
+    stack = { w: best.w, h: best.h }
+    labelBelow = best.below
   }
 
   const stage = wanted === 'cloud' && stack ? 'cloud' : 'office'
-  const main = stage === 'cloud' ? stack! : office
-  const side = stage === 'cloud' ? office : stack
+  // Per la disposizione dei palchi le isole contano sempre con l'ingombro di riferimento.
+  const islandsBox = ref ?? stack
+  const main = stage === 'cloud' ? islandsBox! : office
+  const side = stage === 'cloud' ? office : stack ? islandsBox : null
   const M = pivot.clone()
   const mainPose: Pose = { pos: M.clone(), s: 1 }
   let sidePose: Pose | null = null
@@ -347,9 +359,13 @@ function roomLayout(info: OfficeInfo, isl: Record<string, IslandInfo>, room: str
   const officePose = stage === 'office' ? mainPose : sidePose!
   const islandsPose = stack ? (stage === 'cloud' ? mainPose : sidePose) : null
   const points = corners(new Vector3(b.minX, -0.64, b.minZ), new Vector3(b.maxX, WALL_H, b.maxZ), pivot).map((p) => p.multiplyScalar(officePose.s).add(officePose.pos))
-  if (islandsPose)
+  if (islandsPose) {
     for (const n of list)
       for (const p of ellipse(isl[n].box.min, isl[n].box.max, isl[n].center)) points.push(p.add(offsets[n]).multiplyScalar(islandsPose.s).add(islandsPose.pos))
+    // Il riquadro di riferimento entra sempre nell'inquadratura: è quello che fissa la grandezza delle isole.
+    if (ref)
+      for (const sx of [-1, 1]) for (const sy of [-1, 1]) points.push(islandsPose.pos.clone().addScaledVector(RIGHT, sx * ref.w * islandsPose.s).addScaledVector(UP, sy * ref.h * islandsPose.s))
+  }
   const bb = new Box3().setFromPoints(points)
   return { view: 'iso', pivot, office: officePose, islands: islandsPose, shown: list, offsets, stage, points, center: bb.getCenter(new Vector3()), labelBelow }
 }
@@ -512,8 +528,8 @@ export function AllocationScene() {
             {Object.entries(assets).map(([asset, list]) => (
               <group key={asset}>
                 <KitInstances asset={asset} instances={list} onHover={onOfficeHover} onSelect={onOfficeSelect} pickRoom={room} paint={heat.on} />
-                {selUnit && <Veil asset={asset} list={pick(list, selUnit)} material={V.select} />}
-                {hovUnit && hovUnit !== selUnit && <Veil asset={asset} list={pick(list, hovUnit)} material={V.hover} />}
+                {selUnit && <Veil key={`s-${selUnit}`} asset={asset} list={pick(list, selUnit)} material={V.select} />}
+                {hovUnit && hovUnit !== selUnit && <Veil key={`h-${hovUnit}`} asset={asset} list={pick(list, hovUnit)} material={V.hover} />}
               </group>
             ))}
           </group>
@@ -530,8 +546,8 @@ export function AllocationScene() {
                 {Object.entries(islandAssets[name]?.on ?? {}).map(([asset, list]) => (
                   <group key={`on-${asset}`}>
                     <KitInstances asset={asset} instances={list} onHover={onIslandHover} onSelect={onIslandSelect} unclipped paint={heat.on} />
-                    {selUnit && <Veil asset={asset} list={pick(list, selUnit)} material={V.select} />}
-                    {hovUnit && hovUnit !== selUnit && <Veil asset={asset} list={pick(list, hovUnit)} material={V.hover} />}
+                    {selUnit && <Veil key={`s-${selUnit}`} asset={asset} list={pick(list, selUnit)} material={V.select} />}
+                    {hovUnit && hovUnit !== selUnit && <Veil key={`h-${hovUnit}`} asset={asset} list={pick(list, hovUnit)} material={V.hover} />}
                   </group>
                 ))}
                 {Object.entries(islandAssets[name]?.off ?? {}).map(([asset, list]) => (
@@ -693,15 +709,43 @@ function Co2Cloud({ island, info, heat }: { island: string; info: IslandInfo; he
   return <mesh ref={ref} geometry={geo} material={mat} position={[info.center.x, b.max.y + 0.6, b.min.z - 0.6]} scale={target} raycast={() => null} />
 }
 
+/** Movimento di un palco: da dove parte, dove arriva, a che punto è (0–1). */
 interface Live {
   pos: Vector3
   s: number
+  from: Vector3
+  fromS: number
+  to: Vector3
+  toS: number
+  t: number
 }
 
+/** Verso il fondo della scena (lontano dalla camera), sul pavimento: il «giro» del carosello passa di qui. */
+const BACK = new Vector3(-1, 0, -1).normalize()
+const SWAP_S = 0.7
+// Morbido ma deciso: parte svelta e rallenta solo alla fine.
+const ease = (x: number) => 1 - Math.pow(1 - x, 3)
+
+/** Porta un palco verso la sua posa lungo un arco: scivola di lato e passa dietro, come un carosello. */
+function follow(l: Live, pos: Vector3, s: number, depth: number, dt: number) {
+  if (l.to.distanceTo(pos) > 0.01 || Math.abs(l.toS - s) > 1e-4) {
+    l.from.copy(l.pos)
+    l.fromS = l.s
+    l.to.copy(pos)
+    l.toS = s
+    l.t = 0
+  }
+  l.t = Math.min(1, l.t + dt / SWAP_S)
+  const e = ease(l.t)
+  l.pos.lerpVectors(l.from, l.to, e).addScaledVector(BACK, depth * Math.sin(Math.PI * e))
+  l.s = l.fromS + (l.toS - l.fromS) * e
+}
+
+const live = (pos: Vector3, s: number): Live => ({ pos: pos.clone(), s, from: pos.clone(), fromS: s, to: pos.clone(), toS: s, t: 1 })
+
 /**
- * Anima i palchi verso la disposizione scelta (posizione e scala) e gira solo l'oggetto in primo piano:
- * l'ufficio attorno al centro della stanza, ogni isola attorno al proprio centro.
- * Il ritaglio del reparto segue l'ufficio.
+ * Anima i palchi verso la disposizione scelta e gira solo l'oggetto in primo piano:
+ * l'ufficio attorno al centro della stanza, ogni isola attorno al proprio centro. Il ritaglio del reparto segue l'ufficio.
  */
 function StageController({ info, layout }: { info: OfficeInfo; layout: StageLayout | null }) {
   const room = useApp((s) => s.room)
@@ -729,24 +773,23 @@ function StageController({ info, layout }: { info: OfficeInfo; layout: StageLayo
         for (const child of ig.children) child.rotation.y = 0
       }
     } else {
-      const k = Math.min(1, dt * 4)
       // Mezzo giro in circa un secondo e mezzo.
       const ka = Math.min(1, dt * 2.4)
       c.angle.office += (turns.office * Math.PI - c.angle.office) * ka
       c.angle.cloud += (turns.cloud * Math.PI - c.angle.cloud) * ka
+      // Profondità del giro: un accenno (circa un sesto della distanza fra i due palchi).
+      const depth = layout.islands ? 0.18 * layout.office.pos.distanceTo(layout.islands.pos) : 0
 
-      const o = (c.office ??= { pos: layout.pivot.clone(), s: 1 })
-      o.pos.lerp(layout.office.pos, k)
-      o.s += (layout.office.s - o.s) * k
+      const o = (c.office ??= live(layout.pivot, 1))
+      follow(o, layout.office.pos, layout.office.s, depth, dt)
       // Gira e scala attorno al centro della stanza: posizione = punto sul palco − scala × (rotazione × centro).
       og.rotation.set(0, c.angle.office, 0)
       og.scale.setScalar(o.s)
       og.position.copy(o.pos).sub(tmp.copy(layout.pivot).applyAxisAngle(og.up, c.angle.office).multiplyScalar(o.s))
 
       if (ig && layout.islands) {
-        const i = (c.islands ??= { pos: layout.islands.pos.clone(), s: layout.islands.s })
-        i.pos.lerp(layout.islands.pos, k)
-        i.s += (layout.islands.s - i.s) * k
+        const i = (c.islands ??= live(layout.islands.pos, layout.islands.s))
+        follow(i, layout.islands.pos, layout.islands.s, depth, dt)
         ig.position.copy(i.pos)
         ig.scale.setScalar(i.s)
         for (const child of ig.children) child.rotation.y = c.angle.cloud
@@ -759,8 +802,8 @@ function StageController({ info, layout }: { info: OfficeInfo; layout: StageLayo
 }
 
 /** Cerchio orizzontale (coordinate locali): non cambia girando l'oggetto, quindi le scritte non si muovono durante la rotazione. */
-function ring(cx: number, y: number, cz: number, r: number) {
-  return Array.from({ length: 24 }, (_, i) => new Vector3(cx + Math.cos((i / 24) * Math.PI * 2) * r, y, cz + Math.sin((i / 24) * Math.PI * 2) * r))
+function ring(cx: number, y: number, cz: number, r: number, rz = r) {
+  return Array.from({ length: 24 }, (_, i) => new Vector3(cx + Math.cos((i / 24) * Math.PI * 2) * r, y, cz + Math.sin((i / 24) * Math.PI * 2) * rz))
 }
 
 /** Proietta sullo schermo i punti delle scritte HTML: nomi dei reparti, tooltip, titoli dei palchi, isole, nuvole e punti critici. */
@@ -790,6 +833,16 @@ function Projector({ info, isl, layout, heat }: { info: OfficeInfo; isl: Record<
       v.project(camera)
       return [Math.round(((v.x + 1) / 2) * size.width), Math.round(((1 - v.y) / 2) * size.height)]
     }
+    // Come project, ma senza la rotazione dell'oggetto: centro e scala dal gruppo, forma dritta.
+    // Titoli e nomi così restano fermi mentre il modello gira.
+    const cw = new Vector3()
+    const still = (p: Vector3, center: Vector3, g: Group | null): [number, number] => {
+      if (!g) return project(p, null)
+      cw.copy(center).applyMatrix4(g.matrixWorld)
+      v.copy(p).sub(center).multiplyScalar(g.matrixWorld.getMaxScaleOnAxis()).add(cw)
+      v.project(camera)
+      return [Math.round(((v.x + 1) / 2) * size.width), Math.round(((1 - v.y) / 2) * size.height)]
+    }
     const top = (ps: [number, number][]) => [Math.round(ps.reduce((a, q) => a + q[0], 0) / ps.length), Math.min(...ps.map((q) => q[1]))] as [number, number]
     // Pianta: angolo in alto a sinistra di ogni reparto (nord in alto = z minima, ovest a sinistra = x minima).
     if (!room) for (const r of ROOMS) { const b = info.rooms[r]?.box; if (b) pts[`room:${r}`] = project(new Vector3(b.minX + MARGIN, 1.25, b.minZ + MARGIN), stageGroups.office) }
@@ -797,7 +850,10 @@ function Projector({ info, isl, layout, heat }: { info: OfficeInfo; isl: Record<
     if (room && h) pts.hover = project(h.pos.clone().setY(h.pos.y + h.h + 0.3), groupOf(h))
     if (room && layout && info.rooms[room]) {
       const r = info.rooms[room]
-      pts['stage:office'] = top(ring(r.center.x, WALL_H, r.center.z, 0.5 * Math.hypot(r.box.maxX - r.box.minX, r.box.maxZ - r.box.minZ)).map((p) => project(p, stageGroups.office)))
+      const rc = new Vector3(r.center.x, WALL_H / 2, r.center.z)
+      pts['stage:office'] = top(
+        corners(new Vector3(r.box.minX, 0, r.box.minZ), new Vector3(r.box.maxX, WALL_H, r.box.maxZ), new Vector3()).map((p) => still(p, rc, stageGroups.office)),
+      )
     }
     if (layout) {
       const all: [number, number][] = []
@@ -806,12 +862,15 @@ function Projector({ info, isl, layout, heat }: { info: OfficeInfo; isl: Record<
         const c = isl[name].center
         const g = islandGroups[name] ?? null
         const rad = 0.5 * Math.max(ib.max.x - ib.min.x, ib.max.z - ib.min.z)
-        const topRing = ring(c.x, ib.max.y, c.z, rad).map((p) => project(p, g))
+        const topRing = ring(c.x, ib.max.y, c.z, rad).map((p) => still(p, c, g))
         all.push(...topRing)
-        const mid = ring(c.x, (ib.min.y + ib.max.y) / 2, c.z, rad).map((p) => project(p, g))
+        // Ellisse dell'isola: anche lei non cambia con il mezzo giro (simmetrica rispetto al centro).
+        const rx = 0.5 * (ib.max.x - ib.min.x)
+        const rz = 0.5 * (ib.max.z - ib.min.z)
+        const mid = ring(c.x, (ib.min.y + ib.max.y) / 2, c.z, rx, rz).map((p) => still(p, c, g))
         // Nome dell'isola: a destra a metà altezza, oppure sotto se le isole sono affiancate.
         if (layout.labelBelow) {
-          const low = ring(c.x, ib.min.y, c.z, rad).map((p) => project(p, g))
+          const low = ring(c.x, ib.min.y + 0.5, c.z, rx * 0.8, rz * 0.8).map((p) => still(p, c, g))
           pts[`islandb:${name}`] = [Math.round(low.reduce((a, q) => a + q[0], 0) / low.length), Math.max(...low.map((q) => q[1]))]
         } else pts[`island:${name}`] = [Math.max(...mid.map((q) => q[0])), Math.round(mid.reduce((a, q) => a + q[1], 0) / mid.length)]
         if (heat.on) pts[`cloud:${name}`] = project(new Vector3(c.x, ib.max.y + 0.8, ib.min.z - 0.6), g)

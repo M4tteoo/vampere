@@ -1,21 +1,14 @@
-import { useEffect, useMemo } from 'react'
-import { makeCtx } from '../data/twin'
-import { islandsOf } from '../scene/twin/Allocation'
+import { useEffect } from 'react'
 import { useApp } from '../store'
 import { fmtMetric } from '../data/compute'
 import { PANEL_W } from '../scene/Scene'
 
-/** Sotto il reparto isolato: nome e consumi annui, senza riquadro. Frecce per ruotare di 180°, Esc per tornare. */
+/** Reparto isolato: nome in basso al centro (frecce per ruotare, Esc per tornare) e spesa totale in un riquadro in basso a sinistra. */
 export function RoomTitle() {
   const data = useApp((s) => s.data)!
   const room = useApp((s) => s.room)
   const panel = useApp((s) => !!s.selectedId)
-  const turn = useApp((s) => s.turn)
   const setRoom = useApp((s) => s.setRoom)
-  const storeStage = useApp((s) => s.stage)
-  const step = useApp((s) => s.step)
-  const hasCloud = useMemo(() => (room ? islandsOf(makeCtx(data, []), room).length > 0 : false), [data, room])
-  const stage = hasCloud ? storeStage : 'office'
 
   useEffect(() => {
     // Tenendo premuta una freccia si continua a girare nello stesso verso (un mezzo giro ogni 0,4 s al massimo).
@@ -56,43 +49,37 @@ export function RoomTitle() {
         All departments
       </button>
 
+      {/* Nome del reparto e, sotto, solo il comando per girare. */}
       <div
         className="pointer-events-none absolute bottom-8 left-0 flex flex-col items-center transition-[right] duration-700"
         style={{ right: panel ? PANEL_W + 48 : 0 }}
       >
-        <div className="flex items-center gap-5">
-          <span className="w-10" />
-          <h1 className="text-[28px] leading-tight font-semibold tracking-[-0.5px] text-ink">{d.label}</h1>
-          <RotateButton onClick={() => turn(1)} label="Rotate the view" />
+        <h1 className="text-[28px] leading-tight font-semibold tracking-[-0.5px] text-ink">{d.label}</h1>
+        <p className="mt-1 text-[13px] text-muted">← → rotate</p>
+      </div>
+
+      {/* Spesa totale del reparto: riquadro fisso in basso a sinistra. */}
+      <div className="pill-shadow pointer-events-auto absolute bottom-6 left-6 w-[244px] rounded-[14px] bg-white px-4 py-3">
+        <div className="text-[12px] font-medium text-muted">Total spend of {d.label}, per year</div>
+        <div className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1">
+          <Stat label="Cost" value={fmtMetric(d.metrics.cost_chf, 'cost_chf')} />
+          <Stat label="CO₂" value={fmtMetric(d.metrics.co2_kg, 'co2_kg')} />
+          <Stat label="Energy" value={fmtMetric(d.metrics.kwh, 'kwh')} />
+          <Stat label="People" value={`${d.fte} FTE`} />
         </div>
-        <p className="mt-1 text-[15px] text-muted">
-          {d.fte} FTE · {fmtMetric(d.metrics.cost_chf, 'cost_chf')} · {fmtMetric(d.metrics.kwh, 'kwh')} · {fmtMetric(d.metrics.co2_kg, 'co2_kg')} per year
-          {shared > 0 && <span className="text-muted-soft"> · incl. {fmtMetric(Math.min(shared, d.metrics.cost_chf), 'cost_chf')} of shared services</span>}
-        </p>
-        <p className="mt-2 text-[12px] text-muted-soft">
-          {step !== 'allocation'
-            ? `Click the computers${hasCloud ? ' or a server' : ''} for usage and pain points`
-            : stage === 'cloud'
-              ? 'Click a server for its cost and footprint, or the office on the side'
-              : `Click a computer for its services${hasCloud ? ', or the cloud on the side' : ''}`}{' '}
-          · ← → rotate · Esc back
-        </p>
+        {shared > 0 && (
+          <div className="mt-1.5 text-[11px] text-muted">incl. {fmtMetric(Math.min(shared, d.metrics.cost_chf), 'cost_chf')} of shared services</div>
+        )}
       </div>
     </>
   )
 }
 
-function RotateButton({ onClick, label }: { onClick: () => void; label: string }) {
+function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <button
-      onClick={onClick}
-      aria-label={label}
-      title={label}
-      className="pointer-events-auto grid h-10 w-10 place-items-center rounded-full border border-hairline bg-white text-ink transition hover:border-ink"
-    >
-      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v4h-4" />
-      </svg>
-    </button>
+    <div>
+      <div className="text-[11px] text-muted">{label}</div>
+      <div className="text-[15px] font-semibold text-ink tabular-nums">{value}</div>
+    </div>
   )
 }
