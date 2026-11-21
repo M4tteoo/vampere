@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T12:07:00+01:00",
+  "generated_at": "2026-11-21T15:08:07+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -11,18 +11,22 @@
  "status": "complete",
  "applied_measure_ids": [
   "M-01",
-  "M-02",
   "M-03",
   "M-04",
-  "M-05",
-  "M-06"
+  "M-08",
+  "M-22",
+  "M-23",
+  "M-25",
+  "M-27",
+  "M-29"
  ],
  "requires_confirmation": [
-  "M-01",
   "M-03",
-  "M-04",
-  "M-05",
-  "M-06"
+  "M-08",
+  "M-22",
+  "M-23",
+  "M-25",
+  "M-29"
  ],
  "skipped": []
 }

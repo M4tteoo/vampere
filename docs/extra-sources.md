@@ -59,24 +59,59 @@ New file `output/insights.json` (contract `InsightsFile`), independent of the ad
   The card's `steps` gives the two-step story: clean-up (energy only), then downsizing (francs, 🧑).
 - **Regions (`regions`)**: `unused_regions` → **grey islands** (e.g. AWS Zurich: available, not used). `options[]` → relocation arrows with `co2_kg_saved` and `cost_note` (a visible trade-off: AWS Zurich is cleaner but costs +18 % for compute).
 - **Projects (`projects[]`, `closed_projects[]`)**: a "CO₂ per client project" list (customer, rechargeable yes / partly / no, direct + allocated by hours); closed projects as "still running" warnings on their resources.
+- **Goals (advisor optimiser)**: when the manager switches the goal (climate first / best value / francs first), take the certainty from `montecarlo.json → by_goal[goal]` and the mix toggle from `scenarios.json → scenarios[mix].packages_by_goal[goal]`. The top-level fields stay the recommended goal, so the current screens keep working.
 - **Assistant**: new read-only tool `extra_insights` (topic = a card, detail = a table). Questions like "Which Power BI reports does nobody open?" or "Could the GPU server run somewhere cleaner?" are answered from this file, with numbers verified.
 
 ## 4. For the advisor owner (Steps 5–8)
 
-Input and output formats are unchanged. What changed:
+Updated for the code-driven advisor (toolbox → 4 area agents → optimiser, commit `667c261`). Nothing in the advisor was changed for this: our parts plug into it as they are.
 
-1. **Fact sheet** (`pipeline/advisor/facts.py`, one block before "one-offs"): adds the facts of `pipeline.insights.advisor_facts(ctx)` (≈ 50 new ids, same `{value, unit, statement, sources}` format, no free text) and a new key **`regions_offered`** (`{provider: [location codes]}`), which reaches the LLM with the other entities. New fact ids:
-   - `pbi-kap.reports_*`, `pbi-kap.refresh_load_removable_share`, `pbi-kap.cleanup_energy_share`, `pbi-kap.downsize_fits_half`, `pbi-kap.downsize_cost_share` (0.5, ASSUMPTION: capacity price ∝ capacity units), `pbi-kap.cleanup_and_downsize_energy_share`
-   - `<resource>.co2_saved_if_moved_to_<LOC>` (only where the provider offers the location)
-   - `dp-storage.removable_share`, `dp-storage.stale_gb_retention_unknown_share`, `logs.retention_90d_stored_share_saved`, `ai-agent2.research_retries_per_run`, `st-backup.copies_without_restore_test`
-   - `project.<P-xxx>.cost_after_end`, `project.<P-xxx>.co2_after_end`
-   - `saas-m365.active_users_admin`, `saas-m365.unused_seat_share`, `saas-m365.admin_vs_licence_difference`
-2. **Safety gate** (`pipeline/advisor/calculator.py`, `savings()`): an effect with `relocate_to` outside the provider's locations is **rejected** with a problem ("Swiss hoster offers no region in DE …"), so the advisor revises. Today's committed package passes (dp-dev Azure Frankfurt → Zurich is offered).
-3. **Instructions** (`pipeline/advisor/planner.py`): two lines, one about the region rule and the relocation facts, one telling the advisor that the Power BI capacity is billed per day (clean-up = energy only, francs need downsizing = human decision).
-4. **Re-run:** the committed package was produced before these facts existed. A new `--advisor` run can now use them (Power BI downsizing, log retention, GPU to Zurich…). Pick the demo run deliberately; see section 6.
+**What the advisor gets from the extra sources (and uses):**
+
+1. **Fact sheet** (`facts.py`, block "extra insights"): `pipeline.insights.advisor_facts(ctx)` adds 31 fact ids, same `{value, unit, statement, sources}` format, no free text. It also adds **`regions_offered`** (`{provider: [location codes]}`).
+2. **Relocation rule:** `regions_offered` is used twice, by the toolbox (`can_move`: a "pause + move to Zurich" candidate only if the provider offers Zurich) and by the Calculator (`savings()` rejects any `relocate_to` outside the provider's locations, also for the agents' own ideas). Today: M-02 (dp-dev → Zurich) and M-05 (gpu-ml → Zurich) pass; the Swiss hoster could never be moved to DE.
+3. **Facts that reach the area agents** (they see the facts of the resources their candidates touch), 7 of the 31:
+   - `dp-dev` / `gpu-ml` / `vm-test` / `cicd` `.co2_saved_if_moved_to_CH`
+   - `dp-storage.removable_share`, `dp-storage.stale_gb_retention_unknown_share`
+   - `logs.retention_90d_stored_share_saved`
+4. **The agents' instructions** already contain both rules: relocations only to offered locations, and Power BI is billed per day (clean-up = energy only, francs need downsizing = a human decision).
+
+**Facts that do not reach the advisor today** (no candidate touches these resources, so no agent sees them):
+- `pbi-kap.*` (Power BI hygiene and downsizing)
+- `project.*.cost_after_end` / `co2_after_end`
+- `saas-m365.*`
+- `st-backup.*`
+- `ai-agent2.research_retries_per_run`
+
+They stay visible as **insight cards** (section 3) and in the assistant.
+- **Suggestion, for the advisor owner to decide:** a toolbox lever for the Power BI capacity (clean-up + one tier down, status human, owners Head of IT + Head of Finance) would let the optimiser weigh it. The facts are ready: `pbi-kap.cleanup_energy_share`, `pbi-kap.downsize_fits_half`, `pbi-kap.downsize_cost_share`.
+- **The other three are fine as they are:**
+  - closed project P-004 is the GPU server, already covered by M-04
+  - M365 is a check, not a measure
+  - backups are protected
+- **Observation, for the advisor owner to check:** the toolbox's "office hours" lever (M-07) also lists the GPU server `gpu-ml-01` (environment test/dev, mostly idle). The optimiser keeps M-07 and M-04 (GPU on demand) mutually exclusive, so nothing is counted twice. Still, office hours on the GPU would clash with the 24 h training on quarter days 1–3, which M-04 respects.
+
+**What we adapted to the new advisor** (our side only):
+
+| Our part | Change |
+|---|---|
+| Package model (`bonus/package_eval.py`, used by B1 + B2) | `PackageModel(ctx, goal)` evaluates any goal package of `measures.json → packages`; `check()` proves each one reproduces the Calculator (low / mid / high) |
+| Monte Carlo (`montecarlo.json`) | new `goal` and **`by_goal`**: every feasible goal on the **same 10,000 draws** (fair comparison); `by_goal[recommended]` = the top-level figures. Headline no longer rounds 99.9 % up to "100 %" |
+| Swiss mix switch (`scenarios.json`) | new **`packages_by_goal`** per mix: the toggle works whichever goal is picked |
+| Thresholds and budget | Monte Carlo, Swiss switch and carbon-aware read `advisor.thresholds` and `advisor.budget_chf` from `config.yaml` (no own copy of −40 % / −25 % / 15 days) |
+| Assistant (`analysis`, kind `package`) | returns the recommended goal, **`packages_by_goal`**, **`kept_on`** and the `analysis` info (when, how long, how much AI); prompt rule: name the goal of a package, and give the reason + source for anything "kept on" |
+| Assistant (`analysis`, `entity_id`) | the filter also matches the parent resource and the child servers. The toolbox puts `srv:gpu-ml-01` into M-07 (test servers in office hours) while the GPU measures are on `res:gpu-ml`; without this, a GPU question only found M-07 |
+| Assistant evals | new `EX8-goal-francs` (francs-first package) and `EX9-kept-on` (dr-failover, backups, pbi-07); the planted attack in `I6` now names M-30, the real DR measure id |
+| Audit (`tests/audit_outputs.py`) | +7 checks: each goal's Swiss-switch reduction = `measures.json`, Monte Carlo uses each goal's measures, `by_goal[recommended]` = top level |
+
+**Current results, recommended goal "climate first"** (9 measures, 15 d):
+- **Monte Carlo:** −40 % CO₂ in **99.9 %** of 10,000 scenarios (median −47.9 %); best value / francs first 98.4 %.
+- **Swiss switch:** −50.4 % (consumption mix) / −54.5 % (production mix); meets the target at the least favourable factors under both mixes.
+- **Carbon-aware on top:** 13 kg CO₂/year. It is now higher because M-03 pauses dp-prod too, so its jobs count with their full energy.
 
 ## 5. Assumptions and sources
 
+- **Advisor coverage:** Power BI hygiene, closed projects and M365 are shown as insight cards; today's advisor does not turn them into measures (section 4).
 - **Power BI capacity price ∝ capacity units** (one tier down ≈ half the price): Fabric / Power BI capacities are sized in capacity units (Azure pricing page, SKUs F2…F2048); **verify the price for the actual SKU** before deciding. A paused pay-as-you-go capacity stops compute billing (Microsoft Learn, "Pause and resume your capacity"). Capacity energy: engine model (8 v-cores, 25 GB, 50 % utilisation), utilisation proportional to the refresh load.
 - **Regions:** grid factors only for CH, DE, IE, EU (factors.yaml). France, Netherlands and Sweden are listed without a CO₂ value. AWS compute prices from the case README (m6i.large Zurich 0.1265 vs Ireland 0.107 USD/h); other price differences are not in the data.
 - **M365 energy check:** storage × factors.yaml; video calls 0.3–0.6 GB/h × network factor (assumption), high end from Obringer et al. 2021 (≈ 160 g CO₂e per hour of videoconferencing). Used as a check only; the baseline is unchanged.
@@ -88,6 +123,6 @@ Input and output formats are unchanged. What changed:
 ```bash
 .venv/bin/python -m pipeline.run                     # writes output/insights.json (bonus module «extras»)
 .venv/bin/python -m unittest discover -s tests -t .  # incl. tests/test_insights.py (every extra source used, region rule, Power BI classes…)
-.venv/bin/python -m tests.audit_outputs              # incl. 5 checks on insights.json
-.venv/bin/python -m assistant eval                   # incl. Power BI, GPU region and a planted «pbi-07 no longer protected» injection
+.venv/bin/python -m tests.audit_outputs              # incl. 5 checks on insights.json and 7 per-goal checks (B1, B2)
+.venv/bin/python -m assistant eval                   # incl. Power BI, GPU region, goals, kept-on and a planted «pbi-07 no longer protected» injection
 ```

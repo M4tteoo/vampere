@@ -4,6 +4,23 @@ The bonus modules were built before measures, limits and the package existed. So
 
 Order: **0 → 1 → 2 → 3 → 4 → 5**, then the final run in **6**.
 
+## Status · re-checked on 2026-11-21 after commit 667c261 ("fast advisor: toolbox, parallel agents, optimiser")
+
+The advisor is now code-driven: a toolbox of levers, 4 area agents and an exact optimiser with 3 goals. It is still checked by the same calculator and gate. Our modules were adapted to it, and its code was not changed (details: `docs/extra-sources.md`, section 4).
+
+| Check | Result |
+|---|---|
+| Offline run reproduces the committed analysis | ✅ reused answers, 0 AI calls; 29 findings, 33 measures, 16 limits; «climate first» CO₂ −50.4 %, cost −25.4 %, 15.0 d |
+| Package model (B1 + B2) | ✅ reproduces all 3 goal packages of the Calculator at low / mid / high |
+| Monte Carlo | ✅ 99.9 % (median −47.9 %), `by_goal` for all goals on the same draws |
+| Swiss switch | ✅ every goal meets the target under both mixes, also at the least favourable factors |
+| Carbon-aware after the package | ✅ 13.2 kg CO₂/yr (dp-dev and dp-prod paused by M-01 / M-03); budget read from `advisor.budget_chf` |
+| Assistant | ✅ sees the goals, «kept on» and analysis info; attack suite 31/31 |
+| Tests | ✅ unit tests 35/35, audit 0 contract problems and 62/62 number checks, red-team 8 structural checks |
+| Open point (for the advisor owner) | Power BI hygiene, closed projects and M365 facts reach no agent: no toolbox lever touches those resources. Shown as insight cards; a Power BI lever is a suggestion |
+
+The table below is the earlier check (AI-only advisor), kept for the record; its figures are superseded.
+
 ## Status · checked on 2026-11-21 after commit f423146 ("switch steps 5–8 to LLM advisor")
 
 Steps 5–8 now come from the LLM advisor (`pipeline/advisor/`). Result of this checklist:

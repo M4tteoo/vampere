@@ -267,10 +267,45 @@ export interface AiFootprint {
   models: string[];
 }
 
+/** What the optimal package prioritises (chosen by the user; switching is instant, no AI involved). */
+export type GoalId = "climate_first" | "best_value" | "francs_first";
+
+/** Optimal package for one goal; key in MeasuresFile.packages = the goal id. Every goal reaches the thresholds even
+ *  with pessimistic factors (safety margin, always on); otherwise feasible: false with a note. */
+export type GoalPackage =
+  | ({ goal: string; feasible: true; safety_met: boolean; note?: string } & Package)   // safety_met false → show the note
+  | { goal: string; feasible: false; note: string };
+
+/** A resource deliberately NOT reduced, and why («not everything unused may be switched off»). */
+export interface KeptOn {
+  target: string;                              // e.g. "srv:dr-failover", "st-backup"
+  reason: string;
+  constraint_id: string;
+  source: { kind: "ticket" | "file" | "calendar" | "rule"; ref: string };
+  entity_ids: string[];
+}
+
+/** When and how the analysis behind these results ran («Analysis of … · N AI calls · X s · Y Wh · [Re-run]»). */
+export interface AnalysisInfo {
+  analysed_at?: ISODateTime;
+  data_as_of?: ISODate;
+  seconds?: number;
+  timings?: Record<string, number>;            // reader_s, agents_s (only the steps that ran)
+  model?: { agents: string; reader: string };
+  reasoning_effort?: string;
+  ai_footprint?: AiFootprint;
+  reused: Record<string, boolean | string>;    // reader / agents: true = same input, saved answer reused
+  fingerprint: { reader: string; agents: string };
+}
+
 export interface MeasuresFile {
   meta: Meta;
   measures: Measure[];
-  package: Package;
+  package: Package & { goal?: string };        // the default goal (config.yaml advisor.goal)
+  packages: Record<GoalId, GoalPackage>;       // one optimal package per goal (always with the safety margin)
+  goals: GoalId[];
+  kept_on: KeptOn[];
+  analysis: AnalysisInfo;
   ai_footprint: AiFootprint | null;           // «this analysis used N LLM calls, X Wh, Y g CO2»
   /** Measures are defined without overlap, so the frontend may sum savings of
    *  any selection. Blocked measures are never part of a package. */
@@ -579,6 +614,9 @@ export interface ScenarioResult {
     meets: { co2: boolean; cost: boolean; budget: boolean };   // at mid
     meets_at_low: { co2: boolean; cost: boolean };             // at the least favourable factors
   };
+  /** The same, for every feasible goal package of the optimiser (measures.json → packages); the mix toggle
+   *  shows packages_by_goal[selected goal]. `package` = the recommended goal (measures.json → package.goal). */
+  packages_by_goal: Partial<Record<GoalId, ScenarioResult["package"]>>;
   measures: { id: string; title: string; status: MeasureStatus; in_package: boolean; co2_kg: Range }[];
 }
 
@@ -605,6 +643,7 @@ export interface MonteCarloFile {
   n_draws: number;
   seed: number;
   scenario: ScenarioId;
+  goal: GoalId;                                     // the recommended goal; top-level figures are for its package
   package: { measure_ids: string[]; effort_days: number; deterministic_mid: { co2: number; cost: number } };
   target: { co2: number; cost: number };
   budget_met: boolean;
@@ -620,6 +659,12 @@ export interface MonteCarloFile {
   }[];
   stress_all_factors_together: MonteCarloSummary;   // all factors at the same quantile (extreme)
   production_mix: MonteCarloSummary;                // same simulation, Swiss production mix (B2)
+  /** Every feasible goal package on the SAME draws (fair comparison); by_goal[goal] equals the top level. */
+  by_goal: Partial<Record<GoalId, {
+    measure_ids: string[]; effort_days: number;
+    co2_reduction: MonteCarloSummary; cost_reduction: MonteCarloSummary; p_meet_both: number;
+    stress_all_factors_together: MonteCarloSummary;
+  }>>;
   headline: string;
   calc: Calc;
 }
@@ -685,4 +730,91 @@ export interface InsightsFile {
               status: string | null; rechargeable: "yes" | "partly" | "no" | null;
               direct: Metrics; allocated_by_hours: Metrics; total: Metrics }[];
   note: string;
+}
+
+// ---------------------------------------------------------------- local AI (advisory, local_ai.json)
+// Could the company's own AI workloads run on open-weight models on hardware it has or can rent?
+// Information only: no number in measures, summary or forecast is changed. A human decides.
+
+export type LocalAiTier = "basic" | "standard" | "advanced";
+/** Like Range, but a bound is null when there is no break-even within the horizon. */
+export interface MonthRange { low: number | null; mid: number | null; high: number | null; }
+
+export interface LocalAiWorkload {
+  id: string;                     // "wl:office-assistant"
+  label: string; resource_id: string; tool: string; why_private: string;
+  tier: LocalAiTier;              // highest tier among task types with >= 20 % of the API cost
+  tasks: { task_type: string; tier: LocalAiTier; cost_share: number; out_eq_tokens: number }[];
+  models_today: string[];
+  tokens_in: number; tokens_in_cache: number; tokens_out: number;
+  out_eq_tokens: number;          // output + 0.1 x uncached input + 0.01 x cached input (as the energy engine)
+  requests: number;
+  peak_tps: number; peak_tps_year3: number;   // busiest day / office hours, without one-off events
+  api: Metrics;                   // baseline year without one-offs
+  calc: Calc;
+}
+
+export interface LocalAiModel {
+  id: string; label: string; params_b: number; active_params_b: number | null; format: string;
+  weights_gb: number; licence: string; commercial_use: boolean; context_k: number;
+  tier: LocalAiTier; languages: string; quality_note: string;
+  throughput: Record<string, Range>;          // GPU class -> batched tokens/s
+  source: string; estimate: boolean;
+}
+
+export interface LocalAiHardware {
+  id: string;                     // "hw:gpu-ml-01"
+  label: string; provider: string; location: LocationCode; gpu: string; gpu_class: string;
+  vram_gb: number; tdp_w: number; idle_w: Range; host_w: Range;
+  billing: "hourly" | "monthly";
+  price_chf_per_hour: Range | null; price_chf_per_month: Range | null;
+  on_hours_per_year: number;      // hourly: office hours; monthly: 8,760
+  extra_setup_days: number;
+  owned: boolean; entity_id: string | null;   // "srv:gpu-ml-01"
+  measure_ids: string[];          // measures it interacts with (e.g. M-04)
+  pue_factor_id: string; grid_factor_id: string;
+  note: string; source: string; estimate: boolean;
+}
+
+export interface LocalAiFit {
+  id: string;                     // "<workload>|<model>|<hardware>"
+  workload_id: string; model_id: string; hardware_id: string;
+  feasible: boolean; reasons: string[];
+  tps: Range | null; gpu_hours_per_year: Range | null;
+  kwh_per_year: Range | null; co2_kg_per_year: Range | null;   // generation only, without idle
+}
+
+export interface LocalAiScenario {
+  id: string;                     // "sc:hybrid@hw:gpu-ml-01", "sc:all@...", "sc:<workload>@..."
+  label: string; hardware_id: string;
+  workload_ids: string[]; kept_on_api: string[];
+  peak_tps_year3: number;
+  model_id: string | null; alternatives: string[];
+  feasible: boolean; reasons: string[];
+  // present only when feasible:
+  utilisation?: number;           // GPU busy share of on-hours, year 1
+  api_3y?: Metrics; local_3y?: Metrics; savings_3y?: Metrics;   // savings may be negative
+  setup_chf?: Range; yearly_chf?: Range;
+  breakeven_month?: MonthRange;   // low = earliest, high = latest; null = not within 36 months
+  interacts_with?: { measure_id: string; title: string; in_package: boolean;
+                     cost_chf_per_year: Range | null; note: string }[];
+  pros?: string[]; cons?: string[];
+  calc?: Calc;
+}
+
+export interface LocalAiFile {
+  meta: Meta;
+  advisory: true;
+  horizon_years: number;          // 3
+  note: string;
+  catalog_date: ISODate;
+  workloads: LocalAiWorkload[];
+  models: LocalAiModel[];
+  hardware: LocalAiHardware[];
+  fits: LocalAiFit[];
+  scenarios: LocalAiScenario[];
+  best: { by_cost: string | null; by_co2: string | null;
+          by_workload: { workload_id: string; fit: string | null }[] };
+  assumptions: { id: string; label: string; value: number | Range | Record<string, number>;
+                 unit: string; source: string; estimate: boolean }[];
 }

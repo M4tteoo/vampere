@@ -13,10 +13,11 @@ export type View = 'overview' | 'office' | 'islands'
 export type Decision = 'approved' | 'rejected'
 
 /** Passi della pipeline mostrati nella barra in alto (per ora è attivo solo «allocation»). */
-export type Step = 'allocation' | 'footprint' | 'baseline' | 'hotspots' | 'measures' | 'limits' | 'package' | 'export'
+export type Step = 'allocation' | 'footprint' | 'baseline' | 'hotspots' | 'measures' | 'limits' | 'package' | 'export' | 'local_ai'
 
 interface AppState {
   step: Step
+  setStep: (step: Step) => void
   /** Reparto isolato nella vista isometrica (null = pianta dall'alto). */
   room: string | null
   /** Mezzi giri di ciascun palco (frecce ← →): si gira solo l'oggetto in primo piano. Si accumulano. */
@@ -56,6 +57,7 @@ interface AppState {
 
 export const useApp = create<AppState>((set, get) => ({
   step: 'allocation',
+  setStep: (step) => set({ step }),
   room: null,
   turns: { office: 0, cloud: 0 },
   stage: 'office',

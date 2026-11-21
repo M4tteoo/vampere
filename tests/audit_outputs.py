@@ -168,6 +168,12 @@ def number_checks(R: Path) -> list[tuple]:
     eq("scenarios production entities: islands sum = production baseline", sum(v["mid"] for k, v in SC["entities_co2_kg_production"].items() if k.startswith("loc:")), SC["scenarios"]["ch_production"]["baseline"]["co2_kg"]["mid"])
     eq("montecarlo deterministic mid = package", MC["package"]["deterministic_mid"]["co2"], P["reduction"]["co2"]["mid"])
     res.append((MC["package"]["measure_ids"] == P["measure_ids"], "montecarlo uses the package measures", MC["package"]["measure_ids"], ""))
+    for g, gp in M.get("packages", {}).items():       # the optimiser's goal packages (advisor) → B1 / B2 per goal
+        if not gp.get("feasible"):
+            continue
+        eq(f"scenarios {g} reduction = measures.json packages", c["packages_by_goal"][g]["reduction"]["co2"]["mid"], gp["reduction"]["co2"]["mid"])
+        res.append((MC["by_goal"][g]["measure_ids"] == gp["measure_ids"], f"montecarlo {g} uses that goal's measures", g, ""))
+    eq("montecarlo by_goal[recommended] = top level", MC["by_goal"][P["goal"]]["co2_reduction"]["p_meet"], MC["co2_reduction"]["p_meet"])
     eq("jobs: baseline CO2 = summary", JB["totals"]["baseline_co2_kg"], B["co2_kg"]["mid"])
     reloc = {e["scope"].split(":")[1]: e["relocate_to"] for m in inpk for e in m["effects"] if e.get("relocate_to")}
     res.append((JB["after_package"]["relocated"] == {k: v for k, v in reloc.items() if k in ("dp-prod", "dp-dev")}, "jobs after_package relocations = package", JB["after_package"]["relocated"], reloc))

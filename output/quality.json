@@ -1,7 +1,7 @@
 {
   "meta": {
     "schema_version": "0.1",
-    "generated_at": "2026-11-21T05:57:21+01:00",
+    "generated_at": "2026-11-21T15:08:05+01:00",
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -1819,10 +1819,49 @@
     {
       "issue_id": "Q-0109",
       "category": null,
+      "source_file": "advisor reader",
+      "issue_type": "constraint_corrected",
+      "rows_affected": 1,
+      "action": "target corrected to the ticket's own resource st-backup (structured field)",
+      "detail": "T-1195: reader said ['st-archive'], removed ['st-archive']",
+      "amount_chf": null,
+      "resource_id": null,
+      "severity": "warn",
+      "evidence": ""
+    },
+    {
+      "issue_id": "Q-0110",
+      "category": null,
+      "source_file": "advisor",
+      "issue_type": "advisor_check",
+      "rows_affected": 1,
+      "action": "plan check",
+      "detail": "A-ai_other-1: extra measure proposed by the ai_other agent (set to «a person decides» by code)",
+      "amount_chf": null,
+      "resource_id": null,
+      "severity": "warn",
+      "evidence": ""
+    },
+    {
+      "issue_id": "Q-0111",
+      "category": null,
+      "source_file": "advisor",
+      "issue_type": "advisor_check",
+      "rows_affected": 1,
+      "action": "plan check",
+      "detail": "A-ai_other-2: extra measure proposed by the ai_other agent (set to «a person decides» by code)",
+      "amount_chf": null,
+      "resource_id": null,
+      "severity": "warn",
+      "evidence": ""
+    },
+    {
+      "issue_id": "Q-0112",
+      "category": null,
       "source_file": "advisor",
       "issue_type": "advisor_applied",
-      "rows_affected": 8,
-      "action": "6 findings, 8 measures, 17 limits; package CO2 −40.1%, cost −27.1%, effort 15.0 d",
+      "rows_affected": 33,
+      "action": "29 findings, 33 measures, 16 limits; package CO2 −50.4%, cost −25.4%, effort 15.0 d",
       "detail": "tickets withheld from the reader: 2; ignored by the reader: 0",
       "amount_chf": null,
       "resource_id": null,
@@ -1830,7 +1869,7 @@
       "evidence": ""
     },
     {
-      "issue_id": "Q-0110",
+      "issue_id": "Q-0113",
       "category": null,
       "source_file": "submission",
       "issue_type": "template_written",

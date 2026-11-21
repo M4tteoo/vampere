@@ -17,7 +17,7 @@ scenario: ch_consumption
 # Add a module here once its file exists, e.g. [market, scenarios, clusters, forecast,
 # montecarlo, carbon_aware]. A failing module is reported and skipped unless fail_fast.
 bonus:
-  enabled: [text_risk, clusters, carbon_aware, market, extras, optimized_history, forecast, scenarios, montecarlo]
+  enabled: [text_risk, clusters, carbon_aware, market, extras, optimized_history, forecast, scenarios, montecarlo, local_ai]
   fail_fast: false
 
 handover:
@@ -61,9 +61,15 @@ anomaly:
 # Steps 5–8 · LLM advisor (pipeline/advisor/). The LLM reasons and designs the
 # measures; code provides the facts, computes every number and checks safety.
 advisor:
-  model: gpt-5.4                 # OpenAI Responses API; key in .env (OPENAI_API_KEY), never committed
-  reasoning_effort: medium
-  max_rounds: 3                  # revisions when the package misses target or budget
+  agent_model: gpt-5.4-mini      # small, fast model for the area agents and the ticket reader (OpenAI; key in .env)
+  reasoning_effort: low
+  reader_model: gpt-5.4          # ticket reader: restrictions are a safety matter; runs only when tickets change
+  reader_batches: 4              # tickets read in parallel batches
+  goal: climate_first            # climate_first (max CO2) | best_value (cheapest way to the thresholds) | francs_first (max savings)
+                                 # every goal must reach the thresholds even with pessimistic factors (safety margin, always on)
+  budget_chf: 16500              # implementation budget of this planning round (15 person-days × CHF 1,100)
+  thresholds: {co2: 0.40, cost: 0.25}
+  value_idle_hours_at_idle_power: false   # true: energy saved by removing idle hours at idle power (energy model); under review
   data_as_of: 2026-09-06
   usage_log: output/assistant/usage.jsonl   # tokens per call → «energy of our own AI» (shared with the assistant)
   severity:                      # finding severity by impact share of the baseline (cost or CO2, whichever is higher)

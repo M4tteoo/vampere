@@ -48,6 +48,8 @@ class Calculator:
                             if not (c["type"] == "window" and c["schedule"].get("kind") == "date_range"
                                     and (c["schedule"].get("end_date") or "9999") < asof)]
         self.scopes = self._scopes(facts)
+        # value removed idle hours at idle power (consistent with the energy engine). OFF for now: under review.
+        self.idle_power = bool(ctx.config["advisor"].get("value_idle_hours_at_idle_power", False))
         # relocation rule (data_center_locations.csv): only to a location the scope's provider offers
         self.offered = {p: set(locs) for p, locs in facts.get("regions_offered", {}).items()}
         self.res_provider = {r["id"]: r.get("provider") for r in facts.get("resources", [])}
@@ -81,6 +83,39 @@ class Calculator:
             return self.gw[(self.gw["resource_id"] == rid) & (self.gw["task_type"] == task)
                            & (self.gw["model_class"] == mc)][SUMS].sum()
         return pd.Series(0.0, index=SUMS)
+
+    def idle_power_ratio(self, scope: str) -> float:
+        """Power of an idle hour / average power of the scope, from the same model as the energy engine
+        (Cloud Carbon Footprint: W = Wmin + u × (Wmax − Wmin) + memory; GPU idle + u_gpu × (TDP − idle)).
+        u = the scope's usage-weighted observed utilisation; idle = 0 % utilisation."""
+        if not hasattr(self, "_idle_cache"):
+            self._idle_cache = {}
+        if scope in self._idle_cache:
+            return self._idle_cache[scope]
+        F = load_factors()
+        c, sh, g = F["compute"], F["shapes"], F["gpu"]
+        rows = self.rec[(self.rec["resource_id"] == self.resource_of(scope)) & self.rec["utilisation_cpu"].notna()]
+        if rows.empty:
+            self._idle_cache[scope] = 1.0
+            return 1.0
+        w = rows["quantity"].clip(lower=1e-9)
+        u = float(np.average(rows["utilisation_cpu"], weights=w))
+        ug = float(np.average(rows["utilisation_gpu"].fillna(0), weights=w))
+        unit = rows["unit"].mode().iat[0]
+        wmin, wmax, wmem = c["cpu_w_min"]["mid"], c["cpu_w_max"]["mid"], c["mem_w_per_gb"]["mid"]
+        cpu = lambda x: wmin + x * (wmax - wmin)  # noqa: E731
+        if unit == "node-hour":
+            p = lambda x, xg: sh["node"]["vcpu"] * cpu(x) + sh["node"]["ram_gb"] * wmem  # noqa: E731
+        elif unit == "GPU-hour":
+            p = lambda x, xg: (g["idle_w"]["mid"] + xg * (g["tdp_w"] - g["idle_w"]["mid"])  # noqa: E731
+                               + g["host"]["vcpu"] * cpu(x) + g["host"]["ram_gb"] * wmem)
+        elif unit == "vCore-hour":
+            p = lambda x, xg: cpu(x) + sh["vcore_mem_gb"] * wmem  # noqa: E731
+        else:
+            p = lambda x, xg: cpu(x) + sh["vcpu_mem_gb"] * wmem  # noqa: E731
+        r = min(1.0, p(0.0, 0.0) / p(u, ug))
+        self._idle_cache[scope] = r
+        return r
 
     def location(self, scope: str) -> str | None:
         rid = self.resource_of(scope)
@@ -116,6 +151,8 @@ class Calculator:
                 # saves money but no energy. Energy falls only for the part beyond the inactive seats.
                 act = self.lic_active.get(sc, 1.0)
                 es = max(0.0, cs - (1 - act)) / act if act > 0 else 0.0
+            if e.get("removes") == "idle_hours" and self.idle_power:
+                es = es * self.idle_power_ratio(sc)   # removed hours are idle: valued at idle power (energy model)
             s = pd.Series({c: b[c] * (cs if c.startswith("cost") else es) for c in SUMS})
             to = e.get("relocate_to")
             if to and self.offered:

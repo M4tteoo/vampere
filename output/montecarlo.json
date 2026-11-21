@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T11:49:16+01:00",
+  "generated_at": "2026-11-21T15:24:37+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -11,19 +11,23 @@
  "n_draws": 10000,
  "seed": 2037,
  "scenario": "ch_consumption",
+ "goal": "climate_first",
  "package": {
   "measure_ids": [
    "M-01",
-   "M-02",
    "M-03",
    "M-04",
-   "M-05",
-   "M-06"
+   "M-08",
+   "M-22",
+   "M-23",
+   "M-25",
+   "M-27",
+   "M-29"
   ],
   "effort_days": 15.0,
   "deterministic_mid": {
-   "co2": 0.4013,
-   "cost": 0.2707
+   "co2": 0.5043,
+   "cost": 0.2545
   }
  },
  "target": {
@@ -32,28 +36,28 @@
  },
  "budget_met": true,
  "co2_reduction": {
-  "p_meet": 0.5354,
+  "p_meet": 0.999,
   "percentiles": {
-   "p5": 0.3536,
-   "p25": 0.3814,
-   "p50": 0.403,
-   "p75": 0.4277,
-   "p95": 0.4653
+   "p5": 0.4325,
+   "p25": 0.4594,
+   "p50": 0.4793,
+   "p75": 0.4992,
+   "p95": 0.5284
   },
-  "mean": 0.4054
+  "mean": 0.4798
  },
  "cost_reduction": {
   "p_meet": 1.0,
   "percentiles": {
-   "p5": 0.2706,
-   "p25": 0.2706,
-   "p50": 0.2707,
-   "p75": 0.2708,
-   "p95": 0.2708
+   "p5": 0.2542,
+   "p25": 0.2544,
+   "p50": 0.2545,
+   "p75": 0.2545,
+   "p95": 0.2547
   },
-  "mean": 0.2707
+  "mean": 0.2545
  },
- "p_meet_both": 0.5354,
+ "p_meet_both": 0.999,
  "baseline_co2_kg": {
   "p5": 4280.8,
   "p25": 4792.5,
@@ -62,95 +66,82 @@
   "p95": 6292.2
  },
  "package_savings_co2_kg": {
-  "p5": 1758.5,
-  "p25": 1943.2,
-  "p50": 2092.8,
-  "p75": 2260.1,
-  "p95": 2523.9
+  "p5": 2084.5,
+  "p25": 2308.6,
+  "p50": 2481.1,
+  "p75": 2675.9,
+  "p95": 2983.2
  },
  "histogram": {
   "metric": "co2_reduction",
   "edges": [
-   0.3109,
-   0.3189,
-   0.3268,
-   0.3347,
-   0.3426,
-   0.3505,
-   0.3585,
-   0.3664,
-   0.3743,
-   0.3822,
-   0.3901,
-   0.398,
-   0.406,
-   0.4139,
-   0.4218,
-   0.4297,
-   0.4376,
-   0.4456,
-   0.4535,
-   0.4614,
-   0.4693,
-   0.4772,
-   0.4851,
+   0.383,
+   0.3895,
+   0.396,
+   0.4024,
+   0.4089,
+   0.4154,
+   0.4219,
+   0.4283,
+   0.4348,
+   0.4413,
+   0.4478,
+   0.4542,
+   0.4607,
+   0.4672,
+   0.4737,
+   0.4801,
+   0.4866,
    0.4931,
-   0.501,
-   0.5089,
-   0.5168,
-   0.5247,
-   0.5327,
-   0.5406,
-   0.5485
+   0.4996,
+   0.5061,
+   0.5125,
+   0.519,
+   0.5255,
+   0.532,
+   0.5384,
+   0.5449,
+   0.5514,
+   0.5579,
+   0.5643,
+   0.5708,
+   0.5773
   ],
   "counts": [
+   2,
+   3,
    12,
-   22,
-   50,
-   110,
-   198,
-   343,
-   473,
-   619,
-   761,
-   906,
-   927,
-   918,
-   903,
-   774,
-   662,
-   562,
-   483,
-   382,
-   307,
-   174,
-   153,
-   109,
-   70,
-   35,
-   16,
-   19,
-   6,
-   2,
-   2,
-   2
+   27,
+   56,
+   98,
+   158,
+   250,
+   304,
+   448,
+   591,
+   688,
+   752,
+   844,
+   890,
+   805,
+   847,
+   759,
+   616,
+   509,
+   411,
+   320,
+   229,
+   162,
+   92,
+   64,
+   33,
+   15,
+   7,
+   8
   ],
   "target": 0.4
  },
  "tornado": [
-  {
-   "factor": "grid_CH",
-   "label": "Grid Zurich (kg CO2 per kWh)",
-   "range": {
-    "low": 0.057,
-    "mid": 0.11,
-    "high": 0.128
-   },
-   "reduction_at_low": 0.4989,
-   "reduction_at_high": 0.3758,
-   "swing": 0.123,
-   "reduction_at_mid": 0.4013
-  },
   {
    "factor": "storage",
    "label": "Storage energy (kWh per GB-day)",
@@ -159,23 +150,10 @@
     "mid": 4.7e-05,
     "high": 8.6e-05
    },
-   "reduction_at_low": 0.4416,
-   "reduction_at_high": 0.3596,
-   "swing": 0.082,
-   "reduction_at_mid": 0.4013
-  },
-  {
-   "factor": "grid_DE",
-   "label": "Grid Frankfurt (kg CO2 per kWh)",
-   "range": {
-    "low": 0.33,
-    "mid": 0.363,
-    "high": 0.43
-   },
-   "reduction_at_low": 0.3821,
-   "reduction_at_high": 0.4367,
-   "swing": 0.0546,
-   "reduction_at_mid": 0.4013
+   "reduction_at_low": 0.546,
+   "reduction_at_high": 0.4612,
+   "swing": 0.0848,
+   "reduction_at_mid": 0.5043
   },
   {
    "factor": "saas_kwh",
@@ -185,88 +163,10 @@
     "mid": 0.15,
     "high": 0.5
    },
-   "reduction_at_low": 0.4145,
-   "reduction_at_high": 0.3612,
-   "swing": 0.0533,
-   "reduction_at_mid": 0.4013
-  },
-  {
-   "factor": "mem_w_per_gb",
-   "label": "Memory power (W per GB)",
-   "range": {
-    "low": 0.3,
-    "mid": 0.392,
-    "high": 0.5
-   },
-   "reduction_at_low": 0.3884,
-   "reduction_at_high": 0.4139,
-   "swing": 0.0255,
-   "reduction_at_mid": 0.4013
-  },
-  {
-   "factor": "cpu_w_min",
-   "label": "CPU power at idle (W per vCPU)",
-   "range": {
-    "low": 0.5,
-    "mid": 0.76,
-    "high": 1.0
-   },
-   "reduction_at_low": 0.3907,
-   "reduction_at_high": 0.4102,
-   "swing": 0.0195,
-   "reduction_at_mid": 0.4013
-  },
-  {
-   "factor": "gpu_idle_w",
-   "label": "GPU idle power (W)",
-   "range": {
-    "low": 30.0,
-    "mid": 60.0,
-    "high": 90.0
-   },
-   "reduction_at_low": 0.3915,
-   "reduction_at_high": 0.4106,
-   "swing": 0.0191,
-   "reduction_at_mid": 0.4013
-  },
-  {
-   "factor": "cpu_w_max",
-   "label": "CPU power at full load (W per vCPU)",
-   "range": {
-    "low": 2.5,
-    "mid": 3.63,
-    "high": 5.0
-   },
-   "reduction_at_low": 0.4102,
-   "reduction_at_high": 0.3918,
-   "swing": 0.0184,
-   "reduction_at_mid": 0.4013
-  },
-  {
-   "factor": "grid_EU",
-   "label": "Grid EU (AI and SaaS, kg CO2 per kWh)",
-   "range": {
-    "low": 0.15,
-    "mid": 0.213,
-    "high": 0.3
-   },
-   "reduction_at_low": 0.4091,
-   "reduction_at_high": 0.3915,
-   "swing": 0.0176,
-   "reduction_at_mid": 0.4013
-  },
-  {
-   "factor": "ai_message_wh",
-   "label": "AI subscription energy (Wh per message)",
-   "range": {
-    "low": 0.1,
-    "mid": 0.3,
-    "high": 2.5
-   },
-   "reduction_at_low": 0.4027,
-   "reduction_at_high": 0.3872,
-   "swing": 0.0155,
-   "reduction_at_mid": 0.4013
+   "reduction_at_low": 0.5208,
+   "reduction_at_high": 0.4539,
+   "swing": 0.067,
+   "reduction_at_mid": 0.5043
   },
   {
    "factor": "ai_token_wh",
@@ -276,10 +176,75 @@
     "mid": 0.5,
     "high": 2.0
    },
-   "reduction_at_low": 0.4048,
-   "reduction_at_high": 0.3908,
-   "swing": 0.014,
-   "reduction_at_mid": 0.4013
+   "reduction_at_low": 0.52,
+   "reduction_at_high": 0.4573,
+   "swing": 0.0627,
+   "reduction_at_mid": 0.5043
+  },
+  {
+   "factor": "grid_EU",
+   "label": "Grid EU (AI and SaaS, kg CO2 per kWh)",
+   "range": {
+    "low": 0.15,
+    "mid": 0.213,
+    "high": 0.3
+   },
+   "reduction_at_low": 0.5181,
+   "reduction_at_high": 0.4867,
+   "swing": 0.0314,
+   "reduction_at_mid": 0.5043
+  },
+  {
+   "factor": "grid_CH",
+   "label": "Grid Zurich (kg CO2 per kWh)",
+   "range": {
+    "low": 0.057,
+    "mid": 0.11,
+    "high": 0.128
+   },
+   "reduction_at_low": 0.5279,
+   "reduction_at_high": 0.4981,
+   "swing": 0.0298,
+   "reduction_at_mid": 0.5043
+  },
+  {
+   "factor": "grid_DE",
+   "label": "Grid Frankfurt (kg CO2 per kWh)",
+   "range": {
+    "low": 0.33,
+    "mid": 0.363,
+    "high": 0.43
+   },
+   "reduction_at_low": 0.4943,
+   "reduction_at_high": 0.5226,
+   "swing": 0.0282,
+   "reduction_at_mid": 0.5043
+  },
+  {
+   "factor": "mem_w_per_gb",
+   "label": "Memory power (W per GB)",
+   "range": {
+    "low": 0.3,
+    "mid": 0.392,
+    "high": 0.5
+   },
+   "reduction_at_low": 0.4908,
+   "reduction_at_high": 0.5175,
+   "swing": 0.0268,
+   "reduction_at_mid": 0.5043
+  },
+  {
+   "factor": "ai_message_wh",
+   "label": "AI subscription energy (Wh per message)",
+   "range": {
+    "low": 0.1,
+    "mid": 0.3,
+    "high": 2.5
+   },
+   "reduction_at_low": 0.506,
+   "reduction_at_high": 0.4865,
+   "swing": 0.0194,
+   "reduction_at_mid": 0.5043
   },
   {
    "factor": "pue_hyperscaler",
@@ -289,10 +254,36 @@
     "mid": 1.18,
     "high": 1.54
    },
-   "reduction_at_low": 0.3982,
-   "reduction_at_high": 0.4119,
-   "swing": 0.0137,
-   "reduction_at_mid": 0.4013
+   "reduction_at_low": 0.5002,
+   "reduction_at_high": 0.5179,
+   "swing": 0.0176,
+   "reduction_at_mid": 0.5043
+  },
+  {
+   "factor": "cpu_w_min",
+   "label": "CPU power at idle (W per vCPU)",
+   "range": {
+    "low": 0.5,
+    "mid": 0.76,
+    "high": 1.0
+   },
+   "reduction_at_low": 0.4956,
+   "reduction_at_high": 0.5115,
+   "swing": 0.016,
+   "reduction_at_mid": 0.5043
+  },
+  {
+   "factor": "gpu_idle_w",
+   "label": "GPU idle power (W)",
+   "range": {
+    "low": 30.0,
+    "mid": 60.0,
+    "high": 90.0
+   },
+   "reduction_at_low": 0.4966,
+   "reduction_at_high": 0.5116,
+   "swing": 0.0149,
+   "reduction_at_mid": 0.5043
   },
   {
    "factor": "grid_IE",
@@ -302,23 +293,10 @@
     "mid": 0.226,
     "high": 0.352
    },
-   "reduction_at_low": 0.403,
-   "reduction_at_high": 0.394,
-   "swing": 0.0089,
-   "reduction_at_mid": 0.4013
-  },
-  {
-   "factor": "pue_hoster",
-   "label": "PUE Swiss hoster",
-   "range": {
-    "low": 1.3,
-    "mid": 1.5,
-    "high": 1.8
-   },
-   "reduction_at_low": 0.4038,
-   "reduction_at_high": 0.3977,
-   "swing": 0.0061,
-   "reduction_at_mid": 0.4013
+   "reduction_at_low": 0.5067,
+   "reduction_at_high": 0.4936,
+   "swing": 0.0131,
+   "reduction_at_mid": 0.5043
   },
   {
    "factor": "network",
@@ -328,35 +306,206 @@
     "mid": 0.002,
     "high": 0.006
    },
-   "reduction_at_low": 0.402,
-   "reduction_at_high": 0.3988,
-   "swing": 0.0032,
-   "reduction_at_mid": 0.4013
+   "reduction_at_low": 0.5051,
+   "reduction_at_high": 0.5011,
+   "swing": 0.004,
+   "reduction_at_mid": 0.5043
+  },
+  {
+   "factor": "pue_hoster",
+   "label": "PUE Swiss hoster",
+   "range": {
+    "low": 1.3,
+    "mid": 1.5,
+    "high": 1.8
+   },
+   "reduction_at_low": 0.5057,
+   "reduction_at_high": 0.5021,
+   "swing": 0.0036,
+   "reduction_at_mid": 0.5043
+  },
+  {
+   "factor": "cpu_w_max",
+   "label": "CPU power at full load (W per vCPU)",
+   "range": {
+    "low": 2.5,
+    "mid": 3.63,
+    "high": 5.0
+   },
+   "reduction_at_low": 0.5029,
+   "reduction_at_high": 0.5058,
+   "swing": 0.0029,
+   "reduction_at_mid": 0.5043
   }
  ],
  "stress_all_factors_together": {
-  "p_meet": 0.5301,
-  "percentiles": {
-   "p5": 0.3586,
-   "p25": 0.3786,
-   "p50": 0.403,
-   "p75": 0.437,
-   "p95": 0.4938
-  },
-  "mean": 0.4114
- },
- "production_mix": {
   "p_meet": 1.0,
   "percentiles": {
-   "p5": 0.4705,
-   "p25": 0.5059,
-   "p50": 0.5298,
-   "p75": 0.5554,
-   "p95": 0.5936
+   "p5": 0.4321,
+   "p25": 0.4559,
+   "p50": 0.4822,
+   "p75": 0.5119,
+   "p95": 0.5563
   },
-  "mean": 0.5308
+  "mean": 0.4861
  },
- "headline": "The package reaches −40 % CO2 in 54% of 10,000 factor scenarios (median −40.3%); −25 % cost in 100%.",
+ "production_mix": {
+  "p_meet": 0.999,
+  "percentiles": {
+   "p5": 0.445,
+   "p25": 0.4806,
+   "p50": 0.5037,
+   "p75": 0.5283,
+   "p95": 0.5637
+  },
+  "mean": 0.5042
+ },
+ "by_goal": {
+  "climate_first": {
+   "measure_ids": [
+    "M-01",
+    "M-03",
+    "M-04",
+    "M-08",
+    "M-22",
+    "M-23",
+    "M-25",
+    "M-27",
+    "M-29"
+   ],
+   "effort_days": 15.0,
+   "co2_reduction": {
+    "p_meet": 0.999,
+    "percentiles": {
+     "p5": 0.4325,
+     "p25": 0.4594,
+     "p50": 0.4793,
+     "p75": 0.4992,
+     "p95": 0.5284
+    },
+    "mean": 0.4798
+   },
+   "cost_reduction": {
+    "p_meet": 1.0,
+    "percentiles": {
+     "p5": 0.2542,
+     "p25": 0.2544,
+     "p50": 0.2545,
+     "p75": 0.2545,
+     "p95": 0.2547
+    },
+    "mean": 0.2545
+   },
+   "p_meet_both": 0.999,
+   "stress_all_factors_together": {
+    "p_meet": 1.0,
+    "percentiles": {
+     "p5": 0.4321,
+     "p25": 0.4559,
+     "p50": 0.4822,
+     "p75": 0.5119,
+     "p95": 0.5563
+    },
+    "mean": 0.4861
+   }
+  },
+  "best_value": {
+   "measure_ids": [
+    "M-01",
+    "M-03",
+    "M-04",
+    "M-08",
+    "M-21",
+    "M-22",
+    "M-29"
+   ],
+   "effort_days": 13.0,
+   "co2_reduction": {
+    "p_meet": 0.9844,
+    "percentiles": {
+     "p5": 0.4142,
+     "p25": 0.4453,
+     "p50": 0.4672,
+     "p75": 0.4892,
+     "p95": 0.5203
+    },
+    "mean": 0.4673
+   },
+   "cost_reduction": {
+    "p_meet": 1.0,
+    "percentiles": {
+     "p5": 0.2534,
+     "p25": 0.2535,
+     "p50": 0.2536,
+     "p75": 0.2537,
+     "p95": 0.2538
+    },
+    "mean": 0.2536
+   },
+   "p_meet_both": 0.9844,
+   "stress_all_factors_together": {
+    "p_meet": 1.0,
+    "percentiles": {
+     "p5": 0.4157,
+     "p25": 0.4415,
+     "p50": 0.4703,
+     "p75": 0.5022,
+     "p95": 0.5496
+    },
+    "mean": 0.4743
+   }
+  },
+  "francs_first": {
+   "measure_ids": [
+    "M-01",
+    "M-03",
+    "M-04",
+    "M-08",
+    "M-09",
+    "M-13",
+    "M-15",
+    "M-21",
+    "M-22",
+    "M-29"
+   ],
+   "effort_days": 15.0,
+   "co2_reduction": {
+    "p_meet": 0.9844,
+    "percentiles": {
+     "p5": 0.4142,
+     "p25": 0.4453,
+     "p50": 0.4672,
+     "p75": 0.4892,
+     "p95": 0.5203
+    },
+    "mean": 0.4673
+   },
+   "cost_reduction": {
+    "p_meet": 1.0,
+    "percentiles": {
+     "p5": 0.2953,
+     "p25": 0.2954,
+     "p50": 0.2955,
+     "p75": 0.2956,
+     "p95": 0.2957
+    },
+    "mean": 0.2955
+   },
+   "p_meet_both": 0.9844,
+   "stress_all_factors_together": {
+    "p_meet": 1.0,
+    "percentiles": {
+     "p5": 0.4157,
+     "p25": 0.4415,
+     "p50": 0.4703,
+     "p75": 0.5022,
+     "p95": 0.5496
+    },
+    "mean": 0.4743
+   }
+  }
+ },
+ "headline": "The package reaches −40 % CO2 in 99.9% of 10,000 factor scenarios (median −47.9%); −25 % cost in 100%.",
  "calc": {
   "formula": "for each of N draws: factors ~ triangular(low, mid, high) independently; reduction = package CO2 savings / baseline CO2, both recomputed with the drawn factors (linear energy model + package model)",
   "inputs": [

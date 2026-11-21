@@ -1,7 +1,7 @@
 {
   "meta": {
     "schema_version": "0.1",
-    "generated_at": "2026-11-21T12:19:18+01:00",
+    "generated_at": "2026-11-21T15:08:07+01:00",
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -120,43 +120,41 @@
         "it_tickets.csv",
         "pipeline/energy/factors.yaml"
       ],
-      "answer": "Today gpu-ml-01 (Frankfurt) runs 168 of 168 h a week at 9.2 % average GPU utilisation. Measure M-02 «Auto-stop the GPU ML server outside quarterly training and booked runs»: effort 1.5 person-days (CHF 1,650); savings per year 9,340 CHF (range 9,326–9,352), 951 kWh (range 609–1,640) and 345.2 kg CO2 (range 201.0–705.1) location-based. Status: ok (decides: Head of Consulting). It respects: GPU environment is used for quarterly training on days 1 to 3 of January, April, July and October.",
-      "measure_id": "M-02",
+      "answer": "Today gpu-ml-01 (Frankfurt) runs 168 of 168 h a week at 9.2 % average GPU utilisation. Measure M-04 «Run gpu-ml on demand»: effort 1.5 person-days (CHF 1,650); savings per year 9,471 CHF (range 9,457–9,483), 964 kWh (range 618–1,663) and 350.0 kg CO2 (range 203.8–715.0) location-based. Status: ok (decides: Head of Consulting).",
+      "measure_id": "M-04",
       "effort_days": 1.5,
       "effort_chf": 1650.0,
       "savings": {
         "cost_chf": {
-          "low": 9326.33,
-          "mid": 9339.65,
-          "high": 9352.11
+          "low": 9457.13,
+          "mid": 9470.64,
+          "high": 9483.27
         },
         "cost_eur": {
-          "low": 10086.94,
-          "mid": 10101.35,
-          "high": 10114.82
+          "low": 10228.41,
+          "mid": 10243.02,
+          "high": 10256.68
         },
         "cost_usd": {
-          "low": 11737.87,
-          "mid": 11754.63,
-          "high": 11770.31
+          "low": 11902.48,
+          "mid": 11919.48,
+          "high": 11935.38
         },
         "kwh": {
-          "low": 609.1,
-          "mid": 951.0,
-          "high": 1639.8
+          "low": 617.6,
+          "mid": 964.3,
+          "high": 1662.8
         },
         "co2_kg": {
-          "low": 201.0,
-          "mid": 345.2,
-          "high": 705.1
+          "low": 203.8,
+          "mid": 350.0,
+          "high": 715.0
         }
       },
       "status": "ok",
       "owner_role": "Head of Consulting",
-      "limit_ids": [
-        "L-05"
-      ],
-      "calc": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.82, energy × 0.82",
+      "limit_ids": [],
+      "calc": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.83",
       "assumptions": [
         {
           "id": "energy_per_gpu_hour",
@@ -205,9 +203,9 @@
       },
       "protection": [
         {
-          "id": "L-01",
+          "id": "L-05",
           "type": "window",
-          "title": "Production platform is needed on the last three working days of each month until about 04:00.",
+          "title": "Production platform must be available on the last three working days of each month until 04:00 for finance closing.",
           "period": "last 3 working days of every month from 00:00 until 04:00",
           "source": {
             "kind": "ticket",
@@ -215,7 +213,7 @@
           }
         },
         {
-          "id": "L-09",
+          "id": "L-08",
           "type": "window",
           "title": "scheduled job «Month-end close» starts 18:00 (median 10.1 h); runs on 65 days a year",
           "period": "see summary",
@@ -225,7 +223,7 @@
           }
         },
         {
-          "id": "L-10",
+          "id": "L-09",
           "type": "window",
           "title": "scheduled job «Nightly ETL» starts 02:00 (median 1.5 h), must be done by 06:00",
           "period": "every day from 02:00 until 06:00 (next 7 days shown)",
@@ -235,7 +233,7 @@
           }
         },
         {
-          "id": "L-11",
+          "id": "L-10",
           "type": "window",
           "title": "scheduled job «PBI refresh large» starts 05:30 (median 1.2 h), must be done by 07:30",
           "period": "every day from 05:30 until 07:30 (next 7 days shown)",
@@ -245,7 +243,7 @@
           }
         },
         {
-          "id": "L-12",
+          "id": "L-11",
           "type": "window",
           "title": "scheduled job «Reporting export» starts 06:00 (median 0.5 h), must be done by 08:00; runs on 456 days a year",
           "period": "see summary",
@@ -255,7 +253,7 @@
           }
         },
         {
-          "id": "L-13",
+          "id": "L-12",
           "type": "window",
           "title": "scheduled job «Year-end close analysis» starts 20:00 (median 5.9 h); runs on 43 days a year",
           "period": "see summary",
@@ -266,7 +264,13 @@
         }
       ],
       "decided_by": "Head of Consulting",
-      "measures_on_dp_prod": [],
+      "measures_on_dp_prod": [
+        {
+          "id": "M-03",
+          "status": "human",
+          "in_package": true
+        }
+      ],
       "sources": [
         "data_platform_usage.csv",
         "it_tickets.csv (T-1029 and others, via the quarantined reader)",

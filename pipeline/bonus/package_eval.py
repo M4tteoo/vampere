@@ -9,6 +9,10 @@ for 10,000 random factor draws (B1) without re-running anything:
   - a relocation also cuts the CO2 of the remaining energy by (1 − grid_to / grid_from);
   - reduction = package savings / actual baseline (incl. one-off events), as in the Calculator.
 `check()` proves it reproduces measures.json at low / mid / high.
+
+The advisor's optimiser gives one package per goal (measures.json → packages:
+climate_first / best_value / francs_first); `PackageModel(ctx, goal)` evaluates
+any of them (default: the recommended `package`), `goals()` lists the feasible ones.
 """
 from __future__ import annotations
 
@@ -24,7 +28,7 @@ COST = {"low": "cost_chf_low", "mid": "cost_chf", "high": "cost_chf_high"}
 
 
 class PackageModel:
-    def __init__(self, ctx: Context):
+    def __init__(self, ctx: Context, goal: str | None = None):
         mf = read_output(ctx, "measures.json")
         facts = read_output(ctx, "advisor/facts.json")
         if not mf or not facts:
@@ -34,14 +38,31 @@ class PackageModel:
         self.lin = LinearEnergy(self.base)
         self.rows = ScopeRows(self.base, facts, ctx.tables["stg_ai_usage"])
         self.rec = self.rows.recurring.to_numpy()
+        self._default = mf["package"]
         self.total = self.lin.aggregate(np.ones(len(self.base), bool))
         self.total_cost = {lvl: float(self.base[COST[lvl]].sum()) for lvl in LEVELS}
 
-        self.measures = [m for m in mf["measures"] if m["in_package"] and m["status"] != "blocked"]
         self.all_measures = mf["measures"]
-        self.package = mf["package"]
+        self.packages = {g: p for g, p in (mf.get("packages") or {}).items() if p.get("feasible")}
+        self.default_goal = mf["package"].get("goal")
         self.scenario = mf["meta"]["scenario"]
         self._scopes: dict[str, dict] = {}
+        self.use(goal)
+
+    def use(self, goal: str | None = None) -> "PackageModel":
+        """Switch to the package of a goal (None = the recommended package); scope caches are kept."""
+        mf_pkg = self.packages[goal] if goal else None
+        if goal and mf_pkg is None:
+            raise KeyError(f"goal {goal} has no feasible package in measures.json")
+        self.goal = goal or self.default_goal
+        self.package = mf_pkg or self._default
+        ids = set(self.package["measure_ids"])
+        self.measures = [m for m in self.all_measures if m["id"] in ids and m["status"] != "blocked"]
+        return self
+
+    def goals(self) -> list[str]:
+        """Feasible goals of the optimiser, the recommended one first."""
+        return sorted(self.packages, key=lambda g: g != self.default_goal)
 
     # ----------------------------------------------------------- scopes
     def scope(self, scope: str) -> dict:
