@@ -1,0 +1,176 @@
+GreenOps Basel · FRONTEND 3D (demo con dati finti → dati veri)
+  Legenda:
+    @must = serve per una funzione obbligatoria · @bonus = bonus ufficiale · @nostro = nostra proposta · @wow = fattore wow
+    @p1 = subito · @p2 = dopo i must · @p3 = se avanza tempo
+    Costo per ogni voce: «tempo» = ore di sviluppo indicative · «peso» = impatto su prestazioni e dimensioni (basso / medio / alto)
+  Idea: un plastico dell'ufficio di Basilea (reparti = stanze) collegato da «cavi» luminosi a tre isole data center (Zurigo, Francoforte, Dublino) + una nuvola «EU» per AI e SaaS. Il messaggio: «si decide a Basilea, si emette a Francoforte».
+  Principio: il 3D non nasconde MAI un numero. Accanto c'è sempre un pannello con cifre e calcolo apribile.
+  Strategia: si costruisce tutto su dati FINTI (mock) con lo stesso formato che produrrà il backend → quando la pipeline è pronta si sostituiscono i file e la demo funziona.
+
+Setup:
+  ☐ Progetto Vite + React + TypeScript @must @p1
+    Costo: tempo 30m · peso basso
+    Da fare: cartella web/; dipendenze three, @react-three/fiber, @react-three/drei, zustand (stato), tailwind (pannelli), recharts (grafici 2D)
+  ☐ Budget di prestazioni @must @p1
+    Costo: tempo 0 (sono regole) · evita problemi dopo
+    Da fare:
+      - meno di circa 50.000 triangoli in tutta la scena; GLB totale sotto circa 5 MB
+      - oggetti ripetuti (scrivanie, rack, sedie) con <Instances> di drei → poche draw call
+      - <Canvas frameloop="demand"> (ridisegna solo quando cambia qualcosa) e dpr={[1, 2]}
+      - niente ombre in tempo reale: ContactShadows o AccumulativeShadows di drei (ombre morbide, stile Airbnb)
+      - materiali MeshStandardMaterial opachi con palette pastello; Environment preset per la luce
+  ☐ Stile visivo «Airbnb» @wow @p1
+    Costo: tempo 2h · peso basso
+    Da fare: forme arrotondate, colori pastello caldi, luce morbida, camera isometrica (ortografica o FOV basso), testi con <Html> di drei
+    Riferimenti visivi: spline.design (community «isometric room») · dribbble.com/search/isometric-office · bruno-simon.com
+  ☐ Modelli 3D @must @p1
+    Costo: tempo 3–5h · peso medio (dipende dai poligoni)
+    Da fare (scegliere UNA strada):
+      - A: modellare in Spline → export GLB (più veloce per chi disegna e non programma)
+      - B: comporre con asset gratuiti low-poly: Kenney Furniture Kit (CC0), poly.pizza, quaternius.com
+      - comprimere: gltf-transform / gltfjsx (Draco o meshopt) → componenti React
+
+Contratto dati (identico per mock e dati veri):
+  Cos'è: i file JSON che il backend produce in output/ e il frontend legge da web/public/data/. Si definiscono SUBITO e si riempiono con dati finti.
+  ☐ Scrivere i tipi TypeScript + i file mock @must @p1
+    Costo: tempo 1.5h · peso basso
+    File:
+      - summary.json: baseline {cost_chf, kwh, co2_kg} × {low, mid, high}; target {co2: -0.40, cost: -0.25, budget_chf: 16500}; ripartizione per category / department / location
+      - entities.json: elenco degli oggetti nella scena
+          {id, kind: room | resource | island | license_group, label, department, tool, location: CH|DE|IE|EU,
+           metrics: {cost_chf, kwh, co2_kg}, utilisation, idle_ratio, state: normal | driver | waste | locked | handover | contradiction, calc}
+      - timeseries.json: valori mensili (e giornalieri per i cluster) per entità: runtime_h, active_h, cost, co2
+      - findings.json: [{id, entity_id, title, evidence (numero + fonte), severity, calc}]
+      - measures.json: [{id, title, entity_ids, effort_days, savings {cost_chf, kwh, co2_kg} × low/mid/high, status: ok | human | blocked, owner_role, reason, start_date, calc}]
+      - limits.json: [{entity_id, type: window | block | human | contradiction, period, text, source (ticket / file)}]
+      - quality.json: [{source_file, issue, rows, action}] + contatori totali
+      - factors.json: fattori con basso / medio / alto + fonte (per i pannelli «calcolo» e per l'interruttore del mix svizzero)
+      - (bonus) forecast.json, montecarlo.json, jobs.json, clusters.json
+  ☐ Caricatore dati unico (un solo punto da cambiare: mock → veri) @must @p1
+    Costo: tempo 30m · peso basso
+
+Scena base:
+  ☐ Plastico dell'ufficio di Basilea @must @p1
+    Costo: tempo 4h · peso medio
+    Da fare: 7 stanze (Consulting, Sales, Finance, Marketing, HR, IT, Management) + angolo Overhead; dimensione della stanza circa proporzionale agli FTE; scrivanie = posti di licenza (in istanze)
+  ☐ Isole dei data center @must @p1
+    Costo: tempo 3h · peso medio
+    Da fare: isole Zurigo, Francoforte, Dublino con rack (dp-prod, dp-dev, GPU, VM di test, storage, backup…) + una nuvola «EU (mista)» per AI e SaaS; colore dell'isola = intensità di carbonio della rete
+  ☐ Cavi di energia dalla stanza IT alle isole @must @p1
+    Costo: tempo 2h · peso basso
+    Da fare: curve (CatmullRomCurve3 / QuadraticBezierLine di drei) con spessore = kWh e particelle animate = flusso; cavo più spesso verso Francoforte
+  ☐ Nuvole di CO₂ sopra le isole @must @p1
+    Costo: tempo 1.5h · peso basso-medio (contenere le particelle)
+    Da fare: volume proporzionale a kg CO₂; si riducono con animazione quando si attivano le misure
+  ☐ Controlli della camera + spostamento verso un oggetto @must @p1
+    Costo: tempo 1.5h · peso basso
+    Da fare: CameraControls di drei; funzione focus(entity_id) con setLookAt animato; usata da clic, tour e assistente
+  ☐ Gestione degli stati visivi (state machine) @must @p1
+    Costo: tempo 2h · peso basso
+    Da fare: ogni oggetto legge il suo state da zustand:
+      - normal: colori base
+      - driver: pulsazione leggera + etichetta con la cifra
+      - waste: lampeggio arancione / «fantasma» per i posti non usati
+      - locked: lucchetto 🔒 + alone grigio
+      - handover: icona 🧑 + scheda «decide il responsabile IT»
+      - contradiction: ⚠️ tra due oggetti, con le due cifre
+      - measure_on: luci spente / rack che si sposta / dimensione ridotta
+
+Pannelli 2D (sempre visibili accanto al 3D):
+  ☐ Barra degli indicatori: CO₂, CHF, budget @must @p1
+    Costo: tempo 2h · peso basso
+    Da fare: tre indicatori che si riempiono: −X% CO₂ (target 40%), −Y% costi (target 25%), CHF usati su 16.500; verde quando il target è raggiunto
+  ☐ Selettore della metrica (CHF / kWh / CO₂) @must @p1
+    Costo: tempo 1h · peso basso
+    Da fare: ricolora stanze e isole e cambia lo spessore dei cavi secondo la metrica scelta
+  ☐ Pannello di dettaglio dell'oggetto cliccato @must @p1
+    Costo: tempo 2h · peso basso
+    Da fare: metriche, utilizzo, grafico nel tempo (recharts), finding collegati, limiti, misure possibili
+
+Funzioni obbligatorie nel 3D:
+  ☐ Connect · Schermata «Intake» (primo passo della demo) @must @nostro @p1
+    Costo: tempo 2h · peso basso
+    Cos'è: «28 file caricati → ecco cosa ho sistemato → ecco il quadro d'insieme».
+    Da fare: icone dei file che «volano» dentro il plastico; contatori presi da quality.json (righe Draft scartate, valute convertite, unità sistemate, contraddizioni trovate)
+  ☐ Connect · Quadro d'insieme @must @p1
+    Costo: tempo 1h (sfrutta la scena base) · peso basso
+    Da fare: vista iniziale con tutto il plastico; totali in alto; ripartizione per reparto / tool / sede nel pannello
+  ☐ Find · Driver e sprechi @must @p1
+    Costo: tempo 2h · peso basso
+    Da fare: i 5 driver principali pulsano; gli sprechi lampeggiano arancione (dp-dev a Francoforte come scoperta principale: «acceso 24 h, lavora 2 h»); posti di licenza non usati = scrivanie con schermo spento; scheda con la prova numerica
+  ☐ Decide · Misure attivabili @must @p1
+    Costo: tempo 3h · peso basso
+    Da fare: elenco delle misure con interruttore; attivandone una: la scena cambia (GPU spenta, rack dp-dev che vola da Francoforte a Zurigo, scrivanie fantasma che spariscono, nuvola che si riduce) + gli indicatori si aggiornano
+  ☐ Decide · Pacchetto consigliato in un clic @must @p1
+    Costo: tempo 30m · peso basso
+    Da fare: pulsante «Applica il pacchetto consigliato» → attiva le misure scelte dall'ottimizzatore e mostra target e budget raggiunti
+  ☐ Know the limits · Lucchetti, persone, contraddizioni @must @p1
+    Costo: tempo 2.5h · peso basso
+    Da fare:
+      - lucchetto su archivio backup, dr-failover, pbi-07; tentare di attivare una misura bloccata → scheda con motivo e ticket
+      - dp-prod 🧑: calendario delle finestre protette (fine mese fino alle 04:00, ETL entro le 06:00, Power BI entro le 07:30) + «decide il responsabile IT»
+      - ⚠️ contraddizioni: report del fornitore contro fattura, gateway AI contro fattura AI
+  ☐ Ogni numero si apre (pannello «calcolo») @must @nostro @p1
+    Costo: tempo 1.5h · peso basso
+    Da fare: clic su qualsiasi cifra → formula, fattori con fonte e intervallo, file di origine e numero di righe (campo «calc» dei JSON)
+  ☐ Pulsante di export dei due CSV @must @p2
+    Costo: tempo 30m · peso basso
+    Da fare: download dei CSV già generati dal backend (stessi numeri della demo)
+
+Bonus ufficiali nel 3D:
+  ☐ A2 · Previsione: cursore degli anni @bonus @p2
+    Costo: tempo 2.5h · peso basso
+    Da fare: cursore 2026 → 2030; la scena «cresce» (dp-prod con più nodi) e il grafico a ventaglio mostra la fascia con e senza il pacchetto
+  ☐ A1 · Assistente in chat @bonus @p2
+    Costo: tempo 3h di frontend (+ backend) · peso basso
+    Da fare: pannello chat; ogni risposta con calcolo e fonte; se nomina un oggetto → la camera ci si sposta (focus)
+  ☐ A3 · Interruttore market-based @bonus @p3
+    Costo: tempo 1h · peso basso
+    Da fare: le isole diventano «verdi certificate» con un'etichetta critica: «sulla carta sì, nella rete no»
+  ☐ A5 · Spostare i carichi nelle ore pulite @bonus @p3
+    Costo: tempo 3h · peso basso-medio
+    Da fare: linea del tempo di 24 h con l'intensità oraria; i job flessibili (blocchi colorati) scivolano nelle ore pulite; quelli fissi hanno un lucchetto
+  ☐ A6 · Pipeline di build @bonus @p2
+    Costo: tempo 1h · peso basso
+    Da fare: un «nastro trasportatore» nell'isola di Dublino; i build notturni senza commit sono pacchi vuoti che vengono scartati
+  ☐ A4 · Clustering @bonus @p3
+    Costo: tempo 2h · peso basso
+    Da fare: modalità «gruppi»: gli oggetti si ricolorano per gruppo e si avvicinano; i casi anomali restano fuori con un'etichetta
+  ☐ Fonti extra come oggetti in più @bonus @p3
+    Costo: tempo 2–3h · peso medio (più oggetti)
+    Da fare: nella stanza IT o sulle isole: archivio dei backup (triplo), schermi dei report Power BI (copie spente), server dei log, CDN con i bot
+
+Nostre proposte nel 3D:
+  ☐ B10 · Tour guidato per il pitch @wow @nostro @p1
+    Costo: tempo 2h · peso basso
+    Cos'è: un pulsante e la camera passa da sola sui 4 punti richiesti dalla giuria.
+    Da fare: 5 scene in sequenza con testi brevi: 1 quadro d'insieme → 2 una scoperta (dp-dev) → 3 il pacchetto (le misure si attivano una dopo l'altra) → 4 un caso limite (dp-prod 🔒🧑) → 5 chiusura; navigazione con le frecce della tastiera; drei CameraControls (o Theatre.js se avanza tempo)
+  ☐ B2 · Interruttore del mix svizzero @nostro @p2
+    Costo: tempo 1h · peso basso
+    Da fare: interruttore «produzione / consumo»: l'isola di Zurigo cambia colore, gli indicatori si ricalcolano, il pacchetto resta verde
+  ☐ B1 · Grafico del pacchetto robusto (Monte Carlo) @nostro @p2
+    Costo: tempo 1.5h · peso basso
+    Da fare: istogramma 2D (montecarlo.json) + frase grande: «target raggiunto nel X% degli scenari»
+  ☐ B11 · Scorrere il tempo: giorno e notte @nostro @wow @p3
+    Costo: tempo 3h · peso medio (luce animata)
+    Da fare: cursore sui 22 mesi o sulle 24 h; luce del giorno e della notte nel plastico; i rack si accendono e spengono secondo runtime / active_use reali
+  ☐ B4 · Calendario dei risparmi @nostro @p3
+    Costo: tempo 1.5h · peso basso
+    Da fare: linea dei 12 mesi con l'inizio di ogni misura (licenze alla scadenza del contratto) e il risparmio cumulato
+  ☐ B5 · Coda di approvazione @nostro @p3
+    Costo: tempo 1.5h · peso basso
+    Da fare: pannello «da decidere» con le misure 🧑: ruolo, domanda, dati allegati, pulsanti approva / respingi (solo nella demo)
+  ☐ B12 · Versione 2D di riserva @nostro @p2
+    Costo: tempo 2h · peso basso
+    Da fare: stessa vista con grafici piatti (stessi JSON); si attiva con un pulsante o in automatico se WebGL non è disponibile; un'assicurazione per il pitch
+
+Rifinitura e demo:
+  ☐ Test su un portatile normale (non solo su quello di sviluppo) @must @p2
+    Costo: tempo 1h
+    Da fare: almeno 50 fps; nessun freeze al caricamento; aprire chrome://gpu se serve
+  ☐ Deploy statico (Vercel o Netlify) + copia locale offline @must @p2
+    Costo: tempo 30m
+    Da fare: la demo deve funzionare anche senza rete (build locale pronta)
+  ☐ Sostituire i mock con i JSON veri del backend @must @p1
+    Costo: tempo 1h (se il contratto è stato rispettato)
+  ☐ Prova del pitch cronometrata (5 minuti) @must @p1

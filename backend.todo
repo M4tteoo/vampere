@@ -1,0 +1,341 @@
+GreenOps Basel · BACKEND (dati → motore → export)
+  Legenda:
+    @must = obbligatorio per una consegna valida · @bonus = bonus ufficiale del caso · @nostro = nostra proposta
+    @p1 = subito · @p2 = dopo i must · @p3 = se avanza tempo
+    @est(…) = stima di tempo indicativa
+  Scadenze: bozza sabato 15:00–15:30 · consegna finale domenica 08:30 · pitch domenica dalle 09:00
+  Regola d'oro: i file in data/case/ non si modificano MAI a mano. Tutto passa dal codice.
+  Fonti principali: case.md · data/case/README.md · data/case/data_dictionary.md · data/case/example_questions.md
+
+Step 0 · Setup:
+  ☐ Struttura del progetto Python @must @p1 @est(30m)
+    Cos'è: lo scheletro della pipeline, uguale per tutto il team.
+    Da fare:
+      - cartelle: pipeline/connectors/, pipeline/engine/, pipeline/factors/, output/ (JSON per il frontend + CSV da consegnare)
+      - requirements.txt (pandas, numpy, pyyaml) e un comando unico per far girare tutto (es. `python -m pipeline.run`)
+      - leggere sempre i CSV con encoding='utf-8-sig' (hanno il BOM)
+      - campo vuoto = «non registrato», MAI zero (data_dictionary.md, «General rules»)
+  ☐ Concordare con il frontend il contratto JSON @must @p1 @est(30m)
+    Cos'è: il formato dei file che la pipeline produce e il 3D legge. Va fissato SUBITO, così dati e demo vanno avanti in parallelo.
+    Da fare: usare la sezione «Contratto dati» di frontend-3d.todo come riferimento unico.
+
+Step 1 · Pulizia e armonizzazione (Connect, prima parte):
+  Cos'è: ogni sistema esporta i dati «nella sua lingua». Qui li traduciamo tutti in una lingua comune (uno schema unico) e teniamo un registro di ogni correzione.
+  Riferimenti: case.md «Core use case» (il prototipo armonizza tempo, valuta e nomi) · README «Data quality» («Preparing the data is part of the task») · README «Notes»
+
+  ☐ Definire lo schema unico (ispirato a FOCUS) @must @p1 @est(1h)
+    Cos'è: la «lingua comune». Ogni riga = una risorsa in un giorno o in un mese.
+    Da fare:
+      - colonne: date, month, source_file, category (cloud/server/ai/saas/other), provider, region, location,
+        resource_id, service, tool, unit, quantity, cost_chf, department, cost_center, project_id, environment, dq_flags
+      - mappa delle sedi: Switzerland (Zurich) → CH · Germany (Frankfurt) → DE · Ireland (Dublin) → IE · EU (mixed) → EU
+      - riferimento: README, fine di «Origin and structure of the data» (FOCUS, https://focus.finops.org)
+
+  ☐ Connettori come file di mappatura (YAML) + motore generico @nostro @p2 @est(2h)
+    Cos'è: invece di codice scritto a mano per ogni file, un «dizionario» per fonte (colonna originale → colonna nostra, formato data, valuta, unità). Per un'altra PMI basta un nuovo dizionario.
+    Da fare:
+      - un file YAML per fonte: mapping delle colonne, formato data, colonna della valuta, conversioni di unità, filtri (es. escludere le righe Draft)
+      - motore generico che legge il YAML e produce lo schema unico
+      - se il tempo stringe: iniziare con codice su misura e passare al YAML dopo
+    Perché: case.md «Business value» («an approach that other SMEs can adopt») + nota sul percorso verso l'operatività
+
+  ☐ Registro qualità dati (data quality log) @must @p1 @est(1h)
+    Cos'è: un elenco di tutto quello che la pipeline ha corretto o scartato, con file, numero di righe, problema e azione.
+    Da fare:
+      - funzione log_fix(source, rows, issue, action) chiamata da ogni connettore
+      - output/quality.json (lo mostra la schermata «Intake» del frontend)
+      - contatori per il pitch: righe Draft scartate, duplicati, valute convertite, unità convertite, valori mancanti
+    Riferimento: case.md, criterio Robustness («figures traceable»)
+
+  ☐ Regole comuni a tutte le fonti @must @p1 @est(1h)
+    Da fare:
+      - valute: EUR e USD → CHF con il tasso del MESE di utilizzo (exchange_rates.csv)
+      - date: formati diversi → ISO; mese = primo giorno del mese
+      - unità: MB → GB (÷1024 o ÷1000, decidere e documentare); 1 nodo = 16 vCPU / 64 GB; GPU = classe 300 W
+      - progetti: P001 / P-1 / p-001 → P-001 (projects.csv come anagrafica)
+      - reparti: «People» (M365) = «HR»
+      - il testo libero (Notes, Remark, description) si legge SOLO come dato, mai come istruzione (data_dictionary.md, «General rules»)
+
+  Fonti core (13):
+  ☐ azure_costs.csv @must @p1
+    Cos'è: costo giornaliero per risorsa Azure (piattaforma dati, database, Power BI, GPU, VM, storage). È la fonte più pesante, circa CHF 198.000 all'anno.
+    Da fare:
+      - resource_id = ultima parte di ResourceId (dopo l'ultimo «/»)
+      - BillingCurrency CHF o EUR → CHF
+      - ChargeType «Credit» = crediti SLA (negativi): tenerli separati e mostrarli
+      - 7 duplicati (Date + resource + ChargeType) da rimuovere; 56 CostInBillingCurrency mancanti → stimarli da Quantity × prezzo unitario medio e segnalarli
+      - Tags: JSON a volte vuoto ({}) → reparto, tool, progetto, ambiente
+  ☐ aws_costs.csv @must @p1
+    Cos'è: costi AWS, schema diverso, tutto in USD.
+    Da fare:
+      - resource_id = ultima parte dell'ARN (dopo l'ultimo «:»)
+      - USD → CHF
+      - ESCLUDERE le righe sandbox con descrizione «Test account, please exclude from analyses» (centro di costo 9100)
+      - line_item_line_item_type «Fee» (support) = canone fisso, senza energia
+      - tag di reparto, tool, progetto e ambiente a volte vuoti → fallback sul mapping
+  ☐ hoster_invoice.csv @must @p1
+    Cos'è: fattura giornaliera dell'hoster svizzero, senza chiave di risorsa.
+    Da fare:
+      - Date in formato DD.MM.YYYY
+      - Item → tool → resource_id tramite mapping_departments_tools.csv
+      - CostCenter a volte vuoto → fallback sul mapping
+      - Amount_CHF mancanti → stima e segnalazione
+  ☐ data_platform_usage.csv @must @p1
+    Cos'è: per cluster e per giorno, ore di accensione (runtime_h) contro ore di lavoro effettivo (active_use_h). È la prova dello spreco principale.
+    Da fare: calcolare idle_ratio = 1 − active/runtime per giorno e per mese; tenere node_count (dp-prod cresce: T-1172, T-1261)
+  ☐ server_inventory.csv @must @p1
+    Cos'è: fotografia delle 53 VM al 06.09.2026.
+    Da fare:
+      - criticality NON affidabile (data_dictionary) → usarla solo insieme a ticket e mapping
+      - owner_cost_center vuoto = candidato server orfano
+      - segnare type dr / ml / poc
+  ☐ server_metrics_weekly.csv @must @p1
+    Cos'è: CPU, RAM e ore di accensione settimanali; GPU per gpu-ml-01.
+    Da fare: aggregare per mese; confrontare con runtime_h_30d dell'inventario → eventuali contraddizioni nel registro
+  ☐ ai_usage.csv @must @p1
+    Cos'è: token e costo in CHF per tool, reparto, compito e modello (dati del gateway AI).
+    Da fare:
+      - tokens_in INCLUDE già i token in cache (non sommarli due volte)
+      - 876 tokens_out mancanti → stima da rapporto medio out/in per tool e modello, segnalata
+      - sede del fornitore = EU (mixed) (data_center_locations.csv)
+      - segnare l'anomalia del 17–19.03.2026 (script in loop, T-1212) e la campagna di T-1163 (picco atteso, NON anomalia)
+  ☐ ai_subscriptions.csv @must @p1
+    Cos'è: posti ChatGPT Team, Copilot e Claude Team: acquistati contro attivi.
+    Da fare:
+      - tenere SOLO contract_status = Final (48 righe duplicate Draft/Final)
+      - USD → CHF
+      - tenere contract_end e notice_period_days (servono per il calendario dei risparmi)
+  ☐ saas_contracts.csv @must @p1
+    Cos'è: 16 contratti SaaS per centro di costo e mese.
+    Da fare: SOLO Final (242 duplicati); CHF, EUR, USD → CHF; tenere billing (annuale o mensile), contract_end, notice_period_days
+  ☐ mapping_departments_tools.csv @must @p1
+    Cos'è: la tabella che collega tutto: risorsa → tool, reparto, centro di costo, ruolo responsabile.
+    Da fare: usarla come fallback per l'allocazione e come fonte di responsible_role (chi decide nel passaggio a una persona)
+  ☐ exchange_rates.csv @must @p1
+    Cos'è: tassi medi mensili EUR→CHF e USD→CHF (dati reali BCE/Bundesbank).
+    Da fare: tabella di lookup per mese; indicare la fonte nel template
+  ☐ it_tickets.csv @must @p1
+    Cos'è: circa 290 ticket, quasi tutti di routine. Quelli importanti sono quelli con titolo unico (circa 19).
+    Da fare:
+      - estrarre la tabella dei vincoli (curata a mano + parole chiave): T-1029, T-1035, T-1039, T-1053, T-1058, T-1074, T-1094, T-1101, T-1128, T-1163, T-1167, T-1172, T-1189, T-1195, T-1204, T-1212, T-1261
+      - per ogni vincolo: risorsa, tipo (finestra protetta / blocco / decide una persona / crescita / una tantum), periodo, testo di origine
+  ☐ business_calendar.csv @must @p1
+    Cos'è: giorni lavorativi, festivi di Basilea-Città, ferie aziendali.
+    Da fare: funzione «ultimi 3 giorni lavorativi del mese» (T-1029); notti e weekend; giorni 1–3 del trimestre
+
+  Fonti extra (15) · bonus, gestite nello stesso passaggio @bonus:
+    Riferimento: case.md «Optional stretch goals» · README «Sources»
+  ☐ extra/data_platform_jobs.csv @bonus @p2
+    Cos'è: i job della piattaforma con la finestra «fixed» (orario fisso) o «flexible» (spostabile).
+    Da fare: estrarre le finestre di dp-prod (ETL entro le 06:00, Power BI entro le 07:30, export entro le 08:00, chiusura di fine mese e di fine anno) e i job flessibili (per spostare i carichi)
+  ☐ extra/projects.csv @bonus @p2
+    Cos'è: 15 progetti con stato e data di fine.
+    Da fare: collegare P-004 (pilota AI chiuso il 30.06.2025) al server GPU e P-009 (rilancio del portale chiuso il 31.03.2026) ai server di test → prova incrociata per le misure
+  ☐ extra/headcount.csv @bonus @p1
+    Cos'è: FTE per reparto e mese (circa 120 ad agosto 2026).
+    Da fare: chiave di ripartizione dei costi condivisi (serve allo Step 2)
+  ☐ extra/project_hours_monthly.csv @bonus @p3
+    Cos'è: ore per progetto e reparto. Chiave alternativa e base per il riaddebito ai clienti.
+  ☐ extra/ai_invoice_monthly.csv @bonus @p2
+    Cos'è: fattura mensile dei fornitori AI (USD ed EUR).
+    Da fare: confrontarla con ai_usage.csv → contraddizione nel registro, con la spiegazione di quale fonte usiamo
+  ☐ extra/provider_monthly_report.csv @bonus @p2
+    Cos'è: totale mensile dichiarato dal fornitore (circa CHF 25.000) contro la fattura Azure (circa CHF 17.000).
+    Da fare: segnalare la contraddizione; verificare se include anche AWS e l'hoster; spiegare quale fonte usiamo
+  ☐ extra/ai_agent_runs.jsonl @bonus @p2
+    Cos'è: 37.000 esecuzioni di 5 agenti.
+    Da fare: il campo durata cambia nome (duration_s / duration_seconds); research-agent con circa 1,7 tentativi ripetuti per esecuzione; report-agent con report aperti solo nel 9% dei casi → spreco
+  ☐ extra/ci_pipeline_runs.jsonl @bonus @p2
+    Cos'è: 38.000 esecuzioni CI, tutte su runner a Dublino.
+    Da fare: metrics.duration_s / duration_sec; il 21% dei build notturni ha 0 commit; circa 1.900 ripetizioni (rerun)
+  ☐ extra/powerbi_usage.csv @bonus @p2
+    Cos'è: 60 report con refresh e visualizzazioni.
+    Da fare: circa 24 report con poche visualizzazioni e molti refresh (molti «(copy)»); pbi-07 protetto (audit, T-1167)
+  ☐ extra/data_catalog_tables.csv @bonus @p3
+    Cos'è: 500 tabelle, 27,6 TB.
+    Da fare: 11,6 TB non letti da più di un anno, 3,8 TB nello schema tmp; retention_required = yes → NON cancellare
+  ☐ extra/backup_chains.csv @bonus @p3
+    Cos'è: 36 sorgenti, 21 delle quali salvate con 3 strumenti.
+    Da fare: ridondanza; 29 copie senza test di ripristino; conservazione di 10 anni = obbligo legale (T-1039)
+  ☐ extra/log_volume.csv @bonus @p3
+    Da fare: unità MB e GB mescolate; conservazione da 90 a 365 giorni per servizio
+  ☐ extra/web_traffic.csv @bonus @p3
+    Da fare: sample_rate = 10 → moltiplicare requests e gb_out per 10; timestamp in UTC; bot in media al 39%
+  ☐ extra/m365_usage.csv @bonus @p3
+    Da fare: storage in GB e MB mescolati; «People» = HR; minuti video e storage → energia (facoltativo)
+  ☐ extra/data_center_locations.csv @bonus @p2
+    Cos'è: 13 sedi dei fornitori.
+    Da fare: confermare le sedi usate; mostrare le alternative (es. AWS Zurigo) per le misure di spostamento
+
+Step 2 · Allocazione: chi consuma cosa (Connect, seconda parte):
+  ☐ Attribuire ogni franco a un reparto e a un tool @must @p1 @est(1.5h)
+    Cos'è: ogni costo va attaccato a un reparto e a un tool; i costi condivisi si dividono con una regola.
+    Da fare:
+      - priorità: tag nella riga → mapping → centro di costo → regola per i costi condivisi
+      - regola per i costi condivisi (Overhead, M365, licenze comuni): proporzionale agli FTE per reparto (headcount.csv); spiegare perché (stabile e comprensibile)
+      - percentuale di righe allocate per fonte → nel registro qualità
+    Riferimenti: case.md requisito 1 · README «Allocating costs» · template, riga allocation_rule_shared_costs
+
+Step 3 · Da franchi e ore a energia e CO₂:
+  ☐ Ricerca dei fattori (basso / medio / alto + fonte + data) @must @p1 @est(3h)
+    Cos'è: i dati dicono «quante ore», non «quanta elettricità». Questi fattori fanno la conversione. Non sono nei dati: li ricerchiamo noi.
+    Da fare (un file pipeline/factors/factors.yaml):
+      - intensità di carbonio della rete per CH, DE, IE (+ EU per AI e SaaS) in kg CO₂/kWh
+        → per la Svizzera: motivare la scelta tra mix di PRODUZIONE e mix di CONSUMO con import (README: «The difference is large. Explain your choice»)
+      - PUE (valori dichiarati dagli hyperscaler contro la media di settore) e quanto fidarsi dei valori dichiarati
+      - energia per vCPU-ora, nodo-ora (16 vCPU / 64 GB), GPU-ora (300 W + host), GB-giorno di storage, 1000 token (modello grande e piccolo), messaggio in abbonamento
+      - eventuali: GB di traffico, minuto video, runner-minuto
+    Fonti suggerite: UniGe (CO₂ oraria CH), ENTSO-E, Electricity Maps, UBA (DE), SEAI (IE), Cloud Carbon Footprint (coefficienti), ML.ENERGY (token), Uptime Institute (PUE)
+    Riferimenti: case.md «Data» · README «What you need to research or assume yourselves» · template, righe da grid_mix_* a pue
+  ☐ Motore energia e CO₂ @must @p1 @est(1.5h)
+    Cos'è: la formula applicata a ogni riga.
+    Da fare:
+      - kWh = quantità × fattore per unità × PUE (PUE solo dove ha senso: cloud e server; per i token decidere se il fattore lo include già)
+      - CO₂ (location-based) = kWh × intensità della rete nella sede della riga
+      - calcolare SEMPRE i tre scenari (basso / medio / alto)
+      - SaaS senza fattore nel template: decidere un fattore per utente attivo, oppure solo costo (documentarlo)
+    Riferimento: case.md «Expected outcome» («Every figure is an estimate with an open calculation»)
+
+Step 4 · Baseline: la fotografia di partenza:
+  ☐ Calcolare la baseline settembre 2025 – agosto 2026 @must @p1 @est(1h)
+    Cos'è: il totale di CHF, kWh e CO₂ dell'anno di riferimento. È il «prima» contro cui si misurano −40% e −25%.
+    Da fare:
+      - totali per categoria, reparto, tool e sede
+      - eventi una tantum fuori dalla baseline ricorrente ma mostrati: loop di marzo 2026 (T-1212), egress di gennaio 2026 (T-1189)
+      - NON gonfiare la baseline: la giuria ricalcola con una baseline di riferimento uniforme
+      - output/summary.json
+    Riferimenti: README «Submission» (baseline year) · template, prime 3 righe
+
+Step 5 · Find: trovare i driver e gli sprechi:
+  ☐ Classifica dei driver principali @must @p1 @est(1h)
+    Cos'è: cosa pesa di più in CHF, kWh e CO₂.
+    Da fare: top-N per risorsa, tool, reparto e sede, in tre viste (CHF / kWh / CO₂)
+  ☐ Regole di spreco, ognuna con il numero che la prova @must @p1 @est(2h)
+    Cos'è: cose accese o pagate ma non usate.
+    Da fare (output/findings.json, ogni finding con prova + fonte):
+      - cluster con active/runtime < 20% → dp-dev (2,1 h di lavoro su 24, Francoforte)
+      - GPU < 10% e accesa 24/7 → gpu-ml-01 (pilota P-004 chiuso)
+      - CPU < 10% e accesi 720 h/mese → 13 server di test a Dublino (riduzione T-1058 mai fatta, P-009 chiuso)
+      - ultimo login > 180 giorni / senza proprietario → poc-ki-2024, migration-alt, build-agent-old
+      - licenze attive / acquistate < 60% → ChatGPT Team, Copilot, Survey tool, E-signature, Design tool, CRM…
+      - modello grande per compiti semplici → «Classify» con Sonnet nell'analisi testi di marketing
+      - anomalie (z-score sul giornaliero) → loop di marzo 2026
+  ☐ Risposta alla domanda d'esempio 1 @must @p1 @est(30m)
+    Cos'è: «Quanti posti AI erano acquistati ma non attivi ad agosto 2026, e quanto costano al mese?»
+    Da fare: posti acquistati e attivi per prodotto, costo in CHF, file di origine (example_questions.md)
+
+Step 6 · Proporre le misure:
+  ☐ Catalogo delle misure con sforzo e risparmio @must @p1 @est(3h)
+    Cos'è: per ogni spreco, la soluzione: cosa si cambia, quante giornate-persona costa (1 giornata = CHF 1.100), quanto si risparmia all'anno in CHF, kWh e CO₂.
+    Da fare (output/measures.json; stime da validare con i dati):
+      - M1 dp-dev: pausa automatica quando inattivo + riavvio automatico per il training trimestrale (T-1053) + spostamento a Zurigo (T-1074) · circa 3 giornate
+      - M2 GPU solo su richiesta, + giorni 1–3 di ogni trimestre (T-1101) · circa 1,5 giornate
+      - M3 server di test da 64 a 16 vCPU + spenti notte e weekend, rispettando freeze e UAT (T-1058, T-1204) · circa 2 giornate
+      - M4 dismettere i 3 server orfani, dopo conferma del proprietario · circa 1 giornata
+      - M5 analisi testi di marketing su modello piccolo + guardia anti-loop + alert di budget · circa 2 giornate
+      - M6 rightsizing licenze (ChatGPT Team, Copilot, SaaS sottoutilizzati), rispettando le disdette · circa 2 giornate
+      - M7 dp-prod: meno nodi fuori dalle finestre protette → decide una persona · circa 2 giornate
+      - M8 CI: saltare il build notturno senza commit + runner a Zurigo · circa 1 giornata (bonus)
+      - eventuali dalle fonti extra: Power BI copiati, tabelle tmp, ridondanza dei backup (escluse quelle con obbligo di conservazione)
+    Riferimenti: case.md requisito 3 · README «Impact and effort of the measures» · template misure
+  ☐ Risposta alla domanda d'esempio 2 (GPU su richiesta) @must @p1 @est(30m)
+    Da fare: utilizzo attuale, sforzo, risparmio in CHF e CO₂ con calcolo aperto, ipotesi (energia per GPU-ora, mix di Francoforte) con fonte e intervallo
+
+Step 7 · Know the limits: controllare se ogni misura si può fare:
+  ☐ Motore delle regole: semaforo per ogni misura @must @p1 @est(2h)
+    Cos'è: prima di consigliare qualcosa, il sistema controlla tre cose: c'è un divieto? le fonti si contraddicono? c'è un dubbio? Ogni misura esce con ✅ consigliata / 🧑 decide una persona / ⛔ bloccata.
+    Da fare (output/limits.json):
+      - finestre protette (calendario per risorsa): dp-prod finance (ultimi 3 giorni lavorativi del mese fino alle 04:00, T-1029), ETL entro le 06:00, Power BI entro le 07:30, export entro le 08:00, chiusura di fine anno; dp-dev e GPU nei giorni 1–3 del trimestre; vm-test freeze di marzo 2026 (T-1204); backup 22:00–06:00
+      - blocchi: archivio backup (10 anni, T-1039/T-1195), dr-failover (T-1094), pbi-07 (audit, T-1167)
+      - decide una persona: ruolo da responsible_role del mapping + domanda precisa + dati allegati (es. licenze per reparto, T-1128)
+  ☐ Contraddizioni tra fonti @must @p1 @est(1h)
+    Cos'è: quando due fonti dicono cose diverse, il sistema lo segnala e dice di quale si fida e perché.
+    Da fare: report del fornitore contro fattura Azure · gateway AI contro fattura AI · inventario contro metriche settimanali · tag contro mapping · criticality non affidabile
+    Riferimento: README «Notes» («Sources can contradict each other. Explain which one you trust»)
+  ☐ Risposta alla domanda d'esempio 3 (dp-prod di notte e nei weekend) @must @p1 @est(30m)
+    Da fare: NON rispondere sì o no; indicare quando serve (dati + ticket + calendario) e chi decide (example_questions.md)
+
+Step 8 · Scegliere il pacchetto e verificare i target:
+  ☐ Ottimizzatore: lo zaino @must @p1 @est(1.5h)
+    Cos'è: tra le misure ✅ e 🧑 si sceglie la combinazione che dà almeno −40% di CO₂, almeno −25% di costi e costa al massimo CHF 16.500 (15 giornate).
+    Da fare:
+      - con meno di 15 misure: provare tutte le combinazioni
+      - obiettivo: massima CO₂ risparmiata, poi massimi CHF
+      - le misure ⛔ restano fuori dal totale ma documentate
+      - ATTENZIONE: il −25% dei costi (circa CHF 115.000) è il vincolo più difficile → verificarlo presto
+      - funzione ricalcolabile in base alle misure attive (la usa anche il frontend)
+    Riferimenti: case.md requisito 3 · README «Target and budget apply against your own baseline»
+
+Step 9 · Mostrare ed esportare:
+  ☐ Export JSON per il frontend (secondo il contratto) @must @p1 @est(1h)
+    Da fare: summary, entities, timeseries, findings, measures, limits, quality, factors (vedi frontend-3d.todo, «Contratto dati»)
+  ☐ Generare template_baseline_and_assumptions.csv @must @p1 @est(1h)
+    Da fare: compilare ogni riga Must con basso / medio / alto + unità + fonte con data + calcolo; righe Bonus (market-based, crescita) solo se costruiamo quelle funzioni; generato dallo stesso motore, mai a mano
+  ☐ Generare template_measures_package.csv @must @p1 @est(1h)
+    Da fare: una riga per misura: sforzo, CHF, kWh, CO₂ location-based all'anno, rischi ed eccezioni (incluso chi decide), ipotesi e fonti; colonna market-based solo con il bonus A3
+  ☐ Nota sul percorso verso l'operatività @must @p2 @est(1h)
+    Cos'è: breve nota su come diventa un sistema in produzione.
+    Da fare: export mensili → la stessa pipeline in un notebook (Databricks / Fabric, che è il mondo di ALTYCA) → dashboard; connettori riusabili per altre PMI; chi lo gestisce e quanto costa
+    Riferimento: case.md, ultima riga di «Prototype requirements»
+
+Bonus ufficiali:
+  Riferimento comune: case.md «Optional stretch goals» · README «Bonus»
+  ☐ A2 · Previsione (forecast) @bonus @p2 @est(3h)
+    Cos'è: costi, energia e CO₂ dei prossimi anni, con e senza le misure, sempre come fascia (basso / probabile / alto).
+    Da fare:
+      - cambiamenti noti: dp-prod 16 → 20 nodi (01.01.2026, T-1172) → 24 nodi (01.10.2026, T-1261); prezzo M365 da 12,50 a 14 USD (01.07.2026); Copilot Business (README «Real and synthetic data»)
+      - crescita (headcount), stagionalità (training trimestrale, fine mese)
+      - output/forecast.json; template, riga growth_per_year
+  ☐ A1 · Assistente in chat @bonus @p2 @est(4h)
+    Cos'è: una chat che risponde alle domande sui dati e sulle misure, e mostra SEMPRE il calcolo o la fonte.
+    Da fare:
+      - accesso all'AI organizzato da sprintd (case.md «Technology»)
+      - l'assistente usa strumenti (tool) che leggono i nostri JSON, così i numeri sono quelli del motore e non inventati
+      - ogni risposta: numero + formula + file di origine
+      - testare con le 3 domande d'esempio
+  ☐ A3 · Vista market-based @bonus @p3 @est(1.5h)
+    Cos'è: la CO₂ calcolata anche con i certificati verdi dei fornitori, accanto a quella reale per luogo, con un commento critico.
+    Da fare: fattore market-based per fornitore (dichiarazioni dei fornitori, con data); template: grid_mix_market_based, total_co2_market_based…, colonna savings_co2_kg_market_based
+    Riferimento: README, nota sotto «Real and synthetic data»
+  ☐ A5 · Spostare i carichi nelle ore pulite (carbon-aware) @bonus @p3 @est(2.5h)
+    Cos'è: i job «flexible» si spostano nelle ore in cui la corrente inquina meno; i job «fixed» non si toccano.
+    Da fare: profilo orario dell'intensità per CH, DE, IE (UniGe, ENTSO-E); simulazione dello spostamento sui job di data_platform_jobs.csv; risparmio di CO₂
+  ☐ A6 · Snellire le pipeline di build (DevOps) @bonus @p2 @est(1.5h)
+    Cos'è: niente build notturni quando nessuno ha cambiato niente, meno ripetizioni, runner più puliti.
+    Da fare: 21% di build notturni con 0 commit; circa 1.900 rerun; tutti i runner a Dublino → Zurigo; è la misura M8
+  ☐ A4 · Clustering @bonus @p3 @est(2h)
+    Cos'è: raggruppare le risorse che si comportano allo stesso modo e segnalare i casi anomali.
+    Da fare: caratteristiche per server e cluster (CPU media e massima, ore di accensione, profilo settimanale) → k-means o regole semplici → gruppi con un nome («sempre acceso e fermo», «orario d'ufficio», «produzione costante») + casi anomali spiegati
+
+Nostre proposte:
+  ☐ B3 · Ogni numero si apre (tracciabilità) @nostro @p1 @est(1.5h)
+    Cos'è: per ogni cifra, la formula, i fattori con la fonte e le righe di origine.
+    Da fare: ogni valore nei JSON con un campo «calc» = {formula, inputs, factors, source_files, row_count}
+  ☐ B8 · Registro qualità dati per la schermata «Intake» @nostro @p1
+    Cos'è: «28 file caricati → ecco cosa ho sistemato». È il registro dello Step 1, esportato in output/quality.json.
+  ☐ B2 · Interruttore del mix svizzero (produzione o consumo) @nostro @p2 @est(1h)
+    Cos'è: ricalcolare tutto con i due mix svizzeri e mostrare che il pacchetto regge in entrambi i casi.
+    Da fare: due scenari di fattore per CH nei JSON (o ricalcolo nel frontend); pacchetto verificato in entrambi
+  ☐ B4 · Calendario dei risparmi @nostro @p2 @est(1.5h)
+    Cos'è: da quando ogni misura inizia DAVVERO a far risparmiare (disdette, scadenze dei contratti).
+    Da fare: per le licenze, data di inizio = scadenza del contratto, tenendo conto del preavviso (contract_end, notice_period_days); per le misure tecniche = data di implementazione; risparmio mese per mese sui 12 mesi
+  ☐ B5 · Coda di approvazione @nostro @p3 @est(1h)
+    Cos'è: le misure 🧑 diventano richieste per la persona giusta, con i dati allegati.
+    Da fare: per ogni misura 🧑: ruolo (responsible_role), domanda, dati di supporto, stato (aperta / approvata / respinta)
+  ☐ B1 · Pacchetto robusto (simulazione Monte Carlo) @nostro @p2 @est(2h)
+    Cos'è: provare il pacchetto migliaia di volte con fattori diversi dentro le fasce, e dire «raggiunge il −40% nel X% dei casi».
+    Da fare: campionare i fattori (distribuzione triangolare basso / medio / alto), 5.000–10.000 prove, percentuale di prove che raggiungono i target + distribuzione per il grafico (output/montecarlo.json)
+
+Secondario (non agire subito):
+  ☐ Energia consumata dalla nostra AI durante l'hackathon @must @p3 @est(30m)
+    Cos'è: una breve frase su quanta energia ha usato la nostra AI. Formalmente è richiesta (case.md «Technology» e «Key presentation elements»), ma da quanto ci hanno detto conta poco: farla alla fine.
+    Da fare: token usati × fattore per 1000 token × mix della rete; una frase nel pitch e nella consegna
+
+Checklist di consegna (domenica 08:30):
+  ☐ Prototipo funzionante sui dati forniti @must
+  ☐ template_baseline_and_assumptions.csv compilato @must
+  ☐ template_measures_package.csv compilato @must
+  ☐ Nota sul percorso verso l'operatività @must
+  ☐ Frase sull'energia della nostra AI @must @p3
+  ☐ Prova del pitch: quadro d'insieme → una scoperta → il pacchetto → un caso limite, in 5 minuti @must
+  ☐ Bozza consegnata sabato 15:00–15:30 @must
