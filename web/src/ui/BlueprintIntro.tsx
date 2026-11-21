@@ -153,7 +153,8 @@ function Reading() {
         background: phase === 'scan' ? '#EEF1F5' : phase === 'land' ? '#FFFFFF' : 'transparent',
         transition: `background ${LAND_S}s, opacity 0.6s`,
         opacity: phase === 'build' ? 0 : 1,
-        pointerEvents: phase === 'build' ? 'none' : 'auto',
+        // Sempre bloccante, anche quando è trasparente: la simulazione non si può cliccare (si rompe).
+        pointerEvents: 'auto',
       }}
     >
       <div className="absolute" style={style}>

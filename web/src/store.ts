@@ -1,5 +1,9 @@
 import { create } from 'zustand'
 import type { Dataset, MetricKey } from './data/types'
+import { useIntro } from './intro/store'
+
+/** Durante l'intro «planimetria → 3D» la scena non risponde a clic e hover. */
+const intro = () => useIntro.getState().phase !== 'done'
 
 interface Notice {
   title: string
@@ -116,7 +120,7 @@ export const useApp = create<AppState>((set, get) => ({
   turns: { office: 0, cloud: 0 },
   stage: 'office',
   setStage: (stage) => set({ stage, selectedId: null, hoverId: null }),
-  setRoom: (room) => set({ room, turns: { office: 0, cloud: 0 }, stage: 'office', selectedId: null, hoverId: null }),
+  setRoom: (room) => intro() || set({ room, turns: { office: 0, cloud: 0 }, stage: 'office', selectedId: null, hoverId: null }),
   turn: (dir) => set((s) => ({ turns: { ...s.turns, [s.stage]: s.turns[s.stage] + dir } })),
   data: null,
   metric: 'co2_kg',
@@ -158,8 +162,8 @@ export const useApp = create<AppState>((set, get) => ({
     set({ active: data.measures.filter((m) => m.recommended && m.status !== 'blocked').map((m) => m.id) })
   },
   reset: () => set({ active: [], notice: null, decisions: {} }),
-  select: (selectedId) => set({ selectedId }),
-  hover: (hoverId) => (get().hoverId === hoverId ? undefined : set({ hoverId })),
+  select: (selectedId) => intro() || set({ selectedId }),
+  hover: (hoverId) => (intro() || get().hoverId === hoverId ? undefined : set({ hoverId })),
   setTour: (tour) => set({ tour }),
   decide: (measureId, d) =>
     set((s) => {
