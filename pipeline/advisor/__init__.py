@@ -50,9 +50,10 @@ def _llm(ctx: Context) -> Metered:
                                        usage_log=ROOT / cfg["usage_log"])), cfg["model"])
 
 
-def _save(name: str, obj) -> None:
-    ADVISOR_DIR.mkdir(parents=True, exist_ok=True)
-    with open(ADVISOR_DIR / name, "w", encoding="utf-8") as fh:
+def _save(name: str, obj, directory=None) -> None:
+    directory = ADVISOR_DIR if directory is None else directory
+    directory.mkdir(parents=True, exist_ok=True)
+    with open(directory / name, "w", encoding="utf-8") as fh:
         json.dump(obj, fh, ensure_ascii=False, indent=1, default=str)
 
 
@@ -91,7 +92,7 @@ def _constraints(ctx: Context, raw_c: dict) -> list[dict]:
 def apply(ctx: Context) -> None:
     """Deterministic: validate and compute the saved LLM answers, build outputs."""
     facts = _facts.build(ctx)
-    _save("facts.json", facts)
+    _save("facts.json", facts, ctx.output_dir / "advisor")
     raw_c, raw_p = _load("reader_raw.json"), _load("plan_raw.json")
     if raw_c is None or raw_p is None:
         ctx.log("advisor", "advisor_missing", 0, "no saved LLM answers: run `python -m pipeline.run --advisor`",

@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T11:49:15+01:00",
+  "generated_at": "2026-11-21T12:01:45+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -1185,6 +1185,6 @@
   "row_count": 36660,
   "value_status": "estimated",
   "issue_ids": [],
-  "note": "Checked: linear model = energy engine, package model = measures.json (consumption mix, all levels)."
+  "note": "Checked: linear model = energy engine, package model = measures.json (run mix, all levels)."
  }
 }

@@ -5,6 +5,7 @@ import duckdb
 import pandas as pd
 
 from ..energy.engine import load_factors
+from ..export.frontend import MARKET_SUMS
 from ..harmonize.context import ROOT, Context
 from ..harmonize.store import DATE_COLUMNS
 from .common import read_output, write_json, write_table
@@ -75,7 +76,8 @@ def replay(facts: pd.DataFrame, payload: dict | None, scenario: str) -> tuple[pd
         # A measure is applied atomically: a supported effect never masks an
         # unsupported effect from the same measure.
         if optimized is None:
-            optimized = facts.copy()
+            # A2 replays location-based emissions only; don't carry stale A3 values.
+            optimized = facts.drop(columns=MARKET_SUMS, errors="ignore")
             scaled = cost_columns + [f"{metric}_{level}" for level in LEVELS for metric in ("kwh", "co2_kg")]
             optimized[scaled] = optimized[scaled].astype(float)
         for rows, cost, energy, destination in planned:

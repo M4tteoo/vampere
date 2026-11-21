@@ -1,0 +1,14 @@
+# AIB publishes point values; identical bounds do not imply zero uncertainty.
+aib:
+  year: 2025
+  published: "2026-05-28"
+  source: https://www.aib-net.org/facts/european-residual-mix/2025
+  workbook: https://www.aib-net.org/sites/default/files/assets/eecs/Residual%20Mix/2025_Final%20_Residual%20mix%20calculation%20results_25052026.xlsx
+  unit: g CO2/kWh
+locations:
+  DE: {basis: residual_mix, g_co2_per_kwh: 701.47, calculation: AIB German residual mix}
+  IE: {basis: residual_mix, g_co2_per_kwh: 368.74, calculation: AIB Irish residual mix}
+  EU: {basis: attribute_mix_proxy, g_co2_per_kwh: 468.44, calculation: AIB European Attribute Mix as a proxy for unspecified EU location}
+  CH:
+    basis: location_proxy
+    calculation: AIB lists no Swiss residual mix (full disclosure); use the documented Swiss consumption mix, not a supplier factor

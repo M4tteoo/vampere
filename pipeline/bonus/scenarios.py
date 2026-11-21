@@ -59,14 +59,18 @@ def _scenario(pm: PackageModel, sc: str) -> dict:
 def _entities_production(ctx: Context) -> dict[str, dict]:
     """CO2 of every scene object under the production mix. Swiss lines scale by the factor ratio;
     rooms are split by their flows to the locations (summary.json); other locations are unchanged."""
-    cons, prod = factor_ranges("ch_consumption")["grid_CH"], factor_ranges("ch_production")["grid_CH"]
-    ratio = {lvl: prod[lvl] / cons[lvl] for lvl in LEVELS}
+    current = ctx.config["scenario"]
+    source, prod = factor_ranges(current)["grid_CH"], factor_ranges("ch_production")["grid_CH"]
+    ratio = {lvl: prod[lvl] / source[lvl] for lvl in LEVELS}
     ents = (read_output(ctx, "entities.json") or {}).get("entities", [])
     flows = (read_output(ctx, "summary.json") or {}).get("flows", [])
     out = {}
     for e in ents:
         co2 = e["metrics"].get("co2_kg")
         if not co2:
+            continue
+        if current == "ch_production":
+            out[e["id"]] = co2
             continue
         if e["kind"] == "room":
             fl = [f for f in flows if f["from"] == e["id"] and f["metrics"].get("co2_kg")]
@@ -104,7 +108,7 @@ def run(ctx: Context) -> None:
                     "source": "factors.yaml variants"}],
         "factor_ids": ["grid_mix_location_based_switzerland"], "source_files": ["fact_cost", "measures.json"],
         "row_count": int(len(pm.base)), "value_status": "estimated", "issue_ids": [],
-        "note": "Checked: linear model = energy engine, package model = measures.json (consumption mix, all levels).",
+        "note": "Checked: linear model = energy engine, package model = measures.json (run mix, all levels).",
     }
     write_json(ctx, "scenarios.json", {"default": "ch_consumption", "scenarios": res, "holds_in_both": holds,
                                        "conclusion": conclusion, "entities_co2_kg_production": _entities_production(ctx),

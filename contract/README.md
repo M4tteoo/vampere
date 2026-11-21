@@ -44,9 +44,12 @@ Findings, measures and limits are written by an LLM (the advisor and the ticket 
 | `limits.json` | protection windows, blocks, hand-overs, contradictions, with concrete dates | LLM ticket reader + scheduler (code) | **available now** |
 | forecast | `forecast.json` | A2 | 52 weeks in monthly buckets; `without` uses original history and `with` uses already-optimized history (`null` if absent); final month is prorated |
 | optimized history | `optimized_history.json` | Step 9 | Replay coverage: applied, skipped, and human-confirmation measures; optimized history itself is in DuckDB |
+| market | `market.json` | A3 | Side-by-side baseline and provider totals on the same kWh; factors, proxy coverage, and estimated savings for supported measures (`MarketFile`) |
 | scenarios | `scenarios.json` | B2 | Swiss mix switch: baseline + package under consumption and production mix, CO₂ per entity for the production mix (`ScenariosFile`) |
 | montecarlo | `montecarlo.json` | B1 | probability of reaching the targets over 10,000 factor draws, histogram, tornado (`MonteCarloFile`) |
 | bonus | `jobs.json`, `clusters.json` | A5, A4 | `JobsFile`, `ClustersFile` |
+
+`Metrics.co2_kg_market` is optional and appears on actual baseline totals, breakdowns, flows, and entities. It is not exported for the recurring baseline, timeseries, or optimized history. For A3 calculation details, use `market.json`: its `calc.factor_ids` reference location keys in that file's `factors`, and `market_basis_kwh` splits energy by the factor basis. An unavailable measure has `co2_kg_market: null` and an explanation.
 
 ## Changes from the first list in frontend-3d.todo
 

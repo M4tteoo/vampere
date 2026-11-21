@@ -19,6 +19,7 @@ from ..harmonize.store import _meta
 
 SUMS = ["cost_chf_low", "cost_chf", "cost_chf_high", "cost_eur", "cost_usd",
         "kwh_low", "kwh_mid", "kwh_high", "co2_kg_low", "co2_kg_mid", "co2_kg_high"]
+MARKET_SUMS = ["co2_kg_market_low", "co2_kg_market_mid", "co2_kg_market_high"]
 STATUS_RANK = {"observed": 0, "derived_exact": 1, "derived_cross_source": 2, "estimated": 3, "missing": 4}
 GRID_IDS = {"CH": "grid_mix_location_based_switzerland", "DE": "grid_mix_location_based_germany",
             "IE": "grid_mix_location_based_ireland", "EU": "grid_mix_location_based_eu"}
@@ -45,13 +46,20 @@ def metrics(s: pd.Series | dict) -> dict:
 
     def rng(lo, m, hi, nd):
         return {"low": _r(lo, nd), "mid": _r(m, nd), "high": _r(hi, nd)}
-    return {
+    result = {
         "cost_chf": rng(s["cost_chf_low"], mid, s["cost_chf_high"], 2),
         "cost_eur": rng(s["cost_chf_low"] * k_eur, s["cost_eur"], s["cost_chf_high"] * k_eur, 2),
         "cost_usd": rng(s["cost_chf_low"] * k_usd, s["cost_usd"], s["cost_chf_high"] * k_usd, 2),
         "kwh": rng(s["kwh_low"], s["kwh_mid"], s["kwh_high"], 1),
         "co2_kg": rng(s["co2_kg_low"], s["co2_kg_mid"], s["co2_kg_high"], 1),
     }
+    if all(column in s for column in MARKET_SUMS):
+        result["co2_kg_market"] = rng(*[s[column] for column in MARKET_SUMS], 1)
+    return result
+
+
+def _baseline_sums(rows: pd.DataFrame) -> list[str]:
+    return SUMS + MARKET_SUMS if all(column in rows for column in MARKET_SUMS) else SUMS
 
 
 def zero_metrics() -> dict:
@@ -108,9 +116,10 @@ def _one_off_excess(fc: pd.DataFrame, events: pd.DataFrame) -> list[dict]:
 def build_summary(ctx: Context, calc: Calc) -> dict:
     fc = ctx.tables["fact_cost"]
     b = fc[fc["in_baseline"]]
-    tot = b[SUMS].sum()
+    sums = _baseline_sums(b)
+    tot = b[sums].sum()
     one_offs = _one_off_excess(fc, ctx.tables["one_off_events"])
-    rec = tot.copy()
+    rec = tot[SUMS].copy()
     for o in one_offs:
         for col, (key, lvl) in {"cost_chf_low": ("cost_chf", "low"), "cost_chf": ("cost_chf", "mid"),
                                 "cost_chf_high": ("cost_chf", "high"), "cost_eur": ("cost_eur", "mid"),
@@ -121,7 +130,7 @@ def build_summary(ctx: Context, calc: Calc) -> dict:
             rec[col] -= o["excess"][key][lvl] or 0
 
     def breakdown(col, ent_prefix=None, label=None):
-        g = b.groupby(col, dropna=False)[SUMS].sum().sort_values("cost_chf", ascending=False)
+        g = b.groupby(col, dropna=False)[sums].sum().sort_values("cost_chf", ascending=False)
         rows = []
         for key, s in g.iterrows():
             key = "unassigned" if pd.isna(key) else key
@@ -138,7 +147,7 @@ def build_summary(ctx: Context, calc: Calc) -> dict:
         r["entity_id"] = f"res:{rid}" if rid else None
 
     flows = [{"from": f"dept:{d}", "to": f"loc:{l}", "metrics": metrics(s)}
-             for (d, l), s in b.groupby(["department", "location"])[SUMS].sum().iterrows()]
+             for (d, l), s in b.groupby(["department", "location"])[sums].sum().iterrows()]
     cov = (b.groupby("value_status")["cost_chf"].sum() / tot["cost_chf"]).round(4).to_dict()
     return {
         "meta": _meta(ctx),
@@ -194,9 +203,10 @@ def build_entities(ctx: Context, calc: Calc) -> tuple[dict, dict]:
     contra_material = set(iss.loc[is_contra & iss["severity"].isin(["warn", "handover"]), "resource_id"])
     top = set(b.groupby("resource_id")["co2_kg_mid"].sum().nlargest(5).index)
     ents, members = [], {}
+    sums = _baseline_sums(b)
 
     def base(eid, kind, label, parent, rows, formula, **kw):
-        s = rows[SUMS].sum()
+        s = rows[sums].sum()
         e = {"id": eid, "kind": kind, "label": label, "parent_id": parent, "department": None, "tool": None,
              "category": None, "location": None, "metrics": metrics(s), "utilisation": None, "idle_ratio": None,
              "state": "normal", "flags": [], "finding_ids": [], "measure_ids": [], "limit_ids": [],

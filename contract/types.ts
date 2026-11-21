@@ -368,6 +368,35 @@ export interface FxFile {
 //   jobs.json        A5 · Carbon-aware        (track 2)
 //   chat API         A1 · Assistant           (track 2) · ChatRequest / ChatResponse
 
+// --------------------------------------------------------- market.json (A3)
+export type MarketBasis = "residual_mix" | "attribute_mix_proxy" | "location_proxy";
+
+export interface MarketFactor {
+  basis: MarketBasis;
+  kg_per_kwh: Range;
+  calculation: string;
+  source: { source: string } & Record<string, string | number>;
+}
+
+export interface MarketTotals {
+  kwh: Range;
+  co2_kg: Range;
+  co2_kg_market: Range;
+  market_basis_kwh: Partial<Record<MarketBasis, Range>>;
+  calc: Calc; // factor_ids reference keys in MarketFile.factors
+}
+
+export interface MarketFile {
+  meta: Meta;
+  note: string;
+  scope2_guidance: string;
+  factors: Record<string, MarketFactor>;
+  baseline: MarketTotals;
+  by_provider: (MarketTotals & { provider: string | null })[];
+  measure_savings: Record<string, { co2_kg_market: Range; reason: null; calc: Calc }
+    | { co2_kg_market: null; reason: string }>;
+}
+
 // ------------------------------------------------------- forecast.json (A2)
 export interface ForecastComparison {
   without: Metrics; // business as usual, including announced changes

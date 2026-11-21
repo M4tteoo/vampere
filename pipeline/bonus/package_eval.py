@@ -47,6 +47,7 @@ class PackageModel:
         self.measures = [m for m in mf["measures"] if m["in_package"] and m["status"] != "blocked"]
         self.all_measures = mf["measures"]
         self.package = mf["package"]
+        self.scenario = mf["meta"]["scenario"]
         self._scopes: dict[str, dict] = {}
 
     # ----------------------------------------------------------- scopes
@@ -108,8 +109,8 @@ class PackageModel:
         return {lvl: self.evaluate(at_level(r, lvl), lvl) for lvl in LEVELS}
 
     def check(self, tol: float = 5e-4) -> None:
-        """Must reproduce the package in measures.json (consumption mix) at every level."""
-        got = self.levels("ch_consumption")
+        """Must reproduce the package in measures.json for its recorded mix."""
+        got = self.levels(self.scenario)
         bad = []
         for lvl in LEVELS:
             for key, want in (("co2", self.package["reduction"]["co2"][lvl]), ("cost", self.package["reduction"]["cost"][lvl])):

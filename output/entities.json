@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T05:57:21+01:00",
+  "generated_at": "2026-11-21T11:55:05+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -43,6 +43,11 @@
      "low": 688.1,
      "mid": 1825.7,
      "high": 4346.9
+    },
+    "co2_kg_market": {
+     "low": 1034.3,
+     "mid": 2422.8,
+     "high": 5418.6
     }
    },
    "utilisation": null,
@@ -129,6 +134,11 @@
      "low": 31.9,
      "mid": 111.1,
      "high": 369.2
+    },
+    "co2_kg_market": {
+     "low": 50.1,
+     "mid": 164.7,
+     "high": 502.2
     }
    },
    "utilisation": null,
@@ -201,6 +211,11 @@
      "low": 4.2,
      "mid": 22.8,
      "high": 121.1
+    },
+    "co2_kg_market": {
+     "low": 13.1,
+     "mid": 50.1,
+     "high": 189.1
     }
    },
    "utilisation": null,
@@ -265,6 +280,11 @@
      "low": 1116.1,
      "mid": 2224.1,
      "high": 5482.3
+    },
+    "co2_kg_market": {
+     "low": 2215.7,
+     "mid": 3819.5,
+     "high": 7308.6
     }
    },
    "utilisation": null,
@@ -362,6 +382,11 @@
      "low": 3.5,
      "mid": 18.2,
      "high": 96.8
+    },
+    "co2_kg_market": {
+     "low": 10.8,
+     "mid": 39.9,
+     "high": 151.1
     }
    },
    "utilisation": null,
@@ -426,6 +451,11 @@
      "low": 19.4,
      "mid": 119.8,
      "high": 670.0
+    },
+    "co2_kg_market": {
+     "low": 58.3,
+     "mid": 257.6,
+     "high": 1034.6
     }
    },
    "utilisation": null,
@@ -500,6 +530,11 @@
      "low": 27.2,
      "mid": 160.7,
      "high": 707.6
+    },
+    "co2_kg_market": {
+     "low": 62.8,
+     "mid": 275.4,
+     "high": 1002.3
     }
    },
    "utilisation": null,
@@ -573,6 +608,11 @@
      "low": 0.4,
      "mid": 0.6,
      "high": 1.7
+    },
+    "co2_kg_market": {
+     "low": 0.7,
+     "mid": 1.1,
+     "high": 1.8
     }
    },
    "utilisation": null,
@@ -633,6 +673,11 @@
      "high": 28666.3
     },
     "co2_kg": {
+     "low": 529.1,
+     "mid": 1706.5,
+     "high": 3669.3
+    },
+    "co2_kg_market": {
      "low": 529.1,
      "mid": 1706.5,
      "high": 3669.3
@@ -722,6 +767,11 @@
      "low": 1007.9,
      "mid": 1659.1,
      "high": 3345.9
+    },
+    "co2_kg_market": {
+     "low": 2142.5,
+     "mid": 3206.0,
+     "high": 5458.3
     }
    },
    "utilisation": null,
@@ -789,6 +839,11 @@
      "low": 258.4,
      "mid": 597.4,
      "high": 1914.2
+    },
+    "co2_kg_market": {
+     "low": 476.5,
+     "mid": 974.6,
+     "high": 2005.2
     }
    },
    "utilisation": null,
@@ -859,6 +914,11 @@
      "low": 95.4,
      "mid": 520.2,
      "high": 2866.2
+    },
+    "co2_kg_market": {
+     "low": 297.9,
+     "mid": 1144.0,
+     "high": 4475.6
     }
    },
    "utilisation": null,
@@ -931,6 +991,11 @@
      "low": 1.5,
      "mid": 10.6,
      "high": 60.0
+    },
+    "co2_kg_market": {
+     "low": 4.7,
+     "mid": 23.4,
+     "high": 93.6
     }
    },
    "utilisation": null,
@@ -993,6 +1058,11 @@
      "low": 2.3,
      "mid": 16.4,
      "high": 92.3
+    },
+    "co2_kg_market": {
+     "low": 7.2,
+     "mid": 36.0,
+     "high": 144.1
     }
    },
    "utilisation": null,
@@ -1054,6 +1124,11 @@
      "low": 25.8,
      "mid": 183.1,
      "high": 1031.6
+    },
+    "co2_kg_market": {
+     "low": 80.5,
+     "mid": 402.7,
+     "high": 1610.8
     }
    },
    "utilisation": null,
@@ -1120,6 +1195,11 @@
      "low": 0.3,
      "mid": 2.4,
      "high": 13.3
+    },
+    "co2_kg_market": {
+     "low": 1.0,
+     "mid": 5.2,
+     "high": 20.7
     }
    },
    "utilisation": null,
@@ -1179,6 +1259,11 @@
      "low": 9.4,
      "mid": 66.6,
      "high": 375.4
+    },
+    "co2_kg_market": {
+     "low": 29.3,
+     "mid": 146.6,
+     "high": 586.2
     }
    },
    "utilisation": null,
@@ -1249,6 +1334,11 @@
      "low": 0.7,
      "mid": 4.7,
      "high": 26.4
+    },
+    "co2_kg_market": {
+     "low": 2.1,
+     "mid": 10.3,
+     "high": 41.2
     }
    },
    "utilisation": null,
@@ -1310,6 +1400,11 @@
      "low": 0.1,
      "mid": 0.6,
      "high": 3.2
+    },
+    "co2_kg_market": {
+     "low": 0.3,
+     "mid": 1.3,
+     "high": 5.1
     }
    },
    "utilisation": null,
@@ -1371,6 +1466,11 @@
      "low": 14.8,
      "mid": 25.5,
      "high": 70.3
+    },
+    "co2_kg_market": {
+     "low": 27.3,
+     "mid": 41.6,
+     "high": 73.7
     }
    },
    "utilisation": null,
@@ -1430,6 +1530,11 @@
      "high": 1034.6
     },
     "co2_kg": {
+     "low": 23.3,
+     "mid": 66.4,
+     "high": 132.4
+    },
+    "co2_kg_market": {
      "low": 23.3,
      "mid": 66.4,
      "high": 132.4
@@ -1496,6 +1601,11 @@
      "low": 762.8,
      "mid": 1238.1,
      "high": 2486.0
+    },
+    "co2_kg_market": {
+     "low": 1621.4,
+     "mid": 2392.5,
+     "high": 4055.5
     }
    },
    "utilisation": 0.087,
@@ -1569,6 +1679,11 @@
      "high": 17745.5
     },
     "co2_kg": {
+     "low": 394.1,
+     "mid": 1132.7,
+     "high": 2271.4
+    },
+    "co2_kg_market": {
      "low": 394.1,
      "mid": 1132.7,
      "high": 2271.4
@@ -1648,6 +1763,11 @@
      "low": 8.8,
      "mid": 54.9,
      "high": 153.9
+    },
+    "co2_kg_market": {
+     "low": 8.8,
+     "mid": 54.9,
+     "high": 153.9
     }
    },
    "utilisation": null,
@@ -1710,6 +1830,11 @@
      "low": 245.1,
      "mid": 421.0,
      "high": 859.9
+    },
+    "co2_kg_market": {
+     "low": 521.0,
+     "mid": 813.5,
+     "high": 1402.7
     }
    },
    "utilisation": 0.092,
@@ -1782,6 +1907,11 @@
      "low": 23.0,
      "mid": 154.0,
      "high": 396.9
+    },
+    "co2_kg_market": {
+     "low": 23.0,
+     "mid": 154.0,
+     "high": 396.9
     }
    },
    "utilisation": null,
@@ -1841,6 +1971,11 @@
      "high": 330.6
     },
     "co2_kg": {
+     "low": 2.2,
+     "mid": 9.3,
+     "high": 42.3
+    },
+    "co2_kg_market": {
      "low": 2.2,
      "mid": 9.3,
      "high": 42.3
@@ -1908,6 +2043,11 @@
      "low": 10.7,
      "mid": 31.1,
      "high": 63.0
+    },
+    "co2_kg_market": {
+     "low": 10.7,
+     "mid": 31.1,
+     "high": 63.0
     }
    },
    "utilisation": null,
@@ -1970,6 +2110,11 @@
      "low": 9.2,
      "mid": 39.1,
      "high": 183.8
+    },
+    "co2_kg_market": {
+     "low": 28.7,
+     "mid": 86.1,
+     "high": 286.9
     }
    },
    "utilisation": null,
@@ -2032,6 +2177,11 @@
      "low": 40.9,
      "mid": 174.3,
      "high": 818.4
+    },
+    "co2_kg_market": {
+     "low": 127.8,
+     "mid": 383.4,
+     "high": 1277.9
     }
    },
    "utilisation": null,
@@ -2094,6 +2244,11 @@
      "low": 0.4,
      "mid": 0.6,
      "high": 1.7
+    },
+    "co2_kg_market": {
+     "low": 0.7,
+     "mid": 1.1,
+     "high": 1.8
     }
    },
    "utilisation": 0.017,
@@ -2154,6 +2309,11 @@
      "high": 1426.5
     },
     "co2_kg": {
+     "low": 10.5,
+     "mid": 65.1,
+     "high": 182.6
+    },
+    "co2_kg_market": {
      "low": 10.5,
      "mid": 65.1,
      "high": 182.6
@@ -2219,6 +2379,11 @@
      "low": 80.8,
      "mid": 293.7,
      "high": 1102.0
+    },
+    "co2_kg_market": {
+     "low": 148.9,
+     "mid": 479.1,
+     "high": 1154.4
     }
    },
    "utilisation": null,
@@ -2289,6 +2454,11 @@
      "low": 7.0,
      "mid": 46.5,
      "high": 119.9
+    },
+    "co2_kg_market": {
+     "low": 7.0,
+     "mid": 46.5,
+     "high": 119.9
     }
    },
    "utilisation": null,
@@ -2351,6 +2521,11 @@
      "low": 0.1,
      "mid": 0.4,
      "high": 4.7
+    },
+    "co2_kg_market": {
+     "low": 0.3,
+     "mid": 0.9,
+     "high": 7.3
     }
    },
    "utilisation": null,
@@ -2413,6 +2588,11 @@
      "low": 2.1,
      "mid": 9.1,
      "high": 107.2
+    },
+    "co2_kg_market": {
+     "low": 6.7,
+     "mid": 20.1,
+     "high": 167.4
     }
    },
    "utilisation": null,
@@ -2475,6 +2655,11 @@
      "low": 3.0,
      "mid": 12.8,
      "high": 150.0
+    },
+    "co2_kg_market": {
+     "low": 9.4,
+     "mid": 28.1,
+     "high": 234.3
     }
    },
    "utilisation": null,
@@ -2537,6 +2722,11 @@
      "low": 0.0,
      "mid": 0.0,
      "high": 0.0
+    },
+    "co2_kg_market": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
     }
    },
    "utilisation": null,
@@ -2595,6 +2785,11 @@
      "high": 2235.9
     },
     "co2_kg": {
+     "low": 48.3,
+     "mid": 141.6,
+     "high": 286.2
+    },
+    "co2_kg_market": {
      "low": 48.3,
      "mid": 141.6,
      "high": 286.2
@@ -2661,6 +2856,11 @@
      "low": 162.5,
      "mid": 277.6,
      "high": 740.2
+    },
+    "co2_kg_market": {
+     "low": 299.7,
+     "mid": 452.9,
+     "high": 775.4
     }
    },
    "utilisation": 0.109,
@@ -2731,6 +2931,11 @@
      "low": 1.1,
      "mid": 4.9,
      "high": 20.7
+    },
+    "co2_kg_market": {
+     "low": 1.1,
+     "mid": 4.9,
+     "high": 20.7
     }
    },
    "utilisation": null,
@@ -2790,6 +2995,11 @@
      "high": 176.99
     },
     "co2_kg": {
+     "low": 3.82,
+     "mid": 11.21,
+     "high": 22.66
+    },
+    "co2_kg_market": {
      "low": 3.82,
      "mid": 11.21,
      "high": 22.66
@@ -2868,6 +3078,11 @@
      "low": 4.06,
      "mid": 11.9,
      "high": 24.04
+    },
+    "co2_kg_market": {
+     "low": 4.06,
+     "mid": 11.9,
+     "high": 24.04
     }
    },
    "utilisation": 0.364,
@@ -2940,6 +3155,11 @@
      "high": 191.44
     },
     "co2_kg": {
+     "low": 4.14,
+     "mid": 12.12,
+     "high": 24.51
+    },
+    "co2_kg_market": {
      "low": 4.14,
      "mid": 12.12,
      "high": 24.51
@@ -3018,6 +3238,11 @@
      "low": 4.06,
      "mid": 11.9,
      "high": 24.04
+    },
+    "co2_kg_market": {
+     "low": 4.06,
+     "mid": 11.9,
+     "high": 24.04
     }
    },
    "utilisation": 0.39,
@@ -3090,6 +3315,11 @@
      "high": 187.83
     },
     "co2_kg": {
+     "low": 4.06,
+     "mid": 11.9,
+     "high": 24.04
+    },
+    "co2_kg_market": {
      "low": 4.06,
      "mid": 11.9,
      "high": 24.04
@@ -3168,6 +3398,11 @@
      "low": 3.98,
      "mid": 11.67,
      "high": 23.58
+    },
+    "co2_kg_market": {
+     "low": 3.98,
+     "mid": 11.67,
+     "high": 23.58
     }
    },
    "utilisation": 0.262,
@@ -3240,6 +3475,11 @@
      "high": 184.22
     },
     "co2_kg": {
+     "low": 3.98,
+     "mid": 11.67,
+     "high": 23.58
+    },
+    "co2_kg_market": {
      "low": 3.98,
      "mid": 11.67,
      "high": 23.58
@@ -3318,6 +3558,11 @@
      "low": 3.98,
      "mid": 11.67,
      "high": 23.58
+    },
+    "co2_kg_market": {
+     "low": 3.98,
+     "mid": 11.67,
+     "high": 23.58
     }
    },
    "utilisation": 0.451,
@@ -3390,6 +3635,11 @@
      "high": 187.83
     },
     "co2_kg": {
+     "low": 4.06,
+     "mid": 11.9,
+     "high": 24.04
+    },
+    "co2_kg_market": {
      "low": 4.06,
      "mid": 11.9,
      "high": 24.04
@@ -3468,6 +3718,11 @@
      "low": 4.14,
      "mid": 12.12,
      "high": 24.51
+    },
+    "co2_kg_market": {
+     "low": 4.14,
+     "mid": 12.12,
+     "high": 24.51
     }
    },
    "utilisation": 0.382,
@@ -3540,6 +3795,11 @@
      "high": 187.83
     },
     "co2_kg": {
+     "low": 4.06,
+     "mid": 11.9,
+     "high": 24.04
+    },
+    "co2_kg_market": {
      "low": 4.06,
      "mid": 11.9,
      "high": 24.04
@@ -3618,6 +3878,11 @@
      "low": 3.98,
      "mid": 11.67,
      "high": 23.58
+    },
+    "co2_kg_market": {
+     "low": 3.98,
+     "mid": 11.67,
+     "high": 23.58
     }
    },
    "utilisation": 0.424,
@@ -3693,6 +3958,11 @@
      "low": 10.24,
      "mid": 17.5,
      "high": 46.66
+    },
+    "co2_kg_market": {
+     "low": 18.89,
+     "mid": 28.55,
+     "high": 48.87
     }
    },
    "utilisation": 0.102,
@@ -3773,6 +4043,11 @@
      "low": 10.24,
      "mid": 17.5,
      "high": 46.66
+    },
+    "co2_kg_market": {
+     "low": 18.89,
+     "mid": 28.55,
+     "high": 48.87
     }
    },
    "utilisation": 0.124,
@@ -3853,6 +4128,11 @@
      "low": 10.24,
      "mid": 17.5,
      "high": 46.66
+    },
+    "co2_kg_market": {
+     "low": 18.89,
+     "mid": 28.55,
+     "high": 48.87
     }
    },
    "utilisation": 0.104,
@@ -3933,6 +4213,11 @@
      "low": 9.85,
      "mid": 16.82,
      "high": 44.86
+    },
+    "co2_kg_market": {
+     "low": 18.16,
+     "mid": 27.45,
+     "high": 46.99
     }
    },
    "utilisation": 0.121,
@@ -4013,6 +4298,11 @@
      "low": 10.05,
      "mid": 17.16,
      "high": 45.76
+    },
+    "co2_kg_market": {
+     "low": 18.53,
+     "mid": 28.0,
+     "high": 47.93
     }
    },
    "utilisation": 0.124,
@@ -4093,6 +4383,11 @@
      "low": 10.24,
      "mid": 17.5,
      "high": 46.66
+    },
+    "co2_kg_market": {
+     "low": 18.89,
+     "mid": 28.55,
+     "high": 48.87
     }
    },
    "utilisation": 0.138,
@@ -4173,6 +4468,11 @@
      "low": 9.85,
      "mid": 16.82,
      "high": 44.86
+    },
+    "co2_kg_market": {
+     "low": 18.16,
+     "mid": 27.45,
+     "high": 46.99
     }
    },
    "utilisation": 0.144,
@@ -4253,6 +4553,11 @@
      "low": 9.85,
      "mid": 16.82,
      "high": 44.86
+    },
+    "co2_kg_market": {
+     "low": 18.16,
+     "mid": 27.45,
+     "high": 46.99
     }
    },
    "utilisation": 0.144,
@@ -4333,6 +4638,11 @@
      "low": 10.24,
      "mid": 17.5,
      "high": 46.66
+    },
+    "co2_kg_market": {
+     "low": 18.89,
+     "mid": 28.55,
+     "high": 48.87
     }
    },
    "utilisation": 0.169,
@@ -4413,6 +4723,11 @@
      "low": 10.24,
      "mid": 17.5,
      "high": 46.66
+    },
+    "co2_kg_market": {
+     "low": 18.89,
+     "mid": 28.55,
+     "high": 48.87
     }
    },
    "utilisation": 0.156,
@@ -4493,6 +4808,11 @@
      "low": 10.44,
      "mid": 17.83,
      "high": 47.55
+    },
+    "co2_kg_market": {
+     "low": 19.25,
+     "mid": 29.1,
+     "high": 49.81
     }
    },
    "utilisation": 0.158,
@@ -4573,6 +4893,11 @@
      "low": 10.05,
      "mid": 17.16,
      "high": 45.76
+    },
+    "co2_kg_market": {
+     "low": 18.53,
+     "mid": 28.0,
+     "high": 47.93
     }
    },
    "utilisation": 0.144,
@@ -4653,6 +4978,11 @@
      "low": 10.44,
      "mid": 17.83,
      "high": 47.55
+    },
+    "co2_kg_market": {
+     "low": 19.25,
+     "mid": 29.1,
+     "high": 49.81
     }
    },
    "utilisation": 0.004,
@@ -4735,6 +5065,11 @@
      "low": 9.85,
      "mid": 16.82,
      "high": 44.86
+    },
+    "co2_kg_market": {
+     "low": 18.16,
+     "mid": 27.45,
+     "high": 46.99
     }
    },
    "utilisation": 0.002,
@@ -4818,6 +5153,11 @@
      "low": 10.44,
      "mid": 17.83,
      "high": 47.55
+    },
+    "co2_kg_market": {
+     "low": 19.25,
+     "mid": 29.1,
+     "high": 49.81
     }
    },
    "utilisation": 0.001,
@@ -4901,6 +5241,11 @@
      "low": 10.24,
      "mid": 17.5,
      "high": 46.66
+    },
+    "co2_kg_market": {
+     "low": 18.89,
+     "mid": 28.55,
+     "high": 48.87
     }
    },
    "utilisation": 0.003,
@@ -4984,6 +5329,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.014,
@@ -5059,6 +5409,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.022,
@@ -5134,6 +5489,11 @@
      "low": 0.01,
      "mid": 0.02,
      "high": 0.06
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.04,
+     "high": 0.07
     }
    },
    "utilisation": 0.009,
@@ -5208,6 +5568,11 @@
     "co2_kg": {
      "low": 0.02,
      "mid": 0.03,
+     "high": 0.08
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
      "high": 0.08
     }
    },
@@ -5284,6 +5649,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.08
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.09
     }
    },
    "utilisation": 0.023,
@@ -5359,6 +5729,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.028,
@@ -5433,6 +5808,11 @@
     "co2_kg": {
      "low": 0.02,
      "mid": 0.03,
+     "high": 0.08
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
      "high": 0.08
     }
    },
@@ -5509,6 +5889,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.08
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.017,
@@ -5584,6 +5969,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.013,
@@ -5658,6 +6048,11 @@
     "co2_kg": {
      "low": 0.02,
      "mid": 0.02,
+     "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.04,
      "high": 0.07
     }
    },
@@ -5734,6 +6129,11 @@
      "low": 0.01,
      "mid": 0.02,
      "high": 0.06
+    },
+    "co2_kg_market": {
+     "low": 0.02,
+     "mid": 0.04,
+     "high": 0.06
     }
    },
    "utilisation": 0.026,
@@ -5808,6 +6208,11 @@
     "co2_kg": {
      "low": 0.01,
      "mid": 0.02,
+     "high": 0.06
+    },
+    "co2_kg_market": {
+     "low": 0.02,
+     "mid": 0.04,
      "high": 0.06
     }
    },
@@ -5884,6 +6289,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.019,
@@ -5959,6 +6369,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.04,
@@ -6034,6 +6449,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.008,
@@ -6109,6 +6529,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.016,
@@ -6184,6 +6609,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.08
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.09
     }
    },
    "utilisation": 0.024,
@@ -6259,6 +6689,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.08
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.09
     }
    },
    "utilisation": 0.012,
@@ -6334,6 +6769,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.08
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.09
     }
    },
    "utilisation": 0.026,
@@ -6408,6 +6848,11 @@
     "co2_kg": {
      "low": 0.02,
      "mid": 0.02,
+     "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.04,
      "high": 0.07
     }
    },
@@ -6484,6 +6929,11 @@
      "low": 0.01,
      "mid": 0.02,
      "high": 0.06
+    },
+    "co2_kg_market": {
+     "low": 0.02,
+     "mid": 0.04,
+     "high": 0.06
     }
    },
    "utilisation": 0.008,
@@ -6558,6 +7008,11 @@
     "co2_kg": {
      "low": 0.01,
      "mid": 0.02,
+     "high": 0.06
+    },
+    "co2_kg_market": {
+     "low": 0.02,
+     "mid": 0.04,
      "high": 0.06
     }
    },
@@ -6634,6 +7089,11 @@
      "low": 0.02,
      "mid": 0.03,
      "high": 0.07
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.05,
+     "high": 0.08
     }
    },
    "utilisation": 0.008,
@@ -6708,6 +7168,11 @@
     "co2_kg": {
      "low": 0.01,
      "mid": 0.02,
+     "high": 0.06
+    },
+    "co2_kg_market": {
+     "low": 0.03,
+     "mid": 0.04,
      "high": 0.06
     }
    },
@@ -6784,6 +7249,11 @@
      "low": 245.1,
      "mid": 421.0,
      "high": 859.9
+    },
+    "co2_kg_market": {
+     "low": 521.0,
+     "mid": 813.5,
+     "high": 1402.7
     }
    },
    "utilisation": 0.092,
@@ -6860,6 +7330,11 @@
      "low": 0.8,
      "mid": 3.3,
      "high": 15.3
+    },
+    "co2_kg_market": {
+     "low": 2.4,
+     "mid": 7.2,
+     "high": 23.9
     }
    },
    "utilisation": 0.8,
@@ -6926,6 +7401,11 @@
      "low": 0.5,
      "mid": 2.2,
      "high": 10.4
+    },
+    "co2_kg_market": {
+     "low": 1.6,
+     "mid": 4.8,
+     "high": 16.2
     }
    },
    "utilisation": 0.6,
@@ -6995,6 +7475,11 @@
      "low": 0.9,
      "mid": 3.8,
      "high": 17.8
+    },
+    "co2_kg_market": {
+     "low": 2.8,
+     "mid": 8.4,
+     "high": 27.9
     }
    },
    "utilisation": 0.588,
@@ -7064,6 +7549,11 @@
      "low": 2.1,
      "mid": 8.8,
      "high": 41.1
+    },
+    "co2_kg_market": {
+     "low": 6.4,
+     "mid": 19.3,
+     "high": 64.2
     }
    },
    "utilisation": 0.706,
@@ -7130,6 +7620,11 @@
      "low": 0.6,
      "mid": 2.6,
      "high": 12.3
+    },
+    "co2_kg_market": {
+     "low": 1.9,
+     "mid": 5.8,
+     "high": 19.2
     }
    },
    "utilisation": 0.7,
@@ -7196,6 +7691,11 @@
      "low": 0.3,
      "mid": 1.3,
      "high": 6.0
+    },
+    "co2_kg_market": {
+     "low": 0.9,
+     "mid": 2.8,
+     "high": 9.4
     }
    },
    "utilisation": 0.8,
@@ -7262,6 +7762,11 @@
      "low": 0.8,
      "mid": 3.4,
      "high": 16.0
+    },
+    "co2_kg_market": {
+     "low": 2.5,
+     "mid": 7.5,
+     "high": 25.1
     }
    },
    "utilisation": 0.714,
@@ -7328,6 +7833,11 @@
      "low": 0.3,
      "mid": 1.2,
      "high": 5.5
+    },
+    "co2_kg_market": {
+     "low": 0.9,
+     "mid": 2.6,
+     "high": 8.7
     }
    },
    "utilisation": 0.8,
@@ -7394,6 +7904,11 @@
      "low": 0.6,
      "mid": 2.7,
      "high": 12.5
+    },
+    "co2_kg_market": {
+     "low": 1.9,
+     "mid": 5.8,
+     "high": 19.4
     }
    },
    "utilisation": 0.7,
@@ -7460,6 +7975,11 @@
      "low": 1.1,
      "mid": 4.5,
      "high": 21.2
+    },
+    "co2_kg_market": {
+     "low": 3.3,
+     "mid": 9.9,
+     "high": 33.0
     }
    },
    "utilisation": 0.706,
@@ -7526,6 +8046,11 @@
      "low": 0.0,
      "mid": 0.1,
      "high": 0.7
+    },
+    "co2_kg_market": {
+     "low": 0.0,
+     "mid": 0.1,
+     "high": 1.1
     }
    },
    "utilisation": 0.0,
@@ -7595,6 +8120,11 @@
      "low": 0.0,
      "mid": 0.1,
      "high": 1.4
+    },
+    "co2_kg_market": {
+     "low": 0.1,
+     "mid": 0.3,
+     "high": 2.1
     }
    },
    "utilisation": 0.143,
@@ -7664,6 +8194,11 @@
      "low": 0.1,
      "mid": 0.2,
      "high": 2.6
+    },
+    "co2_kg_market": {
+     "low": 0.2,
+     "mid": 0.5,
+     "high": 4.1
     }
    },
    "utilisation": 0.083,
@@ -7733,6 +8268,11 @@
      "low": 1.3,
      "mid": 5.4,
      "high": 63.1
+    },
+    "co2_kg_market": {
+     "low": 3.9,
+     "mid": 11.8,
+     "high": 98.6
     }
    },
    "utilisation": 0.85,
@@ -7799,6 +8339,11 @@
      "low": 0.5,
      "mid": 2.1,
      "high": 24.8
+    },
+    "co2_kg_market": {
+     "low": 1.5,
+     "mid": 4.6,
+     "high": 38.7
     }
    },
    "utilisation": 0.75,
@@ -7865,6 +8410,11 @@
      "low": 0.4,
      "mid": 1.6,
      "high": 19.3
+    },
+    "co2_kg_market": {
+     "low": 1.2,
+     "mid": 3.6,
+     "high": 30.1
     }
    },
    "utilisation": 0.833,
@@ -7931,6 +8481,11 @@
      "low": 0.3,
      "mid": 1.2,
      "high": 5.4
+    },
+    "co2_kg_market": {
+     "low": 0.8,
+     "mid": 2.5,
+     "high": 8.4
     }
    },
    "utilisation": 0.375,
@@ -7997,6 +8552,11 @@
      "low": 0.3,
      "mid": 1.2,
      "high": 5.4
+    },
+    "co2_kg_market": {
+     "low": 0.8,
+     "mid": 2.5,
+     "high": 8.4
     }
    },
    "utilisation": 0.3,
@@ -8066,6 +8626,11 @@
      "low": 0.4,
      "mid": 1.9,
      "high": 9.0
+    },
+    "co2_kg_market": {
+     "low": 1.4,
+     "mid": 4.2,
+     "high": 14.1
     }
    },
    "utilisation": 0.294,
@@ -8135,6 +8700,11 @@
      "low": 0.7,
      "mid": 3.2,
      "high": 14.8
+    },
+    "co2_kg_market": {
+     "low": 2.3,
+     "mid": 7.0,
+     "high": 23.2
     }
    },
    "utilisation": 0.9,
@@ -8201,6 +8771,11 @@
      "low": 0.4,
      "mid": 1.5,
      "high": 7.2
+    },
+    "co2_kg_market": {
+     "low": 1.1,
+     "mid": 3.4,
+     "high": 11.2
     }
    },
    "utilisation": 0.8,
@@ -8267,6 +8842,11 @@
      "low": 0.4,
      "mid": 1.5,
      "high": 7.2
+    },
+    "co2_kg_market": {
+     "low": 1.1,
+     "mid": 3.4,
+     "high": 11.2
     }
    },
    "utilisation": 0.8,
@@ -8333,6 +8913,11 @@
      "low": 1.5,
      "mid": 6.3,
      "high": 29.4
+    },
+    "co2_kg_market": {
+     "low": 4.6,
+     "mid": 13.8,
+     "high": 45.9
     }
    },
    "utilisation": 0.5,
@@ -8399,6 +8984,11 @@
      "low": 0.2,
      "mid": 0.8,
      "high": 3.9
+    },
+    "co2_kg_market": {
+     "low": 0.6,
+     "mid": 1.8,
+     "high": 6.1
     }
    },
    "utilisation": 0.6,
@@ -8465,6 +9055,11 @@
      "low": 0.6,
      "mid": 2.4,
      "high": 11.4
+    },
+    "co2_kg_market": {
+     "low": 1.8,
+     "mid": 5.3,
+     "high": 17.8
     }
    },
    "utilisation": 0.5,
@@ -8531,6 +9126,11 @@
      "low": 3.3,
      "mid": 14.0,
      "high": 65.5
+    },
+    "co2_kg_market": {
+     "low": 10.2,
+     "mid": 30.7,
+     "high": 102.4
     }
    },
    "utilisation": 0.86,
@@ -8597,6 +9197,11 @@
      "low": 1.0,
      "mid": 4.2,
      "high": 19.9
+    },
+    "co2_kg_market": {
+     "low": 3.1,
+     "mid": 9.3,
+     "high": 31.2
     }
    },
    "utilisation": 0.846,
@@ -8663,6 +9268,11 @@
      "low": 0.5,
      "mid": 1.9,
      "high": 9.2
+    },
+    "co2_kg_market": {
+     "low": 1.4,
+     "mid": 4.3,
+     "high": 14.3
     }
    },
    "utilisation": 1.0,
@@ -8729,6 +9339,11 @@
      "low": 1.3,
      "mid": 5.7,
      "high": 26.8
+    },
+    "co2_kg_market": {
+     "low": 4.2,
+     "mid": 12.6,
+     "high": 41.9
     }
    },
    "utilisation": 0.882,
@@ -8795,6 +9410,11 @@
      "low": 0.5,
      "mid": 1.9,
      "high": 9.2
+    },
+    "co2_kg_market": {
+     "low": 1.4,
+     "mid": 4.3,
+     "high": 14.3
     }
    },
    "utilisation": 1.0,
@@ -8861,6 +9481,11 @@
      "low": 1.0,
      "mid": 4.3,
      "high": 20.1
+    },
+    "co2_kg_market": {
+     "low": 3.1,
+     "mid": 9.4,
+     "high": 31.4
     }
    },
    "utilisation": 0.923,
@@ -8927,6 +9552,11 @@
      "low": 1.7,
      "mid": 7.0,
      "high": 33.0
+    },
+    "co2_kg_market": {
+     "low": 5.2,
+     "mid": 15.5,
+     "high": 51.5
     }
    },
    "utilisation": 0.905,
@@ -8993,6 +9623,11 @@
      "low": 1.1,
      "mid": 4.8,
      "high": 56.6
+    },
+    "co2_kg_market": {
+     "low": 3.5,
+     "mid": 10.6,
+     "high": 88.4
     }
    },
    "utilisation": 0.639,
@@ -9062,6 +9697,11 @@
      "low": 0.3,
      "mid": 1.1,
      "high": 13.1
+    },
+    "co2_kg_market": {
+     "low": 0.8,
+     "mid": 2.5,
+     "high": 20.5
     }
    },
    "utilisation": 0.455,
@@ -9131,6 +9771,11 @@
      "low": 0.1,
      "mid": 0.3,
      "high": 3.5
+    },
+    "co2_kg_market": {
+     "low": 0.2,
+     "mid": 0.7,
+     "high": 5.5
     }
    },
    "utilisation": 0.4,
@@ -9200,6 +9845,11 @@
      "low": 0.5,
      "mid": 2.0,
      "high": 22.9
+    },
+    "co2_kg_market": {
+     "low": 1.4,
+     "mid": 4.3,
+     "high": 35.7
     }
    },
    "utilisation": 0.643,
@@ -9269,6 +9919,11 @@
      "low": 0.1,
      "mid": 0.5,
      "high": 6.0
+    },
+    "co2_kg_market": {
+     "low": 0.4,
+     "mid": 1.1,
+     "high": 9.4
     }
    },
    "utilisation": 0.6,
@@ -9338,6 +9993,11 @@
      "low": 0.4,
      "mid": 1.6,
      "high": 18.5
+    },
+    "co2_kg_market": {
+     "low": 1.2,
+     "mid": 3.5,
+     "high": 28.9
     }
    },
    "utilisation": 0.636,
@@ -9407,6 +10067,11 @@
      "low": 0.6,
      "mid": 2.5,
      "high": 29.3
+    },
+    "co2_kg_market": {
+     "low": 1.8,
+     "mid": 5.5,
+     "high": 45.8
     }
    },
    "utilisation": 0.611,
@@ -9476,6 +10141,11 @@
      "low": 1.3,
      "mid": 5.7,
      "high": 26.7
+    },
+    "co2_kg_market": {
+     "low": 4.2,
+     "mid": 12.5,
+     "high": 41.7
     }
    },
    "utilisation": 0.471,
@@ -9542,6 +10212,11 @@
      "low": 2.8,
      "mid": 11.8,
      "high": 55.3
+    },
+    "co2_kg_market": {
+     "low": 8.6,
+     "mid": 25.9,
+     "high": 86.4
     }
    },
    "utilisation": 0.941,
@@ -9608,6 +10283,11 @@
      "low": 0.8,
      "mid": 3.5,
      "high": 16.3
+    },
+    "co2_kg_market": {
+     "low": 2.6,
+     "mid": 7.7,
+     "high": 25.5
     }
    },
    "utilisation": 0.9,
@@ -9674,6 +10354,11 @@
      "low": 0.4,
      "mid": 1.8,
      "high": 8.4
+    },
+    "co2_kg_market": {
+     "low": 1.3,
+     "mid": 3.9,
+     "high": 13.1
     }
    },
    "utilisation": 1.0,
@@ -9740,6 +10425,11 @@
      "low": 1.1,
      "mid": 4.6,
      "high": 21.8
+    },
+    "co2_kg_market": {
+     "low": 3.4,
+     "mid": 10.2,
+     "high": 34.0
     }
    },
    "utilisation": 0.857,
@@ -9806,6 +10496,11 @@
      "low": 0.4,
      "mid": 1.8,
      "high": 8.6
+    },
+    "co2_kg_market": {
+     "low": 1.3,
+     "mid": 4.0,
+     "high": 13.4
     }
    },
    "utilisation": 1.0,
@@ -9872,6 +10567,11 @@
      "low": 0.8,
      "mid": 3.5,
      "high": 16.2
+    },
+    "co2_kg_market": {
+     "low": 2.5,
+     "mid": 7.6,
+     "high": 25.3
     }
    },
    "utilisation": 0.9,
@@ -9938,6 +10638,11 @@
      "low": 1.4,
      "mid": 5.9,
      "high": 27.6
+    },
+    "co2_kg_market": {
+     "low": 4.3,
+     "mid": 12.9,
+     "high": 43.1
     }
    },
    "utilisation": 0.941,
@@ -10004,6 +10709,11 @@
      "low": 1.6,
      "mid": 6.9,
      "high": 32.4
+    },
+    "co2_kg_market": {
+     "low": 5.1,
+     "mid": 15.2,
+     "high": 50.6
     }
    },
    "utilisation": 0.529,
@@ -10070,6 +10780,11 @@
      "low": 0.6,
      "mid": 2.7,
      "high": 12.9
+    },
+    "co2_kg_market": {
+     "low": 2.0,
+     "mid": 6.0,
+     "high": 20.1
     }
    },
    "utilisation": 0.571,
@@ -10136,6 +10851,11 @@
      "low": 1.7,
      "mid": 7.4,
      "high": 35.0
+    },
+    "co2_kg_market": {
+     "low": 5.5,
+     "mid": 16.4,
+     "high": 54.6
     }
    },
    "utilisation": 0.588,
@@ -10202,6 +10922,11 @@
      "low": 0.7,
      "mid": 3.1,
      "high": 14.5
+    },
+    "co2_kg_market": {
+     "low": 2.3,
+     "mid": 6.8,
+     "high": 22.7
     }
    },
    "utilisation": 0.571,
@@ -10268,6 +10993,11 @@
      "low": 0.1,
      "mid": 0.4,
      "high": 2.1
+    },
+    "co2_kg_market": {
+     "low": 0.3,
+     "mid": 1.0,
+     "high": 3.3
     }
    },
    "utilisation": 0.1,
@@ -10337,6 +11067,11 @@
      "low": 1.9,
      "mid": 8.1,
      "high": 37.8
+    },
+    "co2_kg_market": {
+     "low": 5.9,
+     "mid": 17.7,
+     "high": 59.0
     }
    },
    "utilisation": 0.676,
@@ -10403,6 +11138,11 @@
      "low": 0.7,
      "mid": 3.2,
      "high": 14.8
+    },
+    "co2_kg_market": {
+     "low": 2.3,
+     "mid": 7.0,
+     "high": 23.2
     }
    },
    "utilisation": 0.643,
@@ -10469,6 +11209,11 @@
      "low": 2.6,
      "mid": 11.1,
      "high": 52.0
+    },
+    "co2_kg_market": {
+     "low": 8.1,
+     "mid": 24.4,
+     "high": 81.3
     }
    },
    "utilisation": 0.941,
@@ -10535,6 +11280,11 @@
      "low": 0.8,
      "mid": 3.3,
      "high": 15.4
+    },
+    "co2_kg_market": {
+     "low": 2.4,
+     "mid": 7.2,
+     "high": 24.1
     }
    },
    "utilisation": 0.8,
@@ -10601,6 +11351,11 @@
      "low": 0.4,
      "mid": 1.7,
      "high": 7.8
+    },
+    "co2_kg_market": {
+     "low": 1.2,
+     "mid": 3.7,
+     "high": 12.2
     }
    },
    "utilisation": 0.8,
@@ -10667,6 +11422,11 @@
      "low": 1.0,
      "mid": 4.4,
      "high": 20.8
+    },
+    "co2_kg_market": {
+     "low": 3.3,
+     "mid": 9.8,
+     "high": 32.6
     }
    },
    "utilisation": 0.857,
@@ -10733,6 +11493,11 @@
      "low": 0.4,
      "mid": 1.6,
      "high": 7.3
+    },
+    "co2_kg_market": {
+     "low": 1.1,
+     "mid": 3.4,
+     "high": 11.5
     }
    },
    "utilisation": 0.8,
@@ -10799,6 +11564,11 @@
      "low": 0.8,
      "mid": 3.4,
      "high": 15.7
+    },
+    "co2_kg_market": {
+     "low": 2.5,
+     "mid": 7.4,
+     "high": 24.6
     }
    },
    "utilisation": 0.9,
@@ -10865,6 +11635,11 @@
      "low": 1.3,
      "mid": 5.8,
      "high": 27.0
+    },
+    "co2_kg_market": {
+     "low": 4.2,
+     "mid": 12.6,
+     "high": 42.2
     }
    },
    "utilisation": 0.882,
@@ -10931,6 +11706,11 @@
      "low": 1.6,
      "mid": 6.8,
      "high": 31.8
+    },
+    "co2_kg_market": {
+     "low": 5.0,
+     "mid": 14.9,
+     "high": 49.7
     }
    },
    "utilisation": 0.529,
@@ -11000,6 +11780,11 @@
      "low": 0.5,
      "mid": 2.0,
      "high": 9.6
+    },
+    "co2_kg_market": {
+     "low": 1.5,
+     "mid": 4.5,
+     "high": 15.0
     }
    },
    "utilisation": 0.6,
@@ -11069,6 +11854,11 @@
      "low": 0.3,
      "mid": 1.1,
      "high": 5.1
+    },
+    "co2_kg_market": {
+     "low": 0.8,
+     "mid": 2.4,
+     "high": 8.0
     }
    },
    "utilisation": 0.6,
@@ -11138,6 +11928,11 @@
      "low": 0.6,
      "mid": 2.7,
      "high": 12.9
+    },
+    "co2_kg_market": {
+     "low": 2.0,
+     "mid": 6.0,
+     "high": 20.1
     }
    },
    "utilisation": 0.571,
@@ -11207,6 +12002,11 @@
      "low": 0.3,
      "mid": 1.2,
      "high": 5.4
+    },
+    "co2_kg_market": {
+     "low": 0.8,
+     "mid": 2.5,
+     "high": 8.4
     }
    },
    "utilisation": 0.6,
@@ -11276,6 +12076,11 @@
      "low": 0.5,
      "mid": 1.9,
      "high": 9.2
+    },
+    "co2_kg_market": {
+     "low": 1.4,
+     "mid": 4.3,
+     "high": 14.3
     }
    },
    "utilisation": 0.5,
@@ -11345,6 +12150,11 @@
      "low": 0.8,
      "mid": 3.4,
      "high": 15.9
+    },
+    "co2_kg_market": {
+     "low": 2.5,
+     "mid": 7.4,
+     "high": 24.8
     }
    },
    "utilisation": 0.588,

@@ -2,17 +2,20 @@
 
     .venv/bin/python -m unittest tests.test_scenarios_montecarlo
 
-The integration tests use the last pipeline run (output/greenops.duckdb + measures.json)
-and are skipped when it does not exist.
+The integration tests use the last pipeline run, or GREENOPS_TEST_OUTPUT when set.
 """
+import os
+from pathlib import Path
+import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
 
 from pipeline.energy.engine import load_factors
 from pipeline.energy.linear import LinearEnergy, at_level, factor_ranges
-from pipeline.harmonize.context import ROOT
+from pipeline.harmonize.context import ROOT, Context
 
 
 def line(unit, quantity, provider="Azure", location="DE", cpu=None, gpu=None, kwh_mid=0.0, charge="Usage"):
@@ -72,23 +75,52 @@ class SamplerTest(unittest.TestCase):
         np.testing.assert_array_equal(x, np.full(5, 3.0))
 
 
-@unittest.skipUnless((ROOT / "output" / "greenops.duckdb").exists() and (ROOT / "output" / "measures.json").exists(),
+class AdvisorOutputTest(unittest.TestCase):
+    def test_facts_follow_custom_output(self):
+        from pipeline import advisor
+        with tempfile.TemporaryDirectory() as directory:
+            ctx = Context.load()
+            ctx.config["output_dir"] = str(Path(directory) / "run")
+            with patch.object(advisor, "ADVISOR_DIR", Path(directory) / "default"), \
+                    patch.object(advisor._facts, "build", return_value={"servers": []}), \
+                    patch.object(advisor, "_load", return_value=None):
+                advisor.apply(ctx)
+            self.assertTrue((ctx.output_dir / "advisor" / "facts.json").is_file())
+
+
+TEST_OUTPUT = Path(os.environ.get("GREENOPS_TEST_OUTPUT", str(ROOT / "output")))
+
+
+@unittest.skipUnless((TEST_OUTPUT / "greenops.duckdb").exists() and (TEST_OUTPUT / "measures.json").exists(),
                      "needs a pipeline run (python -m pipeline.run)")
 class RealDataTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         from pipeline.bonus.dev import load_context
         from pipeline.bonus.package_eval import PackageModel
-        cls.ctx = load_context()
+        from pipeline.bonus.common import read_output
+        cls.ctx = load_context(str(TEST_OUTPUT))
+        cls.ctx.config["scenario"] = read_output(cls.ctx, "measures.json")["meta"]["scenario"]
         cls.pm = PackageModel(cls.ctx)
 
     def test_linear_model_equals_the_engine(self):
         from pipeline.energy.linear import check
         fc = self.ctx.tables["fact_cost"]
-        check(fc[fc["in_baseline"]].reset_index(drop=True), "ch_consumption")
+        check(fc[fc["in_baseline"]].reset_index(drop=True), self.ctx.config["scenario"])
 
     def test_package_model_equals_measures_json(self):
         self.pm.check()
+
+    def test_entity_production_totals_match_production_scenario(self):
+        from pipeline.bonus.common import read_output
+        from pipeline.bonus.scenarios import _entities_production
+        if self.ctx.config["scenario"] == "ch_production":
+            entities = read_output(self.ctx, "entities.json")["entities"]
+            original = {e["id"]: e["metrics"]["co2_kg"] for e in entities if e["metrics"]["co2_kg"]}
+            self.assertEqual(_entities_production(self.ctx), original)
+        else:
+            expected = self.pm.levels("ch_production")["mid"]["baseline"]["co2_by_location"]["CH"]
+            self.assertAlmostEqual(_entities_production(self.ctx)["loc:CH"]["mid"], float(expected), delta=0.1)
 
     def test_production_mix_changes_only_swiss_co2(self):
         cons, prod = self.pm.levels("ch_consumption")["mid"], self.pm.levels("ch_production")["mid"]
