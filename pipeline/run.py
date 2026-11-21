@@ -1,4 +1,4 @@
-"""Run the pipeline:  python -m pipeline.run [--advisor] [--scenario ch_production] [--out output/ch_production]
+"""Run the pipeline:  python -m pipeline.run [--advisor | --offline] [--goal best_value] [--scenario ch_production] [--out output/ch_production]
 
 Step 1–2 (Connect): read all 28 exports through their connectors, harmonize
 time, currency, units and names, allocate to departments, reconcile sources
@@ -30,7 +30,10 @@ def _args(argv: list[str] | None) -> argparse.Namespace:
                    help="Swiss grid mix scenario (overrides config.yaml scenario)")
     p.add_argument("--out", help="output folder (overrides config.yaml output_dir; DuckDB goes inside it)")
     p.add_argument("--advisor", action="store_true",
-                   help="call the LLMs (ticket reader + advisor) and save their answers; without it the last saved answers are re-applied")
+                   help="force a fresh analysis (ticket reader + area agents); by default they run only if their input changed")
+    p.add_argument("--offline", action="store_true", help="never call an LLM: reuse the saved answers even if outdated")
+    p.add_argument("--goal", choices=["climate_first", "best_value", "francs_first"],
+                   help="what the optimal package prioritises (overrides config.yaml advisor.goal)")
     return p.parse_args(argv)
 
 
@@ -54,9 +57,9 @@ def main(argv: list[str] | None = None) -> int:
     energy.compute(ctx)
     status = bonus.after_energy(ctx)    # bonus modules that add columns to fact_cost (e.g. market-based CO2)
     post.apply_materiality(ctx)
-    if args.advisor:
-        advisor.run_llm(ctx)  # LLM: reads tickets, finds waste, designs measures (answers saved in output/advisor/)
-    advisor.apply(ctx)        # code: validates the answers, computes savings, safety gate, target check
+    if args.goal:
+        ctx.config["advisor"]["goal"] = args.goal
+    advisor.run(ctx, force=args.advisor, offline=args.offline)  # agents only when their input changed
     submission.write_baseline(ctx)
     store.write(ctx)
     frontend.export(ctx)
@@ -89,7 +92,11 @@ def _summary(ctx: Context, secs: float) -> None:
         print("\nAdvisor: no saved LLM answers (run with --advisor)")
         return
     p = a["package"]
-    print(f"\nAdvisor: {len(a['findings'])} findings · {len(a['measures'])} measures · {len(a['limits'])} limits")
+    an = a.get("analysis") or {}
+    print(f"\nAdvisor: {len(a['findings'])} findings · {len(a['measures'])} measures · {len(a['limits'])} limits · "
+          f"goal {p.get('goal')} · reused {an.get('reused')}")
+    if an.get("timings"):
+        print(f"Analysis of {an.get('analysed_at')}: {an.get('seconds')} s in total · {an['timings']}")
     for m in a["measures"]:
         s = m["savings"]
         print(f"  {m['id']} [{m['status']:7s}]{' *' if m['in_package'] else '  '} {m['title'][:60]:60s} "
@@ -97,6 +104,13 @@ def _summary(ctx: Context, secs: float) -> None:
     r = p["reduction"]
     print(f"Package (*): CO2 −{r['co2']['mid']:.1%} · cost −{r['cost']['mid']:.1%} · effort {p['effort_days']} d "
           f"(CHF {p['effort_chf']:,.0f}) · meets {p['meets']}")
+    for g, pk in a.get("packages", {}).items():
+        if pk.get("feasible"):
+            r = pk["reduction"]
+            print(f"  goal {g:24s} CO2 −{r['co2']['mid']:.1%} (worst −{r['co2']['low']:.1%}) · cost −{r['cost']['mid']:.1%} · "
+                  f"{pk['effort_days']} d · {len(pk['measure_ids'])} measures")
+        else:
+            print(f"  goal {g:24s} not feasible ({pk.get('note')})")
     fp = a.get("ai_footprint")
     if fp:
         print(f"AI used by this analysis: {fp['calls']} LLM calls · {fp['output_equivalent_tokens']:,} eq. tokens · "

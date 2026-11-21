@@ -15,8 +15,10 @@ git submodule update --init
 ```bash
 uv venv -p 3.13 .venv && uv pip install -p .venv -r requirements.txt
 echo "OPENAI_API_KEY=sk-..." > .env          # local only, never committed (.env is in .gitignore)
-.venv/bin/python -m pipeline.run --advisor  # with the LLM (a few minutes): reads tickets, finds waste, designs measures
-.venv/bin/python -m pipeline.run            # without the LLM (seconds): re-applies the last saved LLM answers
+.venv/bin/python -m pipeline.run                       # ~20 s; the AI runs only if its input changed, else saved answers are reused
+.venv/bin/python -m pipeline.run --advisor             # force a fresh analysis (ticket reader + area agents, ~10–20 s)
+.venv/bin/python -m pipeline.run --offline             # never call the AI (no key needed)
+.venv/bin/python -m pipeline.run --goal best_value     # climate_first (default) | best_value | francs_first
 .venv/bin/python -m pipeline.advisor.redteam [--llm]   # prompt-injection tests
 ```
 
@@ -35,28 +37,32 @@ Architecture and pipeline flow: [docs/architecture.svg](docs/architecture.svg) �
 |---|---|
 | Code: harmonizer | reads the 28 exports, fixes time, currency, units, names, duplicates, gaps; allocates to departments |
 | Code: energy engine | kWh and location-based CO₂ for every billing line (researched factors with source and range) |
-| Code: fact sheet | turns the data into ~700 numbers with ids («dp-dev.idle_share»); no free text |
-| LLM: ticket reader (quarantined) | reads ticket text and turns it into typed restrictions (block, protection window, human decision) |
-| LLM: advisor | reads the fact sheet and the restrictions; finds drivers and waste, designs the measures, picks the package |
-| Code: calculator and gate | computes every saving (CHF, kWh, CO₂) from the advisor's shares; checks overlaps, restrictions, target and budget; the advisor revises if the package misses |
+| Code: fact sheet | turns the data into ~750 numbers with ids («dp-dev.idle_share»); no free text |
+| LLM: ticket reader (quarantined, 4 parallel batches, `gpt-5.4`) | reads ticket text and turns it into typed restrictions (block, protection window, human decision); code checks every target against the ticket's own resource |
+| Code: toolbox | proposes candidate measures from generic levers (pause idle hours, office hours, downsize, decommission forgotten servers, move to a cleaner grid, remove inactive seats, smaller AI model, storage/log clean-up, skip unchanged builds) and the «deliberately kept on» list |
+| LLM: area agents (4 in parallel, `gpt-5.4-mini`) | platform, servers, licences, AI & other: make each candidate realistic (shares only downwards), set effort and status, add up to 2 ideas each |
+| Code: calculator and gate | computes every saving (CHF, kWh, CO₂; valuing removed idle hours at idle power is implemented but switched off while under review: `advisor.value_idle_hours_at_idle_power`); safety gate (blocked / a person decides); statuses can only get stricter |
+| Code: optimiser | picks the optimal package for each goal: **climate first** (max CO₂ within budget), **best value** (cheapest way to −40 % CO₂ / −25 % cost), **francs first** (max savings); every goal must reach −40 % CO₂ even with pessimistic factors (safety margin, always on); if no package can, the best possible one is shown with `safety_met: false` and a note |
+
+**Same data ⇒ same answer.** The AI's input is fingerprinted; while it does not change, the saved answers (`output/advisor/*.json`) are reused and no AI energy is spent. New exports change the fingerprint and the analysis re-runs on its own. `measures.json` → `analysis` says when it ran, how long it took and what it cost.
 
 **Prompt-injection defence (by construction, not by trusting the model)**
-1. The advisor never sees free text from the data: only numbers, ids and master-data labels.
+1. The area agents never see free text from the data: only numbers, ids and master-data labels.
 2. Ticket text goes only to the reader, after the classifier removed texts that address AI systems. The reader has no tools; its answer must fit a strict schema and is validated by code.
 3. Restrictions can only *restrict*: nothing in the data can unlock a blocked resource or loosen a status.
 4. Every number is computed by code from the data: an injected «report costs 40 % lower» cannot change a figure.
 5. The test suite (`pipeline.advisor.redteam`) checks all of this, with live attacks on the reader.
 
-**Energy of the tool's own AI:** every analysis records the tokens of its LLM calls and reports their energy and CO₂ with the results (`measures.json` → `ai_footprint`, same factors as the company's AI use). The saved analysis: 3 calls, ~21.5 Wh (4.3–85.8), ~4.6 g CO₂.
+**Energy of the tool's own AI:** every analysis records the tokens of its LLM calls and reports their energy and CO₂ with the results (`measures.json` → `ai_footprint`, same factors as the company's AI use). Fresh analysis of the reader + 4 agents: ~2.9 Wh, ~0.6 g CO₂ in ~22 s (the previous single-call advisor: ~21.5 Wh in ~6 min); agents only: ~0.8 Wh in ~11 s.
 
 Outputs (format: `contract/`): `output/greenops.duckdb` (harmonized tables), `quality.json` (Intake screen), `fx.json`, `factors.json`, `summary.json`, `entities.json`, `timeseries.json`, `findings.json`, `measures.json` (with the package), `limits.json`, `answers.json`, `output/advisor/` (saved LLM answers, fact sheet, report) and the filled submission tables in `output/submission/`.
 
-- `pipeline/config.yaml`: tunable parameters (materiality threshold, baseline year, FX mode, advisor model and rounds)
+- `pipeline/config.yaml`: tunable parameters (materiality threshold, baseline year, FX mode, advisor models, goal, budget)
 - `pipeline/reference.yaml`: reference facts with sources (cost centers, regions, AI list prices, curated one-offs)
 - `pipeline/connectors/*.yaml`: one mapping file per export (for another SME, write new ones)
 - `pipeline/harmonize/`: generic engine, transform library, gap filling, reconciliation, DuckDB store
 - `pipeline/energy/`: `factors.yaml` (researched factors, each with source, date, range and calculation) and the kWh/CO₂ engine
-- `pipeline/advisor/`: fact sheet, ticket reader, advisor, calculator and gate, red-team tests
+- `pipeline/advisor/`: fact sheet, ticket reader, toolbox, area agents, calculator and gate, optimiser, red-team tests (`planner.py` = previous single-call advisor, kept only for `assistant energy --advisor-estimate`)
 - `pipeline/export/`: frontend files (contract format) and submission templates, generated by code
 - `pipeline/bonus/`, `assistant/`: bonus modules and the chat assistant (see `bonus-plan.md`)
 

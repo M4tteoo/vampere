@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T05:57:22+01:00",
+  "generated_at": "2026-11-21T15:08:07+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -1165,34 +1165,38 @@
  "after_package": {
   "package_measures": [
    "M-01",
-   "M-02",
    "M-03",
    "M-04",
-   "M-05",
-   "M-06"
+   "M-08",
+   "M-22",
+   "M-23",
+   "M-25",
+   "M-27",
+   "M-29"
   ],
-  "relocated": {
-   "dp-dev": "CH"
-  },
+  "relocated": {},
   "energy_basis": {
-   "dp-prod": "marginal",
+   "dp-prod": "full",
    "dp-dev": "full"
   },
   "because_of": {
    "dp-dev": [
     "M-01"
+   ],
+   "dp-prod": [
+    "M-03"
    ]
   },
   "saving": {
    "saving_static": {
-    "low": 1.9,
-    "mid": 7.3,
-    "high": 18.6
+    "low": 3.5,
+    "mid": 10.4,
+    "high": 24.2
    },
    "saving_dynamic": {
-    "low": 2.2,
-    "mid": 8.2,
-    "high": 21.0
+    "low": 4.8,
+    "mid": 13.2,
+    "high": 30.6
    }
   },
   "jobs": [
@@ -1200,84 +1204,84 @@
     "job_name": "Catalogue scan",
     "resource_id": "dp-prod",
     "location": "CH",
-    "basis": "marginal",
+    "basis": "full",
     "suggested_start": "17:00",
     "saving_dynamic": {
-     "low": 0.15,
-     "mid": 0.65,
-     "high": 1.79
+     "low": 0.45,
+     "mid": 1.5,
+     "high": 3.47
     }
    },
    {
     "job_name": "Cost export",
     "resource_id": "dp-prod",
     "location": "CH",
-    "basis": "marginal",
+    "basis": "full",
     "suggested_start": "17:00",
     "saving_dynamic": {
-     "low": 0.1,
-     "mid": 0.43,
-     "high": 1.2
+     "low": 0.3,
+     "mid": 1.01,
+     "high": 2.32
     }
    },
    {
     "job_name": "Dev smoke test",
     "resource_id": "dp-dev",
-    "location": "CH",
+    "location": "DE",
     "basis": "full",
-    "suggested_start": "17:00",
+    "suggested_start": "12:00",
     "saving_dynamic": {
-     "low": 0.2,
-     "mid": 0.68,
-     "high": 1.57
+     "low": 0.86,
+     "mid": 1.62,
+     "high": 3.82
     }
    },
    {
     "job_name": "Embedding update",
     "resource_id": "dp-dev",
-    "location": "CH",
+    "location": "DE",
     "basis": "full",
-    "suggested_start": "18:00",
+    "suggested_start": "12:00",
     "saving_dynamic": {
-     "low": 0.78,
-     "mid": 2.6,
-     "high": 6.0
+     "low": 0.2,
+     "mid": 0.38,
+     "high": 0.89
     }
    },
    {
     "job_name": "Test data refresh",
     "resource_id": "dp-dev",
-    "location": "CH",
+    "location": "DE",
     "basis": "full",
-    "suggested_start": "18:00",
+    "suggested_start": "17:00",
     "saving_dynamic": {
-     "low": 0.04,
-     "mid": 0.14,
-     "high": 0.32
+     "low": 0.54,
+     "mid": 1.01,
+     "high": 2.39
     }
    },
    {
     "job_name": "Data cleansing",
     "resource_id": "dp-prod",
     "location": "CH",
-    "basis": "marginal",
+    "basis": "full",
     "suggested_start": "17:00",
     "saving_dynamic": {
-     "low": 0.73,
-     "mid": 3.14,
-     "high": 8.69
+     "low": 2.2,
+     "mid": 7.3,
+     "high": 16.88
     }
    },
    {
     "job_name": "Quarterly model training",
     "resource_id": "dp-dev",
-    "location": "CH",
+    "location": "DE",
     "basis": "full",
-    "suggested_start": "03:00",
+    "suggested_start": "00:00",
     "saving_dynamic": {
-     "low": 0.18,
-     "mid": 0.61,
-     "high": 1.42
+     "low": 0.2,
+     "mid": 0.37,
+     "high": 0.87
     }
    }
   ],

@@ -11,7 +11,7 @@ from ..export.frontend import SUMS, Calc, metrics
 from ..harmonize.context import Context
 from ..harmonize.store import _meta
 from .calculator import PERSON_DAY_CHF, Calculator
-from .planner import _evaluate
+from .plan import evaluate as _eval_measures
 
 TZ = "Europe/Zurich"
 
@@ -86,10 +86,23 @@ def _period_text(s: dict) -> str:
 
 
 # --------------------------------------------------------------- build
-def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, raw_p: dict) -> dict:
-    plan = raw_p["plan"]
+def _package(calc, measures, keys, mkey, reasoning, edge_cases) -> dict:
+    pkg = calc.evaluate(measures, keys)
+    return {"measure_ids": [mkey[k] for k in pkg["measure_keys"]], "effort_days": pkg["effort_days"],
+            "effort_chf": pkg["effort_chf"], "savings": metrics(pkg["savings"]),
+            # contract Range: low ≤ mid ≤ high (low factors give the HIGHER reduction, so sort)
+            "reduction": {k: {"low": round(min(r.values()), 4), "mid": round(r["mid"], 4), "high": round(max(r.values()), 4)}
+                          for k, r in pkg["reduction"].items()},
+            "meets": pkg["meets"], "meets_at_low": pkg["meets_at_low"], "reasoning": reasoning,
+            "edge_cases": edge_cases}, pkg
+
+
+def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, assembled: dict, analysis: dict) -> dict:
+    plan = assembled["plan"]
     calc = Calculator(ctx, facts, constraints)
-    measures, pkg, problems = _evaluate(calc, plan)
+    measures, problems = _eval_measures(calc, plan["measures"])
+    problems += assembled["notes"]
+    pkg = calc.evaluate(measures, plan["package"]["measure_keys"])
     cfacts = facts["facts"]
     tot = calc.tot
     calcf = Calc(ctx, ctx.tables["fact_cost"])
@@ -158,7 +171,9 @@ def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, raw_p
             "reason": reason, "start_date": m["start_date"], "in_package": m["key"] in in_pkg and m["status"] != "blocked",
             "calc": c, "effects": m["_lines"], "proposed_status": m["proposed_status"],
             "effort_reasoning": m["effort_reasoning"], "risks": m["risks"], "assumptions": m["assumptions"],
-            "generated_by": f"LLM advisor ({ctx.config['advisor']['model']}); numbers and status checks by code"})
+            "generated_by": ("candidate from the toolbox (code), calibrated by an area agent "
+                             f"({ctx.config['advisor']['agent_model']})" if m.get("agent_reviewed") else "toolbox (code)")
+                            + "; numbers, status gate and package choice by code"})
 
     # findings: evidence values filled by code from fact ids
     unknown = set()
@@ -186,18 +201,27 @@ def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, raw_p
                       "severity": "high" if share >= sev["high"] else "medium" if share >= sev["medium"] else "low",
                       "impact": metrics(imp), "measure_ids": [mkey[m["key"]] for m in measures if f["key"] in m["finding_keys"]],
                       "calc": calcf(rows[rows["in_baseline"]], f"impact = {basis}", note=f["explanation"]),
-                      "generated_by": f"LLM advisor ({ctx.config['advisor']['model']}); evidence values filled by code from fact ids"})
+                      "generated_by": "found by code (toolbox) from the fact sheet; evidence values from fact ids"})
     if unknown:
         ctx.log("advisor", "advisor_unknown_fact", len(unknown), "evidence fact ids not in the fact sheet were dropped",
                 ", ".join(sorted(unknown)[:10]), severity="warn")
 
-    package = {"measure_ids": [mkey[k] for k in pkg["measure_keys"]], "effort_days": pkg["effort_days"],
-               "effort_chf": pkg["effort_chf"], "savings": metrics(pkg["savings"]),
-               # contract Range: low ≤ mid ≤ high (low factors give the HIGHER reduction, so sort)
-               "reduction": {k: {"low": round(min(r.values()), 4), "mid": round(r["mid"], 4), "high": round(max(r.values()), 4)}
-                             for k, r in pkg["reduction"].items()},
-               "meets": pkg["meets"], "meets_at_low": pkg["meets_at_low"], "reasoning": plan["package"]["reasoning"],
-               "edge_cases": [{"measure_id": mkey.get(e["measure_key"]), "explanation": e["explanation"]} for e in plan["edge_cases"]]}
+    edge = [{"measure_id": mkey.get(e["measure_key"]), "explanation": e["explanation"]} for e in plan["edge_cases"]]
+    package, _ = _package(calc, measures, plan["package"]["measure_keys"], mkey, plan["package"]["reasoning"], edge)
+    package["goal"] = assembled["default_goal"]
+    # optimal package for every goal option (switchable live in the UI: no AI involved)
+    packages = {}
+    for goal, opt in assembled["packages"].items():
+        if not opt["feasible"]:
+            packages[goal] = {"goal": goal, "feasible": False, "note": opt.get("note", "")}
+            continue
+        p_, _ = _package(calc, measures, opt["measure_keys"], mkey,
+                         f"Optimal package for «{goal}» (optimiser, code)", edge)
+        packages[goal] = {"goal": goal, "feasible": True, **p_, "safety_met": opt.get("safety_met", True),
+                          **({"note": opt["note"]} if opt.get("note") else {})}
+    in_pkg_ids = set(package["measure_ids"])
+    for m in out_m:
+        m["in_package"] = m["id"] in in_pkg_ids
 
     # entity flags and links for the scene
     flags, links = {}, {"finding_ids": {}, "measure_ids": {}, "limit_ids": {}}
@@ -227,9 +251,12 @@ def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, raw_p
             f"{len(out_f)} findings, {len(out_m)} measures, {len(limits)} limits; package CO2 −{pkg['reduction']['co2']['mid']:.1%}, "
             f"cost −{pkg['reduction']['cost']['mid']:.1%}, effort {pkg['effort_days']} d",
             f"tickets withheld from the reader: {len(raw_c.get('withheld', []))}; ignored by the reader: {len(raw_c.get('ignored', []))}")
-    return {"findings": out_f, "measures": out_m, "package": package, "limits": limits, "constraints": constraints,
-            "rounds": raw_p.get("rounds", []), "ignored": raw_c.get("ignored", []), "withheld": raw_c.get("withheld", []),
-            "ai_footprint": raw_p.get("ai_footprint")}
+    kept = [{**k, "entity_ids": _entity_ids(ctx, k["target"] if ":" in k["target"] else f"res:{k['target']}")}
+            for k in assembled["kept_on"]]
+    return {"findings": out_f, "measures": out_m, "package": package, "packages": packages, "goals": assembled["goals"],
+            "kept_on": kept, "limits": limits, "constraints": constraints, "analysis": analysis,
+            "ignored": raw_c.get("ignored", []), "withheld": raw_c.get("withheld", []),
+            "ai_footprint": analysis.get("ai_footprint")}
 
 
 # --------------------------------------------------------------- export
@@ -239,11 +266,13 @@ def export(ctx: Context) -> None:
     meta = _meta(ctx)
     files = {
         "measures.json": {"meta": meta, "measures": a["measures"], "package": a["package"],
+                          "packages": a["packages"], "goals": a["goals"], "kept_on": a["kept_on"],
+                          "analysis": {k: v for k, v in a["analysis"].items() if k != "calls"},
                           "ai_footprint": a["ai_footprint"],
                           "additivity_note": "Measures are checked by code for overlap: savings of the package can be summed. "
                                              "Blocked measures are never part of the package."},
         "limits.json": {"meta": meta, "limits": a["limits"]},
-        "advisor/report.json": {"meta": meta, "rounds": a["rounds"], "ai_footprint": a["ai_footprint"],
+        "advisor/report.json": {"meta": meta, "analysis": a["analysis"], "ai_footprint": a["ai_footprint"],
                                 "constraints": a["constraints"],
                                 "reader_ignored": a["ignored"], "reader_withheld": a["withheld"]},
     }

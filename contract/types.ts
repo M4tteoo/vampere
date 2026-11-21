@@ -267,10 +267,45 @@ export interface AiFootprint {
   models: string[];
 }
 
+/** What the optimal package prioritises (chosen by the user; switching is instant, no AI involved). */
+export type GoalId = "climate_first" | "best_value" | "francs_first";
+
+/** Optimal package for one goal; key in MeasuresFile.packages = the goal id. Every goal reaches the thresholds even
+ *  with pessimistic factors (safety margin, always on); otherwise feasible: false with a note. */
+export type GoalPackage =
+  | ({ goal: string; feasible: true; safety_met: boolean; note?: string } & Package)   // safety_met false → show the note
+  | { goal: string; feasible: false; note: string };
+
+/** A resource deliberately NOT reduced, and why («not everything unused may be switched off»). */
+export interface KeptOn {
+  target: string;                              // e.g. "srv:dr-failover", "st-backup"
+  reason: string;
+  constraint_id: string;
+  source: { kind: "ticket" | "file" | "calendar" | "rule"; ref: string };
+  entity_ids: string[];
+}
+
+/** When and how the analysis behind these results ran («Analysis of … · N AI calls · X s · Y Wh · [Re-run]»). */
+export interface AnalysisInfo {
+  analysed_at?: ISODateTime;
+  data_as_of?: ISODate;
+  seconds?: number;
+  timings?: Record<string, number>;            // reader_s, agents_s (only the steps that ran)
+  model?: { agents: string; reader: string };
+  reasoning_effort?: string;
+  ai_footprint?: AiFootprint;
+  reused: Record<string, boolean | string>;    // reader / agents: true = same input, saved answer reused
+  fingerprint: { reader: string; agents: string };
+}
+
 export interface MeasuresFile {
   meta: Meta;
   measures: Measure[];
-  package: Package;
+  package: Package & { goal?: string };        // the default goal (config.yaml advisor.goal)
+  packages: Record<GoalId, GoalPackage>;       // one optimal package per goal (always with the safety margin)
+  goals: GoalId[];
+  kept_on: KeptOn[];
+  analysis: AnalysisInfo;
   ai_footprint: AiFootprint | null;           // «this analysis used N LLM calls, X Wh, Y g CO2»
   /** Measures are defined without overlap, so the frontend may sum savings of
    *  any selection. Blocked measures are never part of a package. */
