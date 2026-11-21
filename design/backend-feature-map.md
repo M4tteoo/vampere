@@ -6,7 +6,7 @@ Numeri: valore centrale (mid). Ogni cifra ha anche un intervallo basso/alto e un
 
 **Come si genera:** `.venv/bin/python -m pipeline.run` (~10 s, riusa le risposte AI salvate se i dati non cambiano) · `--advisor` forza una nuova analisi (~30 s da zero, di cui ~21 s di AI) · `--offline` senza AI · `--goal best_value` cambia l'obiettivo predefinito.
 
-**Già letto dal frontend** (`web/src/data/real.ts`): `summary`, `entities` (anche `allocation` e `seats` dei gruppi di licenze), `factors`, `findings`, `measures`, `limits`, `quality`, `timeseries`, `local_ai`.
+**Già letto dal frontend** (`web/src/data/real.ts`): `summary`, `entities` (anche `allocation` e `seats` dei gruppi di licenze; `provider` è pronto ma non ancora letto), `factors`, `findings`, `measures`, `limits`, `quality`, `timeseries`, `local_ai`.
 **Pronto nel backend ma non ancora collegato:** `insights`, `montecarlo`, `scenarios`, `forecast`, `market`, `clusters`, `jobs`, `optimized_history`, `answers`, i campi nuovi di `measures` (`packages`, `goals`, `kept_on`, `analysis`) e l'API dell'assistente.
 
 ## Gli step (barra in alto)
@@ -55,5 +55,5 @@ Numeri: valore centrale (mid). Ogni cifra ha anche un intervallo basso/alto e un
 - La sede «EU» del backend = fornitori AI e SaaS senza città: nella scena non ha un'isola (decisione del 21.11).
 - Le domande aperte del contratto (`contract/README.md`) sono risolte così: server singoli sì (sono già nel layout come rack rappresentativi), un gruppo di licenze per prodotto × reparto sì, dati giornalieri bastano per il giorno/notte.
 - **Spostamenti:** la scena riconosce uno spostamento da `effects[].relocate_to` (generico, va bene). Nel pacchetto predefinito però **nessuna misura sposta qualcosa**: M-01 è ora solo la pausa di dp-dev. Gli spostamenti sono alternative fuori dal pacchetto: M-02 (dp-dev → Zurigo) e M-05 (gpu-ml → Zurigo). Lo slot «M1» di Zurigo in `design/office-spec.md` corrisponde quindi a M-02. Per gpu-ml non c'è ancora uno slot a Zurigo.
-- **Fornitore:** il frontend ora lo deduce dai nomi dei file di fattura (`calc.source_files`). Per le risorse AI resta vuoto. Il backend conosce il fornitore di ogni risorsa (`dim_resource.provider`) ma non lo esporta ancora in `entities.json`.
-- Da fare lato backend se serve alla UI: endpoint per «Ripeti analisi» (si può aggiungere al server dell'assistente); campo `provider` sulle entità (vedi sopra).
+- **Fornitore:** ora ogni entità ha `provider` (dalle fatture): risorse, server (ereditano quello della risorsa) e gruppi di licenze; `null` per stanze e isole. Se più fornitori fatturano la stessa risorsa, `provider` è quello con il costo maggiore e `providers` li elenca tutti (es. `res:ai-chatbot`: Anthropic e OpenAI). Il frontend può leggere `e.provider` invece di dedurlo dai nomi dei file (`real.ts`), così funziona anche per le risorse AI.
+- Da fare lato backend se serve alla UI: endpoint per «Ripeti analisi» (si può aggiungere al server dell'assistente).

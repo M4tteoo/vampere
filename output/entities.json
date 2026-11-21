@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T16:22:44+01:00",
+  "generated_at": "2026-11-21T16:37:24+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -18,6 +18,7 @@
    "tool": null,
    "category": null,
    "location": null,
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 171484.28,
@@ -109,6 +110,7 @@
    "tool": null,
    "category": null,
    "location": null,
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 30556.87,
@@ -186,6 +188,7 @@
    "tool": null,
    "category": null,
    "location": null,
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 7037.31,
@@ -255,6 +258,7 @@
    "tool": null,
    "category": null,
    "location": null,
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 174329.48,
@@ -357,6 +361,7 @@
    "tool": null,
    "category": null,
    "location": null,
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 5114.22,
@@ -426,6 +431,7 @@
    "tool": null,
    "category": null,
    "location": null,
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 38378.28,
@@ -505,6 +511,7 @@
    "tool": null,
    "category": null,
    "location": null,
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 47577.27,
@@ -583,6 +590,7 @@
    "tool": null,
    "category": null,
    "location": null,
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 60.16,
@@ -651,6 +659,7 @@
    "tool": null,
    "category": null,
    "location": "CH",
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 193416.21,
@@ -742,6 +751,7 @@
    "tool": null,
    "category": null,
    "location": "DE",
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 49917.73,
@@ -814,6 +824,7 @@
    "tool": null,
    "category": null,
    "location": "IE",
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 39513.61,
@@ -889,6 +900,7 @@
    "tool": null,
    "category": null,
    "location": "EU",
+   "provider": null,
    "metrics": {
     "cost_chf": {
      "low": 191690.32,
@@ -966,6 +978,7 @@
    "tool": "Support-Agent",
    "category": "ai",
    "location": "EU",
+   "provider": "Anthropic",
    "metrics": {
     "cost_chf": {
      "low": 2014.02,
@@ -1033,6 +1046,7 @@
    "tool": "Other agents",
    "category": "ai",
    "location": "EU",
+   "provider": "Anthropic",
    "metrics": {
     "cost_chf": {
      "low": 3264.42,
@@ -1099,6 +1113,7 @@
    "tool": "Office AI assistant",
    "category": "ai",
    "location": "EU",
+   "provider": "Azure OpenAI",
    "metrics": {
     "cost_chf": {
      "low": 23356.32,
@@ -1211,6 +1226,7 @@
    "tool": "Knowledge chatbot",
    "category": "ai",
    "location": "EU",
+   "provider": "Anthropic",
    "metrics": {
     "cost_chf": {
      "low": 305.69,
@@ -1265,6 +1281,10 @@
     "value_status": "derived_cross_source",
     "issue_ids": []
    },
+   "providers": [
+    "Anthropic",
+    "OpenAI"
+   ],
    "allocation": [
     {
      "department": "Consulting",
@@ -1287,6 +1307,7 @@
    "tool": "Marketing text analysis",
    "category": "ai",
    "location": "EU",
+   "provider": "Anthropic",
    "metrics": {
     "cost_chf": {
      "low": 12173.22,
@@ -1362,6 +1383,7 @@
    "tool": "Quote generator",
    "category": "ai",
    "location": "EU",
+   "provider": "OpenAI",
    "metrics": {
     "cost_chf": {
      "low": 538.56,
@@ -1428,6 +1450,7 @@
    "tool": "Report-Agent",
    "category": "ai",
    "location": "EU",
+   "provider": "Anthropic",
    "metrics": {
     "cost_chf": {
      "low": 112.45,
@@ -1501,6 +1524,7 @@
    "tool": "CI/CD pipelines",
    "category": "cloud",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 5484.13,
@@ -1576,6 +1600,7 @@
    "tool": "Finance database",
    "category": "cloud",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 11989.1,
@@ -1644,6 +1669,7 @@
    "tool": "Data platform development",
    "category": "cloud",
    "location": "DE",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 38544.16,
@@ -1726,6 +1752,7 @@
    "tool": "Data platform production",
    "category": "cloud",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 87666.77,
@@ -1812,6 +1839,7 @@
    "tool": "Data platform storage",
    "category": "cloud",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 6315.13,
@@ -1887,6 +1915,7 @@
    "tool": "AI compute server (GPU)",
    "category": "server",
    "location": "DE",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 11373.58,
@@ -1966,6 +1995,7 @@
    "tool": "Logging and monitoring",
    "category": "cloud",
    "location": "CH",
+   "provider": "Swiss hoster",
    "metrics": {
     "cost_chf": {
      "low": 13917.93,
@@ -2040,6 +2070,7 @@
    "tool": "Data egress",
    "category": "cloud",
    "location": "CH",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2670.75,
@@ -2109,6 +2140,7 @@
    "tool": "Power BI capacity",
    "category": "cloud",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 24075.51,
@@ -2180,6 +2212,7 @@
    "tool": "Microsoft 365 (licences)",
    "category": "saas",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 14240.98,
@@ -2280,6 +2313,7 @@
    "tool": "Other SaaS contracts",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor X",
    "metrics": {
     "cost_chf": {
      "low": 99916.9,
@@ -2333,6 +2367,23 @@
     "value_status": "observed",
     "issue_ids": []
    },
+   "providers": [
+    "Vendor X",
+    "Vendor A1",
+    "Vendor A6",
+    "Vendor V",
+    "Vendor A4",
+    "Vendor A10",
+    "Vendor Y",
+    "Vendor A2",
+    "Vendor A3",
+    "Vendor W",
+    "Vendor A8",
+    "Vendor A7",
+    "Vendor A9",
+    "Vendor A5",
+    "Vendor Z"
+   ],
    "allocation": [
     {
      "department": "Consulting",
@@ -2380,6 +2431,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 60.16,
@@ -2448,6 +2500,7 @@
    "tool": "Legacy project archive",
    "category": "cloud",
    "location": "CH",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 7474.63,
@@ -2515,6 +2568,7 @@
    "tool": "Backup archive",
    "category": "cloud",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 9365.69,
@@ -2590,6 +2644,7 @@
    "tool": "Project file storage",
    "category": "cloud",
    "location": "CH",
+   "provider": "Swiss hoster",
    "metrics": {
     "cost_chf": {
      "low": 4208.94,
@@ -2657,6 +2712,7 @@
    "tool": "ChatGPT Team (subscription)",
    "category": "ai",
    "location": "EU",
+   "provider": "OpenAI",
    "metrics": {
     "cost_chf": {
      "low": 5482.22,
@@ -2737,6 +2793,7 @@
    "tool": "Claude Team (subscription)",
    "category": "ai",
    "location": "EU",
+   "provider": "Anthropic",
    "metrics": {
     "cost_chf": {
      "low": 8104.16,
@@ -2817,6 +2874,7 @@
    "tool": "Microsoft Copilot (subscription)",
    "category": "ai",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 22181.4,
@@ -2917,6 +2975,7 @@
    "tool": "Cloud support",
    "category": "cloud",
    "location": "CH",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 10694.04,
@@ -2983,6 +3042,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 23291.71,
@@ -3051,6 +3111,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 24603.64,
@@ -3126,6 +3187,7 @@
    "tool": "Web hosting and CDN",
    "category": "cloud",
    "location": "CH",
+   "provider": "Swiss hoster",
    "metrics": {
     "cost_chf": {
      "low": 1111.71,
@@ -3193,6 +3255,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1843.77,
@@ -3273,6 +3336,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1956.65,
@@ -3353,6 +3417,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1994.28,
@@ -3433,6 +3498,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1956.65,
@@ -3513,6 +3579,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1956.65,
@@ -3593,6 +3660,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1919.03,
@@ -3673,6 +3741,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1919.03,
@@ -3753,6 +3822,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1919.03,
@@ -3833,6 +3903,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1956.65,
@@ -3913,6 +3984,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1994.28,
@@ -3993,6 +4065,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1956.65,
@@ -4073,6 +4146,7 @@
    "tool": "App server",
    "category": "server",
    "location": "CH",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 1919.03,
@@ -4153,6 +4227,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1550.77,
@@ -4240,6 +4315,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1550.77,
@@ -4327,6 +4403,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1550.77,
@@ -4414,6 +4491,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1491.13,
@@ -4501,6 +4579,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1520.95,
@@ -4588,6 +4667,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1550.77,
@@ -4675,6 +4755,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1491.13,
@@ -4762,6 +4843,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1491.13,
@@ -4849,6 +4931,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1550.77,
@@ -4930,6 +5013,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1550.77,
@@ -5017,6 +5101,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1580.6,
@@ -5098,6 +5183,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1520.95,
@@ -5185,6 +5271,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1580.6,
@@ -5272,6 +5359,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1491.13,
@@ -5360,6 +5448,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1580.6,
@@ -5448,6 +5537,7 @@
    "tool": "Test environments",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1550.77,
@@ -5536,6 +5626,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.52,
@@ -5616,6 +5707,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.64,
@@ -5696,6 +5788,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.18,
@@ -5776,6 +5869,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.74,
@@ -5856,6 +5950,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.89,
@@ -5936,6 +6031,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.57,
@@ -6016,6 +6112,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.7,
@@ -6096,6 +6193,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.67,
@@ -6176,6 +6274,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.63,
@@ -6256,6 +6355,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.45,
@@ -6336,6 +6436,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1.98,
@@ -6416,6 +6517,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.08,
@@ -6496,6 +6598,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.57,
@@ -6576,6 +6679,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.59,
@@ -6656,6 +6760,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.6,
@@ -6736,6 +6841,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.57,
@@ -6816,6 +6922,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.94,
@@ -6896,6 +7003,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.88,
@@ -6976,6 +7084,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.89,
@@ -7056,6 +7165,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.35,
@@ -7136,6 +7246,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 1.99,
@@ -7216,6 +7327,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.08,
@@ -7296,6 +7408,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.54,
@@ -7376,6 +7489,7 @@
    "tool": "Test account",
    "category": "server",
    "location": "IE",
+   "provider": "AWS",
    "metrics": {
     "cost_chf": {
      "low": 2.15,
@@ -7456,6 +7570,7 @@
    "tool": "AI compute server (GPU)",
    "category": "server",
    "location": "DE",
+   "provider": "Azure",
    "metrics": {
     "cost_chf": {
      "low": 11373.58,
@@ -7543,6 +7658,7 @@
    "tool": "Accounting software",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor W",
    "metrics": {
     "cost_chf": {
      "low": 4560.0,
@@ -7610,6 +7726,7 @@
    "tool": "CRM platform",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor X",
    "metrics": {
     "cost_chf": {
      "low": 6600.0,
@@ -7684,6 +7801,7 @@
    "tool": "CRM platform",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor X",
    "metrics": {
     "cost_chf": {
      "low": 11165.0,
@@ -7758,6 +7876,7 @@
    "tool": "Chat tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A2",
    "metrics": {
     "cost_chf": {
      "low": 2555.26,
@@ -7832,6 +7951,7 @@
    "tool": "Chat tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A2",
    "metrics": {
     "cost_chf": {
      "low": 762.74,
@@ -7906,6 +8026,7 @@
    "tool": "Chat tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A2",
    "metrics": {
     "cost_chf": {
      "low": 381.37,
@@ -7980,6 +8101,7 @@
    "tool": "Chat tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A2",
    "metrics": {
     "cost_chf": {
      "low": 1010.91,
@@ -8054,6 +8176,7 @@
    "tool": "Chat tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A2",
    "metrics": {
     "cost_chf": {
      "low": 381.37,
@@ -8128,6 +8251,7 @@
    "tool": "Chat tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A2",
    "metrics": {
     "cost_chf": {
      "low": 762.74,
@@ -8202,6 +8326,7 @@
    "tool": "Chat tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A2",
    "metrics": {
     "cost_chf": {
      "low": 1290.29,
@@ -8276,6 +8401,7 @@
    "tool": "ChatGPT Team",
    "category": "ai",
    "location": "EU",
+   "provider": "OpenAI",
    "metrics": {
     "cost_chf": {
      "low": 953.43,
@@ -8350,6 +8476,7 @@
    "tool": "ChatGPT Team",
    "category": "ai",
    "location": "EU",
+   "provider": "OpenAI",
    "metrics": {
     "cost_chf": {
      "low": 1668.5,
@@ -8424,6 +8551,7 @@
    "tool": "ChatGPT Team",
    "category": "ai",
    "location": "EU",
+   "provider": "OpenAI",
    "metrics": {
     "cost_chf": {
      "low": 2860.29,
@@ -8498,6 +8626,7 @@
    "tool": "Claude Team",
    "category": "ai",
    "location": "EU",
+   "provider": "Anthropic",
    "metrics": {
     "cost_chf": {
      "low": 4767.15,
@@ -8565,6 +8694,7 @@
    "tool": "Claude Team",
    "category": "ai",
    "location": "EU",
+   "provider": "Anthropic",
    "metrics": {
     "cost_chf": {
      "low": 1906.86,
@@ -8632,6 +8762,7 @@
    "tool": "Claude Team",
    "category": "ai",
    "location": "EU",
+   "provider": "Anthropic",
    "metrics": {
     "cost_chf": {
      "low": 1430.15,
@@ -8699,6 +8830,7 @@
    "tool": "Design tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor Z",
    "metrics": {
     "cost_chf": {
      "low": 1525.49,
@@ -8773,6 +8905,7 @@
    "tool": "E-signature",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor V",
    "metrics": {
     "cost_chf": {
      "low": 3000.0,
@@ -8847,6 +8980,7 @@
    "tool": "E-signature",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor V",
    "metrics": {
     "cost_chf": {
      "low": 5075.0,
@@ -8921,6 +9055,7 @@
    "tool": "HR software",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A5",
    "metrics": {
     "cost_chf": {
      "low": 1080.0,
@@ -8988,6 +9123,7 @@
    "tool": "HR software",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A5",
    "metrics": {
     "cost_chf": {
      "low": 540.0,
@@ -9055,6 +9191,7 @@
    "tool": "HR software",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A5",
    "metrics": {
     "cost_chf": {
      "low": 540.0,
@@ -9122,6 +9259,7 @@
    "tool": "Knowledge base",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A3",
    "metrics": {
     "cost_chf": {
      "low": 3194.07,
@@ -9196,6 +9334,7 @@
    "tool": "Knowledge base",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A3",
    "metrics": {
     "cost_chf": {
      "low": 476.71,
@@ -9270,6 +9409,7 @@
    "tool": "Knowledge base",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A3",
    "metrics": {
     "cost_chf": {
      "low": 1263.63,
@@ -9344,6 +9484,7 @@
    "tool": "Microsoft 365",
    "category": "saas",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 5088.78,
@@ -9411,6 +9552,7 @@
    "tool": "Microsoft 365",
    "category": "saas",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 1540.93,
@@ -9478,6 +9620,7 @@
    "tool": "Microsoft 365",
    "category": "saas",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 729.64,
@@ -9545,6 +9688,7 @@
    "tool": "Microsoft 365",
    "category": "saas",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 2057.34,
@@ -9612,6 +9756,7 @@
    "tool": "Microsoft 365",
    "category": "saas",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 729.64,
@@ -9679,6 +9824,7 @@
    "tool": "Microsoft 365",
    "category": "saas",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 1540.93,
@@ -9746,6 +9892,7 @@
    "tool": "Microsoft 365",
    "category": "saas",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 2553.73,
@@ -9813,6 +9960,7 @@
    "tool": "Microsoft Copilot",
    "category": "ai",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 7985.3,
@@ -9887,6 +10035,7 @@
    "tool": "Microsoft Copilot",
    "category": "ai",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 2439.95,
@@ -9961,6 +10110,7 @@
    "tool": "Microsoft Copilot",
    "category": "ai",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 1109.07,
@@ -10035,6 +10185,7 @@
    "tool": "Microsoft Copilot",
    "category": "ai",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 3105.4,
@@ -10109,6 +10260,7 @@
    "tool": "Microsoft Copilot",
    "category": "ai",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 1109.07,
@@ -10183,6 +10335,7 @@
    "tool": "Microsoft Copilot",
    "category": "ai",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 2439.95,
@@ -10257,6 +10410,7 @@
    "tool": "Microsoft Copilot",
    "category": "ai",
    "location": "EU",
+   "provider": "Microsoft",
    "metrics": {
     "cost_chf": {
      "low": 3992.65,
@@ -10331,6 +10485,7 @@
    "tool": "Note-taking tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A9",
    "metrics": {
     "cost_chf": {
      "low": 2555.26,
@@ -10405,6 +10560,7 @@
    "tool": "Password manager",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A8",
    "metrics": {
     "cost_chf": {
      "low": 1277.63,
@@ -10472,6 +10628,7 @@
    "tool": "Password manager",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A8",
    "metrics": {
     "cost_chf": {
      "low": 381.37,
@@ -10539,6 +10696,7 @@
    "tool": "Password manager",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A8",
    "metrics": {
     "cost_chf": {
      "low": 190.69,
@@ -10606,6 +10764,7 @@
    "tool": "Password manager",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A8",
    "metrics": {
     "cost_chf": {
      "low": 505.45,
@@ -10673,6 +10832,7 @@
    "tool": "Password manager",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A8",
    "metrics": {
     "cost_chf": {
      "low": 190.69,
@@ -10740,6 +10900,7 @@
    "tool": "Password manager",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A8",
    "metrics": {
     "cost_chf": {
      "low": 381.37,
@@ -10807,6 +10968,7 @@
    "tool": "Password manager",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A8",
    "metrics": {
     "cost_chf": {
      "low": 645.14,
@@ -10874,6 +11036,7 @@
    "tool": "Project management",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor Y",
    "metrics": {
     "cost_chf": {
      "low": 5203.37,
@@ -10948,6 +11111,7 @@
    "tool": "Project management",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor Y",
    "metrics": {
     "cost_chf": {
      "low": 2058.28,
@@ -11022,6 +11186,7 @@
    "tool": "Project scheduling",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A10",
    "metrics": {
     "cost_chf": {
      "low": 5575.04,
@@ -11096,6 +11261,7 @@
    "tool": "Project scheduling",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A10",
    "metrics": {
     "cost_chf": {
      "low": 2205.3,
@@ -11170,6 +11336,7 @@
    "tool": "Survey tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A7",
    "metrics": {
     "cost_chf": {
      "low": 3328.56,
@@ -11244,6 +11411,7 @@
    "tool": "Ticket system",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A6",
    "metrics": {
     "cost_chf": {
      "low": 6388.14,
@@ -11318,6 +11486,7 @@
    "tool": "Ticket system",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A6",
    "metrics": {
     "cost_chf": {
      "low": 2527.27,
@@ -11392,6 +11561,7 @@
    "tool": "Time tracking",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A4",
    "metrics": {
     "cost_chf": {
      "low": 2814.0,
@@ -11459,6 +11629,7 @@
    "tool": "Time tracking",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A4",
    "metrics": {
     "cost_chf": {
      "low": 840.0,
@@ -11526,6 +11697,7 @@
    "tool": "Time tracking",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A4",
    "metrics": {
     "cost_chf": {
      "low": 420.0,
@@ -11593,6 +11765,7 @@
    "tool": "Time tracking",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A4",
    "metrics": {
     "cost_chf": {
      "low": 1113.0,
@@ -11660,6 +11833,7 @@
    "tool": "Time tracking",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A4",
    "metrics": {
     "cost_chf": {
      "low": 420.0,
@@ -11727,6 +11901,7 @@
    "tool": "Time tracking",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A4",
    "metrics": {
     "cost_chf": {
      "low": 840.0,
@@ -11794,6 +11969,7 @@
    "tool": "Time tracking",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A4",
    "metrics": {
     "cost_chf": {
      "low": 1421.0,
@@ -11861,6 +12037,7 @@
    "tool": "Video conferencing tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A1",
    "metrics": {
     "cost_chf": {
      "low": 4460.03,
@@ -11935,6 +12112,7 @@
    "tool": "Video conferencing tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A1",
    "metrics": {
     "cost_chf": {
      "low": 1331.42,
@@ -12009,6 +12187,7 @@
    "tool": "Video conferencing tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A1",
    "metrics": {
     "cost_chf": {
      "low": 665.71,
@@ -12083,6 +12262,7 @@
    "tool": "Video conferencing tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A1",
    "metrics": {
     "cost_chf": {
      "low": 1764.24,
@@ -12157,6 +12337,7 @@
    "tool": "Video conferencing tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A1",
    "metrics": {
     "cost_chf": {
      "low": 665.71,
@@ -12231,6 +12412,7 @@
    "tool": "Video conferencing tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A1",
    "metrics": {
     "cost_chf": {
      "low": 1331.42,
@@ -12305,6 +12487,7 @@
    "tool": "Video conferencing tool",
    "category": "saas",
    "location": "EU",
+   "provider": "Vendor A1",
    "metrics": {
     "cost_chf": {
      "low": 2252.2,

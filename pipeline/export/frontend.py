@@ -221,6 +221,15 @@ def _allocation(rows: pd.DataFrame, dim_row) -> list[dict] | None:
             for dept, v in by_dept.sort_values(ascending=False).items()]
 
 
+def _providers(rows: pd.DataFrame) -> dict:
+    """Who bills it: the provider with the largest baseline cost, and all of them (by cost) when several."""
+    by = rows.groupby("provider")["cost_chf"].sum().sort_values(ascending=False)
+    out = {"provider": by.index[0] if len(by) else None}
+    if len(by) > 1:
+        out["providers"] = by.index.tolist()
+    return out
+
+
 def build_entities(ctx: Context, calc: Calc) -> tuple[dict, dict]:
     fc = ctx.tables["fact_cost"]
     b = fc[fc["in_baseline"]]
@@ -240,7 +249,7 @@ def build_entities(ctx: Context, calc: Calc) -> tuple[dict, dict]:
     def base(eid, kind, label, parent, rows, formula, **kw):
         s = rows[sums].sum()
         e = {"id": eid, "kind": kind, "label": label, "parent_id": parent, "department": None, "tool": None,
-             "category": None, "location": None, "metrics": metrics(s), "utilisation": None, "idle_ratio": None,
+             "category": None, "location": None, "provider": None, "metrics": metrics(s), "utilisation": None, "idle_ratio": None,
              "state": "normal", "flags": [], "finding_ids": [], "measure_ids": [], "limit_ids": [],
              "calc": calc(rows, formula, note=kw.pop("note", None))}
         e.update(kw)
@@ -271,7 +280,7 @@ def build_entities(ctx: Context, calc: Calc) -> tuple[dict, dict]:
                  note=f"utilisation basis: {u['basis']}" if u else None,
                  department=None if alloc else rows["department"].mode().iat[0],
                  tool=d["tool"] if d is not None else None,
-                 category=rows["category"].iat[0], location=loc,
+                 category=rows["category"].iat[0], location=loc, **_providers(rows),
                  utilisation=_r(u.get("utilisation"), 3), idle_ratio=_r(u.get("idle_ratio"), 3))
         if alloc:
             e["allocation"] = alloc
@@ -302,7 +311,7 @@ def build_entities(ctx: Context, calc: Calc) -> tuple[dict, dict]:
                  f"share of res:{s.resource_id} by vCPU × uptime hours ({s.share:.1%})",
                  department=s.owner_department if isinstance(s.owner_department, str) else None,
                  tool=parent["tool"], category=parent["category"], location=parent["location"],
-                 utilisation=_r(s.gpu if s.resource_id == "gpu-ml" else s.cpu, 3))
+                 provider=parent["provider"], utilisation=_r(s.gpu if s.resource_id == "gpu-ml" else s.cpu, 3))
         e["metrics"] = scale(parent["metrics"], s.share)
         e["calc"]["inputs"] = [{"name": "vCPU", "value": float(s.vcpu), "unit": "vCPU", "source": "server_inventory.csv"},
                                {"name": "uptime in baseline year", "value": float(s.uptime_h), "unit": "h",
@@ -322,7 +331,7 @@ def build_entities(ctx: Context, calc: Calc) -> tuple[dict, dict]:
         base(f"lic:{tool}@{dept}", "license_group", f"{tool} · {dept}", f"dept:{dept}", rows,
              "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
              department=dept, tool=tool, category=rows["category"].iat[0], location=rows["location"].iat[0],
-             seats={"purchased": purchased, "active": active} if sp is not None else None,
+             **_providers(rows), seats={"purchased": purchased, "active": active} if sp is not None else None,
              utilisation=_r(active / purchased, 3) if purchased else None)
         members[f"lic:{tool}@{dept}"] = ("license", (tool, dept))
     return {"meta": _meta(ctx), "entities": ents}, members

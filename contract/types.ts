@@ -135,6 +135,10 @@ export interface Entity {
   tool: string | null;
   category: Category | null;
   location: LocationCode | null;
+  /** Who bills it, from the invoices (e.g. "Azure", "AWS", "Swiss hoster", "Anthropic", "Vendor X"):
+   *  the provider with the largest baseline cost. Servers inherit their resource's; rooms and islands null. */
+  provider: string | null;
+  providers?: string[];         // only when several providers bill it (sorted by cost), e.g. res:ai-chatbot
   metrics: Metrics;             // baseline year
   utilisation: number | null;   // 0..1 (CPU, active seats, active hours: see calc)
   idle_ratio: number | null;    // 0..1 (running but not working)
