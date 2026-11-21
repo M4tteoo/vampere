@@ -257,86 +257,43 @@ Step 4 · Baseline: la fotografia di partenza:
       - output/summary.json
     Riferimenti: README «Submission» (baseline year) · template, prime 3 righe
 
-Step 5 · Find: trovare i driver e gli sprechi:
-  ✔ Classifica dei driver principali @must @p1 @done(26-11-21)
-    Fatto: pipeline/find/rules.py → findings «driver» (top 5 per CO₂ + top 5 per costo) + sedi «sporche»: Francoforte 37% della CO₂ con l'11% dei costi, Dublino 13% con l'8%
-    Cos'è: cosa pesa di più in CHF, kWh e CO₂.
-    Da fare: top-N per risorsa, tool, reparto e sede, in tre viste (CHF / kWh / CO₂)
-  ✔ Regole di spreco, ognuna con il numero che la prova @must @p1 @done(26-11-21)
-    Fatto: 13 regole semplici (soglie in config.yaml «find»), dati strutturati soltanto (i ticket sono citati per risorsa e data, mai interpretati) → output/findings.json (35 finding con prove e importo in gioco; gli importi si sovrappongono, non sommarli)
-      - dp-dev inattivo 91% · dp-prod inattivo 65% (notti/weekend → Step 7) · GPU 24/7 al 9%, progetto P-004 chiuso da 433 giorni
-      - 10 server di test quasi fermi nel 92% delle settimane (regola: sotto 10% di CPU in almeno 3 settimane su 4, così il test di marzo non nasconde un server quasi sempre fermo) · 3 server dimenticati
-      - 11 licenze sotto il 60% di uso (ChatGPT Team 14%, Survey 12%, E-signature 30%…; CO₂ ≈ 0, solo costo) · «Classify» su modello grande (CHF 8k)
-      - extra: 10,5 TB di tabelle non lette · 21 sorgenti con backup triplo · 19 report Power BI quasi mai aperti · 21% build notturni senza modifiche · 91% report dell'agente mai aperti · 36% traffico bot
-      - anomalie: loop di marzo (già risolto) · egress di gennaio · ai-agent 18–20 maggio (non spiegata → persona)
-    Cos'è: cose accese o pagate ma non usate.
-    Da fare (output/findings.json, ogni finding con prova + fonte):
-      - cluster con active/runtime < 20% → dp-dev (2,1 h di lavoro su 24, Francoforte)
-      - GPU < 10% e accesa 24/7 → gpu-ml-01 (pilota P-004 chiuso)
-      - CPU < 10% e accesi 720 h/mese → 13 server di test a Dublino (riduzione T-1058 mai fatta, P-009 chiuso)
-      - ultimo login > 180 giorni / senza proprietario → poc-ki-2024, migration-alt, build-agent-old
-      - licenze attive / acquistate < 60% → ChatGPT Team, Copilot, Survey tool, E-signature, Design tool, CRM…
-      - modello grande per compiti semplici → «Classify» con Sonnet nell'analisi testi di marketing
-      - anomalie (z-score sul giornaliero) → loop di marzo 2026
+Steps 5–8 · Advisor LLM (PIVOT 21.11: l'LLM ragiona e progetta, il sistema fornisce i dati e fa i conti):
+  Perché: regole e misure scritte a mano non reggono la variabilità del caso; l'LLM ragiona sui dati, il codice garantisce numeri tracciabili e sicurezza.
+  Comandi: `python -m pipeline.run --advisor` (chiama gli LLM, qualche minuto) · `python -m pipeline.run` (riapplica le ultime risposte salvate, secondi, offline)
+  Chiave: OPENAI_API_KEY in .env (mai nel repo). Modello e parametri: config.yaml → advisor.
+  ✔ Scheda dei fatti (sistema) @must @p1 @done(26-11-21)
+    pipeline/advisor/facts.py → output/advisor/facts.json: ~700 numeri con id («dp-dev.idle_share»), unità, significato e fonte; NESSUN testo libero dei dati
+  ✔ Lettore dei ticket (LLM in quarantena) @must @p1 @done(26-11-21)
+    pipeline/advisor/reader.py: legge solo i ticket non segnalati dal classificatore → vincoli tipizzati (block / window / human_decision / planned_change / one_off / info), schema rigido con enum, validati dal codice
+      - i vincoli possono solo RESTRINGERE: niente nei dati può sbloccare una risorsa protetta
+      - finestre dello scheduler (job «fixed») aggiunte dal codice, senza LLM
+  ✔ Advisor (LLM): driver, sprechi, misure, pacchetto @must @p1 @done(26-11-21)
+    pipeline/advisor/planner.py: legge fatti + vincoli (mai testo libero) → findings (con id dei fatti come prova), misure come «effetti» (quota di costo/energia rimossa per scope, eventuale spostamento di sede), sforzo, responsabile, data di inizio, pacchetto + casi limite
+      - se il pacchetto non raggiunge target o budget, il codice gli rimanda i risultati e l'advisor rivede (max 3 giri)
+      - risultato (21.11, 2 giri): pacchetto di 6 misure → CO₂ −40,1%, costi −27,1%, 15 giornate (CHF 16.500); 2 misure bloccate come casi limite (backup, dr-failover)
+      - ATTENZIONE: con i fattori più sfavorevoli la CO₂ scende solo del 34,7% (target non raggiunto nel caso peggiore) → margine sottile, da dire nel pitch; idee: misura su dp-prod fuori dalle finestre (decide una persona) o spostamento di altri carichi da Francoforte/Dublino
+  ✔ Calcolatore e cancello di sicurezza (sistema) @must @p1 @done(26-11-21)
+    pipeline/advisor/calculator.py: risparmi CHF/kWh/CO₂ dal baseline ricorrente (mai sugli eventi una tantum), quote 0–1, niente doppi conteggi, licenze inattive = solo costo (niente energia)
+      - stato: risorsa bloccata → ⛔; finestra protetta o decisione umana non gestita → 🧑; il cancello può solo rendere uno stato più severo; finestre già scadute non contano
+      - verifica del pacchetto: −40% CO₂, −25% costi, ≤ CHF 16.500
+  ✔ Difesa dalle prompt injection + test @must @p1 @done(26-11-21)
+    pipeline/advisor/redteam.py (`python -m pipeline.advisor.redteam [--llm]`): l'advisor non vede testo libero · i testi segnalati non arrivano al lettore · il cancello tiene bloccato ciò che è bloccato · quote fuori 0–1 e scope sconosciuti rifiutati · riassunti di testi non verificati nascosti all'advisor · attacchi dal vivo sul lettore
   ✔ Risposta alla domanda d'esempio 1 @must @p1 @done(26-11-21)
-    Fatto: output/answers.json → 67 posti AI su 157 inattivi ad agosto 2026, CHF 1.223,51 al mese (ChatGPT Team 21/23, Copilot 40/100, Claude Team 6/34)
-    Cos'è: «Quanti posti AI erano acquistati ma non attivi ad agosto 2026, e quanto costano al mese?»
-    Da fare: posti acquistati e attivi per prodotto, costo in CHF, file di origine (example_questions.md)
-
-Step 6 · Proporre le misure:
-  ☐ Catalogo delle misure con sforzo e risparmio @must @p1
-    Cos'è: per ogni spreco, la soluzione: cosa si cambia, quante giornate-persona costa (1 giornata = CHF 1.100), quanto si risparmia all'anno in CHF, kWh e CO₂.
-    Da fare (output/measures.json; stime da validare con i dati):
-      - M1 dp-dev: pausa automatica quando inattivo + riavvio automatico per il training trimestrale (T-1053) + spostamento a Zurigo (T-1074) · circa 3 giornate
-      - M2 GPU solo su richiesta, + giorni 1–3 di ogni trimestre (T-1101) · circa 1,5 giornate
-      - M3 server di test da 64 a 16 vCPU + spenti notte e weekend, rispettando freeze e UAT (T-1058, T-1204) · circa 2 giornate
-      - M4 dismettere i 3 server orfani, dopo conferma del proprietario · circa 1 giornata
-      - M5 analisi testi di marketing su modello piccolo + guardia anti-loop + alert di budget · circa 2 giornate
-      - M6 rightsizing licenze (ChatGPT Team, Copilot, SaaS sottoutilizzati), rispettando le disdette · circa 2 giornate
-      - M7 dp-prod: meno nodi fuori dalle finestre protette → decide una persona · circa 2 giornate
-      - M8 CI: saltare il build notturno senza commit + runner a Zurigo · circa 1 giornata (bonus)
-      - eventuali dalle fonti extra: Power BI copiati, tabelle tmp, ridondanza dei backup (escluse quelle con obbligo di conservazione)
-    Riferimenti: case.md requisito 3 · README «Impact and effort of the measures» · template misure
-  ☐ Risposta alla domanda d'esempio 2 (GPU su richiesta) @must @p1
-    Da fare: utilizzo attuale, sforzo, risparmio in CHF e CO₂ con calcolo aperto, ipotesi (energia per GPU-ora, mix di Francoforte) con fonte e intervallo
-
-Step 7 · Know the limits: controllare se ogni misura si può fare:
-  ☐ Motore delle regole: semaforo per ogni misura @must @p1
-    Cos'è: prima di consigliare qualcosa, il sistema controlla tre cose: c'è un divieto? le fonti si contraddicono? c'è un dubbio? Ogni misura esce con ✅ consigliata / 🧑 decide una persona / ⛔ bloccata.
-    Da fare (output/limits.json):
-      - finestre protette (calendario per risorsa): dp-prod finance (ultimi 3 giorni lavorativi del mese fino alle 04:00, T-1029), ETL entro le 06:00, Power BI entro le 07:30, export entro le 08:00, chiusura di fine anno; dp-dev e GPU nei giorni 1–3 del trimestre; vm-test freeze di marzo 2026 (T-1204); backup 22:00–06:00
-      - blocchi: archivio backup (10 anni, T-1039/T-1195), dr-failover (T-1094), pbi-07 (audit, T-1167)
-      - decide una persona: ruolo da responsible_role del mapping + domanda precisa + dati allegati (es. licenze per reparto, T-1128)
-      - quando passa a una persona: (a) lacuna di dati o contraddizione oltre la soglia di materialità (config.yaml, default 1% della categoria); (b) incertezza che può cambiare una decisione (es. target raggiunto solo con i fattori medi); (c) SEMPRE: conflitto con una finestra protetta o testo ambiguo
-      - sotto la soglia: risolto in automatico, registrato in issues
+    output/answers.json → 67 posti AI su 157 inattivi ad agosto 2026, CHF 1.223,51 al mese (calcolo diretto dai dati)
+  ☐ Risposte alle domande d'esempio 2 (GPU su richiesta) e 3 (dp-prod di notte) @must @p1
+    Da fare: dall'assistente (A1) o da measures.json / limits.json; la 3 non risponde sì/no: finestre, dati e chi decide
   ✔ Contraddizioni tra fonti @must @p1 @done(26-11-21)
-    Fatto (pipeline/harmonize/reconcile.py): fattura AI vs gateway (+CHF 2.321, righe Adjustment) · report del fornitore vs fatture (nessuna combinazione coincide) · nodi piattaforma vs fatturazione · inventario vs metriche · 6 controlli di coerenza delle fonti extra (dettaglio, non somma)
-    Cos'è: quando due fonti dicono cose diverse, il sistema lo segnala e dice di quale si fida e perché.
-    Da fare: report del fornitore contro fattura Azure · gateway AI contro fattura AI · inventario contro metriche settimanali · tag contro mapping · criticality non affidabile
-    Riferimento: README «Notes» («Sources can contradict each other. Explain which one you trust»)
-  ☐ Risposta alla domanda d'esempio 3 (dp-prod di notte e nei weekend) @must @p1
-    Da fare: NON rispondere sì o no; indicare quando serve (dati + ticket + calendario) e chi decide (example_questions.md)
-
-Step 8 · Scegliere il pacchetto e verificare i target:
-  ☐ Ottimizzatore: lo zaino @must @p1
-    Cos'è: tra le misure ✅ e 🧑 si sceglie la combinazione che dà almeno −40% di CO₂, almeno −25% di costi e costa al massimo CHF 16.500 (15 giornate).
-    Da fare:
-      - con meno di 15 misure: provare tutte le combinazioni
-      - obiettivo: massima CO₂ risparmiata, poi massimi CHF
-      - le misure ⛔ restano fuori dal totale ma documentate
-      - ATTENZIONE: il −25% dei costi (circa CHF 115.000) è il vincolo più difficile → verificarlo presto
-      - funzione ricalcolabile in base alle misure attive (la usa anche il frontend)
-    Riferimenti: case.md requisito 3 · README «Target and budget apply against your own baseline»
+    pipeline/harmonize/reconcile.py: fattura AI vs gateway · report del fornitore vs fatture · nodi piattaforma vs fatturazione · inventario vs metriche · 6 controlli di coerenza delle fonti extra
 
 Step 9 · Mostrare ed esportare:
-  ☐ Export JSON per il frontend (secondo il contratto) @must @p1
+  ✔ Export JSON per il frontend (secondo il contratto) @must @p1 @done(26-11-21)
     Da fare: summary, entities, timeseries, findings, measures, limits, quality, factors, fx (vedi frontend-3d.todo, «Contratto dati»)
       - formato: contract/types.ts. Ogni valore è un intervallo {low, mid, high}; i costi escono già in cost_chf / cost_eur / cost_usd (convertiti mese per mese; i risparmi ai tassi medi di baseline) → il frontend non converte mai; fx.json serve solo ai pannelli «calcolo»
   ✔ Generare template_baseline_and_assumptions.csv @must @p1 @done(26-11-21)
     Fatto: pipeline/export/submission.py → output/submission/template_baseline_and_assumptions.csv (stesse righe del template, 14/14 righe Must compilate, Bonus vuote, 4 fattori aggiuntivi in fondo come «Additional»)
     Da fare: compilare ogni riga Must con basso / medio / alto + unità + fonte con data + calcolo; righe Bonus (market-based, crescita) solo se costruiamo quelle funzioni; generato dallo stesso motore, mai a mano
-  ☐ Generare template_measures_package.csv @must @p1
-    Da fare: una riga per misura: sforzo, CHF, kWh, CO₂ location-based all'anno, rischi ed eccezioni (incluso chi decide), ipotesi e fonti; colonna market-based solo con il bonus A3
+  ✔ Generare template_measures_package.csv @must @p1 @done(26-11-21)
+    Fatto: pipeline/advisor/apply.py → output/submission/template_measures_package.csv (misure del pacchetto, numeri dal codice, stato e responsabile nei rischi)
   ☐ Nota sul percorso verso l'operatività @must @p2
     Cos'è: breve nota su come diventa un sistema in produzione.
     Da fare: export mensili → la stessa pipeline in un notebook (Databricks / Fabric, che è il mondo di ALTYCA) → dashboard; connettori riusabili per altre PMI; chi lo gestisce e quanto costa

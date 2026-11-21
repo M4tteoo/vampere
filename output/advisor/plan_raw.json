@@ -1,0 +1,868 @@
+{
+ "plan": {
+  "findings": [
+   {
+    "key": "F-01",
+    "kind": "driver",
+    "title": "Cloud data platforms dominate location-based CO2",
+    "scopes": [
+     "res:dp-dev",
+     "res:dp-prod"
+    ],
+    "evidence_fact_ids": [
+     "dp-dev.share_co2",
+     "dp-prod.share_co2",
+     "dp-dev.share_cost",
+     "dp-prod.share_cost"
+    ],
+    "explanation": "The two data-platform estates together account for just over half of baseline CO2, while also taking more than a quarter of recurring spend. They are the main decarbonisation lever."
+   },
+   {
+    "key": "F-02",
+    "kind": "driver",
+    "title": "SaaS and AI subscriptions are a major cost block",
+    "scopes": [
+     "res:saas-other",
+     "res:saas-m365",
+     "res:sub-copilot",
+     "res:sub-chatgpt",
+     "res:sub-claude"
+    ],
+    "evidence_fact_ids": [
+     "saas-other.share_cost",
+     "saas-m365.share_cost",
+     "sub-copilot.share_cost",
+     "sub-chatgpt.share_cost",
+     "sub-claude.share_cost"
+    ],
+    "explanation": "Licence-heavy services are a large share of spend, so seat hygiene matters for the cost target even if energy impact is small."
+   },
+   {
+    "key": "F-03",
+    "kind": "waste",
+    "title": "Development data platform runs 24/7 despite very low active time",
+    "scopes": [
+     "res:dp-dev"
+    ],
+    "evidence_fact_ids": [
+     "dp-dev.running_h_per_day",
+     "dp-dev.active_h_weekday",
+     "dp-dev.active_h_weekend",
+     "dp-dev.idle_share",
+     "dp-dev.cpu_utilisation"
+    ],
+    "explanation": "The dev cluster runs all day every day, but is idle 91.32% of running hours and shows only 8.7% average CPU utilisation. This is the single biggest avoidable CO2 source."
+   },
+   {
+    "key": "F-04",
+    "kind": "waste",
+    "title": "Non-production compute is left on continuously",
+    "scopes": [
+     "res:gpu-ml",
+     "res:vm-test",
+     "srv:poc-ki-2024",
+     "srv:migration-alt",
+     "srv:build-agent-old"
+    ],
+    "evidence_fact_ids": [
+     "gpu-ml.hours_running_share",
+     "gpu-ml.gpu_utilisation",
+     "gpu-ml.gpu_util_weekly_median",
+     "vm-test.cpu_utilisation",
+     "srv:poc-ki-2024.cpu_avg",
+     "srv:poc-ki-2024.days_since_login",
+     "srv:migration-alt.cpu_avg",
+     "srv:migration-alt.days_since_login",
+     "srv:build-agent-old.cpu_avg",
+     "srv:build-agent-old.days_since_login"
+    ],
+    "explanation": "The GPU server runs 100% of hours with about 9% average GPU utilisation, while the test estate averages only 10.89% CPU and still includes near-dead servers with hundreds of days since login."
+   },
+   {
+    "key": "F-05",
+    "kind": "waste",
+    "title": "There is large licence waste from inactive seats",
+    "scopes": [
+     "lic:Microsoft Copilot",
+     "lic:CRM platform",
+     "lic:Video conferencing tool",
+     "lic:E-signature",
+     "lic:ChatGPT Team",
+     "lic:Survey tool"
+    ],
+    "evidence_fact_ids": [
+     "lic:Microsoft Copilot.cost_inactive_seats",
+     "lic:CRM platform.cost_inactive_seats",
+     "lic:Video conferencing tool.cost_inactive_seats",
+     "lic:E-signature.cost_inactive_seats",
+     "lic:ChatGPT Team.cost_inactive_seats",
+     "lic:Survey tool.cost_inactive_seats"
+    ],
+    "explanation": "Several products carry large inactive-seat spend. The biggest single pools are Microsoft Copilot, CRM, video conferencing, E-signature and ChatGPT Team."
+   },
+   {
+    "key": "F-06",
+    "kind": "waste",
+    "title": "Low-risk AI tasks still use expensive large models by default",
+    "scopes": [
+     "ai:ai-assistant:Summarise:large",
+     "ai:ai-assistant:Translate:large",
+     "ai:ai-assistant:Draft texts:large",
+     "ai:ai-assistant:Manual question:large",
+     "ai:ai-marketing:Classify:large"
+    ],
+    "evidence_fact_ids": [
+     "ai:ai-assistant:Summarise:large.cost",
+     "ai:ai-assistant:Summarise:small.cost",
+     "ai:ai-assistant:Translate:large.cost",
+     "ai:ai-assistant:Translate:small.cost",
+     "ai:ai-assistant:Draft texts:large.cost",
+     "ai:ai-assistant:Draft texts:small.cost",
+     "ai:ai-assistant:Manual question:large.cost",
+     "ai:ai-assistant:Manual question:small.cost",
+     "ai:ai-marketing:Classify:large.cost",
+     "ai.small_to_large_price_ratio"
+    ],
+    "explanation": "The office assistant already has small-model paths for several tasks, but most spending remains on large models. Marketing classification is also entirely on a large model although the task is structurally simpler than free-form generation."
+   }
+  ],
+  "measures": [
+   {
+    "key": "M-01",
+    "title": "Auto-pause and region-move the development data platform",
+    "description": "Schedule the dev cluster to start only for working windows and quarter-day processing, with on-demand wake-up for exceptions. After the schedule is in place, move the remaining workload from DE to CH to cut grid CO2 on the residual load.",
+    "type": "schedule",
+    "finding_keys": [
+     "F-01",
+     "F-03"
+    ],
+    "effects": [
+     {
+      "scope": "res:dp-dev",
+      "cost_share": 0.85,
+      "energy_share": 0.85,
+      "relocate_to": "CH",
+      "basis_fact_ids": [
+       "dp-dev.running_h_per_day",
+       "dp-dev.active_h_weekday",
+       "dp-dev.active_h_weekend",
+       "dp-dev.idle_share",
+       "grid.DE",
+       "grid.CH"
+      ],
+      "reasoning": "The cluster runs 24 h/day but averages only 2.846 active hours on weekdays and 0.2139 on weekends, with 91.32% idle time. Keeping full availability on quarter days 1-3 Jan/Apr/Jul/Oct and leaving buffer for warm-up/on-demand use still supports cutting roughly 85% of billed node-hours. The remaining 15% can be moved from DE to CH for lower location-based CO2."
+     }
+    ],
+    "effort_days": 3.5,
+    "effort_reasoning": "Needs schedule design, IaC/job changes, start-stop automation, testing of cold-start times, and a controlled regional move for a low-criticality dev platform.",
+    "owner_role": "Head of IT",
+    "respects_constraints": [
+     "C-03",
+     "C-05"
+    ],
+    "proposed_status": "human",
+    "status_reason": "Safe technically, but the region move and tighter availability window need explicit IT approval and developer acceptance.",
+    "start_date": "2026-10-15",
+    "risks": "Unexpected ad-hoc developer work outside the schedule may need an override; regional move may require endpoint or latency checks.",
+    "assumptions": "Billing falls roughly linearly with node-hours removed; C-03 quarter-day continuous availability is preserved."
+   },
+   {
+    "key": "M-02",
+    "title": "Auto-stop the GPU ML server outside quarterly training and booked runs",
+    "description": "Keep the GPU environment off by default, start it for quarterly training days and approved ad-hoc runs only, and shut it down automatically after inactivity.",
+    "type": "schedule",
+    "finding_keys": [
+     "F-04"
+    ],
+    "effects": [
+     {
+      "scope": "res:gpu-ml",
+      "cost_share": 0.82,
+      "energy_share": 0.82,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "gpu-ml.hours_running_share",
+       "gpu-ml.gpu_utilisation",
+       "gpu-ml.gpu_util_weekly_median",
+       "gpu-ml.gpu_util_weekly_max",
+       "gpu-ml.cost_on_quarter_days_1_3"
+      ],
+      "reasoning": "The GPU server runs 100% of hours, but average GPU utilisation is only 9.19% and median weekly utilisation 6.45%. Since quarterly training days account for only a small part of annual spend, keeping the server on for those protected days plus booked ad-hoc sessions still leaves a realistic 82% removable share."
+     }
+    ],
+    "effort_days": 1.5,
+    "effort_reasoning": "Single-server automation with inactivity shutdown, runbook update and validation around quarterly training windows.",
+    "owner_role": "Head of Consulting",
+    "respects_constraints": [
+     "C-07"
+    ],
+    "proposed_status": "ok",
+    "status_reason": "Low-criticality dev workload with a clear protected quarterly window; the measure keeps those days fully available.",
+    "start_date": "2026-10-08",
+    "risks": "Users may forget to pre-book ad-hoc runs; mitigated with self-service start and inactivity timeout.",
+    "assumptions": "Quarterly training remains the main planned usage pattern and ad-hoc work can tolerate startup delay."
+   },
+   {
+    "key": "M-03",
+    "title": "Scale back test environments: remove dead servers and stop the rest off-hours",
+    "description": "Decommission clearly abandoned test servers, exclude the DR failover server, and place the remaining test, QA and UAT servers on an office-hours schedule with manual override when releases or tests need longer runtime.",
+    "type": "schedule",
+    "finding_keys": [
+     "F-04"
+    ],
+    "effects": [
+     {
+      "scope": "srv:poc-ki-2024",
+      "cost_share": 1,
+      "energy_share": 1,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:poc-ki-2024.cpu_avg",
+       "srv:poc-ki-2024.weeks_under_10pct_cpu",
+       "srv:poc-ki-2024.days_since_login"
+      ],
+      "reasoning": "This server shows near-zero CPU, 100% of weeks under 10% CPU and 625 days since login; full decommission is realistic."
+     },
+     {
+      "scope": "srv:migration-alt",
+      "cost_share": 1,
+      "energy_share": 1,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:migration-alt.cpu_avg",
+       "srv:migration-alt.weeks_under_10pct_cpu",
+       "srv:migration-alt.days_since_login"
+      ],
+      "reasoning": "This server shows near-zero CPU, 100% of weeks under 10% CPU and 573 days since login; full decommission is realistic."
+     },
+     {
+      "scope": "srv:build-agent-old",
+      "cost_share": 1,
+      "energy_share": 1,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:build-agent-old.cpu_avg",
+       "srv:build-agent-old.weeks_under_10pct_cpu",
+       "srv:build-agent-old.days_since_login"
+      ],
+      "reasoning": "This server shows near-zero CPU, 100% of weeks under 10% CPU and 554 days since login; full decommission is realistic."
+     },
+     {
+      "scope": "srv:test-01",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:test-01.uptime_share",
+       "srv:test-01.weeks_under_10pct_cpu",
+       "srv:test-01.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 88.46% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:test-02",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:test-02.uptime_share",
+       "srv:test-02.weeks_under_10pct_cpu",
+       "srv:test-02.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 88.46% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:test-03",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:test-03.uptime_share",
+       "srv:test-03.weeks_under_10pct_cpu",
+       "srv:test-03.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 88.46% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:test-04",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:test-04.uptime_share",
+       "srv:test-04.weeks_under_10pct_cpu",
+       "srv:test-04.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 88% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:test-05",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:test-05.uptime_share",
+       "srv:test-05.weeks_under_10pct_cpu",
+       "srv:test-05.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 88.24% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:test-06",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:test-06.uptime_share",
+       "srv:test-06.weeks_under_10pct_cpu",
+       "srv:test-06.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 76.92% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:test-07",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:test-07.uptime_share",
+       "srv:test-07.weeks_under_10pct_cpu",
+       "srv:test-07.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 70% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:test-08",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:test-08.uptime_share",
+       "srv:test-08.weeks_under_10pct_cpu",
+       "srv:test-08.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 72% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:qa-regression-01",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:qa-regression-01.uptime_share",
+       "srv:qa-regression-01.weeks_under_10pct_cpu",
+       "srv:qa-regression-01.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 48.08% of weeks. Since it still spikes during regression windows, office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:qa-regression-02",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:qa-regression-02.uptime_share",
+       "srv:qa-regression-02.weeks_under_10pct_cpu",
+       "srv:qa-regression-02.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 57.69% of weeks. Since it still spikes during regression windows, office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:uat-portal",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:uat-portal.uptime_share",
+       "srv:uat-portal.weeks_under_10pct_cpu",
+       "srv:uat-portal.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 45.28% of weeks. Since it still spikes around UAT windows, office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     },
+     {
+      "scope": "srv:uat-shop",
+      "cost_share": 0.6,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:uat-shop.uptime_share",
+       "srv:uat-shop.weeks_under_10pct_cpu",
+       "srv:uat-shop.cpu_peak_week"
+      ],
+      "reasoning": "Runs 24/7 today, but is under 10% CPU in 74.51% of weeks. Since it still spikes around UAT windows, office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+     }
+    ],
+    "effort_days": 3,
+    "effort_reasoning": "Needs owner validation, decommission checks for three dead servers, scheduler changes for the remaining fleet, and test/release team communication.",
+    "owner_role": "Head of IT",
+    "respects_constraints": [
+     "C-04",
+     "C-06",
+     "C-13"
+    ],
+    "proposed_status": "human",
+    "status_reason": "The direction is sound, but IT should confirm office-hours schedules with release/test owners before enforcing them.",
+    "start_date": "2026-10-15",
+    "risks": "Some release windows may need temporary exemptions; accidental shutdown during tests is the main operational risk.",
+    "assumptions": "DR failover stays untouched; savings come from removing three dead servers entirely and cutting off-hours runtime on the rest."
+   },
+   {
+    "key": "M-04",
+    "title": "Reclaim inactive SaaS and AI subscription seats",
+    "description": "Reduce purchased seats to currently active demand for products with clear inactive-seat evidence. This is a cost-only measure; user activity energy is not claimed as a saving because only inactive licences are removed.",
+    "type": "licence",
+    "finding_keys": [
+     "F-02",
+     "F-05"
+    ],
+    "effects": [
+     {
+      "scope": "lic:Accounting software",
+      "cost_share": 0.15,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Accounting software.cost_inactive_seats",
+       "lic:Accounting software.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 684 / 4560 = 15%."
+     },
+     {
+      "scope": "lic:CRM platform",
+      "cost_share": 0.418,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:CRM platform.cost_inactive_seats",
+       "lic:CRM platform.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 7425 / 17765 ≈ 41.8%."
+     },
+     {
+      "scope": "lic:Chat tool",
+      "cost_share": 0.3203,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Chat tool.cost_inactive_seats",
+       "lic:Chat tool.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 2288.3 / 7144.7 ≈ 32.03%."
+     },
+     {
+      "scope": "lic:ChatGPT Team",
+      "cost_share": 0.8587,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:ChatGPT Team.cost_inactive_seats",
+       "lic:ChatGPT Team.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 4707.6 / 5482.2 ≈ 85.87%."
+     },
+     {
+      "scope": "lic:Claude Team",
+      "cost_share": 0.152,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Claude Team.cost_inactive_seats",
+       "lic:Claude Team.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 1231.5 / 8104.2 ≈ 15.2%."
+     },
+     {
+      "scope": "lic:Design tool",
+      "cost_share": 0.625,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Design tool.cost_inactive_seats",
+       "lic:Design tool.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 953.4 / 1525.5 = 62.5%."
+     },
+     {
+      "scope": "lic:E-signature",
+      "cost_share": 0.7028,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:E-signature.cost_inactive_seats",
+       "lic:E-signature.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 5675 / 8075 ≈ 70.28%."
+     },
+     {
+      "scope": "lic:HR software",
+      "cost_share": 0.1875,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:HR software.cost_inactive_seats",
+       "lic:HR software.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 405 / 2160 = 18.75%."
+     },
+     {
+      "scope": "lic:Knowledge base",
+      "cost_share": 0.5201,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Knowledge base.cost_inactive_seats",
+       "lic:Knowledge base.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 2566.5 / 4934.4 ≈ 52.01%."
+     },
+     {
+      "scope": "lic:Microsoft 365",
+      "cost_share": 0.1281,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Microsoft 365.cost_inactive_seats",
+       "lic:Microsoft 365.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 1824.5 / 14241 ≈ 12.81%."
+     },
+     {
+      "scope": "lic:Microsoft Copilot",
+      "cost_share": 0.4075,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Microsoft Copilot.cost_inactive_seats",
+       "lic:Microsoft Copilot.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 9038.9 / 22181.4 ≈ 40.75%."
+     },
+     {
+      "scope": "lic:Note-taking tool",
+      "cost_share": 0.5572,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Note-taking tool.cost_inactive_seats",
+       "lic:Note-taking tool.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 1423.8 / 2555.3 ≈ 55.72%."
+     },
+     {
+      "scope": "lic:Password manager",
+      "cost_share": 0.0854,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Password manager.cost_inactive_seats",
+       "lic:Password manager.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 305.1 / 3572.3 ≈ 8.54%."
+     },
+     {
+      "scope": "lic:Project management",
+      "cost_share": 0.4617,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Project management.cost_inactive_seats",
+       "lic:Project management.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 3352.5 / 7261.7 ≈ 46.17%."
+     },
+     {
+      "scope": "lic:Project scheduling",
+      "cost_share": 0.4118,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Project scheduling.cost_inactive_seats",
+       "lic:Project scheduling.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 3203.7 / 7780.3 ≈ 41.18%."
+     },
+     {
+      "scope": "lic:Survey tool",
+      "cost_share": 0.8833,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Survey tool.cost_inactive_seats",
+       "lic:Survey tool.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 2940.2 / 3328.6 ≈ 88.33%."
+     },
+     {
+      "scope": "lic:Ticket system",
+      "cost_share": 0.3743,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Ticket system.cost_inactive_seats",
+       "lic:Ticket system.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 3337.3 / 8915.4 ≈ 37.43%."
+     },
+     {
+      "scope": "lic:Time tracking",
+      "cost_share": 0.1326,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Time tracking.cost_inactive_seats",
+       "lic:Time tracking.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 1043 / 7868 ≈ 13.26%."
+     },
+     {
+      "scope": "lic:Video conferencing tool",
+      "cost_share": 0.4671,
+      "energy_share": 0,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "lic:Video conferencing tool.cost_inactive_seats",
+       "lic:Video conferencing tool.cost"
+      ],
+      "reasoning": "Remove only the proven inactive-seat cost: 5824.9 / 12470.7 ≈ 46.71%."
+     }
+    ],
+    "effort_days": 4.5,
+    "effort_reasoning": "Cross-product seat audit, department confirmations, notice handling, contract-change requests and billing verification across many vendors.",
+    "owner_role": "Head of Finance",
+    "respects_constraints": [],
+    "proposed_status": "human",
+    "status_reason": "Seat removals need department sign-off to avoid cancelling genuinely reserved seats for near-term hires or shared-team use.",
+    "start_date": "2026-11-01",
+    "risks": "Some departments may argue for spare capacity; late notice on annual contracts delays part of the cash-out.",
+    "assumptions": "Inactive-seat cost is reclaimable at the next eligible contract event and removing inactive seats does not reduce business output."
+   },
+   {
+    "key": "M-05",
+    "title": "Route low-risk office-assistant tasks to small models by default",
+    "description": "For summarisation, translation, drafting and general manual questions, make the small model the default and keep the large model as fallback for difficult prompts.",
+    "type": "model_switch",
+    "finding_keys": [
+     "F-06"
+    ],
+    "effects": [
+     {
+      "scope": "ai:ai-assistant:Summarise:large",
+      "cost_share": 0.56,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "ai:ai-assistant:Summarise:large.cost",
+       "ai:ai-assistant:Summarise:large.energy",
+       "ai:ai-assistant:Summarise:small.cost",
+       "ai:ai-assistant:Summarise:small.energy",
+       "ai.small_to_large_price_ratio"
+      ],
+      "reasoning": "Move about 80% of summarise traffic to the small model. With small/large price ratio 0.30, cost saving is 0.8 × 0.70 = 0.56; energy saving is 0.8 × 0.75 = 0.60."
+     },
+     {
+      "scope": "ai:ai-assistant:Translate:large",
+      "cost_share": 0.56,
+      "energy_share": 0.6,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "ai:ai-assistant:Translate:large.cost",
+       "ai:ai-assistant:Translate:large.energy",
+       "ai:ai-assistant:Translate:small.cost",
+       "ai:ai-assistant:Translate:small.energy",
+       "ai.small_to_large_price_ratio"
+      ],
+      "reasoning": "Move about 80% of translation traffic to the small model. With small/large price ratio 0.30, cost saving is 0.8 × 0.70 = 0.56; energy saving is 0.8 × 0.75 = 0.60."
+     },
+     {
+      "scope": "ai:ai-assistant:Draft texts:large",
+      "cost_share": 0.42,
+      "energy_share": 0.45,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "ai:ai-assistant:Draft texts:large.cost",
+       "ai:ai-assistant:Draft texts:large.energy",
+       "ai:ai-assistant:Draft texts:small.cost",
+       "ai:ai-assistant:Draft texts:small.energy",
+       "ai.small_to_large_price_ratio"
+      ],
+      "reasoning": "Move about 60% of drafting traffic to the small model and leave the rest on large for harder prompts. Cost saving is 0.6 × 0.70 = 0.42; energy saving is 0.6 × 0.75 = 0.45."
+     },
+     {
+      "scope": "ai:ai-assistant:Manual question:large",
+      "cost_share": 0.35,
+      "energy_share": 0.375,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "ai:ai-assistant:Manual question:large.cost",
+       "ai:ai-assistant:Manual question:large.energy",
+       "ai:ai-assistant:Manual question:small.cost",
+       "ai:ai-assistant:Manual question:small.energy",
+       "ai.small_to_large_price_ratio"
+      ],
+      "reasoning": "Move about 50% of generic manual-question traffic to the small model while keeping large as fallback. Cost saving is 0.5 × 0.70 = 0.35; energy saving is 0.5 × 0.75 = 0.375."
+     }
+    ],
+    "effort_days": 1.5,
+    "effort_reasoning": "Prompt-routing change, fallback logic, quick UAT with key users and communication of the new default.",
+    "owner_role": "Head of IT",
+    "respects_constraints": [
+     "C-08"
+    ],
+    "proposed_status": "human",
+    "status_reason": "Quality sign-off is needed because users may notice different answer quality on some prompts.",
+    "start_date": "2026-10-15",
+    "risks": "A few users may route difficult prompts to the large model more often than expected; savings depend on keeping the fallback exception-based.",
+    "assumptions": "These tasks remain human-reviewed or low-risk enough for a small-model default."
+   },
+   {
+    "key": "M-06",
+    "title": "Switch marketing classification mostly to a small model",
+    "description": "Use a small model as the default for marketing text classification, with escalation to the large model only for uncertain cases.",
+    "type": "model_switch",
+    "finding_keys": [
+     "F-06"
+    ],
+    "effects": [
+     {
+      "scope": "ai:ai-marketing:Classify:large",
+      "cost_share": 0.595,
+      "energy_share": 0.6375,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "ai:ai-marketing:Classify:large.cost",
+       "ai:ai-marketing:Classify:large.energy",
+       "ai.small_to_large_price_ratio"
+      ],
+      "reasoning": "Classification is narrower than free-form generation, so moving about 85% of requests to a small model is realistic. Cost saving is 0.85 × 0.70 = 0.595; energy saving is 0.85 × 0.75 = 0.6375."
+     }
+    ],
+    "effort_days": 1,
+    "effort_reasoning": "Single routing rule change plus sample-based quality check with marketing.",
+    "owner_role": "Head of Marketing",
+    "respects_constraints": [
+     "C-14"
+    ],
+    "proposed_status": "human",
+    "status_reason": "Marketing should validate classification quality before making small-model routing the default.",
+    "start_date": "2026-10-15",
+    "risks": "Misclassification may increase if prompts or labels are poorly defined; fallback to the large model must remain available.",
+    "assumptions": "The one-off bug spike in March is ignored; the change is sized from normal recurring classification demand."
+   },
+   {
+    "key": "M-07",
+    "title": "Delete third backup copies to save storage",
+    "description": "Remove the third copy from sources backed up by all three tools and shorten backup holdings.",
+    "type": "storage",
+    "finding_keys": [
+     "F-01"
+    ],
+    "effects": [
+     {
+      "scope": "res:st-backup",
+      "cost_share": 0.1482,
+      "energy_share": 0.1482,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "st-backup.third_copy_share"
+      ],
+      "reasoning": "The fact pattern suggests up to 14.82% of backup volume sits in third copies, so deleting those copies would remove the same share of storage cost and energy."
+     }
+    ],
+    "effort_days": 0.5,
+    "effort_reasoning": "Would be simple technically, but is not permissible.",
+    "owner_role": "Head of IT",
+    "respects_constraints": [
+     "C-02",
+     "C-12",
+     "C-21"
+    ],
+    "proposed_status": "blocked",
+    "status_reason": "Do not recommend: backup deletion is explicitly blocked by legal-retention constraints.",
+    "start_date": "2026-10-01",
+    "risks": "Legal and audit breach; possible loss of required recoverability.",
+    "assumptions": "None; shown only as an excluded edge case."
+   },
+   {
+    "key": "M-08",
+    "title": "Shut down the DR failover server",
+    "description": "Turn off the failover environment because it is nearly idle.",
+    "type": "decommission",
+    "finding_keys": [
+     "F-04"
+    ],
+    "effects": [
+     {
+      "scope": "srv:dr-failover",
+      "cost_share": 1,
+      "energy_share": 1,
+      "relocate_to": null,
+      "basis_fact_ids": [
+       "srv:dr-failover.cpu_avg",
+       "srv:dr-failover.weeks_under_10pct_cpu",
+       "srv:dr-failover.days_since_login"
+      ],
+      "reasoning": "Measured use is near zero, so full shutdown would save the whole server if it were allowed."
+     }
+    ],
+    "effort_days": 0.5,
+    "effort_reasoning": "Technically easy, but forbidden by policy.",
+    "owner_role": "Head of IT",
+    "respects_constraints": [
+     "C-06"
+    ],
+    "proposed_status": "blocked",
+    "status_reason": "Do not recommend: the DR server must remain running as emergency fallback.",
+    "start_date": "2026-10-01",
+    "risks": "Removes disaster-recovery capability.",
+    "assumptions": "None; shown only as an excluded edge case."
+   }
+  ],
+  "package": {
+   "measure_keys": [
+    "M-01",
+    "M-02",
+    "M-03",
+    "M-04",
+    "M-05",
+    "M-06"
+   ],
+   "reasoning": "This package still fits the implementation budget and now clears the CO2 and cost targets by prioritising always-on non-production compute first, then adding licence hygiene and safe AI model routing. Human decisions are still needed for the dp-dev region move and schedule, test-environment operating windows, seat reductions by department, and AI quality sign-off."
+  },
+  "edge_cases": [
+   {
+    "measure_key": "M-07",
+    "explanation": "Backup deletion looks tempting because third copies exist, but it directly conflicts with the legal-retention blocks on st-backup and must stay out of the package."
+   },
+   {
+    "measure_key": "M-08",
+    "explanation": "The DR failover server is almost idle, but policy explicitly requires it to stay running, so it is excluded despite apparent savings."
+   }
+  ]
+ },
+ "rounds": [
+  {
+   "round": 1,
+   "co2_reduction": 0.3994,
+   "cost_reduction": 0.2702,
+   "effort_days": 15.0,
+   "problems": [],
+   "meets": {
+    "co2": "False",
+    "cost": "True",
+    "budget": true
+   }
+  },
+  {
+   "round": 2,
+   "co2_reduction": 0.4013,
+   "cost_reduction": 0.2707,
+   "effort_days": 15.0,
+   "problems": [],
+   "meets": {
+    "co2": "True",
+    "cost": "True",
+    "budget": true
+   }
+  }
+ ]
+}

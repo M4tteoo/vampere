@@ -222,7 +222,7 @@ def build_entities(ctx: Context, calc: Calc) -> tuple[dict, dict]:
         d = dim.loc[rid] if rid in dim.index else None
         loc = rows["location"].mode().iat[0] if rows["location"].notna().any() else None
         u = util.get(rid, {})
-        flags = (["driver"] if rid in top else []) + (["contradiction"] if rid in contra else [])
+        flags = ["contradiction"] if rid in contra else []
         e = base(f"res:{rid}", "resource", d["tool"] if d is not None else rid, f"loc:{loc}" if loc else None, rows,
                  f"{rows['energy_method'].mode().iat[0]}; cost as billed",
                  note=f"utilisation basis: {u['basis']}" if u else None,
@@ -336,18 +336,20 @@ PRECEDENCE = ["locked", "handover", "contradiction", "waste", "driver"]
 
 
 def apply_findings(ctx: Context, entities: dict) -> None:
-    """Merge finding flags and links into the entities and set the primary
-    state: locked > handover > material contradiction > waste > driver >
-    immaterial contradiction > normal (contract/README.md, rule 9)."""
-    flags = getattr(ctx, "finding_flags", {})
-    links = getattr(ctx, "finding_links", {})
+    """Merge the advisor's flags and links (findings, measures, limits) into the
+    entities and set the primary state: locked > handover > material
+    contradiction > waste > driver > immaterial contradiction > normal
+    (contract/README.md, rule 9)."""
+    flags = getattr(ctx, "entity_flags", {})
+    links = getattr(ctx, "entity_links", {})
     iss = pd.DataFrame(ctx.issues)
     material = set(iss.loc[iss["issue_type"].eq("contradiction") & iss["severity"].isin(["warn", "handover"])
                            & iss["resource_id"].notna(), "resource_id"])
     for e in entities["entities"]:
         fl = set(e["flags"]) | flags.get(e["id"], set())
         e["flags"] = [s for s in PRECEDENCE if s in fl]
-        e["finding_ids"] = sorted(links.get(e["id"], set()))
+        for key in ("finding_ids", "measure_ids", "limit_ids"):
+            e[key] = sorted(links.get(key, {}).get(e["id"], set()))
         rid = e["id"][4:] if e["id"].startswith("res:") else None
         state = "normal"
         for s in PRECEDENCE:
@@ -367,7 +369,8 @@ def export(ctx: Context) -> None:
     entities, members = build_entities(ctx, calc)
     apply_findings(ctx, entities)
     ts = build_timeseries(ctx, members)
-    findings = {"meta": _meta(ctx), "findings": getattr(ctx, "findings", []),
+    adv = getattr(ctx, "advisor", None)
+    findings = {"meta": _meta(ctx), "findings": adv["findings"] if adv else [],
                 "additivity_note": "impact = yearly amount at stake in the baseline year, not a saving; impacts of "
                                    "different findings can overlap (e.g. a forgotten server is also a low-CPU server) "
                                    "and must not be summed. Savings are in measures.json."}

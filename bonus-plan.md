@@ -24,7 +24,7 @@ Two people build the bonus features while the rest of the team works on the UI a
 2. **Stay out of the Step 5–8 files.** We don't edit `pipeline/export/frontend.py`, `pipeline/harmonize/*` or the Step 5–8 modules, except for the few hooks listed under "Files we touch outside our modules".
 3. **Contract first.** Before coding a module, add its TypeScript type to `contract/types.ts` (section "bonus") and a sample file to `contract/examples/`. The UI team builds on the sample while we build the real file.
 4. **Every number opens (B3).** Every figure in a bonus file is a `Range` and carries a `Calc` (formula, inputs, factor ids, source files, row count).
-5. **No AI inside calculations.** The forecast, the clusters, the Monte Carlo and the market-based CO₂ are plain code. The LLM only appears in the assistant and in the free-text classifier.
+5. **No AI inside calculations.** The forecast, the clusters, the Monte Carlo and the market-based CO₂ are plain code. The LLM appears in the assistant, in the free-text classifier and in the advisor (`pipeline/advisor/`: findings, measures, limits), which reasons and designs but never computes a number: savings are computed by code.
 6. **Candidates, not edits.** When a bonus produces a finding or a measure (clustering outliers, carbon-aware shifting), it writes it to `output/bonus/candidates.json` in contract `Finding` / `Measure` format. The Step 5/6 owner decides whether to merge it.
 
 ## 0 · Shared foundation (first, one person, before splitting)

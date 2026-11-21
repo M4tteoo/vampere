@@ -8,6 +8,9 @@ The pipeline writes JSON files; the 3D frontend reads them. This folder fixes th
 
 ## Rules
 
+Findings, measures and limits are written by an LLM (the advisor and the ticket reader, `pipeline/advisor/`); every number in them is computed by code. Extra fields the advisor adds (`effects`, `proposed_status`, `risks`, `assumptions`, `generated_by`) are optional for the frontend.
+
+
 1. **Every file** has a `meta` block: `schema_version`, `generated_at`, `baseline` (2025-09-01 … 2026-08-31), `scenario`.
 2. **Every figure is a range** `{low, mid, high}`. Show `mid`; the range goes in the calc panel.
 3. **Metrics** always carry `cost_chf`, `cost_eur`, `cost_usd`, `kwh`, `co2_kg`. The currency selector just picks a field. **The frontend never converts currencies.** The backend has already converted each month at that month's rate, and values measure savings at the baseline-average rate, so exchange-rate moves never look like savings.
@@ -36,9 +39,9 @@ The pipeline writes JSON files; the 3D frontend reads them. This folder fixes th
 | `entities.json` | every object in the scene with metrics, state and links | Steps 4–7 | **available now** (states preliminary: driver / contradiction until Steps 5–7) |
 | `timeseries.json` | monthly series for every entity, daily for dp-prod, dp-dev, gpu-ml | Step 4 | **available now** |
 | `factors.json` | conversion factors with low / mid / high + source | Step 3 | **available now** |
-| `findings.json` | drivers and waste, each with its numerical evidence | Step 5 | **available now** |
-| `measures.json` | measures + recommended package + target check | Steps 6–8 | after Step 8 |
-| `limits.json` | protection windows, blocks, hand-overs, contradictions, with concrete dates | Step 7 | after Step 7 |
+| `findings.json` | drivers and waste, each with its numerical evidence | LLM advisor (evidence values by code) | **available now** |
+| `measures.json` | measures + recommended package + target check | LLM advisor (savings, status gate, target check by code) | **available now** |
+| `limits.json` | protection windows, blocks, hand-overs, contradictions, with concrete dates | LLM ticket reader + scheduler (code) | **available now** |
 | bonus | `forecast.json`, `montecarlo.json`, `jobs.json`, `clusters.json` | bonus steps | defined when built |
 
 ## Changes from the first list in frontend-3d.todo

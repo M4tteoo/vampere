@@ -1,0 +1,2045 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T05:33:05+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "measures": [
+  {
+   "id": "M-01",
+   "title": "Auto-pause and region-move the development data platform",
+   "description": "Schedule the dev cluster to start only for working windows and quarter-day processing, with on-demand wake-up for exceptions. After the schedule is in place, move the remaining workload from DE to CH to cut grid CO2 on the residual load.",
+   "type": "schedule",
+   "entity_ids": [
+    "res:dp-dev"
+   ],
+   "finding_ids": [
+    "F-01",
+    "F-03"
+   ],
+   "limit_ids": [
+    "L-03"
+   ],
+   "effort_days": 3.5,
+   "effort_chf": 3850.0,
+   "savings": {
+    "cost_chf": {
+     "low": 32762.53,
+     "mid": 32802.95,
+     "high": 32851.96
+    },
+    "cost_eur": {
+     "low": 35434.9,
+     "mid": 35478.62,
+     "high": 35531.62
+    },
+    "cost_usd": {
+     "low": 41234.84,
+     "mid": 41285.71,
+     "high": 41347.39
+    },
+    "kwh": {
+     "low": 1964.8,
+     "mid": 2899.1,
+     "high": 4914.2
+    },
+    "co2_kg": {
+     "low": 743.0,
+     "mid": 1181.8,
+     "high": 2375.0
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of IT",
+   "reason": "Safe technically, but the region move and tighter availability window need explicit IT approval and developer acceptance.",
+   "start_date": "2026-10-15",
+   "in_package": true,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:dp-dev: cost × 0.85, energy × 0.85, rest moved to CH",
+    "inputs": [
+     {
+      "name": "res:dp-dev baseline cost",
+      "value": 38591.71,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "res:dp-dev cost share removed",
+      "value": 0.85,
+      "unit": "share",
+      "source": "dp-dev.running_h_per_day, dp-dev.active_h_weekday, dp-dev.active_h_weekend, dp-dev.idle_share, grid.DE, grid.CH"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_node_hour",
+     "grid_mix_location_based_germany",
+     "pue"
+    ],
+    "source_files": [
+     "azure_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0008",
+     "Q-0075",
+     "Q-0091"
+    ],
+    "note": "Assumptions: Billing falls roughly linearly with node-hours removed; C-03 quarter-day continuous availability is preserved. Risks: Unexpected ad-hoc developer work outside the schedule may need an override; regional move may require endpoint or latency checks."
+   },
+   "effects": [
+    {
+     "scope": "res:dp-dev",
+     "cost_share": 0.85,
+     "energy_share": 0.85,
+     "relocate_to": "CH",
+     "base_cost_chf": 38591.71,
+     "base_kwh": 3410.7,
+     "base_co2_kg": 1238.1,
+     "saved_cost_chf": 32802.95,
+     "saved_kwh": 2899.1,
+     "saved_co2_kg": 1181.8,
+     "basis_fact_ids": [
+      "dp-dev.running_h_per_day",
+      "dp-dev.active_h_weekday",
+      "dp-dev.active_h_weekend",
+      "dp-dev.idle_share",
+      "grid.DE",
+      "grid.CH"
+     ],
+     "reasoning": "The cluster runs 24 h/day but averages only 2.846 active hours on weekdays and 0.2139 on weekends, with 91.32% idle time. Keeping full availability on quarter days 1-3 Jan/Apr/Jul/Oct and leaving buffer for warm-up/on-demand use still supports cutting roughly 85% of billed node-hours. The remaining 15% can be moved from DE to CH for lower location-based CO2."
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "Needs schedule design, IaC/job changes, start-stop automation, testing of cold-start times, and a controlled regional move for a low-criticality dev platform.",
+   "risks": "Unexpected ad-hoc developer work outside the schedule may need an override; regional move may require endpoint or latency checks.",
+   "assumptions": "Billing falls roughly linearly with node-hours removed; C-03 quarter-day continuous availability is preserved.",
+   "generated_by": "LLM advisor (gpt-5.4); numbers and status checks by code"
+  },
+  {
+   "id": "M-02",
+   "title": "Auto-stop the GPU ML server outside quarterly training and booked runs",
+   "description": "Keep the GPU environment off by default, start it for quarterly training days and approved ad-hoc runs only, and shut it down automatically after inactivity.",
+   "type": "schedule",
+   "entity_ids": [
+    "res:gpu-ml"
+   ],
+   "finding_ids": [
+    "F-04"
+   ],
+   "limit_ids": [
+    "L-05"
+   ],
+   "effort_days": 1.5,
+   "effort_chf": 1650.0,
+   "savings": {
+    "cost_chf": {
+     "low": 9326.33,
+     "mid": 9339.65,
+     "high": 9352.11
+    },
+    "cost_eur": {
+     "low": 10086.94,
+     "mid": 10101.35,
+     "high": 10114.82
+    },
+    "cost_usd": {
+     "low": 11737.87,
+     "mid": 11754.63,
+     "high": 11770.31
+    },
+    "kwh": {
+     "low": 609.1,
+     "mid": 951.0,
+     "high": 1639.8
+    },
+    "co2_kg": {
+     "low": 201.0,
+     "mid": 345.2,
+     "high": 705.1
+    }
+   },
+   "status": "ok",
+   "owner_role": "Head of Consulting",
+   "reason": "",
+   "start_date": "2026-10-08",
+   "in_package": true,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.82, energy × 0.82",
+    "inputs": [
+     {
+      "name": "res:gpu-ml baseline cost",
+      "value": 11389.82,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "res:gpu-ml cost share removed",
+      "value": 0.82,
+      "unit": "share",
+      "source": "gpu-ml.hours_running_share, gpu-ml.gpu_utilisation, gpu-ml.gpu_util_weekly_median, gpu-ml.gpu_util_weekly_max, gpu-ml.cost_on_quarter_days_1_3"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_gpu_hour",
+     "grid_mix_location_based_germany",
+     "pue"
+    ],
+    "source_files": [
+     "azure_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0011",
+     "Q-0078",
+     "Q-0104"
+    ],
+    "note": "Assumptions: Quarterly training remains the main planned usage pattern and ad-hoc work can tolerate startup delay. Risks: Users may forget to pre-book ad-hoc runs; mitigated with self-service start and inactivity timeout."
+   },
+   "effects": [
+    {
+     "scope": "res:gpu-ml",
+     "cost_share": 0.82,
+     "energy_share": 0.82,
+     "relocate_to": null,
+     "base_cost_chf": 11389.82,
+     "base_kwh": 1159.7,
+     "base_co2_kg": 421.0,
+     "saved_cost_chf": 9339.65,
+     "saved_kwh": 951.0,
+     "saved_co2_kg": 345.2,
+     "basis_fact_ids": [
+      "gpu-ml.hours_running_share",
+      "gpu-ml.gpu_utilisation",
+      "gpu-ml.gpu_util_weekly_median",
+      "gpu-ml.gpu_util_weekly_max",
+      "gpu-ml.cost_on_quarter_days_1_3"
+     ],
+     "reasoning": "The GPU server runs 100% of hours, but average GPU utilisation is only 9.19% and median weekly utilisation 6.45%. Since quarterly training days account for only a small part of annual spend, keeping the server on for those protected days plus booked ad-hoc sessions still leaves a realistic 82% removable share."
+    }
+   ],
+   "proposed_status": "ok",
+   "effort_reasoning": "Single-server automation with inactivity shutdown, runbook update and validation around quarterly training windows.",
+   "risks": "Users may forget to pre-book ad-hoc runs; mitigated with self-service start and inactivity timeout.",
+   "assumptions": "Quarterly training remains the main planned usage pattern and ad-hoc work can tolerate startup delay.",
+   "generated_by": "LLM advisor (gpt-5.4); numbers and status checks by code"
+  },
+  {
+   "id": "M-03",
+   "title": "Scale back test environments: remove dead servers and stop the rest off-hours",
+   "description": "Decommission clearly abandoned test servers, exclude the DR failover server, and place the remaining test, QA and UAT servers on an office-hours schedule with manual override when releases or tests need longer runtime.",
+   "type": "schedule",
+   "entity_ids": [
+    "srv:build-agent-old",
+    "srv:migration-alt",
+    "srv:poc-ki-2024",
+    "srv:qa-regression-01",
+    "srv:qa-regression-02",
+    "srv:test-01",
+    "srv:test-02",
+    "srv:test-03",
+    "srv:test-04",
+    "srv:test-05",
+    "srv:test-06",
+    "srv:test-07",
+    "srv:test-08",
+    "srv:uat-portal",
+    "srv:uat-shop"
+   ],
+   "finding_ids": [
+    "F-04"
+   ],
+   "limit_ids": [],
+   "effort_days": 3,
+   "effort_chf": 3300,
+   "savings": {
+    "cost_chf": {
+     "low": 15656.77,
+     "mid": 15701.76,
+     "high": 15723.51
+    },
+    "cost_eur": {
+     "low": 16933.85,
+     "mid": 16982.5,
+     "high": 17006.03
+    },
+    "cost_usd": {
+     "low": 19705.23,
+     "mid": 19761.85,
+     "high": 19789.23
+    },
+    "kwh": {
+     "low": 517.1,
+     "mid": 781.5,
+     "high": 1338.1
+    },
+    "co2_kg": {
+     "low": 103.4,
+     "mid": 176.6,
+     "high": 471.0
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of IT",
+   "reason": "The direction is sound, but IT should confirm office-hours schedules with release/test owners before enforcing them.",
+   "start_date": "2026-10-15",
+   "in_package": true,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). srv:poc-ki-2024: cost × 1.00, energy × 1.00 + srv:migration-alt: cost × 1.00, energy × 1.00 + srv:build-agent-old: cost × 1.00, energy × 1.00 + srv:test-01: cost × 0.60, energy × 0.60 + srv:test-02: cost × 0.60, energy × 0.60 + srv:test-03: cost × 0.60, energy × 0.60 + srv:test-04: cost × 0.60, energy × 0.60 + srv:test-05: cost × 0.60, energy × 0.60 + srv:test-06: cost × 0.60, energy × 0.60 + srv:test-07: cost × 0.60, energy × 0.60 + srv:test-08: cost × 0.60, energy × 0.60 + srv:qa-regression-01: cost × 0.60, energy × 0.60 + srv:qa-regression-02: cost × 0.60, energy × 0.60 + srv:uat-portal: cost × 0.60, energy × 0.60 + srv:uat-shop: cost × 0.60, energy × 0.60",
+    "inputs": [
+     {
+      "name": "srv:poc-ki-2024 baseline cost",
+      "value": 1495.26,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:migration-alt baseline cost",
+      "value": 1584.09,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:build-agent-old baseline cost",
+      "value": 1554.48,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:test-01 baseline cost",
+      "value": 1554.48,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:test-02 baseline cost",
+      "value": 1554.48,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:test-03 baseline cost",
+      "value": 1554.48,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:test-04 baseline cost",
+      "value": 1495.26,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:test-05 baseline cost",
+      "value": 1524.87,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:test-06 baseline cost",
+      "value": 1554.48,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:test-07 baseline cost",
+      "value": 1495.26,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:test-08 baseline cost",
+      "value": 1495.26,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:qa-regression-01 baseline cost",
+      "value": 1554.48,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:qa-regression-02 baseline cost",
+      "value": 1554.48,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:uat-portal baseline cost",
+      "value": 1584.09,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:uat-shop baseline cost",
+      "value": 1524.87,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:poc-ki-2024 cost share removed",
+      "value": 1.0,
+      "unit": "share",
+      "source": "srv:poc-ki-2024.cpu_avg, srv:poc-ki-2024.weeks_under_10pct_cpu, srv:poc-ki-2024.days_since_login"
+     },
+     {
+      "name": "srv:migration-alt cost share removed",
+      "value": 1.0,
+      "unit": "share",
+      "source": "srv:migration-alt.cpu_avg, srv:migration-alt.weeks_under_10pct_cpu, srv:migration-alt.days_since_login"
+     },
+     {
+      "name": "srv:build-agent-old cost share removed",
+      "value": 1.0,
+      "unit": "share",
+      "source": "srv:build-agent-old.cpu_avg, srv:build-agent-old.weeks_under_10pct_cpu, srv:build-agent-old.days_since_login"
+     },
+     {
+      "name": "srv:test-01 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:test-01.uptime_share, srv:test-01.weeks_under_10pct_cpu, srv:test-01.cpu_peak_week"
+     },
+     {
+      "name": "srv:test-02 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:test-02.uptime_share, srv:test-02.weeks_under_10pct_cpu, srv:test-02.cpu_peak_week"
+     },
+     {
+      "name": "srv:test-03 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:test-03.uptime_share, srv:test-03.weeks_under_10pct_cpu, srv:test-03.cpu_peak_week"
+     },
+     {
+      "name": "srv:test-04 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:test-04.uptime_share, srv:test-04.weeks_under_10pct_cpu, srv:test-04.cpu_peak_week"
+     },
+     {
+      "name": "srv:test-05 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:test-05.uptime_share, srv:test-05.weeks_under_10pct_cpu, srv:test-05.cpu_peak_week"
+     },
+     {
+      "name": "srv:test-06 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:test-06.uptime_share, srv:test-06.weeks_under_10pct_cpu, srv:test-06.cpu_peak_week"
+     },
+     {
+      "name": "srv:test-07 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:test-07.uptime_share, srv:test-07.weeks_under_10pct_cpu, srv:test-07.cpu_peak_week"
+     },
+     {
+      "name": "srv:test-08 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:test-08.uptime_share, srv:test-08.weeks_under_10pct_cpu, srv:test-08.cpu_peak_week"
+     },
+     {
+      "name": "srv:qa-regression-01 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:qa-regression-01.uptime_share, srv:qa-regression-01.weeks_under_10pct_cpu, srv:qa-regression-01.cpu_peak_week"
+     },
+     {
+      "name": "srv:qa-regression-02 cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:qa-regression-02.uptime_share, srv:qa-regression-02.weeks_under_10pct_cpu, srv:qa-regression-02.cpu_peak_week"
+     },
+     {
+      "name": "srv:uat-portal cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:uat-portal.uptime_share, srv:uat-portal.weeks_under_10pct_cpu, srv:uat-portal.cpu_peak_week"
+     },
+     {
+      "name": "srv:uat-shop cost share removed",
+      "value": 0.6,
+      "unit": "share",
+      "source": "srv:uat-shop.uptime_share, srv:uat-shop.weeks_under_10pct_cpu, srv:uat-shop.cpu_peak_week"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_vcpu_hour",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0024",
+     "Q-0073",
+     "Q-0106"
+    ],
+    "note": "Assumptions: DR failover stays untouched; savings come from removing three dead servers entirely and cutting off-hours runtime on the rest. Risks: Some release windows may need temporary exemptions; accidental shutdown during tests is the main operational risk."
+   },
+   "effects": [
+    {
+     "scope": "srv:poc-ki-2024",
+     "cost_share": 1.0,
+     "energy_share": 1.0,
+     "relocate_to": null,
+     "base_cost_chf": 1495.26,
+     "base_kwh": 74.4,
+     "base_co2_kg": 16.8,
+     "saved_cost_chf": 1495.26,
+     "saved_kwh": 74.4,
+     "saved_co2_kg": 16.8,
+     "basis_fact_ids": [
+      "srv:poc-ki-2024.cpu_avg",
+      "srv:poc-ki-2024.weeks_under_10pct_cpu",
+      "srv:poc-ki-2024.days_since_login"
+     ],
+     "reasoning": "This server shows near-zero CPU, 100% of weeks under 10% CPU and 625 days since login; full decommission is realistic."
+    },
+    {
+     "scope": "srv:migration-alt",
+     "cost_share": 1.0,
+     "energy_share": 1.0,
+     "relocate_to": null,
+     "base_cost_chf": 1584.09,
+     "base_kwh": 78.8,
+     "base_co2_kg": 17.8,
+     "saved_cost_chf": 1584.09,
+     "saved_kwh": 78.8,
+     "saved_co2_kg": 17.8,
+     "basis_fact_ids": [
+      "srv:migration-alt.cpu_avg",
+      "srv:migration-alt.weeks_under_10pct_cpu",
+      "srv:migration-alt.days_since_login"
+     ],
+     "reasoning": "This server shows near-zero CPU, 100% of weeks under 10% CPU and 573 days since login; full decommission is realistic."
+    },
+    {
+     "scope": "srv:build-agent-old",
+     "cost_share": 1.0,
+     "energy_share": 1.0,
+     "relocate_to": null,
+     "base_cost_chf": 1554.48,
+     "base_kwh": 77.4,
+     "base_co2_kg": 17.5,
+     "saved_cost_chf": 1554.48,
+     "saved_kwh": 77.4,
+     "saved_co2_kg": 17.5,
+     "basis_fact_ids": [
+      "srv:build-agent-old.cpu_avg",
+      "srv:build-agent-old.weeks_under_10pct_cpu",
+      "srv:build-agent-old.days_since_login"
+     ],
+     "reasoning": "This server shows near-zero CPU, 100% of weeks under 10% CPU and 554 days since login; full decommission is realistic."
+    },
+    {
+     "scope": "srv:test-01",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1554.48,
+     "base_kwh": 77.4,
+     "base_co2_kg": 17.5,
+     "saved_cost_chf": 932.69,
+     "saved_kwh": 46.4,
+     "saved_co2_kg": 10.5,
+     "basis_fact_ids": [
+      "srv:test-01.uptime_share",
+      "srv:test-01.weeks_under_10pct_cpu",
+      "srv:test-01.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 88.46% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:test-02",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1554.48,
+     "base_kwh": 77.4,
+     "base_co2_kg": 17.5,
+     "saved_cost_chf": 932.69,
+     "saved_kwh": 46.4,
+     "saved_co2_kg": 10.5,
+     "basis_fact_ids": [
+      "srv:test-02.uptime_share",
+      "srv:test-02.weeks_under_10pct_cpu",
+      "srv:test-02.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 88.46% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:test-03",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1554.48,
+     "base_kwh": 77.4,
+     "base_co2_kg": 17.5,
+     "saved_cost_chf": 932.69,
+     "saved_kwh": 46.4,
+     "saved_co2_kg": 10.5,
+     "basis_fact_ids": [
+      "srv:test-03.uptime_share",
+      "srv:test-03.weeks_under_10pct_cpu",
+      "srv:test-03.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 88.46% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:test-04",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1495.26,
+     "base_kwh": 74.4,
+     "base_co2_kg": 16.8,
+     "saved_cost_chf": 897.16,
+     "saved_kwh": 44.7,
+     "saved_co2_kg": 10.1,
+     "basis_fact_ids": [
+      "srv:test-04.uptime_share",
+      "srv:test-04.weeks_under_10pct_cpu",
+      "srv:test-04.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 88% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:test-05",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1524.87,
+     "base_kwh": 75.9,
+     "base_co2_kg": 17.2,
+     "saved_cost_chf": 914.92,
+     "saved_kwh": 45.5,
+     "saved_co2_kg": 10.3,
+     "basis_fact_ids": [
+      "srv:test-05.uptime_share",
+      "srv:test-05.weeks_under_10pct_cpu",
+      "srv:test-05.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 88.24% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:test-06",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1554.48,
+     "base_kwh": 77.4,
+     "base_co2_kg": 17.5,
+     "saved_cost_chf": 932.69,
+     "saved_kwh": 46.4,
+     "saved_co2_kg": 10.5,
+     "basis_fact_ids": [
+      "srv:test-06.uptime_share",
+      "srv:test-06.weeks_under_10pct_cpu",
+      "srv:test-06.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 76.92% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:test-07",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1495.26,
+     "base_kwh": 74.4,
+     "base_co2_kg": 16.8,
+     "saved_cost_chf": 897.16,
+     "saved_kwh": 44.7,
+     "saved_co2_kg": 10.1,
+     "basis_fact_ids": [
+      "srv:test-07.uptime_share",
+      "srv:test-07.weeks_under_10pct_cpu",
+      "srv:test-07.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 70% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:test-08",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1495.26,
+     "base_kwh": 74.4,
+     "base_co2_kg": 16.8,
+     "saved_cost_chf": 897.16,
+     "saved_kwh": 44.7,
+     "saved_co2_kg": 10.1,
+     "basis_fact_ids": [
+      "srv:test-08.uptime_share",
+      "srv:test-08.weeks_under_10pct_cpu",
+      "srv:test-08.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 72% of weeks. Peak weeks show it is still needed sometimes, so office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:qa-regression-01",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1554.48,
+     "base_kwh": 77.4,
+     "base_co2_kg": 17.5,
+     "saved_cost_chf": 932.69,
+     "saved_kwh": 46.4,
+     "saved_co2_kg": 10.5,
+     "basis_fact_ids": [
+      "srv:qa-regression-01.uptime_share",
+      "srv:qa-regression-01.weeks_under_10pct_cpu",
+      "srv:qa-regression-01.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 48.08% of weeks. Since it still spikes during regression windows, office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:qa-regression-02",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1554.48,
+     "base_kwh": 77.4,
+     "base_co2_kg": 17.5,
+     "saved_cost_chf": 932.69,
+     "saved_kwh": 46.4,
+     "saved_co2_kg": 10.5,
+     "basis_fact_ids": [
+      "srv:qa-regression-02.uptime_share",
+      "srv:qa-regression-02.weeks_under_10pct_cpu",
+      "srv:qa-regression-02.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 57.69% of weeks. Since it still spikes during regression windows, office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:uat-portal",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1584.09,
+     "base_kwh": 78.8,
+     "base_co2_kg": 17.8,
+     "saved_cost_chf": 950.46,
+     "saved_kwh": 47.3,
+     "saved_co2_kg": 10.7,
+     "basis_fact_ids": [
+      "srv:uat-portal.uptime_share",
+      "srv:uat-portal.weeks_under_10pct_cpu",
+      "srv:uat-portal.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 45.28% of weeks. Since it still spikes around UAT windows, office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    },
+    {
+     "scope": "srv:uat-shop",
+     "cost_share": 0.6,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 1524.87,
+     "base_kwh": 75.9,
+     "base_co2_kg": 17.2,
+     "saved_cost_chf": 914.92,
+     "saved_kwh": 45.5,
+     "saved_co2_kg": 10.3,
+     "basis_fact_ids": [
+      "srv:uat-shop.uptime_share",
+      "srv:uat-shop.weeks_under_10pct_cpu",
+      "srv:uat-shop.cpu_peak_week"
+     ],
+     "reasoning": "Runs 24/7 today, but is under 10% CPU in 74.51% of weeks. Since it still spikes around UAT windows, office-hours scheduling with override supports a conservative 60% hour reduction rather than full removal."
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "Needs owner validation, decommission checks for three dead servers, scheduler changes for the remaining fleet, and test/release team communication.",
+   "risks": "Some release windows may need temporary exemptions; accidental shutdown during tests is the main operational risk.",
+   "assumptions": "DR failover stays untouched; savings come from removing three dead servers entirely and cutting off-hours runtime on the rest.",
+   "generated_by": "LLM advisor (gpt-5.4); numbers and status checks by code"
+  },
+  {
+   "id": "M-04",
+   "title": "Reclaim inactive SaaS and AI subscription seats",
+   "description": "Reduce purchased seats to currently active demand for products with clear inactive-seat evidence. This is a cost-only measure; user activity energy is not claimed as a saving because only inactive licences are removed.",
+   "type": "licence",
+   "entity_ids": [
+    "lic:Accounting software@Finance",
+    "lic:CRM platform@Marketing",
+    "lic:CRM platform@Sales",
+    "lic:Chat tool@Consulting",
+    "lic:Chat tool@Finance",
+    "lic:Chat tool@HR",
+    "lic:Chat tool@IT",
+    "lic:Chat tool@Management",
+    "lic:Chat tool@Marketing",
+    "lic:Chat tool@Sales",
+    "lic:ChatGPT Team@HR",
+    "lic:ChatGPT Team@Marketing",
+    "lic:ChatGPT Team@Sales",
+    "lic:Claude Team@Consulting",
+    "lic:Claude Team@IT",
+    "lic:Claude Team@Marketing",
+    "lic:Design tool@Marketing",
+    "lic:E-signature@Finance",
+    "lic:E-signature@Sales",
+    "lic:HR software@Finance",
+    "lic:HR software@HR",
+    "lic:HR software@Management",
+    "lic:Knowledge base@Consulting",
+    "lic:Knowledge base@HR",
+    "lic:Knowledge base@IT",
+    "lic:Microsoft 365@Consulting",
+    "lic:Microsoft 365@Finance",
+    "lic:Microsoft 365@HR",
+    "lic:Microsoft 365@IT",
+    "lic:Microsoft 365@Management",
+    "lic:Microsoft 365@Marketing",
+    "lic:Microsoft 365@Sales",
+    "lic:Microsoft Copilot@Consulting",
+    "lic:Microsoft Copilot@Finance",
+    "lic:Microsoft Copilot@HR",
+    "lic:Microsoft Copilot@IT",
+    "lic:Microsoft Copilot@Management",
+    "lic:Microsoft Copilot@Marketing",
+    "lic:Microsoft Copilot@Sales",
+    "lic:Note-taking tool@Consulting",
+    "lic:Password manager@Consulting",
+    "lic:Password manager@Finance",
+    "lic:Password manager@HR",
+    "lic:Password manager@IT",
+    "lic:Password manager@Management",
+    "lic:Password manager@Marketing",
+    "lic:Password manager@Sales",
+    "lic:Project management@Consulting",
+    "lic:Project management@IT",
+    "lic:Project scheduling@Consulting",
+    "lic:Project scheduling@IT",
+    "lic:Survey tool@Marketing",
+    "lic:Ticket system@Consulting",
+    "lic:Ticket system@IT",
+    "lic:Time tracking@Consulting",
+    "lic:Time tracking@Finance",
+    "lic:Time tracking@HR",
+    "lic:Time tracking@IT",
+    "lic:Time tracking@Management",
+    "lic:Time tracking@Marketing",
+    "lic:Time tracking@Sales",
+    "lic:Video conferencing tool@Consulting",
+    "lic:Video conferencing tool@Finance",
+    "lic:Video conferencing tool@HR",
+    "lic:Video conferencing tool@IT",
+    "lic:Video conferencing tool@Management",
+    "lic:Video conferencing tool@Marketing",
+    "lic:Video conferencing tool@Sales"
+   ],
+   "finding_ids": [
+    "F-02",
+    "F-05"
+   ],
+   "limit_ids": [],
+   "effort_days": 4.5,
+   "effort_chf": 4950.0,
+   "savings": {
+    "cost_chf": {
+     "low": 58231.8,
+     "mid": 58231.8,
+     "high": 58231.8
+    },
+    "cost_eur": {
+     "low": 62976.27,
+     "mid": 62976.27,
+     "high": 62976.27
+    },
+    "cost_usd": {
+     "low": 73286.45,
+     "mid": 73286.45,
+     "high": 73286.45
+    },
+    "kwh": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "co2_kg": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of Finance",
+   "reason": "Seat removals need department sign-off to avoid cancelling genuinely reserved seats for near-term hires or shared-team use.",
+   "start_date": "2026-11-01",
+   "in_package": true,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). lic:Accounting software: cost × 0.15, energy × 0.00 + lic:CRM platform: cost × 0.42, energy × 0.00 + lic:Chat tool: cost × 0.32, energy × 0.00 + lic:ChatGPT Team: cost × 0.86, energy × 0.00 + lic:Claude Team: cost × 0.15, energy × 0.00 + lic:Design tool: cost × 0.62, energy × 0.00 + lic:E-signature: cost × 0.70, energy × 0.00 + lic:HR software: cost × 0.19, energy × 0.00 + lic:Knowledge base: cost × 0.52, energy × 0.00 + lic:Microsoft 365: cost × 0.13, energy × 0.00 + lic:Microsoft Copilot: cost × 0.41, energy × 0.00 + lic:Note-taking tool: cost × 0.56, energy × 0.00 + lic:Password manager: cost × 0.09, energy × 0.00 + lic:Project management: cost × 0.46, energy × 0.00 + lic:Project scheduling: cost × 0.41, energy × 0.00 + lic:Survey tool: cost × 0.88, energy × 0.00 + lic:Ticket system: cost × 0.37, energy × 0.00 + lic:Time tracking: cost × 0.13, energy × 0.00 + lic:Video conferencing tool: cost × 0.47, energy × 0.00",
+    "inputs": [
+     {
+      "name": "lic:Accounting software baseline cost",
+      "value": 4560.0,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:CRM platform baseline cost",
+      "value": 17765.0,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Chat tool baseline cost",
+      "value": 7144.68,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:ChatGPT Team baseline cost",
+      "value": 5482.22,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Claude Team baseline cost",
+      "value": 8104.16,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Design tool baseline cost",
+      "value": 1525.49,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:E-signature baseline cost",
+      "value": 8075.0,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:HR software baseline cost",
+      "value": 2160.0,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Knowledge base baseline cost",
+      "value": 4934.42,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Microsoft 365 baseline cost",
+      "value": 14240.98,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Microsoft Copilot baseline cost",
+      "value": 22181.4,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Note-taking tool baseline cost",
+      "value": 2555.26,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Password manager baseline cost",
+      "value": 3572.34,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Project management baseline cost",
+      "value": 7261.65,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Project scheduling baseline cost",
+      "value": 7780.34,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Survey tool baseline cost",
+      "value": 3328.56,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Ticket system baseline cost",
+      "value": 8915.41,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Time tracking baseline cost",
+      "value": 7868.0,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Video conferencing tool baseline cost",
+      "value": 12470.75,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "lic:Accounting software cost share removed",
+      "value": 0.15,
+      "unit": "share",
+      "source": "lic:Accounting software.cost_inactive_seats, lic:Accounting software.cost"
+     },
+     {
+      "name": "lic:CRM platform cost share removed",
+      "value": 0.418,
+      "unit": "share",
+      "source": "lic:CRM platform.cost_inactive_seats, lic:CRM platform.cost"
+     },
+     {
+      "name": "lic:Chat tool cost share removed",
+      "value": 0.3203,
+      "unit": "share",
+      "source": "lic:Chat tool.cost_inactive_seats, lic:Chat tool.cost"
+     },
+     {
+      "name": "lic:ChatGPT Team cost share removed",
+      "value": 0.8587,
+      "unit": "share",
+      "source": "lic:ChatGPT Team.cost_inactive_seats, lic:ChatGPT Team.cost"
+     },
+     {
+      "name": "lic:Claude Team cost share removed",
+      "value": 0.152,
+      "unit": "share",
+      "source": "lic:Claude Team.cost_inactive_seats, lic:Claude Team.cost"
+     },
+     {
+      "name": "lic:Design tool cost share removed",
+      "value": 0.625,
+      "unit": "share",
+      "source": "lic:Design tool.cost_inactive_seats, lic:Design tool.cost"
+     },
+     {
+      "name": "lic:E-signature cost share removed",
+      "value": 0.7028,
+      "unit": "share",
+      "source": "lic:E-signature.cost_inactive_seats, lic:E-signature.cost"
+     },
+     {
+      "name": "lic:HR software cost share removed",
+      "value": 0.1875,
+      "unit": "share",
+      "source": "lic:HR software.cost_inactive_seats, lic:HR software.cost"
+     },
+     {
+      "name": "lic:Knowledge base cost share removed",
+      "value": 0.5201,
+      "unit": "share",
+      "source": "lic:Knowledge base.cost_inactive_seats, lic:Knowledge base.cost"
+     },
+     {
+      "name": "lic:Microsoft 365 cost share removed",
+      "value": 0.1281,
+      "unit": "share",
+      "source": "lic:Microsoft 365.cost_inactive_seats, lic:Microsoft 365.cost"
+     },
+     {
+      "name": "lic:Microsoft Copilot cost share removed",
+      "value": 0.4075,
+      "unit": "share",
+      "source": "lic:Microsoft Copilot.cost_inactive_seats, lic:Microsoft Copilot.cost"
+     },
+     {
+      "name": "lic:Note-taking tool cost share removed",
+      "value": 0.5572,
+      "unit": "share",
+      "source": "lic:Note-taking tool.cost_inactive_seats, lic:Note-taking tool.cost"
+     },
+     {
+      "name": "lic:Password manager cost share removed",
+      "value": 0.0854,
+      "unit": "share",
+      "source": "lic:Password manager.cost_inactive_seats, lic:Password manager.cost"
+     },
+     {
+      "name": "lic:Project management cost share removed",
+      "value": 0.4617,
+      "unit": "share",
+      "source": "lic:Project management.cost_inactive_seats, lic:Project management.cost"
+     },
+     {
+      "name": "lic:Project scheduling cost share removed",
+      "value": 0.4118,
+      "unit": "share",
+      "source": "lic:Project scheduling.cost_inactive_seats, lic:Project scheduling.cost"
+     },
+     {
+      "name": "lic:Survey tool cost share removed",
+      "value": 0.8833,
+      "unit": "share",
+      "source": "lic:Survey tool.cost_inactive_seats, lic:Survey tool.cost"
+     },
+     {
+      "name": "lic:Ticket system cost share removed",
+      "value": 0.3743,
+      "unit": "share",
+      "source": "lic:Ticket system.cost_inactive_seats, lic:Ticket system.cost"
+     },
+     {
+      "name": "lic:Time tracking cost share removed",
+      "value": 0.1326,
+      "unit": "share",
+      "source": "lic:Time tracking.cost_inactive_seats, lic:Time tracking.cost"
+     },
+     {
+      "name": "lic:Video conferencing tool cost share removed",
+      "value": 0.4671,
+      "unit": "share",
+      "source": "lic:Video conferencing tool.cost_inactive_seats, lic:Video conferencing tool.cost"
+     }
+    ],
+    "factor_ids": [],
+    "source_files": [],
+    "row_count": 0,
+    "value_status": "observed",
+    "issue_ids": [],
+    "note": "Assumptions: Inactive-seat cost is reclaimable at the next eligible contract event and removing inactive seats does not reduce business output. Risks: Some departments may argue for spare capacity; late notice on annual contracts delays part of the cash-out."
+   },
+   "effects": [
+    {
+     "scope": "lic:Accounting software",
+     "cost_share": 0.15,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 4560.0,
+     "base_kwh": 15.3,
+     "base_co2_kg": 3.3,
+     "saved_cost_chf": 684.0,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Accounting software.cost_inactive_seats",
+      "lic:Accounting software.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 684 / 4560 = 15%."
+    },
+    {
+     "scope": "lic:CRM platform",
+     "cost_share": 0.418,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 17765.0,
+     "base_kwh": 28.2,
+     "base_co2_kg": 6.0,
+     "saved_cost_chf": 7425.77,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:CRM platform.cost_inactive_seats",
+      "lic:CRM platform.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 7425 / 17765 ≈ 41.8%."
+    },
+    {
+     "scope": "lic:Chat tool",
+     "cost_share": 0.3203,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 7144.68,
+     "base_kwh": 114.6,
+     "base_co2_kg": 24.4,
+     "saved_cost_chf": 2288.44,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Chat tool.cost_inactive_seats",
+      "lic:Chat tool.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 2288.3 / 7144.7 ≈ 32.03%."
+    },
+    {
+     "scope": "lic:ChatGPT Team",
+     "cost_share": 0.8587,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 5482.22,
+     "base_kwh": 1.9,
+     "base_co2_kg": 0.4,
+     "saved_cost_chf": 4707.58,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:ChatGPT Team.cost_inactive_seats",
+      "lic:ChatGPT Team.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 4707.6 / 5482.2 ≈ 85.87%."
+    },
+    {
+     "scope": "lic:Claude Team",
+     "cost_share": 0.152,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 8104.16,
+     "base_kwh": 42.9,
+     "base_co2_kg": 9.1,
+     "saved_cost_chf": 1231.83,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Claude Team.cost_inactive_seats",
+      "lic:Claude Team.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 1231.5 / 8104.2 ≈ 15.2%."
+    },
+    {
+     "scope": "lic:Design tool",
+     "cost_share": 0.625,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 1525.49,
+     "base_kwh": 5.4,
+     "base_co2_kg": 1.2,
+     "saved_cost_chf": 953.43,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Design tool.cost_inactive_seats",
+      "lic:Design tool.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 953.4 / 1525.5 = 62.5%."
+    },
+    {
+     "scope": "lic:E-signature",
+     "cost_share": 0.7028,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 8075.0,
+     "base_kwh": 14.4,
+     "base_co2_kg": 3.1,
+     "saved_cost_chf": 5675.11,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:E-signature.cost_inactive_seats",
+      "lic:E-signature.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 5675 / 8075 ≈ 70.28%."
+    },
+    {
+     "scope": "lic:HR software",
+     "cost_share": 0.1875,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 2160.0,
+     "base_kwh": 29.3,
+     "base_co2_kg": 6.2,
+     "saved_cost_chf": 405.0,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:HR software.cost_inactive_seats",
+      "lic:HR software.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 405 / 2160 = 18.75%."
+    },
+    {
+     "scope": "lic:Knowledge base",
+     "cost_share": 0.5201,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 4934.42,
+     "base_kwh": 44.7,
+     "base_co2_kg": 9.5,
+     "saved_cost_chf": 2566.39,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Knowledge base.cost_inactive_seats",
+      "lic:Knowledge base.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 2566.5 / 4934.4 ≈ 52.01%."
+    },
+    {
+     "scope": "lic:Microsoft 365",
+     "cost_share": 0.1281,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 14240.98,
+     "base_kwh": 183.8,
+     "base_co2_kg": 39.1,
+     "saved_cost_chf": 1824.27,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Microsoft 365.cost_inactive_seats",
+      "lic:Microsoft 365.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 1824.5 / 14241 ≈ 12.81%."
+    },
+    {
+     "scope": "lic:Microsoft Copilot",
+     "cost_share": 0.4075,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 22181.4,
+     "base_kwh": 60.0,
+     "base_co2_kg": 12.8,
+     "saved_cost_chf": 9038.92,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Microsoft Copilot.cost_inactive_seats",
+      "lic:Microsoft Copilot.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 9038.9 / 22181.4 ≈ 40.75%."
+    },
+    {
+     "scope": "lic:Note-taking tool",
+     "cost_share": 0.5572,
+     "energy_share": 2.5072787367325125e-16,
+     "relocate_to": null,
+     "base_cost_chf": 2555.26,
+     "base_kwh": 26.7,
+     "base_co2_kg": 5.7,
+     "saved_cost_chf": 1423.79,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Note-taking tool.cost_inactive_seats",
+      "lic:Note-taking tool.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 1423.8 / 2555.3 ≈ 55.72%."
+    },
+    {
+     "scope": "lic:Password manager",
+     "cost_share": 0.0854,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 3572.34,
+     "base_kwh": 154.2,
+     "base_co2_kg": 32.8,
+     "saved_cost_chf": 305.08,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Password manager.cost_inactive_seats",
+      "lic:Password manager.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 305.1 / 3572.3 ≈ 8.54%."
+    },
+    {
+     "scope": "lic:Project management",
+     "cost_share": 0.4617,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 7261.65,
+     "base_kwh": 45.3,
+     "base_co2_kg": 9.6,
+     "saved_cost_chf": 3352.7,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Project management.cost_inactive_seats",
+      "lic:Project management.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 3352.5 / 7261.7 ≈ 46.17%."
+    },
+    {
+     "scope": "lic:Project scheduling",
+     "cost_share": 0.4118,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 7780.34,
+     "base_kwh": 49.5,
+     "base_co2_kg": 10.5,
+     "saved_cost_chf": 3203.94,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Project scheduling.cost_inactive_seats",
+      "lic:Project scheduling.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 3203.7 / 7780.3 ≈ 41.18%."
+    },
+    {
+     "scope": "lic:Survey tool",
+     "cost_share": 0.8833,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 3328.56,
+     "base_kwh": 2.1,
+     "base_co2_kg": 0.4,
+     "saved_cost_chf": 2940.12,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Survey tool.cost_inactive_seats",
+      "lic:Survey tool.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 2940.2 / 3328.6 ≈ 88.33%."
+    },
+    {
+     "scope": "lic:Ticket system",
+     "cost_share": 0.3743,
+     "energy_share": 8.8718477275464e-17,
+     "relocate_to": null,
+     "base_cost_chf": 8915.41,
+     "base_kwh": 52.6,
+     "base_co2_kg": 11.2,
+     "saved_cost_chf": 3337.04,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Ticket system.cost_inactive_seats",
+      "lic:Ticket system.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 3337.3 / 8915.4 ≈ 37.43%."
+    },
+    {
+     "scope": "lic:Time tracking",
+     "cost_share": 0.1326,
+     "energy_share": 0.0,
+     "relocate_to": null,
+     "base_cost_chf": 7868.0,
+     "base_kwh": 146.2,
+     "base_co2_kg": 31.2,
+     "saved_cost_chf": 1043.3,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Time tracking.cost_inactive_seats",
+      "lic:Time tracking.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 1043 / 7868 ≈ 13.26%."
+    },
+    {
+     "scope": "lic:Video conferencing tool",
+     "cost_share": 0.4671,
+     "energy_share": 1.041680450952483e-16,
+     "relocate_to": null,
+     "base_cost_chf": 12470.75,
+     "base_kwh": 89.9,
+     "base_co2_kg": 19.1,
+     "saved_cost_chf": 5825.09,
+     "saved_kwh": 0.0,
+     "saved_co2_kg": 0.0,
+     "basis_fact_ids": [
+      "lic:Video conferencing tool.cost_inactive_seats",
+      "lic:Video conferencing tool.cost"
+     ],
+     "reasoning": "Remove only the proven inactive-seat cost: 5824.9 / 12470.7 ≈ 46.71%."
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "Cross-product seat audit, department confirmations, notice handling, contract-change requests and billing verification across many vendors.",
+   "risks": "Some departments may argue for spare capacity; late notice on annual contracts delays part of the cash-out.",
+   "assumptions": "Inactive-seat cost is reclaimable at the next eligible contract event and removing inactive seats does not reduce business output.",
+   "generated_by": "LLM advisor (gpt-5.4); numbers and status checks by code"
+  },
+  {
+   "id": "M-05",
+   "title": "Route low-risk office-assistant tasks to small models by default",
+   "description": "For summarisation, translation, drafting and general manual questions, make the small model the default and keep the large model as fallback for difficult prompts.",
+   "type": "model_switch",
+   "entity_ids": [
+    "res:ai-assistant"
+   ],
+   "finding_ids": [
+    "F-06"
+   ],
+   "limit_ids": [],
+   "effort_days": 1.5,
+   "effort_chf": 1650.0,
+   "savings": {
+    "cost_chf": {
+     "low": 7677.69,
+     "mid": 7677.69,
+     "high": 7677.69
+    },
+    "cost_eur": {
+     "low": 8308.6,
+     "mid": 8308.6,
+     "high": 8308.6
+    },
+    "cost_usd": {
+     "low": 9661.01,
+     "mid": 9661.01,
+     "high": 9661.01
+    },
+    "kwh": {
+     "low": 61.9,
+     "mid": 309.7,
+     "high": 1238.8
+    },
+    "co2_kg": {
+     "low": 9.3,
+     "mid": 66.0,
+     "high": 371.6
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of IT",
+   "reason": "Quality sign-off is needed because users may notice different answer quality on some prompts.",
+   "start_date": "2026-10-15",
+   "in_package": true,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). ai:ai-assistant:Summarise:large: cost × 0.56, energy × 0.60 + ai:ai-assistant:Translate:large: cost × 0.56, energy × 0.60 + ai:ai-assistant:Draft texts:large: cost × 0.42, energy × 0.45 + ai:ai-assistant:Manual question:large: cost × 0.35, energy × 0.38",
+    "inputs": [
+     {
+      "name": "ai:ai-assistant:Summarise:large baseline cost",
+      "value": 4872.07,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "ai:ai-assistant:Translate:large baseline cost",
+      "value": 3421.7,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "ai:ai-assistant:Draft texts:large baseline cost",
+      "value": 6029.34,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "ai:ai-assistant:Manual question:large baseline cost",
+      "value": 1431.04,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "ai:ai-assistant:Summarise:large cost share removed",
+      "value": 0.56,
+      "unit": "share",
+      "source": "ai:ai-assistant:Summarise:large.cost, ai:ai-assistant:Summarise:large.energy, ai:ai-assistant:Summarise:small.cost, ai:ai-assistant:Summarise:small.energy, ai.small_to_large_price_ratio"
+     },
+     {
+      "name": "ai:ai-assistant:Translate:large cost share removed",
+      "value": 0.56,
+      "unit": "share",
+      "source": "ai:ai-assistant:Translate:large.cost, ai:ai-assistant:Translate:large.energy, ai:ai-assistant:Translate:small.cost, ai:ai-assistant:Translate:small.energy, ai.small_to_large_price_ratio"
+     },
+     {
+      "name": "ai:ai-assistant:Draft texts:large cost share removed",
+      "value": 0.42,
+      "unit": "share",
+      "source": "ai:ai-assistant:Draft texts:large.cost, ai:ai-assistant:Draft texts:large.energy, ai:ai-assistant:Draft texts:small.cost, ai:ai-assistant:Draft texts:small.energy, ai.small_to_large_price_ratio"
+     },
+     {
+      "name": "ai:ai-assistant:Manual question:large cost share removed",
+      "value": 0.35,
+      "unit": "share",
+      "source": "ai:ai-assistant:Manual question:large.cost, ai:ai-assistant:Manual question:large.energy, ai:ai-assistant:Manual question:small.cost, ai:ai-assistant:Manual question:small.energy, ai.small_to_large_price_ratio"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_1000_tokens",
+     "grid_mix_location_based_eu"
+    ],
+    "source_files": [
+     "ai_usage.csv",
+     "extra/ai_invoice_monthly.csv"
+    ],
+    "row_count": 26734,
+    "value_status": "derived_cross_source",
+    "issue_ids": [],
+    "note": "Assumptions: These tasks remain human-reviewed or low-risk enough for a small-model default. Risks: A few users may route difficult prompts to the large model more often than expected; savings depend on keeping the fallback exception-based."
+   },
+   "effects": [
+    {
+     "scope": "ai:ai-assistant:Summarise:large",
+     "cost_share": 0.56,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 4872.07,
+     "base_kwh": 160.6,
+     "base_co2_kg": 34.2,
+     "saved_cost_chf": 2728.36,
+     "saved_kwh": 96.4,
+     "saved_co2_kg": 20.5,
+     "basis_fact_ids": [
+      "ai:ai-assistant:Summarise:large.cost",
+      "ai:ai-assistant:Summarise:large.energy",
+      "ai:ai-assistant:Summarise:small.cost",
+      "ai:ai-assistant:Summarise:small.energy",
+      "ai.small_to_large_price_ratio"
+     ],
+     "reasoning": "Move about 80% of summarise traffic to the small model. With small/large price ratio 0.30, cost saving is 0.8 × 0.70 = 0.56; energy saving is 0.8 × 0.75 = 0.60."
+    },
+    {
+     "scope": "ai:ai-assistant:Translate:large",
+     "cost_share": 0.56,
+     "energy_share": 0.6,
+     "relocate_to": null,
+     "base_cost_chf": 3421.7,
+     "base_kwh": 136.2,
+     "base_co2_kg": 29.0,
+     "saved_cost_chf": 1916.15,
+     "saved_kwh": 81.7,
+     "saved_co2_kg": 17.4,
+     "basis_fact_ids": [
+      "ai:ai-assistant:Translate:large.cost",
+      "ai:ai-assistant:Translate:large.energy",
+      "ai:ai-assistant:Translate:small.cost",
+      "ai:ai-assistant:Translate:small.energy",
+      "ai.small_to_large_price_ratio"
+     ],
+     "reasoning": "Move about 80% of translation traffic to the small model. With small/large price ratio 0.30, cost saving is 0.8 × 0.70 = 0.56; energy saving is 0.8 × 0.75 = 0.60."
+    },
+    {
+     "scope": "ai:ai-assistant:Draft texts:large",
+     "cost_share": 0.42,
+     "energy_share": 0.45,
+     "relocate_to": null,
+     "base_cost_chf": 6029.34,
+     "base_kwh": 246.5,
+     "base_co2_kg": 52.5,
+     "saved_cost_chf": 2532.32,
+     "saved_kwh": 110.9,
+     "saved_co2_kg": 23.6,
+     "basis_fact_ids": [
+      "ai:ai-assistant:Draft texts:large.cost",
+      "ai:ai-assistant:Draft texts:large.energy",
+      "ai:ai-assistant:Draft texts:small.cost",
+      "ai:ai-assistant:Draft texts:small.energy",
+      "ai.small_to_large_price_ratio"
+     ],
+     "reasoning": "Move about 60% of drafting traffic to the small model and leave the rest on large for harder prompts. Cost saving is 0.6 × 0.70 = 0.42; energy saving is 0.6 × 0.75 = 0.45."
+    },
+    {
+     "scope": "ai:ai-assistant:Manual question:large",
+     "cost_share": 0.35,
+     "energy_share": 0.375,
+     "relocate_to": null,
+     "base_cost_chf": 1431.04,
+     "base_kwh": 55.1,
+     "base_co2_kg": 11.7,
+     "saved_cost_chf": 500.86,
+     "saved_kwh": 20.7,
+     "saved_co2_kg": 4.4,
+     "basis_fact_ids": [
+      "ai:ai-assistant:Manual question:large.cost",
+      "ai:ai-assistant:Manual question:large.energy",
+      "ai:ai-assistant:Manual question:small.cost",
+      "ai:ai-assistant:Manual question:small.energy",
+      "ai.small_to_large_price_ratio"
+     ],
+     "reasoning": "Move about 50% of generic manual-question traffic to the small model while keeping large as fallback. Cost saving is 0.5 × 0.70 = 0.35; energy saving is 0.5 × 0.75 = 0.375."
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "Prompt-routing change, fallback logic, quick UAT with key users and communication of the new default.",
+   "risks": "A few users may route difficult prompts to the large model more often than expected; savings depend on keeping the fallback exception-based.",
+   "assumptions": "These tasks remain human-reviewed or low-risk enough for a small-model default.",
+   "generated_by": "LLM advisor (gpt-5.4); numbers and status checks by code"
+  },
+  {
+   "id": "M-06",
+   "title": "Switch marketing classification mostly to a small model",
+   "description": "Use a small model as the default for marketing text classification, with escalation to the large model only for uncertain cases.",
+   "type": "model_switch",
+   "entity_ids": [
+    "res:ai-marketing"
+   ],
+   "finding_ids": [
+    "F-06"
+   ],
+   "limit_ids": [],
+   "effort_days": 1,
+   "effort_chf": 1100,
+   "savings": {
+    "cost_chf": {
+     "low": 4857.63,
+     "mid": 4857.63,
+     "high": 4857.63
+    },
+    "cost_eur": {
+     "low": 5253.44,
+     "mid": 5253.44,
+     "high": 5253.44
+    },
+    "cost_usd": {
+     "low": 6109.08,
+     "mid": 6109.08,
+     "high": 6109.08
+    },
+    "kwh": {
+     "low": 27.7,
+     "mid": 138.7,
+     "high": 554.7
+    },
+    "co2_kg": {
+     "low": 4.2,
+     "mid": 29.5,
+     "high": 166.4
+    }
+   },
+   "status": "human",
+   "owner_role": "Head of Marketing",
+   "reason": "Marketing should validate classification quality before making small-model routing the default.",
+   "start_date": "2026-10-15",
+   "in_package": true,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). ai:ai-marketing:Classify:large: cost × 0.59, energy × 0.64",
+    "inputs": [
+     {
+      "name": "ai:ai-marketing:Classify:large baseline cost",
+      "value": 8164.08,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "ai:ai-marketing:Classify:large cost share removed",
+      "value": 0.595,
+      "unit": "share",
+      "source": "ai:ai-marketing:Classify:large.cost, ai:ai-marketing:Classify:large.energy, ai.small_to_large_price_ratio"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_1000_tokens",
+     "grid_mix_location_based_eu"
+    ],
+    "source_files": [
+     "ai_usage.csv",
+     "extra/ai_invoice_monthly.csv"
+    ],
+    "row_count": 385,
+    "value_status": "derived_cross_source",
+    "issue_ids": [
+     "Q-0086",
+     "Q-0099",
+     "Q-0103"
+    ],
+    "note": "Assumptions: The one-off bug spike in March is ignored; the change is sized from normal recurring classification demand. Risks: Misclassification may increase if prompts or labels are poorly defined; fallback to the large model must remain available."
+   },
+   "effects": [
+    {
+     "scope": "ai:ai-marketing:Classify:large",
+     "cost_share": 0.595,
+     "energy_share": 0.6375,
+     "relocate_to": null,
+     "base_cost_chf": 8164.08,
+     "base_kwh": 217.5,
+     "base_co2_kg": 46.3,
+     "saved_cost_chf": 4857.63,
+     "saved_kwh": 138.7,
+     "saved_co2_kg": 29.5,
+     "basis_fact_ids": [
+      "ai:ai-marketing:Classify:large.cost",
+      "ai:ai-marketing:Classify:large.energy",
+      "ai.small_to_large_price_ratio"
+     ],
+     "reasoning": "Classification is narrower than free-form generation, so moving about 85% of requests to a small model is realistic. Cost saving is 0.85 × 0.70 = 0.595; energy saving is 0.85 × 0.75 = 0.6375."
+    }
+   ],
+   "proposed_status": "human",
+   "effort_reasoning": "Single routing rule change plus sample-based quality check with marketing.",
+   "risks": "Misclassification may increase if prompts or labels are poorly defined; fallback to the large model must remain available.",
+   "assumptions": "The one-off bug spike in March is ignored; the change is sized from normal recurring classification demand.",
+   "generated_by": "LLM advisor (gpt-5.4); numbers and status checks by code"
+  },
+  {
+   "id": "M-07",
+   "title": "Delete third backup copies to save storage",
+   "description": "Remove the third copy from sources backed up by all three tools and shorten backup holdings.",
+   "type": "storage",
+   "entity_ids": [
+    "res:st-backup"
+   ],
+   "finding_ids": [
+    "F-01"
+   ],
+   "limit_ids": [
+    "L-02",
+    "L-07",
+    "L-14"
+   ],
+   "effort_days": 0.5,
+   "effort_chf": 550.0,
+   "savings": {
+    "cost_chf": {
+     "low": 1387.99,
+     "mid": 1392.58,
+     "high": 1394.58
+    },
+    "cost_eur": {
+     "low": 1501.51,
+     "mid": 1506.46,
+     "high": 1508.63
+    },
+    "cost_usd": {
+     "low": 1746.43,
+     "mid": 1752.2,
+     "high": 1754.71
+    },
+    "kwh": {
+     "low": 59.8,
+     "mid": 192.6,
+     "high": 464.0
+    },
+    "co2_kg": {
+     "low": 12.0,
+     "mid": 43.5,
+     "high": 163.3
+    }
+   },
+   "status": "blocked",
+   "owner_role": "Head of IT",
+   "reason": "Do not recommend: backup deletion is explicitly blocked by legal-retention constraints. · Safety gate: touches ['st-backup'] which must not be reduced (C-02: Backups must be retained for 10 years for legal reasons and must not be deleted.); touches ['st-backup'] which must not be reduced (C-12: A request to delete backup archive data was rejected because retention obligations prevent deletion.)",
+   "start_date": "2026-10-01",
+   "in_package": false,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:st-backup: cost × 0.15, energy × 0.15",
+    "inputs": [
+     {
+      "name": "res:st-backup baseline cost",
+      "value": 9396.6,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "res:st-backup cost share removed",
+      "value": 0.1482,
+      "unit": "share",
+      "source": "st-backup.third_copy_share"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_gb_storage_day",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0022",
+     "Q-0071"
+    ],
+    "note": "Assumptions: None; shown only as an excluded edge case. Risks: Legal and audit breach; possible loss of required recoverability."
+   },
+   "effects": [
+    {
+     "scope": "res:st-backup",
+     "cost_share": 0.1482,
+     "energy_share": 0.1482,
+     "relocate_to": null,
+     "base_cost_chf": 9396.6,
+     "base_kwh": 1299.3,
+     "base_co2_kg": 293.7,
+     "saved_cost_chf": 1392.58,
+     "saved_kwh": 192.6,
+     "saved_co2_kg": 43.5,
+     "basis_fact_ids": [
+      "st-backup.third_copy_share"
+     ],
+     "reasoning": "The fact pattern suggests up to 14.82% of backup volume sits in third copies, so deleting those copies would remove the same share of storage cost and energy."
+    }
+   ],
+   "proposed_status": "blocked",
+   "effort_reasoning": "Would be simple technically, but is not permissible.",
+   "risks": "Legal and audit breach; possible loss of required recoverability.",
+   "assumptions": "None; shown only as an excluded edge case.",
+   "generated_by": "LLM advisor (gpt-5.4); numbers and status checks by code"
+  },
+  {
+   "id": "M-08",
+   "title": "Shut down the DR failover server",
+   "description": "Turn off the failover environment because it is nearly idle.",
+   "type": "decommission",
+   "entity_ids": [
+    "srv:dr-failover"
+   ],
+   "finding_ids": [
+    "F-04"
+   ],
+   "limit_ids": [
+    "L-04"
+   ],
+   "effort_days": 0.5,
+   "effort_chf": 550.0,
+   "savings": {
+    "cost_chf": {
+     "low": 1579.55,
+     "mid": 1584.09,
+     "high": 1586.29
+    },
+    "cost_eur": {
+     "low": 1708.39,
+     "mid": 1713.3,
+     "high": 1715.68
+    },
+    "cost_usd": {
+     "low": 1987.99,
+     "mid": 1993.7,
+     "high": 1996.46
+    },
+    "kwh": {
+     "low": 52.2,
+     "mid": 78.8,
+     "high": 135.0
+    },
+    "co2_kg": {
+     "low": 10.4,
+     "mid": 17.8,
+     "high": 47.5
+    }
+   },
+   "status": "blocked",
+   "owner_role": "Head of IT",
+   "reason": "Do not recommend: the DR server must remain running as emergency fallback. · Safety gate: touches ['srv:dr-failover'] which must not be reduced (C-06: Disaster recovery failover server must remain running as the emergency fallback environment.)",
+   "start_date": "2026-10-01",
+   "in_package": false,
+   "calc": {
+    "formula": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). srv:dr-failover: cost × 1.00, energy × 1.00",
+    "inputs": [
+     {
+      "name": "srv:dr-failover baseline cost",
+      "value": 1584.09,
+      "unit": "CHF",
+      "source": "fact_cost"
+     },
+     {
+      "name": "srv:dr-failover cost share removed",
+      "value": 1.0,
+      "unit": "share",
+      "source": "srv:dr-failover.cpu_avg, srv:dr-failover.weeks_under_10pct_cpu, srv:dr-failover.days_since_login"
+     }
+    ],
+    "factor_ids": [
+     "energy_per_vcpu_hour",
+     "grid_mix_location_based_ireland",
+     "pue"
+    ],
+    "source_files": [
+     "aws_costs.csv"
+    ],
+    "row_count": 365,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0024",
+     "Q-0073",
+     "Q-0106"
+    ],
+    "note": "Assumptions: None; shown only as an excluded edge case. Risks: Removes disaster-recovery capability."
+   },
+   "effects": [
+    {
+     "scope": "srv:dr-failover",
+     "cost_share": 1.0,
+     "energy_share": 1.0,
+     "relocate_to": null,
+     "base_cost_chf": 1584.09,
+     "base_kwh": 78.8,
+     "base_co2_kg": 17.8,
+     "saved_cost_chf": 1584.09,
+     "saved_kwh": 78.8,
+     "saved_co2_kg": 17.8,
+     "basis_fact_ids": [
+      "srv:dr-failover.cpu_avg",
+      "srv:dr-failover.weeks_under_10pct_cpu",
+      "srv:dr-failover.days_since_login"
+     ],
+     "reasoning": "Measured use is near zero, so full shutdown would save the whole server if it were allowed."
+    }
+   ],
+   "proposed_status": "blocked",
+   "effort_reasoning": "Technically easy, but forbidden by policy.",
+   "risks": "Removes disaster-recovery capability.",
+   "assumptions": "None; shown only as an excluded edge case.",
+   "generated_by": "LLM advisor (gpt-5.4); numbers and status checks by code"
+  }
+ ],
+ "package": {
+  "measure_ids": [
+   "M-01",
+   "M-02",
+   "M-03",
+   "M-04",
+   "M-05",
+   "M-06"
+  ],
+  "effort_days": 15.0,
+  "effort_chf": 16500.0,
+  "savings": {
+   "cost_chf": {
+    "low": 128512.76,
+    "mid": 128611.48,
+    "high": 128694.7
+   },
+   "cost_eur": {
+    "low": 138994.0,
+    "mid": 139100.77,
+    "high": 139190.78
+   },
+   "cost_usd": {
+    "low": 161734.49,
+    "mid": 161858.73,
+    "high": 161963.46
+   },
+   "kwh": {
+    "low": 3180.6,
+    "mid": 5080.0,
+    "high": 9685.6
+   },
+   "co2_kg": {
+    "low": 1060.9,
+    "mid": 1799.1,
+    "high": 4089.2
+   }
+  },
+  "reduction": {
+   "cost": {
+    "low": 0.2705,
+    "mid": 0.2707,
+    "high": 0.2709
+   },
+   "co2": {
+    "low": 0.5611,
+    "mid": 0.4013,
+    "high": 0.3467
+   }
+  },
+  "meets": {
+   "co2": true,
+   "cost": true,
+   "budget": true
+  },
+  "meets_at_low": {
+   "co2": false,
+   "cost": true
+  },
+  "reasoning": "This package still fits the implementation budget and now clears the CO2 and cost targets by prioritising always-on non-production compute first, then adding licence hygiene and safe AI model routing. Human decisions are still needed for the dp-dev region move and schedule, test-environment operating windows, seat reductions by department, and AI quality sign-off.",
+  "edge_cases": [
+   {
+    "measure_id": "M-07",
+    "explanation": "Backup deletion looks tempting because third copies exist, but it directly conflicts with the legal-retention blocks on st-backup and must stay out of the package."
+   },
+   {
+    "measure_id": "M-08",
+    "explanation": "The DR failover server is almost idle, but policy explicitly requires it to stay running, so it is excluded despite apparent savings."
+   }
+  ]
+ },
+ "additivity_note": "Measures are checked by code for overlap: savings of the package can be summed. Blocked measures are never part of the package."
+}

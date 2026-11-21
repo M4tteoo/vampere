@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T04:39:17+01:00",
+  "generated_at": "2026-11-21T05:33:05+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -12,889 +12,302 @@
   {
    "id": "F-01",
    "kind": "driver",
-   "title": "Data platform development: 28% of CO₂, 8% of cost",
+   "title": "Cloud data platforms dominate location-based CO2",
    "entity_ids": [
     "res:dp-dev",
-    "loc:DE"
+    "res:dp-prod"
    ],
    "evidence": [
     {
-     "statement": "share of baseline CO₂ (location-based)",
-     "value": 27.617,
-     "unit": "%",
+     "statement": "dp-dev share of baseline CO2",
+     "value": 0.2762,
+     "unit": "share",
      "source_files": [
       "azure_costs.csv"
-     ]
+     ],
+     "fact_id": "dp-dev.share_co2"
     },
     {
-     "statement": "share of baseline cost",
-     "value": 8.123,
-     "unit": "%",
+     "statement": "dp-prod share of baseline CO2",
+     "value": 0.2527,
+     "unit": "share",
      "source_files": [
       "azure_costs.csv"
-     ]
+     ],
+     "fact_id": "dp-prod.share_co2"
     },
     {
-     "statement": "energy per year",
-     "value": 3410.688,
-     "unit": "kWh",
+     "statement": "dp-dev share of baseline cost",
+     "value": 0.0812,
+     "unit": "share",
      "source_files": [
       "azure_costs.csv"
-     ]
+     ],
+     "fact_id": "dp-dev.share_cost"
+    },
+    {
+     "statement": "dp-prod share of baseline cost",
+     "value": 0.1847,
+     "unit": "share",
+     "source_files": [
+      "azure_costs.csv"
+     ],
+     "fact_id": "dp-prod.share_cost"
     }
    ],
    "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 38544.16,
-     "mid": 38591.71,
-     "high": 38649.36
+     "low": 128610.92,
+     "mid": 128722.52,
+     "high": 128853.06
     },
     "cost_eur": {
-     "low": 41688.12,
-     "mid": 41739.55,
-     "high": 41801.91
+     "low": 139152.75,
+     "mid": 139273.49,
+     "high": 139414.73
     },
     "cost_usd": {
-     "low": 48511.58,
-     "mid": 48571.43,
-     "high": 48643.99
+     "low": 161913.51,
+     "mid": 162054.0,
+     "high": 162218.34
     },
     "kwh": {
-     "low": 2311.5,
-     "mid": 3410.7,
-     "high": 5781.4
+     "low": 9224.7,
+     "mid": 13708.4,
+     "high": 23527.0
     },
     "co2_kg": {
-     "low": 762.8,
-     "mid": 1238.1,
-     "high": 2486.0
+     "low": 1156.8,
+     "mid": 2370.8,
+     "high": 4757.5
     }
    },
-   "measure_ids": [],
+   "measure_ids": [
+    "M-01",
+    "M-07"
+   ],
    "calc": {
-    "formula": "resource total in the baseline year (cost as billed; kWh × grid mix of DE)",
+    "formula": "impact = baseline of the scopes",
     "inputs": [],
     "factor_ids": [
      "energy_per_node_hour",
      "grid_mix_location_based_germany",
+     "grid_mix_location_based_switzerland",
      "pue"
     ],
     "source_files": [
      "azure_costs.csv"
     ],
-    "row_count": 365,
+    "row_count": 731,
     "value_status": "estimated",
     "issue_ids": [
      "Q-0008",
+     "Q-0009",
      "Q-0075",
-     "Q-0091"
-    ]
-   }
+     "Q-0076",
+     "Q-0091",
+     "Q-0092"
+    ],
+    "note": "The two data-platform estates together account for just over half of baseline CO2, while also taking more than a quarter of recurring spend. They are the main decarbonisation lever."
+   },
+   "generated_by": "LLM advisor (gpt-5.4); evidence values filled by code from fact ids"
   },
   {
    "id": "F-02",
    "kind": "driver",
-   "title": "Data platform production: 25% of CO₂, 18% of cost",
+   "title": "SaaS and AI subscriptions are a major cost block",
    "entity_ids": [
-    "res:dp-prod",
-    "loc:CH"
-   ],
-   "evidence": [
-    {
-     "statement": "share of baseline CO₂ (location-based)",
-     "value": 25.267,
-     "unit": "%",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    },
-    {
-     "statement": "share of baseline cost",
-     "value": 18.467,
-     "unit": "%",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    },
-    {
-     "statement": "energy per year",
-     "value": 10297.727,
-     "unit": "kWh",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 87666.77,
-     "mid": 87730.81,
-     "high": 87803.7
-    },
-    "cost_eur": {
-     "low": 94857.37,
-     "mid": 94926.66,
-     "high": 95005.53
-    },
-    "cost_usd": {
-     "low": 110398.92,
-     "mid": 110479.57,
-     "high": 110571.36
-    },
-    "kwh": {
-     "low": 6913.2,
-     "mid": 10297.7,
-     "high": 17745.5
-    },
-    "co2_kg": {
-     "low": 394.1,
-     "mid": 1132.7,
-     "high": 2271.4
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "resource total in the baseline year (cost as billed; kWh × grid mix of CH)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_node_hour",
-     "grid_mix_location_based_switzerland",
-     "pue"
-    ],
-    "source_files": [
-     "azure_costs.csv"
-    ],
-    "row_count": 366,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0009",
-     "Q-0076",
-     "Q-0092"
-    ]
-   }
-  },
-  {
-   "id": "F-03",
-   "kind": "driver",
-   "title": "AI compute server (GPU): 9% of CO₂, 2% of cost",
-   "entity_ids": [
-    "res:gpu-ml",
-    "loc:DE"
-   ],
-   "evidence": [
-    {
-     "statement": "share of baseline CO₂ (location-based)",
-     "value": 9.39,
-     "unit": "%",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    },
-    {
-     "statement": "share of baseline cost",
-     "value": 2.397,
-     "unit": "%",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    },
-    {
-     "statement": "energy per year",
-     "value": 1159.734,
-     "unit": "kWh",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 11373.58,
-     "mid": 11389.82,
-     "high": 11405.01
-    },
-    "cost_eur": {
-     "low": 12301.15,
-     "mid": 12318.72,
-     "high": 12335.15
-    },
-    "cost_usd": {
-     "low": 14314.47,
-     "mid": 14334.92,
-     "high": 14354.04
-    },
-    "kwh": {
-     "low": 742.8,
-     "mid": 1159.7,
-     "high": 1999.7
-    },
-    "co2_kg": {
-     "low": 245.1,
-     "mid": 421.0,
-     "high": 859.9
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "resource total in the baseline year (cost as billed; kWh × grid mix of DE)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_gpu_hour",
-     "grid_mix_location_based_germany",
-     "pue"
-    ],
-    "source_files": [
-     "azure_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0011",
-     "Q-0078",
-     "Q-0104"
-    ]
-   }
-  },
-  {
-   "id": "F-04",
-   "kind": "driver",
-   "title": "Backup archive: 7% of CO₂, 2% of cost",
-   "entity_ids": [
-    "res:st-backup",
-    "loc:IE"
-   ],
-   "evidence": [
-    {
-     "statement": "share of baseline CO₂ (location-based)",
-     "value": 6.55,
-     "unit": "%",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    },
-    {
-     "statement": "share of baseline cost",
-     "value": 1.978,
-     "unit": "%",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    },
-    {
-     "statement": "energy per year",
-     "value": 1299.349,
-     "unit": "kWh",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 9365.69,
-     "mid": 9396.6,
-     "high": 9410.09
-    },
-    "cost_eur": {
-     "low": 10131.62,
-     "mid": 10165.07,
-     "high": 10179.66
-    },
-    "cost_usd": {
-     "low": 11784.31,
-     "mid": 11823.21,
-     "high": 11840.18
-    },
-    "kwh": {
-     "low": 403.8,
-     "mid": 1299.3,
-     "high": 3130.6
-    },
-    "co2_kg": {
-     "low": 80.8,
-     "mid": 293.7,
-     "high": 1102.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "resource total in the baseline year (cost as billed; kWh × grid mix of IE)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_gb_storage_day",
-     "grid_mix_location_based_ireland",
-     "pue"
-    ],
-    "source_files": [
-     "aws_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0022",
-     "Q-0071"
-    ]
-   }
-  },
-  {
-   "id": "F-05",
-   "kind": "driver",
-   "title": "Test environments: 6% of CO₂, 5% of cost",
-   "entity_ids": [
-    "res:vm-test",
-    "loc:IE"
-   ],
-   "evidence": [
-    {
-     "statement": "share of baseline CO₂ (location-based)",
-     "value": 6.191,
-     "unit": "%",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    },
-    {
-     "statement": "share of baseline cost",
-     "value": 5.194,
-     "unit": "%",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    },
-    {
-     "statement": "energy per year",
-     "value": 1228.12,
-     "unit": "kWh",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 24603.64,
-     "mid": 24674.33,
-     "high": 24708.52
-    },
-    "cost_eur": {
-     "low": 26610.48,
-     "mid": 26686.94,
-     "high": 26723.92
-    },
-    "cost_usd": {
-     "low": 30965.54,
-     "mid": 31054.52,
-     "high": 31097.54
-    },
-    "kwh": {
-     "low": 812.6,
-     "mid": 1228.1,
-     "high": 2102.7
-    },
-    "co2_kg": {
-     "low": 162.5,
-     "mid": 277.6,
-     "high": 740.2
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "resource total in the baseline year (cost as billed; kWh × grid mix of IE)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_vcpu_hour",
-     "grid_mix_location_based_ireland",
-     "pue"
-    ],
-    "source_files": [
-     "aws_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0024",
-     "Q-0073",
-     "Q-0106"
-    ]
-   }
-  },
-  {
-   "id": "F-06",
-   "kind": "driver",
-   "title": "Other SaaS contracts: 4% of CO₂, 21% of cost",
-   "entity_ids": [
+    "res:saas-m365",
     "res:saas-other",
-    "loc:EU"
+    "res:sub-chatgpt",
+    "res:sub-claude",
+    "res:sub-copilot"
    ],
    "evidence": [
     {
-     "statement": "share of baseline CO₂ (location-based)",
-     "value": 3.888,
-     "unit": "%",
+     "statement": "saas-other share of baseline cost",
+     "value": 0.2103,
+     "unit": "share",
      "source_files": [
       "saas_contracts.csv"
-     ]
+     ],
+     "fact_id": "saas-other.share_cost"
     },
     {
-     "statement": "share of baseline cost",
-     "value": 21.032,
-     "unit": "%",
+     "statement": "saas-m365 share of baseline cost",
+     "value": 0.03,
+     "unit": "share",
      "source_files": [
       "saas_contracts.csv"
-     ]
+     ],
+     "fact_id": "saas-m365.share_cost"
     },
     {
-     "statement": "energy per year",
-     "value": 818.4,
-     "unit": "kWh",
+     "statement": "sub-copilot share of baseline cost",
+     "value": 0.0467,
+     "unit": "share",
      "source_files": [
-      "saas_contracts.csv"
-     ]
+      "ai_subscriptions.csv"
+     ],
+     "fact_id": "sub-copilot.share_cost"
+    },
+    {
+     "statement": "sub-chatgpt share of baseline cost",
+     "value": 0.0115,
+     "unit": "share",
+     "source_files": [
+      "ai_subscriptions.csv"
+     ],
+     "fact_id": "sub-chatgpt.share_cost"
+    },
+    {
+     "statement": "sub-claude share of baseline cost",
+     "value": 0.0171,
+     "unit": "share",
+     "source_files": [
+      "ai_subscriptions.csv"
+     ],
+     "fact_id": "sub-claude.share_cost"
     }
    ],
    "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 99916.9,
-     "mid": 99916.9,
-     "high": 99916.9
+     "low": 149925.65,
+     "mid": 149925.65,
+     "high": 149925.65
     },
     "cost_eur": {
-     "low": 108070.99,
-     "mid": 108070.99,
-     "high": 108070.99
+     "low": 162140.68,
+     "mid": 162140.68,
+     "high": 162140.68
     },
     "cost_usd": {
-     "low": 125764.04,
-     "mid": 125764.04,
-     "high": 125764.04
+     "low": 188682.04,
+     "mid": 188682.04,
+     "high": 188682.04
     },
     "kwh": {
-     "low": 272.8,
-     "mid": 818.4,
-     "high": 2728.0
+     "low": 369.0,
+     "mid": 1106.9,
+     "high": 4213.5
     },
     "co2_kg": {
-     "low": 40.9,
-     "mid": 174.3,
-     "high": 818.4
+     "low": 55.3,
+     "mid": 235.8,
+     "high": 1264.0
     }
    },
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "calc": {
-    "formula": "resource total in the baseline year (cost as billed; kWh × grid mix of EU)",
+    "formula": "impact = baseline of the scopes",
     "inputs": [],
     "factor_ids": [
      "energy_per_active_saas_licence_month",
+     "energy_per_subscription_message",
      "grid_mix_location_based_eu"
     ],
     "source_files": [
+     "ai_subscriptions.csv",
      "saas_contracts.csv"
     ],
-    "row_count": 576,
+    "row_count": 816,
     "value_status": "observed",
-    "issue_ids": []
-   }
+    "issue_ids": [],
+    "note": "Licence-heavy services are a large share of spend, so seat hygiene matters for the cost target even if energy impact is small."
+   },
+   "generated_by": "LLM advisor (gpt-5.4); evidence values filled by code from fact ids"
   },
   {
-   "id": "F-07",
-   "kind": "driver",
-   "title": "Power BI capacity: 1% of CO₂, 5% of cost",
-   "entity_ids": [
-    "res:pbi-kap",
-    "loc:CH"
-   ],
-   "evidence": [
-    {
-     "statement": "share of baseline CO₂ (location-based)",
-     "value": 0.694,
-     "unit": "%",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    },
-    {
-     "statement": "share of baseline cost",
-     "value": 5.069,
-     "unit": "%",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    },
-    {
-     "statement": "energy per year",
-     "value": 282.815,
-     "unit": "kWh",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 24075.51,
-     "mid": 24083.62,
-     "high": 24090.68
-    },
-    "cost_eur": {
-     "low": 26038.95,
-     "mid": 26047.72,
-     "high": 26055.36
-    },
-    "cost_usd": {
-     "low": 30300.75,
-     "mid": 30310.95,
-     "high": 30319.84
-    },
-    "kwh": {
-     "low": 187.9,
-     "mid": 282.8,
-     "high": 492.4
-    },
-    "co2_kg": {
-     "low": 10.7,
-     "mid": 31.1,
-     "high": 63.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "resource total in the baseline year (cost as billed; kWh × grid mix of CH)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_vcpu_hour",
-     "grid_mix_location_based_switzerland",
-     "pue"
-    ],
-    "source_files": [
-     "azure_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0012",
-     "Q-0079"
-    ]
-   }
-  },
-  {
-   "id": "F-08",
-   "kind": "driver",
-   "title": "Frankfurt: 37% of CO₂ from 11% of cost (grid 0.363 vs Zurich 0.110 kg/kWh)",
-   "entity_ids": [
-    "loc:DE",
-    "res:dp-dev",
-    "res:gpu-ml"
-   ],
-   "evidence": [
-    {
-     "statement": "grid mix DE",
-     "value": 0.363,
-     "unit": "kg CO2/kWh",
-     "source_files": [
-      "pipeline/energy/factors.yaml"
-     ]
-    },
-    {
-     "statement": "grid mix CH (consumption mix)",
-     "value": 0.11,
-     "unit": "kg CO2/kWh",
-     "source_files": [
-      "pipeline/energy/factors.yaml"
-     ]
-    },
-    {
-     "statement": "CO₂ of the location in the baseline year",
-     "value": 1659.063,
-     "unit": "kg",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    },
-    {
-     "statement": "dp-dev: CO₂ per year",
-     "value": 1238.08,
-     "unit": "kg",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    },
-    {
-     "statement": "gpu-ml: CO₂ per year",
-     "value": 420.984,
-     "unit": "kg",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "cost_eur": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "cost_usd": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 702.5,
-     "mid": 1156.3,
-     "high": 2332.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = CO₂ at DE × (1 − grid CH / grid DE): what the same load would emit less in Zurich",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_gpu_hour",
-     "energy_per_node_hour",
-     "grid_mix_location_based_germany",
-     "pue"
-    ],
-    "source_files": [
-     "azure_costs.csv"
-    ],
-    "row_count": 730,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0008",
-     "Q-0011",
-     "Q-0075",
-     "Q-0078",
-     "Q-0091",
-     "Q-0104"
-    ],
-    "note": "Location is a decision made in Basel; moving needs a technical check (Step 6/7)."
-   },
-   "rule": "dirty_location"
-  },
-  {
-   "id": "F-09",
-   "kind": "driver",
-   "title": "Dublin: 13% of CO₂ from 8% of cost (grid 0.226 vs Zurich 0.110 kg/kWh)",
-   "entity_ids": [
-    "loc:IE",
-    "res:st-backup",
-    "res:vm-test",
-    "res:cicd"
-   ],
-   "evidence": [
-    {
-     "statement": "grid mix IE",
-     "value": 0.226,
-     "unit": "kg CO2/kWh",
-     "source_files": [
-      "pipeline/energy/factors.yaml"
-     ]
-    },
-    {
-     "statement": "grid mix CH (consumption mix)",
-     "value": 0.11,
-     "unit": "kg CO2/kWh",
-     "source_files": [
-      "pipeline/energy/factors.yaml"
-     ]
-    },
-    {
-     "statement": "CO₂ of the location in the baseline year",
-     "value": 597.354,
-     "unit": "kg",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    },
-    {
-     "statement": "st-backup: CO₂ per year",
-     "value": 293.653,
-     "unit": "kg",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    },
-    {
-     "statement": "vm-test: CO₂ per year",
-     "value": 277.555,
-     "unit": "kg",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    },
-    {
-     "statement": "cicd: CO₂ per year",
-     "value": 25.502,
-     "unit": "kg",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "cost_eur": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "cost_usd": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 132.7,
-     "mid": 306.6,
-     "high": 982.5
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = CO₂ at IE × (1 − grid CH / grid IE): what the same load would emit less in Zurich",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_gb_storage_day",
-     "energy_per_vcpu_hour",
-     "grid_mix_location_based_ireland",
-     "pue"
-    ],
-    "source_files": [
-     "aws_costs.csv"
-    ],
-    "row_count": 1348,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0018",
-     "Q-0020",
-     "Q-0022",
-     "Q-0024",
-     "Q-0067",
-     "Q-0069",
-     "Q-0071",
-     "Q-0073",
-     "Q-0106"
-    ],
-    "note": "Location is a decision made in Basel; moving needs a technical check (Step 6/7)."
-   },
-   "rule": "dirty_location"
-  },
-  {
-   "id": "F-10",
+   "id": "F-03",
    "kind": "waste",
-   "title": "dp-dev runs 24 h a day but works 2.8 h on weekdays and 0.2 h at weekends",
+   "title": "Development data platform runs 24/7 despite very low active time",
    "entity_ids": [
     "res:dp-dev"
    ],
    "evidence": [
     {
-     "statement": "idle share of running hours",
-     "value": 91.319,
-     "unit": "%",
+     "statement": "dp-dev running hours per day",
+     "value": 24.0,
+     "unit": "h/day",
      "source_files": [
       "data_platform_usage.csv"
-     ]
+     ],
+     "fact_id": "dp-dev.running_h_per_day"
     },
     {
-     "statement": "average active use on weekdays",
+     "statement": "dp-dev active hours on weekdays",
      "value": 2.846,
      "unit": "h/day",
      "source_files": [
       "data_platform_usage.csv"
-     ]
+     ],
+     "fact_id": "dp-dev.active_h_weekday"
     },
     {
-     "statement": "average active use at weekends",
-     "value": 0.214,
+     "statement": "dp-dev active hours at weekends",
+     "value": 0.2139,
      "unit": "h/day",
      "source_files": [
       "data_platform_usage.csv"
-     ]
+     ],
+     "fact_id": "dp-dev.active_h_weekend"
     },
     {
-     "statement": "running hours per day",
-     "value": 23.605,
-     "unit": "h/day",
+     "statement": "dp-dev share of running hours without work",
+     "value": 0.9132,
+     "unit": "share",
      "source_files": [
       "data_platform_usage.csv"
-     ]
+     ],
+     "fact_id": "dp-dev.idle_share"
     },
     {
-     "statement": "average nodes",
-     "value": 8.0,
-     "unit": "nodes",
-     "source_files": [
-      "data_platform_usage.csv"
-     ]
-    },
-    {
-     "statement": "average CPU of the billed node-hours",
-     "value": 8.703,
-     "unit": "%",
+     "statement": "dp-dev average CPU utilisation of billed hours",
+     "value": 0.087,
+     "unit": "share",
      "source_files": [
       "azure_costs.csv"
-     ]
+     ],
+     "fact_id": "dp-dev.cpu_utilisation"
     }
    ],
    "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 35198.07,
-     "mid": 35241.49,
-     "high": 35294.14
+     "low": 32762.53,
+     "mid": 32802.95,
+     "high": 32851.96
     },
     "cost_eur": {
-     "low": 38069.1,
-     "mid": 38116.07,
-     "high": 38173.01
+     "low": 35434.9,
+     "mid": 35478.62,
+     "high": 35531.62
     },
     "cost_usd": {
-     "low": 44300.2,
-     "mid": 44354.85,
-     "high": 44421.12
+     "low": 41234.84,
+     "mid": 41285.71,
+     "high": 41347.39
     },
     "kwh": {
-     "low": 2110.8,
-     "mid": 3114.6,
-     "high": 5279.6
+     "low": 1964.8,
+     "mid": 2899.1,
+     "high": 4914.2
     },
     "co2_kg": {
-     "low": 696.6,
-     "mid": 1130.6,
-     "high": 2270.2
+     "low": 743.0,
+     "mid": 1181.8,
+     "high": 2375.0
     }
    },
-   "measure_ids": [],
+   "measure_ids": [
+    "M-01"
+   ],
    "calc": {
-    "formula": "at stake = resource total × idle share (1 − active_use_h / runtime_h)",
+    "formula": "impact = savings of the linked measures",
     "inputs": [],
     "factor_ids": [
      "energy_per_node_hour",
@@ -911,2442 +324,435 @@
      "Q-0075",
      "Q-0091"
     ],
-    "note": "Upper bound: idle hours still draw idle power and some windows may be protected (Step 7)."
+    "note": "The dev cluster runs all day every day, but is idle 91.32% of running hours and shows only 8.7% average CPU utilisation. This is the single biggest avoidable CO2 source."
    },
-   "rule": "idle_cluster",
-   "location": "DE"
+   "generated_by": "LLM advisor (gpt-5.4); evidence values filled by code from fact ids"
   },
   {
-   "id": "F-11",
+   "id": "F-04",
    "kind": "waste",
-   "title": "dp-prod runs 24 h a day but works 11.2 h on weekdays and 1.5 h at weekends",
-   "entity_ids": [
-    "res:dp-prod"
-   ],
-   "evidence": [
-    {
-     "statement": "idle share of running hours",
-     "value": 65.01,
-     "unit": "%",
-     "source_files": [
-      "data_platform_usage.csv"
-     ]
-    },
-    {
-     "statement": "average active use on weekdays",
-     "value": 11.184,
-     "unit": "h/day",
-     "source_files": [
-      "data_platform_usage.csv"
-     ]
-    },
-    {
-     "statement": "average active use at weekends",
-     "value": 1.5,
-     "unit": "h/day",
-     "source_files": [
-      "data_platform_usage.csv"
-     ]
-    },
-    {
-     "statement": "running hours per day",
-     "value": 23.54,
-     "unit": "h/day",
-     "source_files": [
-      "data_platform_usage.csv"
-     ]
-    },
-    {
-     "statement": "average nodes",
-     "value": 18.648,
-     "unit": "nodes",
-     "source_files": [
-      "data_platform_usage.csv"
-     ]
-    },
-    {
-     "statement": "average CPU of the billed node-hours",
-     "value": 35.152,
-     "unit": "%",
-     "source_files": [
-      "azure_costs.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 56991.87,
-     "mid": 57033.5,
-     "high": 57080.89
-    },
-    "cost_eur": {
-     "low": 61666.45,
-     "mid": 61711.5,
-     "high": 61762.77
-    },
-    "cost_usd": {
-     "low": 71769.96,
-     "mid": 71822.39,
-     "high": 71882.06
-    },
-    "kwh": {
-     "low": 4494.2,
-     "mid": 6694.5,
-     "high": 11536.3
-    },
-    "co2_kg": {
-     "low": 256.2,
-     "mid": 736.4,
-     "high": 1476.6
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = resource total × idle share (1 − active_use_h / runtime_h)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_node_hour",
-     "grid_mix_location_based_switzerland",
-     "pue"
-    ],
-    "source_files": [
-     "azure_costs.csv"
-    ],
-    "row_count": 366,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0009",
-     "Q-0076",
-     "Q-0092"
-    ],
-    "note": "Upper bound: idle hours still draw idle power and some windows may be protected (Step 7)."
-   },
-   "rule": "idle_cluster",
-   "location": "CH"
-  },
-  {
-   "id": "F-12",
-   "kind": "waste",
-   "title": "GPU server runs around the clock at 9 % GPU utilisation",
+   "title": "Non-production compute is left on continuously",
    "entity_ids": [
     "res:gpu-ml",
-    "srv:gpu-ml-01"
+    "res:vm-test",
+    "srv:build-agent-old",
+    "srv:migration-alt",
+    "srv:poc-ki-2024"
    ],
    "evidence": [
     {
-     "statement": "average GPU utilisation",
-     "value": 9.192,
-     "unit": "%",
-     "source_files": [
-      "server_metrics_weekly.csv"
-     ]
-    },
-    {
-     "statement": "share of hours running",
-     "value": 100.0,
-     "unit": "%",
+     "statement": "GPU server share of hours running",
+     "value": 1.0,
+     "unit": "share",
      "source_files": [
       "azure_costs.csv"
-     ]
+     ],
+     "fact_id": "gpu-ml.hours_running_share"
     },
     {
-     "statement": "days since last human login (as of data date)",
-     "value": 65.0,
-     "unit": "days",
-     "source_files": [
-      "server_inventory.csv"
-     ]
-    },
-    {
-     "statement": "tagged project P-004 «Internal AI pilot» completed on 2025-06-30: days running since",
-     "value": 433.0,
-     "unit": "days",
-     "source_files": [
-      "projects.csv",
-      "server_inventory.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 10666.46,
-     "mid": 10681.69,
-     "high": 10695.94
-    },
-    "cost_eur": {
-     "low": 11536.36,
-     "mid": 11552.84,
-     "high": 11568.25
-    },
-    "cost_usd": {
-     "low": 13424.51,
-     "mid": 13443.68,
-     "high": 13461.61
-    },
-    "kwh": {
-     "low": 696.6,
-     "mid": 1087.6,
-     "high": 1875.4
-    },
-    "co2_kg": {
-     "low": 229.9,
-     "mid": 394.8,
-     "high": 806.4
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = resource total outside the quarterly training days (days 1–3 of Jan/Apr/Jul/Oct)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_gpu_hour",
-     "grid_mix_location_based_germany",
-     "pue"
-    ],
-    "source_files": [
-     "azure_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0011",
-     "Q-0078",
-     "Q-0104"
-    ],
-    "note": "related tickets (context only): T-1035, T-1101"
-   },
-   "rule": "low_gpu"
-  },
-  {
-   "id": "F-13",
-   "kind": "waste",
-   "title": "10 vm-test servers run 24/7 but are nearly idle in 92% of weeks",
-   "entity_ids": [
-    "res:vm-test",
-    "srv:test-01",
-    "srv:test-02",
-    "srv:test-03",
-    "srv:test-04",
-    "srv:test-05",
-    "srv:test-06",
-    "srv:dr-failover",
-    "srv:poc-ki-2024",
-    "srv:migration-alt",
-    "srv:build-agent-old"
-   ],
-   "evidence": [
-    {
-     "statement": "servers always on and under 10 % CPU in at least 3 of 4 weeks",
-     "value": 10.0,
-     "unit": "servers",
-     "source_files": [
-      "server_metrics_weekly.csv",
-      "server_inventory.csv"
-     ]
-    },
-    {
-     "statement": "their weeks under 10 % CPU",
-     "value": 475.0,
-     "unit": "of 517 weeks",
+     "statement": "gpu-ml average GPU utilisation",
+     "value": 0.0919,
+     "unit": "share",
      "source_files": [
       "server_metrics_weekly.csv"
-     ]
+     ],
+     "fact_id": "gpu-ml.gpu_utilisation"
     },
     {
-     "statement": "their average CPU over the year (incl. busy weeks)",
-     "value": 7.225,
-     "unit": "%",
+     "statement": "median weekly GPU utilisation",
+     "value": 0.0645,
+     "unit": "share",
      "source_files": [
       "server_metrics_weekly.csv"
-     ]
+     ],
+     "fact_id": "gpu-ml.gpu_util_weekly_median"
     },
     {
-     "statement": "their highest weekly CPU (busy period)",
-     "value": 79.7,
-     "unit": "%",
-     "source_files": [
-      "server_metrics_weekly.csv"
-     ]
-    },
-    {
-     "statement": "their vCPU",
-     "value": 40.0,
-     "unit": "vCPU",
-     "source_files": [
-      "server_inventory.csv"
-     ]
-    },
-    {
-     "statement": "billed vCPU-hours per day (baseline year)",
-     "value": 1536.0,
-     "unit": "vCPU-h/day",
+     "statement": "vm-test average CPU utilisation of billed hours",
+     "value": 0.1089,
+     "unit": "share",
      "source_files": [
       "aws_costs.csv"
-     ]
+     ],
+     "fact_id": "vm-test.cpu_utilisation"
     },
     {
-     "statement": "level shift on 2025-04-01: billed vCPU-h/day before",
-     "value": 384.0,
-     "unit": "vCPU-h/day",
+     "statement": "poc-ki-2024 average weekly CPU",
+     "value": 0.0021,
+     "unit": "share",
      "source_files": [
-      "aws_costs.csv"
-     ]
-    }
-   ],
-   "severity": "high",
-   "impact": {
-    "cost_chf": {
-     "low": 15418.28,
-     "mid": 15462.58,
-     "high": 15484.0
+      "server_metrics_weekly.csv"
+     ],
+     "fact_id": "srv:poc-ki-2024.cpu_avg"
     },
-    "cost_eur": {
-     "low": 16675.9,
-     "mid": 16723.82,
-     "high": 16746.99
-    },
-    "cost_usd": {
-     "low": 19405.07,
-     "mid": 19460.83,
-     "high": 19487.79
-    },
-    "kwh": {
-     "low": 509.3,
-     "mid": 769.6,
-     "high": 1317.7
-    },
-    "co2_kg": {
-     "low": 101.9,
-     "mid": 173.9,
-     "high": 463.8
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = resource total × share of the low-CPU servers (vCPU × uptime hours)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_vcpu_hour",
-     "grid_mix_location_based_ireland",
-     "pue"
-    ],
-    "source_files": [
-     "aws_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0024",
-     "Q-0073",
-     "Q-0106"
-    ],
-    "note": "related tickets (context only): T-1058, T-1094, T-1204. Completed projects for context: P-004 «Internal AI pilot» ended 2025-06-30, P-006 «Customer Beta: reporting setup» ended 2026-06-30, P-008 «Customer Delta: migration» ended 2025-09-30, P-009 «Customer portal relaunch» ended 2026-03-31"
-   },
-   "rule": "low_cpu_always_on",
-   "servers": [
-    "test-01",
-    "test-02",
-    "test-03",
-    "test-04",
-    "test-05",
-    "test-06",
-    "dr-failover",
-    "poc-ki-2024",
-    "migration-alt",
-    "build-agent-old"
-   ]
-  },
-  {
-   "id": "F-14",
-   "kind": "waste",
-   "title": "3 forgotten servers: no login for over 180 days, no load",
-   "entity_ids": [
-    "srv:poc-ki-2024",
-    "srv:migration-alt",
-    "srv:build-agent-old"
-   ],
-   "evidence": [
     {
-     "statement": "poc-ki-2024: days since last human login",
+     "statement": "poc-ki-2024 days since last human login",
      "value": 625.0,
      "unit": "days",
      "source_files": [
       "server_inventory.csv"
-     ]
+     ],
+     "fact_id": "srv:poc-ki-2024.days_since_login"
     },
     {
-     "statement": "migration-alt: days since last human login",
+     "statement": "migration-alt average weekly CPU",
+     "value": 0.001,
+     "unit": "share",
+     "source_files": [
+      "server_metrics_weekly.csv"
+     ],
+     "fact_id": "srv:migration-alt.cpu_avg"
+    },
+    {
+     "statement": "migration-alt days since last human login",
      "value": 573.0,
      "unit": "days",
      "source_files": [
       "server_inventory.csv"
-     ]
+     ],
+     "fact_id": "srv:migration-alt.days_since_login"
     },
     {
-     "statement": "build-agent-old: days since last human login",
+     "statement": "build-agent-old average weekly CPU",
+     "value": 0.0032,
+     "unit": "share",
+     "source_files": [
+      "server_metrics_weekly.csv"
+     ],
+     "fact_id": "srv:build-agent-old.cpu_avg"
+    },
+    {
+     "statement": "build-agent-old days since last human login",
      "value": 554.0,
      "unit": "days",
      "source_files": [
       "server_inventory.csv"
-     ]
-    },
-    {
-     "statement": "poc-ki-2024: CPU (30 days)",
-     "value": 0.2,
-     "unit": "%",
-     "source_files": [
-      "server_inventory.csv"
-     ]
-    },
-    {
-     "statement": "migration-alt: CPU (30 days)",
-     "value": 0.1,
-     "unit": "%",
-     "source_files": [
-      "server_inventory.csv"
-     ]
-    },
-    {
-     "statement": "build-agent-old: CPU (30 days)",
-     "value": 0.3,
-     "unit": "%",
-     "source_files": [
-      "server_inventory.csv"
-     ]
-    },
-    {
-     "statement": "poc-ki-2024: no owner cost center",
-     "value": 1.0,
-     "unit": "flag",
-     "source_files": [
-      "server_inventory.csv"
-     ]
-    },
-    {
-     "statement": "migration-alt: no owner cost center",
-     "value": 1.0,
-     "unit": "flag",
-     "source_files": [
-      "server_inventory.csv"
-     ]
-    },
-    {
-     "statement": "migration-alt: project P-008 completed on 2025-09-30",
-     "value": 1.0,
-     "unit": "flag",
-     "source_files": [
-      "projects.csv"
-     ]
+     ],
+     "fact_id": "srv:build-agent-old.days_since_login"
     }
    ],
-   "severity": "medium",
+   "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 4622.5,
-     "mid": 4635.78,
-     "high": 4642.22
+     "low": 24983.1,
+     "mid": 25041.41,
+     "high": 25075.62
     },
     "cost_eur": {
-     "low": 4999.55,
-     "mid": 5013.91,
-     "high": 5020.88
+     "low": 27020.79,
+     "mid": 27083.85,
+     "high": 27120.86
     },
     "cost_usd": {
-     "low": 5817.78,
-     "mid": 5834.49,
-     "high": 5842.6
+     "low": 31443.1,
+     "mid": 31516.48,
+     "high": 31559.54
     },
     "kwh": {
-     "low": 152.7,
-     "mid": 230.7,
-     "high": 395.0
+     "low": 1126.2,
+     "mid": 1732.5,
+     "high": 2977.8
     },
     "co2_kg": {
-     "low": 30.5,
-     "mid": 52.1,
-     "high": 139.1
+     "low": 304.4,
+     "mid": 521.8,
+     "high": 1176.1
     }
    },
-   "measure_ids": [],
+   "measure_ids": [
+    "M-02",
+    "M-03",
+    "M-08"
+   ],
    "calc": {
-    "formula": "at stake = sum of the servers' shares of their resource (vCPU × uptime hours)",
+    "formula": "impact = savings of the linked measures",
     "inputs": [],
     "factor_ids": [
+     "energy_per_gpu_hour",
      "energy_per_vcpu_hour",
+     "grid_mix_location_based_germany",
      "grid_mix_location_based_ireland",
      "pue"
     ],
     "source_files": [
-     "aws_costs.csv"
+     "aws_costs.csv",
+     "azure_costs.csv"
     ],
-    "row_count": 365,
+    "row_count": 730,
     "value_status": "estimated",
     "issue_ids": [
+     "Q-0011",
      "Q-0024",
      "Q-0073",
+     "Q-0078",
+     "Q-0104",
      "Q-0106"
-    ]
+    ],
+    "note": "The GPU server runs 100% of hours with about 9% average GPU utilisation, while the test estate averages only 10.89% CPU and still includes near-dead servers with hundreds of days since login."
    },
-   "rule": "zombie_server",
-   "servers": [
-    "poc-ki-2024",
-    "migration-alt",
-    "build-agent-old"
-   ]
+   "generated_by": "LLM advisor (gpt-5.4); evidence values filled by code from fact ids"
   },
   {
-   "id": "F-15",
+   "id": "F-05",
    "kind": "waste",
-   "title": "CRM platform: 58% of paid seats active",
+   "title": "There is large licence waste from inactive seats",
    "entity_ids": [
     "lic:CRM platform@Marketing",
-    "lic:CRM platform@Sales"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 58.204,
-     "unit": "%",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 27.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 16.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 7425.0,
-     "unit": "CHF",
-     "source_files": [
-      "saas_contracts.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 116.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 60.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 7425.0,
-     "mid": 7425.0,
-     "high": 7425.0
-    },
-    "cost_eur": {
-     "low": 8030.97,
-     "mid": 8030.97,
-     "high": 8030.97
-    },
-    "cost_usd": {
-     "low": 9347.46,
-     "mid": 9347.46,
-     "high": 9347.46
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_active_saas_licence_month",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "saas_contracts.csv"
-    ],
-    "row_count": 24,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "annual"
-  },
-  {
-   "id": "F-16",
-   "kind": "waste",
-   "title": "ChatGPT Team: 14% of paid seats active",
-   "entity_ids": [
+    "lic:CRM platform@Sales",
     "lic:ChatGPT Team@HR",
     "lic:ChatGPT Team@Marketing",
-    "lic:ChatGPT Team@Sales"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 14.13,
-     "unit": "%",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 23.0,
-     "unit": "seats",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 2.0,
-     "unit": "seats",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 4707.28,
-     "unit": "CHF",
-     "source_files": [
-      "ai_subscriptions.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 85.0,
-     "unit": "days",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 30.0,
-     "unit": "days",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 4707.28,
-     "mid": 4707.28,
-     "high": 4707.28
-    },
-    "cost_eur": {
-     "low": 5091.8,
-     "mid": 5091.8,
-     "high": 5091.8
-    },
-    "cost_usd": {
-     "low": 5925.0,
-     "mid": 5925.0,
-     "high": 5925.0
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_subscription_message",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "ai_subscriptions.csv"
-    ],
-    "row_count": 36,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "monthly"
-  },
-  {
-   "id": "F-17",
-   "kind": "waste",
-   "title": "Design tool: 38% of paid seats active",
-   "entity_ids": [
-    "lic:Design tool@Marketing"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 37.5,
-     "unit": "%",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 8.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 3.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 953.43,
-     "unit": "CHF",
-     "source_files": [
-      "saas_contracts.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 55.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 30.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    }
-   ],
-   "severity": "low",
-   "impact": {
-    "cost_chf": {
-     "low": 953.43,
-     "mid": 953.43,
-     "high": 953.43
-    },
-    "cost_eur": {
-     "low": 1031.18,
-     "mid": 1031.18,
-     "high": 1031.18
-    },
-    "cost_usd": {
-     "low": 1200.0,
-     "mid": 1200.0,
-     "high": 1200.0
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_active_saas_licence_month",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "saas_contracts.csv"
-    ],
-    "row_count": 12,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "monthly"
-  },
-  {
-   "id": "F-18",
-   "kind": "waste",
-   "title": "E-signature: 30% of paid seats active",
-   "entity_ids": [
+    "lic:ChatGPT Team@Sales",
     "lic:E-signature@Finance",
-    "lic:E-signature@Sales"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 29.721,
-     "unit": "%",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 27.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 8.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 5675.0,
-     "unit": "CHF",
-     "source_files": [
-      "saas_contracts.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 147.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 60.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 5675.0,
-     "mid": 5675.0,
-     "high": 5675.0
-    },
-    "cost_eur": {
-     "low": 6138.59,
-     "mid": 6138.59,
-     "high": 6138.59
-    },
-    "cost_usd": {
-     "low": 7143.95,
-     "mid": 7143.95,
-     "high": 7143.95
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_active_saas_licence_month",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "saas_contracts.csv"
-    ],
-    "row_count": 24,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "annual"
-  },
-  {
-   "id": "F-19",
-   "kind": "waste",
-   "title": "Knowledge base: 48% of paid seats active",
-   "entity_ids": [
-    "lic:Knowledge base@Consulting",
-    "lic:Knowledge base@HR",
-    "lic:Knowledge base@IT"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 47.987,
-     "unit": "%",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 53.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 27.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 2565.987,
-     "unit": "CHF",
-     "source_files": [
-      "saas_contracts.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 236.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 60.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 2565.99,
-     "mid": 2565.99,
-     "high": 2565.99
-    },
-    "cost_eur": {
-     "low": 2775.48,
-     "mid": 2775.48,
-     "high": 2775.48
-    },
-    "cost_usd": {
-     "low": 3230.0,
-     "mid": 3230.0,
-     "high": 3230.0
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_active_saas_licence_month",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "saas_contracts.csv"
-    ],
-    "row_count": 36,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "annual"
-  },
-  {
-   "id": "F-20",
-   "kind": "waste",
-   "title": "Microsoft Copilot: 59% of paid seats active",
-   "entity_ids": [
+    "lic:E-signature@Sales",
+    "lic:Microsoft Copilot@Consulting",
     "lic:Microsoft Copilot@Finance",
     "lic:Microsoft Copilot@HR",
-    "lic:Microsoft Copilot@Management"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 59.25,
-     "unit": "%",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 100.0,
-     "unit": "seats",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 60.0,
-     "unit": "seats",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 9021.116,
-     "unit": "CHF",
-     "source_files": [
-      "ai_subscriptions.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 175.0,
-     "unit": "days",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 30.0,
-     "unit": "days",
-     "source_files": [
-      "ai_subscriptions.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 9021.12,
-     "mid": 9021.12,
-     "high": 9021.12
-    },
-    "cost_eur": {
-     "low": 9751.35,
-     "mid": 9751.35,
-     "high": 9751.35
-    },
-    "cost_usd": {
-     "low": 11349.0,
-     "mid": 11349.0,
-     "high": 11349.0
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_subscription_message",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "ai_subscriptions.csv"
-    ],
-    "row_count": 84,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "monthly"
-  },
-  {
-   "id": "F-21",
-   "kind": "waste",
-   "title": "Note-taking tool: 44% of paid seats active",
-   "entity_ids": [
-    "lic:Note-taking tool@Consulting"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 44.279,
-     "unit": "%",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 34.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 16.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 1423.614,
-     "unit": "CHF",
-     "source_files": [
-      "saas_contracts.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 85.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 30.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    }
-   ],
-   "severity": "low",
-   "impact": {
-    "cost_chf": {
-     "low": 1423.61,
-     "mid": 1423.61,
-     "high": 1423.61
-    },
-    "cost_eur": {
-     "low": 1539.71,
-     "mid": 1539.71,
-     "high": 1539.71
-    },
-    "cost_usd": {
-     "low": 1792.0,
-     "mid": 1792.0,
-     "high": 1792.0
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_active_saas_licence_month",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "saas_contracts.csv"
-    ],
-    "row_count": 12,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "monthly"
-  },
-  {
-   "id": "F-22",
-   "kind": "waste",
-   "title": "Project management: 54% of paid seats active",
-   "entity_ids": [
-    "lic:Project management@Consulting",
-    "lic:Project management@IT"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 53.832,
-     "unit": "%",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 48.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 26.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 3352.551,
-     "unit": "CHF",
-     "source_files": [
-      "saas_contracts.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 85.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 30.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 3352.55,
-     "mid": 3352.55,
-     "high": 3352.55
-    },
-    "cost_eur": {
-     "low": 3626.0,
-     "mid": 3626.0,
-     "high": 3626.0
-    },
-    "cost_usd": {
-     "low": 4219.99,
-     "mid": 4219.99,
-     "high": 4219.99
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_active_saas_licence_month",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "saas_contracts.csv"
-    ],
-    "row_count": 24,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "monthly"
-  },
-  {
-   "id": "F-23",
-   "kind": "waste",
-   "title": "Project scheduling: 59% of paid seats active",
-   "entity_ids": [
-    "lic:Project scheduling@Consulting"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 58.824,
-     "unit": "%",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 48.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 28.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 3203.886,
-     "unit": "CHF",
-     "source_files": [
-      "saas_contracts.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 147.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 60.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 3203.89,
-     "mid": 3203.89,
-     "high": 3203.89
-    },
-    "cost_eur": {
-     "low": 3465.0,
-     "mid": 3465.0,
-     "high": 3465.0
-    },
-    "cost_usd": {
-     "low": 4032.16,
-     "mid": 4032.16,
-     "high": 4032.16
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_active_saas_licence_month",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "saas_contracts.csv"
-    ],
-    "row_count": 24,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "annual"
-  },
-  {
-   "id": "F-24",
-   "kind": "waste",
-   "title": "Survey tool: 12% of paid seats active",
-   "entity_ids": [
-    "lic:Survey tool@Marketing"
-   ],
-   "evidence": [
-    {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 11.667,
-     "unit": "%",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats purchased (last month)",
-     "value": 10.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 1.0,
-     "unit": "seats",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "cost of inactive seats per year",
-     "value": 2940.654,
-     "unit": "CHF",
-     "source_files": [
-      "saas_contracts.csv",
-      "exchange_rates.csv"
-     ]
-    },
-    {
-     "statement": "days until contract end (as of data date)",
-     "value": 116.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    },
-    {
-     "statement": "notice period",
-     "value": 60.0,
-     "unit": "days",
-     "source_files": [
-      "saas_contracts.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 2940.65,
-     "mid": 2940.65,
-     "high": 2940.65
-    },
-    "cost_eur": {
-     "low": 3180.0,
-     "mid": 3180.0,
-     "high": 3180.0
-    },
-    "cost_usd": {
-     "low": 3701.84,
-     "mid": 3701.84,
-     "high": 3701.84
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_active_saas_licence_month",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "saas_contracts.csv"
-    ],
-    "row_count": 12,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "annual"
-  },
-  {
-   "id": "F-25",
-   "kind": "waste",
-   "title": "Video conferencing tool: 53% of paid seats active",
-   "entity_ids": [
+    "lic:Microsoft Copilot@IT",
+    "lic:Microsoft Copilot@Management",
+    "lic:Microsoft Copilot@Marketing",
+    "lic:Microsoft Copilot@Sales",
+    "lic:Survey tool@Marketing",
     "lic:Video conferencing tool@Consulting",
     "lic:Video conferencing tool@Finance",
     "lic:Video conferencing tool@HR",
     "lic:Video conferencing tool@IT",
+    "lic:Video conferencing tool@Management",
     "lic:Video conferencing tool@Marketing",
     "lic:Video conferencing tool@Sales"
    ],
    "evidence": [
     {
-     "statement": "active / purchased seats (baseline-year average)",
-     "value": 53.292,
-     "unit": "%",
+     "statement": "Microsoft Copilot cost of inactive seats",
+     "value": 9038.9,
+     "unit": "CHF/year",
      "source_files": [
-      "saas_contracts.csv"
-     ]
+      "ai_subscriptions.csv / saas_contracts.csv"
+     ],
+     "fact_id": "lic:Microsoft Copilot.cost_inactive_seats"
     },
     {
-     "statement": "seats purchased (last month)",
-     "value": 95.0,
-     "unit": "seats",
+     "statement": "CRM platform cost of inactive seats",
+     "value": 7425.0,
+     "unit": "CHF/year",
      "source_files": [
-      "saas_contracts.csv"
-     ]
+      "ai_subscriptions.csv / saas_contracts.csv"
+     ],
+     "fact_id": "lic:CRM platform.cost_inactive_seats"
     },
     {
-     "statement": "seats active in the last 30 days (last month)",
-     "value": 53.0,
-     "unit": "seats",
+     "statement": "Video conferencing tool cost of inactive seats",
+     "value": 5824.9,
+     "unit": "CHF/year",
      "source_files": [
-      "saas_contracts.csv"
-     ]
+      "ai_subscriptions.csv / saas_contracts.csv"
+     ],
+     "fact_id": "lic:Video conferencing tool.cost_inactive_seats"
     },
     {
-     "statement": "cost of inactive seats per year",
-     "value": 5825.1,
-     "unit": "CHF",
+     "statement": "E-signature cost of inactive seats",
+     "value": 5675.0,
+     "unit": "CHF/year",
      "source_files": [
-      "saas_contracts.csv",
-      "exchange_rates.csv"
-     ]
+      "ai_subscriptions.csv / saas_contracts.csv"
+     ],
+     "fact_id": "lic:E-signature.cost_inactive_seats"
     },
     {
-     "statement": "days until contract end (as of data date)",
-     "value": 175.0,
-     "unit": "days",
+     "statement": "ChatGPT Team cost of inactive seats",
+     "value": 4707.6,
+     "unit": "CHF/year",
      "source_files": [
-      "saas_contracts.csv"
-     ]
+      "ai_subscriptions.csv / saas_contracts.csv"
+     ],
+     "fact_id": "lic:ChatGPT Team.cost_inactive_seats"
     },
     {
-     "statement": "notice period",
-     "value": 30.0,
-     "unit": "days",
+     "statement": "Survey tool cost of inactive seats",
+     "value": 2940.2,
+     "unit": "CHF/year",
      "source_files": [
-      "saas_contracts.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 5825.1,
-     "mid": 5825.1,
-     "high": 5825.1
-    },
-    "cost_eur": {
-     "low": 6300.0,
-     "mid": 6300.0,
-     "high": 6300.0
-    },
-    "cost_usd": {
-     "low": 7331.97,
-     "mid": 7331.97,
-     "high": 7331.97
-    },
-    "kwh": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    },
-    "co2_kg": {
-     "low": 0.0,
-     "mid": 0.0,
-     "high": 0.0
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = Σ monthly cost × (1 − active / purchased seats)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_active_saas_licence_month",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "saas_contracts.csv"
-    ],
-    "row_count": 84,
-    "value_status": "observed",
-    "issue_ids": [],
-    "note": "Inactive seats cost money but use almost no energy (energy counts active use), so CO₂ at stake ≈ 0."
-   },
-   "rule": "unused_licences",
-   "billing": "monthly"
-  },
-  {
-   "id": "F-26",
-   "kind": "waste",
-   "title": "ai-marketing: «Classify» runs on a large model (Claude Sonnet 4.6)",
-   "entity_ids": [
-    "res:ai-marketing"
-   ],
-   "evidence": [
-    {
-     "statement": "cost of «Classify» on the large model per year",
-     "value": 11537.216,
-     "unit": "CHF",
-     "source_files": [
-      "ai_usage.csv"
-     ]
-    },
-    {
-     "statement": "requests per year",
-     "value": 7222333.0,
-     "unit": "requests",
-     "source_files": [
-      "ai_usage.csv"
-     ]
-    },
-    {
-     "statement": "share of this tool's AI cost",
-     "value": 94.775,
-     "unit": "%",
-     "source_files": [
-      "ai_usage.csv"
-     ]
-    },
-    {
-     "statement": "small / large model list price",
-     "value": 30.0,
-     "unit": "%",
-     "source_files": [
-      "reference.yaml"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 8076.05,
-     "mid": 8076.05,
-     "high": 8076.05
-    },
-    "cost_eur": {
-     "low": 8776.95,
-     "mid": 8776.95,
-     "high": 8776.95
-    },
-    "cost_usd": {
-     "low": 10188.16,
-     "mid": 10188.16,
-     "high": 10188.16
-    },
-    "kwh": {
-     "low": 44.5,
-     "mid": 222.6,
-     "high": 890.4
-    },
-    "co2_kg": {
-     "low": 6.7,
-     "mid": 47.4,
-     "high": 267.1
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = cost × (1 − small/large price ratio); energy × (1 − small model factor)",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_1000_tokens",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "ai_usage.csv"
-    ],
-    "row_count": 361,
-    "value_status": "observed",
-    "issue_ids": [
-     "Q-0086",
-     "Q-0099",
-     "Q-0103"
-    ]
-   },
-   "rule": "oversized_model"
-  },
-  {
-   "id": "F-27",
-   "kind": "anomaly",
-   "title": "ai-agent: spike 2026-05-18 … 2026-05-20, CHF 214 above normal (unexplained)",
-   "entity_ids": [
-    "res:ai-agent"
-   ],
-   "evidence": [
-    {
-     "statement": "cost above the rolling median",
-     "value": 214.18,
-     "unit": "CHF",
-     "source_files": [
-      "ai_usage.csv"
-     ]
-    },
-    {
-     "statement": "days",
-     "value": 3.0,
-     "unit": "days",
-     "source_files": [
-      "ai_usage.csv"
-     ]
-    }
-   ],
-   "severity": "low",
-   "impact": {
-    "cost_chf": {
-     "low": 214.18,
-     "mid": 214.18,
-     "high": 214.18
-    },
-    "cost_eur": {
-     "low": 234.1,
-     "mid": 234.1,
-     "high": 234.1
-    },
-    "cost_usd": {
-     "low": 273.26,
-     "mid": 273.26,
-     "high": 273.26
-    },
-    "kwh": {
-     "low": 1.0,
-     "mid": 4.8,
-     "high": 19.3
-    },
-    "co2_kg": {
-     "low": 0.1,
-     "mid": 1.0,
-     "high": 5.8
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "excess = daily cost − rolling 28-day median, summed over the spike",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_1000_tokens",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "ai_usage.csv"
-    ],
-    "row_count": 3,
-    "value_status": "observed",
-    "issue_ids": [
-     "Q-0084",
-     "Q-0102"
-    ],
-    "note": "unexplained: a human should check it; related tickets: nan"
-   },
-   "rule": "anomaly",
-   "one_off": false
-  },
-  {
-   "id": "F-28",
-   "kind": "anomaly",
-   "title": "ai-marketing: spike 2026-03-17 … 2026-03-19, CHF 3,309 above normal (one-off T-1212)",
-   "entity_ids": [
-    "res:ai-marketing"
-   ],
-   "evidence": [
-    {
-     "statement": "cost above the rolling median",
-     "value": 3308.96,
-     "unit": "CHF",
-     "source_files": [
-      "ai_usage.csv"
-     ]
-    },
-    {
-     "statement": "days",
-     "value": 3.0,
-     "unit": "days",
-     "source_files": [
-      "ai_usage.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 3308.96,
-     "mid": 3308.96,
-     "high": 3308.96
-    },
-    "cost_eur": {
-     "low": 3638.62,
-     "mid": 3638.62,
-     "high": 3638.62
-    },
-    "cost_usd": {
-     "low": 4205.59,
-     "mid": 4205.59,
-     "high": 4205.59
-    },
-    "kwh": {
-     "low": 15.5,
-     "mid": 77.7,
-     "high": 310.9
-    },
-    "co2_kg": {
-     "low": 2.3,
-     "mid": 16.6,
-     "high": 93.3
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "excess = daily cost − rolling 28-day median, summed over the spike",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_1000_tokens",
-     "grid_mix_location_based_eu"
-    ],
-    "source_files": [
-     "ai_usage.csv"
-    ],
-    "row_count": 3,
-    "value_status": "observed",
-    "issue_ids": [
-     "Q-0086",
-     "Q-0099",
-     "Q-0103"
-    ],
-    "note": "one-off, already fixed according to the ticket: no recurring saving; a budget alert / loop guard prevents recurrence; related tickets: T-1212"
-   },
-   "rule": "anomaly",
-   "one_off": true
-  },
-  {
-   "id": "F-29",
-   "kind": "anomaly",
-   "title": "net-egress: spike 2026-01-12 … 2026-01-14, CHF 365 above normal (one-off T-1189)",
-   "entity_ids": [
-    "res:net-egress"
-   ],
-   "evidence": [
-    {
-     "statement": "cost above the rolling median",
-     "value": 365.47,
-     "unit": "CHF",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    },
-    {
-     "statement": "days",
-     "value": 3.0,
-     "unit": "days",
-     "source_files": [
-      "aws_costs.csv"
-     ]
-    }
-   ],
-   "severity": "low",
-   "impact": {
-    "cost_chf": {
-     "low": 365.47,
-     "mid": 365.47,
-     "high": 365.47
-    },
-    "cost_eur": {
-     "low": 394.17,
-     "mid": 394.17,
-     "high": 394.17
-    },
-    "cost_usd": {
-     "low": 462.68,
-     "mid": 462.68,
-     "high": 462.68
-    },
-    "kwh": {
-     "low": 5.4,
-     "mid": 11.6,
-     "high": 45.2
-    },
-    "co2_kg": {
-     "low": 0.3,
-     "mid": 1.3,
-     "high": 5.8
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "excess = daily cost − rolling 28-day median, summed over the spike",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_gb_network",
-     "grid_mix_location_based_switzerland",
-     "pue"
-    ],
-    "source_files": [
-     "aws_costs.csv"
-    ],
-    "row_count": 3,
-    "value_status": "observed",
-    "issue_ids": [
-     "Q-0019",
-     "Q-0068",
-     "Q-0100",
-     "Q-0105"
-    ],
-    "note": "one-off, already fixed according to the ticket: no recurring saving; a budget alert / loop guard prevents recurrence; related tickets: T-1189"
-   },
-   "rule": "anomaly",
-   "one_off": true
-  },
-  {
-   "id": "F-30",
-   "kind": "waste",
-   "title": "21% of nightly builds run without any change",
-   "entity_ids": [
-    "res:cicd"
-   ],
-   "evidence": [
-    {
-     "statement": "nightly builds with 0 commits since the last one",
-     "value": 234.0,
-     "unit": "runs",
-     "source_files": [
-      "extra/ci_pipeline_runs.jsonl"
-     ]
-    },
-    {
-     "statement": "share of nightly builds",
-     "value": 21.176,
-     "unit": "%",
-     "source_files": [
-      "extra/ci_pipeline_runs.jsonl"
-     ]
-    },
-    {
-     "statement": "share of all build minutes",
-     "value": 3.223,
-     "unit": "%",
-     "source_files": [
-      "extra/ci_pipeline_runs.jsonl"
-     ]
-    },
-    {
-     "statement": "re-runs (repeats) in the baseline year",
-     "value": 1064.0,
-     "unit": "runs",
-     "source_files": [
-      "extra/ci_pipeline_runs.jsonl"
-     ]
-    },
-    {
-     "statement": "runner location: Dublin (IE grid 0.226 vs CH 0.110 kg/kWh)",
-     "value": 1.0,
-     "unit": "flag",
-     "source_files": [
-      "extra/ci_pipeline_runs.jsonl"
-     ]
-    }
-   ],
-   "severity": "low",
-   "impact": {
-    "cost_chf": {
-     "low": 176.78,
-     "mid": 179.42,
-     "high": 180.5
-    },
-    "cost_eur": {
-     "low": 191.16,
-     "mid": 194.02,
-     "high": 195.18
-    },
-    "cost_usd": {
-     "low": 222.41,
-     "mid": 225.74,
-     "high": 227.09
-    },
-    "kwh": {
-     "low": 2.4,
-     "mid": 3.6,
-     "high": 6.4
-    },
-    "co2_kg": {
-     "low": 0.5,
-     "mid": 0.8,
-     "high": 2.3
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = cicd total × share of build minutes spent on unchanged nightly builds",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_vcpu_hour",
-     "grid_mix_location_based_ireland",
-     "pue"
-    ],
-    "source_files": [
-     "aws_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0018",
-     "Q-0067"
-    ]
-   },
-   "rule": "ci_nightly_unchanged"
-  },
-  {
-   "id": "F-31",
-   "kind": "waste",
-   "title": "10.5 TB of tables not read for over a year",
-   "entity_ids": [
-    "res:dp-storage"
-   ],
-   "evidence": [
-    {
-     "statement": "tables not read for > 1 year (or never) and not under retention",
-     "value": 211.0,
-     "unit": "tables",
-     "source_files": [
-      "extra/data_catalog_tables.csv"
-     ]
-    },
-    {
-     "statement": "their size",
-     "value": 10474.41,
-     "unit": "GB",
-     "source_files": [
-      "extra/data_catalog_tables.csv"
-     ]
-    },
-    {
-     "statement": "share of the platform storage",
-     "value": 37.897,
-     "unit": "%",
-     "source_files": [
-      "extra/data_catalog_tables.csv"
-     ]
-    },
-    {
-     "statement": "stale but under retention obligation (excluded)",
-     "value": 1138.66,
-     "unit": "GB",
-     "source_files": [
-      "extra/data_catalog_tables.csv"
-     ]
-    },
-    {
-     "statement": "of the candidates: retention flag empty (owner must confirm)",
-     "value": 3898.04,
-     "unit": "GB",
-     "source_files": [
-      "extra/data_catalog_tables.csv"
-     ]
-    },
-    {
-     "statement": "of the candidates: personal data",
-     "value": 1480.58,
-     "unit": "GB",
-     "source_files": [
-      "extra/data_catalog_tables.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 2393.26,
-     "mid": 2395.78,
-     "high": 2398.25
-    },
-    "cost_eur": {
-     "low": 2588.86,
-     "mid": 2591.58,
-     "high": 2594.25
-    },
-    "cost_usd": {
-     "low": 3011.64,
-     "mid": 3014.81,
-     "high": 3017.92
-    },
-    "kwh": {
-     "low": 58.7,
-     "mid": 189.1,
-     "high": 455.5
-    },
-    "co2_kg": {
-     "low": 3.3,
-     "mid": 20.8,
-     "high": 58.3
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = dp-storage total × stale (non-retained) share of catalogue GB",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_gb_storage_day",
-     "grid_mix_location_based_switzerland",
-     "pue"
-    ],
-    "source_files": [
-     "azure_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0010",
-     "Q-0077"
-    ]
-   },
-   "rule": "stale_tables"
-  },
-  {
-   "id": "F-32",
-   "kind": "waste",
-   "title": "21 of 36 sources are backed up by all three backup tools",
-   "entity_ids": [
-    "res:st-backup"
-   ],
-   "evidence": [
-    {
-     "statement": "sources backed up by three tools",
-     "value": 21.0,
-     "unit": "sources",
-     "source_files": [
-      "extra/backup_chains.csv"
-     ]
-    },
-    {
-     "statement": "third copies (smallest of three)",
-     "value": 11405.8,
-     "unit": "GB",
-     "source_files": [
-      "extra/backup_chains.csv"
-     ]
-    },
-    {
-     "statement": "share of the backup archive",
-     "value": 14.818,
-     "unit": "%",
-     "source_files": [
-      "extra/backup_chains.csv"
-     ]
-    },
-    {
-     "statement": "copies without any restore test",
-     "value": 29.0,
-     "unit": "copies",
-     "source_files": [
-      "extra/backup_chains.csv"
-     ]
-    },
-    {
-     "statement": "copies with 10-year retention",
-     "value": 23.0,
-     "unit": "copies",
-     "source_files": [
-      "extra/backup_chains.csv"
-     ]
-    }
-   ],
-   "severity": "medium",
-   "impact": {
-    "cost_chf": {
-     "low": 1387.85,
-     "mid": 1392.43,
-     "high": 1394.43
-    },
-    "cost_eur": {
-     "low": 1501.35,
-     "mid": 1506.3,
-     "high": 1508.46
-    },
-    "cost_usd": {
-     "low": 1746.25,
-     "mid": 1752.01,
-     "high": 1754.53
-    },
-    "kwh": {
-     "low": 59.8,
-     "mid": 192.5,
-     "high": 463.9
-    },
-    "co2_kg": {
-     "low": 12.0,
-     "mid": 43.5,
-     "high": 163.3
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = st-backup total × share of GB in third copies",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_gb_storage_day",
-     "grid_mix_location_based_ireland",
-     "pue"
-    ],
-    "source_files": [
-     "aws_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0022",
-     "Q-0071"
-    ],
-    "note": "Retention obligations apply to the archive (Step 7 decides what may be touched)."
-   },
-   "rule": "triple_backup"
-  },
-  {
-   "id": "F-33",
-   "kind": "waste",
-   "title": "19 reports are refreshed daily but opened fewer than 20 times a year",
-   "entity_ids": [
-    "res:pbi-kap"
-   ],
-   "evidence": [
-    {
-     "statement": "reports with refreshes and < 20 views in the baseline year",
-     "value": 19.0,
-     "unit": "reports",
-     "source_files": [
-      "extra/powerbi_usage.csv"
-     ]
-    },
-    {
-     "statement": "their share of refresh time on the capacity",
-     "value": 64.833,
-     "unit": "%",
-     "source_files": [
-      "extra/powerbi_usage.csv"
-     ]
-    },
-    {
-     "statement": "of them regulatory reports (keep)",
-     "value": 0.0,
-     "unit": "reports",
-     "source_files": [
-      "extra/powerbi_usage.csv"
-     ]
+      "ai_subscriptions.csv / saas_contracts.csv"
+     ],
+     "fact_id": "lic:Survey tool.cost_inactive_seats"
     }
    ],
    "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 15608.87,
-     "mid": 15614.13,
-     "high": 15618.7
+     "low": 58231.8,
+     "mid": 58231.8,
+     "high": 58231.8
     },
     "cost_eur": {
-     "low": 16881.83,
-     "mid": 16887.51,
-     "high": 16892.46
+     "low": 62976.27,
+     "mid": 62976.27,
+     "high": 62976.27
     },
     "cost_usd": {
-     "low": 19644.88,
-     "mid": 19651.49,
-     "high": 19657.26
+     "low": 73286.45,
+     "mid": 73286.45,
+     "high": 73286.45
     },
     "kwh": {
-     "low": 121.8,
-     "mid": 183.4,
-     "high": 319.2
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
     },
     "co2_kg": {
-     "low": 6.9,
-     "mid": 20.2,
-     "high": 40.9
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
     }
    },
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "calc": {
-    "formula": "at stake = capacity total × share of refresh minutes of unviewed reports",
+    "formula": "impact = savings of the linked measures",
     "inputs": [],
-    "factor_ids": [
-     "energy_per_vcpu_hour",
-     "grid_mix_location_based_switzerland",
-     "pue"
-    ],
-    "source_files": [
-     "azure_costs.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0012",
-     "Q-0079"
-    ],
-    "note": "The capacity is a fixed price: money is saved only if the capacity can be downsized."
+    "factor_ids": [],
+    "source_files": [],
+    "row_count": 0,
+    "value_status": "observed",
+    "issue_ids": [],
+    "note": "Several products carry large inactive-seat spend. The biggest single pools are Microsoft Copilot, CRM, video conferencing, E-signature and ChatGPT Team."
    },
-   "rule": "unviewed_reports",
-   "reports": [
-    "pbi-06",
-    "pbi-08",
-    "pbi-09",
-    "pbi-10",
-    "pbi-11",
-    "pbi-12",
-    "pbi-13",
-    "pbi-15",
-    "pbi-23",
-    "pbi-24",
-    "pbi-25",
-    "pbi-28",
-    "pbi-29",
-    "pbi-30",
-    "pbi-31",
-    "pbi-37",
-    "pbi-42",
-    "pbi-44",
-    "pbi-53"
-   ]
+   "generated_by": "LLM advisor (gpt-5.4); evidence values filled by code from fact ids"
   },
   {
-   "id": "F-34",
+   "id": "F-06",
    "kind": "waste",
-   "title": "91% of the reports generated by the report agent are never opened",
+   "title": "Low-risk AI tasks still use expensive large models by default",
    "entity_ids": [
-    "res:ai-report"
+    "res:ai-assistant",
+    "res:ai-marketing"
    ],
    "evidence": [
     {
-     "statement": "report-agent runs in the baseline year",
-     "value": 371.0,
-     "unit": "runs",
+     "statement": "ai-assistant «Summarise» on large models",
+     "value": 4872.1,
+     "unit": "CHF/year",
      "source_files": [
-      "extra/ai_agent_runs.jsonl"
-     ]
+      "ai_usage.csv"
+     ],
+     "fact_id": "ai:ai-assistant:Summarise:large.cost"
     },
     {
-     "statement": "share never opened",
-     "value": 90.566,
-     "unit": "%",
+     "statement": "ai-assistant «Summarise» on small models",
+     "value": 128.5,
+     "unit": "CHF/year",
      "source_files": [
-      "extra/ai_agent_runs.jsonl"
-     ]
+      "ai_usage.csv"
+     ],
+     "fact_id": "ai:ai-assistant:Summarise:small.cost"
+    },
+    {
+     "statement": "ai-assistant «Translate» on large models",
+     "value": 3421.7,
+     "unit": "CHF/year",
+     "source_files": [
+      "ai_usage.csv"
+     ],
+     "fact_id": "ai:ai-assistant:Translate:large.cost"
+    },
+    {
+     "statement": "ai-assistant «Translate» on small models",
+     "value": 89.0,
+     "unit": "CHF/year",
+     "source_files": [
+      "ai_usage.csv"
+     ],
+     "fact_id": "ai:ai-assistant:Translate:small.cost"
+    },
+    {
+     "statement": "ai-assistant «Draft texts» on large models",
+     "value": 6029.3,
+     "unit": "CHF/year",
+     "source_files": [
+      "ai_usage.csv"
+     ],
+     "fact_id": "ai:ai-assistant:Draft texts:large.cost"
+    },
+    {
+     "statement": "ai-assistant «Draft texts» on small models",
+     "value": 37.8,
+     "unit": "CHF/year",
+     "source_files": [
+      "ai_usage.csv"
+     ],
+     "fact_id": "ai:ai-assistant:Draft texts:small.cost"
+    },
+    {
+     "statement": "ai-assistant «Manual question» on large models",
+     "value": 1431.0,
+     "unit": "CHF/year",
+     "source_files": [
+      "ai_usage.csv"
+     ],
+     "fact_id": "ai:ai-assistant:Manual question:large.cost"
+    },
+    {
+     "statement": "ai-assistant «Manual question» on small models",
+     "value": 37.2,
+     "unit": "CHF/year",
+     "source_files": [
+      "ai_usage.csv"
+     ],
+     "fact_id": "ai:ai-assistant:Manual question:small.cost"
+    },
+    {
+     "statement": "ai-marketing «Classify» on large models",
+     "value": 11537.2,
+     "unit": "CHF/year",
+     "source_files": [
+      "ai_usage.csv"
+     ],
+     "fact_id": "ai:ai-marketing:Classify:large.cost"
+    },
+    {
+     "statement": "list price small / large model",
+     "value": 0.3,
+     "unit": "share",
+     "source_files": [
+      "reference.yaml"
+     ],
+     "fact_id": "ai.small_to_large_price_ratio"
     }
    ],
-   "severity": "low",
+   "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 101.84,
-     "mid": 101.84,
-     "high": 101.84
+     "low": 12535.32,
+     "mid": 12535.32,
+     "high": 12535.32
     },
     "cost_eur": {
-     "low": 110.15,
-     "mid": 110.15,
-     "high": 110.15
+     "low": 13562.04,
+     "mid": 13562.04,
+     "high": 13562.04
     },
     "cost_usd": {
-     "low": 128.12,
-     "mid": 128.12,
-     "high": 128.12
+     "low": 15770.09,
+     "mid": 15770.09,
+     "high": 15770.09
     },
     "kwh": {
-     "low": 0.5,
-     "mid": 2.4,
-     "high": 9.8
+     "low": 89.7,
+     "mid": 448.4,
+     "high": 1793.5
     },
     "co2_kg": {
-     "low": 0.1,
-     "mid": 0.5,
-     "high": 2.9
+     "low": 13.5,
+     "mid": 95.5,
+     "high": 538.0
     }
    },
-   "measure_ids": [],
+   "measure_ids": [
+    "M-05",
+    "M-06"
+   ],
    "calc": {
-    "formula": "at stake = ai-report total × share of unopened reports",
+    "formula": "impact = savings of the linked measures",
     "inputs": [],
     "factor_ids": [
      "energy_per_1000_tokens",
@@ -3356,80 +762,16 @@
      "ai_usage.csv",
      "extra/ai_invoice_monthly.csv"
     ],
-    "row_count": 373,
+    "row_count": 27119,
     "value_status": "derived_cross_source",
     "issue_ids": [
-     "Q-0088"
-    ]
-   },
-   "rule": "unopened_agent_reports"
-  },
-  {
-   "id": "F-35",
-   "kind": "waste",
-   "title": "36% of web traffic comes from bots",
-   "entity_ids": [
-    "res:web-cdn"
-   ],
-   "evidence": [
-    {
-     "statement": "bot share of delivered GB (weighted)",
-     "value": 36.479,
-     "unit": "%",
-     "source_files": [
-      "extra/web_traffic.csv"
-     ]
-    }
-   ],
-   "severity": "low",
-   "impact": {
-    "cost_chf": {
-     "low": 405.54,
-     "mid": 409.58,
-     "high": 410.53
-    },
-    "cost_eur": {
-     "low": 438.67,
-     "mid": 443.04,
-     "high": 444.08
-    },
-    "cost_usd": {
-     "low": 510.29,
-     "mid": 515.38,
-     "high": 516.58
-    },
-    "kwh": {
-     "low": 7.1,
-     "mid": 16.4,
-     "high": 58.9
-    },
-    "co2_kg": {
-     "low": 0.4,
-     "mid": 1.8,
-     "high": 7.5
-    }
-   },
-   "measure_ids": [],
-   "calc": {
-    "formula": "at stake = web-cdn total × bot share of delivered GB",
-    "inputs": [],
-    "factor_ids": [
-     "energy_per_gb_network",
-     "grid_mix_location_based_switzerland",
-     "pue_hoster"
+     "Q-0086",
+     "Q-0099",
+     "Q-0103"
     ],
-    "source_files": [
-     "hoster_invoice.csv"
-    ],
-    "row_count": 365,
-    "value_status": "estimated",
-    "issue_ids": [
-     "Q-0033",
-     "Q-0083"
-    ],
-    "note": "Not all bots are unwanted (search engines); a human decides what to block."
+    "note": "The office assistant already has small-model paths for several tasks, but most spending remains on large models. Marketing classification is also entirely on a large model although the task is structurally simpler than free-form generation."
    },
-   "rule": "bot_traffic"
+   "generated_by": "LLM advisor (gpt-5.4); evidence values filled by code from fact ids"
   }
  ],
  "additivity_note": "impact = yearly amount at stake in the baseline year, not a saving; impacts of different findings can overlap (e.g. a forgotten server is also a low-CPU server) and must not be summed. Savings are in measures.json."

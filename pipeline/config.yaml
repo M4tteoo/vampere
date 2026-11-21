@@ -58,23 +58,15 @@ anomaly:
   level_shift_ratio: 2.0
   related_ticket_window_days: 14 # tickets on the same resource near the start are attached as context
 
-# Step 5 · Find: thresholds of the waste rules (pipeline/find/rules.py)
-find:
+# Steps 5–8 · LLM advisor (pipeline/advisor/). The LLM reasons and designs the
+# measures; code provides the facts, computes every number and checks safety.
+advisor:
+  model: gpt-5.4                 # OpenAI Responses API; key in .env (OPENAI_API_KEY), never committed
+  reasoning_effort: medium
+  max_rounds: 3                  # revisions when the package misses target or budget
   data_as_of: 2026-09-06
-  drivers_top_n: 5
-  idle_cluster_min_idle_ratio: 0.50       # running but not working ≥ 50 % of hours
-  low_gpu_max_utilisation: 0.10           # GPU < 10 % ...
-  always_on_min_uptime_share: 0.95        # ... while running ≥ 95 % of hours
-  low_cpu_max_utilisation: 0.10           # servers < 10 % CPU while always on ...
-  low_cpu_min_idle_week_share: 0.75       # ... in at least 3 of 4 weeks (a few busy weeks don't hide a mostly idle server)
-  zombie_min_days_since_login: 180        # no human login for 6 months ...
-  zombie_max_cpu: 0.01                    # ... and practically no load
-  licence_max_active_share: 0.60          # active / purchased seats below 60 %
-  simple_tasks: [Classify]                # tasks a small model handles; large model = oversized
-  small_large_cost_ratio: 0.30            # list price small / large (reference.yaml prices)
-  stale_table_min_days_since_read: 365
-  pbi_max_views_per_year: 20              # reports refreshed but (almost) never opened
-  severity:                               # by impact share of the baseline (cost or CO2, whichever is higher)
+  usage_log: output/assistant/usage.jsonl   # tokens per call → «energy of our own AI» (shared with the assistant)
+  severity:                      # finding severity by impact share of the baseline (cost or CO2, whichever is higher)
     high: 0.02
     medium: 0.005
 

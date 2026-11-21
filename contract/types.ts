@@ -239,7 +239,7 @@ export interface Package {
   savings: Metrics;
   reduction: { cost: Range; co2: Range };     // share of the baseline, 0..1
   meets: { co2: boolean; cost: boolean; budget: boolean };            // at mid
-  meets_at_low: { co2: boolean; cost: boolean };                      // robustness
+  meets_at_low: { co2: boolean; cost: boolean };                      // robustness: met even with the least favourable factor set
 }
 
 export interface MeasuresFile {

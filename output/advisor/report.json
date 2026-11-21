@@ -1,0 +1,533 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T05:33:05+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "rounds": [
+  {
+   "round": 1,
+   "co2_reduction": 0.3994,
+   "cost_reduction": 0.2702,
+   "effort_days": 15.0,
+   "problems": [],
+   "meets": {
+    "co2": "False",
+    "cost": "True",
+    "budget": true
+   }
+  },
+  {
+   "round": 2,
+   "co2_reduction": 0.4013,
+   "cost_reduction": 0.2707,
+   "effort_days": 15.0,
+   "problems": [],
+   "meets": {
+    "co2": "True",
+    "cost": "True",
+    "budget": true
+   }
+  }
+ ],
+ "constraints": [
+  {
+   "id": "C-01",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1029"
+   },
+   "ticket_id": "T-1029",
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "Production platform is needed on the last three working days of each month until about 04:00.",
+   "schedule": {
+    "kind": "monthly_last_workdays",
+    "days": 3,
+    "from_time": "00:00",
+    "until_time": "04:00",
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-02",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1039"
+   },
+   "ticket_id": "T-1039",
+   "applies_to": [
+    "st-backup"
+   ],
+   "type": "block",
+   "summary": "Backups must be retained for 10 years for legal reasons and must not be deleted.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ambiguous"
+  },
+  {
+   "id": "C-03",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1053"
+   },
+   "ticket_id": "T-1053",
+   "applies_to": [
+    "dp-dev"
+   ],
+   "type": "window",
+   "summary": "Development cluster is required continuously on days 1 to 3 of January, April, July and October.",
+   "schedule": {
+    "kind": "quarter_days",
+    "days": 3,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-04",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1058"
+   },
+   "ticket_id": "T-1058",
+   "applies_to": [
+    "vm-test"
+   ],
+   "type": "planned_change",
+   "summary": "Test environment was temporarily expanded to 64 vCPU for a portal project; scale-back is planned after go-live.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-05",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1074"
+   },
+   "ticket_id": "T-1074",
+   "applies_to": [
+    "dp-dev"
+   ],
+   "type": "info",
+   "summary": "Development cluster runs in Frankfurt for cost reasons; moving it to Switzerland is technically possible.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-06",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1094"
+   },
+   "ticket_id": "T-1094",
+   "applies_to": [
+    "srv:dr-failover"
+   ],
+   "type": "block",
+   "summary": "Disaster recovery failover server must remain running as the emergency fallback environment.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": "Head of Management",
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-07",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1101"
+   },
+   "ticket_id": "T-1101",
+   "applies_to": [
+    "gpu-ml"
+   ],
+   "type": "window",
+   "summary": "GPU environment is used for quarterly training on days 1 to 3 of January, April, July and October.",
+   "schedule": {
+    "kind": "quarter_days",
+    "days": 3,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-08",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1128"
+   },
+   "ticket_id": "T-1128",
+   "applies_to": [
+    "ai-assistant"
+   ],
+   "type": "info",
+   "summary": "AI assistant licences are allocated per department rather than per individual user.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-09",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1167"
+   },
+   "ticket_id": "T-1167",
+   "applies_to": [
+    "pbi-07"
+   ],
+   "type": "block",
+   "summary": "Legacy receivables report must stay available for internal audit, despite low usage outside closing periods.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-10",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1172"
+   },
+   "ticket_id": "T-1172",
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "planned_change",
+   "summary": "Production platform is planned to grow from 16 to 20 nodes from 1 January 2026.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-01-01",
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-11",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1189"
+   },
+   "ticket_id": "T-1189",
+   "applies_to": [
+    "net-egress"
+   ],
+   "type": "one_off",
+   "summary": "Data egress was caused by a one-off migration and does not represent ongoing usage.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-01-12",
+    "end_date": "2026-01-12"
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-12",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1195"
+   },
+   "ticket_id": "T-1195",
+   "applies_to": [
+    "st-backup"
+   ],
+   "type": "block",
+   "summary": "A request to delete backup archive data was rejected because retention obligations prevent deletion.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-13",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1204"
+   },
+   "ticket_id": "T-1204",
+   "applies_to": [
+    "vm-test"
+   ],
+   "type": "window",
+   "summary": "Test environment must be continuously available during March 2026 for acceptance testing and release freeze.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-03-01",
+    "end_date": "2026-03-31"
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-14",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1212"
+   },
+   "ticket_id": "T-1212",
+   "applies_to": [
+    "ai-marketing"
+   ],
+   "type": "one_off",
+   "summary": "Excess AI marketing requests came from a temporary script bug and were not intended normal demand.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-15",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1261"
+   },
+   "ticket_id": "T-1261",
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "planned_change",
+   "summary": "Production platform is planned to grow from 20 to 24 nodes from 1 October 2026.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-10-01",
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-16",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Month-end close» starts 18:00 (median 10.1 h); runs on 65 days a year",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": "18:00",
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-17",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Nightly ETL» starts 02:00 (median 1.5 h), must be done by 06:00",
+   "schedule": {
+    "kind": "daily",
+    "days": null,
+    "from_time": "02:00",
+    "until_time": "06:00",
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-18",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «PBI refresh large» starts 05:30 (median 1.2 h), must be done by 07:30",
+   "schedule": {
+    "kind": "daily",
+    "days": null,
+    "from_time": "05:30",
+    "until_time": "07:30",
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-19",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Reporting export» starts 06:00 (median 0.5 h), must be done by 08:00; runs on 456 days a year",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": "06:00",
+    "until_time": "08:00",
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-20",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Year-end close analysis» starts 20:00 (median 5.9 h); runs on 43 days a year",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": "20:00",
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-21",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "st-backup"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)",
+   "schedule": {
+    "kind": "daily",
+    "days": null,
+    "from_time": "22:00",
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  }
+ ],
+ "reader_ignored": [],
+ "reader_withheld": [
+  {
+   "ticket_id": "T-1230",
+   "reason": "free-text risk classifier: instruction aimed at AI systems (withheld, never sent)"
+  },
+  {
+   "ticket_id": "T-1251",
+   "reason": "free-text risk classifier: instruction aimed at AI systems (withheld, never sent)"
+  }
+ ]
+}

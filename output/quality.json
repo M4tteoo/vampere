@@ -1,11 +1,7 @@
 {
   "meta": {
     "schema_version": "0.1",
-<<<<<<< Updated upstream
-    "generated_at": "2026-11-21T04:39:15+01:00",
-=======
-    "generated_at": "2026-11-21T04:51:27+01:00",
->>>>>>> Stashed changes
+    "generated_at": "2026-11-21T05:33:03+01:00",
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -1822,6 +1818,19 @@
     },
     {
       "issue_id": "Q-0109",
+      "category": null,
+      "source_file": "advisor",
+      "issue_type": "advisor_applied",
+      "rows_affected": 8,
+      "action": "6 findings, 8 measures, 17 limits; package CO2 −40.1%, cost −27.1%, effort 15.0 d",
+      "detail": "tickets withheld from the reader: 2; ignored by the reader: 0",
+      "amount_chf": null,
+      "resource_id": null,
+      "severity": "info",
+      "evidence": ""
+    },
+    {
+      "issue_id": "Q-0110",
       "category": null,
       "source_file": "submission",
       "issue_type": "template_written",

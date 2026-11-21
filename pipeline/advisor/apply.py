@@ -1,0 +1,262 @@
+"""Turn the saved LLM answers into the contract files (all numbers by code)."""
+from __future__ import annotations
+
+import csv
+import json
+
+import numpy as np
+import pandas as pd
+
+from ..export.frontend import SUMS, Calc, metrics
+from ..harmonize.context import Context
+from ..harmonize.store import _meta
+from .calculator import PERSON_DAY_CHF, Calculator
+from .planner import _evaluate
+
+TZ = "Europe/Zurich"
+
+
+# ------------------------------------------------------------- helpers
+def _entity_ids(ctx: Context, scope: str) -> list[str]:
+    kind, _, rest = scope.partition(":")
+    if kind in ("res", "srv"):
+        return [scope]
+    if kind == "ai":
+        return [f"res:{rest.split(':')[0]}"]
+    if kind == "lic":
+        fc = ctx.tables["fact_cost"]
+        deps = fc[(fc["tool"] == rest) & fc["source_file"].isin(["ai_subscriptions.csv", "saas_contracts.csv"])]["department"].dropna().unique()
+        return [f"lic:{rest}@{d}" for d in sorted(deps)]
+    return []
+
+
+def _occurrences(schedule: dict, start: pd.Timestamp, months: int = 12) -> list[dict]:
+    end = start + pd.DateOffset(months=months)
+    k = schedule.get("kind")
+    out = []
+    iso = lambda t: t.tz_localize(TZ).isoformat()
+
+    def hm(v, default):
+        v = v or default
+        h, m = v.split(":")
+        return pd.Timedelta(hours=int(h), minutes=int(m))
+    if k == "monthly_last_workdays":
+        n = schedule.get("days") or 3
+        for m0 in pd.date_range(start.replace(day=1), end, freq="MS"):
+            wd = pd.bdate_range(m0, m0 + pd.offsets.MonthEnd(0))
+            if len(wd) < n:
+                continue
+            a = wd[-n]
+            b = wd[-1] + pd.Timedelta(days=1) + hm(schedule.get("until_time"), "00:00")
+            if a >= start:
+                out.append({"start": iso(a), "end": iso(b)})
+    elif k == "quarter_days":
+        n = schedule.get("days") or 3
+        for y in (start.year, start.year + 1):
+            for mo in (1, 4, 7, 10):
+                a = pd.Timestamp(year=y, month=mo, day=1)
+                if start <= a <= end:
+                    out.append({"start": iso(a), "end": iso(a + pd.Timedelta(days=n))})
+    elif k == "date_range" and schedule.get("start_date"):
+        a = pd.Timestamp(schedule["start_date"])
+        b = pd.Timestamp(schedule.get("end_date") or schedule["start_date"]) + pd.Timedelta(days=1)
+        out.append({"start": iso(a), "end": iso(b)})
+    elif k == "daily" and schedule.get("from_time"):
+        for d in pd.date_range(start, periods=7, freq="D"):
+            a = d + hm(schedule["from_time"], "00:00")
+            b = d + hm(schedule.get("until_time"), "23:59")
+            if b <= a:
+                b += pd.Timedelta(days=1)
+            out.append({"start": iso(a), "end": iso(b)})
+    return out
+
+
+def _period_text(s: dict) -> str:
+    k = s.get("kind")
+    t = (f" from {s['from_time']}" if s.get("from_time") else "") + (f" until {s['until_time']}" if s.get("until_time") else "")
+    return {"always": "always", "monthly_last_workdays": f"last {s.get('days') or 3} working days of every month{t}",
+            "quarter_days": f"days 1–{s.get('days') or 3} of January, April, July and October",
+            "date_range": f"{s.get('start_date')} – {s.get('end_date') or s.get('start_date')}",
+            "daily": f"every day{t} (next 7 days shown)", "none": "see summary"}.get(k, "see summary")
+
+
+# --------------------------------------------------------------- build
+def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, raw_p: dict) -> dict:
+    plan = raw_p["plan"]
+    calc = Calculator(ctx, facts, constraints)
+    measures, pkg, problems = _evaluate(calc, plan)
+    cfacts = facts["facts"]
+    tot = calc.tot
+    calcf = Calc(ctx, ctx.tables["fact_cost"])
+    sev = ctx.config["advisor"]["severity"]
+    asof = pd.Timestamp(str(ctx.config["advisor"]["data_as_of"])) + pd.Timedelta(days=1)
+
+    # limits from constraints (block / window / human) + material contradictions
+    limit_of: dict[str, str] = {}
+    limits = []
+    tickets = ctx.tables["stg_it_tickets"].set_index("ticket_id")
+    risk = ctx.tables["free_text"].groupby("record_key")["text_risk"].agg(lambda s: s.dropna().iat[0] if s.notna().any() else None)
+    for c in constraints:
+        if c["type"] not in ("block", "window", "human_decision"):
+            continue
+        lid = f"L-{len(limits) + 1:02d}"
+        limit_of[c["id"]] = lid
+        ref = c["source"]["ref"]
+        quote, qrisk = None, "unchecked"
+        if c["source"]["kind"] == "ticket" and ref in tickets.index:
+            t = tickets.loc[ref]
+            quote = f"{t['title']}: {t['description']}"
+            qrisk = risk.get(ref) or "unchecked"
+        limits.append({"id": lid, "type": {"human_decision": "human"}.get(c["type"], c["type"]), "title": c["summary"],
+                       "entity_ids": sorted({e for s in c["applies_to"] for e in _entity_ids(ctx, s if ":" in s else f"res:{s}")}),
+                       "period_text": _period_text(c["schedule"]), "occurrences": _occurrences(c["schedule"], asof),
+                       "decided_by": c.get("decided_by"), "source": c["source"],
+                       "quote": None if qrisk == "flagged" else quote, "quote_risk": qrisk, "constraint_id": c["id"]})
+    iss = pd.DataFrame(ctx.issues)
+    for it in iss[(iss["issue_type"] == "contradiction") & iss["severity"].isin(["warn", "handover"])].itertuples():
+        limits.append({"id": f"L-{len(limits) + 1:02d}", "type": "contradiction", "title": it.action,
+                       "entity_ids": [f"res:{it.resource_id}"] if isinstance(it.resource_id, str) else [],
+                       "period_text": "baseline year", "occurrences": [], "decided_by": None,
+                       "source": {"kind": "file", "ref": it.issue_id}, "quote": it.detail, "quote_risk": "ok"})
+
+    # measures
+    mkey = {m["key"]: f"M-{i + 1:02d}" for i, m in enumerate(measures)}
+    fkey = {f["key"]: f"F-{i + 1:02d}" for i, f in enumerate(plan["findings"])}
+    in_pkg = set(pkg["measure_keys"])
+    out_m = []
+    for m in measures:
+        ents = sorted({e for ef in m["effects"] for e in _entity_ids(ctx, ef["scope"])})
+        rows = ctx.tables["fact_cost"][ctx.tables["fact_cost"]["resource_id"].isin({calc.resource_of(ef["scope"]) for ef in m["effects"]})]
+        formula = " + ".join(f"{l['scope']}: cost × {l['cost_share']:.2f}, energy × {l['energy_share']:.2f}"
+                             + (f", rest moved to {l['relocate_to']}" if l["relocate_to"] else "") for l in m["_lines"])
+        c = calcf(rows[rows["in_baseline"]], "savings = recurring baseline of each scope × shares chosen by the advisor; "
+                  "CO2 of relocated load × (1 − grid target / grid origin). " + formula,
+                  note=f"Assumptions: {m['assumptions']} Risks: {m['risks']}")
+        c["inputs"] = [{"name": f"{l['scope']} baseline cost", "value": l["base_cost_chf"], "unit": "CHF", "source": "fact_cost"}
+                       for l in m["_lines"]] + [{"name": f"{l['scope']} cost share removed", "value": l["cost_share"], "unit": "share",
+                                                  "source": ", ".join(l["basis_fact_ids"]) or "advisor"} for l in m["_lines"]]
+        reason = m["status_reason"] if m["status"] != "ok" else ""
+        if m["gate_reasons"]:
+            reason = (reason + " · " if reason else "") + "Safety gate: " + "; ".join(m["gate_reasons"])
+        out_m.append({
+            "id": mkey[m["key"]], "title": m["title"], "description": m["description"], "type": m["type"],
+            "entity_ids": ents, "finding_ids": [fkey[k] for k in m["finding_keys"] if k in fkey],
+            "limit_ids": [limit_of[c_] for c_ in m["limit_ids"] if c_ in limit_of],
+            "effort_days": m["effort_days"], "effort_chf": m["effort_days"] * PERSON_DAY_CHF,
+            "savings": metrics(m["_savings"]), "status": m["status"], "owner_role": m["owner_role"],
+            "reason": reason, "start_date": m["start_date"], "in_package": m["key"] in in_pkg and m["status"] != "blocked",
+            "calc": c, "effects": m["_lines"], "proposed_status": m["proposed_status"],
+            "effort_reasoning": m["effort_reasoning"], "risks": m["risks"], "assumptions": m["assumptions"],
+            "generated_by": f"LLM advisor ({ctx.config['advisor']['model']}); numbers and status checks by code"})
+
+    # findings: evidence values filled by code from fact ids
+    unknown = set()
+    out_f = []
+    for f in plan["findings"]:
+        ev = []
+        for fid in f["evidence_fact_ids"]:
+            x = cfacts.get(fid)
+            if x is None:
+                unknown.add(fid)
+                continue
+            ev.append({"statement": x["statement"], "value": x["value"] if isinstance(x["value"], (int, float)) else None,
+                       "unit": x["unit"], "source_files": x["sources"], "fact_id": fid})
+        linked = [m for m in measures if f["key"] in m["finding_keys"] and m["status"] != "blocked"]
+        if f["kind"] == "waste" and linked:
+            imp = sum((m["_savings"] for m in linked), pd.Series(0.0, index=SUMS))
+            basis = "savings of the linked measures"
+        else:
+            imp = sum((calc.base(s) for s in f["scopes"]), pd.Series(0.0, index=SUMS))
+            basis = "baseline of the scopes"
+        share = max(imp["cost_chf"] / tot["cost_chf"], imp["co2_kg_mid"] / tot["co2_kg_mid"])
+        rows = ctx.tables["fact_cost"][ctx.tables["fact_cost"]["resource_id"].isin({calc.resource_of(s) for s in f["scopes"]})]
+        out_f.append({"id": fkey[f["key"]], "kind": f["kind"], "title": f["title"],
+                      "entity_ids": sorted({e for s in f["scopes"] for e in _entity_ids(ctx, s)}), "evidence": ev,
+                      "severity": "high" if share >= sev["high"] else "medium" if share >= sev["medium"] else "low",
+                      "impact": metrics(imp), "measure_ids": [mkey[m["key"]] for m in measures if f["key"] in m["finding_keys"]],
+                      "calc": calcf(rows[rows["in_baseline"]], f"impact = {basis}", note=f["explanation"]),
+                      "generated_by": f"LLM advisor ({ctx.config['advisor']['model']}); evidence values filled by code from fact ids"})
+    if unknown:
+        ctx.log("advisor", "advisor_unknown_fact", len(unknown), "evidence fact ids not in the fact sheet were dropped",
+                ", ".join(sorted(unknown)[:10]), severity="warn")
+
+    package = {"measure_ids": [mkey[k] for k in pkg["measure_keys"]], "effort_days": pkg["effort_days"],
+               "effort_chf": pkg["effort_chf"], "savings": metrics(pkg["savings"]),
+               "reduction": {k: {l: round(v, 4) for l, v in r.items()} for k, r in pkg["reduction"].items()},
+               "meets": pkg["meets"], "meets_at_low": pkg["meets_at_low"], "reasoning": plan["package"]["reasoning"],
+               "edge_cases": [{"measure_id": mkey.get(e["measure_key"]), "explanation": e["explanation"]} for e in plan["edge_cases"]]}
+
+    # entity flags and links for the scene
+    flags, links = {}, {"finding_ids": {}, "measure_ids": {}, "limit_ids": {}}
+    for f in out_f:
+        for e in f["entity_ids"]:
+            flags.setdefault(e, set()).add("waste" if f["kind"] in ("waste", "anomaly") else "driver")
+            links["finding_ids"].setdefault(e, set()).add(f["id"])
+    for m in out_m:
+        for e in m["entity_ids"]:
+            links["measure_ids"].setdefault(e, set()).add(m["id"])
+            if m["status"] == "human":
+                flags.setdefault(e, set()).add("handover")
+    for l in limits:
+        for e in l["entity_ids"]:
+            links["limit_ids"].setdefault(e, set()).add(l["id"])
+            if l["type"] == "block":
+                flags.setdefault(e, set()).add("locked")
+    ctx.entity_flags, ctx.entity_links = flags, links
+
+    for p in problems:
+        ctx.log("advisor", "advisor_check", 1, "plan check", p, severity="warn")
+    rej = getattr(ctx, "advisor_rejected_constraints", [])
+    if rej:
+        ctx.log("advisor", "constraint_rejected", len(rej), "reader constraints failing code validation were dropped",
+                "; ".join(f"{r['ticket_id']}: {r['problems']}" for r in rej), severity="warn")
+    ctx.log("advisor", "advisor_applied", len(out_m),
+            f"{len(out_f)} findings, {len(out_m)} measures, {len(limits)} limits; package CO2 −{pkg['reduction']['co2']['mid']:.1%}, "
+            f"cost −{pkg['reduction']['cost']['mid']:.1%}, effort {pkg['effort_days']} d",
+            f"tickets withheld from the reader: {len(raw_c.get('withheld', []))}; ignored by the reader: {len(raw_c.get('ignored', []))}")
+    return {"findings": out_f, "measures": out_m, "package": package, "limits": limits, "constraints": constraints,
+            "rounds": raw_p.get("rounds", []), "ignored": raw_c.get("ignored", []), "withheld": raw_c.get("withheld", [])}
+
+
+# --------------------------------------------------------------- export
+def export(ctx: Context) -> None:
+    a = ctx.advisor
+    out = ctx.output_dir
+    meta = _meta(ctx)
+    files = {
+        "measures.json": {"meta": meta, "measures": a["measures"], "package": a["package"],
+                          "additivity_note": "Measures are checked by code for overlap: savings of the package can be summed. "
+                                             "Blocked measures are never part of the package."},
+        "limits.json": {"meta": meta, "limits": a["limits"]},
+        "advisor/report.json": {"meta": meta, "rounds": a["rounds"], "constraints": a["constraints"],
+                                "reader_ignored": a["ignored"], "reader_withheld": a["withheld"]},
+    }
+    for name, obj in files.items():
+        (out / name).parent.mkdir(parents=True, exist_ok=True)
+        with open(out / name, "w", encoding="utf-8") as fh:
+            json.dump(obj, fh, ensure_ascii=False, indent=1, default=str)
+
+    tpl = pd.read_csv(ctx.data_dir / "template_measures_package.csv", encoding="utf-8-sig", dtype=str, nrows=0)
+    sub = out / "submission"
+    sub.mkdir(parents=True, exist_ok=True)
+    with open(sub / "template_measures_package.csv", "w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(tpl.columns))
+        w.writeheader()
+        for m in a["measures"]:
+            if not m["in_package"]:
+                continue
+            s = m["savings"]
+            w.writerow({
+                "measure_id": m["id"], "description": m["title"],
+                "resource_or_source": ", ".join(e["scope"] for e in m["effects"]),
+                "change": m["description"] + f" (from {m['start_date']})",
+                "effort_person_days": m["effort_days"],
+                "savings_cost_chf_per_year": round(s["cost_chf"]["mid"]),
+                "savings_energy_kwh_per_year": round(s["kwh"]["mid"]),
+                "savings_co2_kg_location_based": round(s["co2_kg"]["mid"]),
+                "savings_co2_kg_market_based": "",
+                "risks_and_exceptions": f"Status: {m['status']} (decides: {m['owner_role']}). {m['reason']} {m['risks']}".strip(),
+                "assumptions_and_sources": f"{m['assumptions']} Calculation: {m['calc']['formula']} "
+                                           f"Ranges CHF {s['cost_chf']['low']:,.0f}–{s['cost_chf']['high']:,.0f}, "
+                                           f"CO2 {s['co2_kg']['low']:,.0f}–{s['co2_kg']['high']:,.0f} kg. "
+                                           f"Factors: pipeline/energy/factors.yaml; data: fact_cost (baseline year, without one-offs)."})

@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T04:39:16+01:00",
+  "generated_at": "2026-11-21T05:33:04+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -640,14 +640,9 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "driver",
-   "flags": [
-    "driver"
-   ],
-   "finding_ids": [
-    "F-02",
-    "F-07"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -731,15 +726,9 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "driver",
-   "flags": [
-    "driver"
-   ],
-   "finding_ids": [
-    "F-01",
-    "F-03",
-    "F-08"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -804,15 +793,9 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "driver",
-   "flags": [
-    "driver"
-   ],
-   "finding_ids": [
-    "F-04",
-    "F-05",
-    "F-09"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -880,13 +863,9 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "driver",
-   "flags": [
-    "driver"
-   ],
-   "finding_ids": [
-    "F-06"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -958,9 +937,7 @@
    "idle_ratio": null,
    "state": "normal",
    "flags": [],
-   "finding_ids": [
-    "F-27"
-   ],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1081,10 +1058,17 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
-   "measure_ids": [],
+   "state": "handover",
+   "flags": [
+    "handover",
+    "waste"
+   ],
+   "finding_ids": [
+    "F-06"
+   ],
+   "measure_ids": [
+    "M-05"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "output-equivalent tokens × Wh per 1000 (fully loaded, no extra PUE); cost as billed",
@@ -1199,15 +1183,17 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-26",
-    "F-28"
+    "F-06"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-06"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "output-equivalent tokens × Wh per 1000 (fully loaded, no extra PUE); cost as billed",
@@ -1328,13 +1314,9 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "waste",
-   "flags": [
-    "waste"
-   ],
-   "finding_ids": [
-    "F-34"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1393,15 +1375,9 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "waste",
-   "flags": [
-    "waste",
-    "driver"
-   ],
-   "finding_ids": [
-    "F-09",
-    "F-30"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1524,19 +1500,23 @@
    },
    "utilisation": 0.087,
    "idle_ratio": 0.913,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "contradiction",
     "waste",
     "driver"
    ],
    "finding_ids": [
     "F-01",
-    "F-08",
-    "F-10"
+    "F-03"
    ],
-   "measure_ids": [],
-   "limit_ids": [],
+   "measure_ids": [
+    "M-01"
+   ],
+   "limit_ids": [
+    "L-03"
+   ],
    "calc": {
     "formula": "node-h × (16 vCPU at observed CPU + 64 GB memory) × PUE; cost as billed",
     "inputs": [],
@@ -1596,18 +1576,23 @@
    },
    "utilisation": 0.35,
    "idle_ratio": 0.65,
-   "state": "waste",
+   "state": "driver",
    "flags": [
     "contradiction",
-    "waste",
     "driver"
    ],
    "finding_ids": [
-    "F-02",
-    "F-11"
+    "F-01"
    ],
    "measure_ids": [],
-   "limit_ids": [],
+   "limit_ids": [
+    "L-01",
+    "L-09",
+    "L-10",
+    "L-11",
+    "L-12",
+    "L-13"
+   ],
    "calc": {
     "formula": "node-h × (16 vCPU at observed CPU + 64 GB memory) × PUE; cost as billed",
     "inputs": [],
@@ -1667,13 +1652,9 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "waste",
-   "flags": [
-    "waste"
-   ],
-   "finding_ids": [
-    "F-31"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1735,16 +1716,17 @@
    "idle_ratio": null,
    "state": "waste",
    "flags": [
-    "waste",
-    "driver"
+    "waste"
    ],
    "finding_ids": [
-    "F-03",
-    "F-08",
-    "F-12"
+    "F-04"
    ],
-   "measure_ids": [],
-   "limit_ids": [],
+   "measure_ids": [
+    "M-02"
+   ],
+   "limit_ids": [
+    "L-05"
+   ],
    "calc": {
     "formula": "GPU-h × (300-W GPU at observed GPU utilisation + 8 vCPU host + 56 GB) × PUE; cost as billed",
     "inputs": [],
@@ -1868,9 +1850,7 @@
    "idle_ratio": null,
    "state": "normal",
    "flags": [],
-   "finding_ids": [
-    "F-29"
-   ],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -1932,15 +1912,9 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "waste",
-   "flags": [
-    "waste",
-    "driver"
-   ],
-   "finding_ids": [
-    "F-07",
-    "F-33"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -2000,9 +1974,13 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "driver",
+   "flags": [
+    "driver"
+   ],
+   "finding_ids": [
+    "F-02"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -2063,7 +2041,7 @@
     "driver"
    ],
    "finding_ids": [
-    "F-06"
+    "F-02"
    ],
    "measure_ids": [],
    "limit_ids": [],
@@ -2245,18 +2223,19 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "locked",
    "flags": [
-    "waste",
-    "driver"
+    "locked"
    ],
-   "finding_ids": [
-    "F-04",
-    "F-09",
-    "F-32"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-07"
    ],
-   "measure_ids": [],
-   "limit_ids": [],
+   "limit_ids": [
+    "L-02",
+    "L-07",
+    "L-14"
+   ],
    "calc": {
     "formula": "GB-day × kWh per GB-day (incl. replication) × PUE; cost as billed",
     "inputs": [],
@@ -2376,9 +2355,13 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "driver",
+   "flags": [
+    "driver"
+   ],
+   "finding_ids": [
+    "F-02"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -2434,9 +2417,13 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "driver",
+   "flags": [
+    "driver"
+   ],
+   "finding_ids": [
+    "F-02"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -2492,9 +2479,13 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
+   "state": "driver",
+   "flags": [
+    "driver"
+   ],
+   "finding_ids": [
+    "F-02"
+   ],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -2676,16 +2667,15 @@
    "idle_ratio": null,
    "state": "waste",
    "flags": [
-    "waste",
-    "driver"
+    "waste"
    ],
    "finding_ids": [
-    "F-05",
-    "F-09",
-    "F-13"
+    "F-04"
    ],
    "measure_ids": [],
-   "limit_ids": [],
+   "limit_ids": [
+    "L-08"
+   ],
    "calc": {
     "formula": "vCPU-h × (W per vCPU at observed CPU + 2 GB memory) × PUE; cost as billed",
     "inputs": [],
@@ -2747,9 +2737,7 @@
    "idle_ratio": null,
    "state": "normal",
    "flags": [],
-   "finding_ids": [
-    "F-35"
-   ],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -3709,14 +3697,14 @@
    },
    "utilisation": 0.102,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-13"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-03"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.3%)",
@@ -3789,14 +3777,14 @@
    },
    "utilisation": 0.124,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-13"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-03"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.3%)",
@@ -3869,14 +3857,14 @@
    },
    "utilisation": 0.104,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-13"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-03"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.3%)",
@@ -3949,14 +3937,14 @@
    },
    "utilisation": 0.121,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-13"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-03"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.1%)",
@@ -4029,14 +4017,14 @@
    },
    "utilisation": 0.124,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-13"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-03"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.2%)",
@@ -4109,14 +4097,14 @@
    },
    "utilisation": 0.138,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-13"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-03"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.3%)",
@@ -4189,10 +4177,14 @@
    },
    "utilisation": 0.144,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-03"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.1%)",
@@ -4265,10 +4257,14 @@
    },
    "utilisation": 0.144,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-03"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.1%)",
@@ -4341,10 +4337,14 @@
    },
    "utilisation": 0.169,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-03"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.3%)",
@@ -4417,10 +4417,14 @@
    },
    "utilisation": 0.156,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-03"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.3%)",
@@ -4493,10 +4497,14 @@
    },
    "utilisation": 0.158,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-03"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.4%)",
@@ -4569,10 +4577,14 @@
    },
    "utilisation": 0.144,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-03"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.2%)",
@@ -4645,15 +4657,17 @@
    },
    "utilisation": 0.004,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "locked",
    "flags": [
-    "waste"
+    "locked"
    ],
-   "finding_ids": [
-    "F-13"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-08"
    ],
-   "measure_ids": [],
-   "limit_ids": [],
+   "limit_ids": [
+    "L-04"
+   ],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.4%)",
     "inputs": [
@@ -4725,15 +4739,17 @@
    },
    "utilisation": 0.002,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-13",
-    "F-14"
+    "F-04"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-03"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.1%)",
@@ -4806,15 +4822,17 @@
    },
    "utilisation": 0.001,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-13",
-    "F-14"
+    "F-04"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-03"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.4%)",
@@ -4887,15 +4905,17 @@
    },
    "utilisation": 0.003,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-13",
-    "F-14"
+    "F-04"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-03"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:vm-test by vCPU × uptime hours (6.3%)",
@@ -6768,13 +6788,9 @@
    },
    "utilisation": 0.092,
    "idle_ratio": null,
-   "state": "waste",
-   "flags": [
-    "waste"
-   ],
-   "finding_ids": [
-    "F-12"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
    "measure_ids": [],
    "limit_ids": [],
    "calc": {
@@ -6848,10 +6864,14 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -6910,14 +6930,17 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-15"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -6976,14 +6999,17 @@
    },
    "utilisation": 0.588,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-15"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7042,10 +7068,14 @@
    },
    "utilisation": 0.706,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7104,10 +7134,14 @@
    },
    "utilisation": 0.7,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7166,10 +7200,14 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7228,10 +7266,14 @@
    },
    "utilisation": 0.714,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7290,10 +7332,14 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7352,10 +7398,14 @@
    },
    "utilisation": 0.7,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7414,10 +7464,14 @@
    },
    "utilisation": 0.706,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7476,14 +7530,17 @@
    },
    "utilisation": 0.0,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-16"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7542,14 +7599,17 @@
    },
    "utilisation": 0.143,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-16"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7608,14 +7668,17 @@
    },
    "utilisation": 0.083,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-16"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7674,10 +7737,14 @@
    },
    "utilisation": 0.85,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7736,10 +7803,14 @@
    },
    "utilisation": 0.75,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7798,10 +7869,14 @@
    },
    "utilisation": 0.833,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7860,14 +7935,14 @@
    },
    "utilisation": 0.375,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-17"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-04"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7926,14 +8001,17 @@
    },
    "utilisation": 0.3,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-18"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -7992,14 +8070,17 @@
    },
    "utilisation": 0.294,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-18"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8058,10 +8139,14 @@
    },
    "utilisation": 0.9,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8120,10 +8205,14 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8182,10 +8271,14 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8244,14 +8337,14 @@
    },
    "utilisation": 0.5,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-19"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-04"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8310,14 +8403,14 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-19"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-04"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8376,14 +8469,14 @@
    },
    "utilisation": 0.5,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-19"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-04"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8442,10 +8535,14 @@
    },
    "utilisation": 0.86,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8504,10 +8601,14 @@
    },
    "utilisation": 0.846,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8566,10 +8667,14 @@
    },
    "utilisation": 1.0,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8628,10 +8733,14 @@
    },
    "utilisation": 0.882,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8690,10 +8799,14 @@
    },
    "utilisation": 1.0,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8752,10 +8865,14 @@
    },
    "utilisation": 0.923,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8814,10 +8931,14 @@
    },
    "utilisation": 0.905,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8876,10 +8997,17 @@
    },
    "utilisation": 0.639,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
-   "measure_ids": [],
+   "state": "handover",
+   "flags": [
+    "handover",
+    "waste"
+   ],
+   "finding_ids": [
+    "F-05"
+   ],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -8938,14 +9066,17 @@
    },
    "utilisation": 0.455,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-20"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9004,14 +9135,17 @@
    },
    "utilisation": 0.4,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-20"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9070,10 +9204,17 @@
    },
    "utilisation": 0.643,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
-   "measure_ids": [],
+   "state": "handover",
+   "flags": [
+    "handover",
+    "waste"
+   ],
+   "finding_ids": [
+    "F-05"
+   ],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9132,14 +9273,17 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-20"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9198,10 +9342,17 @@
    },
    "utilisation": 0.636,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
-   "measure_ids": [],
+   "state": "handover",
+   "flags": [
+    "handover",
+    "waste"
+   ],
+   "finding_ids": [
+    "F-05"
+   ],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9260,10 +9411,17 @@
    },
    "utilisation": 0.611,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
-   "measure_ids": [],
+   "state": "handover",
+   "flags": [
+    "handover",
+    "waste"
+   ],
+   "finding_ids": [
+    "F-05"
+   ],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9322,14 +9480,14 @@
    },
    "utilisation": 0.471,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-21"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-04"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9388,10 +9546,14 @@
    },
    "utilisation": 0.941,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9450,10 +9612,14 @@
    },
    "utilisation": 0.9,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9512,10 +9678,14 @@
    },
    "utilisation": 1.0,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9574,10 +9744,14 @@
    },
    "utilisation": 0.857,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9636,10 +9810,14 @@
    },
    "utilisation": 1.0,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9698,10 +9876,14 @@
    },
    "utilisation": 0.9,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9760,10 +9942,14 @@
    },
    "utilisation": 0.941,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9822,14 +10008,14 @@
    },
    "utilisation": 0.529,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-22"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-04"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9888,14 +10074,14 @@
    },
    "utilisation": 0.571,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-22"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-04"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -9954,14 +10140,14 @@
    },
    "utilisation": 0.588,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
-    "waste"
+    "handover"
    ],
-   "finding_ids": [
-    "F-23"
+   "finding_ids": [],
+   "measure_ids": [
+    "M-04"
    ],
-   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10020,10 +10206,14 @@
    },
    "utilisation": 0.571,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10082,14 +10272,17 @@
    },
    "utilisation": 0.1,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-24"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10148,10 +10341,14 @@
    },
    "utilisation": 0.676,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10210,10 +10407,14 @@
    },
    "utilisation": 0.643,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10272,10 +10473,14 @@
    },
    "utilisation": 0.941,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10334,10 +10539,14 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10396,10 +10605,14 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10458,10 +10671,14 @@
    },
    "utilisation": 0.857,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10520,10 +10737,14 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10582,10 +10803,14 @@
    },
    "utilisation": 0.9,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10644,10 +10869,14 @@
    },
    "utilisation": 0.882,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
+   "state": "handover",
+   "flags": [
+    "handover"
+   ],
    "finding_ids": [],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10706,14 +10935,17 @@
    },
    "utilisation": 0.529,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-25"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10772,14 +11004,17 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-25"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10838,14 +11073,17 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-25"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10904,14 +11142,17 @@
    },
    "utilisation": 0.571,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-25"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -10970,10 +11211,17 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "normal",
-   "flags": [],
-   "finding_ids": [],
-   "measure_ids": [],
+   "state": "handover",
+   "flags": [
+    "handover",
+    "waste"
+   ],
+   "finding_ids": [
+    "F-05"
+   ],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -11032,14 +11280,17 @@
    },
    "utilisation": 0.5,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-25"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
@@ -11098,14 +11349,17 @@
    },
    "utilisation": 0.588,
    "idle_ratio": null,
-   "state": "waste",
+   "state": "handover",
    "flags": [
+    "handover",
     "waste"
    ],
    "finding_ids": [
-    "F-25"
+    "F-05"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-04"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "seats × price per seat × monthly FX; energy from messages (AI) or active licences (SaaS)",
