@@ -5,7 +5,9 @@ import { DEPT_ACCENT, DEPT_LABEL, effectiveOf, labelOf, makeCtx, resourceOf, sta
 import type { Calc, Entity, LayoutItem, MetricKey, Metrics } from '../data/types'
 import { PANEL_W } from '../scene/Scene'
 import { Chip, Row, type Tone } from './primitives'
-import { WorkstationBody } from './WorkstationPanel'
+import { ComputersBody } from './WorkstationPanel'
+import { UnitBody } from './UnitPanel'
+import { unitOf } from '../data/usage'
 
 /** Scheda a destra: cosa consuma l'oggetto cliccato (soldi, energia, CO₂ e ore di utilizzo) e come è calcolato. */
 export function ItemPanel() {
@@ -14,8 +16,12 @@ export function ItemPanel() {
   const selectedId = useApp((s) => s.selectedId)
   const select = useApp((s) => s.select)
   const ctx = useMemo(() => makeCtx(data, []), [data])
+  const step = useApp((s) => s.step)
   const item = selectedId ? data.layout.find((i) => i.id === selectedId) : undefined
   if (!room || !item) return null
+  const seat = item.id.startsWith('seat:')
+  const heat = !!data.extra && (step === 'baseline' || step === 'packages' || step === 'forecast')
+  const unit = unitOf(ctx, item)
 
   return (
     <aside
@@ -28,7 +34,7 @@ export function ItemPanel() {
             {headerOf(ctx, item)}
           </div>
           <h2 className="mt-1 text-[22px] leading-tight font-medium tracking-[-0.44px] text-ink">
-            {item.id.startsWith('seat:') ? `Computer ${item.id.split(':')[2]}` : labelOf(ctx, item)}
+            {seat ? `${DEPT_LABEL[item.room ?? ''] ?? ''} computers` : labelOf(ctx, item)}
           </h2>
         </div>
         <button onClick={() => select(null)} aria-label="Close" className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-strong text-ink hover:bg-hairline">
@@ -38,7 +44,13 @@ export function ItemPanel() {
         </button>
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-6 pt-3 pb-6">
-        {item.id.startsWith('seat:') ? <WorkstationBody ctx={ctx} seat={item} /> : <Body ctx={ctx} item={item} />}
+        {heat && unit && data.extra ? (
+          <UnitBody ctx={ctx} x={data.extra} unit={unit} />
+        ) : seat ? (
+          <ComputersBody ctx={ctx} room={item.room ?? ''} />
+        ) : (
+          <Body ctx={ctx} item={item} />
+        )}
       </div>
     </aside>
   )
@@ -51,7 +63,7 @@ function headerOf(ctx: Ctx, item: LayoutItem): string {
     const loc = ctx.data.summary.locations.find((l) => l.id === e?.location)?.label
     return [loc, e?.provider, 'Cloud hardware'].filter(Boolean).join(' · ')
   }
-  return `${DEPT_LABEL[item.room ?? ''] ?? ''} · ${item.id.startsWith('seat:') ? 'Computer · licences, software and AI' : kindOf(item)}`
+  return item.id.startsWith('seat:') ? 'All computers of the department · licences, software and AI' : `${DEPT_LABEL[item.room ?? ''] ?? ''} · ${kindOf(item)}`
 }
 
 function kindOf(item: LayoutItem): string {

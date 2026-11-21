@@ -1,26 +1,27 @@
 import { useState } from 'react'
 import { fmtMetric } from '../data/compute'
 import { DEPT_LABEL, type Ctx } from '../data/twin'
-import type { Entity, LayoutItem, MetricKey, Metrics } from '../data/types'
+import type { Entity, MetricKey, Metrics } from '../data/types'
 import { Chip, type Tone } from './primitives'
 
-/** Una riga della scheda del computer: un servizio usato da questa postazione. */
-interface Service {
+/** Un servizio usato dai computer di un reparto. */
+export interface Service {
   key: string
   name: string
   what: string
+  /** Totale del reparto e quota di un computer. */
+  dept: Metrics
   unit: Metrics
-  deptTotal: Metrics
   basis: string
   status?: { label: string; tone: Tone }
   sources: string[]
 }
 
-const AI_SEAT: Record<string, string> = { copilot: 'Microsoft Copilot', claude: 'Claude Team', chatgpt: 'ChatGPT Team' }
+const AI_SEAT = ['Microsoft Copilot', 'Claude Team', 'ChatGPT Team']
 
 /** Cosa fa ogni servizio, in una riga. */
 const WHAT: Record<string, string> = {
-  'Microsoft 365': 'Mail, Teams, Office and file storage for one person.',
+  'Microsoft 365': 'Mail, Teams, Office and file storage, one seat per person.',
   'Microsoft Copilot': 'AI assistant inside Microsoft 365, one seat per person.',
   'Claude Team': 'AI chat subscription (Anthropic), one seat per person.',
   'ChatGPT Team': 'AI chat subscription (OpenAI), one seat per person.',
@@ -56,62 +57,34 @@ const add = (a: Metrics, b: Metrics): Metrics => ({
 })
 const pct = (x: number) => `${Math.round(x * 100)}%`
 
-/** Tutti i servizi di una postazione: licenze personali (esatte) + software e AI del reparto (divisi per i computer). */
-function servicesOf(ctx: Ctx, seat: LayoutItem) {
-  const room = seat.room ?? ''
+/**
+ * Tutti i servizi usati dai computer di un reparto. I dati sono per reparto, non per persona:
+ * ogni computer dello stesso reparto ha gli stessi servizi; cambia solo se il posto Microsoft 365 è attivo.
+ */
+export function servicesOf(ctx: Ctx, room: string) {
   const dept = DEPT_LABEL[room] ?? room
-  const n = ctx.data.layout.filter((i) => i.id.startsWith(`seat:${room}:`)).length || 1
+  const seats = ctx.data.layout.filter((i) => i.id.startsWith(`seat:${room}:`))
+  const n = seats.length || 1
+  const active = seats.filter((s) => s.active).length
   const ents = [...ctx.entities.values()].map((x) => x.entity)
-  const lic = (tool: string) => ents.find((e) => e.id.startsWith('lic:') && e.tool === tool && e.department === room)
   const sources = (e: Entity) => e.calc?.sources ?? []
+  const lic = ents.filter((e) => e.id.startsWith('lic:') && e.department === room && e.tool)
 
-  const personal: Service[] = []
-  const m365 = lic('Microsoft 365')
-  if (m365?.seats) {
-    personal.push({
-      key: m365.id,
-      name: 'Microsoft 365',
-      what: WHAT['Microsoft 365'],
-      unit: scale(m365.metrics, 1 / m365.seats.purchased),
-      deptTotal: m365.metrics,
-      basis: `This computer's own seat: 1 of ${m365.seats.purchased} in ${dept} (${m365.seats.active} active).`,
-      status: seat.active ? { label: 'Active', tone: 'primary' } : { label: 'No sign-in for 30 days', tone: 'warn' },
-      sources: sources(m365),
-    })
-  }
-  for (const puck of ctx.data.layout.filter((l) => l.seatId === seat.id && l.id.startsWith('lic:'))) {
-    const tool = AI_SEAT[puck.id.split(':')[1]]
-    const e = tool ? lic(tool) : undefined
-    if (!e?.seats) continue
-    personal.push({
-      key: puck.id,
-      name: tool,
-      what: WHAT[tool],
-      unit: scale(e.metrics, 1 / e.seats.purchased),
-      deptTotal: e.metrics,
-      basis: `This computer's own seat: 1 of ${e.seats.purchased} in ${dept} (${e.seats.active} active).`,
-      status: puck.active ? { label: 'Active', tone: 'primary' } : { label: 'Paid, not used', tone: 'warn' },
+  const seatRow = (e: Entity): Service => {
+    const use = e.seats ? e.seats.active / Math.max(1, e.seats.purchased) : 1
+    return {
+      key: e.id,
+      name: e.tool,
+      what: WHAT[e.tool] ?? 'Software bought per seat.',
+      dept: e.metrics,
+      unit: scale(e.metrics, 1 / n),
+      basis: e.seats ? `${e.seats.purchased} seats paid, ${e.seats.active} used in the last 30 days.` : 'Paid per seat.',
+      status: use < 0.6 ? { label: `Only ${pct(use)} of seats used`, tone: 'warn' } : undefined,
       sources: sources(e),
-    })
+    }
   }
-
-  const software: Service[] = ents
-    .filter((e) => e.id.startsWith('lic:') && e.department === room && e.tool && !['Microsoft 365', ...Object.values(AI_SEAT)].includes(e.tool))
-    .map((e) => {
-      const use = e.seats ? e.seats.active / e.seats.purchased : 1
-      return {
-        key: e.id,
-        name: e.tool,
-        what: WHAT[e.tool] ?? 'Software bought per seat.',
-        unit: scale(e.metrics, 1 / n),
-        deptTotal: e.metrics,
-        basis: `${dept} contract${e.seats ? ` (${e.seats.active} of ${e.seats.purchased} licences used)` : ''}, split across its ${n} computers.`,
-        status: use < 0.6 ? { label: `Only ${pct(use)} of licences used`, tone: 'warn' as Tone } : undefined,
-        sources: sources(e),
-      }
-    })
-    .sort((a, b) => b.unit.cost_chf - a.unit.cost_chf)
-
+  const personal = lic.filter((e) => e.tool === 'Microsoft 365' || AI_SEAT.includes(e.tool)).map(seatRow)
+  const software = lic.filter((e) => e.tool !== 'Microsoft 365' && !AI_SEAT.includes(e.tool)).map(seatRow)
   const ai: Service[] = ents
     .filter((e) => e.id.startsWith('ai-') && (e.department === room || e.allocation?.some((a) => a.department === room)))
     .map((e) => {
@@ -120,19 +93,17 @@ function servicesOf(ctx: Ctx, seat: LayoutItem) {
         key: e.id,
         name: e.label,
         what: WHAT[e.id] ?? 'AI application used through an API.',
+        dept: scale(e.metrics, share),
         unit: scale(e.metrics, share / n),
-        deptTotal: scale(e.metrics, share),
-        basis: e.allocation
-          ? `Shared by ${e.allocation.length} departments; ${dept} pays ${pct(share)} by usage, split across its ${n} computers.`
-          : `Used by ${dept} only, split across its ${n} computers.`,
+        basis: e.allocation ? `Shared by ${e.allocation.length} departments; ${dept} pays ${pct(share)}, by usage.` : `Used by ${dept} only.`,
         sources: sources(e),
       }
     })
-    .sort((a, b) => b.unit.cost_chf - a.unit.cost_chf)
-
-  const all = [...personal, ...software, ...ai]
-  const total = all.reduce((t, s) => add(t, s.unit), { cost_chf: 0, kwh: 0, co2_kg: 0 })
-  return { personal, software, ai, total, n, dept }
+  const byCost = (a: Service, b: Service) => b.dept.cost_chf - a.dept.cost_chf
+  software.sort(byCost)
+  ai.sort(byCost)
+  const total = [...personal, ...software, ...ai].reduce((t, s) => add(t, s.dept), { cost_chf: 0, kwh: 0, co2_kg: 0 })
+  return { personal, software, ai, total, n, active, dept }
 }
 
 const METRICS: { key: MetricKey; label: string }[] = [
@@ -141,35 +112,45 @@ const METRICS: { key: MetricKey; label: string }[] = [
   { key: 'co2_kg', label: 'CO₂' },
 ]
 
-/** Scheda di un computer: totale della postazione e, sotto, ogni servizio chiuso e apribile. */
-export function WorkstationBody({ ctx, seat }: { ctx: Ctx; seat: LayoutItem }) {
-  const { personal, software, ai, total, n, dept } = servicesOf(ctx, seat)
+/** Scheda dei computer di un reparto (tutti insieme): totale del reparto, quota di un computer e i servizi, chiusi e apribili. */
+export function ComputersBody({ ctx, room }: { ctx: Ctx; room: string }) {
+  const { personal, software, ai, total, n, active, dept } = servicesOf(ctx, room)
   return (
     <>
       <div className="flex flex-wrap gap-1.5">
-        {seat.active ? <Chip tone="primary">In use</Chip> : <Chip tone="warn">No sign-in for 30 days</Chip>}
+        <Chip tone="primary">{active} in use</Chip>
+        {n - active > 0 && <Chip tone="warn">{n - active} without sign-in for 30 days</Chip>}
         <Chip>{personal.length + software.length + ai.length} services</Chip>
       </div>
+      <p className="mt-3 text-[13px] leading-snug text-muted">
+        All {n} computers in {dept} use the same services: the data is per department, not per person. They are highlighted together.
+      </p>
 
       <section className="mt-5">
-        <h3 className="text-[16px] font-semibold text-ink">This computer, per year</h3>
-        <div className="mt-2 grid grid-cols-3 gap-2">
-          {METRICS.map((m) => (
-            <div key={m.key} className="rounded-[8px] bg-surface-soft px-3 py-2.5">
-              <div className="text-[12px] font-medium text-muted">{m.label}</div>
-              <div className="text-[16px] font-semibold text-ink tabular-nums">{fmtMetric(total[m.key], m.key)}</div>
-            </div>
-          ))}
-        </div>
-        <p className="mt-2 text-[12px] leading-snug text-muted">
-          Personal seats are exact. Department software and AI are split evenly across the {n} computers in {dept}: the data has no per-person usage.
+        <h3 className="text-[16px] font-semibold text-ink">{dept} computers, per year</h3>
+        <MetricGrid m={total} />
+        <p className="mt-1.5 text-[12px] text-muted">
+          One computer: {fmtMetric(total.cost_chf / n, 'cost_chf')} · {fmtMetric(total.kwh / n, 'kwh')} · {fmtMetric(total.co2_kg / n, 'co2_kg')}
         </p>
       </section>
 
-      <Group title="Personal licences" items={personal} />
+      <Group title="Licences per person" items={personal} />
       <Group title={`${dept} software`} items={software} />
       <Group title="AI applications" items={ai} />
     </>
+  )
+}
+
+export function MetricGrid({ m, small }: { m: Metrics; small?: boolean }) {
+  return (
+    <div className="mt-2 grid grid-cols-3 gap-2">
+      {METRICS.map((x) => (
+        <div key={x.key} className={`rounded-[8px] bg-surface-soft ${small ? 'px-2.5 py-1.5' : 'px-3 py-2.5'}`}>
+          <div className={`${small ? 'text-[11px]' : 'text-[12px]'} font-medium text-muted`}>{x.label}</div>
+          <div className={`${small ? 'text-[13px]' : 'text-[16px]'} font-semibold text-ink tabular-nums`}>{fmtMetric(m[x.key], x.key)}</div>
+        </div>
+      ))}
+    </div>
   )
 }
 
@@ -177,7 +158,10 @@ function Group({ title, items }: { title: string; items: Service[] }) {
   if (!items.length) return null
   return (
     <section className="mt-6">
-      <h3 className="mb-1 text-[14px] font-semibold text-ink">{title}</h3>
+      <h3 className="mb-1 flex items-baseline justify-between text-[14px] font-semibold text-ink">
+        {title}
+        <span className="text-[12px] font-normal text-muted">department · per year</span>
+      </h3>
       <div className="divide-y divide-hairline-soft border-y border-hairline-soft">
         {items.map((s) => (
           <ServiceRow key={s.key} s={s} />
@@ -199,22 +183,14 @@ function ServiceRow({ s }: { s: Service }) {
           <span className="truncate text-[14px] text-ink">{s.name}</span>
           {s.status?.tone === 'warn' && <span className="h-2 w-2 shrink-0 rounded-full bg-warn" title={s.status.label} />}
         </span>
-        <span className="shrink-0 text-[14px] font-semibold text-ink tabular-nums">{fmtMetric(s.unit.cost_chf, 'cost_chf')}</span>
+        <span className="shrink-0 text-[14px] font-semibold text-ink tabular-nums">{fmtMetric(s.dept.cost_chf, 'cost_chf')}</span>
       </button>
       {open && (
         <div className="pb-3 pl-5.5 text-[13px] text-body">
           <p>{s.what}</p>
-          <div className="mt-2 grid grid-cols-3 gap-1.5">
-            {METRICS.map((m) => (
-              <div key={m.key} className="rounded-[8px] bg-surface-soft px-2.5 py-1.5">
-                <div className="text-[11px] text-muted">{m.label}</div>
-                <div className="text-[13px] font-semibold text-ink tabular-nums">{fmtMetric(s.unit[m.key], m.key)}</div>
-              </div>
-            ))}
-          </div>
-          <p className="mt-2 text-[12px] text-muted">{s.basis}</p>
-          <p className="mt-0.5 text-[12px] text-muted">
-            Department total: {fmtMetric(s.deptTotal.cost_chf, 'cost_chf')} · {fmtMetric(s.deptTotal.kwh, 'kwh')} · {fmtMetric(s.deptTotal.co2_kg, 'co2_kg')}
+          <MetricGrid m={s.dept} small />
+          <p className="mt-2 text-[12px] text-muted">
+            {s.basis} One computer: {fmtMetric(s.unit.cost_chf, 'cost_chf')} · {fmtMetric(s.unit.co2_kg, 'co2_kg')}.
           </p>
           {s.status && (
             <div className="mt-2">

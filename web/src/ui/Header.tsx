@@ -1,24 +1,29 @@
 import { useApp, type Step } from '../store'
 
-/** Passi della pipeline, nell'ordine in cui li racconta la demo. Per ora è pronto solo «Allocation». */
-export const STEPS: { id: Step; label: string; ready: boolean }[] = [
-  { id: 'allocation', label: 'Allocation', ready: true },
-  { id: 'footprint', label: 'Footprint', ready: false },
-  { id: 'baseline', label: 'Baseline', ready: false },
-  { id: 'hotspots', label: 'Hotspots', ready: false },
-  { id: 'measures', label: 'Measures', ready: false },
-  { id: 'limits', label: 'Limits', ready: false },
-  { id: 'package', label: 'Package', ready: false },
-  { id: 'export', label: 'Export', ready: false },
+/** Passi della demo, nell'ordine in cui li racconta. Misure e limiti stanno dentro il passo 2 (interruttore), l'export nei passi 2 e 3. */
+export const STEPS: { id: Step; label: string }[] = [
+  { id: 'allocation', label: 'Who uses what' },
+  { id: 'baseline', label: 'Baseline & hotspots' },
+  { id: 'packages', label: 'Packages' },
+  { id: 'forecast', label: 'Next 12 months' },
 ]
 
-/** Barra in alto: logo a sinistra, i passi in una pillola al centro (stile ricerca di Airbnb, senza icone). */
+/** Barra in alto: logo a sinistra, i passi numerati in una pillola al centro (stile ricerca di Airbnb, senza icone). */
 export function Header() {
   const step = useApp((s) => s.step)
   const setStep = useApp((s) => s.setStep)
   const setRoom = useApp((s) => s.setRoom)
+  const simDone = useApp((s) => s.simDone)
   const isMock = useApp((s) => s.data?.summary.is_mock)
+  const hasExtra = useApp((s) => !!s.data?.extra)
   const hasLocalAi = useApp((s) => !!s.data?.localAi)
+
+  const ready = (id: Step): { ok: boolean; why?: string } => {
+    if (id === 'allocation') return { ok: true }
+    if (!hasExtra) return { ok: false, why: 'Needs the backend output (timeseries, measures)' }
+    if (id === 'baseline') return { ok: true }
+    return simDone ? { ok: true } : { ok: false, why: 'Play the baseline year first' }
+  }
 
   return (
     <header className="relative z-40 flex h-[88px] shrink-0 items-center justify-between bg-white px-8">
@@ -32,16 +37,23 @@ export function Header() {
       <nav className="pill-shadow flex h-16 items-center rounded-full border border-hairline bg-white px-3">
         {STEPS.map((s, i) => {
           const on = s.id === step
+          const r = ready(s.id)
           return (
             <div key={s.id} className="flex items-center">
               {i > 0 && <span className="h-7 w-px bg-hairline" />}
               <button
-                disabled={!s.ready}
-                title={s.ready ? undefined : 'Coming next'}
-                className={`rounded-full px-5 py-3 text-[16px] font-medium whitespace-nowrap transition ${
-                  on ? 'font-semibold text-ink' : s.ready ? 'text-ink hover:bg-surface-soft' : 'text-muted-soft'
+                disabled={!r.ok}
+                title={r.why}
+                onClick={() => !on && setStep(s.id)}
+                className={`flex items-center gap-2 rounded-full px-4 py-3 text-[16px] whitespace-nowrap transition ${
+                  on ? 'font-semibold text-ink' : r.ok ? 'font-medium text-ink hover:bg-surface-soft' : 'font-medium text-muted-soft'
                 }`}
               >
+                <span
+                  className={`grid h-6 w-6 place-items-center rounded-full text-[12px] font-semibold ${on ? 'bg-ink text-white' : r.ok ? 'bg-surface-strong text-ink' : 'bg-surface-soft text-muted-soft'}`}
+                >
+                  {i + 1}
+                </span>
                 {s.label}
               </button>
             </div>

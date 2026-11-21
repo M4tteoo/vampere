@@ -13,6 +13,7 @@ export function RoomTitle() {
   const turn = useApp((s) => s.turn)
   const setRoom = useApp((s) => s.setRoom)
   const storeStage = useApp((s) => s.stage)
+  const step = useApp((s) => s.step)
   const hasCloud = useMemo(() => (room ? islandsOf(makeCtx(data, []), room).length > 0 : false), [data, room])
   const stage = hasCloud ? storeStage : 'office'
 
@@ -69,7 +70,12 @@ export function RoomTitle() {
           {shared > 0 && <span className="text-muted-soft"> · incl. {fmtMetric(Math.min(shared, d.metrics.cost_chf), 'cost_chf')} of shared services</span>}
         </p>
         <p className="mt-2 text-[12px] text-muted-soft">
-          {stage === 'cloud' ? 'Click a server for its cost and footprint, or the office on the side' : `Click a computer for its services${hasCloud ? ', or the cloud on the side' : ''}`} · ← → rotate · Esc back
+          {step !== 'allocation'
+            ? `Click the computers${hasCloud ? ' or a server' : ''} for usage and pain points`
+            : stage === 'cloud'
+              ? 'Click a server for its cost and footprint, or the office on the side'
+              : `Click a computer for its services${hasCloud ? ', or the cloud on the side' : ''}`}{' '}
+          · ← → rotate · Esc back
         </p>
       </div>
     </>

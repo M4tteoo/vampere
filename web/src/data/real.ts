@@ -1,6 +1,7 @@
 // Adattatore: legge i file VERI della pipeline (output/*.json, contratto in contract/types.ts)
 // e li traduce nel formato interno del frontend (src/data/types.ts), così la scena non cambia.
 // I file si copiano con: web/scripts/sync-backend.sh  →  web/public/data/real/
+import { loadExtra } from './extra'
 import type { Dataset, Entity, EntityKind, EntityTag, ItemInfo, LayoutItem, Limit, LocalAiFile, Location, LocationId, Measure, Metrics, QualityItem, Finding } from './types'
 
 type R = { low: number; mid: number; high: number } | null | undefined
@@ -32,6 +33,7 @@ interface REntity {
   flags: string[]
   finding_ids: string[]
   calc: RCalc
+  provider?: string | null
 }
 
 /** null / mancante → NaN: il frontend mostra «–», mai 0 (regola 4 del contratto). */
@@ -135,16 +137,18 @@ export async function loadReal(base: string, items: ItemInfo[], layout: LayoutIt
       sources: e.calc.source_files,
     },
     scene_ids,
+    raw_ids: [e.id],
     hours: hours.get(id),
     allocation: e.allocation?.map((a) => ({ ...a, department: dept(a.department) })),
     seats: e.seats,
-    provider: e.calc.source_files.some((f) => f.startsWith('azure'))
+    // Fornitore dalle fatture (backend); per i file vecchi senza il campo, dedotto dai nomi dei file.
+    provider: e.provider ?? (e.calc.source_files.some((f) => f.startsWith('azure'))
       ? 'Azure'
       : e.calc.source_files.some((f) => f.startsWith('aws'))
         ? 'AWS'
         : e.calc.source_files.some((f) => f.startsWith('hoster'))
           ? 'Swiss hoster'
-          : undefined,
+          : undefined),
   })
 
   const entities: Entity[] = []
@@ -163,6 +167,7 @@ export async function loadReal(base: string, items: ItemInfo[], layout: LayoutIt
       metrics: { cost_chf: sum('cost_chf'), kwh: sum('kwh'), co2_kg: sum('co2_kg') },
       tags: [...new Set(orphans.flatMap((o) => o.flags.map((f) => TAG[f]).filter(Boolean)))],
       calc: { formula: 'sum of the three servers', sources: first.calc?.sources ?? [] },
+      raw_ids: orphans.map((o) => o.id),
     })
   }
 
@@ -231,6 +236,10 @@ export async function loadReal(base: string, items: ItemInfo[], layout: LayoutIt
   /* eslint-enable @typescript-eslint/no-explicit-any */
   // Vista consultiva facoltativa: se il file manca, il resto non cambia.
   const localAi = await get<LocalAiFile>(base, 'local_ai').catch(() => null)
+  const extra = await loadExtra(base, entitiesFile, findingsFile, measuresFile, limitsFile, ts).catch((e) => {
+    console.warn('Steps 2–4 disabled:', e)
+    return null
+  })
 
   const b = summary.meta.baseline
   const fmt = (d: string) => new Date(d).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
@@ -256,5 +265,6 @@ export async function loadReal(base: string, items: ItemInfo[], layout: LayoutIt
     items: fixedItems,
     layout,
     localAi,
+    extra,
   }
 }

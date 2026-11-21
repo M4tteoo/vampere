@@ -13,11 +13,33 @@ export type View = 'overview' | 'office' | 'islands'
 export type Decision = 'approved' | 'rejected'
 
 /** Passi della pipeline mostrati nella barra in alto (per ora è attivo solo «allocation»). */
-export type Step = 'allocation' | 'footprint' | 'baseline' | 'hotspots' | 'measures' | 'limits' | 'package' | 'export' | 'local_ai'
+/** Passi della demo: 1 chi usa cosa (allocazione + impronta), 2 anno di baseline e punti critici (+ misure), 3 pacchetti, 4 previsione. */
+export type Step = 'allocation' | 'baseline' | 'packages' | 'forecast' | 'local_ai'
+export type ColorBy = 'co2_kg' | 'cost_chf' | 'cluster'
 
 interface AppState {
   step: Step
   setStep: (step: Step) => void
+  /** Simulazione mese per mese (passi 2 e 4): mese mostrato (0–11) oppure null = anno intero. */
+  month: number | null
+  playing: boolean
+  /** La simulazione della baseline è finita almeno una volta: si sbloccano le misure e i passi dopo. */
+  simDone: boolean
+  play: () => void
+  tick: () => void
+  setMonth: (m: number | null) => void
+  showMeasures: boolean
+  setShowMeasures: (v: boolean) => void
+  /** Obiettivo del pacchetto (climate_first, best_value, francs_first). null = quello predefinito del backend. */
+  goal: string | null
+  setGoal: (g: string) => void
+  colorBy: ColorBy
+  setColorBy: (c: ColorBy) => void
+  /** Passo 4: la mappa mostra il futuro con il pacchetto (true) o senza. */
+  withPackage: boolean
+  setWithPackage: (v: boolean) => void
+  chatOpen: boolean
+  setChatOpen: (v: boolean) => void
   /** Reparto isolato nella vista isometrica (null = pianta dall'alto). */
   room: string | null
   /** Mezzi giri di ciascun palco (frecce ← →): si gira solo l'oggetto in primo piano. Si accumulano. */
@@ -57,7 +79,39 @@ interface AppState {
 
 export const useApp = create<AppState>((set, get) => ({
   step: 'allocation',
-  setStep: (step) => set({ step }),
+  setStep: (step) =>
+    set((s) => ({
+      step,
+      room: null,
+      stage: 'office',
+      turns: { office: 0, cloud: 0 },
+      selectedId: null,
+      hoverId: null,
+      // La baseline parte da sola la prima volta; la previsione ogni volta.
+      month: (step === 'baseline' && !s.simDone) || step === 'forecast' ? 0 : null,
+      playing: (step === 'baseline' && !s.simDone) || step === 'forecast',
+    })),
+  month: null,
+  playing: false,
+  simDone: false,
+  play: () => set({ month: 0, playing: true, selectedId: null }),
+  tick: () =>
+    set((s) => {
+      const m = (s.month ?? -1) + 1
+      if (m <= 11) return { month: m }
+      return s.step === 'baseline' ? { month: null, playing: false, simDone: true } : { month: 11, playing: false }
+    }),
+  setMonth: (month) => set({ month, playing: false }),
+  showMeasures: false,
+  setShowMeasures: (showMeasures) => set({ showMeasures }),
+  goal: null,
+  setGoal: (goal) => set({ goal }),
+  colorBy: 'co2_kg',
+  setColorBy: (colorBy) => set({ colorBy }),
+  withPackage: true,
+  setWithPackage: (withPackage) => set({ withPackage }),
+  chatOpen: false,
+  setChatOpen: (chatOpen) => set({ chatOpen }),
   room: null,
   turns: { office: 0, cloud: 0 },
   stage: 'office',

@@ -6,3 +6,6 @@ ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 mkdir -p "$ROOT/web/public/data/real"
 cp "$ROOT"/output/*.json "$ROOT/web/public/data/real/"
 echo "Copied $(ls "$ROOT"/output/*.json | wc -l | tr -d ' ') files to web/public/data/real/"
+# File di consegna (CSV) per il pulsante «Export».
+mkdir -p "$ROOT/web/public/data/real/submission"
+cp "$ROOT"/output/submission/*.csv "$ROOT/web/public/data/real/submission/"

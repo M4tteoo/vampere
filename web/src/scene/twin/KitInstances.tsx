@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, type ThreeEvent } from '@react-three/fiber'
-import { Color, InstancedMesh, Matrix4, Object3D, Quaternion, Vector3, type Material } from 'three'
+import { Color, InstancedMesh, Matrix4, MeshStandardMaterial, Object3D, Quaternion, Vector3, type Material } from 'three'
 import { useKit, type Role } from './kit'
+import { focusPlanes } from './clip'
 
 /** Un'istanza di un asset nella scena: posizione e colori «di stato» calcolati dai dati. */
 export interface Inst {
@@ -14,7 +15,7 @@ export interface Inst {
   scale: number
   /** Ingrandimento fisso (es. oggetti sulla nuvola, visti da lontano). */
   size?: number
-  colors: Partial<Record<Role, string>>
+  colors: Partial<Record<Role | 'paint', string>>
   /** Lampeggia (spreco, decisione in sospeso). */
   blink: boolean
   /** 0–1: velocità di ventole e nastri. */
@@ -22,6 +23,8 @@ export interface Inst {
   pickable: boolean
   /** Reparto a cui appartiene (per il ritaglio e per i clic). */
   room?: string
+  /** Unità di dati (pcs:<reparto> o id della risorsa): gli oggetti della stessa unità si evidenziano insieme. */
+  unit?: string
 }
 
 interface Props {
@@ -35,9 +38,18 @@ interface Props {
   pickRoom?: string | null
   /** Materiali senza il ritaglio del reparto (oggetti sulle isole). */
   unclipped?: boolean
+  /** Mappa «a colori»: tutto l'oggetto prende il colore `colors.paint` (schermi e LED restano come sono). */
+  paint?: boolean
 }
 
 const TINTED: Role[] = ['screen', 'led', 'glow', 'accent', 'days', 'provider']
+const LIGHTS: Role[] = ['screen', 'led', 'glow', 'days']
+type Tint = Role | 'paint'
+/** Ruolo da cui prende il colore una parte (null = colore del modello). */
+const tintOf = (role: Role, paint?: boolean): Tint | null => (paint ? (LIGHTS.includes(role) ? role : 'paint') : TINTED.includes(role) ? role : null)
+const paintMaterial = new MeshStandardMaterial({ color: '#ffffff', roughness: 0.82 })
+paintMaterial.clippingPlanes = focusPlanes
+const paintUnclipped = new MeshStandardMaterial({ color: '#ffffff', roughness: 0.82 })
 const UP = new Vector3(0, 1, 0)
 
 interface Live {
@@ -51,18 +63,19 @@ interface Live {
 }
 
 /** Disegna tutte le copie di un asset con poche draw call (una InstancedMesh per parte del modello). */
-export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickRoom, unclipped }: Props) {
+export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickRoom, unclipped, paint }: Props) {
   const kit = useKit(asset)
   const materials = useMemo(
     () =>
       kit.parts.map((p) => {
         if (ghost) return ghost
+        if (paint && !LIGHTS.includes(p.role)) return unclipped ? paintUnclipped : paintMaterial
         if (!unclipped) return p.material
         const m = p.material.clone()
         m.clippingPlanes = null
         return m
       }),
-    [kit, ghost, unclipped],
+    [kit, ghost, unclipped, paint],
   )
   const refs = useRef<(InstancedMesh | null)[]>([])
   const live = useRef<Live[]>([])
@@ -89,15 +102,17 @@ export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickR
   const colors = useMemo(() => {
     const c = new Color()
     return instances.map((inst) => {
-      const out: Partial<Record<Role, Color>> = {}
-      for (const r of TINTED) out[r] = c.set(inst.colors[r] ?? '#ffffff').clone()
+      const out: Partial<Record<Tint, Color>> = {}
+      for (const r of [...TINTED, 'paint'] as Tint[]) out[r] = c.set((inst.colors as Record<string, string | undefined>)[r] ?? '#ffffff').clone()
       return out
     })
   }, [instances])
+  // Colori mostrati: seguono quelli dei dati con una breve dissolvenza (simulazione mese per mese).
+  const shown = useRef<Partial<Record<Tint, Color>>[]>([])
 
   useEffect(() => {
     dirty.current = true
-  }, [colors])
+  }, [colors, materials])
 
   const tmp = useMemo(
     () => ({ m: new Matrix4(), q: new Quaternion(), s: new Vector3(), spin: new Matrix4(), piv: new Matrix4(), back: new Matrix4(), c: new Color(), o: new Object3D() }),
@@ -126,7 +141,21 @@ export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickR
         moving = true
       }
       if (animated) l.spin += dt * inst.activity * 7
+      // Dissolvenza dei colori.
+      const want = colors[i]
+      const have = (shown.current[i] ??= {})
+      for (const r of Object.keys(want) as Tint[]) {
+        const h = (have[r] ??= want[r]!.clone())
+        if (Math.abs(h.r - want[r]!.r) + Math.abs(h.g - want[r]!.g) + Math.abs(h.b - want[r]!.b) > 0.004) {
+          h.lerp(want[r]!, Math.min(1, dt * 6))
+          moving = true
+        } else if (!h.equals(want[r]!)) {
+          h.copy(want[r]!)
+          moving = true
+        }
+      }
     })
+    shown.current.length = instances.length
     if (!dirty.current && !moving && !animated && !instances.some((x) => x.blink)) return
 
     kit.parts.forEach((part, pi) => {
@@ -147,9 +176,10 @@ export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickR
         }
         tmp.m.multiply(part.matrix)
         mesh.setMatrixAt(i, tmp.m)
-        if (!ghost && TINTED.includes(part.role)) {
-          tmp.c.copy(colors[i][part.role]!)
-          if (inst.blink && part.role !== 'accent') tmp.c.multiplyScalar(0.55 + 0.45 * (0.5 + 0.5 * Math.sin(time * 4 + i)))
+        const tint = ghost ? null : tintOf(part.role, paint)
+        if (tint) {
+          tmp.c.copy(shown.current[i]?.[tint] ?? colors[i][tint]!)
+          if (inst.blink && tint !== 'accent' && tint !== 'paint') tmp.c.multiplyScalar(0.55 + 0.45 * (0.5 + 0.5 * Math.sin(time * 4 + i)))
           mesh.setColorAt(i, tmp.c)
         }
       })
@@ -171,7 +201,7 @@ export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickR
     <group>
       {kit.parts.map((part, pi) => (
         <instancedMesh
-          key={`${pi}-${count}`}
+          key={`${pi}-${count}-${paint ? 1 : 0}`}
           ref={(m) => {
             refs.current[pi] = m
           }}

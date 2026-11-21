@@ -1,3 +1,4 @@
+import type { Extra } from './extra'
 // Contratto dati tra backend (pipeline Python → output/*.json) e frontend (web/public/data/*.json).
 // I file mock in public/data/ seguono esattamente questi tipi: per passare ai dati veri basta sostituirli.
 
@@ -99,6 +100,8 @@ export interface Entity {
   hours?: { runtime: number; active: number }
   /** ID di oggetti della scena (layout.json) che rappresentano questa entità, oltre all'id stesso. */
   scene_ids?: string[]
+  /** Id del backend (res:…, srv:…, lic:…) che compongono questa entità: servono per serie mensili e misure. */
+  raw_ids?: string[]
 }
 
 /** Effetto di una misura su un'entità, usato solo per animare la scena. */
@@ -210,6 +213,8 @@ export interface Dataset {
   layout: LayoutItem[]
   /** Vista consultiva «AI locale» (local_ai.json): null se il file manca. Non cambia nessun altro numero. */
   localAi?: LocalAiFile | null
+  /** Passi 2–4 (anno di baseline, pacchetti, previsione): null con i mock o se mancano i file. */
+  extra?: Extra | null
 }
 
 // --- AI locale (contract/types.ts LocalAiFile; i valori restano range del backend) -----------------------

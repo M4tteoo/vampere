@@ -8,6 +8,8 @@ import { ItemPanel } from './ui/ItemPanel'
 import { LocalAiPanel } from './ui/LocalAiPanel'
 import { SceneLabels } from './ui/SceneLabels'
 import { useProgress } from '@react-three/drei'
+import { StepUi, Ticker } from './ui/Steps'
+import { Chat } from './ui/Chat'
 
 /** Demo passo per passo. Per ora: Allocation (chi consuma cosa). Gli altri passi sono in src/scene/SceneAll.tsx e src/ui/*Panel. */
 export default function App() {
@@ -23,6 +25,15 @@ export default function App() {
         // Parametri URL per test: ?room=it apre un reparto, ?sel=<id> apre la scheda di un oggetto.
         const q = new URLSearchParams(window.location.search)
         const s = useApp.getState()
+        const step = q.get('step')
+        if (step === 'baseline' || step === 'packages' || step === 'forecast') {
+          if (step !== 'baseline' || q.has('year')) useApp.setState({ simDone: true })
+          s.setStep(step)
+          if (q.has('year')) s.setMonth(null)
+        }
+        if (q.has('measures')) s.setShowMeasures(true)
+        const goal = q.get('goal')
+        if (goal) s.setGoal(goal)
         const room = q.get('room')
         if (room) s.setRoom(room)
         if (q.get('stage') === 'cloud') s.setStage('cloud')
@@ -39,13 +50,16 @@ export default function App() {
   return (
     <div className="flex h-full flex-col bg-white">
       <Header />
+      <Ticker />
       <main className="relative min-h-0 flex-1">
         <Scene />
         <Loading />
         <div className="pointer-events-none absolute inset-0 z-30">
           <SceneLabels />
+          <StepUi />
           <RoomTitle />
           <ItemPanel />
+          {step !== 'local_ai' && <Chat />}
           {step === 'local_ai' && <LocalAiPanel />}
         </div>
       </main>

@@ -3,7 +3,7 @@ import { Canvas, useThree } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import { MathUtils, PerspectiveCamera, Vector3 } from 'three'
 import { useApp } from '../store'
-import { AllocationScene, ISO, useOffice, useStageLayout } from './twin/Allocation'
+import { AllocationScene, ISO, TOP, useStageLayout } from './twin/Allocation'
 
 /** Obiettivo «lungo» (FOV piccolo): la vista sembra un'assonometria, come un plastico. */
 const FOV = 22
@@ -11,7 +11,11 @@ const FOV = 22
 export const PANEL_W = 420
 const TITLE_H = 130
 /** Spazio in alto per i titoli dei palchi. */
-const TOP_H = 90
+const TOP_H = 110
+/** Pianta dei passi 2–4: spazio in basso per la barra del tempo. */
+const PLAN_BOTTOM = 90
+/** Pianta dei passi 2–4: spazio a sinistra per la legenda. */
+const LEGEND_W = 300
 
 export function Scene() {
   const select = useApp((s) => s.select)
@@ -57,40 +61,34 @@ function CameraRig() {
   const ref = useRef<CameraControls>(null)
   const room = useApp((s) => s.room)
   const panel = useApp((s) => !!s.selectedId)
+  const step = useApp((s) => s.step)
   const size = useThree((s) => s.size)
-  const info = useOffice()
   const layout = useStageLayout()
 
   useEffect(() => {
     const c = ref.current
-    if (!c) return
+    if (!c || !layout) return
     const vf = MathUtils.degToRad(FOV)
     const aspect = size.width / size.height
-    const hf = 2 * Math.atan(Math.tan(vf / 2) * aspect)
-
-    if (!room || !layout) {
-      // Pianta: tutto l'ufficio, dritto dall'alto, nord in alto.
-      const { center, size: s } = info.office
-      const dist = Math.max(s.x / 2 / Math.tan(hf / 2), s.z / 2 / Math.tan(vf / 2)) * 1.1 + 2
-      c.setFocalOffset(0, 0, 0, true)
-      c.setLookAt(center.x, dist, center.z + 0.001, center.x, 0, center.z, true)
-      return
-    }
-
-    // Spazio libero (px): sotto i titoli dei palchi, sopra il nome del reparto e, se la scheda è aperta, alla sua sinistra.
-    const free = { l: 24, r: size.width - 24 - (panel ? PANEL_W + 48 : 0), t: TOP_H, b: size.height - TITLE_H }
+    const plan = layout.view === 'plan'
+    const dir = plan ? TOP : ISO
+    // Spazio libero (px): nel reparto sotto i titoli dei palchi, sopra il nome del reparto e a sinistra della scheda;
+    // nella pianta dei passi 2–4 sopra la barra del tempo e la legenda.
+    const bottom = plan ? (step === 'allocation' ? 24 : PLAN_BOTTOM) : TITLE_H
+    const heatPlan = plan && step !== 'allocation'
+    const free = { l: heatPlan ? LEGEND_W : 24, r: size.width - 24 - (panel ? PANEL_W + 48 : 0), t: heatPlan ? 76 : plan ? 24 : TOP_H, b: size.height - bottom }
     const fx = [(free.l / size.width) * 2 - 1, (free.r / size.width) * 2 - 1]
     const fy = [1 - (free.b / size.height) * 2, 1 - (free.t / size.height) * 2]
-    // Inquadratura con la prospettiva vera: si proiettano gli angoli, poi si ricentra e si regola la distanza (poche iterazioni).
+    // Inquadratura con la prospettiva vera: si proiettano i punti, poi si ricentra e si regola la distanza (poche iterazioni).
     const cam = new PerspectiveCamera(FOV, aspect, 0.1, 2000)
-    const target = layout.frame.center.clone()
+    const target = layout.center.clone()
     const t = Math.tan(vf / 2)
-    let dist = Math.max(layout.frame.h / t, layout.frame.w / (t * aspect)) * 1.5
+    let dist = 120
     const camUp = new Vector3()
     const camRight = new Vector3()
     const p = new Vector3()
-    for (let i = 0; i < 6; i++) {
-      cam.position.copy(target).addScaledVector(ISO, dist)
+    for (let i = 0; i < 8; i++) {
+      cam.position.copy(target).addScaledVector(dir, dist)
       cam.lookAt(target)
       cam.updateMatrixWorld()
       let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity
@@ -106,10 +104,11 @@ function CameraRig() {
       target.addScaledVector(camUp, (((y0 + y1) - (fy[0] + fy[1])) / 2) * halfH)
       dist *= Math.max((x1 - x0) / (fx[1] - fx[0]), (y1 - y0) / (fy[1] - fy[0])) * 1.04
     }
-    const pos = target.clone().addScaledVector(ISO, dist)
+    const pos = target.clone().addScaledVector(dir, dist)
+    c.normalizeRotations()
     c.setFocalOffset(0, 0, 0, true)
     c.setLookAt(pos.x, pos.y, pos.z, target.x, target.y, target.z, true)
-  }, [room, panel, size, info, layout])
+  }, [room, panel, size, layout, step])
 
   return <CameraControls ref={ref} makeDefault enabled={false} smoothTime={0.7} minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
 }
