@@ -13,6 +13,7 @@ import { GLOW, LED, PROVIDER, SCREEN } from './colors'
 import { useAnchors } from './Environment'
 import { useScreen } from './screen'
 import { useHeat, type HeatView } from './heat'
+import { BlueprintBuild, buildGroups } from './BlueprintBuild'
 
 const OFFICE = `${MODELS}/env_office_v1.glb`
 const ISLANDS = `${MODELS}/env_islands_v1.glb`
@@ -436,7 +437,7 @@ export function AllocationScene() {
         })
       }
     }
-    return out
+    return byRoom
   }, [seats, ctx, heat])
 
   // Hardware di ogni isola: a colori (e cliccabile) se il reparto lo usa, fantasma altrimenti. Nella pianta: tutto, non cliccabile.
@@ -502,14 +503,22 @@ export function AllocationScene() {
   return (
     <group>
       <group ref={(g) => void (stageGroups.office = g)}>
-        <OfficeModel info={info} stage={stage} heatOn={heat.on} />
-        {Object.entries(officeAssets).map(([asset, list]) => (
-          <group key={asset}>
-            <KitInstances asset={asset} instances={list} onHover={onOfficeHover} onSelect={onOfficeSelect} pickRoom={room} paint={heat.on} />
-            {selUnit && <Veil asset={asset} list={pick(list, selUnit)} material={V.select} />}
-            {hovUnit && hovUnit !== selUnit && <Veil asset={asset} list={pick(list, hovUnit)} material={V.hover} />}
+        <group ref={(g) => void (buildGroups.walls = g)}>
+          <OfficeModel info={info} stage={stage} heatOn={heat.on} />
+        </group>
+        {/* Raggruppate per reparto: nell'intro «planimetria → 3D» atterrano un reparto alla volta. */}
+        {Object.entries(officeAssets).map(([r, assets]) => (
+          <group key={r} ref={(g) => void (buildGroups.rooms[r] = g)}>
+            {Object.entries(assets).map(([asset, list]) => (
+              <group key={asset}>
+                <KitInstances asset={asset} instances={list} onHover={onOfficeHover} onSelect={onOfficeSelect} pickRoom={room} paint={heat.on} />
+                {selUnit && <Veil asset={asset} list={pick(list, selUnit)} material={V.select} />}
+                {hovUnit && hovUnit !== selUnit && <Veil asset={asset} list={pick(list, hovUnit)} material={V.hover} />}
+              </group>
+            ))}
           </group>
         ))}
+        <BlueprintBuild />
       </group>
 
       {layout?.islands && (

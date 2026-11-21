@@ -3,6 +3,7 @@ import { Canvas, useThree } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import { MathUtils, PerspectiveCamera, Vector3 } from 'three'
 import { useApp } from '../store'
+import { useIntro } from '../intro/store'
 import { AllocationScene, ISO, TOP, useStageLayout } from './twin/Allocation'
 
 /** Obiettivo «lungo» (FOV piccolo): la vista sembra un'assonometria, come un plastico. */
@@ -69,7 +70,7 @@ function CameraRig() {
 
   useEffect(() => {
     const c = ref.current
-    if (!c || !layout) return
+    if (!c || !layout || building) return
     const vf = MathUtils.degToRad(FOV)
     const aspect = size.width / size.height
     const plan = layout.view === 'plan'
@@ -110,7 +111,7 @@ function CameraRig() {
     c.normalizeRotations()
     c.setFocalOffset(0, 0, 0, true)
     c.setLookAt(pos.x, pos.y, pos.z, target.x, target.y, target.z, true)
-  }, [room, panel, size, layout, step])
+  }, [room, panel, size, layout, step, building])
 
   return <CameraControls ref={ref} makeDefault enabled={false} smoothTime={0.7} minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
 }

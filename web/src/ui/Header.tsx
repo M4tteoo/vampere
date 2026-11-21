@@ -65,6 +65,8 @@ export function Header() {
       <div className="flex w-48 items-center justify-end gap-2">
         <button
           onClick={() => {
+            // L'intro costruisce l'ufficio «vero»: si torna al passo 1.
+            if (step !== 'allocation') setStep('allocation')
             setRoom(null)
             useIntro.getState().replay()
           }}

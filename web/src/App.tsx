@@ -59,11 +59,11 @@ export default function App() {
         <Loading />
         <BlueprintIntro />
         <div className="pointer-events-none absolute inset-0 z-30">
-          <SceneLabels />
-          <StepUi />
-          <RoomTitle />
+          {introDone && <SceneLabels />}
+          {introDone && <StepUi />}
+          {introDone && <RoomTitle />}
           <ItemPanel />
-          {step !== 'local_ai' && <Chat />}
+          {introDone && step !== 'local_ai' && <Chat />}
           {step === 'local_ai' && <LocalAiPanel />}
         </div>
       </main>
