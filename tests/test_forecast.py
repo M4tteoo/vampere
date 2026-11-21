@@ -126,6 +126,43 @@ class ForecastTest(unittest.TestCase):
         factor = load_factors()["grid"]["CH"]["variants"]["ch_production"]["mid"]
         self.assertAlmostEqual(september["with"]["co2_kg"]["mid"], 50 * factor, places=2)
 
+    def test_history_replays_server_shares_licences_and_distinct_ai_tasks(self):
+        from pipeline.bonus.optimized_history import replay
+
+        base = row("2026-08-01", "shared", "cloud", 100)
+        facts = pd.DataFrame([
+            base,
+            {**base, "is_one_off": True},
+            {**base, "resource_id": "suite", "source_file": "saas_contracts.csv", "tool": "Suite"},
+            {**base, "resource_id": "gateway", "source_file": "ai_usage.csv", "source_row": 7},
+            {**base, "resource_id": "gateway", "source_file": "ai_usage.csv", "source_row": 8},
+            {**base, "resource_id": "gateway", "source_file": "ai_usage.csv", "source_row": 9},
+        ])
+        advisor = {
+            "servers": [{"id": f"srv:{s}", "resource": "shared"} for s in ("a", "b")],
+            "facts": {f"srv:{s}.share_of_resource": {"value": share} for s, share in (("a", .2), ("b", .3))},
+        }
+        ai = pd.DataFrame({"source_row": [7, 8, 9], "task_type": ["Draft", "Translate", "Draft"],
+                           "model_class": ["large", "large", "small"]})
+        ids = ["server", "licence", "draft", "translate", "overlap"]
+        effect = lambda scope, cost, energy: {"scope": scope, "cost_share": cost, "energy_share": energy}
+        payload = {"package": {"measure_ids": ids}, "measures": [
+            {"id": mid, "status": "ok", "effects": effects}
+            for mid, effects in zip(ids, [
+                [effect("srv:a", 1, 1), effect("srv:b", .5, .5)],
+                [effect("lic:Suite", .4, 0)],
+                [effect("ai:gateway:Draft:large", .5, .5)],
+                [effect("ai:gateway:Translate:large", .25, .25)],
+                [effect("res:shared", .1, .1)],
+            ])
+        ]}
+        optimized, report = replay(facts, payload, "ch_consumption", advisor_facts=advisor, ai_usage=ai)
+        self.assertEqual(report["applied_measure_ids"], ids[:-1])
+        self.assertEqual(report["skipped"][0]["id"], "overlap")
+        self.assertIn("Overlapping", report["skipped"][0]["reason"])
+        self.assertEqual(optimized["cost_chf"].tolist(), [65, 100, 60, 50, 75, 100])
+        self.assertEqual(optimized["kwh_mid"].tolist(), [65, 100, 100, 50, 75, 100])
+
     def test_no_replayable_measures_does_not_invent_an_optimized_history(self):
         from pipeline.bonus.optimized_history import replay
 

@@ -13,12 +13,12 @@ for 10,000 random factor draws (B1) without re-running anything:
 from __future__ import annotations
 
 import numpy as np
-import pandas as pd
 
 from ..energy.engine import LEVELS
 from ..energy.linear import LOCATIONS, LinearEnergy, at_level, factor_ranges
 from ..harmonize.context import Context
 from .common import read_output
+from .scope_rows import ScopeRows
 
 COST = {"low": "cost_chf_low", "mid": "cost_chf", "high": "cost_chf_high"}
 
@@ -32,17 +32,10 @@ class PackageModel:
         fc = ctx.tables["fact_cost"]
         self.base = fc[fc["in_baseline"]].reset_index(drop=True)
         self.lin = LinearEnergy(self.base)
-        self.rec = ~self.base["is_one_off"].fillna(False).astype(bool).to_numpy()
+        self.rows = ScopeRows(self.base, facts, ctx.tables["stg_ai_usage"])
+        self.rec = self.rows.recurring.to_numpy()
         self.total = self.lin.aggregate(np.ones(len(self.base), bool))
         self.total_cost = {lvl: float(self.base[COST[lvl]].sum()) for lvl in LEVELS}
-
-        srv = pd.DataFrame(facts["servers"]).set_index("id")
-        self.srv_res = srv["resource"].to_dict()
-        self.srv_share = {s: facts["facts"].get(f"{s}.share_of_resource", {}).get("value", 0) for s in srv.index}
-        ai = ctx.tables["stg_ai_usage"].set_index("source_row")[["task_type", "model_class"]]
-        gw = (self.base["source_file"] == "ai_usage.csv").to_numpy()
-        self.task = np.where(gw, self.base["source_row"].map(ai["task_type"]).to_numpy(), None)
-        self.mclass = np.where(gw, self.base["source_row"].map(ai["model_class"]).to_numpy(), None)
 
         self.measures = [m for m in mf["measures"] if m["in_package"] and m["status"] != "blocked"]
         self.all_measures = mf["measures"]
@@ -51,27 +44,12 @@ class PackageModel:
         self._scopes: dict[str, dict] = {}
 
     # ----------------------------------------------------------- scopes
-    def _rows(self, scope: str) -> tuple[np.ndarray, float]:
-        """(mask over baseline rows, scale) of a scope's recurring baseline, as Calculator.base()."""
-        kind, _, rest = scope.partition(":")
-        b = self.base
-        if kind == "res":
-            return self.rec & (b["resource_id"] == rest).to_numpy(), 1.0
-        if kind == "srv":
-            return self.rec & (b["resource_id"] == self.srv_res[scope]).to_numpy(), float(self.srv_share.get(scope, 0))
-        if kind == "lic":
-            return self.rec & b["source_file"].isin(["ai_subscriptions.csv", "saas_contracts.csv"]).to_numpy() \
-                & (b["tool"] == rest).to_numpy(), 1.0
-        if kind == "ai":
-            rid, task, mc = rest.split(":")
-            return self.rec & (b["resource_id"] == rid).to_numpy() & (self.task == task) & (self.mclass == mc), 1.0
-        return np.zeros(len(b), bool), 0.0
-
     def scope(self, scope: str) -> dict:
         if scope not in self._scopes:
-            mask, k = self._rows(scope)
+            rows, k = self.rows.resolve(scope)
+            mask = rows.to_numpy()
             A, B = self.lin.aggregate(mask)
-            rid = self.srv_res.get(scope) if scope.startswith("srv:") else scope.partition(":")[2].split(":")[0]
+            rid = self.rows.servers.get(scope) if scope.startswith("srv:") else scope.partition(":")[2].split(":")[0]
             locs = self.base.loc[self.rec & (self.base["resource_id"] == rid).to_numpy(), "location"].dropna()
             self._scopes[scope] = {"agg": (A * k, B * k), "cost": {l: float(self.base.loc[mask, COST[l]].sum()) * k for l in LEVELS},
                                    "from": locs.mode().iat[0] if len(locs) else None}

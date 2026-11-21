@@ -1,37 +1,28 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T11:41:14+01:00",
+  "generated_at": "2026-11-21T12:07:00+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
   },
   "scenario": "ch_consumption"
  },
- "status": "partial",
+ "status": "complete",
  "applied_measure_ids": [
   "M-01",
-  "M-02"
+  "M-02",
+  "M-03",
+  "M-04",
+  "M-05",
+  "M-06"
  ],
  "requires_confirmation": [
-  "M-01"
+  "M-01",
+  "M-03",
+  "M-04",
+  "M-05",
+  "M-06"
  ],
- "skipped": [
-  {
-   "id": "M-03",
-   "reason": "Unsupported scope: srv:poc-ki-2024"
-  },
-  {
-   "id": "M-04",
-   "reason": "Unsupported scope: lic:Accounting software"
-  },
-  {
-   "id": "M-05",
-   "reason": "Unsupported scope: ai:ai-assistant:Summarise:large"
-  },
-  {
-   "id": "M-06",
-   "reason": "Unsupported scope: ai:ai-marketing:Classify:large"
-  }
- ]
+ "skipped": []
 }

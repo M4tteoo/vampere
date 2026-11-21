@@ -9,6 +9,7 @@ from ..export.frontend import MARKET_SUMS
 from ..harmonize.context import ROOT, Context
 from ..harmonize.store import DATE_COLUMNS
 from .common import read_output, write_json, write_table
+from .scope_rows import ScopeRows
 
 TABLE = "fact_cost_optimized"
 REPORT = "optimized_history.json"
@@ -17,7 +18,8 @@ COST_COLUMNS = ("amount_native", "amount_native_low", "amount_native_high",
                 "cost_chf_low", "cost_chf", "cost_chf_high", "cost_eur", "cost_usd")
 
 
-def replay(facts: pd.DataFrame, payload: dict | None, scenario: str) -> tuple[pd.DataFrame | None, dict]:
+def replay(facts: pd.DataFrame, payload: dict | None, scenario: str, *,
+           advisor_facts: dict | None = None, ai_usage: pd.DataFrame | None = None) -> tuple[pd.DataFrame | None, dict]:
     report = {"status": "missing_package", "applied_measure_ids": [], "requires_confirmation": [], "skipped": []}
     if payload is None:
         return None, report
@@ -25,13 +27,12 @@ def replay(facts: pd.DataFrame, payload: dict | None, scenario: str) -> tuple[pd
     grid = load_factors()["grid"]
     measures = {m["id"]: m for m in payload["measures"]}
     selected = list(dict.fromkeys(payload["package"]["measure_ids"]))
-    recurring = ~facts["is_one_off"].eq(True)
+    allocations = ScopeRows(facts, advisor_facts, ai_usage)
     cost_columns = [column for column in COST_COLUMNS if column in facts]
-    claimed = set()
+    claimed: set[str] = set()
+    allocated = pd.Series(0.0, index=facts.index)
     optimized = None
 
-    # Open: replay srv:/lic:/ai: scopes when their row allocation is shared with the
-    # advisor. Don't infer row effects from annual savings or measure descriptions.
     # Open: calendar windows and activation dates need a separate rollout simulation.
     # This history assumes supported measures were already in force.
     for measure_id in selected:
@@ -46,18 +47,19 @@ def replay(facts: pd.DataFrame, payload: dict | None, scenario: str) -> tuple[pd
             reason = "No structured effects"
         else:
             reason = None
+            proposed = allocated.copy()
             for effect in measure["effects"]:
                 scope = effect["scope"]
-                kind, _, resource = scope.partition(":")
-                if kind != "res":
-                    reason = f"Unsupported scope: {scope}"
+                try:
+                    rows, share = allocations.resolve(scope)
+                except ValueError as exc:
+                    reason = str(exc)
                     break
-                if resource in claimed or resource in seen:
-                    reason = f"Overlapping resource effects: {scope}"
-                    break
-                rows = recurring & facts["resource_id"].eq(resource)
                 if not rows.any():
                     reason = f"No recurring rows for {scope}"
+                    break
+                if scope in claimed or scope in seen or (proposed.loc[rows] + share > 1 + 1e-9).any():
+                    reason = f"Overlapping effects: {scope}"
                     break
                 cost, energy = float(effect["cost_share"]), float(effect["energy_share"])
                 destination = effect.get("relocate_to")
@@ -67,8 +69,12 @@ def replay(facts: pd.DataFrame, payload: dict | None, scenario: str) -> tuple[pd
                 if destination and destination not in grid:
                     reason = f"Unknown grid location: {destination}"
                     break
-                seen.add(resource)
-                planned.append((rows, cost, energy, destination))
+                if destination and not scope.startswith("res:"):
+                    reason = f"Relocation requires a whole resource: {scope}"
+                    break
+                seen.add(scope)
+                proposed.loc[rows] += share
+                planned.append((rows, cost * share, energy * share, destination))
         if reason is not None:
             report["skipped"].append({"id": measure_id, "reason": reason})
             continue
@@ -80,8 +86,9 @@ def replay(facts: pd.DataFrame, payload: dict | None, scenario: str) -> tuple[pd
             optimized = facts.drop(columns=MARKET_SUMS, errors="ignore")
             scaled = cost_columns + [f"{metric}_{level}" for level in LEVELS for metric in ("kwh", "co2_kg")]
             optimized[scaled] = optimized[scaled].astype(float)
+        # Distinct servers on a shared bill each remove a share of the original rows.
         for rows, cost, energy, destination in planned:
-            optimized.loc[rows, cost_columns] *= 1 - cost
+            optimized.loc[rows, cost_columns] -= facts.loc[rows, cost_columns] * cost
             if destination:
                 moved = rows & ~optimized["location"].eq(destination)
                 optimized.loc[moved, "location"] = destination
@@ -89,14 +96,15 @@ def replay(facts: pd.DataFrame, payload: dict | None, scenario: str) -> tuple[pd
                     optimized.loc[moved, "region"] = None
             for level in LEVELS:
                 kwh, co2 = f"kwh_{level}", f"co2_kg_{level}"
-                optimized.loc[rows, kwh] *= 1 - energy
+                optimized.loc[rows, kwh] -= facts.loc[rows, kwh] * energy
                 if destination:
                     factors = grid[destination]
                     factor = factors["variants"][scenario][level] if "variants" in factors else factors[level]
                     optimized.loc[rows, co2] = optimized.loc[rows, kwh] * factor
                 else:
-                    optimized.loc[rows, co2] *= 1 - energy
+                    optimized.loc[rows, co2] -= facts.loc[rows, co2] * energy
         claimed.update(seen)
+        allocated = proposed
         report["applied_measure_ids"].append(measure_id)
         if measure["status"] == "human":
             report["requires_confirmation"].append(measure_id)
@@ -109,7 +117,9 @@ def replay(facts: pd.DataFrame, payload: dict | None, scenario: str) -> tuple[pd
 def run(ctx: Context) -> None:
     payload = read_output(ctx, "measures.json")
     previous = read_output(ctx, REPORT)
-    history, report = replay(ctx.tables["fact_cost"], payload, ctx.config["scenario"])
+    history, report = replay(ctx.tables["fact_cost"], payload, ctx.config["scenario"],
+                             advisor_facts=read_output(ctx, "advisor/facts.json"),
+                             ai_usage=ctx.tables.get("stg_ai_usage"))
     if history is not None:
         for column in DATE_COLUMNS.intersection(history.columns):
             history[column] = pd.to_datetime(history[column]).dt.date
