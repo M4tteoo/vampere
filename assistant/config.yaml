@@ -1,6 +1,6 @@
 # GreenOps assistant (bonus A1). Secrets are NOT here: OPENAI_API_KEY comes from .env.
 
-chat_model: gpt-5.4            # answers + tool use (Responses API)
+chat_model: gpt-5.4-mini       # answers + tool use (Responses API)
 classifier_model: gpt-5.4-mini # free-text risk classifier (python -m assistant classify)
 reasoning_effort: low          # none | low | medium | high
 max_tool_rounds: 8             # tool-call rounds per answer before giving up
