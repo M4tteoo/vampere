@@ -427,3 +427,48 @@ export interface ChatResponse {
   model: string;
   rounds: number;
 }
+
+// ----------------------------------------------------------- jobs.json (A5)
+/** Carbon-aware shifting. Timeline: 24-hour curves per location (profiles); flexible jobs
+ *  slide from usual_start to suggested_start; fixed jobs carry a lock (locked = true). */
+export interface JobsFile {
+  meta: Meta;
+  method: {
+    policies: Record<"static" | "dynamic", string>;
+    energy_bases: Record<"marginal" | "full", string>;
+    protected_hours: Record<string, number[]>;   // resource → hours (0–23) taken by daily fixed jobs
+    assumptions: Record<string, unknown>;
+  };
+  profiles: { location: LocationCode; season: "winter" | "summer" | "year"; day_type: "workday";
+              g_per_kwh: number[] }[];           // 24 values, hour 0 = 00:00 Basel time
+  profile_source: string;
+  profile_stats: Record<string, unknown>;
+  jobs: CarbonJob[];
+  totals: {
+    marginal: Record<"now" | "saving_static" | "saving_dynamic", Range>; // kg CO2 / year
+    full: Record<"now" | "saving_static" | "saving_dynamic", Range>;
+    baseline_co2_kg: number;
+    share_of_baseline_full_dynamic: number;
+  };
+  calc: Calc;
+}
+
+export interface CarbonJob {
+  job_name: string;
+  resource_id: string;
+  entity_id: string;                            // "res:dp-dev"
+  location: LocationCode;
+  window_type: "fixed" | "flexible" | "other";
+  window_rule: string;                          // "within 24 h", "done by 06:00 (morning reports)" …
+  runs: number;                                 // runs in the baseline year
+  usual_start: string;                          // "12:00"
+  avg_duration_h: number;
+  shiftable: boolean;
+  locked: boolean;                              // fixed window → lock icon
+  reason: string | null;                        // why not shiftable
+  suggested_start: string | null;
+  suggested_day_type?: "workday" | "weekend" | "same day";
+  relative_intensity?: Record<"now" | "static" | "dynamic", number>; // 1 = yearly average of the location
+  kwh_per_run: Record<"marginal" | "full", Range> | null;
+  co2_kg_year: Record<"marginal" | "full", Record<"now" | "saving_static" | "saving_dynamic", Range>> | null;
+}

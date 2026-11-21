@@ -488,13 +488,16 @@ def quality_issues(store: DataStore, resource_id: str | None, source_file: str |
 
 
 ANALYSIS_FILES = {"findings": "findings.json", "measures": "measures.json", "package": "measures.json",
-                  "limits": "limits.json", "clusters": "clusters.json"}
+                  "limits": "limits.json", "clusters": "clusters.json", "jobs": "jobs.json"}
+ANALYSIS_ITEMS = {"findings": "findings", "measures": "measures", "limits": "limits", "clusters": "groups",
+                  "jobs": "jobs"}
 
 
 @tool("Results of the analysis steps: findings (drivers, waste, anomalies with evidence), measures (effort, "
       "savings, status ok / human / blocked, owner), the recommended package (target check), limits "
-      "(protection windows, blocks, hand-overs, contradictions) and behaviour clusters. Recommendations must "
-      "come from here: never invent a measure or a status.",
+      "(protection windows, blocks, hand-overs, contradictions), behaviour clusters and jobs (carbon-aware "
+      "shifting: which scheduled jobs may move to cleaner hours, CO2 saved, hourly grid profiles). "
+      "Recommendations must come from here: never invent a measure or a status.",
       kind=_s("which result", list(ANALYSIS_FILES), nullable=False),
       item_id=_s("one item, e.g. F-01, M-03, L-02, C-2"),
       entity_id=_s("only items about this entity id"))
@@ -507,11 +510,14 @@ def analysis(store: DataStore, kind: str, item_id: str | None, entity_id: str | 
     if kind == "package":
         return {"package": data["package"], "additivity_note": data.get("additivity_note"),
                 "source": "output/measures.json"}
-    items = data[{"findings": "findings", "measures": "measures", "limits": "limits", "clusters": "groups"}[kind]]
+    items = data[ANALYSIS_ITEMS[kind]]
     if item_id:
-        items = [i for i in items if i["id"] == item_id]
+        items = [i for i in items if item_id in (i.get("id"), i.get("job_name"))]
     if entity_id:
-        items = [i for i in items if entity_id in i.get("entity_ids", [])]
+        items = [i for i in items if entity_id in i.get("entity_ids", []) or i.get("entity_id") == entity_id]
+    if kind == "jobs":
+        return {"kind": kind, "items": items[:25], "totals": data["totals"], "method": data["method"],
+                "profile_source": data["profile_source"], "source": "output/jobs.json"}
     if kind == "limits":  # quotes from tickets are untrusted text (copy: never mutate the cached file)
         items = [dict(lim, quote=wrap(lim["quote"], store)) if lim.get("quote") else lim for lim in items]
     return {"kind": kind, "items": items[:25], "truncated": len(items) > 25,

@@ -165,6 +165,8 @@ Example: moving dp-dev to Zurich is `{dp-dev, DE, +X kWh}` plus `{dp-dev, CH, �
 
 ### A5 · Carbon-aware shifting (`carbon_aware.py`), lowest priority
 
+**Status: done.** Hourly profiles from Energy-Charts (Fraunhofer ISE, CC BY 4.0) for the baseline year, IPCC life-cycle factors, Switzerland as a consumption mix with physical imports. 7 flexible jobs moved inside their windows, never over fixed runs (incl. month-end close). Saving: 13.2 kg CO₂/yr after auto-pause, 5.7 kg today, so timing is the last lever, after idle time and location. Pitch text: `docs/pitch-notes.md`.
+
 **Goal:** move the flexible jobs to cleaner hours and leave the fixed ones alone.
 
 - **Already there:** `stg_data_platform_jobs` with `window_type` (fixed/flexible) and `window_rule` parsed. The windows found: "within 24 h", "working day 08:00 to 18:00", "within the week", "within the month", "before the next working day", "first week of the quarter". The fixed ones are the ETL by 06:00, Power BI by 07:30, the export by 08:00, month-end and year-end close, and the backup window 22:00–06:00.

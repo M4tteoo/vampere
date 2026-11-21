@@ -17,7 +17,7 @@ scenario: ch_consumption
 # Add a module here once its file exists, e.g. [market, scenarios, clusters, forecast,
 # montecarlo, carbon_aware]. A failing module is reported and skipped unless fail_fast.
 bonus:
-  enabled: [text_risk, clusters]
+  enabled: [text_risk, clusters, carbon_aware]
   fail_fast: false
 
 handover:

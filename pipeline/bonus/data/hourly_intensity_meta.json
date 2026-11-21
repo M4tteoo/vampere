@@ -1,0 +1,163 @@
+{
+ "source": "Energy-Charts API (Fraunhofer ISE), /v2/public_power and /v2/cbpf, 15-min, 2025-09-01 \u2026 2026-08-31; licence CC BY 4.0, attribution: energy-charts.info; retrieved 2026-11-21",
+ "emission_factors_g_per_kwh": {
+  "fossil_brown_coal_lignite": 820,
+  "fossil_hard_coal": 820,
+  "fossil_coal_derived_gas": 820,
+  "fossil_gas": 490,
+  "fossil_oil": 650,
+  "fossil_peat": 1100,
+  "others": 700,
+  "waste": 700,
+  "biomass": 230,
+  "geothermal": 38,
+  "nuclear": 12,
+  "solar": 48,
+  "wind_onshore": 11,
+  "wind_offshore": 12,
+  "hydro_run_of_river": 24,
+  "hydro_water_reservoir": 24
+ },
+ "emission_factors_source": "IPCC AR5 WG III (2014) Annex III, life-cycle medians (Electricity Maps default method); oil 650, peat 1100 and unknown/waste 700 are assumptions",
+ "switzerland": "consumption mix incl. physical imports from germany, france, austria, italy at the neighbour's production intensity; imports = 31.2% of supply",
+ "use": "relative = hourly intensity / load-weighted yearly mean (shape only); absolute level comes from pipeline/energy/factors.yaml (location-based factor)",
+ "time": "hours in Europe/Zurich (scheduler clock in Basel)",
+ "unknown_technologies_mapped_to_others": {},
+ "stats": {
+  "CH": {
+   "annual_load_weighted_g_per_kwh": 77.8,
+   "hourly_min_max_g_per_kwh": [
+    44.1,
+    206.9
+   ],
+   "median_daily_spread_pct": 53.0,
+   "cleanest_hour_year": 18,
+   "dirtiest_hour_year": 2,
+   "winter_cleanest_dirtiest_hour": [
+    17,
+    1
+   ],
+   "summer_cleanest_dirtiest_hour": [
+    19,
+    2
+   ],
+   "hourly_profile_year_rel": [
+    1.181,
+    1.204,
+    1.21,
+    1.188,
+    1.166,
+    1.098,
+    0.972,
+    0.92,
+    0.927,
+    0.941,
+    0.952,
+    0.954,
+    0.968,
+    0.959,
+    0.951,
+    0.923,
+    0.886,
+    0.84,
+    0.826,
+    0.842,
+    0.896,
+    0.996,
+    1.09,
+    1.162
+   ],
+   "hours": 8760
+  },
+  "DE": {
+   "annual_load_weighted_g_per_kwh": 316.1,
+   "hourly_min_max_g_per_kwh": [
+    87.6,
+    611.4
+   ],
+   "median_daily_spread_pct": 76.5,
+   "cleanest_hour_year": 12,
+   "dirtiest_hour_year": 20,
+   "winter_cleanest_dirtiest_hour": [
+    12,
+    16
+   ],
+   "summer_cleanest_dirtiest_hour": [
+    13,
+    21
+   ],
+   "hourly_profile_year_rel": [
+    1.139,
+    1.135,
+    1.134,
+    1.141,
+    1.148,
+    1.153,
+    1.13,
+    1.071,
+    0.968,
+    0.858,
+    0.768,
+    0.713,
+    0.692,
+    0.699,
+    0.731,
+    0.788,
+    0.863,
+    0.953,
+    1.053,
+    1.136,
+    1.175,
+    1.172,
+    1.165,
+    1.148
+   ],
+   "hours": 8760
+  },
+  "IE": {
+   "annual_load_weighted_g_per_kwh": 277.1,
+   "hourly_min_max_g_per_kwh": [
+    11.0,
+    626.2
+   ],
+   "median_daily_spread_pct": 63.6,
+   "cleanest_hour_year": 15,
+   "dirtiest_hour_year": 9,
+   "winter_cleanest_dirtiest_hour": [
+    5,
+    17
+   ],
+   "summer_cleanest_dirtiest_hour": [
+    17,
+    9
+   ],
+   "hourly_profile_year_rel": [
+    0.984,
+    0.979,
+    0.981,
+    0.977,
+    0.975,
+    0.973,
+    0.983,
+    1.001,
+    1.035,
+    1.056,
+    1.044,
+    1.031,
+    1.002,
+    0.978,
+    0.964,
+    0.958,
+    0.962,
+    0.975,
+    1.0,
+    1.019,
+    1.026,
+    1.031,
+    1.021,
+    0.999
+   ],
+   "hours": 8746
+  }
+ }
+}

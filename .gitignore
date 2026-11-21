@@ -15,3 +15,6 @@ output/**/*.duckdb.wal
 
 # assistant: per-call token log (energy of our own AI), local only
 output/assistant/usage.jsonl
+
+# A5 research downloads (re-fetch: python -m pipeline.bonus.hourly_intensity fetch)
+pipeline/bonus/data/.cache/
