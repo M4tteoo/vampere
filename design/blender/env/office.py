@@ -11,20 +11,17 @@ from mathutils import Vector
 HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE))
 sys.dont_write_bytecode = True
-from kit.common import PALETTE, anchor, box, mesh, slab
+from kit.common import PALETTE, anchor, box, material, mesh, slab
 from env.plan import (
     ROOMS,
-    CORRIDOR,
+    CORRIDOR_STRIPS,
     GALLERY,
     DISPLAY_BAYS,
-    EAST_DISPLAY_BAY,
     frontage,
     DEPTS,
     MODELS,
-    COLUMNS,
     DIVIDERS,
     DOOR_WIDTH,
-    EXTRA_SIZES,
     decor_items,
     return_width,
 )
@@ -94,23 +91,91 @@ def glazing(x1, z1, x2, z2, sill, panes):
         )
 
 
+def brick_facade(x, z, length, east=False, solid=False):
+    """Brick piers, sill and lintel around recessed steel windows on a facade run."""
+    height = 1.75
+
+    def line(u):
+        return (x, z + u) if east else (x + u, z)
+
+    def rail(label, a, b, low, high, thick, finish):
+        segment(label, *line(a), *line(b), low, high, thick, finish)
+
+    if solid:
+        masonry = [(0, length, 0, height)]
+    else:
+        bays = max(1, round(length / 3.15))
+        masonry = [(0, length, 0, 0.31), (0, length, 1.55, height)]
+        for i in range(bays):
+            a, b = i * length / bays, (i + 1) * length / bays
+            left, right = a + 0.30, b - 0.30
+            masonry.extend([(a, left, 0.31, 1.55), (right, b, 0.31, 1.55)])
+            rail("Window glass", left, right, 0.31, 1.55, 0.016, "Glass")
+            for low in (0.31, 1.12, 1.50):
+                rail("Steel transom", left, right, low, low + 0.045, 0.066, "Graphite")
+            for u in (left + 0.02, (left + right) / 2, right - 0.02):
+                rail("Steel sash", u - 0.024, u + 0.024, 0.31, 1.55, 0.066, "Graphite")
+            rail("Window ledge", left - 0.08, right + 0.08, 0.28, 0.33, 0.28, "Walnut")
+    vertices, faces, tones = [], [], []
+    for a, b, bottom, top in masonry:
+        rail("Mortar", a, b, bottom, top, 0.20, "Brick mortar")
+        course = 0.124
+        for row in range(int(bottom / course), ceil(top / course)):
+            low, high = max(bottom, row * course + 0.004), min(top, (row + 1) * course - 0.004)
+            if high - low < 0.012:
+                continue
+            pitch = 0.44
+            start = -(row % 2) * pitch / 2
+            j = int((a - start) // pitch)
+            while start + j * pitch < b:
+                left = max(a + 0.002, start + j * pitch + 0.005)
+                right = min(b - 0.002, start + (j + 1) * pitch - 0.005)
+                if right - left > 0.015:
+                    for side in (-1, 1):
+                        first = len(vertices)
+                        for u, h in ((left, low), (right, low), (right, high), (left, high)):
+                            px, pz = line(u)
+                            vertices.append(
+                                xyz(
+                                    px + (side * 0.102 if east else 0),
+                                    pz + (0 if east else side * 0.102),
+                                    h,
+                                )
+                            )
+                        winding = (0, 1, 2, 3) if side == (-1 if east else 1) else (3, 2, 1, 0)
+                        faces.append(tuple(first + i for i in winding))
+                        tones.append((row * 7 + j * 13 + (j // 3) * 3) % 5)
+                j += 1
+    brick = mesh("Running bond", vertices, faces, "Brick 0")
+    for i in range(1, 5):
+        brick.data.materials.append(material(f"Brick {i}"))
+    brick.data.polygons.foreach_set("material_index", tones)
+
+
 def floor(name, w, n, e, s, finish, boards=True):
     if not boards:
         return block(name, (w + e) / 2, (n + s) / 2, -0.021, e - w, s - n, 0.042, finish)
     # Staggered oak strips stay in one tintable primitive per department.
-    verts, faces = [], []
-    for row in range(ceil((s - n) / 0.38)):
-        z = n + row * 0.38
-        x = w - ((row % 3) * 1.21)
+    verts, faces, shades = [], [], []
+    for row in range(ceil((s - n) / 0.235)):
+        z = n + row * 0.235
+        x = w - ((row % 5) * 0.56)
         while x < e:
-            x0, x1 = max(w, x) + 0.006, min(e, x + 3.62) - 0.006
-            z0, z1 = z + 0.006, min(z + 0.38, s) - 0.006
+            x0, x1 = max(w, x) + 0.0025, min(e, x + 2.82) - 0.0025
+            z0, z1 = z + 0.0025, min(z + 0.235, s) - 0.0025
             if x1 > x0 and z1 > z0:
                 i = len(verts)
                 verts.extend(xyz(a, b, 0) for a, b in ((x0, z1), (x1, z1), (x1, z0), (x0, z0)))
                 faces.append((i, i + 1, i + 2, i + 3))
-            x += 3.62
-    return mesh(name, verts, faces, finish)
+                # Subtle board-to-board variation survives department floor tinting.
+                tone = (row * 13 + round((x - w) / 2.82) * 7) % 9 / 8
+                shades.extend([(0.84 + 0.16 * tone, 0.81 + 0.19 * tone, 0.80 + 0.20 * tone, 1)] * 4)
+            x += 2.82
+    deck = mesh(name, verts, faces, finish)
+    colour = deck.data.color_attributes.new(name="Oak grain", type="BYTE_COLOR", domain="POINT")
+    colour.data.foreach_set("color", [channel for shade in shades for channel in shade])
+    deck.data.color_attributes.active_color = colour
+    return deck
 
 
 def join_parts(objects, name):
@@ -125,18 +190,12 @@ def join_parts(objects, name):
     return objects[0]
 
 
-def builtins(asset):
-    if asset == "meeting_chair":
-        box("Upholstery", (0, 0, 0.44), (0.48, 0.47, 0.095), "Felt", 0.035, 1)
-        box("Chair back", (0, 0.208, 0.64), (0.48, 0.084, 0.36), "Felt", 0.034, 1)
-        for x in (-0.182, 0.182):
-            for y in (-0.17, 0.17):
-                box("Foot", (x, y, 0.20), (0.046, 0.047, 0.40), "Walnut", 0)
-    else:
-        w, d, h = EXTRA_SIZES[asset]
-        box("Counter", (0, 0, h - 0.035), (w, d, 0.070), "Oak", 0.023, 1)
-        for x in (-0.35 * w, 0.35 * w):
-            box("Support", (x, 0, (h - 0.07) / 2), (0.094, d * 0.80, h - 0.07), "Plaster", 0.024, 1)
+def meeting_chair():
+    box("Upholstery", (0, 0, 0.44), (0.48, 0.47, 0.095), "Felt", 0.035, 1)
+    box("Chair back", (0, 0.208, 0.64), (0.48, 0.084, 0.36), "Felt", 0.034, 1)
+    for x in (-0.182, 0.182):
+        for y in (-0.17, 0.17):
+            box("Foot", (x, y, 0.20), (0.046, 0.047, 0.40), "Walnut", 0)
 
 
 def furnishings():
@@ -145,8 +204,8 @@ def furnishings():
         asset = item["asset"]
         if asset not in library:
             before = set(bpy.context.scene.objects)
-            if asset in EXTRA_SIZES:
-                builtins(asset)
+            if asset == "meeting_chair":
+                meeting_chair()
             else:
                 bpy.ops.import_scene.gltf(filepath=str(MODELS / f"kit_{asset}_v1.glb"))
             new = set(bpy.context.scene.objects) - before
@@ -179,6 +238,11 @@ def furnishings():
         x, y, z = item["pos"]
         obj.location = (x, -z, y)
         obj.rotation_euler.z = item["rotY"]
+        if asset == "rug_rect":
+            for slot in obj.material_slots:
+                if slot.material.name.split(".")[0] == "Felt":
+                    slot.link = "OBJECT"
+                    slot.material = material("Accent " + item["room"])
         obj["room"] = item["room"]
         obj["asset"] = asset
 
@@ -186,8 +250,11 @@ def furnishings():
 def environment():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     PALETTE.update(
-        {"Floor oak": "E6CFAC", "Floor limestone": "DAD4CA", "Cut edge": "BB8A60", "Veneer": "E6C99C"}
+        {"Floor oak": "BF9683", "Floor limestone": "DAD4CA", "Cut edge": "BB8A60", "Veneer": "E6C99C"}
     )
+    PALETTE["Brick mortar"] = "927E72"
+    for i, colour in enumerate(("9D624D", "A36B56", "955B4B", "AC735D", "8E5B4E")):
+        PALETTE[f"Brick {i}"] = colour
     for r in DEPTS:
         PALETTE["Accent " + r] = ROOMS[r][5]
         PALETTE["Floor " + r] = PALETTE["Floor oak"]
@@ -222,7 +289,8 @@ def environment():
             )
             wall.data.name = wall.name
             anchor("label_" + room, xyz((w + e) / 2, (n + s) / 2, 2.45))
-    floor("floor_corridor", *CORRIDOR, "Floor limestone", False)
+    strips = [floor("Passage", *strip, "Floor limestone", False) for strip in CORRIDOR_STRIPS]
+    join_parts(strips, "floor_corridor")
     floor("floor_entry_gallery", *GALLERY, "Floor limestone", False)
     before = set(bpy.context.scene.objects)
     # Opaque party walls, south facade and its entrance opening.
@@ -230,22 +298,24 @@ def environment():
     for room, (w, n, e, s, *_) in ROOMS.items():
         if w and room != "reception":
             segment("Party wall", w, n, w, s if room != "hr" else 28, 0, 1.2, 0.20, "Plaster")
+    for room in DEPTS:
+        w, n, _, s, *_ = ROOMS[room]
+        segment("Oak skirting", w + 0.123, n + 0.11, w + 0.123, s - 0.11, 0, 0.106, 0.032, "Oak")
+    x, z = ROOMS["marketing"][0], ROOMS["marketing"][3]
+    segment("Corridor return", x, z, x, ROOMS["sales"][3], 0, 1.2, 0.20, "Plaster")
     gw, gn, _, gs = GALLERY
     segment("Gallery wall", gw, gn, gw, gs, 0, 1.2, 0.20, "Plaster")
     segment("Interview rear wall", ROOMS["hr"][0], gs, gw, gs, 0, 1.2, 0.20, "Plaster")
     for start, end in ((0, 38.13), (39.87, 42)):
         segment("South facade", start, 28, end, 28, 0, 1.2, 0.20, "Plaster")
-    # Full-height masonry display bays alternate with real window openings.
-    start = 0
-    for a, b in DISPLAY_BAYS.values():
-        glazing(start, 0, a, 0, 0.34, ceil((a - start) / 1.75))
-        segment("Display bay", a, 0, b, 0, 0, 1.2, 0.20, "Plaster")
-        start = b
-    glazing(start, 0, 42, 0, 0.34, ceil((42 - start) / 1.75))
-    a, b = EAST_DISPLAY_BAY
-    glazing(42, 0, 42, a, 0.34, ceil(a / 1.75))
-    segment("Display bay", 42, a, 42, b, 0, 1.2, 0.20, "Plaster")
-    glazing(42, b, 42, 28, 0.34, ceil((28 - b) / 1.75))
+    for room, (a, b) in DISPLAY_BAYS.items():
+        w, _, e, *_ = ROOMS[room]
+        brick_facade(w, 0, a - w)
+        brick_facade(a, 0, b - a, solid=True)
+        brick_facade(b, 0, e - b)
+    end = ROOMS["marketing"][3]
+    brick_facade(42, 0, end, east=True)
+    glazing(42, end, 42, 28, 0.34, ceil((28 - end) / 1.75))
     for room in ROOMS:
         w, e, z, door = frontage(room)
         left = w + return_width(room)
@@ -256,9 +326,6 @@ def environment():
                 glazing(a, z, b, z, 0, max(1, ceil((b - a) / 2.35)))
     for room, x0, z0, x1, z1 in DIVIDERS:
         glazing(x0, z0, x1, z1, 0, ceil((x1 - x0 + z1 - z0) / 1.5))
-    for x, z in COLUMNS:
-        block("Concrete column", x, z, 0.56, 0.31, 0.31, 1.12, "Concrete", 0.022)
-        block("Capital", x, z, 1.155, 0.34, 0.34, 0.09, "Plaster", 0.018)
     join_parts(set(bpy.context.scene.objects) - before, "architecture")
     furnishings()
     anchor("entrance", xyz(39, 28, 0))
@@ -272,6 +339,7 @@ def environment():
         export_format="GLB",
         export_yup=True,
         export_extras=True,
+        export_vertex_color="ACTIVE",
         export_cameras=False,
         export_lights=False,
         export_animations=False,

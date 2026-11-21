@@ -50,3 +50,6 @@ export function gridColor(kg: number): string {
   if (kg < 0.33) return '#E8925A'
   return '#D9674A'
 }
+
+/** Colore del fornitore cloud sulle parti «provider» dell'hardware (fascia sul rack, piattaforma sull'isola). */
+export const PROVIDER: Record<string, string> = { Azure: '#5B8FC7', AWS: '#E3A445', 'Swiss hoster': '#C9605A' }

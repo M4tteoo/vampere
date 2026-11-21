@@ -19,8 +19,11 @@ interface AppState {
   step: Step
   /** Reparto isolato nella vista isometrica (null = pianta dall'alto). */
   room: string | null
-  /** Mezzi giri della vista isometrica (frecce ← →): +1 = 180° in senso orario, -1 = antiorario. Si accumulano. */
-  turns: number
+  /** Mezzi giri di ciascun palco (frecce ← →): si gira solo l'oggetto in primo piano. Si accumulano. */
+  turns: { office: number; cloud: number }
+  /** Nel reparto: in primo piano il software e i servizi (ufficio) oppure l'infrastruttura cloud (isole). */
+  stage: 'office' | 'cloud'
+  setStage: (stage: 'office' | 'cloud') => void
   setRoom: (room: string | null) => void
   turn: (dir: 1 | -1) => void
   data: Dataset | null
@@ -54,9 +57,11 @@ interface AppState {
 export const useApp = create<AppState>((set, get) => ({
   step: 'allocation',
   room: null,
-  turns: 0,
-  setRoom: (room) => set({ room, turns: 0, selectedId: null, hoverId: null }),
-  turn: (dir) => set((s) => ({ turns: s.turns + dir })),
+  turns: { office: 0, cloud: 0 },
+  stage: 'office',
+  setStage: (stage) => set({ stage, selectedId: null, hoverId: null }),
+  setRoom: (room) => set({ room, turns: { office: 0, cloud: 0 }, stage: 'office', selectedId: null, hoverId: null }),
+  turn: (dir) => set((s) => ({ turns: { ...s.turns, [s.stage]: s.turns[s.stage] + dir } })),
   data: null,
   metric: 'co2_kg',
   active: [],

@@ -137,6 +137,14 @@ export async function loadReal(base: string, items: ItemInfo[], layout: LayoutIt
     scene_ids,
     hours: hours.get(id),
     allocation: e.allocation?.map((a) => ({ ...a, department: dept(a.department) })),
+    seats: e.seats,
+    provider: e.calc.source_files.some((f) => f.startsWith('azure'))
+      ? 'Azure'
+      : e.calc.source_files.some((f) => f.startsWith('aws'))
+        ? 'AWS'
+        : e.calc.source_files.some((f) => f.startsWith('hoster'))
+          ? 'Swiss hoster'
+          : undefined,
   })
 
   const entities: Entity[] = []

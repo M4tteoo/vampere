@@ -33,9 +33,11 @@ interface Props {
   ghost?: Material
   /** Se impostato, si possono cliccare solo gli oggetti di questo reparto. */
   pickRoom?: string | null
+  /** Materiali senza il ritaglio del reparto (oggetti sulle isole). */
+  unclipped?: boolean
 }
 
-const TINTED: Role[] = ['screen', 'led', 'glow', 'accent', 'days']
+const TINTED: Role[] = ['screen', 'led', 'glow', 'accent', 'days', 'provider']
 const UP = new Vector3(0, 1, 0)
 
 interface Live {
@@ -49,8 +51,19 @@ interface Live {
 }
 
 /** Disegna tutte le copie di un asset con poche draw call (una InstancedMesh per parte del modello). */
-export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickRoom }: Props) {
+export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickRoom, unclipped }: Props) {
   const kit = useKit(asset)
+  const materials = useMemo(
+    () =>
+      kit.parts.map((p) => {
+        if (ghost) return ghost
+        if (!unclipped) return p.material
+        const m = p.material.clone()
+        m.clippingPlanes = null
+        return m
+      }),
+    [kit, ghost, unclipped],
+  )
   const refs = useRef<(InstancedMesh | null)[]>([])
   const live = useRef<Live[]>([])
   const dirty = useRef(true)
@@ -162,7 +175,7 @@ export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickR
           ref={(m) => {
             refs.current[pi] = m
           }}
-          args={[part.geometry, ghost ?? part.material, count]}
+          args={[part.geometry, materials[pi], count]}
           castShadow={!ghost && (part.role === 'body' || part.role === 'accent')}
           receiveShadow={!ghost}
           {...(ghost ? { raycast: () => null } : {})}

@@ -1,89 +1,71 @@
 """Island deck centres and resource attachments in public, Y-up metres."""
 
+import json
 from math import cos, radians, sin
+from pathlib import Path
 
-from env.plan import asset_size
+from env.plan import ROOT, asset_size
 
 # Each origin is the top of the turf. The satellite shares the Zurich root.
 ISLANDS = {
     "zurich": (-33, 3.2, -23),
     "frankfurt": (-32.5, 3.4, -43),
     "dublin": (-22.5, 3.0, -32.5),
-    "eu-mixed": (-42.5, 4.0, -33),
 }
-RACK = "server_rack_42u"
-ARRAY = "storage_array"
-GPU = "gpu_server"
 DECK_HEIGHT = 0.18
-# Each terrace defines a single local frame for the hardware and its support.
-# Within each row, centres are spaced using the exported kit footprints.
-TERRACES = {
-    "zurich": [
-        (-2.62, -0.55, 8, ((("dp-prod", RACK, None), ("vm-app", RACK, 12)),)),
-        (-0.05, -1.75, 14, ((("db-fin", RACK, None), ("pbi-kap", RACK, None)),)),
-        (1.60, 0.45, 12, ((("dp-storage", ARRAY, None), ("st-archive", ARRAY, None)),)),
-        (7.55, 0.1, 0, ((("web-cdn", RACK, None),), (("logs", ARRAY, None), ("st-proj", ARRAY, None)))),
-    ],
-    "frankfurt": [
-        (0, 0.7, 14, ((("dp-dev", RACK, None), ("gpu-ml", GPU, None)),)),
-    ],
-    "dublin": [
-        (-2, -0.50, 10, ((("vm-test", RACK, 12), ("sandboxes", RACK, 24)),)),
-        (1.10, -0.55, 8, ((("dr-failover", RACK, None), ("cicd", RACK, None)),)),
-        (-1, 1.38, 16, ((("orphans", RACK, 3),),)),
-        (1.25, 1.25, 15, ((("st-backup", ARRAY, None),),)),
-    ],
+PROVIDER_COLOURS = {"azure": "5B8FC7", "aws": "E3A445", "hoster": "C9605A"}
+INVOICE_PROVIDER = {"azure_costs.csv": "azure", "aws_costs.csv": "aws", "hoster_invoice.csv": "hoster"}
+LOCATIONS = {"CH": "zurich", "DE": "frankfurt", "IE": "dublin"}
+M1 = ("slot_dp-dev_m1", "zurich", -3.01, 1.08, 8)
+# Surveyed attachment centres in island-local X/Z metres; yaw is degrees about Y.
+SLOTS = {
+    "zurich": (
+        ("dp-prod", "hw_cluster", -4.05, -0.43, 8, None),
+        ("vm-app", "hw_compute", -2.17, -1.00, 8, 12),
+        ("db-fin", "hw_database", -0.66, -1.73, 14, None),
+        ("pbi-kap", "hw_compute", 0.74, -2.23, 14, None),
+        ("dp-storage", "hw_storage", 0.85, -0.03, 12, None),
+        ("st-archive", "hw_storage", -1.21, 1.62, 0, None),
+        ("web-cdn", "hw_compute", 8.85, -0.435, 0, None),
+        ("logs", "hw_storage", 8.215, 0.785, 0, None),
+        ("st-proj", "hw_storage", 9.485, 0.785, 0, None),
+    ),
+    "frankfurt": (
+        ("dp-dev", "hw_cluster", -0.773068, 1.810066, 14, None),
+        ("gpu-ml", "hw_gpu", 0.740593, 1.432668, 14, None),
+    ),
+    "dublin": (
+        ("vm-test", "hw_compute", -1.816, -0.206, 40, 12),
+        ("sandboxes", "hw_compute", -1.180, -0.740, 40, 24),
+        ("dr-failover", "hw_compute", -0.491, -1.319, 40, None),
+        ("cicd", "hw_compute", -0.014, 1.506, 40, None),
+        ("orphans", "hw_compute", -0.642, 2.033, 40, 3),
+        ("st-backup", "hw_storage", 1.174, 0.509, 40, None),
+    ),
 }
-
-
-def equipment_terraces(island):
-    clearance, rim = 0.37, 0.24
-    for x, z, yaw, rows in TERRACES.get(island, ()):
-        depths = [max(asset_size(asset)[1] for _, asset, _ in row) for row in rows]
-        depth = sum(depths) + clearance * (len(rows) - 1)
-        back = -depth / 2
-        width = 0
-        slots = []
-        angle = radians(yaw)
-        for row, row_depth in zip(rows, depths):
-            row_width = sum(asset_size(asset)[0] for _, asset, _ in row) + clearance * (len(row) - 1)
-            width = max(width, row_width)
-            left, dz = -row_width / 2, back + row_depth / 2
-            for resource, asset, count in row:
-                w = asset_size(asset)[0]
-                dx = left + w / 2
-                sx = x + cos(angle) * dx + sin(angle) * dz
-                sz = z - sin(angle) * dx + cos(angle) * dz
-                slots.append((resource, asset, sx, sz, yaw, count))
-                left += w + clearance
-            back += row_depth + clearance
-        yield x, z, width + 2 * rim, depth + 2 * rim, yaw, slots
-
-
-SWISS_HOSTER = {"logs", "st-proj", "web-cdn"}
-M1 = ("slot_dp-dev_m1", "zurich", -1.78, 1.13, 8)
-EU_SERVICES = (
-    "ai-assistant",
-    "ai-marketing",
-    "ai-quote",
-    "ai-chatbot",
-    "agent:support",
-    "agent:research",
-    "agent:sales",
-    "agent:code",
-    "agent:report",
-    "ai-subscriptions",
-    "saas",
-)
 
 
 def island_entries():
+    entities = {e["id"]: e for e in json.loads((ROOT / "output/entities.json").read_text())["entities"]}
     rows = []
-    for island in TERRACES:
+    for island, slots in SLOTS.items():
         cx, cy, cz = ISLANDS[island]
-        for resource, asset, x, z, angle, count in (
-            slot for *_, slots in equipment_terraces(island) for slot in slots
-        ):
+        for resource, asset, x, z, yaw, count in slots:
+            if resource in ("dr-failover", "orphans"):
+                # These two inventory groups have no separate billed resource entity.
+                provider = "aws"
+            else:
+                entity = entities["res:" + ("sandbox" if resource == "sandboxes" else resource)]
+                if LOCATIONS[entity["location"]] != island:
+                    raise ValueError(f"{resource}: entity location differs from its island")
+                providers = {
+                    INVOICE_PROVIDER[Path(f).name]
+                    for f in entity["calc"]["source_files"]
+                    if Path(f).name in INVOICE_PROVIDER
+                }
+                if len(providers) != 1:
+                    raise ValueError(f"{resource}: ambiguous invoice provider {providers}")
+                provider = providers.pop()
             row = dict(
                 id=f"island:{resource}",
                 resourceId=resource,
@@ -92,13 +74,22 @@ def island_entries():
                 island=island,
                 slot=f"slot_{resource}",
                 pos=[round(cx + x, 6), round(cy + DECK_HEIGHT, 3), round(cz + z, 6)],
-                rotY=radians(angle),
+                rotY=radians(yaw),
+                provider=provider,
             )
-            if resource in SWISS_HOSTER:
-                row["pad"] = "swiss-hoster"
             if count:
                 row["representedCount"] = count
+            if provider == "hoster":
+                row["pad"] = "swiss-hoster"
             if resource == "dp-dev":
                 row["alternateSlotM1"] = M1[0]
             rows.append(row)
     return rows
+
+
+def footprint(asset, x, z, yaw):
+    w, d, _ = asset_size(asset)
+    return [
+        (x + cos(yaw) * u + sin(yaw) * v, z - sin(yaw) * u + cos(yaw) * v)
+        for u, v in ((-w / 2, -d / 2), (w / 2, -d / 2), (w / 2, d / 2), (-w / 2, d / 2))
+    ]

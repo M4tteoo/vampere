@@ -2,20 +2,22 @@
 
 import json
 import math
+import struct
 import sys
 from pathlib import Path
 
 import bpy
 from mathutils import Vector
+from mathutils.geometry import convex_hull_2d
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from env.island_layout import DECK_HEIGHT, EU_SERVICES, ISLANDS, M1, equipment_terraces
+from env.island_layout import DECK_HEIGHT, ISLANDS, M1, PROVIDER_COLOURS, footprint, island_entries
 from env.layout import build_layout, write_layout
 from env.office import join_parts, run_headless
 from env.plan import MODELS, PREVIEWS, gltf
 from kit.common import PALETTE, anchor, box, loft, material, mesh, rod, slab
-from previews import load_model, save, studio
+from previews import ELEVATION, RIGHT, UP, caption, extents, load_model, save, studio
 
 ENV = MODELS / "env_islands_v1.glb"
 TAU = math.tau
@@ -28,7 +30,6 @@ ISLAND_COLOURS = {
     "Shallows": "A8D2C5",
     "Ripple": "D7EAE0",
     "Hill": "83A572",
-    "Cloud": "EEF2F6",
     "Tower glass": "82A8AD",
 }
 
@@ -99,11 +100,22 @@ def terrain(x, z, rx, rz, phase, depth=1, top="Meadow"):
         stratum(name, x, z, rx, rz, phase, [(s, h * depth, w * depth) for s, h, w in rings], finish)
 
 
-def pad(name, x, z, w, d, angle=0):
-    obj = slab(
-        name, point(x, z, DECK_HEIGHT / 2 - 0.012), (w, d, DECK_HEIGHT + 0.024), "Limestone", 0.22, 6
-    )
-    obj.rotation_euler.z = math.radians(angle)
+def provider_pad(provider, footprints):
+    # Round the perimeter around the equipment on this terrace.
+    corners = [
+        Vector((x + 0.145 * math.cos(i * TAU / 16), -z + 0.145 * math.sin(i * TAU / 16)))
+        for outline in footprints
+        for x, z in outline
+        for i in range(16)
+    ]
+    rim = [corners[i] for i in convex_hull_2d(corners)]
+    if sum(a.x * b.y - a.y * b.x for a, b in zip(rim, rim[1:] + rim[:1])) < 0:
+        rim.reverse()
+    n = len(rim)
+    verts = [(p.x, p.y, h) for h in (-0.015, DECK_HEIGHT) for p in rim]
+    faces = [tuple(reversed(range(n))), tuple(range(n, 2 * n))]
+    faces.extend((i, (i + 1) % n, (i + 1) % n + n, i + n) for i in range(n))
+    return mesh("pad_" + provider, verts, faces, "Pad " + provider)
 
 
 def tree(x, z, h, style, base=0):
@@ -142,40 +154,114 @@ def tree(x, z, h, style, base=0):
         )
 
 
-def lake():
+def lake(rx, rz):
     # An open shoreline follows the actual southern rim of the Zurich terrain.
     n = 44
     rings = [[], [], []]
     for i in range(n + 1):
         q = i / n
         t = 0.07 * TAU + 0.39 * TAU * q
-        x, z = outline(t, 4.95, 3.6, 0.4)
+        x, z = outline(t, rx, rz, 0.4)
         wave = math.sin(math.pi * q) ** 0.9
         for ring, inset in zip(rings, (0, 0.32, 0.37)):
             ring.append(point(x * (0.974 - inset * wave), z * (0.974 - inset * wave), 0.014))
     for a, b, finish in ((rings[0], rings[1], "Lake"), (rings[1], rings[2], "Shallows")):
         mesh("Lake edge", a + b, [(i, n + 1 + i, n + 2 + i, i + 1) for i in range(n)], finish)
-    for x, z, w in ((-0.5, 3.05, 0.52), (0.30, 3.04, 0.29), (1.28, 2.68, 0.38)):
+    for x, z, w in ((-0.5, 3.43, 0.52), (0.30, 3.42, 0.29), (1.28, 3.02, 0.38)):
         oval("Reflection", x, z, 0.023, (w, 0.035, 0.012), "Ripple")
     for i in range(6):
-        slab("Jetty plank", point(-1.21, 2.36 + i * 0.135, 0.105), (0.42, 0.125, 0.085), "Oak", 0.025)
-    for z in (2.4, 2.99):
+        slab("Jetty plank", point(-1.21, 2.68 + i * 0.135, 0.105), (0.42, 0.125, 0.085), "Oak", 0.025)
+    for z in (2.72, 3.31):
         for x in (-1.37, -1.05):
             rod("Jetty pier", point(x, z, 0.006), point(x, z, 0.18), 0.029, "Walnut")
 
 
+def pitched_roof(x, z, width, depth, eaves, ridge, finish):
+    """Gabled roof with the ridge running from front to back."""
+    verts = [
+        point(px, pz, h)
+        for pz in (z - depth / 2, z + depth / 2)
+        for px, h in ((x - width / 2, eaves), (x + width / 2, eaves), (x, ridge))
+    ]
+    mesh("Gable", verts, [(0, 2, 1), (3, 4, 5), (0, 1, 4, 3), (1, 2, 5, 4), (2, 0, 3, 5)], finish)
+
+
+def grossmunster(x, z):
+    box("Limestone nave", point(x, z, 0.49), (0.94, 1.15, 0.98), "Limestone", 0.035)
+    pitched_roof(x, z, 0.99, 1.20, 0.96, 1.33, "Clay")
+    for tx in (x - 0.50, x + 0.50):
+        tz = z + 0.30
+        box("Bell tower", point(tx, tz, 0.81), (0.43, 0.47, 1.62), "Plaster", 0.022, 2)
+        slab("Belfry cornice", point(tx, tz, 1.61), (0.48, 0.52, 0.09), "Limestone", 0.035)
+        for dx in (-0.083, 0.083):
+            box("Bell opening", point(tx + dx, tz + 0.237, 1.36), (0.090, 0.016, 0.28), "Walnut", 0.035)
+        loft(
+            "Tower crown",
+            [
+                (tx, -tz, h, r, r)
+                for h, r in (
+                    (1.65, 0.24),
+                    (1.75, 0.25),
+                    (1.90, 0.16),
+                    (1.96, 0.10),
+                    (2.06, 0.09),
+                    (2.15, 0.022),
+                )
+            ],
+            "Shale",
+            8,
+        )
+        rod("Finial", point(tx, tz, 2.13), point(tx, tz, 2.25), 0.017, "Brass", 8, 0.008)
+
+
+def custom_house(x, z):
+    slab("Stone steps", point(x, z + 0.06, 0.07), (2.10, 0.89, 0.14), "Limestone", 0.055)
+    box("River frontage", point(x, z, 0.46), (1.98, 0.73, 0.70), "Plaster", 0.032)
+    slab("Parapet", point(x, z, 0.81), (2.05, 0.79, 0.09), "Limestone", 0.035)
+    for dx in (-0.76, -0.53, 0.53, 0.76):
+        box("Sash window", point(x + dx, z + 0.369, 0.50), (0.12, 0.018, 0.30), "Shale", 0.025)
+    for dx in (-0.27, -0.09, 0.09, 0.27):
+        rod(
+            "Portico column",
+            point(x + dx, z + 0.44, 0.13),
+            point(x + dx, z + 0.44, 0.76),
+            0.042,
+            "Limestone",
+            10,
+        )
+    pitched_roof(x, z + 0.35, 0.77, 0.34, 0.76, 0.99, "Limestone")
+    loft(
+        "Cupola drum",
+        [(x, -z, h, r, r) for h, r in ((0.84, 0.33), (0.90, 0.35), (1.19, 0.31))],
+        "Plaster",
+        16,
+    )
+    loft(
+        "Copper dome",
+        [
+            (x, -z, h, r, r)
+            for h, r in ((1.18, 0.35), (1.29, 0.35), (1.44, 0.29), (1.58, 0.18), (1.64, 0.07))
+        ],
+        "Enamel",
+        20,
+    )
+    rod("Lantern", point(x, z, 1.63), point(x, z, 1.82), 0.042, "Brass", 10, 0.024)
+
+
 def zurich():
-    terrain(0, 0, 4.95, 3.6, 0.4)
-    terrain(7.55, 0.12, 2.18, 1.96, 2.3, 0.78, "Leaf")
-    lake()
-    slab("Hoster footbridge", point(5.28, 0.06, 0.10), (1.82, 0.68, 0.13), "Oak", 0.07)
-    for x, z, h in ((-3.2, -1.96, 2.2), (-2.36, -2.36, 2.65), (1.92, -1.98, 2.6), (2.74, -1.55, 1.85)):
+    rx, rz = 5.82, 4.05
+    terrain(0, 0, rx, rz, 0.4)
+    terrain(8.85, 0.12, 2.18, 1.96, 2.3, 0.78, "Leaf")
+    lake(rx, rz)
+    grossmunster(3.22, -0.85)
+    slab("Hoster footbridge", point(6.17, 0.06, 0.10), (1.85, 0.68, 0.13), "Oak", 0.07)
+    for x, z, h in ((-3.78, -2.18, 2.2), (-2.74, -2.87, 2.65), (1.64, -3.30, 1.70)):
         tree(x, z, h, "fir")
-    tree(-3.82, 0.91, 1.7, "Leaf")
+    tree(-4.63, 1.19, 1.7, "Leaf")
 
 
 def frankfurt():
-    terrain(0, 0, 3.65, 2.85, 1.2, 0.94, "Hill")
+    terrain(0, 0.30, 3.65, 3.16, 1.2, 0.94, "Hill")
     x, z = -0.62, -1.28
     slab("Tower footing", point(x, z, 0.10), (1.48, 1.20, 0.20), "Limestone", 0.17)
     box("Tower shaft", point(x, z, 1.61), (0.86, 0.75, 2.90), "Tower glass", 0.085, 3)
@@ -191,82 +277,56 @@ def frankfurt():
 
 
 def dublin():
-    terrain(0, 0, 4.15, 3.12, 2.4, 0.92, "Meadow")
-    oval("Western hill", -1.70, -1.58, -0.1, (1.86, 1.07, 1.08), "Hill")
-    oval("Eastern hill", 0.83, -1.87, -0.13, (2.05, 1.02, 1.45), "Leaf")
-    oval("Low knoll", 2.83, 0.33, -0.09, (0.92, 1.24, 0.59), "Hill")
-    tree(0.65, -1.92, 1.61, "Moss", 1.25)
-    tree(-2.00, -1.61, 1.29, "Hill", 0.93)
-    tree(2.96, 0.26, 1.39, "Leaf", 0.48)
-
-
-def eu_mixed():
-    # Fuse interlocking ellipsoids into one smooth cumulus surface.
-    lobes = (
-        # Along the silhouette, depth, height, and the three lobe radii.
-        (-2.65, 0.03, 0.02, 1.06, 0.94, 0.66),
-        (-1.79, -0.08, 0.28, 1.34, 1.20, 1.02),
-        (-0.63, -0.22, 0.84, 1.48, 1.30, 1.61),
-        (0.76, -0.20, 0.55, 1.31, 1.16, 1.22),
-        (2.08, 0.00, 0.20, 1.33, 1.12, 0.93),
-        (0.01, 0.48, -0.04, 2.23, 1.03, 0.83),
-        (1.30, 0.40, -0.03, 1.06, 0.96, 0.79),
-    )
-    parts = [oval("Cloud lobe", x, z, h, (rx, rz, rh), "Cloud") for x, z, h, rx, rz, rh in lobes]
-    cloud = join_parts(parts, "landscape_eu-mixed")
-    bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
-    cloud.data.remesh_voxel_size = 0.085
-    bpy.ops.object.voxel_remesh()
-    soften = cloud.modifiers.new("Blend lobes", "SMOOTH")
-    soften.factor, soften.iterations = 0.95, 18
-    bpy.ops.object.modifier_apply(modifier=soften.name)
-    simplify = cloud.modifiers.new("Simplify surface", "DECIMATE")
-    simplify.ratio = 0.28
-    bpy.ops.object.modifier_apply(modifier=simplify.name)
-    for face in cloud.data.polygons:
-        face.use_smooth = True
-    # The lobes run along world X, the descending 30° diagonal in the isometric preview.
-    cloud.shape_key_add(name="Basis")
-    billow = cloud.shape_key_add(name="Billow")
-    stretch = cloud.shape_key_add(name="Stretch")
-    for v in cloud.data.vertices:
-        x, y, h = v.co
-        crown = math.exp(-(((x + 0.65) / 1.25) ** 2)) * max(h, 0)
-        billow.data[v.index].co = (x - 0.10 * crown, y * 1.10, h + 0.30 * crown)
-        stretch.data[v.index].co = (1.18 * x + 0.12 * h, 0.94 * y, 0.88 * h)
-    for i, service in enumerate(EU_SERVICES):
-        t = TAU * i / len(EU_SERVICES)
-        anchor("slot_" + service, point(2.2 * math.cos(t), 1.34 * math.sin(t), 0.18))
+    terrain(0.35, -0.08, 5.55, 3.80, 2.4, 0.92, "Meadow")
+    custom_house(2.93, -1.24)
+    oval("Western hill", -2.10, -2.39, -0.1, (1.86, 1.07, 1.08), "Hill")
+    oval("Eastern hill", 1.09, -2.89, -0.13, (1.48, 0.84, 1.45), "Leaf")
+    oval("Low knoll", 3.76, 1.52, -0.09, (0.83, 0.84, 0.59), "Hill")
+    tree(1.09, -2.89, 1.61, "Moss", 1.25)
+    tree(-2.40, -2.42, 1.29, "Hill", 0.93)
+    tree(3.81, 1.56, 1.39, "Leaf", 0.48)
 
 
 def export_islands():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     PALETTE.update(ISLAND_COLOURS)
-    for name, build in (
-        ("zurich", zurich),
-        ("frankfurt", frankfurt),
-        ("dublin", dublin),
-        ("eu-mixed", eu_mixed),
-    ):
+    sand = bytes.fromhex(ISLAND_COLOURS["Limestone"])
+    for provider, hex_colour in PROVIDER_COLOURS.items():
+        PALETTE["Pad " + provider] = bytes(
+            round(0.70 * c + 0.30 * s) for c, s in zip(bytes.fromhex(hex_colour), sand)
+        ).hex()
+    rows = island_entries()
+    for name, build in (("zurich", zurich), ("frankfurt", frankfurt), ("dublin", dublin)):
         before = set(bpy.context.scene.objects)
         build()
-        for tx, tz, w, d, yaw, slots in equipment_terraces(name):
-            pad("Equipment terrace", tx, tz, w, d, yaw)
-            for resource, _, x, z, angle, _ in slots:
-                anchor("slot_" + resource, point(x, z, DECK_HEIGHT), (0, 0, math.radians(angle)))
-        spare, island, x, z, angle = M1
-        if name == island:
-            anchor(spare, point(x, z, 0), (0, 0, math.radians(angle)))
-        objects = set(bpy.context.scene.objects) - before
-        body = join_parts([o for o in objects if o.type == "MESH"], "landscape_" + name)
-        root = anchor("island_" + name, (0, 0, 0))
-        for obj in [
-            body,
-            *(o for o in bpy.context.scene.objects if o.name.startswith("slot_") and o.parent is None),
-        ]:
-            obj.parent = root
-        x, h, z = ISLANDS[name]
-        root.location = point(x, z, h)
+        body = join_parts(set(bpy.context.scene.objects) - before, "landscape_" + name)
+        cx, h, cz = ISLANDS[name]
+        root = anchor("island_" + name, point(cx, cz, h))
+        body.parent = root
+        groups = {}
+        for row in rows:
+            if row["island"] != name:
+                continue
+            x, z = row["pos"][0] - cx, row["pos"][2] - cz
+            yaw = row["rotY"]
+            anchor(row["slot"], point(x, z, DECK_HEIGHT), (0, 0, yaw)).parent = root
+            west_terrace = name == "zurich" and row["resourceId"] in ("dp-prod", "vm-app")
+            groups.setdefault((row["provider"], west_terrace), []).append(
+                footprint(row["asset"], x, z, yaw)
+            )
+        spare, island, x, z, yaw = M1
+        if island == name:
+            angle = math.radians(yaw)
+            alternate = anchor(spare, point(x, z, 0), (0, 0, angle))
+            alternate.parent = root
+            alternate["asset"] = "hw_cluster"
+            alternate["provider"] = "azure"
+        terraces = {}
+        for (provider, _), outlines in groups.items():
+            terraces.setdefault(provider, []).append(provider_pad(provider, outlines))
+        # The two Zurich terraces remain addressable as the same provider mesh.
+        for provider, parts in terraces.items():
+            join_parts(parts, "pad_" + provider).parent = root
     bpy.ops.export_scene.gltf(
         filepath=str(ENV),
         export_format="GLB",
@@ -274,6 +334,25 @@ def export_islands():
         export_lights=False,
         export_cameras=False,
         export_animations=False,
+        export_extras=True,
+    )
+
+    # Blender requires globally unique datablock names. glTF permits the same
+    # node and mesh names on different islands; publish the scoped pad contract.
+    raw = ENV.read_bytes()
+    length = struct.unpack_from("<I", raw, 12)[0]
+    document = json.loads(raw[20 : 20 + length])
+    for node in document["nodes"]:
+        if node["name"].startswith("pad_"):
+            node["name"] = node["name"].split(".")[0]
+            document["meshes"][node["mesh"]]["name"] = node["name"]
+    encoded = json.dumps(document, separators=(",", ":")).encode()
+    encoded += b" " * (-len(encoded) % 4)
+    binary = raw[20 + length :]
+    ENV.write_bytes(
+        struct.pack("<4sIIII", b"glTF", 2, 20 + len(encoded) + len(binary), len(encoded), 0x4E4F534A)
+        + encoded
+        + binary
     )
 
 
@@ -281,24 +360,42 @@ def review():
     scene = studio(1680, 1140, 36)
     rows = [r for r in json.loads((MODELS / "layout.json").read_text()) if r.get("view") == "island"]
     document = gltf(ENV)
-    assert (
-        len(document["meshes"]) == 4 and not document.get("cameras") and not document.get("animations")
-    )
-    cloud = next(m for m in document["meshes"] if m["name"] == "landscape_eu-mixed")
-    assert cloud["extras"]["targetNames"] == ["Billow", "Stretch"]
+    assert not document.get("cameras") and not document.get("animations")
+    nodes = document["nodes"]
+    roots = [nodes[i] for i in document["scenes"][0]["nodes"]]
+    assert {n["name"] for n in roots} == {"island_" + name for name in ISLANDS}
+    for root in roots:
+        island = root["name"][7:]
+        pads = [nodes[i]["name"] for i in root["children"] if nodes[i]["name"].startswith("pad_")]
+        assert sorted(pads) == sorted({"pad_" + r["provider"] for r in rows if r["island"] == island})
     bpy.ops.import_scene.gltf(filepath=str(ENV))
     for row in rows:
         slot = scene.objects[row["slot"]]
         x, h, z = row["pos"]
         pos = Vector(point(x, z, h))
         assert slot.type == "EMPTY" and slot.parent.name == "island_" + row["island"]
-        assert (slot.matrix_world.translation - pos).length < 1e-4, row["id"]
-        assert abs(slot.matrix_world.to_euler().z - row["rotY"]) < 1e-5, row["id"]
-        obj = load_model(MODELS, row["asset"])
-        obj.location, obj.rotation_euler.z = pos, row["rotY"]
+        assert (slot.matrix_world.translation - pos).length < 1e-4 and abs(
+            slot.matrix_world.to_euler().z - row["rotY"]
+        ) < 1e-5
+        for sx, sz in footprint(row["asset"], x, z, row["rotY"]):
+            hit, where, _, _, obj, _ = scene.ray_cast(
+                bpy.context.evaluated_depsgraph_get(),
+                Vector(point(sx, sz, h + 0.02)),
+                Vector((0, 0, -1)),
+                distance=0.04,
+            )
+            assert (
+                hit and obj.name.split(".")[0] == "pad_" + row["provider"] and abs(where.z - h) < 1e-4
+            ), row["id"]
     assert len(rows) == len({r["slot"] for r in rows}) == 17
     assert scene.objects[M1[0]].parent.name == "island_zurich"
-    assert all(scene.objects["slot_" + s].parent.name == "island_eu-mixed" for s in EU_SERVICES)
+    for row in rows:
+        obj = load_model(MODELS, row["asset"])
+        x, h, z = row["pos"]
+        obj.location, obj.rotation_euler.z = point(x, z, h), row["rotY"]
+        band = next(o for o in obj.children_recursive if o.name.split(".")[0] == "provider")
+        PALETTE[row["provider"]] = PROVIDER_COLOURS[row["provider"]]
+        band.data.materials[0] = material(row["provider"])
     bpy.context.view_layer.update()
     eye = Vector((1, -1, 1)).normalized()
     view = eye.to_track_quat("Z", "Y")
@@ -323,10 +420,25 @@ def review():
     print(f"Verified {len(rows)} physical attachments on {len(ISLANDS)} islands.")
 
 
+def hardware_contact_sheet():
+    types = ("compute", "cluster", "database", "storage", "gpu")
+    scene = studio(1800, 640, 12.8)
+    ink = material("Graphite")
+    floor_up = Vector((UP.x, UP.y, 0)) / math.sin(ELEVATION) ** 2
+    for i, kind in enumerate(types):
+        model = load_model(MODELS, "hw_" + kind)
+        (left, right), (bottom, _) = extents(model.children_recursive)
+        x = (i - 2) * 2.43
+        model.location = RIGHT * (x - (left + right) / 2) + floor_up * (-0.94 - bottom)
+        caption(kind.upper(), x, -1.28, ink)
+    save(scene, PREVIEWS / "hardware_contact_sheet.png")
+
+
 def main():
     export_islands()
     write_layout(build_layout())
     review()
+    hardware_contact_sheet()
 
 
 if __name__ == "__main__":

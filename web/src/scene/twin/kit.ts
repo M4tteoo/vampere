@@ -17,7 +17,7 @@ export const MODELS = `${import.meta.env.BASE_URL}models`
 export const kitUrl = (asset: string) => `${MODELS}/kit_${asset}_v1.glb`
 
 /** Ruolo di una parte del modello (nomi dei nodi definiti in design/office-spec.md §6). */
-export type Role = 'body' | 'screen' | 'led' | 'glow' | 'accent' | 'days' | 'fan' | 'belt'
+export type Role = 'body' | 'screen' | 'led' | 'glow' | 'accent' | 'days' | 'fan' | 'belt' | 'provider'
 
 const ROLE: Record<string, Role> = {
   screen: 'screen',
@@ -29,6 +29,7 @@ const ROLE: Record<string, Role> = {
   days: 'days',
   fan: 'fan',
   belt: 'belt',
+  provider: 'provider',
 }
 
 export interface KitPart {
@@ -51,7 +52,7 @@ function partMaterial(role: Role, original: Material): Material {
   let m: Material = original
   if (role === 'screen' || role === 'led' || role === 'glow' || role === 'days') {
     m = new MeshBasicMaterial({ color: '#ffffff', toneMapped: false })
-  } else if (role === 'accent') {
+  } else if (role === 'accent' || role === 'provider') {
     m = (original as MeshStandardMaterial).clone()
     ;(m as MeshStandardMaterial).color.set('#ffffff')
   }

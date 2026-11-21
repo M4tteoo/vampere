@@ -6,9 +6,9 @@ BUDGET = 3000
 PARTS = ("fan","status_led")
 
 
-def build(blades=7):
+def build(blades=7, provider_cap=False):
     box("Base",(0,0,.055),(.79,.70,.11),"Graphite")
-    box("Cabinet",(0,.014,.582),(.9,.752,1.01),"Enamel",.045,3)
+    box("Cabinet",(0,.014,.582),(.9,.752,1.01),"Concrete" if provider_cap else "Enamel",.045,3)
     box("Faceplate",(0,-.369,.57),(.79,.050,.86),"Graphite",.024)
     led((-.17,-.398,.922),.21)
     center=(0,-.405,.50)
@@ -27,5 +27,7 @@ def build(blades=7):
                 theta=a+edge*(.14+.32*sin(pi*t)**.7)
                 verts.append((r*cos(theta),center[1]-.010*edge,.5+r*sin(theta)))
         mesh("fan",verts,[(2*j,2*j+2,2*j+3,2*j+1) for j in range(5)],"Concrete")
+    if provider_cap:
+        box("provider", (0,.014,1.066), (.905,.766,.10), "Accent", .029, 2)
     for x in (-.27,.27):
-        box("Lift lug",(x,.02,1.061),(.14,.26,.074),"Graphite",.033)
+        box("Lift lug",(x,.02,1.061 + (.08 if provider_cap else 0)),(.14,.26,.074),"Graphite",.033)

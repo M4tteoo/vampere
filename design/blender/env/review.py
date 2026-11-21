@@ -9,13 +9,13 @@ from mathutils import Matrix, Vector, Quaternion
 import bmesh
 
 from env.office import ENV, EYE, triangles
-from env.layout import INFRA
 from env.plan import DEPTS, ROOMS, MODELS, PREVIEWS, decor_items, gltf, local_children
 from kit.common import PALETTE, material
 from previews import studio, save
 
 
 PIXELS_PER_METRE = 58
+PREVIOUS_OFFICE_TRIANGLES = 31_098
 
 
 def frame(scene, width, height):
@@ -79,7 +79,9 @@ def section(source, limits, cap):
             clear_inner=True,
         )
         if cap:
-            edges = [v for v in result["geom_cut"] if isinstance(v, bmesh.types.BMEdge) and v.is_boundary]
+            edges = [
+                v for v in result["geom_cut"] if isinstance(v, bmesh.types.BMEdge) and v.is_boundary
+            ]
             if edges:
                 bmesh.ops.holes_fill(bm, edges=edges)
     data = bpy.data.meshes.new("Room section")
@@ -111,7 +113,7 @@ def verify_and_render():
         name = "Preview fabric " + room
         PALETTE[name] = ROOMS[room][-1]
         mat_room[room] = material(name)
-    PALETTE.update({"Working display": "668985", "Dormant badge": "85908E"})
+    PALETTE.update({"Working display": "668985"})
     catcher = next(o for o in scene.objects if o.type == "MESH" and o.is_shadow_catcher)
     catcher.location.z = -0.617
     bpy.ops.import_scene.gltf(filepath=str(ENV))
@@ -140,7 +142,7 @@ def verify_and_render():
             room
             if asset == "chair_task"
             else active
-            if asset in ("monitor_27", "monitor_dual", "licence_puck")
+            if asset in ("monitor_27", "monitor_dual")
             else None
         )
         key = (asset, variant)
@@ -157,8 +159,6 @@ def verify_and_render():
                             slot.material = mat_room[room]
                         if asset.startswith("monitor_") and active and name == "Screen":
                             slot.material = material("Working display")
-                        if asset == "licence_puck" and not active and name == "LED":
-                            slot.material = material("Dormant badge")
                 group.objects.link(o)
                 for c in list(o.users_collection):
                     if c != group:
@@ -195,7 +195,9 @@ def verify_and_render():
                 mesh_counts[mesh] = len(mesh.loop_triangles)
             observed += mesh_counts[mesh]
     if observed != total or total > 300000:
-        raise ValueError(f"Office triangles: evaluated {observed:,}, from GLBs {total:,}, target 300,000")
+        raise ValueError(
+            f"Office triangles: evaluated {observed:,}, from GLBs {total:,}, target 300,000"
+        )
     assets = sum(counts.values(), Counter())
     lines = ["Asset                         Layout   Static decor"]
     lines += [
@@ -208,24 +210,15 @@ def verify_and_render():
             f"{room:20} {sum(r['room'] == room for r in data):12} {sum(counts[room].values()):18} "
             f"{sum(1 for r in decor_items() if r['room'] == room):14}"
         )
-    infrastructure = {id for groups in INFRA.values() for ids in groups.values() for id in ids}
-    lines += [
-        "",
-        "Room             Area m²   Desks   Pucks  Reports  SaaS   Infra  AI apps  Agents  Windows",
-    ]
-    for room, (w, n, e, s, *_) in ROOMS.items():
-        ids = [r["id"] for r in data if r["room"] == room]
-        infra = sum(id in infrastructure for id in ids)
-        lines.append(
-            f"{room:15} {(e - w) * (s - n):8.1f} {counts[room]['desk_bench']:7} "
-            f"{counts[room]['licence_puck']:7} {sum(id.startswith('pbi-') and id[4:].isdigit() for id in ids):8} "
-            f"{sum(id.startswith('saas:') for id in ids):5} {infra:7} "
-            f"{sum(id.startswith('ai-') for id in ids):8} {sum(id.startswith('agent:') for id in ids):7} "
-            f"{sum(id.startswith('window:') for id in ids):8}"
-        )
+    # The approved office shell and existing decor used 31,098 triangles.
+    added = static_tri - PREVIOUS_OFFICE_TRIANGLES
+    if added > 25_000:
+        raise ValueError(f"Static office exceeds the 25,000 added triangle allowance: {static_tri:,}")
     lines += [
         "",
         f"Static environment: {static_tri:,} triangles",
+        f"Static increase: {added:+,} / +25,000 triangles",
+        f"PC tower: {kit_tris['pc_tower']:,} / 400 triangles",
         f"Layout instances: {sum(room_tri.values()):,} triangles",
         f"Full scene: {total:,} / 300,000 triangles ({300000 - total:,} available)",
     ]

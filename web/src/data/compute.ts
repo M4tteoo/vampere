@@ -97,6 +97,10 @@ const CHF = new Intl.NumberFormat('de-CH', { maximumFractionDigits: 0 })
 
 export function fmtMetric(v: number, key: MetricKey): string {
   if (!Number.isFinite(v)) return '–'
+  // Valori piccoli (per singolo computer): un decimale, così non diventano «0».
+  const small = (x: number) => (x > 0 && x < 10 ? x.toFixed(1) : CHF.format(x))
+  if (key === 'kwh' && v < 10000) return `${small(v)} kWh`
+  if (key === 'co2_kg' && v < 1000) return `${small(v)} kg CO₂`
   if (key === 'cost_chf') return v >= 10000 ? `CHF ${CHF.format(Math.round(v / 1000))}k` : `CHF ${CHF.format(v)}`
   if (key === 'kwh') return v >= 10000 ? `${CHF.format(Math.round(v / 1000))} MWh` : `${CHF.format(v)} kWh`
   return v >= 1000 ? `${(v / 1000).toFixed(1)} t CO₂` : `${CHF.format(v)} kg CO₂`

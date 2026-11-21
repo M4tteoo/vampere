@@ -23,6 +23,7 @@ export default function App() {
         const s = useApp.getState()
         const room = q.get('room')
         if (room) s.setRoom(room)
+        if (q.get('stage') === 'cloud') s.setStage('cloud')
         const sel = q.get('sel')
         if (sel) s.select(sel)
         if (q.has('flip')) s.turn(1)

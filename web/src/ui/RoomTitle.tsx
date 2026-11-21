@@ -1,4 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
+import { makeCtx } from '../data/twin'
+import { islandsOf } from '../scene/twin/Allocation'
 import { useApp } from '../store'
 import { fmtMetric } from '../data/compute'
 import { PANEL_W } from '../scene/Scene'
@@ -10,6 +12,9 @@ export function RoomTitle() {
   const panel = useApp((s) => !!s.selectedId)
   const turn = useApp((s) => s.turn)
   const setRoom = useApp((s) => s.setRoom)
+  const storeStage = useApp((s) => s.stage)
+  const hasCloud = useMemo(() => (room ? islandsOf(makeCtx(data, []), room).length > 0 : false), [data, room])
+  const stage = hasCloud ? storeStage : 'office'
 
   useEffect(() => {
     // Tenendo premuta una freccia si continua a girare nello stesso verso (un mezzo giro ogni 0,4 s al massimo).
@@ -61,9 +66,11 @@ export function RoomTitle() {
         </div>
         <p className="mt-1 text-[15px] text-muted">
           {d.fte} FTE · {fmtMetric(d.metrics.cost_chf, 'cost_chf')} · {fmtMetric(d.metrics.kwh, 'kwh')} · {fmtMetric(d.metrics.co2_kg, 'co2_kg')} per year
-          {shared > 0 && <span className="text-muted-soft"> · incl. {fmtMetric(shared, 'cost_chf')} of shared services</span>}
+          {shared > 0 && <span className="text-muted-soft"> · incl. {fmtMetric(Math.min(shared, d.metrics.cost_chf), 'cost_chf')} of shared services</span>}
         </p>
-        <p className="mt-2 text-[12px] text-muted-soft">Click an object to see what it consumes · ← → rotate · Esc back</p>
+        <p className="mt-2 text-[12px] text-muted-soft">
+          {stage === 'cloud' ? 'Click a server for its cost and footprint, or the office on the side' : `Click a computer for its services${hasCloud ? ', or the cloud on the side' : ''}`} · ← → rotate · Esc back
+        </p>
       </div>
     </>
   )

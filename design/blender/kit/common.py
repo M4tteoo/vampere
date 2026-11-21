@@ -180,7 +180,7 @@ def export_glb(path, size, interactive, budget):
         key = obj.name.split(".")[0]
         if key in ("fan", "belt") and key == obj.name:
             pivots[key] = obj.matrix_world.translation.copy()
-        obj.data.transform(obj.matrix_world)
+        obj.data.transform(obj.matrix_world, shape_keys=True)
         obj.matrix_world = Matrix.Identity(4)
         points.extend(v.co.copy() for v in obj.data.vertices)
         groups[key if key in interactive else "body"].append(obj)
@@ -204,7 +204,7 @@ def export_glb(path, size, interactive, budget):
             bpy.ops.object.join()
         obj.name = obj.data.name = name
         pivot = transform @ pivots[name] if name in pivots else Vector((0,0,0))
-        obj.data.transform(Matrix.Translation(-pivot) @ transform)
+        obj.data.transform(Matrix.Translation(-pivot) @ transform, shape_keys=True)
         obj.location = pivot
         obj.data.calc_loop_triangles()
         triangles += len(obj.data.loop_triangles)

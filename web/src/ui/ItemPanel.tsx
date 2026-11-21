@@ -1,10 +1,11 @@
 import { useMemo } from 'react'
 import { useApp } from '../store'
 import { fmtMetric } from '../data/compute'
-import { DEPT_ACCENT, DEPT_LABEL, labelOf, makeCtx, resourceOf, statusOf, type Ctx, type Visual } from '../data/twin'
+import { DEPT_ACCENT, DEPT_LABEL, effectiveOf, labelOf, makeCtx, resourceOf, statusOf, type Ctx, type Visual } from '../data/twin'
 import type { Calc, Entity, LayoutItem, MetricKey, Metrics } from '../data/types'
 import { PANEL_W } from '../scene/Scene'
 import { Chip, Row, type Tone } from './primitives'
+import { WorkstationBody } from './WorkstationPanel'
 
 /** Scheda a destra: cosa consuma l'oggetto cliccato (soldi, energia, CO₂ e ore di utilizzo) e come è calcolato. */
 export function ItemPanel() {
@@ -24,9 +25,11 @@ export function ItemPanel() {
       <div className="flex items-start justify-between gap-4 px-6 pt-6">
         <div className="min-w-0">
           <div className="text-[13px] text-muted">
-            {DEPT_LABEL[item.room ?? ''] ?? ''} · {kindOf(item)}
+            {headerOf(ctx, item)}
           </div>
-          <h2 className="mt-1 text-[22px] leading-tight font-medium tracking-[-0.44px] text-ink">{labelOf(ctx, item)}</h2>
+          <h2 className="mt-1 text-[22px] leading-tight font-medium tracking-[-0.44px] text-ink">
+            {item.id.startsWith('seat:') ? `Computer ${item.id.split(':')[2]}` : labelOf(ctx, item)}
+          </h2>
         </div>
         <button onClick={() => select(null)} aria-label="Close" className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-strong text-ink hover:bg-hairline">
           <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
@@ -35,10 +38,20 @@ export function ItemPanel() {
         </button>
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-6 pt-3 pb-6">
-        <Body ctx={ctx} item={item} />
+        {item.id.startsWith('seat:') ? <WorkstationBody ctx={ctx} seat={item} /> : <Body ctx={ctx} item={item} />}
       </div>
     </aside>
   )
+}
+
+/** Riga sopra il titolo: reparto e tipo (computer) oppure sede, fornitore e tipo (hardware sulle isole). */
+function headerOf(ctx: Ctx, item: LayoutItem): string {
+  if (item.view === 'island') {
+    const e = effectiveOf(ctx, resourceOf(item))?.entity
+    const loc = ctx.data.summary.locations.find((l) => l.id === e?.location)?.label
+    return [loc, e?.provider, 'Cloud hardware'].filter(Boolean).join(' · ')
+  }
+  return `${DEPT_LABEL[item.room ?? ''] ?? ''} · ${item.id.startsWith('seat:') ? 'Computer · licences, software and AI' : kindOf(item)}`
 }
 
 function kindOf(item: LayoutItem): string {
@@ -89,6 +102,7 @@ function usageHours(calc?: Calc): { label: string; value: number } | null {
 }
 
 function Body({ ctx, item }: { ctx: Ctx; item: LayoutItem }) {
+  const room = useApp((s) => s.room) ?? ''
   const st = statusOf(ctx, item)
   const eff = st.entity
   const e = eff?.entity
@@ -120,7 +134,7 @@ function Body({ ctx, item }: { ctx: Ctx; item: LayoutItem }) {
         </section>
       )}
 
-      {eff && e?.allocation && <SharedSplit allocation={e.allocation} room={item.room ?? ''} metrics={eff.metrics} />}
+      {eff && e?.allocation && <SharedSplit allocation={e.allocation} room={item.room ?? room} metrics={eff.metrics} />}
 
       {eff && e && (
         <section className="mt-6">

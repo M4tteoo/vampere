@@ -125,10 +125,10 @@ IT ↔ Marketing (webshop P-002), HR ↔ Consulting (training P-014), Finance �
 An interactive «digital twin» seen as a dollhouse cutaway.
 
 - **Camera:** true orthographic isometric from the south-east, 45° azimuth and 35.264° elevation. The room and whole-office isometric previews use square pixels and 58 pixels per projected metre.
-  Walls cut at ~1.2 m height (dollhouse cutaway) so the interiors are fully readable.
+  Interior walls are cut at 1.2 m. Selected exterior brick window bays rise to 1.75 m.
 - **Geometry:** believable real-world proportions; slightly softened/rounded edges (2–4 cm bevels); simplified details.
   Not low-poly, not cartoon, not photoreal micro-detail.
-- **Materials (matte, soft):** light oak floors; warm white plaster walls; light concrete in shared areas; frosted and clear glass partitions
+- **Materials (matte, soft):** smoked oak boards with a muted reddish-brown finish; warm plaster and exposed brick window bays; light concrete in shared areas; frosted and clear glass partitions
   with thin black frames; wool and linen textiles; matte powder-coated metal. No glossy plastic, no chrome, no neon.
 - **Architecture palette:** warm off-white `#F7F3EE`, oak `#E8D2B8`, sand `#D6BD9F`, charcoal `#3A3F47` for technical equipment,
   plants in muted green `#7FA88B`. Brand/selection accent: coral `#FF5A5F` (used sparingly, only for highlights in the app, not in the rooms).
@@ -139,7 +139,7 @@ An interactive «digital twin» seen as a dollhouse cutaway.
 - **Lighting:** soft late-morning daylight from large windows on the north and east facades, gentle ambient occlusion,
   soft long shadows, warm interior pendant lights at 2700–3000 K. No dramatic contrast.
 - **Occupancy:** use the workstation screen to indicate an active seat. Keep the diorama free of people.
-- **Building:** a converted light-industrial loft in Basel (*design choice*): concrete columns on a 7 m grid, large steel-framed windows,
+- **Building:** a converted light-industrial loft in Basel (*design choice*): open spans, large steel-framed windows,
   exposed ceiling not shown (cutaway). One floor, ~42 × 28 m.
 - **Screens:** all monitor and wall-screen surfaces are plain flat panels (they will be replaced by live emissive materials in code).
 - **Avoid:** sci-fi, holograms, RGB lighting, glossy surfaces, text/logos on screens, brand logos, clutter, printers or network gear as features.
@@ -148,31 +148,31 @@ An interactive «digital twin» seen as a dollhouse cutaway.
 
 ## 3. Floor plan (metres, design choice)
 
-The 42 × 28 m envelope contains a 12 m north row, a 3 m east–west corridor and a 13 m south row. The south-east entrance opens into Reception. A 2 m wide gallery along the east side of HR connects Reception to the main corridor. Coordinates below are measured east and south from the north-west corner.
+The 42 × 28 m envelope has a 3 m east–west corridor. Its eastern end steps 1.3 m toward Marketing to enlarge the HR lounge. The two straight runs meet at a 1.7 m clear-plan overlap before wall thickness. The south-east entrance opens into Reception and its 2 m gallery. Coordinates are measured east and south from the north-west corner.
 
 | Space | X extent | Z extent | Size (m) | Area (m²) | Desks | Use of floor space |
 |---|---|---|---|---:|---:|---|
-| Consulting | 0–20 | 0–12 | 20 × 12 | 240 | 43 | Four bench banks with a transverse aisle, two window nooks and a project wall |
-| Sales | 20–32 | 0–12 | 12 × 12 | 144 | 21 | Three rows, each split into four and three desks by a cross aisle, and two phone booths |
-| Marketing | 32–42 | 0–12 | 10 × 12 | 120 | 13 | Two desk clusters, a creative table and a separate text-analysis station |
-| IT | 0–15 | 15–28 | 15 × 13 | 195 | 17 | Dual-monitor benches and four pairs of cloud-owner racks |
-| Finance | 15–24 | 15–28 | 9 × 13 | 117 | 13 | Two work rows, a filing wall and the four-seat closing table |
-| Management | 24–32 | 15–28 | 8 × 13 | 104 | 6 | Workstations, lounge and ten-seat boardroom |
-| HR | 32–40 | 15–22.5 | 8 × 7.5 | 60 | 6 | Six-seat bench and a glazed interview nook |
-| Reception + kitchen | 32–42 | 22.5–28 | 10 × 5.5 | 55 | 0 | Welcome desk, waiting area and kitchen table near the south entrance |
-| Main corridor | 0–42 | 12–15 | 42 × 3 | 126 | 0 | Benches, planters and shared-services totem |
-| Entrance gallery | 40–42 | 15–22.5 | 2 × 7.5 | 15 | 0 | Passage between Reception and the main corridor |
+| Consulting | 0–20.5 | 0–14.5 | 20.5 × 14.5 | 297.25 | 43 | Four paired bench runs, a continuous transverse aisle, project drawings and two window nooks on the aisle centre lines |
+| Sales | 20.5–33 | 0–14.5 | 12.5 × 14.5 | 181.25 | 21 | Two window-side teams and one crosswise team, with a waiting bench beside the booths |
+| Marketing | 33–42 | 0–13.2 | 9 × 13.2 | 118.8 | 13 | Four desk pods and a project table facing the west-wall paper moodboard |
+| IT | 0–12.6 | 17.5–28 | 12.6 × 10.5 | 132.3 | 17 | Four dual-monitor pods and a shared standing table by the binder shelf |
+| Finance | 12.6–22.6 | 17.5–28 | 10 × 10.5 | 105 | 13 | Two teams, L-shaped corner cabinetry and a four-seat closing table |
+| Management | 22.6–32 | 17.5–28 | 9.4 × 10.5 | 98.7 | 6 | A six-seat bench, a waiting area and a glazed ten-seat boardroom |
+| HR | 32–40 | 16.2–23.6 | 8 × 7.4 | 59.2 | 6 | A shared workbench and an interview lounge |
+| Reception + kitchen | 32–42 | 23.6–28 | 10 × 4.4 | 44 | 0 | Welcome desk, waiting sofa and café table beside the kitchen counter |
+| Main corridor | 0–42 | 13.2–17.5 | Stepped | 124.7 | 0 | Wall-side benches and planters |
+| Entrance gallery | 40–42 | 16.2–23.6 | 2 × 7.4 | 14.8 | 0 | Passage from Reception to the main corridor |
 
-The plan allocates all 1,176 m². Room areas account for chair clearance, floor-standing equipment and meetings. Licence badges occupy desk surfaces and reports occupy walls. Report panels share several wall faces, with at least 0.60 m between neighbouring panels on the same face. The north and east glazing includes solid mounting bays. The concrete column grid is 7 m.
+The plan allocates all 1,176 m². Floor plants mark the edges of seating, storage and glazed partitions. Small plants sit on shelving and sideboards, while rugs define seating and meeting areas.
 
 ## 4. Room specifications
 
-Each room lists: purpose, layout, furniture, **interactive objects** (IDs used by the app — see §6), states, and accent.
+The Basel software and services view exposes each department’s resources through its workstations. The generated office layout contains only the 119 `seat:*` instances. Each seat has a chair, a monitor (dual in IT) and an under-desk PC. Room furnishings are baked into the environment. The individual device descriptions below record the earlier physical metaphors and departmental resource ownership.
 Desk count = Microsoft 365 seats purchased (Aug 2026). Active and empty-paid seats are distinguished by the screen state.
 
 ### 4.1 Consulting — data & AI consultants (cost center 4000)
 - **Purpose:** customer projects (data strategy, reporting, AI assistant, process analysis), owner of the production data platform.
-- **Size / layout:** 20 × 12 m. Four double rows of back-to-back bench desks (11 + 11 + 11 + 10) = 43 workstations;
+- **Size / layout:** 20.5 × 14.5 m. Four double rows of back-to-back bench desks (11 + 11 + 11 + 10) = 43 workstations;
   a project wall with pinned plans on the west wall; a stand-up table for 6; two small meeting nooks with sofas by the north windows.
 - **Furniture:** oak bench desks, sage-fabric task chairs, single 27" monitors, laptop stands, desk lamps, large plants between rows, low storage cabinets.
 - **Distinctive objects (interactive):**
@@ -188,7 +188,7 @@ Desk count = Microsoft 365 seats purchased (Aug 2026). Active and empty-paid sea
 
 ### 4.2 Sales (cost center 4100)
 - **Purpose:** pre-sales, quotes, CRM, customer accounts.
-- **Size / layout:** 12 × 12 m. Three rows of 7 desks = 21 workstations; two acoustic phone booths by the corridor; a small pipeline board.
+- **Size / layout:** 12.5 × 14.5 m. Three teams of 8, 7 and 6 workstations, with two acoustic booths near the corridor.
 - **Furniture:** oak desks, terracotta chairs, monitors, headsets on stands, acoustic felt panels.
 - **Distinctive objects (interactive):**
   - `seat:sales:01..21` — 19 occupied, 2 empty.
@@ -201,8 +201,7 @@ Desk count = Microsoft 365 seats purchased (Aug 2026). Active and empty-paid sea
 
 ### 4.3 Marketing (cost center 4300)
 - **Purpose:** campaigns, webshop and website content, customer surveys.
-- **Size / layout:** 10 × 12 m. Two clusters of desks (7 + 6) = 13 workstations; a large creative table with mood boards;
-  a small photo/content corner with a backdrop; east-facing windows.
+- **Size / layout:** 9 × 13.2 m. Four desk pods (4 + 3 + 3 + 3) = 13 workstations; a creative table with stools, a paper moodboard and east-facing windows.
 - **Furniture:** oak desks, blush-coral chairs, large monitor for design work, pin boards, plants, colourful but muted rug.
 - **Distinctive objects (interactive):**
   - `seat:marketing:01..13` — 12 occupied, 1 empty.
@@ -216,8 +215,7 @@ Desk count = Microsoft 365 seats purchased (Aug 2026). Active and empty-paid sea
 
 ### 4.4 IT (cost center 4500)
 - **Purpose:** operations, development, cloud administration — owns most of the infrastructure.
-- **Size / layout:** 15 × 13 m. 17 workstations in two rows of dual-monitor desks; a **monitoring wall** facing the room;
-  a «cloud control» corner with one small network cabinet (decor) and the consoles below; whiteboard; spare-parts shelf.
+- **Size / layout:** 12.6 × 10.5 m. Four dual-monitor pods of 4, 5, 4 and 4 seats, with a standing-height review table near storage.
 - **Furniture:** oak desks, slate-blue chairs, dual monitors, a large wall display, cable trays kept tidy.
 - **Distinctive objects (interactive):** each console is the «owner view» of a resource that physically runs on an island.
   - `seat:it:01..17` — 15 occupied, 2 empty.
@@ -232,7 +230,7 @@ Desk count = Microsoft 365 seats purchased (Aug 2026). Active and empty-paid sea
 
 ### 4.5 Finance (cost center 4200)
 - **Purpose:** accounting, month-end and year-end closing, budgets, liquidity.
-- **Size / layout:** 9 × 13 m. 13 workstations in two rows; a filing wall (closed cabinets); a quiet closing table for 4; a wall calendar.
+- **Size / layout:** 10 × 10.5 m. Two pods of 7 and 6 workstations; an L-shaped filing wardrobe; a quiet closing table for 4; a wall calendar.
 - **Furniture:** oak desks, ochre chairs, monitors, closed cabinets, desk lamps.
 - **Distinctive objects (interactive):**
   - `seat:finance:01..13` — 11 occupied, 2 empty.
@@ -247,7 +245,7 @@ Desk count = Microsoft 365 seats purchased (Aug 2026). Active and empty-paid sea
 
 ### 4.6 HR (cost center 4400)
 - **Purpose:** recruiting, training, people administration.
-- **Size / layout:** 8 × 7.5 m. 6 workstations; a small private interview room (glass, frosted); a soft seating corner.
+- **Size / layout:** 8 × 7.4 m. 6 workstations; a small private interview room (glass, frosted); a soft seating corner.
 - **Furniture:** oak desks, lilac chairs, sofa, plants, closed cabinets.
 - **Distinctive objects (interactive):**
   - `seat:hr:01..06` — 6 occupied.
@@ -259,7 +257,7 @@ Desk count = Microsoft 365 seats purchased (Aug 2026). Active and empty-paid sea
 
 ### 4.7 Management (cost center 4900)
 - **Purpose:** leadership, budget and strategy; decides on hand-overs.
-- **Size / layout:** 8 × 13 m. 6 workstations; a boardroom with a 10-seat table and a large wall screen; a small lounge.
+- **Size / layout:** 9.4 × 10.5 m. 6 workstations; a boardroom with a 10-seat table and a large wall screen; a small lounge.
 - **Furniture:** oak and walnut details, deep-teal chairs, boardroom table, sideboard, large plant.
 - **Distinctive objects (interactive):**
   - `seat:management:01..06` — 6 occupied.
@@ -278,8 +276,11 @@ Desk count = Microsoft 365 seats purchased (Aug 2026). Active and empty-paid sea
 
 ## 5. Data-centre islands (outside the building)
 
-Unchanged from the current prototype: floating islands for **Zurich** (CH), **Frankfurt** (DE), **Dublin** (IE) and a cloud for **EU (mixed)** AI/SaaS providers.
-They host the *physical* infrastructure. Each room console is linked to its island object by a cable.
+The physical view has three islands. Hardware shares low provider-coloured pads. Zurich splits Azure across two close-fitting terraces; the M1 relocation slot sits on the grass between the western terrace and the lakeshore. Azure uses blue `#5B8FC7`, AWS ochre `#E3A445`, and the Swiss hoster red `#C9605A`. The pads mix these colours with 30% sand. The five hardware types expose a neutral `provider` band and a separate `status_led`. Invoice attribution comes from `output/entities.json`; the Dublin inventory groups `orphans` and `dr-failover` use AWS. The alternate Zurich slot for M1 accepts the same cluster as Frankfurt.
+
+Zurich’s twin-towered Grossmünster and Dublin’s domed Custom House are miniature landscape features. Frankfurt’s skyline tower sits behind the hardware.
+
+The CO₂ overlay uses the standalone `kit_co2_cloud_v1.glb`, with `Billow` and `Stretch` morph targets. EU mixed remains a logical provider location for AI and SaaS.
 
 | Island | Physical objects |
 |---|---|
@@ -287,11 +288,12 @@ They host the *physical* infrastructure. Each room console is linked to its isla
 | Frankfurt | `dp-dev` (cluster), `gpu-ml` (GPU server) |
 | Dublin | `vm-test` (12), sandboxes (24), `orphans` (3), `dr-failover`, `st-backup`, `cicd` |
 | Swiss hoster (on the Zurich island, separate pad) | `logs`, `st-proj`, `web-cdn` |
-| EU (mixed) | AI APIs (`ai-assistant`, `ai-marketing`, `ai-quote`, `ai-chatbot`, agents), AI subscriptions, SaaS |
 
 ---
 
 ## 6. Interactive object registry (contract for the app)
+
+The placement file contains 119 workstation rows and the 17 island hardware rows from §5. The table below also includes logical resource IDs used by workstation panels.
 
 Every object that influences cost, energy or CO₂ has a **stable ID**, a **room** (owner view) and, if it is infrastructure, an **island** (physical view).
 These IDs match `resource_id` in the data wherever possible, so the backend can join them.
@@ -316,11 +318,23 @@ These IDs match `resource_id` in the data wherever possible, so the backend can 
 
 All dimensions are in metres. GLBs are Y-up, face +Z, and use the centre of the footprint at floor level as the asset origin. Tabletop objects use their contact surface as floor level. Overlay anchors share the asset coordinates. The desk badge anchor sits on the right side of the top; the approval label anchor sits above the in-tray.
 
-The 36 active generators share 15 named materials in `design/blender/kit/common.py`. Warm oak, walnut and plaster carry the furniture, and enamel, clay and graphite distinguish the interactive equipment. Screens use plain dark grey. Licence and resource state are applied at runtime. Dimensions and budgets for objects newly introduced in this kit are design choices.
+The kit generators share 15 named materials in `design/blender/kit/common.py`. Warm oak, walnut and plaster carry the furniture, and enamel, clay and graphite distinguish the interactive equipment. Screens use plain dark grey. Licence and resource state are applied at runtime. Dimensions and budgets for objects newly introduced in this kit are design choices.
 
 | Asset | Used for | Real size (w × d × h), m | Triangles / budget | Runtime meshes and overlay anchors |
 |---|---|---|---:|---|
-| `kit_desk_bench` | 119 licence-seat workstations | 1.4 × 0.75 × 0.74 | 416 / 2,500 | `anchor_badge` |
+| `kit_desk_bench` | 119 licence-seat workstations | 1.4 × 0.75 × 0.759 (work surface 0.74) | 536 / 2,500 | `anchor_badge` |
+| `kit_pc_tower` | Workstation PC | 0.18 × 0.42 × 0.40 | 204 / 400 | `status_led`, `anchor_led` |
+| `kit_rug_round` | Sofa nook rug | 1.6 × 1.6 × 0.008 | 248 / 260 | — |
+| `kit_rug_rect` | Woven area rug | 2.0 × 1.28 × 0.008 | 148 / 160 | — |
+| `kit_bookshelf_low` | Shelving with books and binders | 1.6 × 0.34 × 0.78 | 432 / 600 | — |
+| `kit_floor_lamp` | Reading lamp | 0.42 × 0.42 × 1.34 | 268 / 350 | — |
+| `kit_wall_art` | Framed landscape print | 1.12 × 0.045 × 0.83 | 84 / 160 | — |
+| `kit_sideboard` | Low cabinet | 1.65 × 0.40 × 0.72 | 244 / 350 | — |
+| `kit_coffee_table` | Low pedestal table for window seats and lounges | 0.68 × 0.46 × 0.38 | 188 / 220 | — |
+| `kit_standing_table` | Standing-height table | 1.42 × 0.72 × 1.05 | 404 / 600 | — |
+| `kit_stool` | High stool | 0.38 × 0.38 × 0.68 | 208 / 300 | — |
+| `kit_vase` | Management sideboard vase | 0.21 × 0.21 × 0.26 | 188 / 200 | — |
+| `kit_moodboard` | Wall-mounted paper study | 1.8 × 0.07 × 0.86 | 268 / 500 | — |
 | `kit_chair_task` | Department-tinted workstation chairs | 0.6 × 0.6 × 1 | 924 / 3,000 | `accent` |
 | `kit_monitor_27` | Single-monitor workstations | 0.62 × 0.2 × 0.5 | 208 / 800 | `screen`, `anchor_screen` |
 | `kit_monitor_dual` | IT workstations | 1.25 × 0.25 × 0.5 | 516 / 1,500 | `screen`, `screen_2`, `anchor_screen`, `anchor_screen_2` |
@@ -351,8 +365,14 @@ The 36 active generators share 15 named materials in `design/blender/kit/common.
 | `kit_reception_desk` | Welcome counter | 2.4 × 0.8 × 1.1 | 588 / 3,000 | — |
 | `kit_coffee_bar` | Shared kitchen | 2.4 × 0.8 × 1.1 | 932 / 3,000 | — |
 | `kit_bench` | Corridor seating | 1.55 × 0.43 × 0.46 | 336 / 700 | — |
-| `kit_plant_large` | Room dividers and lounges | 0.7 × 0.7 × 1.6 | 1,868 / 4,000 | — |
-| `kit_plant_small` | Reception and meeting spaces | 0.3 × 0.3 × 0.5 | 1,256 / 1,500 | — |
+| `kit_plant_large` | Room dividers and lounges | 0.7 × 0.7 × 1.6 | 1,376 / 4,000 | — |
+| `kit_plant_small` | Reception and meeting spaces | 0.3 × 0.3 × 0.5 | 584 / 1,500 | — |
+| `kit_hw_compute` | VM and compute resource groups | 0.60 × 1.00 × 2.00 | 1,484 / 2,500 | `provider`, `status_led`, `anchor_led` |
+| `kit_hw_cluster` | Data platform clusters | 1.92 × 1.00 × 2.06 | 2,060 / 4,000 | `provider`, `status_led`, `anchor_led` |
+| `kit_hw_database` | Finance database | 0.90 × 0.92 × 1.85 | 1,624 / 2,500 | `provider`, `status_led`, `anchor_led` |
+| `kit_hw_storage` | Storage, archive, backup and logs | 1.18 × 0.76 × 0.77 | 836 / 2,000 | `provider`, `status_led`, `anchor_led` |
+| `kit_hw_gpu` | GPU compute | 0.90 × 0.80 × 1.10 | 1,154 / 3,000 | `provider`, `fan`, `status_led`, `anchor_led` |
+| `kit_co2_cloud` | CO₂ overlay | 7.02 × 2.97 × 3.28 at unit scale | 6,356 / 12,000 | `Billow`, `Stretch` morph targets |
 | `kit_server_rack_42u` | Island compute clusters | 0.6 × 1 × 2 | 1,528 / 3,000 | `status_led`, `anchor_led` |
 | `kit_gpu_server` | Frankfurt GPU | 0.9 × 0.8 × 1.1 | 1,046 / 3,000 | `fan`, `status_led`, `anchor_led` |
 | `kit_storage_array` | Island storage, backup and archive | 0.9 × 0.7 × 1.2 | 992 / 2,000 | `status_led`, `anchor_led` |
@@ -369,7 +389,7 @@ Total scene budget target: ≤ 300k triangles on screen with instancing (119 × 
 
 ```
 Isometric dollhouse cutaway of a single-floor office of a 120-person data and AI consulting company in Basel, Switzerland.
-Converted light-industrial loft, 42 x 28 m, concrete columns, large steel-framed windows on the north and east facades,
+Converted light-industrial loft, 42 x 28 m, open spans, large steel-framed windows on the north and east facades,
 walls cut at 1.2 m height so every room is visible from above. No ceiling.
 
 Layout (north at top): north row — Consulting (large open space, ~43 bench desks), Sales (21 desks, two acoustic phone booths),
@@ -379,7 +399,7 @@ At the east end, HR (6 desks and an interview room) sits north of Reception and 
 An entrance gallery connects the reception to the main corridor.
 
 Style: Airbnb-inspired stylized architectural visualization, warm and calm, believable proportions, softly rounded edges,
-matte materials. Light oak floors, warm white walls, glass partitions with thin black frames, wool and linen textiles,
+matte materials. Smoked oak plank floors, plaster walls and russet brick around recessed steel windows, glass partitions with thin black frames, wool and linen textiles,
 plants in muted green. Each department has one subtle accent colour on chairs and one wall: Consulting sage, Sales terracotta,
 Marketing blush coral, IT slate blue, Finance ochre, HR lilac, Management deep teal.
 Soft late-morning daylight, gentle ambient occlusion, soft shadows, warm pendant lights.
