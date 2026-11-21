@@ -66,10 +66,14 @@ advisor:
   reader_model: gpt-5.4          # ticket reader: restrictions are a safety matter; runs only when tickets change
   reader_batches: 4              # tickets read in parallel batches
   goal: climate_first            # climate_first (max CO2) | best_value (cheapest way to the thresholds) | francs_first (max savings)
-                                 # every goal must reach the thresholds even with pessimistic factors (safety margin, always on)
   budget_chf: 16500              # implementation budget of this planning round (15 person-days × CHF 1,100)
   thresholds: {co2: 0.40, cost: 0.25}
   value_idle_hours_at_idle_power: true    # energy saved by removing idle hours valued at idle power (same model as the energy engine)
+  safety:                        # «safe in X %» = share of the Monte Carlo scenarios in which a package still reaches −40 % CO2
+    method: monte_carlo          # same scenarios and model as the Monte Carlo panel (pipeline/bonus/montecarlo.py)
+    min_share_of_scenarios: null # null: options first, safety REPORTED for each package; e.g. 0.9 makes it a requirement
+    sample: 400                  # scenarios the optimiser decides on (results reported on all 10,000)
+    live_scenarios: 1000         # scenarios exported per measure so the UI can recount safety live when measures are removed
   data_as_of: 2026-09-06
   usage_log: output/assistant/usage.jsonl   # tokens per call → «energy of our own AI» (shared with the assistant)
   severity:                      # finding severity by impact share of the baseline (cost or CO2, whichever is higher)

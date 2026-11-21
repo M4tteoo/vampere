@@ -267,14 +267,43 @@ export interface AiFootprint {
   models: string[];
 }
 
-/** What the optimal package prioritises (chosen by the user; switching is instant, no AI involved). */
-export type GoalId = "climate_first" | "best_value" | "francs_first";
+/** What the optimal package prioritises (chosen by the user; switching is instant, no AI involved).
+ *  «safest» = the package with the highest share of Monte Carlo scenarios reaching −40 % CO2. */
+export type GoalId = "climate_first" | "best_value" | "francs_first" | "safest";
 
-/** Optimal package for one goal; key in MeasuresFile.packages = the goal id. Every goal reaches the thresholds even
- *  with pessimistic factors (safety margin, always on); otherwise feasible: false with a note. */
+/** Optimal package for one goal; key in MeasuresFile.packages = the goal id. All meet the CASE rules (budget,
+ *  CO2 and cost thresholds with the middle factors). Safety is REPORTED (p_meet_co2), not required, unless
+ *  config sets a minimum (then safety_met says whether it is met). */
 export type GoalPackage =
-  | ({ goal: string; feasible: true; safety_met: boolean; note?: string } & Package)   // safety_met false → show the note
+  | ({ goal: string; feasible: true;
+       p_meet_co2: number | null;               // «safe in X %»: share of 10,000 Monte Carlo scenarios reaching the CO2 threshold
+       is_safest: boolean;                      // highest p_meet_co2 of all options (flag it in the UI)
+       same_as?: GoalId;                        // only on «safest»: identical to this goal's package
+       safety_rule: string;
+       safety_met: boolean | null;              // null = no minimum set; false → show the note
+       note?: string } & Package)
   | { goal: string; feasible: false; note: string };
+
+/** What the UI needs to recompute a package live when the user REMOVES measures (adding is not offered yet). */
+export interface PackageRules {
+  co2_min: number;                              // 0.40
+  cost_min: number;                             // 0.25
+  budget_chf: number;                           // 16500
+  chf_per_person_day: number;                   // 1100
+  baseline: { cost_chf: number; kwh: number; co2_kg: number };   // middle factors, same as summary.json
+  how_to_recompute: string;
+}
+
+/** output/safety_scenarios.json: per-measure CO2 savings in the first N Monte Carlo scenarios, so the UI can
+ *  recount «safe in X %» live after removals (approx.: about one point from the panel's 10,000-draw figure). */
+export interface SafetyScenariosFile {
+  meta: Meta;
+  n_scenarios: number;                          // 1000
+  threshold_co2: number;                        // 0.40
+  baseline_co2_kg: number[];                    // company CO2 in each scenario
+  measures: Record<string, number[]>;           // measure id → CO2 saved in each scenario (non-blocked measures)
+  how_to: string;
+}
 
 /** A resource deliberately NOT reduced, and why («not everything unused may be switched off»). */
 export interface KeptOn {
@@ -301,9 +330,10 @@ export interface AnalysisInfo {
 export interface MeasuresFile {
   meta: Meta;
   measures: Measure[];
-  package: Package & { goal?: string };        // the default goal (config.yaml advisor.goal)
-  packages: Record<GoalId, GoalPackage>;       // one optimal package per goal (always with the safety margin)
+  package: Package & { goal?: string; p_meet_co2?: number | null; is_safest?: boolean };   // the default goal (config.yaml advisor.goal)
+  packages: Partial<Record<GoalId, GoalPackage>>;   // one optimal package per goal, plus «safest»
   goals: GoalId[];
+  rules: PackageRules;
   kept_on: KeptOn[];
   analysis: AnalysisInfo;
   ai_footprint: AiFootprint | null;           // «this analysis used N LLM calls, X Wh, Y g CO2»

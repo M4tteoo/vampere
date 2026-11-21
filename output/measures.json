@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T16:07:07+01:00",
+  "generated_at": "2026-11-21T18:43:30+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -4187,7 +4187,10 @@
     "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
    }
   ],
-  "goal": "climate_first"
+  "goal": "climate_first",
+  "p_meet_co2": 0.9085,
+  "is_safest": true,
+  "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)"
  },
  "packages": {
   "climate_first": {
@@ -4262,8 +4265,10 @@
      "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
     }
    ],
-   "safety_met": false,
-   "note": "no package within the budget reaches the thresholds with pessimistic factors: this package meets them with the middle factors only"
+   "safety_met": null,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)",
+   "p_meet_co2": 0.9085,
+   "is_safest": true
   },
   "best_value": {
    "goal": "best_value",
@@ -4337,8 +4342,10 @@
      "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
     }
    ],
-   "safety_met": false,
-   "note": "no package within the budget reaches the thresholds with pessimistic factors: this package meets them with the middle factors only"
+   "safety_met": null,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)",
+   "p_meet_co2": 0.3969,
+   "is_safest": false
   },
   "francs_first": {
    "goal": "francs_first",
@@ -4417,14 +4424,95 @@
      "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
     }
    ],
-   "safety_met": false,
-   "note": "no package within the budget reaches the thresholds with pessimistic factors: this package meets them with the middle factors only"
+   "safety_met": null,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)",
+   "p_meet_co2": 0.2388,
+   "is_safest": false
+  },
+  "safest": {
+   "goal": "safest",
+   "feasible": true,
+   "measure_ids": [
+    "M-02",
+    "M-03",
+    "M-08",
+    "M-19",
+    "M-25",
+    "M-36"
+   ],
+   "effort_days": 15.0,
+   "effort_chf": 16500.0,
+   "savings": {
+    "cost_chf": {
+     "low": 121754.44,
+     "mid": 121894.38,
+     "high": 122018.71
+    },
+    "cost_eur": {
+     "low": 131707.91,
+     "mid": 131859.29,
+     "high": 131993.79
+    },
+    "cost_usd": {
+     "low": 153257.54,
+     "mid": 153433.68,
+     "high": 153590.19
+    },
+    "kwh": {
+     "low": 5461.5,
+     "mid": 8171.5,
+     "high": 14006.8
+    },
+    "co2_kg": {
+     "low": 1197.3,
+     "mid": 2114.7,
+     "high": 4376.2
+    }
+   },
+   "reduction": {
+    "cost": {
+     "low": 0.2563,
+     "mid": 0.2566,
+     "high": 0.2568
+    },
+    "co2": {
+     "low": 0.371,
+     "mid": 0.4717,
+     "high": 0.6332
+    }
+   },
+   "meets": {
+    "co2": true,
+    "cost": true,
+    "budget": true
+   },
+   "meets_at_low": {
+    "co2": false,
+    "cost": true
+   },
+   "reasoning": "Optimal package for «safest» (optimiser, code)",
+   "edge_cases": [
+    {
+     "measure_id": "M-34",
+     "explanation": "touches ['srv:dr-failover'] which must not be reduced (C-05: Emergency fallback server must remain running at all times per management requirement.)"
+    },
+    {
+     "measure_id": "M-35",
+     "explanation": "protection window not addressed (C-20: scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)); touches ['st-backup'] which must not be reduced (C-07: Backup archive must not be deleted because of a retention obligation.); touches ['st-backup'] which must not be reduced (C-11: Backups must be retained for 10 years for legal reasons and must not be deleted.)"
+    }
+   ],
+   "safety_met": null,
+   "safety_rule": "case rules; safety = share of 10,000 Monte Carlo scenarios reaching −40% CO2 (reported, not required)",
+   "p_meet_co2": 0.9085,
+   "is_safest": true,
+   "same_as": "climate_first"
   }
  },
  "goals": [
   "climate_first",
   "best_value",
-  "francs_first"
+  "francs_first",
+  "safest"
  ],
  "kept_on": [
   {
@@ -4464,6 +4552,18 @@
    ]
   }
  ],
+ "rules": {
+  "co2_min": 0.4,
+  "cost_min": 0.25,
+  "budget_chf": 16500.0,
+  "chf_per_person_day": 1100,
+  "baseline": {
+   "cost_chf": 475079.26,
+   "kwh": 25169.6,
+   "co2_kg": 4483.1
+  },
+  "how_to_recompute": "a package's measures do not overlap: totals = sum of the remaining measures' savings and effort; reduction = savings / baseline; meets = reductions ≥ co2_min / cost_min and effort_chf ≤ budget_chf; safety: see safety_scenarios.json"
+ },
  "analysis": {
   "analysed_at": "2026-11-21T16:07:03+01:00",
   "data_as_of": "2026-09-06",
@@ -4508,7 +4608,7 @@
   "previous": null,
   "reused": {
    "reader": true,
-   "agents": false
+   "agents": true
   },
   "fingerprint": {
    "reader": "ec92f0a50e9d67cf",

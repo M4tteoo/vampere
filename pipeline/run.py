@@ -107,8 +107,9 @@ def _summary(ctx: Context, secs: float) -> None:
     for g, pk in a.get("packages", {}).items():
         if pk.get("feasible"):
             r = pk["reduction"]
-            print(f"  goal {g:24s} CO2 −{r['co2']['mid']:.1%} (worst −{r['co2']['low']:.1%}) · cost −{r['cost']['mid']:.1%} · "
-                  f"{pk['effort_days']} d · {len(pk['measure_ids'])} measures")
+            tag = (" ★ safest" if pk.get("is_safest") else "") + (f" (= {pk['same_as']})" if pk.get("same_as") else "")
+            print(f"  {g:14s} CO2 −{r['co2']['mid']:.1%} · cost −{r['cost']['mid']:.1%} · {pk['effort_days']} d · "
+                  f"{len(pk['measure_ids'])} measures · safe in {pk.get('p_meet_co2') or 0:.0%}{tag}")
         else:
             print(f"  goal {g:24s} not feasible ({pk.get('note')})")
     fp = a.get("ai_footprint")

@@ -269,7 +269,11 @@ Steps 5–8 · Advisor veloce (branch fast-advisor, 21.11): architettura guidata
   ✔ Nuova leva di spostamento verso una rete più pulita anche da sola (niente spento, dati mantenuti: ammessa anche per risorse protette come l'archivio backup) + varianti combinate (pausa+sposta, ridimensiona+sposta, build+sposta) che copiano le quote della variante base @done(26-11-21)
       - risultato (climate first, 15 giornate): CO₂ −47,2% (fattori medi), costi −25,7% (CHF 121.900/anno, rientro in ~7 settimane); Monte Carlo: −40% nel 91% di 10.000 scenari (prima 54%)
       - nel caso estremo (tutti i fattori al peggio insieme) −37,1%: servirebbero ~18 giornate → safety_met: false con nota
-  ☐ Decidere col team la definizione di «sicuro»: Monte Carlo (−40% in ≥ 90% degli scenari, proposta) oppure angolo estremo (nessun pacchetto entro CHF 16.500)
+  ✔ «Sicuro in X%» = quota dei 10.000 scenari Monte Carlo in cui il pacchetto raggiunge ancora −40% CO₂ (stessi scenari e modello del pannello) @done(26-11-21)
+      - PRIMA LE OPZIONI (approccio human first): la sicurezza è RIPORTATA per ogni opzione, non imposta (config advisor.safety.min_share_of_scenarios: null; con 0.9 diventa un requisito)
+      - quarta opzione «safest» (o flag sull'obiettivo uguale: same_as); oggi: climate first −47,2% CO₂ sicuro al 91% ★ · best value −41,4%, 12 giornate, 40% · francs first −30,6% costi, 24%
+  ✔ L'utente apre un'opzione e TOGLIE misure: totali, budget e sicurezza ricalcolati dal vivo (measures.json → rules, output/safety_scenarios.json con 1.000 scenari) @done(26-11-21)
+  ☐ Aggiungere misure da altre opzioni (servono regole di conflitto nei dati): più avanti
   ✔ Rete di sicurezza: se nessun pacchetto rispetta le regole, si mostra il migliore possibile con safety_met: false e una nota (mai un pacchetto vuoto) @done(26-11-21)
   ✔ Test: redteam 8/8, unit test 31/31, audit 55/55 @done(26-11-21)
   ☐ Pulsante «Ripeti analisi» nel frontend (serve un endpoint, p.es. nel server dell'assistente)

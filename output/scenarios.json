@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T16:07:08+01:00",
+  "generated_at": "2026-11-21T18:43:31+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -188,6 +188,42 @@
        "low": 0.3052,
        "mid": 0.3055,
        "high": 0.3058
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": false,
+      "cost": true
+     }
+    },
+    "safest": {
+     "measure_ids": [
+      "M-02",
+      "M-03",
+      "M-08",
+      "M-19",
+      "M-25",
+      "M-36"
+     ],
+     "savings_co2_kg": {
+      "low": 1197.3,
+      "mid": 2114.7,
+      "high": 4376.2
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.371,
+       "mid": 0.4717,
+       "high": 0.6332
+      },
+      "cost": {
+       "low": 0.2563,
+       "mid": 0.2566,
+       "high": 0.2568
       }
      },
      "meets": {
@@ -809,6 +845,42 @@
      },
      "meets_at_low": {
       "co2": false,
+      "cost": true
+     }
+    },
+    "safest": {
+     "measure_ids": [
+      "M-02",
+      "M-03",
+      "M-08",
+      "M-19",
+      "M-25",
+      "M-36"
+     ],
+     "savings_co2_kg": {
+      "low": 1124.3,
+      "mid": 1878.6,
+      "high": 3926.2
+     },
+     "reduction": {
+      "co2": {
+       "low": 0.4234,
+       "mid": 0.5795,
+       "high": 0.7266
+      },
+      "cost": {
+       "low": 0.2563,
+       "mid": 0.2566,
+       "high": 0.2568
+      }
+     },
+     "meets": {
+      "co2": true,
+      "cost": true,
+      "budget": true
+     },
+     "meets_at_low": {
+      "co2": true,
       "cost": true
      }
     }
