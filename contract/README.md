@@ -32,10 +32,10 @@ The pipeline writes JSON files; the 3D frontend reads them. This folder fixes th
 |---|---|---|---|
 | `quality.json` | Intake screen: counters, sources, every fix / estimate / contradiction | harmonizer | **available now** |
 | `fx.json` | exchange rates, for calc panels only | harmonizer | **available now** |
-| `summary.json` | baseline, target, breakdowns, flows (cables), one-offs, coverage | Step 4 | costs next; kWh/CO₂ after Step 3 |
-| `entities.json` | every object in the scene with metrics, state and links | Steps 4–7 | costs next; states after Steps 5–7 |
-| `timeseries.json` | monthly series for every entity, daily for dp-prod, dp-dev, gpu-ml | Step 4 | costs next |
-| `factors.json` | conversion factors with low / mid / high + source | Step 3 | after Step 3 |
+| `summary.json` | baseline, target, breakdowns, flows (cables), one-offs, coverage | Step 4 | next (costs, kWh and CO₂ are all in the database) |
+| `entities.json` | every object in the scene with metrics, state and links | Steps 4–7 | metrics next; states after Steps 5–7 |
+| `timeseries.json` | monthly series for every entity, daily for dp-prod, dp-dev, gpu-ml | Step 4 | next |
+| `factors.json` | conversion factors with low / mid / high + source | Step 3 | **available now** |
 | `findings.json` | drivers and waste, each with its numerical evidence | Step 5 | after Step 5 |
 | `measures.json` | measures + recommended package + target check | Steps 6–8 | after Step 8 |
 | `limits.json` | protection windows, blocks, hand-overs, contradictions, with concrete dates | Step 7 | after Step 7 |

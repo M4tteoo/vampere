@@ -14,6 +14,7 @@ import pandas as pd
 from .harmonize import post, reconcile, store
 from .harmonize.context import Context
 from .harmonize.engine import run_connector
+from .energy import engine as energy
 
 
 def main() -> int:
@@ -27,6 +28,7 @@ def main() -> int:
     post.finalize_fact_cost(ctx)
     post.tag_one_offs(ctx)
     post.detect_anomalies(ctx)
+    energy.compute(ctx)
     post.apply_materiality(ctx)
     store.write(ctx)
     _summary(ctx, time.time() - t0)
@@ -39,9 +41,9 @@ def _summary(ctx: Context, secs: float) -> None:
     print(f"\nHarmonized {len(ctx.sources)} sources in {secs:.1f}s → {ctx.config['duckdb_file']}")
     print(f"fact_cost {len(fc):,} rows · fact_activity {len(ctx.tables['fact_activity']):,} rows · "
           f"issues {len(ctx.issues)}")
-    tot = b.groupby("category")[["cost_chf", "cost_chf_low", "cost_chf_high"]].sum()
+    tot = b.groupby("category")[["cost_chf", "kwh_low", "kwh_mid", "kwh_high", "co2_kg_low", "co2_kg_mid", "co2_kg_high"]].sum()
     tot.loc["TOTAL"] = tot.sum()
-    print(f"\nBaseline {ctx.baseline[0]} … {ctx.baseline[1]} (CHF, actual):")
+    print(f"\nBaseline {ctx.baseline[0]} … {ctx.baseline[1]} (actual; scenario {ctx.config.get('scenario')}):")
     print(tot.round(0).to_string())
     oo = ctx.tables["one_off_events"]
     print(f"Recurring baseline (actual − one-off excess CHF {oo['excess_chf'].sum():,.0f}): "

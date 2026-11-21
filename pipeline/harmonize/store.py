@@ -18,7 +18,10 @@ FACT_COST_ORDER = [
     "service", "region", "location", "resource_id", "tool", "department", "cost_center",
     "project_id", "environment", "allocation_method", "charge_category", "quantity", "unit",
     "amount_native", "currency_native", "fx_rate_chf", "cost_chf", "cost_chf_low", "cost_chf_high",
-    "cost_eur", "cost_usd", "value_status", "method", "is_one_off", "one_off_id", "dq_flags",
+    "cost_eur", "cost_usd", "value_status", "method",
+    "kwh_low", "kwh_mid", "kwh_high", "co2_kg_low", "co2_kg_mid", "co2_kg_high",
+    "utilisation_cpu", "utilisation_gpu", "utilisation_source", "energy_method",
+    "is_one_off", "one_off_id", "dq_flags",
     "source_file", "source_row",
 ]
 
@@ -78,7 +81,9 @@ def _views(con, ctx: Context) -> None:
       SELECT category,
              SUM(cost_chf) AS actual_chf,
              SUM(cost_chf_low) AS actual_chf_low,
-             SUM(cost_chf_high) AS actual_chf_high
+             SUM(cost_chf_high) AS actual_chf_high,
+             SUM(kwh_low) AS kwh_low, SUM(kwh_mid) AS kwh_mid, SUM(kwh_high) AS kwh_high,
+             SUM(co2_kg_low) AS co2_kg_low, SUM(co2_kg_mid) AS co2_kg_mid, SUM(co2_kg_high) AS co2_kg_high
       FROM fact_cost WHERE in_baseline GROUP BY category;
 
     -- Shared costs (department Overhead) split by FTE share of the month
@@ -86,14 +91,16 @@ def _views(con, ctx: Context) -> None:
       WITH fte AS (
         SELECT month, department, fte / SUM(fte) OVER (PARTITION BY month) AS share FROM alloc_headcount),
       last_fte AS (SELECT department, share FROM fte WHERE month = (SELECT MAX(month) FROM fte))
-      SELECT c.* EXCLUDE (department, cost_chf, cost_chf_low, cost_chf_high, cost_eur, cost_usd),
+      SELECT c.* EXCLUDE (department, cost_chf, cost_chf_low, cost_chf_high, cost_eur, cost_usd, kwh_mid, co2_kg_mid),
              COALESCE(f.department, l.department) AS department,
              'shared: FTE share' AS shared_rule,
              c.cost_chf * COALESCE(f.share, l.share) AS cost_chf,
              c.cost_chf_low * COALESCE(f.share, l.share) AS cost_chf_low,
              c.cost_chf_high * COALESCE(f.share, l.share) AS cost_chf_high,
              c.cost_eur * COALESCE(f.share, l.share) AS cost_eur,
-             c.cost_usd * COALESCE(f.share, l.share) AS cost_usd
+             c.cost_usd * COALESCE(f.share, l.share) AS cost_usd,
+             c.kwh_mid * COALESCE(f.share, l.share) AS kwh_mid,
+             c.co2_kg_mid * COALESCE(f.share, l.share) AS co2_kg_mid
       FROM fact_cost c
       LEFT JOIN fte f ON c.department = 'Overhead' AND f.month = c.month
       LEFT JOIN last_fte l ON c.department = 'Overhead' AND f.month IS NULL
@@ -107,7 +114,8 @@ def _views(con, ctx: Context) -> None:
              service AS ServiceName, resource_id AS ResourceId, region AS RegionName,
              charge_category AS ChargeCategory, quantity AS ConsumedQuantity, unit AS ConsumedUnit,
              amount_native AS BilledCost, currency_native AS BillingCurrency,
-             cost_chf AS x_CostCHF, category AS x_Category, department AS x_Department,
+             cost_chf AS x_CostCHF, kwh_mid AS x_EnergyKWh, co2_kg_mid AS x_CO2kgLocationBased,
+             category AS x_Category, department AS x_Department,
              cost_center AS x_CostCenter, project_id AS x_ProjectId, location AS x_Location,
              value_status AS x_ValueStatus, method AS x_Method, source_file AS x_SourceFile,
              source_row AS x_SourceRow
@@ -193,3 +201,12 @@ def _export_json(ctx: Context) -> None:
     }
     with open(ctx.output_dir / "fx.json", "w", encoding="utf-8") as fh:
         json.dump(fxj, fh, indent=2)
+
+    from ..energy.engine import template_rows  # factors.json (contract/types.ts FactorsFile)
+    factors = []
+    for r in template_rows():
+        r = dict(r)
+        r.setdefault("source_date", "2026-11-21")
+        factors.append(r)
+    with open(ctx.output_dir / "factors.json", "w", encoding="utf-8") as fh:
+        json.dump({"meta": _meta(ctx), "factors": factors}, fh, ensure_ascii=False, indent=2)

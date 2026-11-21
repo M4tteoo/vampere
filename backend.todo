@@ -209,7 +209,13 @@ Step 2 · Allocazione: chi consuma cosa (Connect, seconda parte):
     Riferimenti: case.md requisito 1 · README «Allocating costs» · template, riga allocation_rule_shared_costs
 
 Step 3 · Da franchi e ore a energia e CO₂:
-  ☐ Ricerca dei fattori (basso / medio / alto + fonte + data) @must @p1
+  ✔ Ricerca dei fattori (basso / medio / alto + fonte + data) @must @p1 @done(26-11-21)
+    Fatto: pipeline/energy/factors.yaml (fonte + data + calcolo per ogni fattore) → output/factors.json.
+      - rete: CH 0.110 (mix di CONSUMO con import, BFE/VSE/BAFU; variante produzione 0.030 per B2) · DE 0.363 (UBA 2024) · IE 0.226 (EPA 2024) · EU 0.213 (Ember 2024, per AI e SaaS)
+      - PUE: hyperscaler 1.18 (dichiarato, 1.10–1.54 con Uptime 2025 come limite alto) · hoster 1.50
+      - energia per unità: modello CCF (W = min + utilizzo × (max − min) + memoria) con l'utilizzo OSSERVATO di ogni riga; GPU 300 W con utilizzo GPU settimanale; storage 4.68e-5 kWh/GB-giorno; rete 0.002 kWh/GB
+      - AI: 0.5 Wh per 1000 token equivalenti di output (input × 0.1, cache × 0.01, modelli small × 0.25); 0.3 Wh per messaggio (Google 0.24, Epoch/Altman 0.3–0.34; già «fully loaded», niente PUE)
+      - SaaS: 0.15 kWh per licenza ATTIVA al mese (ipotesi nostra, intervallo 0.05–0.5)
     Cos'è: i dati dicono «quante ore», non «quanta elettricità». Questi fattori fanno la conversione. Non sono nei dati: li ricerchiamo noi.
     Da fare (un file pipeline/factors/factors.yaml):
       - intensità di carbonio della rete per CH, DE, IE (+ EU per AI e SaaS) in kg CO₂/kWh
@@ -219,7 +225,12 @@ Step 3 · Da franchi e ore a energia e CO₂:
       - eventuali: GB di traffico, minuto video, runner-minuto
     Fonti suggerite: UniGe (CO₂ oraria CH), ENTSO-E, Electricity Maps, UBA (DE), SEAI (IE), Cloud Carbon Footprint (coefficienti), ML.ENERGY (token), Uptime Institute (PUE)
     Riferimenti: case.md «Data» · README «What you need to research or assume yourselves» · template, righe da grid_mix_* a pue
-  ☐ Motore energia e CO₂ @must @p1
+  ✔ Motore energia e CO₂ @must @p1 @done(26-11-21)
+    Fatto: pipeline/energy/engine.py → colonne kwh_low/mid/high e co2_kg_low/mid/high su ogni riga di fact_cost (+ utilizzo usato e metodo).
+      - baseline: 25.170 kWh (14.264–51.440) · 4.483 kg CO₂ location-based (1.891–11.796)
+      - controllo di plausibilità: dati + AI = ~73% della CO₂ (factsheet: «tre quarti») → dp-dev 28%, dp-prod 25%, GPU 9%
+      - righe Adjustment AI (fattura − gateway): kWh medio per token delle righe del gateway dello stesso mese e modello
+      - utilizzo mancante: mediana della risorsa → metriche dei server → 50% (default CCF); scenario CH in config.yaml (scenario)
     Cos'è: la formula applicata a ogni riga.
     Da fare:
       - kWh = quantità × fattore per unità × PUE (PUE solo dove ha senso: cloud e server; per i token decidere se il fattore lo include già)
