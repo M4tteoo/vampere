@@ -29,7 +29,7 @@ Check everything before a demo or a commit (offline, under a minute):
 .venv/bin/python -m tests.audit_outputs              # the audit, readable: contract fields, ranges, ids, cross-module numbers
 ```
 
-Architecture and pipeline flow: [docs/architecture.svg](docs/architecture.svg) · extra sources → features: [docs/extra-sources.md](docs/extra-sources.md) · path to operation: [docs/path-to-operation.md](docs/path-to-operation.md) · pitch notes: [docs/pitch-notes.md](docs/pitch-notes.md)
+Architecture and pipeline flow: [docs/architecture.svg](docs/architecture.svg) · extra sources → features: [docs/extra-sources.md](docs/extra-sources.md) · path to operation: [docs/path-to-operation.md](docs/path-to-operation.md) · pitch notes: [docs/pitch-notes.md](docs/pitch-notes.md) · AI-only vs code-driven advisor (speed, AI energy, quality): [docs/advisor-comparison.md](docs/advisor-comparison.md)
 
 **How the work is split**
 
