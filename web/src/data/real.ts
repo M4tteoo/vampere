@@ -1,7 +1,7 @@
 // Adattatore: legge i file VERI della pipeline (output/*.json, contratto in contract/types.ts)
 // e li traduce nel formato interno del frontend (src/data/types.ts), così la scena non cambia.
 // I file si copiano con: web/scripts/sync-backend.sh  →  web/public/data/real/
-import type { Dataset, Entity, EntityKind, EntityTag, ItemInfo, LayoutItem, Limit, Location, LocationId, Measure, Metrics, QualityItem, Finding } from './types'
+import type { Dataset, Entity, EntityKind, EntityTag, ItemInfo, LayoutItem, Limit, LocalAiFile, Location, LocationId, Measure, Metrics, QualityItem, Finding } from './types'
 
 type R = { low: number; mid: number; high: number } | null | undefined
 interface RMetrics {
@@ -221,6 +221,8 @@ export async function loadReal(base: string, items: ItemInfo[], layout: LayoutIt
   }))
   const quality: QualityItem[] = qualityFile.issues.map((q: any) => ({ source_file: q.source_file, issue: q.issue_type, rows: q.rows_affected ?? 0, action: q.action }))
   /* eslint-enable @typescript-eslint/no-explicit-any */
+  // Vista consultiva facoltativa: se il file manca, il resto non cambia.
+  const localAi = await get<LocalAiFile>(base, 'local_ai').catch(() => null)
 
   const b = summary.meta.baseline
   const fmt = (d: string) => new Date(d).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
@@ -245,5 +247,6 @@ export async function loadReal(base: string, items: ItemInfo[], layout: LayoutIt
     quality,
     items: fixedItems,
     layout,
+    localAi,
   }
 }

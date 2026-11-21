@@ -76,22 +76,23 @@
 - [ ] Generate the example from the real output (first 2 fits, 3 scenarios).
 - [ ] Commit.
 
-### Task 4: Frontend mode «AI locale»
+### Task 4: Frontend «Local AI» view
+
+The live app (`App.tsx`) mounts `Header` (step bar) + scene; the old `Nav` / `ModePanel` are not mounted, so the view hooks into the header.
 
 **Files:**
-- Modify: `web/src/store.ts` (`Mode` gets `'local_ai'`)
-- Modify: `web/src/ui/Nav.tsx` (fifth entry in `MODES`)
-- Modify: `web/src/ui/ModePanel.tsx` (render `<LocalAiPanel />`)
+- Modify: `web/src/store.ts` (`Step` gets `'local_ai'`, new `setStep`)
+- Modify: `web/src/ui/Header.tsx` («Local AI» button on the right, shown only when `local_ai.json` is loaded)
+- Modify: `web/src/App.tsx` (render `<LocalAiPanel />` when `step === 'local_ai'`)
 - Create: `web/src/ui/LocalAiPanel.tsx`
-- Modify: `web/src/data/types.ts` (`LocalAiFile` types, `Dataset.localAi?: LocalAiFile | null`)
+- Modify: `web/src/data/types.ts` (`LocalAi*` types, `Dataset.localAi?: LocalAiFile | null`)
 - Modify: `web/src/data/real.ts` (load `local_ai.json` with `.catch(() => null)`)
 
-- [ ] Implement the panel:
-  - an «Advisory, no numbers changed» badge;
-  - best scenario cards (by cost, by CO₂) with 3-year API vs local cost, break-even, kWh and CO₂;
-  - an expandable list of scenarios with pros, cons and `interacts_with`;
-  - a workload table (tier, API cost per year, best fit);
-  - a «Show gpu-ml-01» button that focuses the server in the scene.
-- [ ] Run `npm run build` (tsc + vite) in `web/`. Expect success.
-- [ ] Copy `output/local_ai.json` to `web/public/data/real/` and check it in the browser.
-- [ ] Commit.
+- [x] Build the panel:
+  - an «Information only» badge;
+  - best scenario cards (value, CO₂) with 3-year API vs in-house cost, saving range, break-even range and CO₂;
+  - expandable scenarios (all / hybrid) with reasons, pros, cons, the M-04 interaction and alternative models;
+  - «Pays off on its own» singles;
+  - the list of tools analysed.
+- [x] `npx tsc -b` and `npx vite build`: OK.
+- [x] Checked in the browser with `output/*.json` copied to `web/public/data/real/`.

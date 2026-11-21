@@ -15,8 +15,10 @@ export const STEPS: { id: Step; label: string; ready: boolean }[] = [
 /** Barra in alto: logo a sinistra, i passi in una pillola al centro (stile ricerca di Airbnb, senza icone). */
 export function Header() {
   const step = useApp((s) => s.step)
+  const setStep = useApp((s) => s.setStep)
   const setRoom = useApp((s) => s.setRoom)
   const isMock = useApp((s) => s.data?.summary.is_mock)
+  const hasLocalAi = useApp((s) => !!s.data?.localAi)
 
   return (
     <header className="relative z-40 flex h-[88px] shrink-0 items-center justify-between bg-white px-8">
@@ -47,8 +49,20 @@ export function Header() {
         })}
       </nav>
 
-      <div className="flex w-48 justify-end">
+      <div className="flex w-48 items-center justify-end gap-2">
         {isMock && <span className="rounded-full border border-hairline px-2.5 py-1 text-[12px] font-medium text-muted">Demo data</span>}
+        {hasLocalAi && (
+          // Vista consultiva a parte: non è un passo della pipeline e non cambia nessun numero.
+          <button
+            onClick={() => setStep(step === 'local_ai' ? 'allocation' : 'local_ai')}
+            title="Advisory view: open-weight models on available servers"
+            className={`rounded-full border px-4 py-2 text-[14px] font-medium whitespace-nowrap transition ${
+              step === 'local_ai' ? 'border-ink bg-ink text-white' : 'border-hairline text-ink hover:bg-surface-soft'
+            }`}
+          >
+            Local AI
+          </button>
+        )}
       </div>
     </header>
   )
