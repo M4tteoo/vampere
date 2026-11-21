@@ -1,0 +1,535 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T04:38:01+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "method": {
+  "algorithm": "k-means (k-means++ init, 20 seeds, numpy)",
+  "k": 4,
+  "silhouette": 0.713,
+  "silhouette_by_k": {
+   "3": 0.625,
+   "4": 0.713,
+   "5": 0.66,
+   "6": 0.637,
+   "7": 0.531
+  },
+  "features": [
+   {
+    "key": "utilisation",
+    "label": "Average utilisation",
+    "unit": "%"
+   },
+   {
+    "key": "peak",
+    "label": "Peak utilisation (p95 of weekly max)",
+    "unit": "%"
+   },
+   {
+    "key": "uptime",
+    "label": "Share of time switched on",
+    "unit": "%"
+   },
+   {
+    "key": "variability",
+    "label": "Week-to-week variability (CV)",
+    "unit": "ratio"
+   },
+   {
+    "key": "memory",
+    "label": "Average memory use",
+    "unit": "%"
+   }
+  ],
+  "period": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "note": "GPU server: utilisation = GPU utilisation. Clusters: utilisation = active_use_h / runtime_h; memory not measured → neutral (average) for the grouping, ignored for distances and outliers, null in the output."
+ },
+ "groups": [
+  {
+   "id": "C-1",
+   "name": "On demand",
+   "description": "Switched on only for short sessions; little to gain.",
+   "rule": "uptime < 50 %",
+   "size": 24,
+   "centroid": {
+    "utilisation": 0.0166,
+    "peak": 0.1303,
+    "uptime": 0.0371,
+    "variability": 1.4741,
+    "memory": 0.1315
+   },
+   "entity_ids": [
+    "srv:sbx-alex-01",
+    "srv:sbx-alex-07",
+    "srv:sbx-alex-13",
+    "srv:sbx-alex-19",
+    "srv:sbx-bea-02",
+    "srv:sbx-bea-08",
+    "srv:sbx-bea-14",
+    "srv:sbx-bea-20",
+    "srv:sbx-chris-03",
+    "srv:sbx-chris-09",
+    "srv:sbx-chris-15",
+    "srv:sbx-chris-21",
+    "srv:sbx-dana-04",
+    "srv:sbx-dana-10",
+    "srv:sbx-dana-16",
+    "srv:sbx-dana-22",
+    "srv:sbx-eli-05",
+    "srv:sbx-eli-11",
+    "srv:sbx-eli-17",
+    "srv:sbx-eli-23",
+    "srv:sbx-fay-06",
+    "srv:sbx-fay-12",
+    "srv:sbx-fay-18",
+    "srv:sbx-fay-24"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 60.2,
+     "mid": 60.39,
+     "high": 60.53
+    },
+    "cost_eur": {
+     "low": 65.09,
+     "mid": 65.27,
+     "high": 65.48
+    },
+    "cost_usd": {
+     "low": 75.69,
+     "mid": 75.93,
+     "high": 76.16
+    },
+    "kwh": {
+     "low": 1.89,
+     "mid": 2.9,
+     "high": 4.8
+    },
+    "co2_kg": {
+     "low": 0.42,
+     "mid": 0.64,
+     "high": 1.69
+    }
+   },
+   "share_co2": 0.0002,
+   "utilisation_range": "0.5–4.0 %"
+  },
+  {
+   "id": "C-2",
+   "name": "Always on, almost idle",
+   "description": "Running around the clock with almost no load: candidates for switch-off or decommissioning (check owner, protection and DR first).",
+   "rule": "uptime ≥ 50 % and utilisation < 2 %",
+   "size": 6,
+   "centroid": {
+    "utilisation": 0.0036,
+    "peak": 0.0132,
+    "uptime": 1.0,
+    "variability": 0.298,
+    "memory": 0.2753
+   },
+   "entity_ids": [
+    "srv:build-agent-old",
+    "srv:dr-failover",
+    "srv:gpu-ml-01",
+    "srv:migration-alt",
+    "srv:poc-ki-2024",
+    "res:dp-dev"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 56120.84,
+     "mid": 56202.45,
+     "high": 56283.93
+    },
+    "cost_eur": {
+     "low": 60698.34,
+     "mid": 60786.61,
+     "high": 60874.73
+    },
+    "cost_usd": {
+     "low": 70633.12,
+     "mid": 70735.86,
+     "high": 70838.38
+    },
+    "kwh": {
+     "low": 3259.17,
+     "mid": 4880.04,
+     "high": 8311.23
+    },
+    "co2_kg": {
+     "low": 1048.87,
+     "mid": 1729.08,
+     "high": 3532.52
+    }
+   },
+   "share_co2": 0.5384,
+   "utilisation_range": "0.1–9.2 %"
+  },
+  {
+   "id": "C-3",
+   "name": "Always on, lightly used",
+   "description": "Running around the clock at low average load with short peaks: candidates for schedules (nights, weekends) and smaller sizes.",
+   "rule": "uptime ≥ 50 % and utilisation 2–20 %",
+   "size": 12,
+   "centroid": {
+    "utilisation": 0.1408,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.3646,
+    "memory": 0.1743
+   },
+   "entity_ids": [
+    "srv:qa-regression-01",
+    "srv:qa-regression-02",
+    "srv:test-01",
+    "srv:test-02",
+    "srv:test-03",
+    "srv:test-04",
+    "srv:test-05",
+    "srv:test-06",
+    "srv:test-07",
+    "srv:test-08",
+    "srv:uat-portal",
+    "srv:uat-shop"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 18400.51,
+     "mid": 18453.39,
+     "high": 18479.03
+    },
+    "cost_eur": {
+     "low": 19901.44,
+     "mid": 19958.62,
+     "high": 19986.26
+    },
+    "cost_usd": {
+     "low": 23158.48,
+     "mid": 23225.03,
+     "high": 23257.2
+    },
+    "kwh": {
+     "low": 607.73,
+     "mid": 918.49,
+     "high": 1572.56
+    },
+    "co2_kg": {
+     "low": 121.53,
+     "mid": 207.61,
+     "high": 553.61
+    }
+   },
+   "share_co2": 0.0646,
+   "utilisation_range": "10.2–16.9 %"
+  },
+  {
+   "id": "C-4",
+   "name": "Steady workload",
+   "description": "Running around the clock with a steady, real load: production.",
+   "rule": "uptime ≥ 50 % and utilisation ≥ 20 %",
+   "size": 13,
+   "centroid": {
+    "utilisation": 0.3824,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0864,
+    "memory": 0.6258
+   },
+   "entity_ids": [
+    "srv:app-01",
+    "srv:app-02",
+    "srv:app-03",
+    "srv:app-04",
+    "srv:app-05",
+    "srv:app-06",
+    "srv:app-07",
+    "srv:app-08",
+    "srv:app-09",
+    "srv:app-10",
+    "srv:app-11",
+    "srv:app-12",
+    "res:dp-prod"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 110958.47,
+     "mid": 111049.81,
+     "high": 111152.5
+    },
+    "cost_eur": {
+     "low": 120049.36,
+     "mid": 120148.16,
+     "high": 120259.3
+    },
+    "cost_usd": {
+     "low": 139712.65,
+     "mid": 139827.67,
+     "high": 139956.99
+    },
+    "kwh": {
+     "low": 7761.11,
+     "mid": 11584.62,
+     "high": 19981.4
+    },
+    "co2_kg": {
+     "low": 442.42,
+     "mid": 1274.33,
+     "high": 2557.6
+    }
+   },
+   "share_co2": 0.3968,
+   "utilisation_range": "26.2–45.1 %"
+  }
+ ],
+ "members": [
+  {
+   "entity_id": "srv:sbx-dana-04",
+   "label": "sbx-dana-04",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0049,
+    "peak": 0.051,
+    "uptime": 0.0389,
+    "variability": 1.6006,
+    "memory": 0.1001
+   },
+   "distance": 0.366,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.60 vs 1.47 in its group; peak utilisation (p95 of weekly max) 5.1 % vs 13.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 155,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:sbx-dana-22",
+   "label": "sbx-dana-22",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0059,
+    "peak": 0.0695,
+    "uptime": 0.0294,
+    "variability": 2.0264,
+    "memory": 0.1689
+   },
+   "distance": 0.799,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 2.03 vs 1.47 in its group; average memory use 16.9 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 26,
+    "project_id": "P-014"
+   }
+  },
+  {
+   "entity_id": "srv:migration-alt",
+   "label": "migration-alt",
+   "group_id": "C-2",
+   "features": {
+    "utilisation": 0.001,
+    "peak": 0.004,
+    "uptime": 1.0,
+    "variability": 0.0,
+    "memory": 0.089
+   },
+   "distance": 1.075,
+   "outlier": false,
+   "differs_by": "average memory use 8.9 % vs 27.5 % in its group; week-to-week variability (CV) 0.00 vs 0.30 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": null,
+    "days_since_login": 573,
+    "project_id": "P-008"
+   }
+  },
+  {
+   "entity_id": "srv:poc-ki-2024",
+   "label": "poc-ki-2024",
+   "group_id": "C-2",
+   "features": {
+    "utilisation": 0.0021,
+    "peak": 0.0085,
+    "uptime": 1.0,
+    "variability": 0.3342,
+    "memory": 0.1757
+   },
+   "distance": 0.444,
+   "outlier": false,
+   "differs_by": "average memory use 17.6 % vs 27.5 % in its group; week-to-week variability (CV) 0.33 vs 0.30 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "poc",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": null,
+    "days_since_login": 625,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:test-01",
+   "label": "test-01",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1025,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.9633,
+    "memory": 0.0803
+   },
+   "distance": 0.913,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.96 vs 1.36 in its group; average memory use 8.0 % vs 17.4 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 4,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:test-03",
+   "label": "test-03",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1035,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 2.1218,
+    "memory": 0.1191
+   },
+   "distance": 1.018,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 2.12 vs 1.36 in its group; average memory use 11.9 % vs 17.4 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 2,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:app-06",
+   "label": "app-06",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.2618,
+    "peak": 0.9695,
+    "uptime": 1.0,
+    "variability": 0.0758,
+    "memory": 0.6558
+   },
+   "distance": 0.911,
+   "outlier": false,
+   "differs_by": "average utilisation 26.2 % vs 38.2 % in its group; average memory use 65.6 % vs 62.6 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:app-01",
+   "label": "app-01",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.267,
+    "peak": 0.9718,
+    "uptime": 1.0,
+    "variability": 0.0939,
+    "memory": 0.6307
+   },
+   "distance": 0.81,
+   "outlier": false,
+   "differs_by": "average utilisation 26.7 % vs 38.2 % in its group; peak utilisation (p95 of weekly max) 97.2 % vs 100.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": "P-001"
+   }
+  }
+ ],
+ "calc": {
+  "formula": "z-scores of 5 behaviour features → k-means (k by silhouette) → groups named by rules on the group medians; outlier = robust z of the distance to the own centroid > 3",
+  "inputs": [
+   {
+    "name": "k",
+    "value": 4,
+    "unit": "groups",
+    "source": "silhouette"
+   },
+   {
+    "name": "silhouette",
+    "value": 0.713,
+    "unit": "−1…1",
+    "source": "clusters.py"
+   },
+   {
+    "name": "entities",
+    "value": 55,
+    "unit": "servers + clusters",
+    "source": "server_inventory.csv"
+   }
+  ],
+  "factor_ids": [],
+  "row_count": 2319,
+  "value_status": "observed",
+  "issue_ids": [],
+  "source_files": [
+   "server_metrics_weekly.csv",
+   "data_platform_usage.csv",
+   "server_inventory.csv"
+  ],
+  "note": "Group costs and CO2 are the sums of the members' baseline metrics from entities.json."
+ }
+}

@@ -1,0 +1,1743 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T04:38:01+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "method": {
+  "algorithm": "k-means (k-means++ init, 20 seeds, numpy)",
+  "k": 4,
+  "silhouette": 0.713,
+  "silhouette_by_k": {
+   "3": 0.625,
+   "4": 0.713,
+   "5": 0.66,
+   "6": 0.637,
+   "7": 0.531
+  },
+  "features": [
+   {
+    "key": "utilisation",
+    "label": "Average utilisation",
+    "unit": "%"
+   },
+   {
+    "key": "peak",
+    "label": "Peak utilisation (p95 of weekly max)",
+    "unit": "%"
+   },
+   {
+    "key": "uptime",
+    "label": "Share of time switched on",
+    "unit": "%"
+   },
+   {
+    "key": "variability",
+    "label": "Week-to-week variability (CV)",
+    "unit": "ratio"
+   },
+   {
+    "key": "memory",
+    "label": "Average memory use",
+    "unit": "%"
+   }
+  ],
+  "period": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "note": "GPU server: utilisation = GPU utilisation. Clusters: utilisation = active_use_h / runtime_h; memory not measured → neutral (average) for the grouping, ignored for distances and outliers, null in the output."
+ },
+ "groups": [
+  {
+   "id": "C-1",
+   "name": "On demand",
+   "description": "Switched on only for short sessions; little to gain.",
+   "rule": "uptime < 50 %",
+   "size": 24,
+   "centroid": {
+    "utilisation": 0.0166,
+    "peak": 0.1303,
+    "uptime": 0.0371,
+    "variability": 1.4741,
+    "memory": 0.1315
+   },
+   "entity_ids": [
+    "srv:sbx-alex-01",
+    "srv:sbx-alex-07",
+    "srv:sbx-alex-13",
+    "srv:sbx-alex-19",
+    "srv:sbx-bea-02",
+    "srv:sbx-bea-08",
+    "srv:sbx-bea-14",
+    "srv:sbx-bea-20",
+    "srv:sbx-chris-03",
+    "srv:sbx-chris-09",
+    "srv:sbx-chris-15",
+    "srv:sbx-chris-21",
+    "srv:sbx-dana-04",
+    "srv:sbx-dana-10",
+    "srv:sbx-dana-16",
+    "srv:sbx-dana-22",
+    "srv:sbx-eli-05",
+    "srv:sbx-eli-11",
+    "srv:sbx-eli-17",
+    "srv:sbx-eli-23",
+    "srv:sbx-fay-06",
+    "srv:sbx-fay-12",
+    "srv:sbx-fay-18",
+    "srv:sbx-fay-24"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 60.2,
+     "mid": 60.39,
+     "high": 60.53
+    },
+    "cost_eur": {
+     "low": 65.09,
+     "mid": 65.27,
+     "high": 65.48
+    },
+    "cost_usd": {
+     "low": 75.69,
+     "mid": 75.93,
+     "high": 76.16
+    },
+    "kwh": {
+     "low": 1.89,
+     "mid": 2.9,
+     "high": 4.8
+    },
+    "co2_kg": {
+     "low": 0.42,
+     "mid": 0.64,
+     "high": 1.69
+    }
+   },
+   "share_co2": 0.0002,
+   "utilisation_range": "0.5–4.0 %"
+  },
+  {
+   "id": "C-2",
+   "name": "Always on, almost idle",
+   "description": "Running around the clock with almost no load: candidates for switch-off or decommissioning (check owner, protection and DR first).",
+   "rule": "uptime ≥ 50 % and utilisation < 2 %",
+   "size": 6,
+   "centroid": {
+    "utilisation": 0.0036,
+    "peak": 0.0132,
+    "uptime": 1.0,
+    "variability": 0.298,
+    "memory": 0.2753
+   },
+   "entity_ids": [
+    "srv:build-agent-old",
+    "srv:dr-failover",
+    "srv:gpu-ml-01",
+    "srv:migration-alt",
+    "srv:poc-ki-2024",
+    "res:dp-dev"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 56120.84,
+     "mid": 56202.45,
+     "high": 56283.93
+    },
+    "cost_eur": {
+     "low": 60698.34,
+     "mid": 60786.61,
+     "high": 60874.73
+    },
+    "cost_usd": {
+     "low": 70633.12,
+     "mid": 70735.86,
+     "high": 70838.38
+    },
+    "kwh": {
+     "low": 3259.17,
+     "mid": 4880.04,
+     "high": 8311.23
+    },
+    "co2_kg": {
+     "low": 1048.87,
+     "mid": 1729.08,
+     "high": 3532.52
+    }
+   },
+   "share_co2": 0.5384,
+   "utilisation_range": "0.1–9.2 %"
+  },
+  {
+   "id": "C-3",
+   "name": "Always on, lightly used",
+   "description": "Running around the clock at low average load with short peaks: candidates for schedules (nights, weekends) and smaller sizes.",
+   "rule": "uptime ≥ 50 % and utilisation 2–20 %",
+   "size": 12,
+   "centroid": {
+    "utilisation": 0.1408,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.3646,
+    "memory": 0.1743
+   },
+   "entity_ids": [
+    "srv:qa-regression-01",
+    "srv:qa-regression-02",
+    "srv:test-01",
+    "srv:test-02",
+    "srv:test-03",
+    "srv:test-04",
+    "srv:test-05",
+    "srv:test-06",
+    "srv:test-07",
+    "srv:test-08",
+    "srv:uat-portal",
+    "srv:uat-shop"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 18400.51,
+     "mid": 18453.39,
+     "high": 18479.03
+    },
+    "cost_eur": {
+     "low": 19901.44,
+     "mid": 19958.62,
+     "high": 19986.26
+    },
+    "cost_usd": {
+     "low": 23158.48,
+     "mid": 23225.03,
+     "high": 23257.2
+    },
+    "kwh": {
+     "low": 607.73,
+     "mid": 918.49,
+     "high": 1572.56
+    },
+    "co2_kg": {
+     "low": 121.53,
+     "mid": 207.61,
+     "high": 553.61
+    }
+   },
+   "share_co2": 0.0646,
+   "utilisation_range": "10.2–16.9 %"
+  },
+  {
+   "id": "C-4",
+   "name": "Steady workload",
+   "description": "Running around the clock with a steady, real load: production.",
+   "rule": "uptime ≥ 50 % and utilisation ≥ 20 %",
+   "size": 13,
+   "centroid": {
+    "utilisation": 0.3824,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0864,
+    "memory": 0.6258
+   },
+   "entity_ids": [
+    "srv:app-01",
+    "srv:app-02",
+    "srv:app-03",
+    "srv:app-04",
+    "srv:app-05",
+    "srv:app-06",
+    "srv:app-07",
+    "srv:app-08",
+    "srv:app-09",
+    "srv:app-10",
+    "srv:app-11",
+    "srv:app-12",
+    "res:dp-prod"
+   ],
+   "metrics": {
+    "cost_chf": {
+     "low": 110958.47,
+     "mid": 111049.81,
+     "high": 111152.5
+    },
+    "cost_eur": {
+     "low": 120049.36,
+     "mid": 120148.16,
+     "high": 120259.3
+    },
+    "cost_usd": {
+     "low": 139712.65,
+     "mid": 139827.67,
+     "high": 139956.99
+    },
+    "kwh": {
+     "low": 7761.11,
+     "mid": 11584.62,
+     "high": 19981.4
+    },
+    "co2_kg": {
+     "low": 442.42,
+     "mid": 1274.33,
+     "high": 2557.6
+    }
+   },
+   "share_co2": 0.3968,
+   "utilisation_range": "26.2–45.1 %"
+  }
+ ],
+ "members": [
+  {
+   "entity_id": "srv:sbx-dana-04",
+   "label": "sbx-dana-04",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0049,
+    "peak": 0.051,
+    "uptime": 0.0389,
+    "variability": 1.6006,
+    "memory": 0.1001
+   },
+   "distance": 0.366,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.60 vs 1.47 in its group; peak utilisation (p95 of weekly max) 5.1 % vs 13.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 155,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:sbx-dana-22",
+   "label": "sbx-dana-22",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0059,
+    "peak": 0.0695,
+    "uptime": 0.0294,
+    "variability": 2.0264,
+    "memory": 0.1689
+   },
+   "distance": 0.799,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 2.03 vs 1.47 in its group; average memory use 16.9 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 26,
+    "project_id": "P-014"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-chris-15",
+   "label": "sbx-chris-15",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0077,
+    "peak": 0.055,
+    "uptime": 0.0394,
+    "variability": 1.4135,
+    "memory": 0.1211
+   },
+   "distance": 0.324,
+   "outlier": false,
+   "differs_by": "peak utilisation (p95 of weekly max) 5.5 % vs 13.0 % in its group; week-to-week variability (CV) 1.41 vs 1.47 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 13,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-chris-21",
+   "label": "sbx-chris-21",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0077,
+    "peak": 0.0972,
+    "uptime": 0.0291,
+    "variability": 1.5019,
+    "memory": 0.1297
+   },
+   "distance": 0.181,
+   "outlier": false,
+   "differs_by": "peak utilisation (p95 of weekly max) 9.7 % vs 13.0 % in its group; average utilisation 0.8 % vs 1.7 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 27,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-eli-23",
+   "label": "sbx-eli-23",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0084,
+    "peak": 0.0985,
+    "uptime": 0.036,
+    "variability": 2.116,
+    "memory": 0.1662
+   },
+   "distance": 0.907,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 2.12 vs 1.47 in its group; average memory use 16.6 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 25,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:sbx-chris-03",
+   "label": "sbx-chris-03",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0088,
+    "peak": 0.08,
+    "uptime": 0.033,
+    "variability": 1.5528,
+    "memory": 0.0597
+   },
+   "distance": 0.468,
+   "outlier": false,
+   "differs_by": "average memory use 6.0 % vs 13.2 % in its group; peak utilisation (p95 of weekly max) 8.0 % vs 13.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 25,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-dana-10",
+   "label": "sbx-dana-10",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0103,
+    "peak": 0.1292,
+    "uptime": 0.0359,
+    "variability": 1.5923,
+    "memory": 0.1157
+   },
+   "distance": 0.187,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.59 vs 1.47 in its group; average memory use 11.6 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 18,
+    "project_id": "P-014"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-bea-20",
+   "label": "sbx-bea-20",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0106,
+    "peak": 0.092,
+    "uptime": 0.0333,
+    "variability": 1.7197,
+    "memory": 0.1225
+   },
+   "distance": 0.353,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.72 vs 1.47 in its group; peak utilisation (p95 of weekly max) 9.2 % vs 13.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 139,
+    "project_id": "P-014"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-fay-18",
+   "label": "sbx-fay-18",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0115,
+    "peak": 0.1262,
+    "uptime": 0.0436,
+    "variability": 1.5415,
+    "memory": 0.1332
+   },
+   "distance": 0.108,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.54 vs 1.47 in its group; average utilisation 1.2 % vs 1.7 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 10,
+    "project_id": "P-014"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-chris-09",
+   "label": "sbx-chris-09",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0129,
+    "peak": 0.1247,
+    "uptime": 0.0385,
+    "variability": 1.415,
+    "memory": 0.0614
+   },
+   "distance": 0.448,
+   "outlier": false,
+   "differs_by": "average memory use 6.1 % vs 13.2 % in its group; week-to-week variability (CV) 1.42 vs 1.47 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 19,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-alex-01",
+   "label": "sbx-alex-01",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0136,
+    "peak": 0.1202,
+    "uptime": 0.0369,
+    "variability": 1.4223,
+    "memory": 0.0802
+   },
+   "distance": 0.359,
+   "outlier": false,
+   "differs_by": "average memory use 8.0 % vs 13.2 % in its group; week-to-week variability (CV) 1.42 vs 1.47 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 27,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-dana-16",
+   "label": "sbx-dana-16",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.016,
+    "peak": 0.1175,
+    "uptime": 0.0403,
+    "variability": 1.1823,
+    "memory": 0.1494
+   },
+   "distance": 0.518,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.18 vs 1.47 in its group; average memory use 14.9 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 143,
+    "project_id": "P-014"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-bea-08",
+   "label": "sbx-bea-08",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0173,
+    "peak": 0.3365,
+    "uptime": 0.0378,
+    "variability": 1.9956,
+    "memory": 0.1137
+   },
+   "distance": 0.819,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 2.00 vs 1.47 in its group; peak utilisation (p95 of weekly max) 33.7 % vs 13.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 151,
+    "project_id": "P-014"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-fay-12",
+   "label": "sbx-fay-12",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0185,
+    "peak": 0.2388,
+    "uptime": 0.0315,
+    "variability": 1.8926,
+    "memory": 0.2088
+   },
+   "distance": 0.682,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.89 vs 1.47 in its group; average memory use 20.9 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 147,
+    "project_id": "P-014"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-alex-13",
+   "label": "sbx-alex-13",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0193,
+    "peak": 0.1315,
+    "uptime": 0.0364,
+    "variability": 1.368,
+    "memory": 0.1817
+   },
+   "distance": 0.329,
+   "outlier": false,
+   "differs_by": "average memory use 18.2 % vs 13.2 % in its group; week-to-week variability (CV) 1.37 vs 1.47 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 15,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:sbx-fay-24",
+   "label": "sbx-fay-24",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0212,
+    "peak": 0.1628,
+    "uptime": 0.0363,
+    "variability": 1.3703,
+    "memory": 0.2012
+   },
+   "distance": 0.397,
+   "outlier": false,
+   "differs_by": "average memory use 20.1 % vs 13.2 % in its group; week-to-week variability (CV) 1.37 vs 1.47 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 135,
+    "project_id": "P-014"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-bea-02",
+   "label": "sbx-bea-02",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0215,
+    "peak": 0.2305,
+    "uptime": 0.0373,
+    "variability": 1.4893,
+    "memory": 0.2174
+   },
+   "distance": 0.443,
+   "outlier": false,
+   "differs_by": "average memory use 21.7 % vs 13.2 % in its group; peak utilisation (p95 of weekly max) 23.1 % vs 13.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 26,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:sbx-alex-07",
+   "label": "sbx-alex-07",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0229,
+    "peak": 0.2256,
+    "uptime": 0.0395,
+    "variability": 1.4151,
+    "memory": 0.1948
+   },
+   "distance": 0.363,
+   "outlier": false,
+   "differs_by": "average memory use 19.5 % vs 13.2 % in its group; peak utilisation (p95 of weekly max) 22.6 % vs 13.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 21,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-eli-05",
+   "label": "sbx-eli-05",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0233,
+    "peak": 0.205,
+    "uptime": 0.0423,
+    "variability": 1.2154,
+    "memory": 0.1965
+   },
+   "distance": 0.554,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.22 vs 1.47 in its group; average memory use 19.6 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 23,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:sbx-eli-17",
+   "label": "sbx-eli-17",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0238,
+    "peak": 0.2225,
+    "uptime": 0.0416,
+    "variability": 1.4943,
+    "memory": 0.1299
+   },
+   "distance": 0.155,
+   "outlier": false,
+   "differs_by": "peak utilisation (p95 of weekly max) 22.2 % vs 13.0 % in its group; average utilisation 2.4 % vs 1.7 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 11,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-eli-11",
+   "label": "sbx-eli-11",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0263,
+    "peak": 0.2506,
+    "uptime": 0.0299,
+    "variability": 1.4315,
+    "memory": 0.109
+   },
+   "distance": 0.295,
+   "outlier": false,
+   "differs_by": "peak utilisation (p95 of weekly max) 25.1 % vs 13.0 % in its group; average memory use 10.9 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 17,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-alex-19",
+   "label": "sbx-alex-19",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0263,
+    "peak": 0.284,
+    "uptime": 0.041,
+    "variability": 1.4588,
+    "memory": 0.177
+   },
+   "distance": 0.36,
+   "outlier": false,
+   "differs_by": "peak utilisation (p95 of weekly max) 28.4 % vs 13.0 % in its group; average memory use 17.7 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": null,
+    "days_since_login": 9,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:sbx-fay-06",
+   "label": "sbx-fay-06",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0279,
+    "peak": 0.2302,
+    "uptime": 0.0403,
+    "variability": 1.1788,
+    "memory": 0.1409
+   },
+   "distance": 0.535,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.18 vs 1.47 in its group; peak utilisation (p95 of weekly max) 23.0 % vs 13.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 22,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:sbx-bea-14",
+   "label": "sbx-bea-14",
+   "group_id": "C-1",
+   "features": {
+    "utilisation": 0.0402,
+    "peak": 0.288,
+    "uptime": 0.0367,
+    "variability": 1.1273,
+    "memory": 0.0582
+   },
+   "distance": 0.793,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.13 vs 1.47 in its group; average memory use 5.8 % vs 13.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 0.5,
+    "owner_department": "IT",
+    "days_since_login": 14,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:migration-alt",
+   "label": "migration-alt",
+   "group_id": "C-2",
+   "features": {
+    "utilisation": 0.001,
+    "peak": 0.004,
+    "uptime": 1.0,
+    "variability": 0.0,
+    "memory": 0.089
+   },
+   "distance": 1.075,
+   "outlier": false,
+   "differs_by": "average memory use 8.9 % vs 27.5 % in its group; week-to-week variability (CV) 0.00 vs 0.30 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": null,
+    "days_since_login": 573,
+    "project_id": "P-008"
+   }
+  },
+  {
+   "entity_id": "srv:poc-ki-2024",
+   "label": "poc-ki-2024",
+   "group_id": "C-2",
+   "features": {
+    "utilisation": 0.0021,
+    "peak": 0.0085,
+    "uptime": 1.0,
+    "variability": 0.3342,
+    "memory": 0.1757
+   },
+   "distance": 0.444,
+   "outlier": false,
+   "differs_by": "average memory use 17.6 % vs 27.5 % in its group; week-to-week variability (CV) 0.33 vs 0.30 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "poc",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": null,
+    "days_since_login": 625,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:build-agent-old",
+   "label": "build-agent-old",
+   "group_id": "C-2",
+   "features": {
+    "utilisation": 0.0032,
+    "peak": 0.0134,
+    "uptime": 1.0,
+    "variability": 0.2618,
+    "memory": 0.2929
+   },
+   "distance": 0.521,
+   "outlier": false,
+   "differs_by": "average memory use 29.3 % vs 27.5 % in its group; week-to-week variability (CV) 0.26 vs 0.30 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dev",
+    "environment": "dev",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 554,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:dr-failover",
+   "label": "dr-failover",
+   "group_id": "C-2",
+   "features": {
+    "utilisation": 0.004,
+    "peak": 0.013,
+    "uptime": 1.0,
+    "variability": 0.1503,
+    "memory": 0.2753
+   },
+   "distance": 0.6,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 0.15 vs 0.30 in its group; average utilisation 0.4 % vs 0.4 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "dr",
+    "environment": "dr",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 86,
+    "project_id": "P-015"
+   }
+  },
+  {
+   "entity_id": "res:dp-dev",
+   "label": "Data platform development",
+   "group_id": "C-2",
+   "features": {
+    "utilisation": 0.0868,
+    "peak": 0.1572,
+    "uptime": 1.0,
+    "variability": 1.1431,
+    "memory": null
+   },
+   "distance": 1.182,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.14 vs 0.30 in its group; average utilisation 8.7 % vs 0.4 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "data platform cluster"
+   }
+  },
+  {
+   "entity_id": "srv:gpu-ml-01",
+   "label": "gpu-ml-01",
+   "group_id": "C-2",
+   "features": {
+    "utilisation": 0.092,
+    "peak": 0.1682,
+    "uptime": 1.0,
+    "variability": 1.0737,
+    "memory": 0.2984
+   },
+   "distance": 1.046,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.07 vs 0.30 in its group; average utilisation 9.2 % vs 0.4 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "ml",
+    "environment": "dev",
+    "provider": "Azure",
+    "region": "Germany (Frankfurt)",
+    "vcpu": 8.0,
+    "owner_department": "Consulting",
+    "days_since_login": 65,
+    "project_id": "P-004"
+   }
+  },
+  {
+   "entity_id": "srv:test-01",
+   "label": "test-01",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1025,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.9633,
+    "memory": 0.0803
+   },
+   "distance": 0.913,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.96 vs 1.36 in its group; average memory use 8.0 % vs 17.4 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 4,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:test-03",
+   "label": "test-03",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1035,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 2.1218,
+    "memory": 0.1191
+   },
+   "distance": 1.018,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 2.12 vs 1.36 in its group; average memory use 11.9 % vs 17.4 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 2,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:test-04",
+   "label": "test-04",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1212,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.5373,
+    "memory": 0.1642
+   },
+   "distance": 0.156,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.54 vs 1.36 in its group; average utilisation 12.1 % vs 14.1 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:test-05",
+   "label": "test-05",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1235,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.6377,
+    "memory": 0.2308
+   },
+   "distance": 0.341,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.64 vs 1.36 in its group; average memory use 23.1 % vs 17.4 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 5,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:test-02",
+   "label": "test-02",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1238,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.6706,
+    "memory": 0.1845
+   },
+   "distance": 0.279,
+   "outlier": false,
+   "differs_by": "week-to-week variability (CV) 1.67 vs 1.36 in its group; average utilisation 12.4 % vs 14.1 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 3,
+    "project_id": "P-002"
+   }
+  },
+  {
+   "entity_id": "srv:test-06",
+   "label": "test-06",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1378,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.3853,
+    "memory": 0.1296
+   },
+   "distance": 0.322,
+   "outlier": false,
+   "differs_by": "average memory use 13.0 % vs 17.4 % in its group; week-to-week variability (CV) 1.39 vs 1.36 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 4,
+    "project_id": "P-002"
+   }
+  },
+  {
+   "entity_id": "srv:uat-shop",
+   "label": "uat-shop",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1437,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.3438,
+    "memory": 0.2805
+   },
+   "distance": 0.557,
+   "outlier": false,
+   "differs_by": "average memory use 28.0 % vs 17.4 % in its group; week-to-week variability (CV) 1.34 vs 1.36 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 10,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:test-08",
+   "label": "test-08",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1438,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.2789,
+    "memory": 0.1223
+   },
+   "distance": 0.451,
+   "outlier": false,
+   "differs_by": "average memory use 12.2 % vs 17.4 % in its group; week-to-week variability (CV) 1.28 vs 1.36 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 2,
+    "project_id": "P-002"
+   }
+  },
+  {
+   "entity_id": "srv:test-07",
+   "label": "test-07",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1438,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.2874,
+    "memory": 0.2307
+   },
+   "distance": 0.394,
+   "outlier": false,
+   "differs_by": "average memory use 23.1 % vs 17.4 % in its group; week-to-week variability (CV) 1.29 vs 1.36 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 3,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:qa-regression-02",
+   "label": "qa-regression-02",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1558,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.2888,
+    "memory": 0.1329
+   },
+   "distance": 0.422,
+   "outlier": false,
+   "differs_by": "average memory use 13.3 % vs 17.4 % in its group; week-to-week variability (CV) 1.29 vs 1.36 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 8,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:uat-portal",
+   "label": "uat-portal",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1579,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.18,
+    "memory": 0.2522
+   },
+   "distance": 0.604,
+   "outlier": false,
+   "differs_by": "average memory use 25.2 % vs 17.4 % in its group; week-to-week variability (CV) 1.18 vs 1.36 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 9,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:qa-regression-01",
+   "label": "qa-regression-01",
+   "group_id": "C-3",
+   "features": {
+    "utilisation": 0.1688,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 1.1883,
+    "memory": 0.2722
+   },
+   "distance": 0.685,
+   "outlier": false,
+   "differs_by": "average memory use 27.2 % vs 17.4 % in its group; week-to-week variability (CV) 1.19 vs 1.36 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "test",
+    "environment": "test",
+    "provider": "AWS",
+    "region": "Ireland (Dublin)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 7,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:app-06",
+   "label": "app-06",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.2618,
+    "peak": 0.9695,
+    "uptime": 1.0,
+    "variability": 0.0758,
+    "memory": 0.6558
+   },
+   "distance": 0.911,
+   "outlier": false,
+   "differs_by": "average utilisation 26.2 % vs 38.2 % in its group; average memory use 65.6 % vs 62.6 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:app-01",
+   "label": "app-01",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.267,
+    "peak": 0.9718,
+    "uptime": 1.0,
+    "variability": 0.0939,
+    "memory": 0.6307
+   },
+   "distance": 0.81,
+   "outlier": false,
+   "differs_by": "average utilisation 26.7 % vs 38.2 % in its group; peak utilisation (p95 of weekly max) 97.2 % vs 100.0 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:app-05",
+   "label": "app-05",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.3164,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0877,
+    "memory": 0.4836
+   },
+   "distance": 0.536,
+   "outlier": false,
+   "differs_by": "average memory use 48.4 % vs 62.6 % in its group; average utilisation 31.6 % vs 38.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "res:dp-prod",
+   "label": "Data platform production",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.3499,
+    "peak": 0.8513,
+    "uptime": 1.0,
+    "variability": 0.2944,
+    "memory": null
+   },
+   "distance": 0.499,
+   "outlier": false,
+   "differs_by": "peak utilisation (p95 of weekly max) 85.1 % vs 100.0 % in its group; week-to-week variability (CV) 0.29 vs 0.09 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "data platform cluster"
+   }
+  },
+  {
+   "entity_id": "srv:app-03",
+   "label": "app-03",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.3598,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0853,
+    "memory": 0.6807
+   },
+   "distance": 0.657,
+   "outlier": false,
+   "differs_by": "average memory use 68.1 % vs 62.6 % in its group; average utilisation 36.0 % vs 38.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:app-02",
+   "label": "app-02",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.3642,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0905,
+    "memory": 0.4537
+   },
+   "distance": 0.543,
+   "outlier": false,
+   "differs_by": "average memory use 45.4 % vs 62.6 % in its group; average utilisation 36.4 % vs 38.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:app-10",
+   "label": "app-10",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.3824,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0898,
+    "memory": 0.6575
+   },
+   "distance": 0.537,
+   "outlier": false,
+   "differs_by": "average memory use 65.8 % vs 62.6 % in its group; week-to-week variability (CV) 0.09 vs 0.09 in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:app-04",
+   "label": "app-04",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.3896,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0839,
+    "memory": 0.6948
+   },
+   "distance": 0.738,
+   "outlier": false,
+   "differs_by": "average memory use 69.5 % vs 62.6 % in its group; average utilisation 39.0 % vs 38.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:app-11",
+   "label": "app-11",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.4051,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0761,
+    "memory": 0.4321
+   },
+   "distance": 0.696,
+   "outlier": false,
+   "differs_by": "average memory use 43.2 % vs 62.6 % in its group; average utilisation 40.5 % vs 38.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:app-09",
+   "label": "app-09",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.4204,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0877,
+    "memory": 0.5374
+   },
+   "distance": 0.355,
+   "outlier": false,
+   "differs_by": "average memory use 53.7 % vs 62.6 % in its group; average utilisation 42.0 % vs 38.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:app-12",
+   "label": "app-12",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.424,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0772,
+    "memory": 0.4444
+   },
+   "distance": 0.693,
+   "outlier": false,
+   "differs_by": "average memory use 44.4 % vs 62.6 % in its group; average utilisation 42.4 % vs 38.2 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": null
+   }
+  },
+  {
+   "entity_id": "srv:app-07",
+   "label": "app-07",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.4315,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0842,
+    "memory": 0.6864
+   },
+   "distance": 0.798,
+   "outlier": false,
+   "differs_by": "average utilisation 43.1 % vs 38.2 % in its group; average memory use 68.6 % vs 62.6 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": "P-001"
+   }
+  },
+  {
+   "entity_id": "srv:app-08",
+   "label": "app-08",
+   "group_id": "C-4",
+   "features": {
+    "utilisation": 0.4507,
+    "peak": 1.0,
+    "uptime": 1.0,
+    "variability": 0.0864,
+    "memory": 0.6209
+   },
+   "distance": 0.642,
+   "outlier": false,
+   "differs_by": "average utilisation 45.1 % vs 38.2 % in its group; average memory use 62.1 % vs 62.6 % in its group",
+   "outlier_reason": null,
+   "context": {
+    "type": "prod",
+    "environment": "prod",
+    "provider": "Azure",
+    "region": "Switzerland (Zurich)",
+    "vcpu": 4.0,
+    "owner_department": "IT",
+    "days_since_login": 1,
+    "project_id": null
+   }
+  }
+ ],
+ "calc": {
+  "formula": "z-scores of 5 behaviour features → k-means (k by silhouette) → groups named by rules on the group medians; outlier = robust z of the distance to the own centroid > 3",
+  "inputs": [
+   {
+    "name": "k",
+    "value": 4,
+    "unit": "groups",
+    "source": "silhouette"
+   },
+   {
+    "name": "silhouette",
+    "value": 0.713,
+    "unit": "−1…1",
+    "source": "clusters.py"
+   },
+   {
+    "name": "entities",
+    "value": 55,
+    "unit": "servers + clusters",
+    "source": "server_inventory.csv"
+   }
+  ],
+  "factor_ids": [],
+  "row_count": 2319,
+  "value_status": "observed",
+  "issue_ids": [],
+  "source_files": [
+   "server_metrics_weekly.csv",
+   "data_platform_usage.csv",
+   "server_inventory.csv"
+  ],
+  "note": "Group costs and CO2 are the sums of the members' baseline metrics from entities.json."
+ }
+}

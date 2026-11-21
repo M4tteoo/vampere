@@ -1,0 +1,111 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T04:38:01+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "by_module": {
+  "clusters": {
+   "findings": [
+    {
+     "id": "F-CL-C-2",
+     "kind": "waste",
+     "title": "6 machines always on at 0.1–9.2 % average load",
+     "entity_ids": [
+      "srv:build-agent-old",
+      "srv:dr-failover",
+      "srv:gpu-ml-01",
+      "srv:migration-alt",
+      "srv:poc-ki-2024",
+      "res:dp-dev"
+     ],
+     "evidence": [
+      {
+       "statement": "median utilisation in the group (members: 0.1–9.2 %)",
+       "value": 0.36,
+       "unit": "%",
+       "source_files": [
+        "server_metrics_weekly.csv"
+       ]
+      },
+      {
+       "statement": "median share of time switched on",
+       "value": 100.0,
+       "unit": "%",
+       "source_files": [
+        "server_metrics_weekly.csv"
+       ]
+      }
+     ],
+     "severity": "high",
+     "impact": {
+      "cost_chf": {
+       "low": 56120.84,
+       "mid": 56202.45,
+       "high": 56283.93
+      },
+      "cost_eur": {
+       "low": 60698.34,
+       "mid": 60786.61,
+       "high": 60874.73
+      },
+      "cost_usd": {
+       "low": 70633.12,
+       "mid": 70735.86,
+       "high": 70838.38
+      },
+      "kwh": {
+       "low": 3259.17,
+       "mid": 4880.04,
+       "high": 8311.23
+      },
+      "co2_kg": {
+       "low": 1048.87,
+       "mid": 1729.08,
+       "high": 3532.52
+      }
+     },
+     "measure_ids": [],
+     "calc": {
+      "formula": "z-scores of 5 behaviour features → k-means (k by silhouette) → groups named by rules on the group medians; outlier = robust z of the distance to the own centroid > 3",
+      "inputs": [
+       {
+        "name": "k",
+        "value": 4,
+        "unit": "groups",
+        "source": "silhouette"
+       },
+       {
+        "name": "silhouette",
+        "value": 0.713,
+        "unit": "−1…1",
+        "source": "clusters.py"
+       },
+       {
+        "name": "entities",
+        "value": 55,
+        "unit": "servers + clusters",
+        "source": "server_inventory.csv"
+       }
+      ],
+      "factor_ids": [],
+      "row_count": 2319,
+      "value_status": "observed",
+      "issue_ids": [],
+      "source_files": [
+       "server_metrics_weekly.csv",
+       "data_platform_usage.csv",
+       "server_inventory.csv"
+      ],
+      "note": "Group costs and CO2 are the sums of the members' baseline metrics from entities.json."
+     }
+    }
+   ],
+   "measures": []
+  }
+ }
+}

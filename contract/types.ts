@@ -357,3 +357,47 @@ export interface CandidatesFile {
   meta: Meta;
   by_module: Record<string, { findings: Finding[]; measures: Measure[] }>; // key: "clusters", "carbon_aware", …
 }
+
+// ------------------------------------------------------- clusters.json (A4)
+/** Behaviour groups of servers (srv:*) and data-platform clusters (res:dp-*).
+ *  Mode «groups» in the scene: recolour members by group_id; outliers stay apart. */
+export interface ClustersFile {
+  meta: Meta;
+  method: {
+    algorithm: string;
+    k: number;
+    silhouette: number;                        // −1…1, higher = better separated
+    silhouette_by_k: Record<string, number>;
+    features: { key: string; label: string; unit: string }[];
+    period: { start: ISODate; end: ISODate };
+    note: string;
+  };
+  groups: ClusterGroup[];
+  members: ClusterMember[];
+  calc: Calc;
+}
+
+export interface ClusterGroup {
+  id: string;                                  // "C-1" … ordered by utilisation
+  name: string;                                // "Always on, almost idle"
+  description: string;
+  rule: string;                                // naming rule on the group medians
+  size: number;
+  centroid: Record<string, number>;            // group medians, feature key → value (0..1 for %)
+  utilisation_range: string;                   // "0.1–9.2 %"
+  entity_ids: string[];                        // → entities.json
+  metrics: Metrics | null;                     // sum of the members' baseline metrics
+  share_co2: number | null;                    // of all clustered entities, 0..1
+}
+
+export interface ClusterMember {
+  entity_id: string;
+  label: string;
+  group_id: string;
+  features: Record<string, number | null>;     // null = not measured
+  distance: number;                            // to the group centre (z-units, measured features only)
+  outlier: boolean;
+  differs_by: string;                          // how it differs from its group (every member)
+  outlier_reason: string | null;
+  context: Record<string, string | number | null>; // type, environment, owner_department, days_since_login …
+}
