@@ -68,7 +68,7 @@ def run_case(s: Settings, case: dict) -> dict:
             failures.append(f"forbidden /{rx}/")
     if case.get("expect"):
         e = case["expect"]
-        want = float(_path(run_tool(store, e["tool"], e["args"]), e["path"]))
+        want = float(_path(run_tool(store, e["tool"], e["args"]), e["path"])) * (100 if e.get("percent") else 1)
         found = [v for _, v, _ in numbers_in_text(text)]
         if not any(abs(v - want) <= 0.01 * abs(want) for v in found):
             failures.append(f"expected number {want:,.2f} not in answer")

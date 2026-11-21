@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T05:33:05+01:00",
+  "generated_at": "2026-11-21T05:37:30+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -21,8 +21,10 @@
    "dp-prod": [
     2,
     3,
+    4,
     5,
-    6
+    6,
+    7
    ],
    "st-backup": [
     22
@@ -548,7 +550,7 @@
    "relative_intensity": {
     "now": 1.065,
     "static": 0.8,
-    "dynamic": 0.767
+    "dynamic": 0.768
    },
    "kwh_per_run": {
     "marginal": {
@@ -577,7 +579,7 @@
      "saving_dynamic": {
       "low": 0.15,
       "mid": 0.65,
-      "high": 1.8
+      "high": 1.79
      }
     },
     "full": {
@@ -593,8 +595,8 @@
      },
      "saving_dynamic": {
       "low": 0.45,
-      "mid": 1.51,
-      "high": 3.49
+      "mid": 1.5,
+      "high": 3.47
      }
     }
    }
@@ -652,7 +654,7 @@
    "relative_intensity": {
     "now": 0.971,
     "static": 0.84,
-    "dynamic": 0.799
+    "dynamic": 0.8
    },
    "kwh_per_run": {
     "marginal": {
@@ -680,8 +682,8 @@
      },
      "saving_dynamic": {
       "low": 0.1,
-      "mid": 0.44,
-      "high": 1.21
+      "mid": 0.43,
+      "high": 1.2
      }
     },
     "full": {
@@ -698,7 +700,7 @@
      "saving_dynamic": {
       "low": 0.3,
       "mid": 1.01,
-      "high": 2.34
+      "high": 2.32
      }
     }
    }
@@ -1154,11 +1156,133 @@
    "saving_dynamic": {
     "low": 4.8,
     "mid": 13.2,
-    "high": 30.7
+    "high": 30.6
    }
   },
   "baseline_co2_kg": 4483.1,
   "share_of_baseline_full_dynamic": 0.0029
+ },
+ "after_package": {
+  "package_measures": [
+   "M-01",
+   "M-02",
+   "M-03",
+   "M-04",
+   "M-05",
+   "M-06"
+  ],
+  "relocated": {
+   "dp-dev": "CH"
+  },
+  "energy_basis": {
+   "dp-prod": "marginal",
+   "dp-dev": "full"
+  },
+  "because_of": {
+   "dp-dev": [
+    "M-01"
+   ]
+  },
+  "saving": {
+   "saving_static": {
+    "low": 1.9,
+    "mid": 7.3,
+    "high": 18.6
+   },
+   "saving_dynamic": {
+    "low": 2.2,
+    "mid": 8.2,
+    "high": 21.0
+   }
+  },
+  "jobs": [
+   {
+    "job_name": "Catalogue scan",
+    "resource_id": "dp-prod",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "17:00",
+    "saving_dynamic": {
+     "low": 0.15,
+     "mid": 0.65,
+     "high": 1.79
+    }
+   },
+   {
+    "job_name": "Cost export",
+    "resource_id": "dp-prod",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "17:00",
+    "saving_dynamic": {
+     "low": 0.1,
+     "mid": 0.43,
+     "high": 1.2
+    }
+   },
+   {
+    "job_name": "Dev smoke test",
+    "resource_id": "dp-dev",
+    "location": "CH",
+    "basis": "full",
+    "suggested_start": "17:00",
+    "saving_dynamic": {
+     "low": 0.2,
+     "mid": 0.68,
+     "high": 1.57
+    }
+   },
+   {
+    "job_name": "Embedding update",
+    "resource_id": "dp-dev",
+    "location": "CH",
+    "basis": "full",
+    "suggested_start": "18:00",
+    "saving_dynamic": {
+     "low": 0.78,
+     "mid": 2.6,
+     "high": 6.0
+    }
+   },
+   {
+    "job_name": "Test data refresh",
+    "resource_id": "dp-dev",
+    "location": "CH",
+    "basis": "full",
+    "suggested_start": "18:00",
+    "saving_dynamic": {
+     "low": 0.04,
+     "mid": 0.14,
+     "high": 0.32
+    }
+   },
+   {
+    "job_name": "Data cleansing",
+    "resource_id": "dp-prod",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "17:00",
+    "saving_dynamic": {
+     "low": 0.73,
+     "mid": 3.14,
+     "high": 8.69
+    }
+   },
+   {
+    "job_name": "Quarterly model training",
+    "resource_id": "dp-dev",
+    "location": "CH",
+    "basis": "full",
+    "suggested_start": "03:00",
+    "saving_dynamic": {
+     "low": 0.18,
+     "mid": 0.61,
+     "high": 1.42
+    }
+   }
+  ],
+  "fits_budget": false,
+  "note": "The package already uses 15.0 of 15 person-days: adding 1.0 d for carbon-aware scheduling exceeds the budget unless another measure is trimmed."
  },
  "calc": {
   "formula": "saving = Σ runs energy per run × location factor × (relative intensity now − at the new hours); energy per run = nodes × hours × node power (CCF) × PUE; relative intensity from the hourly profile (Energy-Charts, baseline year), scaled to the location-based factor",

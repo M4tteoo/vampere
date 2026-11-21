@@ -141,89 +141,97 @@ def run(ctx: Context) -> None:
     usage = ctx.tables["stg_data_platform_usage"].set_index(["resource_id", "date"])["node_count"]
     jobs["nodes"] = [usage.get((r, dt), np.nan) for r, dt in zip(jobs["resource_id"], jobs["date"])]
     blocked = _blocked(jobs)
+    for key, hours in _limit_blocks(ctx, set(jobs["date"])).items():   # Step 7 windows with a time range
+        blocked.setdefault(key, set()).update(hours)
 
-    def placement_rel(loc, month, day_type, start, dur):
-        cov = _covered(start, dur)
-        return sum(rel[(loc, month, day_type, h)] * w for h, w in cov) / sum(w for _, w in cov)
+    def simulate(loc_of: dict[str, str]) -> tuple[list[dict], list[dict]]:
+        """All jobs with locations `loc_of` (resource → grid). Returns (all jobs, shiftable jobs)."""
+        def placement_rel(loc, month, day_type, start, dur):
+            cov = _covered(start, dur)
+            return sum(rel[(loc, month, day_type, h)] * w for h, w in cov) / sum(w for _, w in cov)
 
-    out_jobs, rows = [], []
-    for (res_id, name), g in jobs.groupby(["resource_id", "job_name"], sort=False):
-        first = g.iloc[0]
-        loc, wtype, rule = first["location"], first["window_type"], first["window_rule"] or first["time_window"]
-        dur = float(g["duration_h"].mean())
-        usual = int(g["hour"].mode()[0])
-        base = {"job_name": name, "resource_id": res_id, "entity_id": f"res:{res_id}", "location": loc,
-                "window_type": wtype if isinstance(wtype, str) else "other", "window_rule": rule,
-                "runs": int(len(g)), "usual_start": f"{usual:02d}:00", "avg_duration_h": round(dur, 2)}
-        reason = _not_shiftable(wtype, loc, res_id)
-        if reason:
-            out_jobs.append({**base, "shiftable": False, "locked": wtype == "fixed", "reason": reason,
-                             "suggested_start": None, "kwh_per_run": None, "co2_kg_year": None})
-            continue
+        out_jobs, rows = [], []
+        for (res_id, name), g in jobs.groupby(["resource_id", "job_name"], sort=False):
+            first = g.iloc[0]
+            loc = loc_of.get(res_id, first["location"])
+            wtype, rule = first["window_type"], first["window_rule"] or first["time_window"]
+            dur = float(g["duration_h"].mean())
+            usual = int(g["hour"].mode()[0])
+            base = {"job_name": name, "resource_id": res_id, "entity_id": f"res:{res_id}", "location": loc,
+                    "window_type": wtype if isinstance(wtype, str) else "other", "window_rule": rule,
+                    "runs": int(len(g)), "usual_start": f"{usual:02d}:00", "avg_duration_h": round(dur, 2)}
+            reason = _not_shiftable(wtype, loc, res_id)
+            if reason:
+                out_jobs.append({**base, "shiftable": False, "locked": wtype == "fixed", "reason": reason,
+                                 "suggested_start": None, "kwh_per_run": None, "co2_kg_year": None})
+                continue
 
-        ticket_note = TICKET_CONSTRAINTS.get(name)
-        cands = _candidates("within 24 h" if ticket_note else rule, usual, "workday", dur)
+            ticket_note = TICKET_CONSTRAINTS.get(name)
+            cands = _candidates("within 24 h" if ticket_note else rule, usual, "workday", dur)
 
-        def free(r, cand):  # no overlap with a fixed run of this resource on the run's date
-            return not ({h for h, _ in _covered(cand[1], dur)} & blocked.get((res_id, r.date), set()))
+            def free(r, cand):  # no overlap with a fixed run of this resource on the run's date
+                return not ({h for h, _ in _covered(cand[1], dur)} & blocked.get((res_id, r.date), set()))
 
-        runs = list(g.itertuples())
-        cands = [c for c in cands if any(free(r, c) for r in runs)]
-        if not cands:
-            out_jobs.append({**base, "shiftable": False, "locked": False, "reason": "no allowed hour outside the "
-                             "protected hours of the resource", "suggested_start": None, "kwh_per_run": None,
-                             "co2_kg_year": None})
-            continue
+            runs = list(g.itertuples())
+            cands = [c for c in cands if any(free(r, c) for r in runs)]
+            if not cands:
+                out_jobs.append({**base, "shiftable": False, "locked": False, "reason": "no allowed hour outside the "
+                                 "protected hours of the resource", "suggested_start": None, "kwh_per_run": None,
+                                 "co2_kg_year": None})
+                continue
 
-        # A rule that allows other days (week / month / quarter) may also change the day type;
-        # otherwise the run keeps the day type of its date and only the hour moves.
-        multi_day = len({dt for dt, _ in cands}) > 1
+            # A rule that allows other days (week / month / quarter) may also change the day type;
+            # otherwise the run keeps the day type of its date and only the hour moves.
+            multi_day = len({dt for dt, _ in cands}) > 1
 
-        def rel_of(r, cand):
-            return placement_rel(loc, r.month, cand[0] if multi_day else r.day_type, cand[1], dur)
+            def rel_of(r, cand):
+                return placement_rel(loc, r.month, cand[0] if multi_day else r.day_type, cand[1], dur)
 
-        cur = np.array([placement_rel(loc, r.month, r.day_type, r.hour, dur) for r in runs])
-        # static: one start for all runs, so it must be free on every run date (e.g. not 18:00 on dp-prod,
-        # which collides with the month-end close); dynamic: best free placement per run
-        static = {c: np.array([rel_of(r, c) for r in runs]) for c in cands if all(free(r, c) for r in runs)}
-        if not static:
-            static = {(runs[0].day_type, usual): cur}
-        best_static = min(static, key=lambda c: static[c].sum())
-        dyn = np.array([min([rel_of(r, c) for c in cands if free(r, c)] or [rel_of(r, (r.day_type, r.hour))])
-                        for r in runs])
-        nodes = g["nodes"].fillna(g["nodes"].median()).to_numpy()
+            cur = np.array([placement_rel(loc, r.month, r.day_type, r.hour, dur) for r in runs])
+            # static: one start for all runs, so it must be free on every run date (e.g. not 18:00 on dp-prod,
+            # which collides with the month-end close); dynamic: best free placement per run
+            static = {c: np.array([rel_of(r, c) for r in runs]) for c in cands if all(free(r, c) for r in runs)}
+            if not static:
+                static = {(runs[0].day_type, usual): cur}
+            best_static = min(static, key=lambda c: static[c].sum())
+            dyn = np.array([min([rel_of(r, c) for c in cands if free(r, c)] or [rel_of(r, (r.day_type, r.hour))])
+                            for r in runs])
+            nodes = g["nodes"].fillna(g["nodes"].median()).to_numpy()
 
-        res_lv = {}
-        for kind in ("marginal", "full"):
-            for lvl in LEVELS:
-                e_run = nodes * dur * _energy_per_node_hour(F, lvl, kind)   # kWh per run
-                f = _grid(F, loc, lvl, scenario)
-                res_lv[(kind, lvl)] = {
-                    "kwh_run": float(e_run.mean()),
-                    "now": float((e_run * f * cur).sum()),
-                    "static": float((e_run * f * static[best_static]).sum()),
-                    "dynamic": float((e_run * f * dyn).sum())}
+            res_lv = {}
+            for kind in ("marginal", "full"):
+                for lvl in LEVELS:
+                    e_run = nodes * dur * _energy_per_node_hour(F, lvl, kind)   # kWh per run
+                    f = _grid(F, loc, lvl, scenario)
+                    res_lv[(kind, lvl)] = {
+                        "kwh_run": float(e_run.mean()),
+                        "now": float((e_run * f * cur).sum()),
+                        "static": float((e_run * f * static[best_static]).sum()),
+                        "dynamic": float((e_run * f * dyn).sum())}
 
-        def metric(kind, key):
-            return rng(*(res_lv[(kind, l)][key] for l in LEVELS), nd=2)
+            def metric(kind, key):
+                return rng(*(res_lv[(kind, l)][key] for l in LEVELS), nd=2)
 
-        def saving(kind, pol):
-            return rng(*(res_lv[(kind, l)]["now"] - res_lv[(kind, l)][pol] for l in LEVELS), nd=2)
+            def saving(kind, pol):
+                return rng(*(res_lv[(kind, l)]["now"] - res_lv[(kind, l)][pol] for l in LEVELS), nd=2)
 
-        day_label = best_static[0] if multi_day else "same day"
-        out_jobs.append({**base, "shiftable": True, "locked": False, "reason": None,
-                         "needs_human": ticket_note,
-                         "suggested_start": f"{best_static[1]:02d}:00", "suggested_day_type": day_label,
-                         "relative_intensity": {"now": round(float(cur.mean()), 3),
-                                                "static": round(float(static[best_static].mean()), 3),
-                                                "dynamic": round(float(dyn.mean()), 3)},
-                         "kwh_per_run": {"marginal": metric("marginal", "kwh_run"), "full": metric("full", "kwh_run")},
-                         "co2_kg_year": {k: {"now": metric(k, "now"), "saving_static": saving(k, "static"),
-                                             "saving_dynamic": saving(k, "dynamic")} for k in ("marginal", "full")}})
-        rows.append(out_jobs[-1])
+            day_label = best_static[0] if multi_day else "same day"
+            out_jobs.append({**base, "shiftable": True, "locked": False, "reason": None,
+                             "needs_human": ticket_note,
+                             "suggested_start": f"{best_static[1]:02d}:00", "suggested_day_type": day_label,
+                             "relative_intensity": {"now": round(float(cur.mean()), 3),
+                                                    "static": round(float(static[best_static].mean()), 3),
+                                                    "dynamic": round(float(dyn.mean()), 3)},
+                             "kwh_per_run": {"marginal": metric("marginal", "kwh_run"), "full": metric("full", "kwh_run")},
+                             "co2_kg_year": {k: {"now": metric(k, "now"), "saving_static": saving(k, "static"),
+                                                 "saving_dynamic": saving(k, "dynamic")} for k in ("marginal", "full")}})
+            rows.append(out_jobs[-1])
+        return out_jobs, rows
 
-    totals = {k: {pol: rng(*(sum(j["co2_kg_year"][k][pol][l] for j in rows) for l in LEVELS), nd=1)
-                  for pol in ("now", "saving_static", "saving_dynamic")} for k in ("marginal", "full")}
+    out_jobs, rows = simulate({})
+    totals = _totals(rows)
+    after = _after_package(ctx, simulate)
+
     baseline_co2 = float(ctx.tables["fact_cost"].loc[ctx.tables["fact_cost"]["in_baseline"], "co2_kg_mid"].sum())
     meta = _profile_meta()
     calc = {
@@ -252,13 +260,79 @@ def run(ctx: Context) -> None:
         "jobs": out_jobs,
         "totals": {**totals, "baseline_co2_kg": round(baseline_co2, 1),
                    "share_of_baseline_full_dynamic": round(totals["full"]["saving_dynamic"]["mid"] / baseline_co2, 4)},
+        "after_package": after,
         "calc": calc,
     }
     write_json(ctx, "jobs.json", payload)
     write_table(ctx, "carbon_aware_jobs", pd.DataFrame([{k: v for k, v in j.items() if not isinstance(v, dict)}
                                                          | {"saving_full_dynamic_kg": (j["co2_kg_year"] or {}).get("full", {}).get("saving_dynamic", {}).get("mid")}
                                                          for j in out_jobs]))
-    write_candidates(ctx, "carbon_aware", measures=[_measure(rows, totals, calc)])
+    write_candidates(ctx, "carbon_aware", measures=[_measure(rows, totals, calc, after)])
+
+
+def _totals(rows: list[dict]) -> dict:
+    return {k: {pol: rng(*(sum(j["co2_kg_year"][k][pol][l] for j in rows) for l in LEVELS), nd=1)
+                for pol in ("now", "saving_static", "saving_dynamic")} for k in ("marginal", "full")}
+
+
+def _limit_blocks(ctx: Context, dates: set[str]) -> dict[tuple[str, str], set[int]]:
+    """Protection windows of the advisor constraints (Step 7) that have a time range, e.g. finance closing
+    00:00–04:00 on the last 3 working days (T-1029). Whole-day «must be available» windows (quarter days,
+    test freeze) do not stop a job from running and are not blocked here."""
+    from .common import read_output
+    rep = read_output(ctx, "advisor/report.json") or {}
+    cal = ctx.tables["dim_date"].set_index("date")
+    out: dict[tuple[str, str], set[int]] = {}
+    for c in rep.get("constraints", []):
+        sch = c.get("schedule") or {}
+        if c.get("type") != "window" or not sch.get("from_time") or not sch.get("until_time"):
+            continue
+        h0, h1 = int(sch["from_time"][:2]), int(sch["until_time"][:2]) + (sch["until_time"][3:] != "00")
+        hours = set(range(h0, h1)) if h1 > h0 else set(range(h0, 24)) | set(range(0, h1))
+        if sch.get("kind") == "monthly_last_workdays":
+            days = [d for d in dates if d in cal.index and bool(cal.at[d, "is_last3_workdays_of_month"])]
+        elif sch.get("kind") == "daily":
+            days = list(dates)
+        else:
+            continue
+        for rid in c.get("applies_to", []):
+            for d in days:
+                out.setdefault((rid, d), set()).update(hours)
+    return out
+
+
+def _after_package(ctx: Context, simulate) -> dict | None:
+    """Carbon-aware ON TOP of the recommended package (additive, contract rule 10): jobs of relocated
+    clusters run on the new grid; clusters paused by a package «schedule» measure count with their
+    full run energy, the others only with the marginal energy (they still run 24/7)."""
+    from .common import read_output
+    mf = read_output(ctx, "measures.json")
+    if not mf:
+        return None
+    pkg = [m for m in mf["measures"] if m.get("in_package")]
+    loc_of, paused, by = {}, set(), {}
+    for m in pkg:
+        for e in m.get("effects", []):
+            rid = e["scope"].partition(":")[2]
+            if e["scope"].startswith("res:") and rid in CLUSTERS:
+                if e.get("relocate_to"):
+                    loc_of[rid] = e["relocate_to"]
+                if m["type"] == "schedule" and e.get("energy_share", 0) > 0:
+                    paused.add(rid)
+                by.setdefault(rid, []).append(m["id"])
+    _, rows = simulate(loc_of)
+    basis = {rid: "full" if rid in paused else "marginal" for rid in CLUSTERS}
+    saving = {pol: rng(*(sum(j["co2_kg_year"][basis[j["resource_id"]]][pol][l] for j in rows) for l in LEVELS), nd=1)
+              for pol in ("saving_static", "saving_dynamic")}
+    effort_used = mf["package"]["effort_days"]
+    return {"package_measures": mf["package"]["measure_ids"], "relocated": loc_of, "energy_basis": basis,
+            "because_of": by, "saving": saving,
+            "jobs": [{"job_name": j["job_name"], "resource_id": j["resource_id"], "location": j["location"],
+                      "basis": basis[j["resource_id"]], "suggested_start": j["suggested_start"],
+                      "saving_dynamic": j["co2_kg_year"][basis[j["resource_id"]]]["saving_dynamic"]} for j in rows],
+            "fits_budget": effort_used + EFFORT_DAYS <= 15,
+            "note": f"The package already uses {effort_used} of 15 person-days: adding {EFFORT_DAYS} d for carbon-aware "
+                    "scheduling exceeds the budget unless another measure is trimmed."}
 
 
 def _not_shiftable(wtype, loc, res_id) -> str | None:
@@ -294,8 +368,8 @@ def _profile_meta() -> dict:
         return json.load(fh)
 
 
-def _measure(rows: list[dict], totals: dict, calc: dict) -> dict:
-    s = totals["full"]["saving_dynamic"]
+def _measure(rows: list[dict], totals: dict, calc: dict, after: dict | None) -> dict:
+    s = after["saving"]["saving_dynamic"] if after else totals["full"]["saving_dynamic"]
     return {
         "id": "M-CA", "title": "Carbon-aware scheduling of flexible data-platform jobs",
         "description": "Move the flexible jobs of dp-dev and dp-prod to the cleanest allowed hours ("
@@ -308,6 +382,7 @@ def _measure(rows: list[dict], totals: dict, calc: dict) -> dict:
                     "kwh": rng(0, 0, 0), "co2_kg": s},
         "status": "ok", "owner_role": "Head of Consulting", "reason": "",
         "start_date": "2026-10-01", "in_package": False, "calc": calc,
-        "note": "Same kWh and CHF, less CO2: the energy is used at cleaner hours. Savings assume auto-pause "
-                "(energy basis «full»); with clusters running 24/7 see totals.marginal.",
+        "note": ("Same kWh and CHF, less CO2: the energy is used at cleaner hours. "
+                 + ("Savings computed ON TOP of the package (relocations and auto-pause applied, no overlap). "
+                    + after["note"] if after else "Savings assume auto-pause (energy basis «full»).")),
     }

@@ -4,6 +4,30 @@ The bonus modules were built before measures, limits and the package existed. So
 
 Order: **0 → 1 → 2 → 3 → 4 → 5**, then the final run in **6**.
 
+## Status · checked on 2026-11-21 after commit f423146 ("switch steps 5–8 to LLM advisor")
+
+Steps 5–8 now come from the LLM advisor (`pipeline/advisor/`). Result of this checklist:
+
+| § | Check | Result |
+|---|---|---|
+| 0 | Pipeline runs offline, all bonus modules ok, files follow the contract | ✅ 6 findings, 8 measures, 17 limits; package CO₂ −40.1%, cost −27.1%, 15.0 d (CHF 16,500) |
+| 1 | Clustering candidate F-CL-C-2 | ✅ not merged: covered by the advisor's F-03 (dp-dev) and F-04 (non-production compute) |
+| 1 | Carbon-aware candidate M-CA | ✅ recomputed **on top of the package** (`jobs.json` → `after_package`): dp-dev paused and moved to Zurich by M-01, dp-prod still 24/7 → **8.2 kg CO₂/yr (2.2–21.0)**. Not in the package: the budget is fully used (15.0 of 15 d) |
+| 2 | Carbon-aware vs limits | ✅ now also reads the time-bounded windows of the advisor constraints (finance closing 00:00–04:00 on the last 3 working days, C-01 / L-01); no job lands in them |
+| 3 | Pitch notes | ✅ updated: M-01 1,182 kg, M-02 345 kg, carbon-aware 8.2 kg (≈140× smaller), clustering 54%, attack suite 26/26, AI energy so far |
+| 4 | Assistant | ✅ reads measures / package / limits; measures overview made compact (55k → 9k chars); **26/26** (new: package target, blocked backup deletion, planted fake approval of the blocked DR shutdown) |
+| 4 | Advisor red-team (`python -m pipeline.advisor.redteam --llm`) | ✅ 6 structural + 3 live attacks passed |
+| 4 | Limit quotes | ✅ fixed in `pipeline/advisor/apply.py`: `quote_risk` now takes the **worst** verdict of title and description (before: the first one, so a clean title could vouch for an injected description), and `ambiguous` → `ok` (contract enum) |
+| 5 | Energy of our AI | ⏳ one laptop so far: 499 calls ≈ 96 Wh (19–385), ≈ 20 g CO₂. **Missing: the advisor runs (on the machine that ran `--advisor`) and the coding assistants** |
+
+**Open points for the Steps 5–8 owner:**
+1. **The CO₂ target is met only at mid:** −40.1% (target 40%). With pessimistic factors it's −34.7% (`package.meets_at_low.co2 = false`). The Monte Carlo (track 1) should show how likely −40% is. A little more CO₂ margin would make the pitch safer.
+2. **`package.reduction` ranges are stored inverted** (`co2`: low 0.56 > mid 0.40 > high 0.35). The contract expects low ≤ mid ≤ high (or document that «low» = low factors).
+3. **L-06** (pbi-07 audit block) points to `res:pbi-07`, which is not in `entities.json`, so the scene can't draw that lock.
+4. **dr-failover owner mismatch:** L-04 says `decided_by: Head of Management`, M-08 says `owner_role: Head of IT`. The assistant reports both.
+5. **`answers.json` only has question 1.** Questions 2 and 3 are answered by the assistant (verified) but not exported.
+6. Cosmetic: some licence `energy_share` values are 1e-16 instead of 0 (floating-point noise) in `measures.json` → `effects`.
+
 ---
 
 ## 0 · Regenerate everything first

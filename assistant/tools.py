@@ -518,6 +518,10 @@ def analysis(store: DataStore, kind: str, item_id: str | None, entity_id: str | 
     if kind == "jobs":
         return {"kind": kind, "items": items[:25], "totals": data["totals"], "method": data["method"],
                 "profile_source": data["profile_source"], "source": "output/jobs.json"}
+    if kind == "measures" and not item_id:  # overview: compact (the full calc of one measure via item_id)
+        keep = ("id", "title", "type", "status", "in_package", "effort_days", "effort_chf", "savings", "owner_role",
+                "reason", "start_date", "entity_ids", "finding_ids", "limit_ids")
+        items = [{k: m.get(k) for k in keep} for m in items]
     if kind == "limits":  # quotes from tickets are untrusted text (copy: never mutate the cached file)
         items = [dict(lim, quote=wrap(lim["quote"], store)) if lim.get("quote") else lim for lim in items]
     return {"kind": kind, "items": items[:25], "truncated": len(items) > 25,

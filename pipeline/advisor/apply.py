@@ -95,7 +95,13 @@ def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, raw_p
     limit_of: dict[str, str] = {}
     limits = []
     tickets = ctx.tables["stg_it_tickets"].set_index("ticket_id")
-    risk = ctx.tables["free_text"].groupby("record_key")["text_risk"].agg(lambda s: s.dropna().iat[0] if s.notna().any() else None)
+    # A ticket has two texts (title, description): take the WORST verdict, so a clean title can never
+    # vouch for an injected description. Contract quote_risk knows unchecked / ok / flagged only:
+    # «ambiguous» (a human-directed note, shown but never followed) is displayed as ok.
+    def _worst(s: pd.Series) -> str:
+        v = set(s.dropna())
+        return "flagged" if "flagged" in v else "unchecked" if "unchecked" in v or not v else "ok"
+    risk = ctx.tables["free_text"].groupby("record_key")["text_risk"].agg(_worst)
     for c in constraints:
         if c["type"] not in ("block", "window", "human_decision"):
             continue
