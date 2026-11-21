@@ -23,7 +23,7 @@ The pipeline writes JSON files; the 3D frontend reads them. This folder fixes th
    - `Q-…` IDs are numbered in log order. They are stable across runs of the same code, but can shift when the pipeline changes. Always take them from the files and never hard-code them in the frontend.
 7. **Dates** are ISO. Months are the first day of the month. Times are local Europe/Zurich with offset.
 8. **Text from the data is untrusted** (some of it contains prompt injections). Fields such as `Limit.quote` must be rendered as **plain text only**, never as HTML or markdown. If `quote_risk = "flagged"`, show "[withheld]" with a link to the quality issue.
-9. **Entity state.** The backend decides it; the frontend only paints it. `flags` lists every state that applies; `state` is the primary one, with precedence `locked > handover > contradiction > waste > driver > normal`.
+9. **Entity state.** The backend decides it; the frontend only paints it. `flags` lists every state that applies; `state` is the primary one, with precedence `locked > handover > contradiction > waste > driver > normal`. A contradiction takes that precedence only when it is **material**, meaning above the materiality threshold in `pipeline/config.yaml` (the same rule as hand-overs). An immaterial contradiction ranks below the other states but **always stays in `flags`** and in the calc panel (`issue_ids`), so the scene must show it, for example as a small ⚠️ badge. Nothing is hidden.
 10. **Measures can be summed.** The backend defines them without overlap, so the frontend may add up the savings of any selection to update the indicators. Blocked measures are never in `package`.
 
 ## Files
@@ -32,9 +32,9 @@ The pipeline writes JSON files; the 3D frontend reads them. This folder fixes th
 |---|---|---|---|
 | `quality.json` | Intake screen: counters, sources, every fix / estimate / contradiction | harmonizer | **available now** |
 | `fx.json` | exchange rates, for calc panels only | harmonizer | **available now** |
-| `summary.json` | baseline, target, breakdowns, flows (cables), one-offs, coverage | Step 4 | next (costs, kWh and CO₂ are all in the database) |
-| `entities.json` | every object in the scene with metrics, state and links | Steps 4–7 | metrics next; states after Steps 5–7 |
-| `timeseries.json` | monthly series for every entity, daily for dp-prod, dp-dev, gpu-ml | Step 4 | next |
+| `summary.json` | baseline, target, breakdowns, flows (cables), one-offs, coverage | Step 4 | **available now** |
+| `entities.json` | every object in the scene with metrics, state and links | Steps 4–7 | **available now** (states preliminary: driver / contradiction until Steps 5–7) |
+| `timeseries.json` | monthly series for every entity, daily for dp-prod, dp-dev, gpu-ml | Step 4 | **available now** |
 | `factors.json` | conversion factors with low / mid / high + source | Step 3 | **available now** |
 | `findings.json` | drivers and waste, each with its numerical evidence | Step 5 | after Step 5 |
 | `measures.json` | measures + recommended package + target check | Steps 6–8 | after Step 8 |

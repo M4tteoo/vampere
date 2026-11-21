@@ -15,6 +15,7 @@ from .harmonize import post, reconcile, store
 from .harmonize.context import Context
 from .harmonize.engine import run_connector
 from .energy import engine as energy
+from .export import frontend, submission
 
 
 def main() -> int:
@@ -30,7 +31,9 @@ def main() -> int:
     post.detect_anomalies(ctx)
     energy.compute(ctx)
     post.apply_materiality(ctx)
+    submission.write_baseline(ctx)
     store.write(ctx)
+    frontend.export(ctx)
     _summary(ctx, time.time() - t0)
     return 0
 

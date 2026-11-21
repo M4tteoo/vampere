@@ -1,7 +1,7 @@
 {
   "meta": {
     "schema_version": "0.1",
-    "generated_at": "2026-11-21T03:28:51+01:00",
+    "generated_at": "2026-11-21T03:58:49+01:00",
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -1798,6 +1798,19 @@
       "rows_affected": 36660,
       "action": "kWh and location-based CO2 (scenario ch_consumption) for every baseline line",
       "detail": "baseline: 25,170 kWh (range 14,264–51,440), 4,483 kg CO2 (range 1,891–11,796); 0 compute lines used the 50 % default utilisation",
+      "amount_chf": null,
+      "resource_id": null,
+      "severity": "info",
+      "evidence": ""
+    },
+    {
+      "issue_id": "Q-0108",
+      "category": null,
+      "source_file": "submission",
+      "issue_type": "template_written",
+      "rows_affected": 21,
+      "action": "template_baseline_and_assumptions.csv filled from the engine",
+      "detail": "Must rows without value: none",
       "amount_chf": null,
       "resource_id": null,
       "severity": "info",

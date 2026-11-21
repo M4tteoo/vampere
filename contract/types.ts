@@ -140,9 +140,11 @@ export interface Entity {
   idle_ratio: number | null;    // 0..1 (running but not working)
   seats?: { purchased: number; active: number };  // license_group
   fte?: number;                 // room
-  /** Primary visual state. Precedence: locked > handover > contradiction > waste > driver > normal */
+  /** Primary visual state. Precedence: locked > handover > contradiction > waste > driver > normal.
+   *  A contradiction takes precedence only when material (above the materiality threshold,
+   *  severity warn/handover); an immaterial one ranks below the other states. */
   state: EntityState;
-  flags: EntityState[];         // every state that applies
+  flags: EntityState[];         // every state that applies, including immaterial contradictions (always shown)
   finding_ids: string[];
   measure_ids: string[];
   limit_ids: string[];

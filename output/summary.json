@@ -1,0 +1,2863 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T03:58:49+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "baseline": {
+  "cost_chf": {
+   "low": 474537.87,
+   "mid": 475079.26,
+   "high": 475445.84
+  },
+  "cost_eur": {
+   "low": 513349.97,
+   "mid": 513935.65,
+   "high": 514332.21
+  },
+  "cost_usd": {
+   "low": 597295.25,
+   "mid": 597976.7,
+   "high": 598438.11
+  },
+  "kwh": {
+   "low": 14264.5,
+   "mid": 25169.6,
+   "high": 51439.6
+  },
+  "co2_kg": {
+   "low": 1890.8,
+   "mid": 4483.1,
+   "high": 11795.6
+  }
+ },
+ "baseline_recurring": {
+  "cost_chf": {
+   "low": 473865.17,
+   "mid": 474406.83,
+   "high": 474773.98
+  },
+  "cost_eur": {
+   "low": 512582.2,
+   "mid": 513168.12,
+   "high": 513565.27
+  },
+  "cost_usd": {
+   "low": 596408.89,
+   "mid": 597090.63,
+   "high": 597552.73
+  },
+  "kwh": {
+   "low": 14243.6,
+   "mid": 25080.7,
+   "high": 51084.6
+  },
+  "co2_kg": {
+   "low": 1888.2,
+   "mid": 4465.3,
+   "high": 11696.9
+  }
+ },
+ "one_offs": [
+  {
+   "id": "OO-1",
+   "resource_id": "ai-marketing",
+   "ticket": "T-1212",
+   "reason": "Script stuck in an endless loop (bug, fixed after three days)",
+   "excess": {
+    "cost_chf": {
+     "low": 3307.23,
+     "mid": 3307.23,
+     "high": 3307.23
+    },
+    "cost_eur": {
+     "low": 3637.33,
+     "mid": 3637.33,
+     "high": 3637.33
+    },
+    "cost_usd": {
+     "low": 4202.89,
+     "mid": 4202.89,
+     "high": 4202.89
+    },
+    "kwh": {
+     "low": 15.5,
+     "mid": 77.4,
+     "high": 309.8
+    },
+    "co2_kg": {
+     "low": 2.3,
+     "mid": 16.5,
+     "high": 92.9
+    }
+   }
+  },
+  {
+   "id": "OO-2",
+   "resource_id": "net-egress",
+   "ticket": "T-1189",
+   "reason": "One-off data egress due to file storage migration",
+   "excess": {
+    "cost_chf": {
+     "low": 365.47,
+     "mid": 365.2,
+     "high": 364.63
+    },
+    "cost_eur": {
+     "low": 394.22,
+     "mid": 393.93,
+     "high": 393.32
+    },
+    "cost_usd": {
+     "low": 462.72,
+     "mid": 462.38,
+     "high": 461.67
+    },
+    "kwh": {
+     "low": 5.4,
+     "mid": 11.5,
+     "high": 45.2
+    },
+    "co2_kg": {
+     "low": 0.3,
+     "mid": 1.3,
+     "high": 5.8
+    }
+   }
+  },
+  {
+   "id": "OO-3",
+   "resource_id": null,
+   "ticket": null,
+   "reason": "SLA credits (refunds) are not recurring spend",
+   "excess": {
+    "cost_chf": {
+     "low": -3000.0,
+     "mid": -3000.0,
+     "high": -3000.0
+    },
+    "cost_eur": {
+     "low": -3263.73,
+     "mid": -3263.73,
+     "high": -3263.73
+    },
+    "cost_usd": {
+     "low": -3779.2,
+     "mid": -3779.2,
+     "high": -3779.2
+    },
+    "kwh": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    },
+    "co2_kg": {
+     "low": 0.0,
+     "mid": 0.0,
+     "high": 0.0
+    }
+   }
+  }
+ ],
+ "target": {
+  "co2_reduction": 0.4,
+  "cost_reduction": 0.25,
+  "budget_chf": 16500,
+  "chf_per_person_day": 1100
+ },
+ "breakdown": {
+  "by_category": [
+   {
+    "key": "cloud",
+    "label": "cloud",
+    "entity_id": null,
+    "metrics": {
+     "cost_chf": {
+      "low": 223518.47,
+      "mid": 223945.42,
+      "high": 224232.6
+     },
+     "cost_eur": {
+      "low": 241785.94,
+      "mid": 242247.79,
+      "high": 242558.44
+     },
+     "cost_usd": {
+      "low": 281352.86,
+      "mid": 281890.29,
+      "high": 282251.78
+     },
+     "kwh": {
+      "low": 11223.3,
+      "mid": 19049.9,
+      "high": 35542.3
+     },
+     "co2_kg": {
+      "low": 1339.1,
+      "mid": 3122.2,
+      "high": 7041.4
+     }
+    },
+    "share": {
+     "cost": 0.4714,
+     "co2": 0.6964
+    }
+   },
+   {
+    "key": "saas",
+    "label": "saas",
+    "entity_id": null,
+    "metrics": {
+     "cost_chf": {
+      "low": 114157.87,
+      "mid": 114157.87,
+      "high": 114157.87
+     },
+     "cost_eur": {
+      "low": 123472.04,
+      "mid": 123472.04,
+      "high": 123472.04
+     },
+     "cost_usd": {
+      "low": 143682.04,
+      "mid": 143682.04,
+      "high": 143682.04
+     },
+     "kwh": {
+      "low": 334.1,
+      "mid": 1002.1,
+      "high": 3340.5
+     },
+     "co2_kg": {
+      "low": 50.1,
+      "mid": 213.5,
+      "high": 1002.1
+     }
+    },
+    "share": {
+     "cost": 0.2403,
+     "co2": 0.0476
+    }
+   },
+   {
+    "key": "ai",
+    "label": "ai",
+    "entity_id": null,
+    "metrics": {
+     "cost_chf": {
+      "low": 77532.45,
+      "mid": 77532.45,
+      "high": 77532.45
+     },
+     "cost_eur": {
+      "low": 83923.36,
+      "mid": 83923.36,
+      "high": 83923.36
+     },
+     "cost_usd": {
+      "low": 97590.89,
+      "mid": 97590.89,
+      "high": 97590.89
+     },
+     "kwh": {
+      "low": 302.0,
+      "mid": 1439.9,
+      "high": 6213.7
+     },
+     "co2_kg": {
+      "low": 45.3,
+      "mid": 306.7,
+      "high": 1864.1
+     }
+    },
+    "share": {
+     "cost": 0.1632,
+     "co2": 0.0684
+    }
+   },
+   {
+    "key": "server",
+    "label": "server",
+    "entity_id": null,
+    "metrics": {
+     "cost_chf": {
+      "low": 59329.08,
+      "mid": 59443.52,
+      "high": 59522.92
+     },
+     "cost_eur": {
+      "low": 64168.68,
+      "mid": 64292.46,
+      "high": 64378.34
+     },
+     "cost_usd": {
+      "low": 74669.44,
+      "mid": 74813.48,
+      "high": 74913.41
+     },
+     "kwh": {
+      "low": 2405.2,
+      "mid": 3677.6,
+      "high": 6343.2
+     },
+     "co2_kg": {
+      "low": 456.4,
+      "mid": 840.7,
+      "high": 1887.9
+     }
+    },
+    "share": {
+     "cost": 0.1251,
+     "co2": 0.1875
+    }
+   }
+  ],
+  "by_department": [
+   {
+    "key": "IT",
+    "label": "IT",
+    "entity_id": "dept:IT",
+    "metrics": {
+     "cost_chf": {
+      "low": 174329.48,
+      "mid": 174734.78,
+      "high": 174972.75
+     },
+     "cost_eur": {
+      "low": 188548.86,
+      "mid": 188987.22,
+      "high": 189244.6
+     },
+     "cost_usd": {
+      "low": 219397.63,
+      "mid": 219907.71,
+      "high": 220207.2
+     },
+     "kwh": {
+      "low": 5154.3,
+      "mid": 9355.7,
+      "high": 18358.9
+     },
+     "co2_kg": {
+      "low": 1116.1,
+      "mid": 2224.1,
+      "high": 5482.3
+     }
+    },
+    "share": {
+     "cost": 0.3678,
+     "co2": 0.4961
+    }
+   },
+   {
+    "key": "Consulting",
+    "label": "Consulting",
+    "entity_id": "dept:Consulting",
+    "metrics": {
+     "cost_chf": {
+      "low": 171484.28,
+      "mid": 171572.89,
+      "high": 171668.88
+     },
+     "cost_eur": {
+      "low": 185517.06,
+      "mid": 185612.93,
+      "high": 185716.77
+     },
+     "cost_usd": {
+      "low": 215882.73,
+      "mid": 215994.29,
+      "high": 216115.12
+     },
+     "kwh": {
+      "low": 8153.9,
+      "mid": 13179.9,
+      "high": 25023.4
+     },
+     "co2_kg": {
+      "low": 688.1,
+      "mid": 1825.7,
+      "high": 4346.9
+     }
+    },
+    "share": {
+     "cost": 0.3611,
+     "co2": 0.4072
+    }
+   },
+   {
+    "key": "Sales",
+    "label": "Sales",
+    "entity_id": "dept:Sales",
+    "metrics": {
+     "cost_chf": {
+      "low": 47577.27,
+      "mid": 47599.45,
+      "high": 47614.47
+     },
+     "cost_eur": {
+      "low": 51461.77,
+      "mid": 51485.76,
+      "high": 51502.01
+     },
+     "cost_usd": {
+      "low": 59874.13,
+      "mid": 59902.03,
+      "high": 59920.94
+     },
+     "kwh": {
+      "low": 295.7,
+      "mid": 1040.9,
+      "high": 3176.4
+     },
+     "co2_kg": {
+      "low": 27.2,
+      "mid": 160.7,
+      "high": 707.6
+     }
+    },
+    "share": {
+     "cost": 0.1002,
+     "co2": 0.0359
+    }
+   },
+   {
+    "key": "Marketing",
+    "label": "Marketing",
+    "entity_id": "dept:Marketing",
+    "metrics": {
+     "cost_chf": {
+      "low": 38378.28,
+      "mid": 38389.36,
+      "high": 38391.97
+     },
+     "cost_eur": {
+      "low": 41572.8,
+      "mid": 41584.79,
+      "high": 41587.63
+     },
+     "cost_usd": {
+      "low": 48336.84,
+      "mid": 48350.79,
+      "high": 48354.08
+     },
+     "kwh": {
+      "low": 141.6,
+      "mid": 584.3,
+      "high": 2325.9
+     },
+     "co2_kg": {
+      "low": 19.4,
+      "mid": 119.8,
+      "high": 670.0
+     }
+    },
+    "share": {
+     "cost": 0.0808,
+     "co2": 0.0267
+    }
+   },
+   {
+    "key": "Finance",
+    "label": "Finance",
+    "entity_id": "dept:Finance",
+    "metrics": {
+     "cost_chf": {
+      "low": 30556.87,
+      "mid": 30570.88,
+      "high": 30585.7
+     },
+     "cost_eur": {
+      "low": 33042.02,
+      "mid": 33057.18,
+      "high": 33073.2
+     },
+     "cost_usd": {
+      "low": 38436.88,
+      "mid": 38454.5,
+      "high": 38473.15
+     },
+     "kwh": {
+      "low": 466.0,
+      "mid": 813.7,
+      "high": 1823.9
+     },
+     "co2_kg": {
+      "low": 31.9,
+      "mid": 111.1,
+      "high": 369.2
+     }
+    },
+    "share": {
+     "cost": 0.0643,
+     "co2": 0.0248
+    }
+   },
+   {
+    "key": "HR",
+    "label": "HR",
+    "entity_id": "dept:HR",
+    "metrics": {
+     "cost_chf": {
+      "low": 7037.31,
+      "mid": 7037.31,
+      "high": 7037.31
+     },
+     "cost_eur": {
+      "low": 7611.36,
+      "mid": 7611.36,
+      "high": 7611.36
+     },
+     "cost_usd": {
+      "low": 8855.81,
+      "mid": 8855.81,
+      "high": 8855.81
+     },
+     "kwh": {
+      "low": 28.0,
+      "mid": 107.0,
+      "high": 403.7
+     },
+     "co2_kg": {
+      "low": 4.2,
+      "mid": 22.8,
+      "high": 121.1
+     }
+    },
+    "share": {
+     "cost": 0.0148,
+     "co2": 0.0051
+    }
+   },
+   {
+    "key": "Management",
+    "label": "Management",
+    "entity_id": "dept:Management",
+    "metrics": {
+     "cost_chf": {
+      "low": 5114.22,
+      "mid": 5114.22,
+      "high": 5114.22
+     },
+     "cost_eur": {
+      "low": 5531.12,
+      "mid": 5531.12,
+      "high": 5531.12
+     },
+     "cost_usd": {
+      "low": 6435.6,
+      "mid": 6435.6,
+      "high": 6435.6
+     },
+     "kwh": {
+      "low": 23.1,
+      "mid": 85.2,
+      "high": 322.6
+     },
+     "co2_kg": {
+      "low": 3.5,
+      "mid": 18.2,
+      "high": 96.8
+     }
+    },
+    "share": {
+     "cost": 0.0108,
+     "co2": 0.004
+    }
+   },
+   {
+    "key": "Test account",
+    "label": "Test account",
+    "entity_id": "dept:Test account",
+    "metrics": {
+     "cost_chf": {
+      "low": 60.16,
+      "mid": 60.37,
+      "high": 60.54
+     },
+     "cost_eur": {
+      "low": 65.06,
+      "mid": 65.29,
+      "high": 65.47
+     },
+     "cost_usd": {
+      "low": 75.7,
+      "mid": 75.96,
+      "high": 76.18
+     },
+     "kwh": {
+      "low": 1.9,
+      "mid": 2.9,
+      "high": 4.8
+     },
+     "co2_kg": {
+      "low": 0.4,
+      "mid": 0.6,
+      "high": 1.7
+     }
+    },
+    "share": {
+     "cost": 0.0001,
+     "co2": 0.0001
+    }
+   }
+  ],
+  "by_location": [
+   {
+    "key": "CH",
+    "label": "Zurich",
+    "entity_id": "loc:CH",
+    "metrics": {
+     "cost_chf": {
+      "low": 193416.21,
+      "mid": 193709.85,
+      "high": 193922.49
+     },
+     "cost_eur": {
+      "low": 209228.02,
+      "mid": 209545.66,
+      "high": 209775.69
+     },
+     "cost_usd": {
+      "low": 243470.9,
+      "mid": 243840.53,
+      "high": 244108.2
+     },
+     "kwh": {
+      "low": 9282.0,
+      "mid": 15513.9,
+      "high": 28666.3
+     },
+     "co2_kg": {
+      "low": 529.1,
+      "mid": 1706.5,
+      "high": 3669.3
+     }
+    },
+    "share": {
+     "cost": 0.4077,
+     "co2": 0.3807
+    }
+   },
+   {
+    "key": "EU",
+    "label": "EU cloud (AI & SaaS)",
+    "entity_id": "loc:EU",
+    "metrics": {
+     "cost_chf": {
+      "low": 191690.32,
+      "mid": 191690.32,
+      "high": 191690.32
+     },
+     "cost_eur": {
+      "low": 207395.4,
+      "mid": 207395.4,
+      "high": 207395.4
+     },
+     "cost_usd": {
+      "low": 241272.93,
+      "mid": 241272.93,
+      "high": 241272.93
+     },
+     "kwh": {
+      "low": 636.0,
+      "mid": 2442.1,
+      "high": 9554.2
+     },
+     "co2_kg": {
+      "low": 95.4,
+      "mid": 520.2,
+      "high": 2866.2
+     }
+    },
+    "share": {
+     "cost": 0.4035,
+     "co2": 0.116
+    }
+   },
+   {
+    "key": "DE",
+    "label": "Frankfurt",
+    "entity_id": "loc:DE",
+    "metrics": {
+     "cost_chf": {
+      "low": 49917.73,
+      "mid": 49981.53,
+      "high": 50054.37
+     },
+     "cost_eur": {
+      "low": 53989.27,
+      "mid": 54058.27,
+      "high": 54137.06
+     },
+     "cost_usd": {
+      "low": 62826.05,
+      "mid": 62906.34,
+      "high": 62998.02
+     },
+     "kwh": {
+      "low": 3054.3,
+      "mid": 4570.4,
+      "high": 7781.2
+     },
+     "co2_kg": {
+      "low": 1007.9,
+      "mid": 1659.1,
+      "high": 3345.9
+     }
+    },
+    "share": {
+     "cost": 0.1052,
+     "co2": 0.3701
+    }
+   },
+   {
+    "key": "IE",
+    "label": "Dublin",
+    "entity_id": "loc:IE",
+    "metrics": {
+     "cost_chf": {
+      "low": 39513.61,
+      "mid": 39697.57,
+      "high": 39778.67
+     },
+     "cost_eur": {
+      "low": 42737.34,
+      "mid": 42936.31,
+      "high": 43024.03
+     },
+     "cost_usd": {
+      "low": 49725.39,
+      "mid": 49956.89,
+      "high": 50058.95
+     },
+     "kwh": {
+      "low": 1292.2,
+      "mid": 2643.2,
+      "high": 5438.0
+     },
+     "co2_kg": {
+      "low": 258.4,
+      "mid": 597.4,
+      "high": 1914.2
+     }
+    },
+    "share": {
+     "cost": 0.0836,
+     "co2": 0.1332
+    }
+   }
+  ],
+  "by_tool": [
+   {
+    "key": "Data platform production",
+    "label": "Data platform production",
+    "entity_id": "res:dp-prod",
+    "metrics": {
+     "cost_chf": {
+      "low": 87666.77,
+      "mid": 87730.81,
+      "high": 87803.7
+     },
+     "cost_eur": {
+      "low": 94857.37,
+      "mid": 94926.66,
+      "high": 95005.53
+     },
+     "cost_usd": {
+      "low": 110398.92,
+      "mid": 110479.57,
+      "high": 110571.36
+     },
+     "kwh": {
+      "low": 6913.2,
+      "mid": 10297.7,
+      "high": 17745.5
+     },
+     "co2_kg": {
+      "low": 394.1,
+      "mid": 1132.7,
+      "high": 2271.4
+     }
+    },
+    "share": {
+     "cost": 0.1847,
+     "co2": 0.2527
+    }
+   },
+   {
+    "key": "Data platform development",
+    "label": "Data platform development",
+    "entity_id": "res:dp-dev",
+    "metrics": {
+     "cost_chf": {
+      "low": 38544.16,
+      "mid": 38591.71,
+      "high": 38649.36
+     },
+     "cost_eur": {
+      "low": 41688.12,
+      "mid": 41739.55,
+      "high": 41801.91
+     },
+     "cost_usd": {
+      "low": 48511.58,
+      "mid": 48571.43,
+      "high": 48643.99
+     },
+     "kwh": {
+      "low": 2311.5,
+      "mid": 3410.7,
+      "high": 5781.4
+     },
+     "co2_kg": {
+      "low": 762.8,
+      "mid": 1238.1,
+      "high": 2486.0
+     }
+    },
+    "share": {
+     "cost": 0.0812,
+     "co2": 0.2762
+    }
+   },
+   {
+    "key": "Test environments",
+    "label": "Test environments",
+    "entity_id": "res:vm-test",
+    "metrics": {
+     "cost_chf": {
+      "low": 24603.64,
+      "mid": 24674.33,
+      "high": 24708.52
+     },
+     "cost_eur": {
+      "low": 26610.48,
+      "mid": 26686.94,
+      "high": 26723.92
+     },
+     "cost_usd": {
+      "low": 30965.54,
+      "mid": 31054.52,
+      "high": 31097.54
+     },
+     "kwh": {
+      "low": 812.6,
+      "mid": 1228.1,
+      "high": 2102.7
+     },
+     "co2_kg": {
+      "low": 162.5,
+      "mid": 277.6,
+      "high": 740.2
+     }
+    },
+    "share": {
+     "cost": 0.0519,
+     "co2": 0.0619
+    }
+   },
+   {
+    "key": "Power BI capacity",
+    "label": "Power BI capacity",
+    "entity_id": "res:pbi-kap",
+    "metrics": {
+     "cost_chf": {
+      "low": 24075.51,
+      "mid": 24083.62,
+      "high": 24090.68
+     },
+     "cost_eur": {
+      "low": 26038.95,
+      "mid": 26047.72,
+      "high": 26055.36
+     },
+     "cost_usd": {
+      "low": 30300.75,
+      "mid": 30310.95,
+      "high": 30319.84
+     },
+     "kwh": {
+      "low": 187.9,
+      "mid": 282.8,
+      "high": 492.4
+     },
+     "co2_kg": {
+      "low": 10.7,
+      "mid": 31.1,
+      "high": 63.0
+     }
+    },
+    "share": {
+     "cost": 0.0507,
+     "co2": 0.0069
+    }
+   },
+   {
+    "key": "Office AI assistant",
+    "label": "Office AI assistant",
+    "entity_id": "res:ai-assistant",
+    "metrics": {
+     "cost_chf": {
+      "low": 23356.32,
+      "mid": 23356.32,
+      "high": 23356.32
+     },
+     "cost_eur": {
+      "low": 25276.12,
+      "mid": 25276.12,
+      "high": 25276.12
+     },
+     "cost_usd": {
+      "low": 29389.51,
+      "mid": 29389.51,
+      "high": 29389.51
+     },
+     "kwh": {
+      "low": 171.9,
+      "mid": 859.7,
+      "high": 3438.7
+     },
+     "co2_kg": {
+      "low": 25.8,
+      "mid": 183.1,
+      "high": 1031.6
+     }
+    },
+    "share": {
+     "cost": 0.0492,
+     "co2": 0.0408
+    }
+   },
+   {
+    "key": "App server",
+    "label": "App server",
+    "entity_id": "res:vm-app",
+    "metrics": {
+     "cost_chf": {
+      "low": 23291.71,
+      "mid": 23319.0,
+      "high": 23348.85
+     },
+     "cost_eur": {
+      "low": 25191.99,
+      "mid": 25221.51,
+      "high": 25253.8
+     },
+     "cost_usd": {
+      "low": 29313.73,
+      "mid": 29348.08,
+      "high": 29385.65
+     },
+     "kwh": {
+      "low": 847.9,
+      "mid": 1286.9,
+      "high": 2235.9
+     },
+     "co2_kg": {
+      "low": 48.3,
+      "mid": 141.6,
+      "high": 286.2
+     }
+    },
+    "share": {
+     "cost": 0.0491,
+     "co2": 0.0316
+    }
+   },
+   {
+    "key": "Microsoft Copilot",
+    "label": "Microsoft Copilot",
+    "entity_id": "res:sub-copilot",
+    "metrics": {
+     "cost_chf": {
+      "low": 22181.4,
+      "mid": 22181.4,
+      "high": 22181.4
+     },
+     "cost_eur": {
+      "low": 23974.32,
+      "mid": 23974.32,
+      "high": 23974.32
+     },
+     "cost_usd": {
+      "low": 27900.0,
+      "mid": 27900.0,
+      "high": 27900.0
+     },
+     "kwh": {
+      "low": 20.0,
+      "mid": 60.0,
+      "high": 500.1
+     },
+     "co2_kg": {
+      "low": 3.0,
+      "mid": 12.8,
+      "high": 150.0
+     }
+    },
+    "share": {
+     "cost": 0.0467,
+     "co2": 0.0029
+    }
+   },
+   {
+    "key": "CRM platform",
+    "label": "CRM platform",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 17765.0,
+      "mid": 17765.0,
+      "high": 17765.0
+     },
+     "cost_eur": {
+      "low": 19215.94,
+      "mid": 19215.94,
+      "high": 19215.94
+     },
+     "cost_usd": {
+      "low": 22363.3,
+      "mid": 22363.3,
+      "high": 22363.3
+     },
+     "kwh": {
+      "low": 9.4,
+      "mid": 28.2,
+      "high": 94.0
+     },
+     "co2_kg": {
+      "low": 1.4,
+      "mid": 6.0,
+      "high": 28.2
+     }
+    },
+    "share": {
+     "cost": 0.0374,
+     "co2": 0.0013
+    }
+   },
+   {
+    "key": "Microsoft 365",
+    "label": "Microsoft 365",
+    "entity_id": "res:saas-m365",
+    "metrics": {
+     "cost_chf": {
+      "low": 14240.98,
+      "mid": 14240.98,
+      "high": 14240.98
+     },
+     "cost_eur": {
+      "low": 15401.05,
+      "mid": 15401.05,
+      "high": 15401.05
+     },
+     "cost_usd": {
+      "low": 17918.0,
+      "mid": 17918.0,
+      "high": 17918.0
+     },
+     "kwh": {
+      "low": 61.2,
+      "mid": 183.8,
+      "high": 612.5
+     },
+     "co2_kg": {
+      "low": 9.2,
+      "mid": 39.1,
+      "high": 183.8
+     }
+    },
+    "share": {
+     "cost": 0.03,
+     "co2": 0.0087
+    }
+   },
+   {
+    "key": "Logging and monitoring",
+    "label": "Logging and monitoring",
+    "entity_id": "res:logs",
+    "metrics": {
+     "cost_chf": {
+      "low": 13917.93,
+      "mid": 13950.48,
+      "high": 13975.99
+     },
+     "cost_eur": {
+      "low": 15053.89,
+      "mid": 15089.09,
+      "high": 15116.69
+     },
+     "cost_usd": {
+      "low": 17514.26,
+      "mid": 17555.21,
+      "high": 17587.32
+     },
+     "kwh": {
+      "low": 404.3,
+      "mid": 1399.7,
+      "high": 3100.8
+     },
+     "co2_kg": {
+      "low": 23.0,
+      "mid": 154.0,
+      "high": 396.9
+     }
+    },
+    "share": {
+     "cost": 0.0294,
+     "co2": 0.0343
+    }
+   },
+   {
+    "key": "Video conferencing tool",
+    "label": "Video conferencing tool",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 12470.75,
+      "mid": 12470.75,
+      "high": 12470.75
+     },
+     "cost_eur": {
+      "low": 13488.0,
+      "mid": 13488.0,
+      "high": 13488.0
+     },
+     "cost_usd": {
+      "low": 15696.55,
+      "mid": 15696.55,
+      "high": 15696.55
+     },
+     "kwh": {
+      "low": 30.0,
+      "mid": 89.8,
+      "high": 299.5
+     },
+     "co2_kg": {
+      "low": 4.5,
+      "mid": 19.1,
+      "high": 89.8
+     }
+    },
+    "share": {
+     "cost": 0.0262,
+     "co2": 0.0043
+    }
+   },
+   {
+    "key": "Marketing text analysis",
+    "label": "Marketing text analysis",
+    "entity_id": "res:ai-marketing",
+    "metrics": {
+     "cost_chf": {
+      "low": 12173.22,
+      "mid": 12173.22,
+      "high": 12173.22
+     },
+     "cost_eur": {
+      "low": 13229.5,
+      "mid": 13229.5,
+      "high": 13229.5
+     },
+     "cost_usd": {
+      "low": 15356.25,
+      "mid": 15356.25,
+      "high": 15356.25
+     },
+     "kwh": {
+      "low": 62.6,
+      "mid": 312.9,
+      "high": 1251.4
+     },
+     "co2_kg": {
+      "low": 9.4,
+      "mid": 66.6,
+      "high": 375.4
+     }
+    },
+    "share": {
+     "cost": 0.0256,
+     "co2": 0.0149
+    }
+   },
+   {
+    "key": "Finance database",
+    "label": "Finance database",
+    "entity_id": "res:db-fin",
+    "metrics": {
+     "cost_chf": {
+      "low": 11989.1,
+      "mid": 12003.11,
+      "high": 12017.93
+     },
+     "cost_eur": {
+      "low": 12959.37,
+      "mid": 12974.52,
+      "high": 12990.54
+     },
+     "cost_usd": {
+      "low": 15068.24,
+      "mid": 15085.86,
+      "high": 15104.48
+     },
+     "kwh": {
+      "low": 408.8,
+      "mid": 603.8,
+      "high": 1034.6
+     },
+     "co2_kg": {
+      "low": 23.3,
+      "mid": 66.4,
+      "high": 132.4
+     }
+    },
+    "share": {
+     "cost": 0.0253,
+     "co2": 0.0148
+    }
+   },
+   {
+    "key": "AI compute server (GPU)",
+    "label": "AI compute server (GPU)",
+    "entity_id": "res:gpu-ml",
+    "metrics": {
+     "cost_chf": {
+      "low": 11373.58,
+      "mid": 11389.82,
+      "high": 11405.01
+     },
+     "cost_eur": {
+      "low": 12301.15,
+      "mid": 12318.72,
+      "high": 12335.15
+     },
+     "cost_usd": {
+      "low": 14314.47,
+      "mid": 14334.92,
+      "high": 14354.04
+     },
+     "kwh": {
+      "low": 742.8,
+      "mid": 1159.7,
+      "high": 1999.7
+     },
+     "co2_kg": {
+      "low": 245.1,
+      "mid": 421.0,
+      "high": 859.9
+     }
+    },
+    "share": {
+     "cost": 0.024,
+     "co2": 0.0939
+    }
+   },
+   {
+    "key": "Cloud support",
+    "label": "Cloud support",
+    "entity_id": "res:support",
+    "metrics": {
+     "cost_chf": {
+      "low": 10694.04,
+      "mid": 10788.46,
+      "high": 10814.98
+     },
+     "cost_eur": {
+      "low": 11567.2,
+      "mid": 11669.33,
+      "high": 11698.02
+     },
+     "cost_usd": {
+      "low": 13462.01,
+      "mid": 13580.86,
+      "high": 13614.25
+     },
+     "kwh": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     },
+     "co2_kg": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     }
+    },
+    "share": {
+     "cost": 0.0227,
+     "co2": 0.0
+    }
+   },
+   {
+    "key": "Backup archive",
+    "label": "Backup archive",
+    "entity_id": "res:st-backup",
+    "metrics": {
+     "cost_chf": {
+      "low": 9365.69,
+      "mid": 9396.6,
+      "high": 9410.09
+     },
+     "cost_eur": {
+      "low": 10131.62,
+      "mid": 10165.07,
+      "high": 10179.66
+     },
+     "cost_usd": {
+      "low": 11784.31,
+      "mid": 11823.21,
+      "high": 11840.18
+     },
+     "kwh": {
+      "low": 403.8,
+      "mid": 1299.3,
+      "high": 3130.6
+     },
+     "co2_kg": {
+      "low": 80.8,
+      "mid": 293.7,
+      "high": 1102.0
+     }
+    },
+    "share": {
+     "cost": 0.0198,
+     "co2": 0.0655
+    }
+   },
+   {
+    "key": "Ticket system",
+    "label": "Ticket system",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 8915.41,
+      "mid": 8915.41,
+      "high": 8915.41
+     },
+     "cost_eur": {
+      "low": 9642.65,
+      "mid": 9642.65,
+      "high": 9642.65
+     },
+     "cost_usd": {
+      "low": 11220.0,
+      "mid": 11220.0,
+      "high": 11220.0
+     },
+     "kwh": {
+      "low": 17.6,
+      "mid": 52.6,
+      "high": 175.5
+     },
+     "co2_kg": {
+      "low": 2.6,
+      "mid": 11.2,
+      "high": 52.6
+     }
+    },
+    "share": {
+     "cost": 0.0188,
+     "co2": 0.0025
+    }
+   },
+   {
+    "key": "Claude Team",
+    "label": "Claude Team",
+    "entity_id": "res:sub-claude",
+    "metrics": {
+     "cost_chf": {
+      "low": 8104.15,
+      "mid": 8104.15,
+      "high": 8104.15
+     },
+     "cost_eur": {
+      "low": 8765.03,
+      "mid": 8765.03,
+      "high": 8765.03
+     },
+     "cost_usd": {
+      "low": 10200.0,
+      "mid": 10200.0,
+      "high": 10200.0
+     },
+     "kwh": {
+      "low": 14.3,
+      "mid": 42.9,
+      "high": 357.3
+     },
+     "co2_kg": {
+      "low": 2.1,
+      "mid": 9.1,
+      "high": 107.2
+     }
+    },
+    "share": {
+     "cost": 0.0171,
+     "co2": 0.002
+    }
+   },
+   {
+    "key": "E-signature",
+    "label": "E-signature",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 8075.0,
+      "mid": 8075.0,
+      "high": 8075.0
+     },
+     "cost_eur": {
+      "low": 8734.52,
+      "mid": 8734.52,
+      "high": 8734.52
+     },
+     "cost_usd": {
+      "low": 10165.14,
+      "mid": 10165.14,
+      "high": 10165.14
+     },
+     "kwh": {
+      "low": 4.8,
+      "mid": 14.4,
+      "high": 48.0
+     },
+     "co2_kg": {
+      "low": 0.7,
+      "mid": 3.1,
+      "high": 14.4
+     }
+    },
+    "share": {
+     "cost": 0.017,
+     "co2": 0.0007
+    }
+   },
+   {
+    "key": "Time tracking",
+    "label": "Time tracking",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 7868.0,
+      "mid": 7868.0,
+      "high": 7868.0
+     },
+     "cost_eur": {
+      "low": 8510.49,
+      "mid": 8510.49,
+      "high": 8510.49
+     },
+     "cost_usd": {
+      "low": 9904.02,
+      "mid": 9904.02,
+      "high": 9904.02
+     },
+     "kwh": {
+      "low": 48.8,
+      "mid": 146.2,
+      "high": 487.5
+     },
+     "co2_kg": {
+      "low": 7.3,
+      "mid": 31.2,
+      "high": 146.2
+     }
+    },
+    "share": {
+     "cost": 0.0166,
+     "co2": 0.0069
+    }
+   },
+   {
+    "key": "Project scheduling",
+    "label": "Project scheduling",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 7780.34,
+      "mid": 7780.34,
+      "high": 7780.34
+     },
+     "cost_eur": {
+      "low": 8415.0,
+      "mid": 8415.0,
+      "high": 8415.0
+     },
+     "cost_usd": {
+      "low": 9792.39,
+      "mid": 9792.39,
+      "high": 9792.39
+     },
+     "kwh": {
+      "low": 16.5,
+      "mid": 49.5,
+      "high": 165.0
+     },
+     "co2_kg": {
+      "low": 2.5,
+      "mid": 10.5,
+      "high": 49.5
+     }
+    },
+    "share": {
+     "cost": 0.0164,
+     "co2": 0.0024
+    }
+   },
+   {
+    "key": "Legacy project archive",
+    "label": "Legacy project archive",
+    "entity_id": "res:st-archive",
+    "metrics": {
+     "cost_chf": {
+      "low": 7474.63,
+      "mid": 7496.8,
+      "high": 7511.83
+     },
+     "cost_eur": {
+      "low": 8084.5,
+      "mid": 8108.49,
+      "high": 8124.74
+     },
+     "cost_usd": {
+      "low": 9407.24,
+      "mid": 9435.15,
+      "high": 9454.06
+     },
+     "kwh": {
+      "low": 184.0,
+      "mid": 592.1,
+      "high": 1426.5
+     },
+     "co2_kg": {
+      "low": 10.5,
+      "mid": 65.1,
+      "high": 182.6
+     }
+    },
+    "share": {
+     "cost": 0.0158,
+     "co2": 0.0145
+    }
+   },
+   {
+    "key": "Project management",
+    "label": "Project management",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 7261.65,
+      "mid": 7261.65,
+      "high": 7261.65
+     },
+     "cost_eur": {
+      "low": 7854.0,
+      "mid": 7854.0,
+      "high": 7854.0
+     },
+     "cost_usd": {
+      "low": 9139.57,
+      "mid": 9139.57,
+      "high": 9139.57
+     },
+     "kwh": {
+      "low": 15.1,
+      "mid": 45.3,
+      "high": 151.0
+     },
+     "co2_kg": {
+      "low": 2.3,
+      "mid": 9.6,
+      "high": 45.3
+     }
+    },
+    "share": {
+     "cost": 0.0153,
+     "co2": 0.0022
+    }
+   },
+   {
+    "key": "Chat tool",
+    "label": "Chat tool",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 7144.68,
+      "mid": 7144.68,
+      "high": 7144.68
+     },
+     "cost_eur": {
+      "low": 7727.48,
+      "mid": 7727.48,
+      "high": 7727.48
+     },
+     "cost_usd": {
+      "low": 8992.0,
+      "mid": 8992.0,
+      "high": 8992.0
+     },
+     "kwh": {
+      "low": 38.2,
+      "mid": 114.6,
+      "high": 382.0
+     },
+     "co2_kg": {
+      "low": 5.7,
+      "mid": 24.4,
+      "high": 114.6
+     }
+    },
+    "share": {
+     "cost": 0.015,
+     "co2": 0.0054
+    }
+   },
+   {
+    "key": "Data platform storage",
+    "label": "Data platform storage",
+    "entity_id": "res:dp-storage",
+    "metrics": {
+     "cost_chf": {
+      "low": 6315.13,
+      "mid": 6321.77,
+      "high": 6328.29
+     },
+     "cost_eur": {
+      "low": 6831.25,
+      "mid": 6838.43,
+      "high": 6845.48
+     },
+     "cost_usd": {
+      "low": 7946.86,
+      "mid": 7955.22,
+      "high": 7963.42
+     },
+     "kwh": {
+      "low": 155.0,
+      "mid": 498.9,
+      "high": 1202.0
+     },
+     "co2_kg": {
+      "low": 8.8,
+      "mid": 54.9,
+      "high": 153.9
+     }
+    },
+    "share": {
+     "cost": 0.0133,
+     "co2": 0.0122
+    }
+   },
+   {
+    "key": "CI/CD pipelines",
+    "label": "CI/CD pipelines",
+    "entity_id": "res:cicd",
+    "metrics": {
+     "cost_chf": {
+      "low": 5484.13,
+      "mid": 5566.27,
+      "high": 5599.52
+     },
+     "cost_eur": {
+      "low": 5930.19,
+      "mid": 6019.02,
+      "high": 6054.97
+     },
+     "cost_usd": {
+      "low": 6899.86,
+      "mid": 7003.21,
+      "high": 7045.05
+     },
+     "kwh": {
+      "low": 73.9,
+      "mid": 112.8,
+      "high": 199.8
+     },
+     "co2_kg": {
+      "low": 14.8,
+      "mid": 25.5,
+      "high": 70.3
+     }
+    },
+    "share": {
+     "cost": 0.0117,
+     "co2": 0.0057
+    }
+   },
+   {
+    "key": "ChatGPT Team",
+    "label": "ChatGPT Team",
+    "entity_id": "res:sub-chatgpt",
+    "metrics": {
+     "cost_chf": {
+      "low": 5482.22,
+      "mid": 5482.22,
+      "high": 5482.22
+     },
+     "cost_eur": {
+      "low": 5929.29,
+      "mid": 5929.29,
+      "high": 5929.29
+     },
+     "cost_usd": {
+      "low": 6900.0,
+      "mid": 6900.0,
+      "high": 6900.0
+     },
+     "kwh": {
+      "low": 0.6,
+      "mid": 1.9,
+      "high": 15.5
+     },
+     "co2_kg": {
+      "low": 0.1,
+      "mid": 0.4,
+      "high": 4.7
+     }
+    },
+    "share": {
+     "cost": 0.0115,
+     "co2": 0.0001
+    }
+   },
+   {
+    "key": "Knowledge base",
+    "label": "Knowledge base",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 4934.42,
+      "mid": 4934.42,
+      "high": 4934.42
+     },
+     "cost_eur": {
+      "low": 5336.92,
+      "mid": 5336.92,
+      "high": 5336.92
+     },
+     "cost_usd": {
+      "low": 6210.0,
+      "mid": 6210.0,
+      "high": 6210.0
+     },
+     "kwh": {
+      "low": 14.9,
+      "mid": 44.7,
+      "high": 149.0
+     },
+     "co2_kg": {
+      "low": 2.2,
+      "mid": 9.5,
+      "high": 44.7
+     }
+    },
+    "share": {
+     "cost": 0.0104,
+     "co2": 0.0021
+    }
+   },
+   {
+    "key": "Accounting software",
+    "label": "Accounting software",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 4560.0,
+      "mid": 4560.0,
+      "high": 4560.0
+     },
+     "cost_eur": {
+      "low": 4932.26,
+      "mid": 4932.26,
+      "high": 4932.26
+     },
+     "cost_usd": {
+      "low": 5740.25,
+      "mid": 5740.25,
+      "high": 5740.25
+     },
+     "kwh": {
+      "low": 5.1,
+      "mid": 15.3,
+      "high": 51.0
+     },
+     "co2_kg": {
+      "low": 0.8,
+      "mid": 3.3,
+      "high": 15.3
+     }
+    },
+    "share": {
+     "cost": 0.0096,
+     "co2": 0.0007
+    }
+   },
+   {
+    "key": "Project file storage",
+    "label": "Project file storage",
+    "entity_id": "res:st-proj",
+    "metrics": {
+     "cost_chf": {
+      "low": 4208.94,
+      "mid": 4210.63,
+      "high": 4212.01
+     },
+     "cost_eur": {
+      "low": 4552.96,
+      "mid": 4554.79,
+      "high": 4556.29
+     },
+     "cost_usd": {
+      "low": 5296.47,
+      "mid": 5298.6,
+      "high": 5300.34
+     },
+     "kwh": {
+      "low": 122.1,
+      "mid": 422.8,
+      "high": 936.6
+     },
+     "co2_kg": {
+      "low": 7.0,
+      "mid": 46.5,
+      "high": 119.9
+     }
+    },
+    "share": {
+     "cost": 0.0089,
+     "co2": 0.0104
+    }
+   },
+   {
+    "key": "Password manager",
+    "label": "Password manager",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 3572.34,
+      "mid": 3572.34,
+      "high": 3572.34
+     },
+     "cost_eur": {
+      "low": 3863.74,
+      "mid": 3863.74,
+      "high": 3863.74
+     },
+     "cost_usd": {
+      "low": 4496.0,
+      "mid": 4496.0,
+      "high": 4496.0
+     },
+     "kwh": {
+      "low": 51.4,
+      "mid": 154.2,
+      "high": 514.0
+     },
+     "co2_kg": {
+      "low": 7.7,
+      "mid": 32.8,
+      "high": 154.2
+     }
+    },
+    "share": {
+     "cost": 0.0075,
+     "co2": 0.0073
+    }
+   },
+   {
+    "key": "Survey tool",
+    "label": "Survey tool",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 3328.56,
+      "mid": 3328.56,
+      "high": 3328.56
+     },
+     "cost_eur": {
+      "low": 3600.0,
+      "mid": 3600.0,
+      "high": 3600.0
+     },
+     "cost_usd": {
+      "low": 4189.74,
+      "mid": 4189.74,
+      "high": 4189.74
+     },
+     "kwh": {
+      "low": 0.7,
+      "mid": 2.1,
+      "high": 7.0
+     },
+     "co2_kg": {
+      "low": 0.1,
+      "mid": 0.4,
+      "high": 2.1
+     }
+    },
+    "share": {
+     "cost": 0.007,
+     "co2": 0.0001
+    }
+   },
+   {
+    "key": "Other agents",
+    "label": "Other agents",
+    "entity_id": "res:ai-agent2",
+    "metrics": {
+     "cost_chf": {
+      "low": 3264.42,
+      "mid": 3264.42,
+      "high": 3264.42
+     },
+     "cost_eur": {
+      "low": 3531.74,
+      "mid": 3531.74,
+      "high": 3531.74
+     },
+     "cost_usd": {
+      "low": 4103.17,
+      "mid": 4103.17,
+      "high": 4103.17
+     },
+     "kwh": {
+      "low": 15.4,
+      "mid": 76.9,
+      "high": 307.7
+     },
+     "co2_kg": {
+      "low": 2.3,
+      "mid": 16.4,
+      "high": 92.3
+     }
+    },
+    "share": {
+     "cost": 0.0069,
+     "co2": 0.0037
+    }
+   },
+   {
+    "key": "Data egress",
+    "label": "Data egress",
+    "entity_id": "res:net-egress",
+    "metrics": {
+     "cost_chf": {
+      "low": 2670.75,
+      "mid": 2682.38,
+      "high": 2692.83
+     },
+     "cost_eur": {
+      "low": 2888.01,
+      "mid": 2900.6,
+      "high": 2911.89
+     },
+     "cost_usd": {
+      "low": 3363.56,
+      "mid": 3378.22,
+      "high": 3391.37
+     },
+     "kwh": {
+      "low": 39.4,
+      "mid": 84.4,
+      "high": 330.6
+     },
+     "co2_kg": {
+      "low": 2.2,
+      "mid": 9.3,
+      "high": 42.3
+     }
+    },
+    "share": {
+     "cost": 0.0056,
+     "co2": 0.0021
+    }
+   },
+   {
+    "key": "Note-taking tool",
+    "label": "Note-taking tool",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 2555.26,
+      "mid": 2555.26,
+      "high": 2555.26
+     },
+     "cost_eur": {
+      "low": 2763.78,
+      "mid": 2763.78,
+      "high": 2763.78
+     },
+     "cost_usd": {
+      "low": 3216.0,
+      "mid": 3216.0,
+      "high": 3216.0
+     },
+     "kwh": {
+      "low": 8.9,
+      "mid": 26.7,
+      "high": 89.0
+     },
+     "co2_kg": {
+      "low": 1.3,
+      "mid": 5.7,
+      "high": 26.7
+     }
+    },
+    "share": {
+     "cost": 0.0054,
+     "co2": 0.0013
+    }
+   },
+   {
+    "key": "HR software",
+    "label": "HR software",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 2160.0,
+      "mid": 2160.0,
+      "high": 2160.0
+     },
+     "cost_eur": {
+      "low": 2336.33,
+      "mid": 2336.33,
+      "high": 2336.33
+     },
+     "cost_usd": {
+      "low": 2719.07,
+      "mid": 2719.07,
+      "high": 2719.07
+     },
+     "kwh": {
+      "low": 9.8,
+      "mid": 29.2,
+      "high": 97.5
+     },
+     "co2_kg": {
+      "low": 1.5,
+      "mid": 6.2,
+      "high": 29.2
+     }
+    },
+    "share": {
+     "cost": 0.0045,
+     "co2": 0.0014
+    }
+   },
+   {
+    "key": "Support-Agent",
+    "label": "Support-Agent",
+    "entity_id": "res:ai-agent",
+    "metrics": {
+     "cost_chf": {
+      "low": 2014.02,
+      "mid": 2014.02,
+      "high": 2014.02
+     },
+     "cost_eur": {
+      "low": 2182.12,
+      "mid": 2182.12,
+      "high": 2182.12
+     },
+     "cost_usd": {
+      "low": 2538.03,
+      "mid": 2538.03,
+      "high": 2538.03
+     },
+     "kwh": {
+      "low": 10.0,
+      "mid": 50.0,
+      "high": 199.9
+     },
+     "co2_kg": {
+      "low": 1.5,
+      "mid": 10.6,
+      "high": 60.0
+     }
+    },
+    "share": {
+     "cost": 0.0042,
+     "co2": 0.0024
+    }
+   },
+   {
+    "key": "Design tool",
+    "label": "Design tool",
+    "entity_id": "res:saas-other",
+    "metrics": {
+     "cost_chf": {
+      "low": 1525.49,
+      "mid": 1525.49,
+      "high": 1525.49
+     },
+     "cost_eur": {
+      "low": 1649.89,
+      "mid": 1649.89,
+      "high": 1649.89
+     },
+     "cost_usd": {
+      "low": 1920.0,
+      "mid": 1920.0,
+      "high": 1920.0
+     },
+     "kwh": {
+      "low": 1.8,
+      "mid": 5.4,
+      "high": 18.0
+     },
+     "co2_kg": {
+      "low": 0.3,
+      "mid": 1.2,
+      "high": 5.4
+     }
+    },
+    "share": {
+     "cost": 0.0032,
+     "co2": 0.0003
+    }
+   },
+   {
+    "key": "Web hosting and CDN",
+    "label": "Web hosting and CDN",
+    "entity_id": "res:web-cdn",
+    "metrics": {
+     "cost_chf": {
+      "low": 1111.71,
+      "mid": 1122.79,
+      "high": 1125.4
+     },
+     "cost_eur": {
+      "low": 1202.54,
+      "mid": 1214.52,
+      "high": 1217.35
+     },
+     "cost_usd": {
+      "low": 1398.88,
+      "mid": 1412.81,
+      "high": 1416.1
+     },
+     "kwh": {
+      "low": 19.4,
+      "mid": 44.9,
+      "high": 161.5
+     },
+     "co2_kg": {
+      "low": 1.1,
+      "mid": 4.9,
+      "high": 20.7
+     }
+    },
+    "share": {
+     "cost": 0.0024,
+     "co2": 0.0011
+    }
+   },
+   {
+    "key": "Quote generator",
+    "label": "Quote generator",
+    "entity_id": "res:ai-quote",
+    "metrics": {
+     "cost_chf": {
+      "low": 538.56,
+      "mid": 538.56,
+      "high": 538.56
+     },
+     "cost_eur": {
+      "low": 582.78,
+      "mid": 582.78,
+      "high": 582.78
+     },
+     "cost_usd": {
+      "low": 677.85,
+      "mid": 677.85,
+      "high": 677.85
+     },
+     "kwh": {
+      "low": 4.4,
+      "mid": 22.0,
+      "high": 88.0
+     },
+     "co2_kg": {
+      "low": 0.7,
+      "mid": 4.7,
+      "high": 26.4
+     }
+    },
+    "share": {
+     "cost": 0.0011,
+     "co2": 0.001
+    }
+   },
+   {
+    "key": "Knowledge chatbot",
+    "label": "Knowledge chatbot",
+    "entity_id": "res:ai-chatbot",
+    "metrics": {
+     "cost_chf": {
+      "low": 305.69,
+      "mid": 305.69,
+      "high": 305.69
+     },
+     "cost_eur": {
+      "low": 330.84,
+      "mid": 330.84,
+      "high": 330.84
+     },
+     "cost_usd": {
+      "low": 384.61,
+      "mid": 384.61,
+      "high": 384.61
+     },
+     "kwh": {
+      "low": 2.2,
+      "mid": 11.0,
+      "high": 44.2
+     },
+     "co2_kg": {
+      "low": 0.3,
+      "mid": 2.4,
+      "high": 13.3
+     }
+    },
+    "share": {
+     "cost": 0.0006,
+     "co2": 0.0005
+    }
+   },
+   {
+    "key": "Report-Agent",
+    "label": "Report-Agent",
+    "entity_id": "res:ai-report",
+    "metrics": {
+     "cost_chf": {
+      "low": 112.45,
+      "mid": 112.45,
+      "high": 112.45
+     },
+     "cost_eur": {
+      "low": 121.62,
+      "mid": 121.62,
+      "high": 121.62
+     },
+     "cost_usd": {
+      "low": 141.47,
+      "mid": 141.47,
+      "high": 141.47
+     },
+     "kwh": {
+      "low": 0.5,
+      "mid": 2.7,
+      "high": 10.8
+     },
+     "co2_kg": {
+      "low": 0.1,
+      "mid": 0.6,
+      "high": 3.2
+     }
+    },
+    "share": {
+     "cost": 0.0002,
+     "co2": 0.0001
+    }
+   },
+   {
+    "key": "Test account",
+    "label": "Test account",
+    "entity_id": "res:sandbox",
+    "metrics": {
+     "cost_chf": {
+      "low": 60.16,
+      "mid": 60.37,
+      "high": 60.54
+     },
+     "cost_eur": {
+      "low": 65.06,
+      "mid": 65.29,
+      "high": 65.47
+     },
+     "cost_usd": {
+      "low": 75.7,
+      "mid": 75.96,
+      "high": 76.18
+     },
+     "kwh": {
+      "low": 1.9,
+      "mid": 2.9,
+      "high": 4.8
+     },
+     "co2_kg": {
+      "low": 0.4,
+      "mid": 0.6,
+      "high": 1.7
+     }
+    },
+    "share": {
+     "cost": 0.0001,
+     "co2": 0.0001
+    }
+   }
+  ]
+ },
+ "flows": [
+  {
+   "from": "dept:Consulting",
+   "to": "loc:CH",
+   "metrics": {
+    "cost_chf": {
+     "low": 98190.83,
+     "mid": 98263.21,
+     "high": 98344.0
+    },
+    "cost_eur": {
+     "low": 106241.58,
+     "mid": 106319.89,
+     "high": 106407.3
+    },
+    "cost_usd": {
+     "low": 123642.25,
+     "mid": 123733.39,
+     "high": 123835.12
+    },
+    "kwh": {
+     "low": 7190.3,
+     "mid": 11219.3,
+     "high": 19884.1
+    },
+    "co2_kg": {
+     "low": 409.8,
+     "mid": 1234.1,
+     "high": 2545.2
+    }
+   }
+  },
+  {
+   "from": "dept:Consulting",
+   "to": "loc:DE",
+   "metrics": {
+    "cost_chf": {
+     "low": 11373.58,
+     "mid": 11389.82,
+     "high": 11405.01
+    },
+    "cost_eur": {
+     "low": 12301.15,
+     "mid": 12318.72,
+     "high": 12335.15
+    },
+    "cost_usd": {
+     "low": 14314.47,
+     "mid": 14334.92,
+     "high": 14354.04
+    },
+    "kwh": {
+     "low": 742.8,
+     "mid": 1159.7,
+     "high": 1999.7
+    },
+    "co2_kg": {
+     "low": 245.1,
+     "mid": 421.0,
+     "high": 859.9
+    }
+   }
+  },
+  {
+   "from": "dept:Consulting",
+   "to": "loc:EU",
+   "metrics": {
+    "cost_chf": {
+     "low": 61919.87,
+     "mid": 61919.87,
+     "high": 61919.87
+    },
+    "cost_eur": {
+     "low": 66974.32,
+     "mid": 66974.32,
+     "high": 66974.32
+    },
+    "cost_usd": {
+     "low": 77925.98,
+     "mid": 77925.98,
+     "high": 77925.98
+    },
+    "kwh": {
+     "low": 220.8,
+     "mid": 800.8,
+     "high": 3139.6
+    },
+    "co2_kg": {
+     "low": 33.1,
+     "mid": 170.6,
+     "high": 941.9
+    }
+   }
+  },
+  {
+   "from": "dept:Finance",
+   "to": "loc:CH",
+   "metrics": {
+    "cost_chf": {
+     "low": 11989.1,
+     "mid": 12003.11,
+     "high": 12017.93
+    },
+    "cost_eur": {
+     "low": 12959.37,
+     "mid": 12974.52,
+     "high": 12990.54
+    },
+    "cost_usd": {
+     "low": 15068.24,
+     "mid": 15085.86,
+     "high": 15104.48
+    },
+    "kwh": {
+     "low": 408.8,
+     "mid": 603.8,
+     "high": 1034.6
+    },
+    "co2_kg": {
+     "low": 23.3,
+     "mid": 66.4,
+     "high": 132.4
+    }
+   }
+  },
+  {
+   "from": "dept:Finance",
+   "to": "loc:EU",
+   "metrics": {
+    "cost_chf": {
+     "low": 18567.77,
+     "mid": 18567.77,
+     "high": 18567.77
+    },
+    "cost_eur": {
+     "low": 20082.66,
+     "mid": 20082.66,
+     "high": 20082.66
+    },
+    "cost_usd": {
+     "low": 23368.65,
+     "mid": 23368.65,
+     "high": 23368.65
+    },
+    "kwh": {
+     "low": 57.2,
+     "mid": 209.8,
+     "high": 789.4
+    },
+    "co2_kg": {
+     "low": 8.6,
+     "mid": 44.7,
+     "high": 236.8
+    }
+   }
+  },
+  {
+   "from": "dept:HR",
+   "to": "loc:EU",
+   "metrics": {
+    "cost_chf": {
+     "low": 7037.31,
+     "mid": 7037.31,
+     "high": 7037.31
+    },
+    "cost_eur": {
+     "low": 7611.36,
+     "mid": 7611.36,
+     "high": 7611.36
+    },
+    "cost_usd": {
+     "low": 8855.81,
+     "mid": 8855.81,
+     "high": 8855.81
+    },
+    "kwh": {
+     "low": 28.0,
+     "mid": 107.0,
+     "high": 403.7
+    },
+    "co2_kg": {
+     "low": 4.2,
+     "mid": 22.8,
+     "high": 121.1
+    }
+   }
+  },
+  {
+   "from": "dept:IT",
+   "to": "loc:CH",
+   "metrics": {
+    "cost_chf": {
+     "low": 74649.94,
+     "mid": 74823.94,
+     "high": 74923.34
+    },
+    "cost_eur": {
+     "low": 80740.05,
+     "mid": 80928.25,
+     "high": 81035.75
+    },
+    "cost_usd": {
+     "low": 93954.33,
+     "mid": 94173.33,
+     "high": 94298.42
+    },
+    "kwh": {
+     "low": 1479.5,
+     "mid": 3053.8,
+     "high": 6159.7
+    },
+    "co2_kg": {
+     "low": 84.3,
+     "mid": 335.9,
+     "high": 788.4
+    }
+   }
+  },
+  {
+   "from": "dept:IT",
+   "to": "loc:DE",
+   "metrics": {
+    "cost_chf": {
+     "low": 38544.16,
+     "mid": 38591.71,
+     "high": 38649.36
+    },
+    "cost_eur": {
+     "low": 41688.12,
+     "mid": 41739.55,
+     "high": 41801.91
+    },
+    "cost_usd": {
+     "low": 48511.58,
+     "mid": 48571.43,
+     "high": 48643.99
+    },
+    "kwh": {
+     "low": 2311.5,
+     "mid": 3410.7,
+     "high": 5781.4
+    },
+    "co2_kg": {
+     "low": 762.8,
+     "mid": 1238.1,
+     "high": 2486.0
+    }
+   }
+  },
+  {
+   "from": "dept:IT",
+   "to": "loc:EU",
+   "metrics": {
+    "cost_chf": {
+     "low": 21681.93,
+     "mid": 21681.93,
+     "high": 21681.93
+    },
+    "cost_eur": {
+     "low": 23448.39,
+     "mid": 23448.39,
+     "high": 23448.39
+    },
+    "cost_usd": {
+     "low": 27282.03,
+     "mid": 27282.03,
+     "high": 27282.03
+    },
+    "kwh": {
+     "low": 73.0,
+     "mid": 250.8,
+     "high": 984.6
+    },
+    "co2_kg": {
+     "low": 10.9,
+     "mid": 53.4,
+     "high": 295.4
+    }
+   }
+  },
+  {
+   "from": "dept:IT",
+   "to": "loc:IE",
+   "metrics": {
+    "cost_chf": {
+     "low": 39453.45,
+     "mid": 39637.2,
+     "high": 39718.13
+    },
+    "cost_eur": {
+     "low": 42672.28,
+     "mid": 42871.03,
+     "high": 42958.55
+    },
+    "cost_usd": {
+     "low": 49649.69,
+     "mid": 49880.93,
+     "high": 49982.77
+    },
+    "kwh": {
+     "low": 1290.3,
+     "mid": 2640.3,
+     "high": 5433.2
+    },
+    "co2_kg": {
+     "low": 258.1,
+     "mid": 596.7,
+     "high": 1912.5
+    }
+   }
+  },
+  {
+   "from": "dept:Management",
+   "to": "loc:EU",
+   "metrics": {
+    "cost_chf": {
+     "low": 5114.22,
+     "mid": 5114.22,
+     "high": 5114.22
+    },
+    "cost_eur": {
+     "low": 5531.12,
+     "mid": 5531.12,
+     "high": 5531.12
+    },
+    "cost_usd": {
+     "low": 6435.6,
+     "mid": 6435.6,
+     "high": 6435.6
+    },
+    "kwh": {
+     "low": 23.1,
+     "mid": 85.2,
+     "high": 322.6
+    },
+    "co2_kg": {
+     "low": 3.5,
+     "mid": 18.2,
+     "high": 96.8
+    }
+   }
+  },
+  {
+   "from": "dept:Marketing",
+   "to": "loc:CH",
+   "metrics": {
+    "cost_chf": {
+     "low": 1111.71,
+     "mid": 1122.79,
+     "high": 1125.4
+    },
+    "cost_eur": {
+     "low": 1202.54,
+     "mid": 1214.52,
+     "high": 1217.35
+    },
+    "cost_usd": {
+     "low": 1398.88,
+     "mid": 1412.81,
+     "high": 1416.1
+    },
+    "kwh": {
+     "low": 19.4,
+     "mid": 44.9,
+     "high": 161.5
+    },
+    "co2_kg": {
+     "low": 1.1,
+     "mid": 4.9,
+     "high": 20.7
+    }
+   }
+  },
+  {
+   "from": "dept:Marketing",
+   "to": "loc:EU",
+   "metrics": {
+    "cost_chf": {
+     "low": 37266.57,
+     "mid": 37266.57,
+     "high": 37266.57
+    },
+    "cost_eur": {
+     "low": 40370.27,
+     "mid": 40370.27,
+     "high": 40370.27
+    },
+    "cost_usd": {
+     "low": 46937.98,
+     "mid": 46937.98,
+     "high": 46937.98
+    },
+    "kwh": {
+     "low": 122.2,
+     "mid": 539.4,
+     "high": 2164.5
+    },
+    "co2_kg": {
+     "low": 18.3,
+     "mid": 114.9,
+     "high": 649.3
+    }
+   }
+  },
+  {
+   "from": "dept:Sales",
+   "to": "loc:CH",
+   "metrics": {
+    "cost_chf": {
+     "low": 7474.63,
+     "mid": 7496.8,
+     "high": 7511.83
+    },
+    "cost_eur": {
+     "low": 8084.5,
+     "mid": 8108.49,
+     "high": 8124.74
+    },
+    "cost_usd": {
+     "low": 9407.24,
+     "mid": 9435.15,
+     "high": 9454.06
+    },
+    "kwh": {
+     "low": 184.0,
+     "mid": 592.1,
+     "high": 1426.5
+    },
+    "co2_kg": {
+     "low": 10.5,
+     "mid": 65.1,
+     "high": 182.6
+    }
+   }
+  },
+  {
+   "from": "dept:Sales",
+   "to": "loc:EU",
+   "metrics": {
+    "cost_chf": {
+     "low": 40102.64,
+     "mid": 40102.64,
+     "high": 40102.64
+    },
+    "cost_eur": {
+     "low": 43377.27,
+     "mid": 43377.27,
+     "high": 43377.27
+    },
+    "cost_usd": {
+     "low": 50466.88,
+     "mid": 50466.88,
+     "high": 50466.88
+    },
+    "kwh": {
+     "low": 111.7,
+     "mid": 448.9,
+     "high": 1749.9
+    },
+    "co2_kg": {
+     "low": 16.8,
+     "mid": 95.6,
+     "high": 525.0
+    }
+   }
+  },
+  {
+   "from": "dept:Test account",
+   "to": "loc:IE",
+   "metrics": {
+    "cost_chf": {
+     "low": 60.16,
+     "mid": 60.37,
+     "high": 60.54
+    },
+    "cost_eur": {
+     "low": 65.06,
+     "mid": 65.29,
+     "high": 65.47
+    },
+    "cost_usd": {
+     "low": 75.7,
+     "mid": 75.96,
+     "high": 76.18
+    },
+    "kwh": {
+     "low": 1.9,
+     "mid": 2.9,
+     "high": 4.8
+    },
+    "co2_kg": {
+     "low": 0.4,
+     "mid": 0.6,
+     "high": 1.7
+    }
+   }
+  }
+ ],
+ "coverage": {
+  "derived_cross_source": 0.0049,
+  "estimated": 0.0192,
+  "observed": 0.976
+ },
+ "calc": {
+  "formula": "baseline = sum of all billing lines Sep 2025 – Aug 2026 (cloud, servers, AI, SaaS); kWh = usage × energy per unit × PUE; CO2 = kWh × grid mix at the location",
+  "inputs": [],
+  "factor_ids": [
+   "energy_per_1000_tokens",
+   "energy_per_active_saas_licence_month",
+   "energy_per_gb_network",
+   "energy_per_gb_storage_day",
+   "energy_per_gpu_hour",
+   "energy_per_node_hour",
+   "energy_per_subscription_message",
+   "energy_per_vcpu_hour",
+   "grid_mix_location_based_eu",
+   "grid_mix_location_based_germany",
+   "grid_mix_location_based_ireland",
+   "grid_mix_location_based_switzerland",
+   "pue",
+   "pue_hoster"
+  ],
+  "source_files": [
+   "ai_subscriptions.csv",
+   "ai_usage.csv",
+   "aws_costs.csv",
+   "azure_costs.csv",
+   "extra/ai_invoice_monthly.csv",
+   "hoster_invoice.csv",
+   "saas_contracts.csv"
+  ],
+  "row_count": 36660,
+  "value_status": "estimated",
+  "issue_ids": [
+   "Q-0007",
+   "Q-0008",
+   "Q-0009",
+   "Q-0010",
+   "Q-0011",
+   "Q-0012",
+   "Q-0013",
+   "Q-0018",
+   "Q-0019",
+   "Q-0020",
+   "Q-0021",
+   "Q-0022",
+   "Q-0023",
+   "Q-0024",
+   "Q-0031",
+   "Q-0032",
+   "Q-0033",
+   "Q-0067",
+   "Q-0068",
+   "Q-0069"
+  ],
+  "note": "Actual baseline (what happened). Recurring baseline = actual − excess of curated one-off events."
+ }
+}

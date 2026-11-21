@@ -240,7 +240,13 @@ Step 3 · Da franchi e ore a energia e CO₂:
     Riferimento: case.md «Expected outcome» («Every figure is an estimate with an open calculation»)
 
 Step 4 · Baseline: la fotografia di partenza:
-  ☐ Calcolare la baseline settembre 2025 – agosto 2026 @must @p1
+  ✔ Calcolare la baseline settembre 2025 – agosto 2026 @must @p1 @done(26-11-21)
+    Fatto: pipeline/export/frontend.py → output/summary.json, entities.json, timeseries.json (formato contract/types.ts)
+      - baseline effettiva: CHF 475.079 · 25.170 kWh · 4.483 kg CO₂; ricorrente: CHF 474.407 · 4.465 kg CO₂ (eventi una tantum: loop +3.307, egress +365, crediti −3.000)
+      - ripartizioni per categoria, reparto, sede e tool; 16 flussi reparto → sede (i «cavi»); copertura per stato del valore
+      - 162 entità (8 stanze, 4 isole, 29 risorse, 53 server, 68 gruppi di licenze); server = quota della risorsa per vCPU × ore di accensione; stati provvisori (driver) fino agli Step 5–7
+      - contraddizioni: SEMPRE in flags; stato principale solo se oltre la soglia di materialità (stessa regola dei passaggi a una persona). Oggi: dp-prod giugno 2026 +11% nodi fatturati vs monitorati (CHF 797, 0,36% del cloud, probabilmente l'interruzione col credito SLA di CHF 2.400) e dp-dev settembre 2026 (mese parziale)
+      - serie mensili per ogni entità (nov 2024 – set 2026, settembre marcato partial) + giornaliere per dp-prod, dp-dev, gpu-ml con runtime_h / active_h
     Cos'è: il totale di CHF, kWh e CO₂ dell'anno di riferimento. È il «prima» contro cui si misurano −40% e −25%.
     Da fare:
       - totali per categoria, reparto, tool e sede
@@ -318,7 +324,8 @@ Step 9 · Mostrare ed esportare:
   ☐ Export JSON per il frontend (secondo il contratto) @must @p1
     Da fare: summary, entities, timeseries, findings, measures, limits, quality, factors, fx (vedi frontend-3d.todo, «Contratto dati»)
       - formato: contract/types.ts. Ogni valore è un intervallo {low, mid, high}; i costi escono già in cost_chf / cost_eur / cost_usd (convertiti mese per mese; i risparmi ai tassi medi di baseline) → il frontend non converte mai; fx.json serve solo ai pannelli «calcolo»
-  ☐ Generare template_baseline_and_assumptions.csv @must @p1
+  ✔ Generare template_baseline_and_assumptions.csv @must @p1 @done(26-11-21)
+    Fatto: pipeline/export/submission.py → output/submission/template_baseline_and_assumptions.csv (stesse righe del template, 14/14 righe Must compilate, Bonus vuote, 4 fattori aggiuntivi in fondo come «Additional»)
     Da fare: compilare ogni riga Must con basso / medio / alto + unità + fonte con data + calcolo; righe Bonus (market-based, crescita) solo se costruiamo quelle funzioni; generato dallo stesso motore, mai a mano
   ☐ Generare template_measures_package.csv @must @p1
     Da fare: una riga per misura: sforzo, CHF, kWh, CO₂ location-based all'anno, rischi ed eccezioni (incluso chi decide), ipotesi e fonti; colonna market-based solo con il bonus A3
