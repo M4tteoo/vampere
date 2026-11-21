@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-21T03:08:45+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
+  },
+  "series": [
+    {
+      "entity_id": "res:dp-dev",
+      "granularity": "month",
+      "points": [
+        {
+          "t": "2026-06-01",
+          "cost_chf": 3194.04,
+          "cost_eur": 3469.9,
+          "cost_usd": 3996.55,
+          "kwh": 3300.0,
+          "co2_kg": 1150.0,
+          "runtime_h": 720.0,
+          "active_h": 41.3
+        },
+        {
+          "t": "2026-07-01",
+          "cost_chf": 3279.82,
+          "cost_eur": 3543.45,
+          "cost_usd": 4045.66,
+          "kwh": 3300.0,
+          "co2_kg": 1150.0,
+          "runtime_h": 720.0,
+          "active_h": 95.3
+        },
+        {
+          "t": "2026-08-01",
+          "cost_chf": 3276.86,
+          "cost_eur": 3500.17,
+          "cost_usd": 4057.53,
+          "kwh": 3300.0,
+          "co2_kg": 1150.0,
+          "runtime_h": 720.0,
+          "active_h": 35.8
+        },
+        {
+          "t": "2026-09-01",
+          "cost_chf": 636.74,
+          "cost_eur": 675.23,
+          "cost_usd": 777.37,
+          "kwh": 3300.0,
+          "co2_kg": 1150.0,
+          "runtime_h": 144.0,
+          "active_h": 7.0,
+          "partial": true
+        }
+      ]
+    }
+  ]
+}

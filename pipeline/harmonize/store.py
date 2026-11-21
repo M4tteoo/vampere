@@ -3,7 +3,7 @@ export the files the frontend reads (quality.json, fx.json)."""
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import datetime
 
 import duckdb
 import numpy as np
@@ -133,6 +133,18 @@ def _jsonable(v):
     return v
 
 
+SCHEMA_VERSION = "0.1"  # contract/types.ts
+
+
+def _meta(ctx: Context) -> dict:
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "baseline": {"start": ctx.baseline[0], "end": ctx.baseline[1]},
+        "scenario": ctx.config.get("scenario", "ch_consumption"),
+    }
+
+
 def _export_json(ctx: Context) -> None:
     issues = pd.DataFrame(ctx.issues)
     fc = ctx.tables["fact_cost"]
@@ -160,8 +172,7 @@ def _export_json(ctx: Context) -> None:
     b = fc[fc["in_baseline"]]
     coverage = (b.groupby("value_status")["cost_chf"].sum() / b["cost_chf"].sum()).round(4).to_dict()
     quality = {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "baseline": {"start": ctx.baseline[0], "end": ctx.baseline[1]},
+        "meta": _meta(ctx),
         "materiality_pct_of_category": ctx.config["handover"]["materiality_pct_of_category"],
         "counters": counters,
         "baseline_cost_coverage_by_status": coverage,
@@ -173,6 +184,7 @@ def _export_json(ctx: Context) -> None:
 
     fxp = ctx.tables["fx_pairs"]
     fxj = {
+        "meta": _meta(ctx),
         "source": "ECB reference rates via Deutsche Bundesbank (exchange_rates.csv); EUR↔USD as cross rate",
         "baseline_avg": {f"{r.from_ccy}_{r.to_ccy}": round(r.rate, 6)
                          for r in fxp[fxp["basis"] == "baseline_avg"].itertuples()},

@@ -1,0 +1,559 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-21T03:08:45+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
+  },
+  "baseline": {
+    "cost_chf": {
+      "low": 474538.0,
+      "mid": 475079.0,
+      "high": 475446.0
+    },
+    "cost_eur": {
+      "low": 513350.0,
+      "mid": 513936.0,
+      "high": 514332.0
+    },
+    "cost_usd": {
+      "low": 597295.0,
+      "mid": 597977.0,
+      "high": 598438.0
+    },
+    "kwh": {
+      "low": 217000.0,
+      "mid": 310000,
+      "high": 434000.0
+    },
+    "co2_kg": {
+      "low": 31200.0,
+      "mid": 52000,
+      "high": 83200.0
+    }
+  },
+  "baseline_recurring": {
+    "cost_chf": {
+      "low": 474538.0,
+      "mid": 475079.0,
+      "high": 475446.0
+    },
+    "cost_eur": {
+      "low": 513350.0,
+      "mid": 513936.0,
+      "high": 514332.0
+    },
+    "cost_usd": {
+      "low": 597295.0,
+      "mid": 597977.0,
+      "high": 598438.0
+    },
+    "kwh": {
+      "low": 216860.0,
+      "mid": 309800,
+      "high": 433720.0
+    },
+    "co2_kg": {
+      "low": 31170.0,
+      "mid": 51950,
+      "high": 83120.0
+    }
+  },
+  "one_offs": [
+    {
+      "id": "OO-1",
+      "resource_id": "ai-marketing",
+      "ticket": "T-1212",
+      "reason": "Script stuck in an endless loop (bug, fixed after three days)",
+      "excess": {
+        "cost_chf": {
+          "low": 3307.0,
+          "mid": 3307.0,
+          "high": 3307.0
+        },
+        "cost_eur": {
+          "low": 3307.0,
+          "mid": 3307.0,
+          "high": 3307.0
+        },
+        "cost_usd": {
+          "low": 3307.0,
+          "mid": 3307.0,
+          "high": 3307.0
+        },
+        "kwh": null,
+        "co2_kg": null
+      },
+      "note": "illustrative: cost_eur/cost_usd will be converted in the real file"
+    }
+  ],
+  "target": {
+    "co2_reduction": 0.4,
+    "cost_reduction": 0.25,
+    "budget_chf": 16500,
+    "chf_per_person_day": 1100
+  },
+  "breakdown": {
+    "by_category": [
+      {
+        "key": "cloud",
+        "label": "Cloud",
+        "entity_id": null,
+        "metrics": {
+          "cost_chf": {
+            "low": 223518.0,
+            "mid": 223945.0,
+            "high": 224233.0
+          },
+          "cost_eur": {
+            "low": 241786.0,
+            "mid": 242248.0,
+            "high": 242558.0
+          },
+          "cost_usd": {
+            "low": 281353.0,
+            "mid": 281890.0,
+            "high": 282252.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.4714,
+          "co2": null
+        }
+      },
+      {
+        "key": "server",
+        "label": "Servers",
+        "entity_id": null,
+        "metrics": {
+          "cost_chf": {
+            "low": 59329.0,
+            "mid": 59444.0,
+            "high": 59523.0
+          },
+          "cost_eur": {
+            "low": 64169.0,
+            "mid": 64292.0,
+            "high": 64378.0
+          },
+          "cost_usd": {
+            "low": 74669.0,
+            "mid": 74813.0,
+            "high": 74913.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.1251,
+          "co2": null
+        }
+      },
+      {
+        "key": "ai",
+        "label": "AI",
+        "entity_id": null,
+        "metrics": {
+          "cost_chf": {
+            "low": 77532.0,
+            "mid": 77532.0,
+            "high": 77532.0
+          },
+          "cost_eur": {
+            "low": 83923.0,
+            "mid": 83923.0,
+            "high": 83923.0
+          },
+          "cost_usd": {
+            "low": 97591.0,
+            "mid": 97591.0,
+            "high": 97591.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.1632,
+          "co2": null
+        }
+      },
+      {
+        "key": "saas",
+        "label": "SaaS",
+        "entity_id": null,
+        "metrics": {
+          "cost_chf": {
+            "low": 114158.0,
+            "mid": 114158.0,
+            "high": 114158.0
+          },
+          "cost_eur": {
+            "low": 123472.0,
+            "mid": 123472.0,
+            "high": 123472.0
+          },
+          "cost_usd": {
+            "low": 143682.0,
+            "mid": 143682.0,
+            "high": 143682.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.2403,
+          "co2": null
+        }
+      }
+    ],
+    "by_department": [
+      {
+        "key": "IT",
+        "label": "IT",
+        "entity_id": "dept:IT",
+        "metrics": {
+          "cost_chf": {
+            "low": 174329.0,
+            "mid": 174735.0,
+            "high": 174973.0
+          },
+          "cost_eur": {
+            "low": 188549.0,
+            "mid": 188987.0,
+            "high": 189245.0
+          },
+          "cost_usd": {
+            "low": 219398.0,
+            "mid": 219908.0,
+            "high": 220207.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.3678,
+          "co2": null
+        }
+      },
+      {
+        "key": "Consulting",
+        "label": "Consulting",
+        "entity_id": "dept:Consulting",
+        "metrics": {
+          "cost_chf": {
+            "low": 171484.0,
+            "mid": 171573.0,
+            "high": 171669.0
+          },
+          "cost_eur": {
+            "low": 185517.0,
+            "mid": 185613.0,
+            "high": 185717.0
+          },
+          "cost_usd": {
+            "low": 215883.0,
+            "mid": 215994.0,
+            "high": 216115.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.3611,
+          "co2": null
+        }
+      },
+      {
+        "key": "Sales",
+        "label": "Sales",
+        "entity_id": "dept:Sales",
+        "metrics": {
+          "cost_chf": {
+            "low": 47577.0,
+            "mid": 47599.0,
+            "high": 47614.0
+          },
+          "cost_eur": {
+            "low": 51462.0,
+            "mid": 51486.0,
+            "high": 51502.0
+          },
+          "cost_usd": {
+            "low": 59874.0,
+            "mid": 59902.0,
+            "high": 59921.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.1002,
+          "co2": null
+        }
+      }
+    ],
+    "by_location": [
+      {
+        "key": "CH",
+        "label": "CH",
+        "entity_id": "loc:CH",
+        "metrics": {
+          "cost_chf": {
+            "low": 193416.0,
+            "mid": 193710.0,
+            "high": 193922.0
+          },
+          "cost_eur": {
+            "low": 209228.0,
+            "mid": 209546.0,
+            "high": 209776.0
+          },
+          "cost_usd": {
+            "low": 243471.0,
+            "mid": 243841.0,
+            "high": 244108.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.4077,
+          "co2": null
+        }
+      },
+      {
+        "key": "EU",
+        "label": "EU",
+        "entity_id": "loc:EU",
+        "metrics": {
+          "cost_chf": {
+            "low": 191690.0,
+            "mid": 191690.0,
+            "high": 191690.0
+          },
+          "cost_eur": {
+            "low": 207395.0,
+            "mid": 207395.0,
+            "high": 207395.0
+          },
+          "cost_usd": {
+            "low": 241273.0,
+            "mid": 241273.0,
+            "high": 241273.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.4035,
+          "co2": null
+        }
+      },
+      {
+        "key": "DE",
+        "label": "DE",
+        "entity_id": "loc:DE",
+        "metrics": {
+          "cost_chf": {
+            "low": 49918.0,
+            "mid": 49982.0,
+            "high": 50054.0
+          },
+          "cost_eur": {
+            "low": 53989.0,
+            "mid": 54058.0,
+            "high": 54137.0
+          },
+          "cost_usd": {
+            "low": 62826.0,
+            "mid": 62906.0,
+            "high": 62998.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.1052,
+          "co2": null
+        }
+      },
+      {
+        "key": "IE",
+        "label": "IE",
+        "entity_id": "loc:IE",
+        "metrics": {
+          "cost_chf": {
+            "low": 39514.0,
+            "mid": 39698.0,
+            "high": 39779.0
+          },
+          "cost_eur": {
+            "low": 42737.0,
+            "mid": 42936.0,
+            "high": 43024.0
+          },
+          "cost_usd": {
+            "low": 49725.0,
+            "mid": 49957.0,
+            "high": 50059.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.0836,
+          "co2": null
+        }
+      }
+    ],
+    "by_tool": [
+      {
+        "key": "Data platform production",
+        "label": "Data platform production",
+        "entity_id": null,
+        "metrics": {
+          "cost_chf": {
+            "low": 87667.0,
+            "mid": 87731.0,
+            "high": 87804.0
+          },
+          "cost_eur": {
+            "low": 94857.0,
+            "mid": 94927.0,
+            "high": 95006.0
+          },
+          "cost_usd": {
+            "low": 110399.0,
+            "mid": 110480.0,
+            "high": 110571.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.1847,
+          "co2": null
+        }
+      },
+      {
+        "key": "Data platform development",
+        "label": "Data platform development",
+        "entity_id": null,
+        "metrics": {
+          "cost_chf": {
+            "low": 38544.0,
+            "mid": 38592.0,
+            "high": 38649.0
+          },
+          "cost_eur": {
+            "low": 41688.0,
+            "mid": 41740.0,
+            "high": 41802.0
+          },
+          "cost_usd": {
+            "low": 48512.0,
+            "mid": 48571.0,
+            "high": 48644.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.0812,
+          "co2": null
+        }
+      },
+      {
+        "key": "Test environments",
+        "label": "Test environments",
+        "entity_id": null,
+        "metrics": {
+          "cost_chf": {
+            "low": 24604.0,
+            "mid": 24674.0,
+            "high": 24709.0
+          },
+          "cost_eur": {
+            "low": 26610.0,
+            "mid": 26687.0,
+            "high": 26724.0
+          },
+          "cost_usd": {
+            "low": 30966.0,
+            "mid": 31055.0,
+            "high": 31098.0
+          },
+          "kwh": null,
+          "co2_kg": null
+        },
+        "share": {
+          "cost": 0.0519,
+          "co2": null
+        }
+      }
+    ]
+  },
+  "flows": [
+    {
+      "from": "dept:IT",
+      "to": "loc:DE",
+      "metrics": {
+        "cost_chf": {
+          "low": 38544.0,
+          "mid": 38592.0,
+          "high": 38649.0
+        },
+        "cost_eur": {
+          "low": 41688.0,
+          "mid": 41740.0,
+          "high": 41802.0
+        },
+        "cost_usd": {
+          "low": 48512.0,
+          "mid": 48571.0,
+          "high": 48644.0
+        },
+        "kwh": {
+          "low": 42000.0,
+          "mid": 60000,
+          "high": 84000.0
+        },
+        "co2_kg": {
+          "low": 12600.0,
+          "mid": 21000,
+          "high": 33600.0
+        }
+      }
+    }
+  ],
+  "coverage": {
+    "derived_cross_source": 0.0049,
+    "estimated": 0.0192,
+    "observed": 0.976
+  },
+  "calc": {
+    "formula": "sum of all baseline billing lines (cloud, servers, AI, SaaS)",
+    "inputs": [],
+    "factor_ids": [],
+    "source_files": [
+      "azure_costs.csv",
+      "aws_costs.csv",
+      "hoster_invoice.csv",
+      "ai_usage.csv",
+      "ai_subscriptions.csv",
+      "saas_contracts.csv",
+      "extra/ai_invoice_monthly.csv"
+    ],
+    "row_count": 36660,
+    "value_status": "estimated",
+    "issue_ids": [
+      "Q-0089"
+    ],
+    "note": "kWh/CO2 are PLACEHOLDERS in this example (factors come in Step 3)"
+  }
+}

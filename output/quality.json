@@ -1,8 +1,12 @@
 {
-  "generated_at": "2026-11-21T01:56:00+00:00",
-  "baseline": {
-    "start": "2025-09-01",
-    "end": "2026-08-31"
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-21T03:08:45+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
   },
   "materiality_pct_of_category": 1.0,
   "counters": {

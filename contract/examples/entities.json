@@ -1,0 +1,342 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-21T03:08:45+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
+  },
+  "entities": [
+    {
+      "id": "loc:DE",
+      "kind": "island",
+      "label": "Frankfurt",
+      "parent_id": null,
+      "department": null,
+      "tool": null,
+      "category": null,
+      "location": "DE",
+      "metrics": {
+        "cost_chf": {
+          "low": 49918.0,
+          "mid": 49982.0,
+          "high": 50054.0
+        },
+        "cost_eur": {
+          "low": 53989.0,
+          "mid": 54058.0,
+          "high": 54137.0
+        },
+        "cost_usd": {
+          "low": 62826.0,
+          "mid": 62906.0,
+          "high": 62998.0
+        },
+        "kwh": {
+          "low": 66500.0,
+          "mid": 95000,
+          "high": 133000.0
+        },
+        "co2_kg": {
+          "low": 19800.0,
+          "mid": 33000,
+          "high": 52800.0
+        }
+      },
+      "utilisation": null,
+      "idle_ratio": null,
+      "state": "driver",
+      "flags": [
+        "driver"
+      ],
+      "finding_ids": [],
+      "measure_ids": [],
+      "limit_ids": [],
+      "calc": {
+        "formula": "sum of resources billed in Germany (Frankfurt)",
+        "inputs": [],
+        "factor_ids": [],
+        "source_files": [
+          "azure_costs.csv"
+        ],
+        "row_count": 730,
+        "value_status": "observed",
+        "issue_ids": [],
+        "note": "kWh/CO2 are PLACEHOLDERS in this example (factors come in Step 3)"
+      }
+    },
+    {
+      "id": "res:dp-dev",
+      "kind": "resource",
+      "label": "Data platform development",
+      "parent_id": "loc:DE",
+      "department": "IT",
+      "tool": "Data platform development",
+      "category": "cloud",
+      "location": "DE",
+      "metrics": {
+        "cost_chf": {
+          "low": 38544.0,
+          "mid": 38592.0,
+          "high": 38649.0
+        },
+        "cost_eur": {
+          "low": 41688.0,
+          "mid": 41740.0,
+          "high": 41802.0
+        },
+        "cost_usd": {
+          "low": 48512.0,
+          "mid": 48571.0,
+          "high": 48644.0
+        },
+        "kwh": {
+          "low": 28000.0,
+          "mid": 40000,
+          "high": 56000.0
+        },
+        "co2_kg": {
+          "low": 8400.0,
+          "mid": 14000,
+          "high": 22400.0
+        }
+      },
+      "utilisation": 0.087,
+      "idle_ratio": 0.913,
+      "state": "waste",
+      "flags": [
+        "waste",
+        "driver"
+      ],
+      "finding_ids": [
+        "F-01"
+      ],
+      "measure_ids": [
+        "M-01"
+      ],
+      "limit_ids": [
+        "L-02"
+      ],
+      "calc": {
+        "formula": "cost = billed node-hours × price; utilisation = active_use_h / runtime_h",
+        "inputs": [
+          {
+            "name": "nodes",
+            "value": 8,
+            "unit": "nodes",
+            "source": "data_platform_usage.csv"
+          },
+          {
+            "name": "runtime per day",
+            "value": 24,
+            "unit": "h",
+            "source": "data_platform_usage.csv"
+          }
+        ],
+        "factor_ids": [],
+        "source_files": [
+          "azure_costs.csv",
+          "data_platform_usage.csv"
+        ],
+        "row_count": 365,
+        "value_status": "estimated",
+        "issue_ids": [
+          "Q-0008"
+        ],
+        "note": "kWh/CO2 are PLACEHOLDERS in this example (factors come in Step 3)"
+      }
+    },
+    {
+      "id": "srv:gpu-ml-01",
+      "kind": "server",
+      "label": "gpu-ml-01",
+      "parent_id": "res:gpu-ml",
+      "department": "Consulting",
+      "tool": "AI compute server (GPU)",
+      "category": "server",
+      "location": "DE",
+      "metrics": {
+        "cost_chf": {
+          "low": 11374.0,
+          "mid": 11390.0,
+          "high": 11405.0
+        },
+        "cost_eur": {
+          "low": 12301.0,
+          "mid": 12319.0,
+          "high": 12335.0
+        },
+        "cost_usd": {
+          "low": 14314.0,
+          "mid": 14335.0,
+          "high": 14354.0
+        },
+        "kwh": {
+          "low": 2730.0,
+          "mid": 3900,
+          "high": 5460.0
+        },
+        "co2_kg": {
+          "low": 840.0,
+          "mid": 1400,
+          "high": 2240.0
+        }
+      },
+      "utilisation": 0.092,
+      "idle_ratio": null,
+      "state": "handover",
+      "flags": [
+        "waste",
+        "handover"
+      ],
+      "finding_ids": [
+        "F-02"
+      ],
+      "measure_ids": [
+        "M-02"
+      ],
+      "limit_ids": [
+        "L-02"
+      ],
+      "calc": {
+        "formula": "utilisation = average weekly GPU utilisation",
+        "inputs": [],
+        "factor_ids": [],
+        "source_files": [
+          "server_metrics_weekly.csv",
+          "azure_costs.csv"
+        ],
+        "row_count": 365,
+        "value_status": "observed",
+        "issue_ids": [],
+        "note": "kWh/CO2 are PLACEHOLDERS in this example (factors come in Step 3)"
+      }
+    },
+    {
+      "id": "dept:IT",
+      "kind": "room",
+      "label": "IT",
+      "parent_id": null,
+      "department": "IT",
+      "tool": null,
+      "category": null,
+      "location": null,
+      "metrics": {
+        "cost_chf": {
+          "low": 174329.0,
+          "mid": 174735.0,
+          "high": 174973.0
+        },
+        "cost_eur": {
+          "low": 188549.0,
+          "mid": 188987.0,
+          "high": 189245.0
+        },
+        "cost_usd": {
+          "low": 219398.0,
+          "mid": 219908.0,
+          "high": 220207.0
+        },
+        "kwh": {
+          "low": 84000.0,
+          "mid": 120000,
+          "high": 168000.0
+        },
+        "co2_kg": {
+          "low": 18000.0,
+          "mid": 30000,
+          "high": 48000.0
+        }
+      },
+      "utilisation": null,
+      "idle_ratio": null,
+      "fte": 16.9,
+      "state": "normal",
+      "flags": [],
+      "finding_ids": [],
+      "measure_ids": [],
+      "limit_ids": [],
+      "calc": {
+        "formula": "sum of baseline lines allocated to IT (tag → cost center → mapping)",
+        "inputs": [],
+        "factor_ids": [],
+        "source_files": [
+          "fact_cost"
+        ],
+        "row_count": 6839,
+        "value_status": "observed",
+        "issue_ids": [],
+        "note": "kWh/CO2 are PLACEHOLDERS in this example (factors come in Step 3)"
+      }
+    },
+    {
+      "id": "lic:ChatGPT Team@Sales",
+      "kind": "license_group",
+      "label": "ChatGPT Team · Sales",
+      "parent_id": "dept:Sales",
+      "department": "Sales",
+      "tool": "ChatGPT Team",
+      "category": "ai",
+      "location": "EU",
+      "metrics": {
+        "cost_chf": {
+          "low": 2860.0,
+          "mid": 2860.0,
+          "high": 2860.0
+        },
+        "cost_eur": {
+          "low": 3094.0,
+          "mid": 3094.0,
+          "high": 3094.0
+        },
+        "cost_usd": {
+          "low": 3600.0,
+          "mid": 3600.0,
+          "high": 3600.0
+        },
+        "kwh": {
+          "low": 3.0,
+          "mid": 4,
+          "high": 6.0
+        },
+        "co2_kg": {
+          "low": 1.0,
+          "mid": 1,
+          "high": 2.0
+        }
+      },
+      "utilisation": 0.083,
+      "idle_ratio": null,
+      "seats": {
+        "purchased": 12,
+        "active": 1
+      },
+      "state": "waste",
+      "flags": [
+        "waste"
+      ],
+      "finding_ids": [
+        "F-03"
+      ],
+      "measure_ids": [
+        "M-03"
+      ],
+      "limit_ids": [],
+      "calc": {
+        "formula": "seats × USD 25 × monthly USD→CHF; active seats from licences_active_30d",
+        "inputs": [],
+        "factor_ids": [],
+        "source_files": [
+          "ai_subscriptions.csv",
+          "exchange_rates.csv"
+        ],
+        "row_count": 12,
+        "value_status": "observed",
+        "issue_ids": [],
+        "note": "kWh/CO2 are PLACEHOLDERS in this example (factors come in Step 3)"
+      }
+    }
+  ]
+}

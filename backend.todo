@@ -21,6 +21,7 @@ Step 0 · Setup:
   ☐ Concordare con il frontend il contratto JSON @must @p1
     Cos'è: il formato dei file che la pipeline produce e il 3D legge. Va fissato SUBITO, così dati e demo vanno avanti in parallelo.
     Da fare: usare la sezione «Contratto dati» di frontend-3d.todo come riferimento unico.
+    Stato: BOZZA v0.1 pronta in contract/ (types.ts = riferimento unico, README.md = regole, examples/ = un esempio per file con costi reali). quality.json e fx.json già conformi. Manca: OK del frontend sulle 4 domande aperte in contract/README.md
 
 Step 1 · Pulizia e armonizzazione (Connect, prima parte):
   Cos'è: ogni sistema esporta i dati «nella sua lingua». Qui li traduciamo tutti in una lingua comune (uno schema unico) e teniamo un registro di ogni correzione.
@@ -305,7 +306,7 @@ Step 8 · Scegliere il pacchetto e verificare i target:
 Step 9 · Mostrare ed esportare:
   ☐ Export JSON per il frontend (secondo il contratto) @must @p1
     Da fare: summary, entities, timeseries, findings, measures, limits, quality, factors, fx (vedi frontend-3d.todo, «Contratto dati»)
-      - cost_chf resta il campo principale (consegna in CHF) + amount_native, currency_native; fx.json per la conversione di visualizzazione nel frontend
+      - formato: contract/types.ts. Ogni valore è un intervallo {low, mid, high}; i costi escono già in cost_chf / cost_eur / cost_usd (convertiti mese per mese; i risparmi ai tassi medi di baseline) → il frontend non converte mai; fx.json serve solo ai pannelli «calcolo»
   ☐ Generare template_baseline_and_assumptions.csv @must @p1
     Da fare: compilare ogni riga Must con basso / medio / alto + unità + fonte con data + calcolo; righe Bonus (market-based, crescita) solo se costruiamo quelle funzioni; generato dallo stesso motore, mai a mano
   ☐ Generare template_measures_package.csv @must @p1

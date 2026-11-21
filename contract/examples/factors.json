@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-21T03:08:45+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
+  },
+  "factors": [
+    {
+      "id": "grid_mix_location_based_switzerland",
+      "label": "Grid mix Switzerland (location-based)",
+      "unit": "kg CO2 per kWh",
+      "low": 0.03,
+      "mid": 0.1,
+      "high": 0.13,
+      "source": "PLACEHOLDER: e.g. UniGe / BAFU, with date",
+      "source_date": "2026-11-21",
+      "calculation": "PLACEHOLDER (Step 3)",
+      "applies_to": [
+        "CH"
+      ],
+      "must_or_bonus": "Must",
+      "variants": {
+        "ch_consumption": {
+          "low": 0.08,
+          "mid": 0.1,
+          "high": 0.13
+        },
+        "ch_production": {
+          "low": 0.02,
+          "mid": 0.03,
+          "high": 0.04
+        }
+      }
+    },
+    {
+      "id": "pue",
+      "label": "Power usage effectiveness",
+      "unit": "ratio",
+      "low": 1.1,
+      "mid": 1.3,
+      "high": 1.6,
+      "source": "PLACEHOLDER (Step 3)",
+      "source_date": "2026-11-21",
+      "calculation": "PLACEHOLDER (Step 3)",
+      "applies_to": [
+        "cloud",
+        "server"
+      ],
+      "must_or_bonus": "Must"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-21T03:08:45+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "kind": "waste",
+      "title": "dp-dev runs 24 h a day in Frankfurt but works about 2 h",
+      "entity_ids": [
+        "res:dp-dev",
+        "loc:DE"
+      ],
+      "evidence": [
+        {
+          "statement": "average active use on weekdays",
+          "value": 2.8,
+          "unit": "h/day",
+          "source_files": [
+            "data_platform_usage.csv"
+          ]
+        },
+        {
+          "statement": "runtime every day of the baseline year",
+          "value": 24,
+          "unit": "h/day",
+          "source_files": [
+            "data_platform_usage.csv"
+          ]
+        },
+        {
+          "statement": "idle share of running hours",
+          "value": 91,
+          "unit": "%",
+          "source_files": [
+            "data_platform_usage.csv"
+          ]
+        }
+      ],
+      "severity": "high",
+      "impact": {
+        "cost_chf": {
+          "low": 38544.0,
+          "mid": 38592.0,
+          "high": 38649.0
+        },
+        "cost_eur": {
+          "low": 41688.0,
+          "mid": 41740.0,
+          "high": 41802.0
+        },
+        "cost_usd": {
+          "low": 48512.0,
+          "mid": 48571.0,
+          "high": 48644.0
+        },
+        "kwh": {
+          "low": 28000.0,
+          "mid": 40000,
+          "high": 56000.0
+        },
+        "co2_kg": {
+          "low": 8400.0,
+          "mid": 14000,
+          "high": 22400.0
+        }
+      },
+      "measure_ids": [
+        "M-01"
+      ],
+      "calc": {
+        "formula": "idle = 1 − active_use_h / runtime_h",
+        "inputs": [],
+        "factor_ids": [],
+        "source_files": [
+          "data_platform_usage.csv",
+          "azure_costs.csv"
+        ],
+        "row_count": 365,
+        "value_status": "observed",
+        "issue_ids": [],
+        "note": "kWh/CO2 are PLACEHOLDERS in this example (factors come in Step 3)"
+      }
+    }
+  ]
+}

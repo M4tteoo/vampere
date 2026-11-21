@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-21T03:08:45+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
+  },
+  "source": "ECB reference rates via Deutsche Bundesbank (exchange_rates.csv); EUR↔USD as cross rate",
+  "baseline_avg": {
+    "CHF_CHF": 1.0,
+    "CHF_EUR": 1.081549,
+    "CHF_USD": 1.258614,
+    "EUR_CHF": 0.9246,
+    "EUR_EUR": 1.0,
+    "EUR_USD": 1.163714,
+    "USD_CHF": 0.794525,
+    "USD_EUR": 0.859318,
+    "USD_USD": 1.0
+  },
+  "monthly": {
+    "2026-09-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.060445,
+      "CHF_USD": 1.220852,
+      "EUR_CHF": 0.943,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.151264,
+      "USD_CHF": 0.8191,
+      "USD_EUR": 0.868611,
+      "USD_USD": 1.0
+    }
+  }
+}
