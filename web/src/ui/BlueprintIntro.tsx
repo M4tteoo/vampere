@@ -1,24 +1,21 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
-import { DEPT_ACCENT } from '../data/twin'
-import { BLUEPRINT_URL, BUILD_S, LAND_S, SCAN_S, useIntro, type BlueprintMeta, type PaperRect } from '../intro/store'
+import { BLUEPRINT_URL, LAND_S, SCAN_S, useIntro, type BlueprintMeta, type PaperRect } from '../intro/store'
 import { loadBlueprintMeta, BUILD_ORDER } from '../scene/twin/BlueprintBuild'
 
 const LOG_W = 360
+/** Colore del riconoscimento (muri e vetrate, locali): lo stesso di .bp-detect #walls in index.css. */
+const DETECT = '#7dffbf'
 const ASPECT = 59.4 / 42
 const SAMPLE_NAME = 'A-101_Floor-plan_Level-01.svg'
 
 /** Passi della «lettura» della pianta: [inizio, fine] in secondi dall'inizio della scansione. */
-const STEPS: { at: [number, number]; title: string; detail: (m: BlueprintMeta) => string }[] = [
-  { at: [0.2, 2.7], title: 'Vectorising linework', detail: (m) => `${(m.counts.wall_segments + m.counts.glass_segments).toLocaleString('en')} edges traced` },
-  { at: [0.9, 1.6], title: 'Reading scale bar & north', detail: () => '1:100 on A2 · north up' },
-  { at: [1.6, 2.9], title: 'Walls & glazing', detail: (m) => `cut at +${m.cut.toFixed(2)} m · ${m.counts.wall_segments} wall, ${m.counts.glass_segments} glass edges` },
-  {
-    at: [2.9, 4.3],
-    title: 'Rooms recognised',
-    detail: (m) => `${Object.keys(m.rooms).length} spaces · ${Math.round(Object.values(m.rooms).reduce((a, r) => a + r.area, 0)).toLocaleString('en')} m²`,
-  },
-  { at: [4.3, 5.4], title: 'Matching module library', detail: (m) => `${m.counts.workstations} workstations → desk_bench · ${m.counts.furniture} fixtures` },
-  { at: [5.4, SCAN_S], title: 'Extruding to 3D', detail: () => 'walls 2.6 m · floors · plinth' },
+const STEPS: { at: [number, number]; title: string }[] = [
+  { at: [0.2, 2.7], title: 'Vectorising linework' },
+  { at: [0.9, 1.6], title: 'Reading scale bar & north' },
+  { at: [1.6, 2.9], title: 'Walls & glazing' },
+  { at: [2.9, 4.3], title: 'Rooms recognised' },
+  { at: [4.3, 5.4], title: 'Matching module library' },
+  { at: [5.4, SCAN_S], title: 'Extruding to 3D' },
 ]
 
 function fitRect(w: number, h: number): PaperRect {
@@ -166,8 +163,6 @@ function Reading() {
   }, [phase, t0, next, meta])
 
   const scanT = phase === 'scan' ? t : SCAN_S
-  // Vettorizzazione: la scansione morbida si dissolve nella versione nitida (nessuna barra di scansione).
-  const sweep = Math.min(1, Math.max(0, (scanT - 0.2) / 2.5))
   const detect = phase === 'scan' ? Math.min(1, Math.max(0, (SCAN_S - 0.5 - scanT) / 0.5)) : 0
   const fit = fitRect(size.w, size.h)
   const rect = phase === 'scan' || !paper ? fit : paper
@@ -195,8 +190,7 @@ function Reading() {
     >
       <div className="absolute" style={style}>
         {/* Scansione originale (morbida, leggermente ingiallita) e, sopra, la versione vettoriale rivelata dalla passata. */}
-        <img src={BLUEPRINT_URL} alt="" className="absolute inset-0 h-full w-full" style={{ filter: 'blur(0.8px) saturate(0.55) contrast(0.75) brightness(0.92)', opacity: 1 - sweep }} />
-        <img src={BLUEPRINT_URL} alt="Floor plan" className="absolute inset-0 h-full w-full" style={{ opacity: sweep }} />
+        <img src={BLUEPRINT_URL} alt="Floor plan" className="absolute inset-0 h-full w-full" />
         {html && (
           <div
             className="bp-detect absolute inset-0"
@@ -207,7 +201,7 @@ function Reading() {
         {meta && <RoomsOverlay meta={meta} t={scanT} fade={detect} />}
       </div>
 
-      {phase === 'scan' && meta && <Log meta={meta} t={t} fileName={fileName} />}
+      {phase === 'scan' && meta && <Log t={t} fileName={fileName} />}
 
       {phase !== 'build' && (
         <button onClick={skip} className="absolute top-5 right-8 z-10 text-[14px] font-medium text-muted hover:text-ink">
@@ -228,7 +222,7 @@ function RoomsOverlay({ meta, t, fade }: { meta: BlueprintMeta; t: number; fade:
         const room = meta.rooms[r]
         const k = Math.min(1, Math.max(0, (t - 2.9 - i * 0.13) / 0.35))
         if (k <= 0) return null
-        const color = DEPT_ACCENT[r] ?? '#8C9AA6'
+        const color = DETECT
         const [x0, z0] = room.min
         const [x1, z1] = room.max
         const label = `${room.name} · ${Math.round(room.area)} m²`
@@ -238,7 +232,7 @@ function RoomsOverlay({ meta, t, fade }: { meta: BlueprintMeta; t: number; fade:
             <rect x={x0 + 0.12} y={z0 + 0.12} width={x1 - x0 - 0.24} height={z1 - z0 - 0.24} fill={color} fillOpacity={0.16} stroke={color} strokeWidth={0.14} rx={0.25} />
             <g transform={`translate(${x0 + 0.45} ${z0 + 0.45})`}>
               <rect width={w} height={0.95} rx={0.47} fill={color} />
-              <text x={w / 2} y={0.64} fontSize={0.46} textAnchor="middle" fill="#fff" fontWeight={700} fontFamily="Inter Variable, Inter, sans-serif">
+              <text x={w / 2} y={0.64} fontSize={0.46} textAnchor="middle" fill="#0b3d2a" fontWeight={700} fontFamily="Inter Variable, Inter, sans-serif">
                 {label}
               </text>
             </g>
@@ -249,7 +243,7 @@ function RoomsOverlay({ meta, t, fade }: { meta: BlueprintMeta; t: number; fade:
   )
 }
 
-function Log({ meta, t, fileName }: { meta: BlueprintMeta; t: number; fileName: string | null }) {
+function Log({ t, fileName }: { t: number; fileName: string | null }) {
   const progress = Math.min(1, t / SCAN_S)
   return (
     <aside className="pill-shadow absolute top-12 right-12 flex flex-col rounded-[var(--radius-lg)] bg-white p-6" style={{ width: LOG_W - 48 }}>
@@ -279,13 +273,11 @@ function Log({ meta, t, fileName }: { meta: BlueprintMeta; t: number; fileName: 
               </span>
               <div className="min-w-0">
                 <p className="text-[14px] font-semibold text-ink">{s.title}</p>
-                {state !== 'todo' && <p className="text-[13px] text-muted">{s.detail(meta)}</p>}
               </div>
             </li>
           )
         })}
       </ol>
-      <p className="mt-5 text-[12px] text-muted-soft">Build takes ~{Math.round(BUILD_S)} s · modules from the GreenOps asset library</p>
     </aside>
   )
 }
