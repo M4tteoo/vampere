@@ -42,7 +42,9 @@ Findings, measures and limits are written by an LLM (the advisor and the ticket 
 | `findings.json` | drivers and waste, each with its numerical evidence | LLM advisor (evidence values by code) | **available now** |
 | `measures.json` | measures + recommended package + target check | LLM advisor (savings, status gate, target check by code) | **available now** |
 | `limits.json` | protection windows, blocks, hand-overs, contradictions, with concrete dates | LLM ticket reader + scheduler (code) | **available now** |
-| bonus | `forecast.json`, `montecarlo.json`, `jobs.json`, `clusters.json` | bonus steps | defined when built |
+| forecast | `forecast.json` | A2 | 52 weeks in monthly buckets; `without` uses original history and `with` uses already-optimized history (`null` if absent); final month is prorated |
+| optimized history | `optimized_history.json` | Step 9 | Replay coverage: applied, skipped, and human-confirmation measures; optimized history itself is in DuckDB |
+| bonus | `montecarlo.json`, `jobs.json`, `clusters.json` | bonus steps | defined when built |
 
 ## Changes from the first list in frontend-3d.todo
 

@@ -368,6 +368,41 @@ export interface FxFile {
 //   jobs.json        A5 · Carbon-aware        (track 2)
 //   chat API         A1 · Assistant           (track 2) · ChatRequest / ChatResponse
 
+// ------------------------------------------------------- forecast.json (A2)
+export interface ForecastComparison {
+  without: Metrics; // business as usual, including announced changes
+  with: Metrics | null; // projection from already-optimized history; null when input is absent
+}
+
+export interface ForecastCalculations {
+  total: Calc;
+  by_category: Partial<Record<Category, Calc>>;
+}
+
+export interface OptimizedHistoryCoverage {
+  status: "complete" | "partial" | "missing_package" | "no_supported_measures";
+  applied_measure_ids: string[];
+  requires_confirmation: string[];
+  skipped: { id: string; reason: string }[];
+}
+
+export interface ForecastFile {
+  meta: Meta;
+  horizon: { start: ISODate; end_exclusive: ISODate };
+  months: (ForecastComparison & { month: ISODate; by_category: Partial<Record<Category, ForecastComparison>> })[];
+  events: { date: ISODate; resource_id: string; label: string; source: string }[];
+  assumptions: {
+    id: string;
+    source: string;
+    method: string;
+    unit?: string;
+    value?: Range;
+    by_month?: Record<string, Range>;
+  }[];
+  calculations: { without: ForecastCalculations; with: ForecastCalculations | null };
+  optimized_history?: OptimizedHistoryCoverage;
+}
+
 // ------------------------------------------------ bonus/candidates.json
 /** Findings / measures proposed by bonus modules to the Step 5–6 owners.
  *  NOT read by the frontend: the owners merge what they accept into

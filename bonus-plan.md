@@ -59,7 +59,7 @@ Original design notes:
 
 ## Shared interface with Step 6 (one request, three bonuses depend on it)
 
-Market-based savings (A3), the exact Monte Carlo (B1) and the forecast with the package (A2) all need to know where each measure saves energy. Ask the Step 6 owner to add one optional field to every `Measure`:
+Market-based savings (A3) and the exact Monte Carlo (B1) need to know where each measure saves energy. Ask the Step 6 owner to add one optional field to every `Measure`:
 
 ```ts
 breakdown?: {
@@ -124,7 +124,7 @@ Example: moving dp-dev to Zurich is `{dp-dev, DE, +X kWh}` plus `{dp-dev, CH, �
 
 ### A2 · Forecast (`forecast.py`)
 
-**Goal:** monthly costs, energy and CO₂ from Sep 2026 to Dec 2030, with and without the package, always as a range. This feeds the year slider in the UI.
+**Goal:** monthly costs, energy and CO₂ for 52 weeks from 1 September 2026, with and without the package, always as a range. Prorate the last monthly bucket through 30 August 2027.
 
 - **Start point:** a run-rate per resource from the last complete months of the recurring baseline (Jun–Aug 2026, without one-offs), then deseasonalized.
 - **Drivers**, each with source and range, listed in the file's `assumptions[]`:
@@ -136,7 +136,7 @@ Example: moving dp-dev to Zurich is `{dp-dev, DE, +X kWh}` plus `{dp-dev, CH, �
   - Seasonality: calendar-month factors from the 22 months of data (quarterly training, month-end close).
   - Grid: mid keeps today's factors, low applies the decarbonisation trend (DE, IE). This is a stated assumption.
   - FX: baseline-average rates (stated).
-- **With the package:** each measure's yearly savings, spread over the months from its `start_date` (and per resource via `breakdown` when available). Use the mock measures until Step 8 delivers.
+- **Optimized forecast:** project the optional `fact_cost_optimized` input using the same model as `fact_cost`. The upstream owner supplies a full historical dataset with optimizations already applied, matching `fact_cost`'s schema, months, and units. The forecast does not read or apply measures; `with` is `null` until that table exists. See [Forecast input contract](./README.md#forecast-bonus-a2).
 - **Template:** fill `growth_per_year` (Bonus) via `fill_template_row`.
 - **Output `forecast.json`:** monthly series of total and category values (`without` / `with` as `Metrics`), events (e.g. "dp-prod 24 nodes"), and the assumptions.
 - **Can start now:** yes, everything except the real package.
@@ -229,4 +229,4 @@ It's a separate package (`assistant/`) because it's a server, not a pipeline ste
 - A4 and A5 completely
 - A1: tools, classifier, server, attack suite
 
-**What waits for Steps 6–8:** the package-dependent parts (market-based savings, package in both Swiss scenarios, Monte Carlo of the package, forecast with the package, assistant recommendations). All of them build on the contract's `measures.json` example first, so switching to the real file is a swap.
+**What waits for Steps 6–8:** the package-dependent parts (market-based savings, package in both Swiss scenarios, Monte Carlo of the package, assistant recommendations). They can start with the contract's `measures.json` example. The optimized forecast instead waits for `fact_cost_optimized`.

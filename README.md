@@ -53,6 +53,16 @@ Outputs (format: `contract/`): `output/greenops.duckdb` (harmonized tables), `qu
 
 Main tables: `fact_cost` (every franc, with native amount, CHF/EUR/USD, value status and range, department, kWh, CO₂, source row), `fact_activity` (physical quantities), `issues`, `free_text` (inert text with `text_risk`), `dim_*`, `stg_*`. Views: `v_cost_baseline`, `v_cost_allocated`, `v_focus_cost`, `v_coverage`.
 
+## Forecast (bonus A2)
+
+The pipeline writes `output/forecast.json` with monthly cost, energy and location-based CO₂ ranges for 52 weeks starting September 1, 2026. August 2027 is prorated through August 30. It runs the same projection on `fact_cost` (`without`) and on the optional `fact_cost_optimized` table (`with`). The two projections are separate from the Swiss grid-mix switch.
+
+**Step 9 — optimized history:** after the advisor exports `measures.json`, `optimized_history` replays the selected measures' structured resource effects, including the destination grid mix for relocations. It does not spread annual savings over months. It writes `fact_cost_optimized` to DuckDB and reports applied, skipped, and human-confirmation measures in `output/optimized_history.json`. The result is a simulation, not approval to enact any measure. A partial replay is also flagged in `forecast.json`.
+
+**Forecast input contract:** `ctx.tables["fact_cost_optimized"]` is a full historical dataset with optimizations already applied, not a table of savings. It matches `fact_cost`'s columns, months, and units and includes unchanged resources. Neither forecast reads the measures package. If the optimized table is absent, `with` is `null`.
+
+Run `python -m pipeline.bonus.dev optimized_history forecast` to replay the current package and regenerate the forecast from the existing DuckDB.
+
 ## Structure
 
 - `case.md` — case description

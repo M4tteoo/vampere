@@ -1,0 +1,1182 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-21T11:41:15+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "horizon": {
+  "start": "2026-09-01",
+  "end_exclusive": "2027-08-31"
+ },
+ "months": [
+  {
+   "month": "2026-09-01",
+   "without": {
+    "cost_chf": {
+     "low": 41157.4,
+     "mid": 41195.25,
+     "high": 41222.63
+    },
+    "kwh": {
+     "low": 1235.03,
+     "mid": 2194.49,
+     "high": 4510.44
+    },
+    "co2_kg": {
+     "low": 160.05,
+     "mid": 386.32,
+     "high": 1027.54
+    },
+    "cost_eur": {
+     "low": 44513.73,
+     "mid": 44554.67,
+     "high": 44584.29
+    },
+    "cost_usd": {
+     "low": 51801.26,
+     "mid": 51848.91,
+     "high": 51883.37
+    }
+   },
+   "with": {
+    "cost_chf": {
+     "low": 37647.46,
+     "mid": 37681.18,
+     "high": 37704.2
+    },
+    "kwh": {
+     "low": 1022.22,
+     "mid": 1876.06,
+     "high": 3968.4
+    },
+    "co2_kg": {
+     "low": 81.94,
+     "mid": 259.95,
+     "high": 772.66
+    },
+    "cost_eur": {
+     "low": 40717.57,
+     "mid": 40754.03,
+     "high": 40778.93
+    },
+    "cost_usd": {
+     "low": 47383.61,
+     "mid": 47426.04,
+     "high": 47455.02
+    }
+   },
+   "by_category": {
+    "ai": {
+     "without": {
+      "cost_chf": {
+       "low": 6624.26,
+       "mid": 6624.26,
+       "high": 6624.26
+      },
+      "kwh": {
+       "low": 28.03,
+       "mid": 134.13,
+       "high": 575.72
+      },
+      "co2_kg": {
+       "low": 4.2,
+       "mid": 28.57,
+       "high": 172.72
+      },
+      "cost_eur": {
+       "low": 7164.46,
+       "mid": 7164.46,
+       "high": 7164.46
+      },
+      "cost_usd": {
+       "low": 8337.39,
+       "mid": 8337.39,
+       "high": 8337.39
+      }
+     },
+     "with": {
+      "cost_chf": {
+       "low": 6624.26,
+       "mid": 6624.26,
+       "high": 6624.26
+      },
+      "kwh": {
+       "low": 28.03,
+       "mid": 134.13,
+       "high": 575.72
+      },
+      "co2_kg": {
+       "low": 4.2,
+       "mid": 28.57,
+       "high": 172.72
+      },
+      "cost_eur": {
+       "low": 7164.46,
+       "mid": 7164.46,
+       "high": 7164.46
+      },
+      "cost_usd": {
+       "low": 8337.39,
+       "mid": 8337.39,
+       "high": 8337.39
+      }
+     }
+    },
+    "cloud": {
+     "without": {
+      "cost_chf": {
+       "low": 19813.0,
+       "mid": 19842.35,
+       "high": 19864.96
+      },
+      "kwh": {
+       "low": 982.57,
+       "mid": 1674.38,
+       "high": 3129.61
+      },
+      "co2_kg": {
+       "low": 115.02,
+       "mid": 271.58,
+       "high": 616.77
+      },
+      "cost_eur": {
+       "low": 21428.72,
+       "mid": 21460.47,
+       "high": 21484.93
+      },
+      "cost_usd": {
+       "low": 24936.91,
+       "mid": 24973.85,
+       "high": 25002.31
+      }
+     },
+     "with": {
+      "cost_chf": {
+       "low": 17061.64,
+       "mid": 17088.13,
+       "high": 17107.05
+      },
+      "kwh": {
+       "low": 818.86,
+       "mid": 1432.9,
+       "high": 2720.55
+      },
+      "co2_kg": {
+       "low": 53.11,
+       "mid": 173.15,
+       "high": 419.07
+      },
+      "cost_eur": {
+       "low": 18453.0,
+       "mid": 18481.64,
+       "high": 18502.1
+      },
+      "cost_usd": {
+       "low": 21474.01,
+       "mid": 21507.35,
+       "high": 21531.16
+      }
+     }
+    },
+    "saas": {
+     "without": {
+      "cost_chf": {
+       "low": 9754.42,
+       "mid": 9754.42,
+       "high": 9754.42
+      },
+      "kwh": {
+       "low": 28.97,
+       "mid": 86.9,
+       "high": 289.67
+      },
+      "co2_kg": {
+       "low": 4.34,
+       "mid": 18.51,
+       "high": 86.9
+      },
+      "cost_eur": {
+       "low": 10549.88,
+       "mid": 10549.88,
+       "high": 10549.88
+      },
+      "cost_usd": {
+       "low": 12277.05,
+       "mid": 12277.05,
+       "high": 12277.05
+      }
+     },
+     "with": {
+      "cost_chf": {
+       "low": 9754.42,
+       "mid": 9754.42,
+       "high": 9754.42
+      },
+      "kwh": {
+       "low": 28.97,
+       "mid": 86.9,
+       "high": 289.67
+      },
+      "co2_kg": {
+       "low": 4.34,
+       "mid": 18.51,
+       "high": 86.9
+      },
+      "cost_eur": {
+       "low": 10549.88,
+       "mid": 10549.88,
+       "high": 10549.88
+      },
+      "cost_usd": {
+       "low": 12277.05,
+       "mid": 12277.05,
+       "high": 12277.05
+      }
+     }
+    },
+    "server": {
+     "without": {
+      "cost_chf": {
+       "low": 4965.72,
+       "mid": 4974.22,
+       "high": 4978.99
+      },
+      "kwh": {
+       "low": 195.46,
+       "mid": 299.09,
+       "high": 515.43
+      },
+      "co2_kg": {
+       "low": 36.48,
+       "mid": 67.66,
+       "high": 151.15
+      },
+      "cost_eur": {
+       "low": 5370.67,
+       "mid": 5379.86,
+       "high": 5385.02
+      },
+      "cost_usd": {
+       "low": 6249.92,
+       "mid": 6260.62,
+       "high": 6266.62
+      }
+     },
+     "with": {
+      "cost_chf": {
+       "low": 4207.14,
+       "mid": 4214.37,
+       "high": 4218.47
+      },
+      "kwh": {
+       "low": 146.36,
+       "mid": 222.12,
+       "high": 382.46
+      },
+      "co2_kg": {
+       "low": 20.28,
+       "mid": 39.72,
+       "high": 93.98
+      },
+      "cost_eur": {
+       "low": 4550.23,
+       "mid": 4558.05,
+       "high": 4562.48
+      },
+      "cost_usd": {
+       "low": 5295.17,
+       "mid": 5304.26,
+       "high": 5309.43
+      }
+     }
+    }
+   }
+  },
+  {
+   "month": "2026-10-01",
+   "without": {
+    "cost_chf": {
+     "low": 43012.01,
+     "mid": 43060.85,
+     "high": 43100.45
+    },
+    "kwh": {
+     "low": 1366.09,
+     "mid": 2392.24,
+     "high": 4858.42
+    },
+    "co2_kg": {
+     "low": 169.46,
+     "mid": 411.49,
+     "high": 1080.66
+    },
+    "cost_eur": {
+     "low": 46519.59,
+     "mid": 46572.41,
+     "high": 46615.24
+    },
+    "cost_usd": {
+     "low": 54135.5,
+     "mid": 54196.98,
+     "high": 54246.82
+    }
+   },
+   "with": {
+    "cost_chf": {
+     "low": 39402.11,
+     "mid": 39446.65,
+     "high": 39481.8
+    },
+    "kwh": {
+     "low": 1146.82,
+     "mid": 2063.66,
+     "high": 4298.86
+    },
+    "co2_kg": {
+     "low": 89.42,
+     "mid": 281.44,
+     "high": 818.25
+    },
+    "cost_eur": {
+     "low": 42615.31,
+     "mid": 42663.47,
+     "high": 42701.49
+    },
+    "cost_usd": {
+     "low": 49592.04,
+     "mid": 49648.09,
+     "high": 49692.33
+    }
+   },
+   "by_category": {
+    "ai": {
+     "without": {
+      "cost_chf": {
+       "low": 6705.41,
+       "mid": 6710.74,
+       "high": 6718.57
+      },
+      "kwh": {
+       "low": 28.52,
+       "mid": 136.69,
+       "high": 587.05
+      },
+      "co2_kg": {
+       "low": 4.28,
+       "mid": 29.12,
+       "high": 176.11
+      },
+      "cost_eur": {
+       "low": 7252.23,
+       "mid": 7257.99,
+       "high": 7266.46
+      },
+      "cost_usd": {
+       "low": 8439.52,
+       "mid": 8446.22,
+       "high": 8456.08
+      }
+     },
+     "with": {
+      "cost_chf": {
+       "low": 6705.41,
+       "mid": 6710.74,
+       "high": 6718.57
+      },
+      "kwh": {
+       "low": 28.52,
+       "mid": 136.69,
+       "high": 587.05
+      },
+      "co2_kg": {
+       "low": 4.28,
+       "mid": 29.12,
+       "high": 176.11
+      },
+      "cost_eur": {
+       "low": 7252.23,
+       "mid": 7257.99,
+       "high": 7266.46
+      },
+      "cost_usd": {
+       "low": 8439.52,
+       "mid": 8446.22,
+       "high": 8456.08
+      }
+     }
+    },
+    "cloud": {
+     "without": {
+      "cost_chf": {
+       "low": 21437.6,
+       "mid": 21468.17,
+       "high": 21492.17
+      },
+      "kwh": {
+       "low": 1105.18,
+       "mid": 1856.92,
+       "high": 3443.89
+      },
+      "co2_kg": {
+       "low": 121.82,
+       "mid": 291.66,
+       "high": 657.0
+      },
+      "cost_eur": {
+       "low": 23185.81,
+       "mid": 23218.88,
+       "high": 23244.83
+      },
+      "cost_usd": {
+       "low": 26981.66,
+       "mid": 27020.14,
+       "high": 27050.34
+      }
+     },
+     "with": {
+      "cost_chf": {
+       "low": 18686.24,
+       "mid": 18713.95,
+       "high": 18734.26
+      },
+      "kwh": {
+       "low": 941.46,
+       "mid": 1615.44,
+       "high": 3034.83
+      },
+      "co2_kg": {
+       "low": 60.07,
+       "mid": 193.23,
+       "high": 459.3
+      },
+      "cost_eur": {
+       "low": 20210.09,
+       "mid": 20240.05,
+       "high": 20262.01
+      },
+      "cost_usd": {
+       "low": 23518.76,
+       "mid": 23553.63,
+       "high": 23579.19
+      }
+     }
+    },
+    "saas": {
+     "without": {
+      "cost_chf": {
+       "low": 9781.37,
+       "mid": 9785.61,
+       "high": 9788.51
+      },
+      "kwh": {
+       "low": 29.05,
+       "mid": 87.18,
+       "high": 290.68
+      },
+      "co2_kg": {
+       "low": 4.36,
+       "mid": 18.57,
+       "high": 87.2
+      },
+      "cost_eur": {
+       "low": 10579.03,
+       "mid": 10583.62,
+       "high": 10586.75
+      },
+      "cost_usd": {
+       "low": 12310.97,
+       "mid": 12316.3,
+       "high": 12319.95
+      }
+     },
+     "with": {
+      "cost_chf": {
+       "low": 9781.37,
+       "mid": 9785.61,
+       "high": 9788.51
+      },
+      "kwh": {
+       "low": 29.05,
+       "mid": 87.18,
+       "high": 290.68
+      },
+      "co2_kg": {
+       "low": 4.36,
+       "mid": 18.57,
+       "high": 87.2
+      },
+      "cost_eur": {
+       "low": 10579.03,
+       "mid": 10583.62,
+       "high": 10586.75
+      },
+      "cost_usd": {
+       "low": 12310.97,
+       "mid": 12316.3,
+       "high": 12319.95
+      }
+     }
+    },
+    "server": {
+     "without": {
+      "cost_chf": {
+       "low": 5087.62,
+       "mid": 5096.33,
+       "high": 5101.21
+      },
+      "kwh": {
+       "low": 203.35,
+       "mid": 311.45,
+       "high": 536.8
+      },
+      "co2_kg": {
+       "low": 39.0,
+       "mid": 72.15,
+       "high": 160.34
+      },
+      "cost_eur": {
+       "low": 5502.51,
+       "mid": 5511.93,
+       "high": 5517.2
+      },
+      "cost_usd": {
+       "low": 6403.35,
+       "mid": 6414.31,
+       "high": 6420.45
+      }
+     },
+     "with": {
+      "cost_chf": {
+       "low": 4229.09,
+       "mid": 4236.35,
+       "high": 4240.47
+      },
+      "kwh": {
+       "low": 147.78,
+       "mid": 224.35,
+       "high": 386.31
+      },
+      "co2_kg": {
+       "low": 20.71,
+       "mid": 40.53,
+       "high": 95.63
+      },
+      "cost_eur": {
+       "low": 4573.96,
+       "mid": 4581.82,
+       "high": 4586.28
+      },
+      "cost_usd": {
+       "low": 5322.79,
+       "mid": 5331.93,
+       "high": 5337.11
+      }
+     }
+    }
+   }
+  }
+ ],
+ "events": [
+  {
+   "date": "2026-07-01",
+   "resource_id": "saas-m365",
+   "label": "Microsoft 365: USD 12.50 to USD 14 (already in run-rate)",
+   "source": "data/case/README.md"
+  },
+  {
+   "date": "2026-10-01",
+   "resource_id": "dp-prod",
+   "label": "Production data platform: 20 to 24 nodes",
+   "source": "T-1261"
+  },
+  {
+   "date": "2027-01-01",
+   "resource_id": "sub-copilot",
+   "label": "Copilot Business: USD 18 to USD 21",
+   "source": "data/case/README.md"
+  }
+ ],
+ "calculations": {
+  "without": {
+   "total": {
+    "formula": "Sum of forecast category values before rounding",
+    "inputs": [],
+    "factor_ids": [
+     "energy_per_1000_tokens",
+     "energy_per_active_saas_licence_month",
+     "energy_per_gb_network",
+     "energy_per_gb_storage_day",
+     "energy_per_gpu_hour",
+     "energy_per_node_hour",
+     "energy_per_subscription_message",
+     "energy_per_vcpu_hour",
+     "grid_mix_location_based_eu",
+     "grid_mix_location_based_germany",
+     "grid_mix_location_based_ireland",
+     "grid_mix_location_based_switzerland",
+     "pue",
+     "pue_hoster"
+    ],
+    "source_files": [
+     "ai_subscriptions.csv",
+     "ai_usage.csv",
+     "aws_costs.csv",
+     "azure_costs.csv",
+     "extra/ai_invoice_monthly.csv",
+     "hoster_invoice.csv",
+     "saas_contracts.csv"
+    ],
+    "row_count": 9399,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0007",
+     "Q-0008",
+     "Q-0009",
+     "Q-0010",
+     "Q-0011",
+     "Q-0012",
+     "Q-0013",
+     "Q-0018",
+     "Q-0019",
+     "Q-0020",
+     "Q-0021",
+     "Q-0022",
+     "Q-0023",
+     "Q-0024",
+     "Q-0031",
+     "Q-0032",
+     "Q-0033",
+     "Q-0067",
+     "Q-0068",
+     "Q-0069"
+    ],
+    "note": "Historical input: fact_cost."
+   },
+   "by_category": {
+    "ai": {
+     "formula": "Recurring monthly run-rate x growth x seasonal factor x dated change",
+     "inputs": [],
+     "factor_ids": [
+      "energy_per_1000_tokens",
+      "energy_per_subscription_message",
+      "grid_mix_location_based_eu"
+     ],
+     "source_files": [
+      "ai_subscriptions.csv",
+      "ai_usage.csv",
+      "extra/ai_invoice_monthly.csv"
+     ],
+     "row_count": 7792,
+     "value_status": "derived_cross_source",
+     "issue_ids": [
+      "Q-0084",
+      "Q-0085",
+      "Q-0086",
+      "Q-0087",
+      "Q-0088",
+      "Q-0099",
+      "Q-0102",
+      "Q-0103"
+     ],
+     "note": "Historical input: fact_cost."
+    },
+    "cloud": {
+     "formula": "Recurring monthly run-rate x growth x seasonal factor x dated change",
+     "inputs": [],
+     "factor_ids": [
+      "energy_per_gb_network",
+      "energy_per_gb_storage_day",
+      "energy_per_node_hour",
+      "energy_per_vcpu_hour",
+      "grid_mix_location_based_germany",
+      "grid_mix_location_based_ireland",
+      "grid_mix_location_based_switzerland",
+      "pue",
+      "pue_hoster"
+     ],
+     "source_files": [
+      "aws_costs.csv",
+      "azure_costs.csv",
+      "hoster_invoice.csv"
+     ],
+     "row_count": 1107,
+     "value_status": "estimated",
+     "issue_ids": [
+      "Q-0007",
+      "Q-0008",
+      "Q-0009",
+      "Q-0010",
+      "Q-0012",
+      "Q-0018",
+      "Q-0019",
+      "Q-0021",
+      "Q-0022",
+      "Q-0023",
+      "Q-0031",
+      "Q-0032",
+      "Q-0033",
+      "Q-0067",
+      "Q-0068",
+      "Q-0070",
+      "Q-0071",
+      "Q-0072",
+      "Q-0074",
+      "Q-0075"
+     ],
+     "note": "Historical input: fact_cost."
+    },
+    "saas": {
+     "formula": "Recurring monthly run-rate x growth x seasonal factor x dated change",
+     "inputs": [],
+     "factor_ids": [
+      "energy_per_active_saas_licence_month",
+      "grid_mix_location_based_eu"
+     ],
+     "source_files": [
+      "saas_contracts.csv"
+     ],
+     "row_count": 158,
+     "value_status": "observed",
+     "issue_ids": [],
+     "note": "Historical input: fact_cost."
+    },
+    "server": {
+     "formula": "Recurring monthly run-rate x growth x seasonal factor x dated change",
+     "inputs": [],
+     "factor_ids": [
+      "energy_per_gpu_hour",
+      "energy_per_vcpu_hour",
+      "grid_mix_location_based_germany",
+      "grid_mix_location_based_ireland",
+      "grid_mix_location_based_switzerland",
+      "pue"
+     ],
+     "source_files": [
+      "aws_costs.csv",
+      "azure_costs.csv"
+     ],
+     "row_count": 342,
+     "value_status": "estimated",
+     "issue_ids": [
+      "Q-0011",
+      "Q-0013",
+      "Q-0020",
+      "Q-0024",
+      "Q-0069",
+      "Q-0073",
+      "Q-0078",
+      "Q-0080",
+      "Q-0104",
+      "Q-0106"
+     ],
+     "note": "Historical input: fact_cost."
+    }
+   }
+  },
+  "with": {
+   "total": {
+    "formula": "Sum of forecast category values before rounding",
+    "inputs": [],
+    "factor_ids": [
+     "energy_per_1000_tokens",
+     "energy_per_active_saas_licence_month",
+     "energy_per_gb_network",
+     "energy_per_gb_storage_day",
+     "energy_per_gpu_hour",
+     "energy_per_node_hour",
+     "energy_per_subscription_message",
+     "energy_per_vcpu_hour",
+     "grid_mix_location_based_eu",
+     "grid_mix_location_based_germany",
+     "grid_mix_location_based_ireland",
+     "grid_mix_location_based_switzerland",
+     "pue",
+     "pue_hoster"
+    ],
+    "source_files": [
+     "ai_subscriptions.csv",
+     "ai_usage.csv",
+     "aws_costs.csv",
+     "azure_costs.csv",
+     "extra/ai_invoice_monthly.csv",
+     "hoster_invoice.csv",
+     "saas_contracts.csv"
+    ],
+    "row_count": 9399,
+    "value_status": "estimated",
+    "issue_ids": [
+     "Q-0007",
+     "Q-0008",
+     "Q-0009",
+     "Q-0010",
+     "Q-0011",
+     "Q-0012",
+     "Q-0013",
+     "Q-0018",
+     "Q-0019",
+     "Q-0020",
+     "Q-0021",
+     "Q-0022",
+     "Q-0023",
+     "Q-0024",
+     "Q-0031",
+     "Q-0032",
+     "Q-0033",
+     "Q-0067",
+     "Q-0068",
+     "Q-0069"
+    ],
+    "note": "Historical input: fact_cost_optimized."
+   },
+   "by_category": {
+    "ai": {
+     "formula": "Recurring monthly run-rate x growth x seasonal factor x dated change",
+     "inputs": [],
+     "factor_ids": [
+      "energy_per_1000_tokens",
+      "energy_per_subscription_message",
+      "grid_mix_location_based_eu"
+     ],
+     "source_files": [
+      "ai_subscriptions.csv",
+      "ai_usage.csv",
+      "extra/ai_invoice_monthly.csv"
+     ],
+     "row_count": 7792,
+     "value_status": "derived_cross_source",
+     "issue_ids": [
+      "Q-0084",
+      "Q-0085",
+      "Q-0086",
+      "Q-0087",
+      "Q-0088",
+      "Q-0099",
+      "Q-0102",
+      "Q-0103"
+     ],
+     "note": "Historical input: fact_cost_optimized."
+    },
+    "cloud": {
+     "formula": "Recurring monthly run-rate x growth x seasonal factor x dated change",
+     "inputs": [],
+     "factor_ids": [
+      "energy_per_gb_network",
+      "energy_per_gb_storage_day",
+      "energy_per_node_hour",
+      "energy_per_vcpu_hour",
+      "grid_mix_location_based_ireland",
+      "grid_mix_location_based_switzerland",
+      "pue",
+      "pue_hoster"
+     ],
+     "source_files": [
+      "aws_costs.csv",
+      "azure_costs.csv",
+      "hoster_invoice.csv"
+     ],
+     "row_count": 1107,
+     "value_status": "estimated",
+     "issue_ids": [
+      "Q-0007",
+      "Q-0008",
+      "Q-0009",
+      "Q-0010",
+      "Q-0012",
+      "Q-0018",
+      "Q-0019",
+      "Q-0021",
+      "Q-0022",
+      "Q-0023",
+      "Q-0031",
+      "Q-0032",
+      "Q-0033",
+      "Q-0067",
+      "Q-0068",
+      "Q-0070",
+      "Q-0071",
+      "Q-0072",
+      "Q-0074",
+      "Q-0075"
+     ],
+     "note": "Historical input: fact_cost_optimized."
+    },
+    "saas": {
+     "formula": "Recurring monthly run-rate x growth x seasonal factor x dated change",
+     "inputs": [],
+     "factor_ids": [
+      "energy_per_active_saas_licence_month",
+      "grid_mix_location_based_eu"
+     ],
+     "source_files": [
+      "saas_contracts.csv"
+     ],
+     "row_count": 158,
+     "value_status": "observed",
+     "issue_ids": [],
+     "note": "Historical input: fact_cost_optimized."
+    },
+    "server": {
+     "formula": "Recurring monthly run-rate x growth x seasonal factor x dated change",
+     "inputs": [],
+     "factor_ids": [
+      "energy_per_gpu_hour",
+      "energy_per_vcpu_hour",
+      "grid_mix_location_based_germany",
+      "grid_mix_location_based_ireland",
+      "grid_mix_location_based_switzerland",
+      "pue"
+     ],
+     "source_files": [
+      "aws_costs.csv",
+      "azure_costs.csv"
+     ],
+     "row_count": 342,
+     "value_status": "estimated",
+     "issue_ids": [
+      "Q-0011",
+      "Q-0013",
+      "Q-0020",
+      "Q-0024",
+      "Q-0069",
+      "Q-0073",
+      "Q-0078",
+      "Q-0080",
+      "Q-0104",
+      "Q-0106"
+     ],
+     "note": "Historical input: fact_cost_optimized."
+    }
+   }
+  }
+ },
+ "assumptions": [
+  {
+   "id": "run_rate",
+   "source": "fact_cost and fact_cost_optimized (if provided)",
+   "method": "Each scenario uses its own last three complete recurring months; M365 and Copilot use July-August post-change rates."
+  },
+  {
+   "id": "seat_growth",
+   "source": "extra/headcount.csv",
+   "unit": "percent/year",
+   "value": {
+    "low": 3.37,
+    "mid": 3.91,
+    "high": 4.27
+   },
+   "method": "25th/50th/75th percentiles of monthly year-over-year FTE growth; scaled together if any exceed +/-15%."
+  },
+  {
+   "id": "token_growth",
+   "source": "ai_usage.csv",
+   "unit": "percent/year",
+   "value": {
+    "low": 25.64,
+    "mid": 27.23,
+    "high": 30.0
+   },
+   "method": "25th/50th/75th percentiles of monthly year-over-year token growth; scaled together if any exceed +/-30% for a multi-year projection."
+  },
+  {
+   "id": "seasonality_without",
+   "source": "fact_cost (gpu-ml)",
+   "unit": "multiplier",
+   "method": "Positive GPU kWh calendar-month medians normalized by their mean, limited to 0.9-1.1. Other workloads are flat apart from growth and known changes.",
+   "by_month": {
+    "1": {
+     "low": 1.0759,
+     "mid": 1.0759,
+     "high": 1.0759
+    },
+    "2": {
+     "low": 0.9,
+     "mid": 0.9,
+     "high": 0.9
+    },
+    "3": {
+     "low": 1.0019,
+     "mid": 1.0019,
+     "high": 1.0019
+    },
+    "4": {
+     "low": 1.0642,
+     "mid": 1.0642,
+     "high": 1.0642
+    },
+    "5": {
+     "low": 0.95,
+     "mid": 0.95,
+     "high": 0.95
+    },
+    "6": {
+     "low": 0.9646,
+     "mid": 0.9646,
+     "high": 0.9646
+    },
+    "7": {
+     "low": 1.1,
+     "mid": 1.1,
+     "high": 1.1
+    },
+    "8": {
+     "low": 0.9534,
+     "mid": 0.9534,
+     "high": 0.9534
+    },
+    "9": {
+     "low": 0.9719,
+     "mid": 0.9719,
+     "high": 0.9719
+    },
+    "10": {
+     "low": 1.1,
+     "mid": 1.1,
+     "high": 1.1
+    },
+    "11": {
+     "low": 0.9122,
+     "mid": 0.9122,
+     "high": 0.9122
+    },
+    "12": {
+     "low": 1.038,
+     "mid": 1.038,
+     "high": 1.038
+    }
+   }
+  },
+  {
+   "id": "seasonality_with",
+   "source": "fact_cost_optimized (gpu-ml)",
+   "unit": "multiplier",
+   "method": "Positive GPU kWh calendar-month medians normalized by their mean, limited to 0.9-1.1. Other workloads are flat apart from growth and known changes.",
+   "by_month": {
+    "1": {
+     "low": 1.0759,
+     "mid": 1.0759,
+     "high": 1.0759
+    },
+    "2": {
+     "low": 0.9,
+     "mid": 0.9,
+     "high": 0.9
+    },
+    "3": {
+     "low": 1.0019,
+     "mid": 1.0019,
+     "high": 1.0019
+    },
+    "4": {
+     "low": 1.0642,
+     "mid": 1.0642,
+     "high": 1.0642
+    },
+    "5": {
+     "low": 0.95,
+     "mid": 0.95,
+     "high": 0.95
+    },
+    "6": {
+     "low": 0.9646,
+     "mid": 0.9646,
+     "high": 0.9646
+    },
+    "7": {
+     "low": 1.1,
+     "mid": 1.1,
+     "high": 1.1
+    },
+    "8": {
+     "low": 0.9534,
+     "mid": 0.9534,
+     "high": 0.9534
+    },
+    "9": {
+     "low": 0.9719,
+     "mid": 0.9719,
+     "high": 0.9719
+    },
+    "10": {
+     "low": 1.1,
+     "mid": 1.1,
+     "high": 1.1
+    },
+    "11": {
+     "low": 0.9122,
+     "mid": 0.9122,
+     "high": 0.9122
+    },
+    "12": {
+     "low": 1.038,
+     "mid": 1.038,
+     "high": 1.038
+    }
+   }
+  },
+  {
+   "id": "grid",
+   "source": "pipeline/energy/factors.yaml",
+   "unit": "percent/year",
+   "value": {
+    "low": -3.0,
+    "mid": 0.0,
+    "high": 0.0
+   },
+   "method": "Illustrative DE/IE decarbonisation in the low case only; all other factors held fixed."
+  },
+  {
+   "id": "fx_eur",
+   "source": "exchange_rates.csv",
+   "unit": "CHF/EUR",
+   "value": {
+    "low": 0.9246,
+    "mid": 0.9246,
+    "high": 0.9246
+   },
+   "method": "Fixed average of the baseline-period monthly rates."
+  },
+  {
+   "id": "fx_usd",
+   "source": "exchange_rates.csv",
+   "unit": "CHF/USD",
+   "value": {
+    "low": 0.794525,
+    "mid": 0.794525,
+    "high": 0.794525
+   },
+   "method": "Fixed average of the baseline-period monthly rates."
+  }
+ ],
+ "optimized_history": {
+  "status": "partial",
+  "applied_measure_ids": [
+   "M-01",
+   "M-02"
+  ],
+  "requires_confirmation": [
+   "M-01"
+  ],
+  "skipped": [
+   {
+    "id": "M-03",
+    "reason": "Unsupported scope: srv:poc-ki-2024"
+   },
+   {
+    "id": "M-04",
+    "reason": "Unsupported scope: lic:Accounting software"
+   },
+   {
+    "id": "M-05",
+    "reason": "Unsupported scope: ai:ai-assistant:Summarise:large"
+   },
+   {
+    "id": "M-06",
+    "reason": "Unsupported scope: ai:ai-marketing:Classify:large"
+   }
+  ]
+ }
+}

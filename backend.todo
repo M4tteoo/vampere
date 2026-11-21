@@ -286,6 +286,8 @@ Steps 5–8 · Advisor LLM (PIVOT 21.11: l'LLM ragiona e progetta, il sistema fo
     pipeline/harmonize/reconcile.py: fattura AI vs gateway · report del fornitore vs fatture · nodi piattaforma vs fatturazione · inventario vs metriche · 6 controlli di coerenza delle fonti extra
 
 Step 9 · Mostrare ed esportare:
+  ✔ Storico ottimizzato per il forecast @bonus
+    Fatto: pipeline/bonus/optimized_history.py dopo l'export delle misure; replica gli effetti res: del pacchetto in fact_cost_optimized senza modificare fact_cost. Misure non riproducibili dichiarate in optimized_history.json.
   ✔ Export JSON per il frontend (secondo il contratto) @must @p1 @done(26-11-21)
     Da fare: summary, entities, timeseries, findings, measures, limits, quality, factors, fx (vedi frontend-3d.todo, «Contratto dati»)
       - formato: contract/types.ts. Ogni valore è un intervallo {low, mid, high}; i costi escono già in cost_chf / cost_eur / cost_usd (convertiti mese per mese; i risparmi ai tassi medi di baseline) → il frontend non converte mai; fx.json serve solo ai pannelli «calcolo»
