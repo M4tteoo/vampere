@@ -15,6 +15,10 @@ git submodule update --init
 ```bash
 uv venv -p 3.13 .venv && uv pip install -p .venv -r requirements.txt
 .venv/bin/python -m pipeline.run
+# Swiss production mix instead of consumption mix, into its own folder (B2)
+.venv/bin/python -m pipeline.run --scenario ch_production --out output/ch_production
+# run one bonus module against the last run, without the 28 connectors (~2 s)
+.venv/bin/python -m pipeline.bonus.dev <module>
 ```
 
 Reads all 28 exports and writes `output/greenops.duckdb` (harmonized tables), `output/quality.json` (Intake screen: everything fixed, estimated or flagged), `output/fx.json` (currency selector), `output/factors.json` (energy and CO₂ factors with low/mid/high and sources), the scene files `output/summary.json`, `output/entities.json`, `output/timeseries.json` (format: `contract/`) and the filled submission table `output/submission/template_baseline_and_assumptions.csv`.

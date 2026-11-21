@@ -10,5 +10,5 @@ dist/
 .vercel/
 
 # pipeline outputs (regenerate with: python -m pipeline.run)
-output/*.duckdb
-output/*.duckdb.wal
+output/**/*.duckdb
+output/**/*.duckdb.wal

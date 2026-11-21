@@ -336,3 +336,24 @@ export interface FxFile {
   baseline_avg: Record<string, number>;                 // "USD_CHF": 0.7945
   monthly: Record<ISODate, Record<string, number>>;     // "2026-08-01": { "USD_CHF": 0.8076, … }
 }
+
+// =================================================================== BONUS
+// One block per bonus file (see bonus-plan.md). Each owner adds the type of
+// their file here, plus a sample in contract/examples/, BEFORE building it, so
+// the frontend can work on the sample in parallel.
+//   forecast.json    A2 · Forecast            (track 1)
+//   market.json      A3 · Market-based CO₂    (track 1) · also Metrics.co2_kg_market
+//   scenarios.json   B2 · Swiss mix switch    (track 1) · full file set in output/ch_production/
+//   montecarlo.json  B1 · Monte Carlo         (track 1)
+//   clusters.json    A4 · Clustering          (track 2)
+//   jobs.json        A5 · Carbon-aware        (track 2)
+//   chat API         A1 · Assistant           (track 2) · ChatRequest / ChatResponse
+
+// ------------------------------------------------ bonus/candidates.json
+/** Findings / measures proposed by bonus modules to the Step 5–6 owners.
+ *  NOT read by the frontend: the owners merge what they accept into
+ *  findings.json / measures.json. */
+export interface CandidatesFile {
+  meta: Meta;
+  by_module: Record<string, { findings: Finding[]; measures: Measure[] }>; // key: "clusters", "carbon_aware", …
+}

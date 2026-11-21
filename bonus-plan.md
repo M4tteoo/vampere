@@ -29,7 +29,22 @@ Two people build the bonus features while the rest of the team works on the UI a
 
 ## 0 · Shared foundation (first, one person, before splitting)
 
-This is small, but both tracks need it, so do it together first.
+**Status: done.** In practice:
+
+- New module: create `pipeline/bonus/<name>.py` with `run(ctx)` (and/or `after_energy(ctx)`), then add `<name>` to `bonus.enabled` in `pipeline/config.yaml`.
+- Iterate: `.venv/bin/python -m pipeline.bonus.dev <name>`. It loads the last run from DuckDB in about 2 s and raises errors. The full run (`python -m pipeline.run`) takes about 10 s and skips a failing module with a loud message (unless `bonus.fail_fast: true`).
+- Helpers in `pipeline/bonus/common.py`:
+  - `write_json`
+  - `write_table` (DuckDB)
+  - `write_candidates`
+  - `fill_baseline_row` / `patch_template`
+  - `read_output_or_example` (real `measures.json` or the contract mock)
+  - `rng`
+  - re-exported `metrics` / `Calc`
+- B2 flags already exist: `python -m pipeline.run --scenario ch_production --out output/ch_production`.
+- Contract: a `BONUS` section at the end of `contract/types.ts` (add your file's type there) and the `CandidatesFile` type.
+
+Original design notes:
 
 - `pipeline/bonus/__init__.py`: a registry with two hook points:
   - `after_energy(ctx)`: runs right after `energy.compute` (used only by A3, which adds columns to `fact_cost`)

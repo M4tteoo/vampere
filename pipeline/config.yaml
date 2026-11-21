@@ -13,6 +13,13 @@ baseline:
 # Swiss grid mix scenario of the exported numbers (B2): ch_consumption | ch_production
 scenario: ch_consumption
 
+# Bonus modules (pipeline/bonus/<name>.py, see bonus-plan.md), run in this order.
+# Add a module here once its file exists, e.g. [market, scenarios, clusters, forecast,
+# montecarlo, carbon_aware]. A failing module is reported and skipped unless fail_fast.
+bonus:
+  enabled: []
+  fail_fast: false
+
 handover:
   # Data gaps / source contradictions whose CHF impact exceeds this share of
   # their category's baseline cost are handed to a human instead of being
