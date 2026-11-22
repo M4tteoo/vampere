@@ -18,12 +18,15 @@ const STEPS: { at: [number, number]; title: string }[] = [
   { at: [5.4, SCAN_S], title: 'Extruding to 3D' },
 ]
 
+/** Margine in alto: sotto il logo (header trasparente durante l'intro). Pianta e riquadro a destra partono da qui, allineati. */
+const TOP = 96
+
 function fitRect(w: number, h: number): PaperRect {
   const aw = w - LOG_W - 96
-  const ah = h - 96
+  const ah = h - TOP - 48
   const width = Math.min(aw, ah * ASPECT)
   const height = width / ASPECT
-  return { left: 48 + (aw - width) / 2, top: 48 + (ah - height) / 2, width, height }
+  return { left: 48 + (aw - width) / 2, top: TOP, width, height }
 }
 
 /** Intro scenica «planimetria → gemello 3D». La pianta è ricavata dal modello (web/scripts/make-floorplan.py). */
@@ -214,7 +217,7 @@ function RoomsOverlay({ meta, t, fade }: { meta: BlueprintMeta; t: number; fade:
 function Log({ t, fileName }: { t: number; fileName: string | null }) {
   const progress = Math.min(1, t / SCAN_S)
   return (
-    <aside className="pill-shadow absolute top-12 right-12 flex flex-col rounded-[var(--radius-lg)] bg-white p-6" style={{ width: LOG_W - 48 }}>
+    <aside className="pill-shadow absolute right-12 flex flex-col rounded-[var(--radius-lg)] bg-white p-6" style={{ width: LOG_W - 48, top: TOP }}>
       <p className="text-[12px] font-semibold tracking-[0.12em] text-primary uppercase">Reading floor plan</p>
       <p className="mt-1 truncate text-[15px] font-semibold text-ink" title={fileName ?? ''}>
         {fileName}
