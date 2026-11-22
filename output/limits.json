@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T19:40:54+01:00",
+  "generated_at": "2026-11-22T01:18:00+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -12,7 +12,7 @@
   {
    "id": "L-01",
    "type": "window",
-   "title": "Test environment must remain continuously available during March 2026 acceptance testing and change freeze.",
+   "title": "Test environment had to remain continuously available during March 2026 acceptance testing and release freeze.",
    "entity_ids": [
     "res:vm-test"
    ],
@@ -35,7 +35,7 @@
   {
    "id": "L-02",
    "type": "block",
-   "title": "Emergency fallback server must remain running at all times per management requirement.",
+   "title": "Disaster recovery fallback server must keep running even when idle, per management requirement.",
    "entity_ids": [
     "srv:dr-failover"
    ],
@@ -48,7 +48,7 @@
    },
    "quote": "Disaster recovery server: The server dr-failover is the emergency fallback environment. It must run, even if it is never under load. Requirement from management.",
    "quote_risk": "ok",
-   "constraint_id": "C-05"
+   "constraint_id": "C-06"
   },
   {
    "id": "L-03",
@@ -66,12 +66,12 @@
    },
    "quote": "Delete backup archive: Request to delete the backup archive to save costs. Rejected because of the retention obligation.",
    "quote_risk": "ok",
-   "constraint_id": "C-07"
+   "constraint_id": "C-09"
   },
   {
    "id": "L-04",
    "type": "window",
-   "title": "Development cluster required continuously on days 1–3 of each quarter for training; may pause outside that window.",
+   "title": "Development cluster must be available continuously on the first three days of each quarter for model training.",
    "entity_ids": [
     "res:dp-dev"
    ],
@@ -101,7 +101,7 @@
    },
    "quote": "Quarterly model training set up: Model training runs on the first three days of January, April, July and October and needs the cluster continuously. After that it can pause, as long as it starts automatically at the start of the quarter.",
    "quote_risk": "ok",
-   "constraint_id": "C-08"
+   "constraint_id": "C-10"
   },
   {
    "id": "L-05",
@@ -110,7 +110,7 @@
    "entity_ids": [
     "res:dp-prod"
    ],
-   "period_text": "last 3 working days of every month from 00:00 until 04:00",
+   "period_text": "last 3 working days of every month until 04:00",
    "occurrences": [
     {
      "start": "2026-09-28T00:00:00+02:00",
@@ -172,7 +172,7 @@
    },
    "quote": "Finance closing work: The finance department needs the production platform on the last three working days of the month until about 04:00.",
    "quote_risk": "ok",
-   "constraint_id": "C-10"
+   "constraint_id": "C-12"
   },
   {
    "id": "L-06",
@@ -190,12 +190,12 @@
    },
    "quote": "Backup retention obligation: Backups must be kept for 10 years for legal reasons. Do not delete, even if they are hardly accessed.",
    "quote_risk": "ok",
-   "constraint_id": "C-11"
+   "constraint_id": "C-13"
   },
   {
    "id": "L-07",
    "type": "block",
-   "title": "Legacy receivables report must not be switched off because internal audit needs it in the closing month.",
+   "title": "Legacy receivables report is needed for audit in the closing month and must not be switched off.",
    "entity_ids": [
     "res:pbi-kap"
    ],
@@ -208,7 +208,7 @@
    },
    "quote": "Legacy report receivables: audit: Internal audit needs the report in the closing month. Otherwise hardly accessed, but do not switch off.",
    "quote_risk": "ok",
-   "constraint_id": "C-12"
+   "constraint_id": "C-14"
   },
   {
    "id": "L-08",
@@ -226,7 +226,7 @@
    },
    "quote": null,
    "quote_risk": "unchecked",
-   "constraint_id": "C-15"
+   "constraint_id": "C-16"
   },
   {
    "id": "L-09",
@@ -273,7 +273,7 @@
    },
    "quote": null,
    "quote_risk": "unchecked",
-   "constraint_id": "C-16"
+   "constraint_id": "C-17"
   },
   {
    "id": "L-10",
@@ -320,7 +320,7 @@
    },
    "quote": null,
    "quote_risk": "unchecked",
-   "constraint_id": "C-17"
+   "constraint_id": "C-18"
   },
   {
    "id": "L-11",
@@ -338,7 +338,7 @@
    },
    "quote": null,
    "quote_risk": "unchecked",
-   "constraint_id": "C-18"
+   "constraint_id": "C-19"
   },
   {
    "id": "L-12",
@@ -356,7 +356,7 @@
    },
    "quote": null,
    "quote_risk": "unchecked",
-   "constraint_id": "C-19"
+   "constraint_id": "C-20"
   },
   {
    "id": "L-13",
@@ -403,7 +403,7 @@
    },
    "quote": null,
    "quote_risk": "unchecked",
-   "constraint_id": "C-20"
+   "constraint_id": "C-21"
   },
   {
    "id": "L-14",

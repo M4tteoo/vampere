@@ -226,6 +226,15 @@ export type MeasureType =
   | "schedule" | "rightsize" | "decommission" | "licence"
   | "relocate" | "model_switch" | "pipeline" | "storage" | "other";
 
+/** Why a measure goes to a person (case: «hand over to a human when in doubt; nothing critical may be disrupted»).
+ *  critical = production / critical resource · protected = a ticket or protection window covers it ·
+ *  data_gap = the data can't answer a needed question · irreversible = can't be undone · ai_idea = an AI agent's own idea */
+export type HandoverTriggerId = "critical" | "protected" | "data_gap" | "irreversible" | "ai_idea";
+export interface HandoverTrigger {
+  id: HandoverTriggerId;
+  label: string;                // "Critical", "Protected", "Data can't answer", "Can't be undone", "AI idea"
+}
+
 export interface Measure {
   id: string;                   // "M-01"
   title: string;
@@ -240,6 +249,7 @@ export interface Measure {
   status: MeasureStatus;
   owner_role: string;           // who decides ("Head of IT")
   reason: string;               // why human / blocked; empty for ok
+  triggers: HandoverTrigger[];  // why a person decides, as short labels for chips (empty for ok); details in reason
   start_date: ISODate;          // when savings actually start (notice periods)
   in_package: boolean;          // chosen by the optimizer
   calc: Calc;

@@ -26,6 +26,32 @@ def toolbox(ctx, facts: dict, constraints: list[dict]) -> dict:
     return Toolbox(facts, constraints, str(ctx.config["advisor"]["data_as_of"])).run()
 
 
+def resource_caps(calc: Calculator, candidates: list[dict]):
+    """The physical maximum the code computed for each resource (largest reduction cap of its toolbox candidates,
+    as a share of the whole resource). An agent's own idea may not claim more of that resource than this, and it
+    inherits how the removed share is valued (e.g. removed idle hours at idle power). Resources without a computed
+    reduction (only relocations, or no candidate) keep the generic cap."""
+    caps: dict[str, dict] = {}
+    for c in candidates:
+        if c["area"] == "edge":
+            continue
+        for e in c["effects"]:
+            if e["scope"] not in calc.scopes:
+                continue
+            k = calc.share_of_resource(e["scope"])
+            r, cost = calc.resource_of(e["scope"]), e["cost_cap"] * k
+            if cost > caps.get(r, {}).get("cost", 0):
+                caps[r] = {"cost": cost, "energy": e["energy_cap"] * k, "removes": e.get("removes"), "from": c["key"]}
+
+    def cap_of(scope: str) -> dict | None:
+        cap = caps.get(calc.resource_of(scope)) if scope in calc.scopes else None
+        k = calc.share_of_resource(scope) if cap else 0
+        if not cap or k <= 0:
+            return None
+        return {"cost": min(cap["cost"] / k, 1.0), "energy": min(cap["energy"] / k, 1.0), "removes": cap["removes"], "from": cap["from"]}
+    return cap_of
+
+
 def evaluate(calc: Calculator, measures: list[dict]) -> tuple[list[dict], list[str]]:
     problems, out = [], []
     for m in measures:
@@ -40,10 +66,12 @@ def assemble(ctx, facts: dict, constraints: list[dict], reviews: dict) -> dict:
     cfg = ctx.config["advisor"]
     calc = Calculator(ctx, facts, constraints)
     tb = toolbox(ctx, facts, constraints)
-    merged, notes = merge(tb["candidates"], reviews, None)
+    merged, notes = merge(tb["candidates"], reviews, resource_caps(calc, tb["candidates"]))
     # old «plan» schema expected by apply.build
     measures = [{**m, "type": LEVER_TYPE.get(m["lever"], "other"), "finding_keys": [m["finding"]] if m.get("finding") else [],
-                 "effort_reasoning": "", "status_reason": "", "respects_constraints": m.get("respects_constraints", [])}
+                 "effort_reasoning": "",
+                 "status_reason": (m.get("human_reason") or "") if m["proposed_status"] == "human" else "",
+                 "respects_constraints": m.get("respects_constraints", [])}
                 for m in merged]
     evaluated, problems = evaluate(calc, measures)
     baseline = {"cost_chf": calc.tot["cost_chf"], **{f"co2_kg_{l}": calc.tot[f"co2_kg_{l}"] for l in ("low", "mid", "high")}}

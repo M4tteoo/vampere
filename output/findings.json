@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T19:40:54+01:00",
+  "generated_at": "2026-11-22T01:17:59+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -813,9 +813,8 @@
   {
    "id": "F-08",
    "kind": "waste",
-   "title": "11 test/QA servers run 24/7 but are mostly idle",
+   "title": "10 test/QA servers run 24/7 but are mostly idle",
    "entity_ids": [
-    "srv:gpu-ml-01",
     "srv:qa-regression-02",
     "srv:test-01",
     "srv:test-02",
@@ -919,15 +918,6 @@
      "fact_id": "srv:uat-shop.weeks_under_10pct_cpu"
     },
     {
-     "statement": "gpu-ml-01 share of weeks under 10 % CPU",
-     "value": 1.0,
-     "unit": "share",
-     "source_files": [
-      "server_metrics_weekly.csv"
-     ],
-     "fact_id": "srv:gpu-ml-01.weeks_under_10pct_cpu"
-    },
-    {
      "statement": "test-01 busiest week CPU",
      "value": 0.745,
      "unit": "share",
@@ -1016,43 +1006,34 @@
       "server_metrics_weekly.csv"
      ],
      "fact_id": "srv:uat-shop.cpu_peak_week"
-    },
-    {
-     "statement": "gpu-ml-01 busiest week CPU",
-     "value": 0.063,
-     "unit": "share",
-     "source_files": [
-      "server_metrics_weekly.csv"
-     ],
-     "fact_id": "srv:gpu-ml-01.cpu_peak_week"
     }
    ],
    "severity": "high",
    "impact": {
     "cost_chf": {
-     "low": 51460.28,
-     "mid": 51599.16,
-     "high": 51670.33
+     "low": 45245.76,
+     "mid": 45375.76,
+     "high": 45438.63
     },
     "cost_eur": {
-     "low": 55657.67,
-     "mid": 55807.88,
-     "high": 55884.85
+     "low": 48936.32,
+     "mid": 49076.93,
+     "high": 49144.92
     },
     "cost_usd": {
-     "low": 64766.64,
-     "mid": 64941.43,
-     "high": 65031.0
+     "low": 56945.21,
+     "mid": 57108.84,
+     "high": 57187.96
     },
     "kwh": {
-     "low": 1681.1,
-     "mid": 2556.7,
-     "high": 4383.5
+     "low": 1358.5,
+     "mid": 2053.0,
+     "high": 3515.0
     },
     "co2_kg": {
-     "low": 415.1,
-     "mid": 692.2,
-     "high": 1760.6
+     "low": 308.7,
+     "mid": 509.3,
+     "high": 1387.2
     }
    },
    "measure_ids": [
@@ -1064,24 +1045,18 @@
     "formula": "impact = savings of the linked measures",
     "inputs": [],
     "factor_ids": [
-     "energy_per_gpu_hour",
      "energy_per_vcpu_hour",
-     "grid_mix_location_based_germany",
      "grid_mix_location_based_ireland",
      "pue"
     ],
     "source_files": [
-     "aws_costs.csv",
-     "azure_costs.csv"
+     "aws_costs.csv"
     ],
-    "row_count": 730,
+    "row_count": 365,
     "value_status": "estimated",
     "issue_ids": [
-     "Q-0011",
      "Q-0024",
      "Q-0073",
-     "Q-0078",
-     "Q-0104",
      "Q-0106"
     ],
     "note": "Test servers are needed during working hours and test campaigns, not at night and weekends."
@@ -2981,34 +2956,36 @@
    "severity": "medium",
    "impact": {
     "cost_chf": {
-     "low": 8164.08,
-     "mid": 8164.08,
-     "high": 8164.08
+     "low": 3428.91,
+     "mid": 3428.91,
+     "high": 3428.91
     },
     "cost_eur": {
-     "low": 8829.3,
-     "mid": 8829.3,
-     "high": 8829.3
+     "low": 3708.31,
+     "mid": 3708.31,
+     "high": 3708.31
     },
     "cost_usd": {
-     "low": 10267.36,
-     "mid": 10267.36,
-     "high": 10267.36
+     "low": 4312.29,
+     "mid": 4312.29,
+     "high": 4312.29
     },
     "kwh": {
-     "low": 43.5,
-     "mid": 217.5,
-     "high": 870.2
+     "low": 19.6,
+     "mid": 97.9,
+     "high": 391.6
     },
     "co2_kg": {
-     "low": 6.5,
-     "mid": 46.3,
-     "high": 261.1
+     "low": 2.9,
+     "mid": 20.9,
+     "high": 117.5
     }
    },
-   "measure_ids": [],
+   "measure_ids": [
+    "M-29"
+   ],
    "calc": {
-    "formula": "impact = baseline of the scopes",
+    "formula": "impact = savings of the linked measures",
     "inputs": [],
     "factor_ids": [
      "energy_per_1000_tokens",
@@ -3103,7 +3080,7 @@
     }
    },
    "measure_ids": [
-    "M-29"
+    "M-30"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -3191,8 +3168,8 @@
     }
    },
    "measure_ids": [
-    "M-30",
-    "M-31"
+    "M-31",
+    "M-32"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -3262,7 +3239,7 @@
     }
    },
    "measure_ids": [
-    "M-32"
+    "M-33"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",
@@ -3340,7 +3317,7 @@
     }
    },
    "measure_ids": [
-    "M-33"
+    "M-34"
    ],
    "calc": {
     "formula": "impact = savings of the linked measures",

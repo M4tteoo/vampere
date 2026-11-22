@@ -1,7 +1,7 @@
 {
   "meta": {
     "schema_version": "0.1",
-    "generated_at": "2026-11-21T19:40:54+01:00",
+    "generated_at": "2026-11-22T01:18:00+01:00",
     "baseline": {
       "start": "2025-09-01",
       "end": "2026-08-31"
@@ -120,7 +120,7 @@
         "it_tickets.csv",
         "pipeline/energy/factors.yaml"
       ],
-      "answer": "Today gpu-ml-01 (Frankfurt) runs 168 of 168 h a week at 9.2 % average GPU utilisation. Measure M-04 «Use GPU only on demand»: effort 1.5 person-days (CHF 1,650); savings per year 9,471 CHF (range 9,457–9,483), 766 kWh (range 491–1,322) and 278.2 kg CO2 (range 162.0–568.3) location-based. Status: ok (decides: Head of Consulting).",
+      "answer": "Today gpu-ml-01 (Frankfurt) runs 168 of 168 h a week at 9.2 % average GPU utilisation. Measure M-04 «Run gpu-ml on demand»: effort 1.5 person-days (CHF 1,650); savings per year 9,471 CHF (range 9,457–9,483), 766 kWh (range 491–1,322) and 278.2 kg CO2 (range 162.0–568.3) location-based. Status: ok (decides: Head of Consulting).",
       "measure_id": "M-04",
       "effort_days": 1.5,
       "effort_chf": 1650.0,
@@ -206,7 +206,7 @@
           "id": "L-05",
           "type": "window",
           "title": "Production platform must be available on the last three working days of each month until 04:00 for finance closing.",
-          "period": "last 3 working days of every month from 00:00 until 04:00",
+          "period": "last 3 working days of every month until 04:00",
           "source": {
             "kind": "ticket",
             "ref": "T-1029"

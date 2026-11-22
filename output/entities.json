@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T19:40:53+01:00",
+  "generated_at": "2026-11-22T01:17:58+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -1162,6 +1162,7 @@
     "M-26",
     "M-27",
     "M-28",
+    "M-37",
     "M-38"
    ],
    "limit_ids": [],
@@ -1350,7 +1351,9 @@
    "finding_ids": [
     "F-27"
    ],
-   "measure_ids": [],
+   "measure_ids": [
+    "M-29"
+   ],
    "limit_ids": [],
    "calc": {
     "formula": "output-equivalent tokens × Wh per 1000 (fully loaded, no extra PUE); cost as billed",
@@ -1483,16 +1486,15 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
     "F-30"
    ],
    "measure_ids": [
-    "M-32"
+    "M-33"
    ],
    "limit_ids": [],
    "calc": {
@@ -1557,9 +1559,8 @@
    },
    "utilisation": null,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste",
     "driver"
    ],
@@ -1569,8 +1570,8 @@
    ],
    "measure_ids": [
     "M-11",
-    "M-30",
-    "M-31"
+    "M-31",
+    "M-32"
    ],
    "limit_ids": [],
    "calc": {
@@ -1705,9 +1706,8 @@
    },
    "utilisation": 0.087,
    "idle_ratio": 0.913,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "contradiction",
     "waste",
     "driver"
@@ -1884,7 +1884,7 @@
     "F-28"
    ],
    "measure_ids": [
-    "M-29"
+    "M-30"
    ],
    "limit_ids": [],
    "calc": {
@@ -1950,9 +1950,8 @@
    },
    "utilisation": 0.092,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste",
     "driver"
    ],
@@ -1962,8 +1961,7 @@
    ],
    "measure_ids": [
     "M-04",
-    "M-05",
-    "M-37"
+    "M-05"
    ],
    "limit_ids": [],
    "calc": {
@@ -2040,7 +2038,7 @@
     "F-31"
    ],
    "measure_ids": [
-    "M-33"
+    "M-34"
    ],
    "limit_ids": [],
    "calc": {
@@ -2615,7 +2613,7 @@
    ],
    "measure_ids": [
     "M-12",
-    "M-35"
+    "M-36"
    ],
    "limit_ids": [
     "L-03",
@@ -4270,9 +4268,8 @@
    },
    "utilisation": 0.102,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -4359,9 +4356,8 @@
    },
    "utilisation": 0.124,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -4448,9 +4444,8 @@
    },
    "utilisation": 0.104,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -4537,9 +4532,8 @@
    },
    "utilisation": 0.121,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -4626,9 +4620,8 @@
    },
    "utilisation": 0.124,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -4715,9 +4708,8 @@
    },
    "utilisation": 0.138,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -4804,9 +4796,8 @@
    },
    "utilisation": 0.144,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -4893,9 +4884,8 @@
    },
    "utilisation": 0.144,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -5064,9 +5054,8 @@
    },
    "utilisation": 0.156,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -5235,9 +5224,8 @@
    },
    "utilisation": 0.144,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -5330,7 +5318,7 @@
    ],
    "finding_ids": [],
    "measure_ids": [
-    "M-34"
+    "M-35"
    ],
    "limit_ids": [
     "L-02"
@@ -7623,18 +7611,10 @@
    },
    "utilisation": 0.092,
    "idle_ratio": null,
-   "state": "handover",
-   "flags": [
-    "handover",
-    "waste"
-   ],
-   "finding_ids": [
-    "F-08"
-   ],
-   "measure_ids": [
-    "M-07",
-    "M-36"
-   ],
+   "state": "normal",
+   "flags": [],
+   "finding_ids": [],
+   "measure_ids": [],
    "limit_ids": [],
    "calc": {
     "formula": "share of res:gpu-ml by vCPU × uptime hours (100.0%)",
@@ -7781,9 +7761,8 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -7856,9 +7835,8 @@
    },
    "utilisation": 0.588,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -7931,9 +7909,8 @@
    },
    "utilisation": 0.706,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8006,9 +7983,8 @@
    },
    "utilisation": 0.7,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8081,9 +8057,8 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8156,9 +8131,8 @@
    },
    "utilisation": 0.714,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8231,9 +8205,8 @@
    },
    "utilisation": 0.8,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8306,9 +8279,8 @@
    },
    "utilisation": 0.7,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8381,9 +8353,8 @@
    },
    "utilisation": 0.706,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8456,9 +8427,8 @@
    },
    "utilisation": 0.0,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8531,9 +8501,8 @@
    },
    "utilisation": 0.143,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8606,9 +8575,8 @@
    },
    "utilisation": 0.083,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8885,9 +8853,8 @@
    },
    "utilisation": 0.375,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -8960,9 +8927,8 @@
    },
    "utilisation": 0.3,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -9035,9 +9001,8 @@
    },
    "utilisation": 0.294,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -9314,9 +9279,8 @@
    },
    "utilisation": 0.5,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -9389,9 +9353,8 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -9464,9 +9427,8 @@
    },
    "utilisation": 0.5,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -10015,9 +9977,8 @@
    },
    "utilisation": 0.639,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -10090,9 +10051,8 @@
    },
    "utilisation": 0.455,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -10165,9 +10125,8 @@
    },
    "utilisation": 0.4,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -10240,9 +10199,8 @@
    },
    "utilisation": 0.643,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -10315,9 +10273,8 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -10390,9 +10347,8 @@
    },
    "utilisation": 0.636,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -10465,9 +10421,8 @@
    },
    "utilisation": 0.611,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -10540,9 +10495,8 @@
    },
    "utilisation": 0.471,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -11091,9 +11045,8 @@
    },
    "utilisation": 0.529,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -11166,9 +11119,8 @@
    },
    "utilisation": 0.571,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -11241,9 +11193,8 @@
    },
    "utilisation": 0.588,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -11316,9 +11267,8 @@
    },
    "utilisation": 0.571,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -11391,9 +11341,8 @@
    },
    "utilisation": 0.1,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -11466,9 +11415,8 @@
    },
    "utilisation": 0.676,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -11541,9 +11489,8 @@
    },
    "utilisation": 0.643,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -12092,9 +12039,8 @@
    },
    "utilisation": 0.529,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -12167,9 +12113,8 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -12242,9 +12187,8 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -12317,9 +12261,8 @@
    },
    "utilisation": 0.571,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -12392,9 +12335,8 @@
    },
    "utilisation": 0.6,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -12467,9 +12409,8 @@
    },
    "utilisation": 0.5,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
@@ -12542,9 +12483,8 @@
    },
    "utilisation": 0.588,
    "idle_ratio": null,
-   "state": "handover",
+   "state": "waste",
    "flags": [
-    "handover",
     "waste"
    ],
    "finding_ids": [
