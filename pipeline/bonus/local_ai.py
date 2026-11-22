@@ -26,7 +26,7 @@ TIER_SHARE_MIN = 0.20
 WORKLOADS = {
     "ai-assistant": ("wl:office-assistant", "Office AI assistant", "contracts, tables, summaries of internal documents"),
     "ai-marketing": ("wl:marketing-classify", "Marketing text analysis", "customer texts"),
-    "ai-agent2": ("wl:other-agents", "Other agents", "internal data read by agents"),
+    "ai-agent2": ("wl:other-agents", "Other agents (research, sales)", "internal data read by agents"),
     "ai-agent": ("wl:support-agent", "Support-Agent", "support tickets"),
     "ai-quote": ("wl:quote-generator", "Quote generator", "prices and customer data"),
     "ai-chatbot": ("wl:knowledge-chatbot", "Knowledge chatbot", "internal knowledge base"),
@@ -37,6 +37,12 @@ TASK_TIER = {
     "Summarise": "standard", "Draft texts": "standard", "Analyse table": "standard",
     "Review contract": "advanced", "Agent run": "advanced",
 }
+# Coding stays on the API (agreed with the case owner, ALTYCA): local models are for tasks on private business data.
+# The code agent shares the resource «ai-agent2» with other agents; its share is removed using the agent-run logs.
+CODING_AGENTS = {"ai-agent2": ["code-agent"]}
+
+TASK_LABEL = {"Review contract": "contract review", "Agent run": "agent runs", "Analyse table": "table analysis",
+              "Draft texts": "drafting", "Manual question": "manual questions"}
 GRID_ID = {"CH": "grid_mix_location_based_switzerland", "DE": "grid_mix_location_based_germany",
            "IE": "grid_mix_location_based_ireland", "EU": "grid_mix_location_based_eu"}
 
@@ -140,6 +146,15 @@ def _workloads(ctx: Context, F: dict, cat: dict, growth: dict, fx: dict) -> list
         cost_rows = base[base["resource_id"] == rid]
         if rows.empty or cost_rows.empty:
             continue
+        excluded = None
+        if rid in CODING_AGENTS:
+            share = _coding_share(ctx, rid, CODING_AGENTS[rid], a)
+            keep = 1 - share
+            rows = rows.assign(**{c: rows[c] * keep for c in ("tokens_in", "tokens_in_cache", "tokens_out", "requests", "cost_chf", "out_eq")})
+            cost_rows = cost_rows.assign(**{c: cost_rows[c] * keep for c in SUMS})
+            excluded = {"what": ", ".join(CODING_AGENTS[rid]), "share": round(share, 4),
+                        "reason": "coding stays on the API (agreed with ALTYCA); share of output-equivalent tokens in "
+                                  "ai_agent_runs.jsonl, baseline year"}
         by_task = rows.groupby("task_type").agg(cost=("cost_chf", "sum"), out_eq=("out_eq", "sum"))
         total = by_task["cost"].sum() or 1.0
         tasks = [{"task_type": t, "tier": TASK_TIER.get(t, "standard"), "cost_share": round(r.cost / total, 4),
@@ -152,7 +167,7 @@ def _workloads(ctx: Context, F: dict, cat: dict, growth: dict, fx: dict) -> list
         eq = float(rows["out_eq"].sum())
         out.append({
             "id": wid, "label": label, "resource_id": rid, "tool": str(rows["tool"].mode().iat[0]),
-            "why_private": why, "tier": tier, "tasks": tasks,
+            "why_private": why, "tier": tier, "tasks": tasks, "excluded": excluded,
             "models_today": sorted(rows["model"].dropna().unique().tolist()),
             "tokens_in": round(float(rows["tokens_in"].sum())), "tokens_in_cache": round(float(rows["tokens_in_cache"].sum())),
             "tokens_out": round(float(rows["tokens_out"].sum())), "out_eq_tokens": round(eq),
@@ -170,6 +185,20 @@ def _workloads(ctx: Context, F: dict, cat: dict, growth: dict, fx: dict) -> list
                                   "source": "ai_usage.csv"}]),
         })
     return out
+
+
+def _coding_share(ctx: Context, rid: str, agents: list[str], a: dict) -> float:
+    """Share of the resource's output-equivalent tokens used by coding agents (agent-run logs, baseline year)."""
+    r = ctx.tables.get("stg_ai_agent_runs")
+    if r is None or r.empty:
+        return 0.0
+    b0, b1 = ctx.baseline
+    d = r["date"].astype(str)
+    r = r[(r["resource_id"] == rid) & (d >= b0) & (d <= b1)]
+    tin, cache, tout = (r[c].fillna(0) for c in ("usage_tokens_in", "usage_cache_read_tokens", "usage_tokens_out"))
+    eq = tout + a["input_weight"] * (tin - cache).clip(lower=0) + a["cached_weight"] * cache
+    total = float(eq.sum())
+    return float(eq[r["agent"].isin(agents)].sum()) / total if total else 0.0
 
 
 # ------------------------------------------------------------------ hardware
@@ -198,7 +227,7 @@ def _hardware(ctx: Context, cat: dict, F: dict, FR: dict, fx: dict) -> tuple[lis
         pue_id = h["pue"]
         out.append({
             **{k: h[k] for k in ("id", "label", "provider", "location", "gpu", "gpu_class", "vram_gb", "tdp_w",
-                                 "billing", "owned", "entity_id", "measure_ids", "note", "source", "estimate")},
+                                 "billing", "owned", "entity_id", "measure_roles", "note", "source", "estimate")},
             "idle_w": rng(*_lvl(h["idle_w"]).values(), nd=1),
             "host_w": rng(*_host_w(h["host"], F, u_host).values(), nd=1),
             "price_chf_per_hour": rng(*per_h.values(), nd=3) if per_h else None,
@@ -306,16 +335,32 @@ def _scenario(sid: str, label: str, ws: list[dict], kept: list[dict], h: dict, m
     api3 = {k: {lv: sum(api0[k][lv] * (1 + growth[lv]) ** y for y in range(1, HORIZON_YEARS + 1)) for lv in LEVELS}
             for k in api0}
 
-    kwh3, co23, hours_y1 = {}, {}, {}
+    kwh3, co23, hours_y1, kwh_y = {}, {}, {}, {}
     for lv in LEVELS:
-        e = 0.0
+        e, per = 0.0, []
         for y in range(1, HORIZON_YEARS + 1):
             gh = min(eq * (1 + growth["mid"]) ** y / tps[FLIP[lv]] / 3600, on_h)
             if y == 1:
                 hours_y1[lv] = gh
-            e += energy_kwh(on_h, gh, h["_idle"][lv], h["tdp_w"], h["_host"][lv], h["_pue"][lv])
-        kwh3[lv], co23[lv] = e, e * h["_grid"][lv]
+            ey = energy_kwh(on_h, gh, h["_idle"][lv], h["tdp_w"], h["_host"][lv], h["_pue"][lv])
+            per.append(ey)
+            e += ey
+        kwh3[lv], co23[lv], kwh_y[lv] = e, e * h["_grid"][lv], per
     local3 = {lv: setup[lv] + HORIZON_YEARS * yearly[lv] for lv in LEVELS}
+
+    # Year by year for the charts (mid): all 7 tools on the API vs this option (moved tools local + the rest on the API).
+    every = ws + kept
+    api_all = {k: sum(w["api"][k]["mid"] for w in every) for k in ("cost_chf", "kwh", "co2_kg")}
+    api_kept = {k: sum(w["api"][k]["mid"] for w in kept) for k in ("cost_chf", "kwh", "co2_kg")}
+    by_year = [{"year": 0, "api_only": {"cost_chf": 0.0, "kwh": 0.0, "co2_kg": 0.0},
+                "with_option": {"cost_chf": round(setup["mid"], 2), "kwh": 0.0, "co2_kg": 0.0}}]
+    for y in range(1, HORIZON_YEARS + 1):
+        g = (1 + growth["mid"]) ** y
+        by_year.append({"year": y,
+                        "api_only": {k: round(api_all[k] * g, 2) for k in api_all},
+                        "with_option": {"cost_chf": round(yearly["mid"] + api_kept["cost_chf"] * g, 2),
+                                        "kwh": round(kwh_y["mid"][y - 1] + api_kept["kwh"] * g, 2),
+                                        "co2_kg": round(kwh_y["mid"][y - 1] * h["_grid"]["mid"] + api_kept["co2_kg"] * g, 2)}})
 
     def diff(api: dict, loc: dict) -> dict:
         return {"low": api["low"] - loc["high"], "mid": api["mid"] - loc["mid"], "high": api["high"] - loc["low"]}
@@ -327,19 +372,22 @@ def _scenario(sid: str, label: str, ws: list[dict], kept: list[dict], h: dict, m
     util = hours_y1["mid"] / on_h if on_h else 0.0
 
     interacts = []
-    for mid_ in h["measure_ids"]:
-        meas = measures.get(mid_, {})
+    for role in h["measure_roles"]:
+        meas = measures.get(f"_role:{role}", {})
+        mid_ = meas.get("id")
+        if not mid_:
+            continue
         in_pkg = mid_ in measures.get("_package", [])
-        if mid_ == "M-04":
+        if role == "on_demand":
             interacts.append({"measure_id": mid_, "title": meas.get("title", mid_), "in_package": in_pkg,
                               "cost_chf_per_year": rng(*rent.values(), nd=0),
-                              "note": f"M-04 stops gpu-ml-01 outside quarter days. Inference in office hours keeps it on "
-                                      f"{on_h:.0f} h/year: this rent is the part of the M-04 saving given back "
-                                      f"(counted in the local cost). M-04 itself is not changed."})
-        elif mid_ == "M-05":
+                              "note": f"{mid_} stops gpu-ml-01 outside quarter days. Inference in office hours keeps it on "
+                                      f"{on_h:.0f} h/year: this rent is the part of the {mid_} saving given back "
+                                      f"(counted in the local cost). {mid_} itself is not changed."})
+        elif role == "move":
             interacts.append({"measure_id": mid_, "title": meas.get("title", mid_), "in_package": in_pkg,
                               "cost_chf_per_year": None,
-                              "note": f"Same move as M-05; its {h['extra_setup_days']:.1f} person-days are in the setup."})
+                              "note": f"Same move as {mid_}; its {h['extra_setup_days']:.1f} person-days are in the setup."})
 
     max_tier = max((w["tier"] for w in ws), key=TIERS.index)
     pros = [
@@ -397,7 +445,7 @@ def _scenario(sid: str, label: str, ws: list[dict], kept: list[dict], h: dict, m
         "note": "Advisory only: no number in measures, summary or forecast is changed.",
     }
     if h["id"] == "hw:gpu-ml-01":
-        calc["inputs"].append({"name": "vs today (24/7, without M-04): extra rent", "value": 0, "unit": "CHF/year",
+        calc["inputs"].append({"name": "vs today (24/7, without the on-demand measure): extra rent", "value": 0, "unit": "CHF/year",
                                "source": "gpu-ml-01 already billed 24/7 in the baseline"})
 
     return base | {
@@ -408,14 +456,24 @@ def _scenario(sid: str, label: str, ws: list[dict], kept: list[dict], h: dict, m
         "savings_3y": _metrics(sav_cost, sav_kwh, sav_co2, fx),
         "setup_chf": rng(*setup.values(), nd=0), "yearly_chf": rng(*yearly.values(), nd=0),
         "breakeven_month": be,
-        "interacts_with": interacts, "pros": pros, "cons": cons, "calc": calc,
+        "interacts_with": interacts, "pros": pros, "cons": cons, "calc": calc, "by_year": by_year,
     }
 
 
 def _measures(ctx: Context) -> dict:
+    """Measures by id, plus the GPU measures found by what they do (ids can change between analyses):
+    «on_demand» = a schedule on gpu-ml without relocation, «move» = a schedule on gpu-ml moved to Zurich."""
     m = read_output(ctx, "measures.json") or {}
     out = {x["id"]: x for x in m.get("measures", [])}
     out["_package"] = (m.get("package") or {}).get("measure_ids", [])
+    for x in m.get("measures", []):
+        if x.get("type") != "schedule" or x.get("status") == "blocked":
+            continue
+        eff = x.get("effects") or []
+        if not eff or any(e.get("scope") != "res:gpu-ml" for e in eff):
+            continue
+        role = "move" if any(e.get("relocate_to") == "CH" for e in eff) else "on_demand"
+        out.setdefault(f"_role:{role}", x)
     return out
 
 
@@ -489,7 +547,145 @@ def build(ctx: Context) -> dict:
         "best": {"by_cost": by_cost["id"] if by_cost else None, "by_co2": by_co2["id"] if by_co2 else None,
                  "by_workload": by_wl},
         "assumptions": assumptions,
+        "panel": _panel(workloads, public_hw, models, scenarios, by_cost, by_co2, growth),
     }
+
+
+# ------------------------------------------------------------------ panel (data + short texts for the UI)
+def _panel(workloads: list[dict], hardware: list[dict], models: list[dict], scenarios: list[dict],
+           by_cost: dict | None, by_co2: dict | None, growth: dict) -> dict:
+    """The four sections of the Local AI panel: how we compute and which servers exist, the two options,
+    the year-by-year charts, and where local models make a difference. Numbers stay numbers; texts are short."""
+    hw = {h["id"]: h for h in hardware}
+    md = {m["id"]: m for m in models}
+    wl = {w["id"]: w for w in workloads}
+    label = lambda wid: wl[wid]["label"]  # noqa: E731
+
+    # 1. computational model + servers
+    def price(h):
+        v = (h["price_chf_per_hour"] or {}).get("mid", 0)
+        if h["owned"] and not v:
+            return {"text": f"already running ({h['entity_id'][4:]}), no extra cost", "chf": 0, "per": None}
+        if h["owned"]:   # own GPU: office hours cost the part of the on-demand saving given back
+            return {"text": f"own server; CHF {v:.2f}/h for office hours (on-demand saving given back)", "chf": round(v, 2), "per": "hour"}
+        if h["price_chf_per_hour"]:
+            return {"text": f"CHF {v:.2f}/h, office hours", "chf": round(v, 2), "per": "hour"}
+        v = h["price_chf_per_month"]["mid"]
+        return {"text": f"CHF {v:,.0f}/month, always on", "chf": round(v), "per": "month"}
+
+    servers = [{"hardware_id": h["id"], "label": h["label"], "gpu": h["gpu"], "vram_gb": h["vram_gb"],
+                "location": h["location"], "owned": h["owned"], "price": price(h), "estimate": h["estimate"]}
+               for h in hardware]
+    model = {
+        "title": "How we compute",
+        "steps": [
+            {"label": "Demand", "text": f"Tokens per tool from ai_usage.csv (baseline year), growing {growth['mid']:.0%}/year as in the forecast."},
+            {"label": "Fit", "text": "A model qualifies if it fits the GPU memory, reaches the tool's quality level and handles the year-3 peak."},
+            {"label": "Energy", "text": "kWh = (idle and host power while on + generation at full power) × PUE; CO₂ = kWh × grid of the site."},
+            {"label": "Cost", "text": f"Setup + rent + operations over {HORIZON_YEARS} years, against the API fees the tools pay today."},
+        ],
+        "servers_title": "Servers that could run local models",
+        "servers": servers,
+    }
+
+    # 2. options
+    picks = [("best_value", "Best value", by_cost), ("lowest_co2", "Lowest CO₂", by_co2)]
+    if by_cost and by_co2 and by_cost["id"] == by_co2["id"]:
+        picks = [("best_value", "Best value and lowest CO₂", by_cost)]
+    options = []
+    for oid, title, s in picks:
+        if not s:
+            continue
+        h, m = hw[s["hardware_id"]], md[s["model_id"]]
+        r = lambda x: {"low": x["low"], "mid": x["mid"], "high": x["high"]}  # noqa: E731
+        options.append({
+            "id": oid, "title": title, "scenario_id": s["id"],
+            "summary": f"{len(s['workload_ids'])} tools on {m['label']} · {h['label']}; "
+                       f"{len(s['kept_on_api'])} stay on the API.",
+            "model": m["label"], "hardware": h["label"], "owned": h["owned"],
+            "tools_local": [label(w) for w in s["workload_ids"]], "tools_api": [label(w) for w in s["kept_on_api"]],
+            "figures": [
+                {"key": "api_3y", "label": f"API, {HORIZON_YEARS} years", "unit": "CHF", **r(s["api_3y"]["cost_chf"])},
+                {"key": "local_3y", "label": f"In-house, {HORIZON_YEARS} years", "unit": "CHF", **r(s["local_3y"]["cost_chf"])},
+                {"key": "saving", "label": "Saving", "unit": "CHF", **r(s["savings_3y"]["cost_chf"])},
+                {"key": "breakeven", "label": "Break-even", "unit": "months", **s["breakeven_month"]},
+                {"key": "co2_api", "label": "CO₂ via API", "unit": "kg", **r(s["api_3y"]["co2_kg"])},
+                {"key": "co2_local", "label": "CO₂ in-house", "unit": "kg", **r(s["local_3y"]["co2_kg"])},
+            ],
+        })
+
+    # 3. charts (mid values): all tools on the API vs each option
+    ref = (by_cost or by_co2 or {}).get("by_year") or []
+    def series(key, cumulative, years):
+        out = [{"id": "api_only", "label": "All on the API (today)",
+                "values": _series([y["api_only"][key] for y in ref], cumulative, years)}]
+        for o in options:
+            s = next(x for x in scenarios if x["id"] == o["scenario_id"])
+            out.append({"id": o["id"], "label": o["title"],
+                        "values": _series([y["with_option"][key] for y in s["by_year"]], cumulative, years)})
+        return out
+    all_x = [y["year"] for y in ref]
+    yr_x = [y for y in all_x if y > 0]
+    xl = lambda xs: ["Start" if x == 0 else f"Year {x}" for x in xs]  # noqa: E731
+    charts = [
+        {"id": "cost", "title": "Cost, cumulative", "unit": "CHF", "x": all_x, "x_labels": xl(all_x),
+         "series": series("cost_chf", True, all_x), "caption": "Setup first, then rent and operations; the lines cross at break-even."},
+        {"id": "kwh", "title": "Electricity per year", "unit": "kWh", "x": yr_x, "x_labels": xl(yr_x),
+         "series": series("kwh", False, yr_x), "caption": "API energy is estimated per token (0.1–2 Wh per 1,000 tokens)."},
+        {"id": "co2", "title": "CO₂ per year", "unit": "kg", "x": yr_x, "x_labels": xl(yr_x),
+         "series": series("co2_kg", False, yr_x), "caption": "Location-based: grid of the server's site vs EU average for the API."},
+    ]
+
+    # 4. where local models make a difference (privacy first; coding stays on the API)
+    local_in = {w["id"]: [o["id"] for o in options
+                          if w["id"] in next(x for x in scenarios if x["id"] == o["scenario_id"])["workload_ids"]]
+                for w in workloads}
+    tools = []
+    for w in sorted(workloads, key=lambda w: -w["api"]["cost_chf"]["mid"]):
+        notes = []
+        if w.get("excluded"):
+            notes.append(f"Code agent ({w['excluded']['share']:.0%} of its use) stays on the API: coding is out of scope.")
+        if local_in[w["id"]]:
+            for t in w["tasks"]:
+                if t["tier"] == "advanced" and t["cost_share"] > 0:
+                    task = TASK_LABEL.get(t["task_type"], t["task_type"].lower())
+                    notes.append(f"Includes {task} ({t['cost_share']:.0%} of its cost): test quality before moving it.")
+        elif w["tier"] == "advanced":
+            notes.append("Agent tasks need a frontier model: stays on the API.")
+        both = len(local_in[w["id"]]) == len(options) and options
+        tools.append({"workload_id": w["id"], "label": w["label"], "private_data": w["why_private"],
+                      "api_chf_per_year": round(w["api"]["cost_chf"]["mid"]), "api_co2_kg_per_year": round(w["api"]["co2_kg"]["mid"], 1),
+                      "local_in": local_in[w["id"]],
+                      "status": ("Local in both options" if both and len(options) > 1 else
+                                 "Local" if both else
+                                 f"Local in {next(o['title'] for o in options if o['id'] == local_in[w['id']][0])}"
+                                 if local_in[w["id"]] else "Stays on the API"),
+                      "notes": notes})
+    first = options[0] if options else None
+    moved = [t for t in tools if first and first["id"] in t["local_in"]]
+    spend = sum(t["api_chf_per_year"] for t in tools) or 1
+    return {
+        "model": model,
+        "options": options,
+        "charts": charts,
+        "tools": {
+            "title": "Where local models make a difference",
+            "intro": "Local models keep private business data in-house. Coding stays on the API (agreed with ALTYCA).",
+            "headline": (f"{len(moved)} of {len(tools)} tools ({sum(t['api_chf_per_year'] for t in moved) / spend:.0%} of today's "
+                         f"API spend) can run locally in «{first['title']}».") if first else "",
+            "items": tools,
+        },
+    }
+
+
+def _series(values: list[float], cumulative: bool, years: list[int]) -> list[float]:
+    """Values for the chart's x positions (year 0 = setup); cumulative for cost."""
+    out, acc = [], 0.0
+    for y, v in enumerate(values):
+        acc = acc + v if cumulative else v
+        if y in years:
+            out.append(round(acc, 1))
+    return out
 
 
 def run(ctx: Context) -> None:

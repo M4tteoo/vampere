@@ -54,9 +54,26 @@ class ModuleTest(unittest.TestCase):
         scen = [s for s in self.out["scenarios"] if s["hardware_id"] == "hw:gpu-ml-01" and s["feasible"]]
         self.assertTrue(scen)
         for s in scen:
-            m04 = next(i for i in s["interacts_with"] if i["measure_id"] == "M-04")
+            # the on-demand measure (found by role, its id can change between analyses) carries the rent given back
+            m04 = next(i for i in s["interacts_with"] if i["cost_chf_per_year"] is not None)
             self.assertAlmostEqual(m04["cost_chf_per_year"]["mid"],
                                    hw["on_hours_per_year"] * hw["price_chf_per_hour"]["mid"], delta=1.0)
+
+    def test_coding_stays_on_the_api(self):
+        w = next(x for x in self.out["workloads"] if x["resource_id"] == "ai-agent2")
+        self.assertIsNotNone(w["excluded"])
+        self.assertIn("code-agent", w["excluded"]["what"])
+        self.assertTrue(0 < w["excluded"]["share"] < 1)
+
+    def test_panel_cost_chart_matches_the_option_saving(self):
+        p = self.out["panel"]
+        self.assertTrue(p["model"]["servers"] and p["options"] and p["tools"]["items"])
+        cost = next(c for c in p["charts"] if c["id"] == "cost")
+        api = next(x for x in cost["series"] if x["id"] == "api_only")["values"][-1]
+        for o in p["options"]:
+            local = next(x for x in cost["series"] if x["id"] == o["id"])["values"][-1]
+            saving = next(f for f in o["figures"] if f["key"] == "saving")["mid"]
+            self.assertAlmostEqual(api - local, saving, delta=5.0)
 
     def test_ranges_are_ordered(self):
         def walk(v):

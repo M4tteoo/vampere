@@ -124,7 +124,8 @@
     "value_status": "derived_cross_source",
     "issue_ids": [],
     "note": "tier = highest tier among task types with ≥ 20% of the API cost; peak = busiest day's output-equivalent tokens / (10 h × 3600 s)"
-   }
+   },
+   "excluded": null
   },
   {
    "id": "wl:marketing-classify",
@@ -210,7 +211,8 @@
      "Q-0103"
     ],
     "note": "tier = highest tier among task types with ≥ 20% of the API cost; peak = busiest day's output-equivalent tokens / (10 h × 3600 s)"
-   }
+   },
+   "excluded": null
   }
  ],
  "models": [
@@ -284,9 +286,6 @@
    "billing": "hourly",
    "owned": true,
    "entity_id": "srv:gpu-ml-01",
-   "measure_ids": [
-    "M-04"
-   ],
    "note": "VRAM is not in the data (only «300-W class»): A40 48 GB assumed. With an A100 80 GB PCIe (also 300 W), gpt-oss-120b would fit.",
    "source": "server_inventory.csv, azure_costs.csv, data_dictionary.md; idle W from pipeline/energy/factors.yaml",
    "estimate": true,
@@ -309,7 +308,10 @@
    "on_hours_per_year": 2530,
    "extra_setup_days": 0.0,
    "pue_factor_id": "pue",
-   "grid_factor_id": "grid_mix_location_based_germany"
+   "grid_factor_id": "grid_mix_location_based_germany",
+   "measure_roles": [
+    "on_demand"
+   ]
   },
   {
    "id": "hw:azure-a100-zrh",
@@ -323,7 +325,6 @@
    "billing": "hourly",
    "owned": false,
    "entity_id": null,
-   "measure_ids": [],
    "note": "Pay-as-you-go list price, Linux, Switzerland North. 1-year reserved ≈ 3.43 USD/h but billed 24/7, so dearer for office hours.",
    "source": "https://prices.azure.com/api/retail/prices?$filter=armRegionName eq 'switzerlandnorth' and armSkuName eq 'Standard_NC24ads_A100_v4' (queried 2026-11-21); NVIDIA A100 datasheet (300 W)",
    "estimate": false,
@@ -346,7 +347,8 @@
    "on_hours_per_year": 2530,
    "extra_setup_days": 0.0,
    "pue_factor_id": "pue",
-   "grid_factor_id": "grid_mix_location_based_switzerland"
+   "grid_factor_id": "grid_mix_location_based_switzerland",
+   "measure_roles": []
   }
  ],
  "fits": [
@@ -637,7 +639,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 18700.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 29772.18,
+      "kwh": 461.2,
+      "co2_kg": 151.04
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 30992.81,
+      "kwh": 513.36,
+      "co2_kg": 165.51
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 32545.81,
+      "kwh": 579.71,
+      "co2_kg": 183.92
+     }
+    }
+   ]
   },
   {
    "id": "sc:all@hw:azure-a100-zrh",
@@ -840,7 +896,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 25300.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 32557.3,
+      "kwh": 603.39,
+      "co2_kg": 66.37
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 32557.3,
+      "kwh": 632.45,
+      "co2_kg": 69.57
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 32557.3,
+      "kwh": 669.42,
+      "co2_kg": 73.64
+     }
+    }
+   ]
   }
  ],
  "best": {
@@ -969,5 +1079,497 @@
    "source": "exchange_rates.csv",
    "estimate": false
   }
- ]
+ ],
+ "panel": {
+  "model": {
+   "title": "How we compute",
+   "steps": [
+    {
+     "label": "Demand",
+     "text": "Tokens per tool from ai_usage.csv (baseline year), growing 27%/year as in the forecast."
+    },
+    {
+     "label": "Fit",
+     "text": "A model qualifies if it fits the GPU memory, reaches the tool's quality level and handles the year-3 peak."
+    },
+    {
+     "label": "Energy",
+     "text": "kWh = (idle and host power while on + generation at full power) × PUE; CO₂ = kWh × grid of the site."
+    },
+    {
+     "label": "Cost",
+     "text": "Setup + rent + operations over 3 years, against the API fees the tools pay today."
+    }
+   ],
+   "servers_title": "Servers that could run local models",
+   "servers": [
+    {
+     "hardware_id": "hw:gpu-ml-01",
+     "label": "gpu-ml-01 as it is (Azure Frankfurt)",
+     "gpu": "1 GPU of the 300-W class (assumed NVIDIA A40, 48 GB)",
+     "vram_gb": 48,
+     "location": "DE",
+     "owned": true,
+     "price": {
+      "text": "own server; CHF 1.30/h for office hours (on-demand saving given back)",
+      "chf": 1.3,
+      "per": "hour"
+     },
+     "estimate": true
+    },
+    {
+     "hardware_id": "hw:gpu-ml-01-zrh",
+     "label": "gpu-ml-01 moved to Azure Zurich",
+     "gpu": "same GPU as gpu-ml-01 (assumed A40, 48 GB)",
+     "vram_gb": 48,
+     "location": "CH",
+     "owned": true,
+     "price": {
+      "text": "own server; CHF 1.43/h for office hours (on-demand saving given back)",
+      "chf": 1.43,
+      "per": "hour"
+     },
+     "estimate": true
+    },
+    {
+     "hardware_id": "hw:azure-a100-zrh",
+     "label": "Azure NC24ads A100 v4 (Zurich, 80 GB)",
+     "gpu": "NVIDIA A100 80 GB PCIe",
+     "vram_gb": 80,
+     "location": "CH",
+     "owned": false,
+     "price": {
+      "text": "CHF 4.17/h, office hours",
+      "chf": 4.17,
+      "per": "hour"
+     },
+     "estimate": false
+    },
+    {
+     "hardware_id": "hw:aws-l40s-zrh",
+     "label": "AWS g6e.xlarge (Zurich, L40S 48 GB)",
+     "gpu": "NVIDIA L40S 48 GB",
+     "vram_gb": 48,
+     "location": "CH",
+     "owned": false,
+     "price": {
+      "text": "CHF 1.83/h, office hours",
+      "chf": 1.83,
+      "per": "hour"
+     },
+     "estimate": true
+    },
+    {
+     "hardware_id": "hw:hoster-l40s-ch",
+     "label": "Swiss hoster, dedicated L40S server",
+     "gpu": "NVIDIA L40S 48 GB (dedicated)",
+     "vram_gb": 48,
+     "location": "CH",
+     "owned": false,
+     "price": {
+      "text": "CHF 2,000/month, always on",
+      "chf": 2000,
+      "per": "month"
+     },
+     "estimate": true
+    },
+    {
+     "hardware_id": "hw:cpu-test-servers",
+     "label": "CPU only on an existing test server (AWS Dublin, 4 vCPU)",
+     "gpu": "none (4 vCPU, 8 GB RAM)",
+     "vram_gb": 8,
+     "location": "IE",
+     "owned": true,
+     "price": {
+      "text": "already running (test-01), no extra cost",
+      "chf": 0,
+      "per": null
+     },
+     "estimate": true
+    }
+   ]
+  },
+  "options": [
+   {
+    "id": "best_value",
+    "title": "Best value",
+    "scenario_id": "sc:hybrid@hw:gpu-ml-01",
+    "summary": "4 tools on gpt-oss-20b (MXFP4) · gpu-ml-01 as it is (Azure Frankfurt); 3 stay on the API.",
+    "model": "gpt-oss-20b (MXFP4)",
+    "hardware": "gpu-ml-01 as it is (Azure Frankfurt)",
+    "owned": true,
+    "tools_local": [
+     "Office AI assistant",
+     "Marketing text analysis",
+     "Quote generator",
+     "Knowledge chatbot"
+    ],
+    "tools_api": [
+     "Other agents (research, sales)",
+     "Support-Agent",
+     "Report-Agent"
+    ],
+    "figures": [
+     {
+      "key": "api_3y",
+      "label": "API, 3 years",
+      "unit": "CHF",
+      "low": 159004.39,
+      "mid": 163372.34,
+      "high": 171174.37
+     },
+     {
+      "key": "local_3y",
+      "label": "In-house, 3 years",
+      "unit": "CHF",
+      "low": 70354.5,
+      "mid": 94568.58,
+      "high": 135281.74
+     },
+     {
+      "key": "saving",
+      "label": "Saving",
+      "unit": "CHF",
+      "low": 23722.65,
+      "mid": 68803.76,
+      "high": 100819.87
+     },
+     {
+      "key": "breakeven",
+      "label": "Break-even",
+      "unit": "months",
+      "low": 8,
+      "mid": 17,
+      "high": 33
+     },
+     {
+      "key": "co2_api",
+      "label": "CO₂ via API",
+      "unit": "kg",
+      "low": 162.9,
+      "mid": 1188.1,
+      "high": 7010.7
+     },
+     {
+      "key": "co2_local",
+      "label": "CO₂ in-house",
+      "unit": "kg",
+      "low": 228.6,
+      "mid": 410.4,
+      "high": 881.8
+     }
+    ]
+   },
+   {
+    "id": "lowest_co2",
+    "title": "Lowest CO₂",
+    "scenario_id": "sc:hybrid@hw:aws-l40s-zrh",
+    "summary": "4 tools on gpt-oss-20b (MXFP4) · AWS g6e.xlarge (Zurich, L40S 48 GB); 3 stay on the API.",
+    "model": "gpt-oss-20b (MXFP4)",
+    "hardware": "AWS g6e.xlarge (Zurich, L40S 48 GB)",
+    "owned": false,
+    "tools_local": [
+     "Office AI assistant",
+     "Marketing text analysis",
+     "Quote generator",
+     "Knowledge chatbot"
+    ],
+    "tools_api": [
+     "Other agents (research, sales)",
+     "Support-Agent",
+     "Report-Agent"
+    ],
+    "figures": [
+     {
+      "key": "api_3y",
+      "label": "API, 3 years",
+      "unit": "CHF",
+      "low": 159004.39,
+      "mid": 163372.34,
+      "high": 171174.37
+     },
+     {
+      "key": "local_3y",
+      "label": "In-house, 3 years",
+      "unit": "CHF",
+      "low": 73766.98,
+      "mid": 98570.02,
+      "high": 139873.07
+     },
+     {
+      "key": "saving",
+      "label": "Saving",
+      "unit": "CHF",
+      "low": 19131.32,
+      "mid": 64802.32,
+      "high": 97407.39
+     },
+     {
+      "key": "breakeven",
+      "label": "Break-even",
+      "unit": "months",
+      "low": 9,
+      "mid": 18,
+      "high": 35
+     },
+     {
+      "key": "co2_api",
+      "label": "CO₂ via API",
+      "unit": "kg",
+      "low": 162.9,
+      "mid": 1188.1,
+      "high": 7010.7
+     },
+     {
+      "key": "co2_local",
+      "label": "CO₂ in-house",
+      "unit": "kg",
+      "low": 34.4,
+      "mid": 86.4,
+      "high": 165.7
+     }
+    ]
+   }
+  ],
+  "charts": [
+   {
+    "id": "cost",
+    "title": "Cost, cumulative",
+    "unit": "CHF",
+    "x": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "x_labels": [
+     "Start",
+     "Year 1",
+     "Year 2",
+     "Year 3"
+    ],
+    "series": [
+     {
+      "id": "api_only",
+      "label": "All on the API (today)",
+      "values": [
+       0.0,
+       46469.4,
+       105592.4,
+       180814.6
+      ]
+     },
+     {
+      "id": "best_value",
+      "label": "Best value",
+      "values": [
+       18700.0,
+       48472.2,
+       79465.0,
+       112010.8
+      ]
+     },
+     {
+      "id": "lowest_co2",
+      "label": "Lowest CO₂",
+      "values": [
+       18700.0,
+       49806.0,
+       82132.6,
+       116012.2
+      ]
+     }
+    ],
+    "caption": "Setup first, then rent and operations; the lines cross at break-even."
+   },
+   {
+    "id": "kwh",
+    "title": "Electricity per year",
+    "unit": "kWh",
+    "x": [
+     1,
+     2,
+     3
+    ],
+    "x_labels": [
+     "Year 1",
+     "Year 2",
+     "Year 3"
+    ],
+    "series": [
+     {
+      "id": "api_only",
+      "label": "All on the API (today)",
+      "values": [
+       1541.9,
+       1961.8,
+       2495.9
+      ]
+     },
+     {
+      "id": "best_value",
+      "label": "Best value",
+      "values": [
+       461.2,
+       513.4,
+       579.7
+      ]
+     },
+     {
+      "id": "lowest_co2",
+      "label": "Lowest CO₂",
+      "values": [
+       348.2,
+       398.5,
+       462.6
+      ]
+     }
+    ],
+    "caption": "API energy is estimated per token (0.1–2 Wh per 1,000 tokens)."
+   },
+   {
+    "id": "co2",
+    "title": "CO₂ per year",
+    "unit": "kg",
+    "x": [
+     1,
+     2,
+     3
+    ],
+    "x_labels": [
+     "Year 1",
+     "Year 2",
+     "Year 3"
+    ],
+    "series": [
+     {
+      "id": "api_only",
+      "label": "All on the API (today)",
+      "values": [
+       328.5,
+       418.0,
+       531.8
+      ]
+     },
+     {
+      "id": "best_value",
+      "label": "Best value",
+      "values": [
+       151.0,
+       165.5,
+       183.9
+      ]
+     },
+     {
+      "id": "lowest_co2",
+      "label": "Lowest CO₂",
+      "values": [
+       49.5,
+       58.1,
+       69.0
+      ]
+     }
+    ],
+    "caption": "Location-based: grid of the server's site vs EU average for the API."
+   }
+  ],
+  "tools": {
+   "title": "Where local models make a difference",
+   "intro": "Local models keep private business data in-house. Coding stays on the API (agreed with ALTYCA).",
+   "headline": "4 of 7 tools (90% of today's API spend) can run locally in «Best value».",
+   "items": [
+    {
+     "workload_id": "wl:office-assistant",
+     "label": "Office AI assistant",
+     "private_data": "contracts, tables, summaries of internal documents",
+     "api_chf_per_year": 23356,
+     "api_co2_kg_per_year": 183.1,
+     "local_in": [
+      "best_value",
+      "lowest_co2"
+     ],
+     "status": "Local in both options",
+     "notes": [
+      "Includes contract review (14% of its cost): test quality before moving it."
+     ]
+    },
+    {
+     "workload_id": "wl:marketing-classify",
+     "label": "Marketing text analysis",
+     "private_data": "customer texts",
+     "api_chf_per_year": 8800,
+     "api_co2_kg_per_year": 49.8,
+     "local_in": [
+      "best_value",
+      "lowest_co2"
+     ],
+     "status": "Local in both options",
+     "notes": []
+    },
+    {
+     "workload_id": "wl:support-agent",
+     "label": "Support-Agent",
+     "private_data": "support tickets",
+     "api_chf_per_year": 2014,
+     "api_co2_kg_per_year": 10.6,
+     "local_in": [],
+     "status": "Stays on the API",
+     "notes": [
+      "Agent tasks need a frontier model: stays on the API."
+     ]
+    },
+    {
+     "workload_id": "wl:other-agents",
+     "label": "Other agents (research, sales)",
+     "private_data": "internal data read by agents",
+     "api_chf_per_year": 1397,
+     "api_co2_kg_per_year": 7.0,
+     "local_in": [],
+     "status": "Stays on the API",
+     "notes": [
+      "Code agent (57% of its use) stays on the API: coding is out of scope.",
+      "Agent tasks need a frontier model: stays on the API."
+     ]
+    },
+    {
+     "workload_id": "wl:quote-generator",
+     "label": "Quote generator",
+     "private_data": "prices and customer data",
+     "api_chf_per_year": 539,
+     "api_co2_kg_per_year": 4.7,
+     "local_in": [
+      "best_value",
+      "lowest_co2"
+     ],
+     "status": "Local in both options",
+     "notes": []
+    },
+    {
+     "workload_id": "wl:knowledge-chatbot",
+     "label": "Knowledge chatbot",
+     "private_data": "internal knowledge base",
+     "api_chf_per_year": 306,
+     "api_co2_kg_per_year": 2.4,
+     "local_in": [
+      "best_value",
+      "lowest_co2"
+     ],
+     "status": "Local in both options",
+     "notes": []
+    },
+    {
+     "workload_id": "wl:report-agent",
+     "label": "Report-Agent",
+     "private_data": "internal reports",
+     "api_chf_per_year": 112,
+     "api_co2_kg_per_year": 0.6,
+     "local_in": [],
+     "status": "Stays on the API",
+     "notes": [
+      "Agent tasks need a frontier model: stays on the API."
+     ]
+    }
+   ]
+  }
+ }
 }

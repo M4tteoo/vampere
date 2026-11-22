@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-22T01:18:20+01:00",
+  "generated_at": "2026-11-22T02:06:44+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -58,6 +58,7 @@
      "out_eq_tokens": 119851993
     }
    ],
+   "excluded": null,
    "models_today": [
     "Azure OpenAI GPT-5.4",
     "Azure OpenAI GPT-5.4 mini"
@@ -141,6 +142,7 @@
      "out_eq_tokens": 435088008
     }
    ],
+   "excluded": null,
    "models_today": [
     "Claude Sonnet 4.6"
    ],
@@ -214,7 +216,7 @@
   },
   {
    "id": "wl:other-agents",
-   "label": "Other agents",
+   "label": "Other agents (research, sales)",
    "resource_id": "ai-agent2",
    "tool": "Other agents",
    "why_private": "internal data read by agents",
@@ -224,44 +226,49 @@
      "task_type": "Agent run",
      "tier": "advanced",
      "cost_share": 1.0,
-     "out_eq_tokens": 145419949
+     "out_eq_tokens": 62223171
     }
    ],
+   "excluded": {
+    "what": "code-agent",
+    "share": 0.5721,
+    "reason": "coding stays on the API (agreed with ALTYCA); share of output-equivalent tokens in ai_agent_runs.jsonl, baseline year"
+   },
    "models_today": [
     "Claude Sonnet 4.6"
    ],
-   "tokens_in": 1256407715,
-   "tokens_in_cache": 125700639,
-   "tokens_out": 31092235,
-   "out_eq_tokens": 145419949,
-   "requests": 73953,
-   "peak_tps": 40.6,
-   "peak_tps_year3": 83.6,
+   "tokens_in": 537599363,
+   "tokens_in_cache": 53785553,
+   "tokens_out": 13303934,
+   "out_eq_tokens": 62223171,
+   "requests": 31643,
+   "peak_tps": 17.4,
+   "peak_tps_year3": 35.8,
    "api": {
     "cost_chf": {
-     "low": 3264.42,
-     "mid": 3264.42,
-     "high": 3264.42
+     "low": 1396.8,
+     "mid": 1396.8,
+     "high": 1396.8
     },
     "cost_eur": {
-     "low": 3531.74,
-     "mid": 3531.74,
-     "high": 3531.74
+     "low": 1511.18,
+     "mid": 1511.18,
+     "high": 1511.18
     },
     "cost_usd": {
-     "low": 4103.17,
-     "mid": 4103.17,
-     "high": 4103.17
+     "low": 1755.69,
+     "mid": 1755.69,
+     "high": 1755.69
     },
     "kwh": {
-     "low": 15.4,
-     "mid": 76.9,
-     "high": 307.7
+     "low": 6.6,
+     "mid": 32.9,
+     "high": 131.7
     },
     "co2_kg": {
-     "low": 2.3,
-     "mid": 16.4,
-     "high": 92.3
+     "low": 1.0,
+     "mid": 7.0,
+     "high": 39.5
     }
    },
    "calc": {
@@ -269,13 +276,13 @@
     "inputs": [
      {
       "name": "output-equivalent tokens",
-      "value": 145419949,
+      "value": 62223171,
       "unit": "tokens",
       "source": "ai_usage.csv"
      },
      {
       "name": "peak tokens/s",
-      "value": 40.6,
+      "value": 17.4,
       "unit": "tokens/s",
       "source": "ai_usage.csv"
      }
@@ -311,6 +318,7 @@
      "out_eq_tokens": 95014876
     }
    ],
+   "excluded": null,
    "models_today": [
     "Claude Sonnet 4.6"
    ],
@@ -396,6 +404,7 @@
      "out_eq_tokens": 41775267
     }
    ],
+   "excluded": null,
    "models_today": [
     "GPT-5.4"
    ],
@@ -480,6 +489,7 @@
      "out_eq_tokens": 34031572
     }
    ],
+   "excluded": null,
    "models_today": [
     "Claude Sonnet 4.6",
     "GPT-5.4 mini"
@@ -563,6 +573,7 @@
      "out_eq_tokens": 5108872
     }
    ],
+   "excluded": null,
    "models_today": [
     "Claude Sonnet 4.6"
    ],
@@ -1024,8 +1035,8 @@
    "billing": "hourly",
    "owned": true,
    "entity_id": "srv:gpu-ml-01",
-   "measure_ids": [
-    "M-04"
+   "measure_roles": [
+    "on_demand"
    ],
    "note": "VRAM is not in the data (only «300-W class»): A40 48 GB assumed. With an A100 80 GB PCIe (also 300 W), gpt-oss-120b would fit.",
    "source": "server_inventory.csv, azure_costs.csv, data_dictionary.md; idle W from pipeline/energy/factors.yaml",
@@ -1063,12 +1074,12 @@
    "billing": "hourly",
    "owned": true,
    "entity_id": "srv:gpu-ml-01",
-   "measure_ids": [
-    "M-04",
-    "M-05"
+   "measure_roles": [
+    "on_demand",
+    "move"
    ],
-   "note": "Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as M-05 (3.5 person-days). GPU quota in Switzerland North must be requested.",
-   "source": "https://prices.azure.com/api/retail/prices (queried 2026-11-21); output/measures.json M-05",
+   "note": "Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as the package measure «on demand and move to Zurich» (3.5 person-days). GPU quota in Switzerland North must be requested.",
+   "source": "https://prices.azure.com/api/retail/prices (queried 2026-11-21); output/measures.json (measure «on demand and move to Zurich»)",
    "estimate": true,
    "idle_w": {
     "low": 30.0,
@@ -1103,7 +1114,7 @@
    "billing": "hourly",
    "owned": false,
    "entity_id": null,
-   "measure_ids": [],
+   "measure_roles": [],
    "note": "Pay-as-you-go list price, Linux, Switzerland North. 1-year reserved ≈ 3.43 USD/h but billed 24/7, so dearer for office hours.",
    "source": "https://prices.azure.com/api/retail/prices?$filter=armRegionName eq 'switzerlandnorth' and armSkuName eq 'Standard_NC24ads_A100_v4' (queried 2026-11-21); NVIDIA A100 datasheet (300 W)",
    "estimate": false,
@@ -1140,7 +1151,7 @@
    "billing": "hourly",
    "owned": false,
    "entity_id": null,
-   "measure_ids": [],
+   "measure_roles": [],
    "note": "US-East list 1.861 USD/h; eu-central-2 assumed +15–25 %. Availability in eu-central-2 not verified.",
    "source": "https://aws.amazon.com/ec2/pricing/on-demand/; NVIDIA L40S datasheet (350 W)",
    "estimate": true,
@@ -1177,7 +1188,7 @@
    "billing": "monthly",
    "owned": false,
    "entity_id": null,
-   "measure_ids": [],
+   "measure_roles": [],
    "note": "No published list price; ask the current hoster for a quote. Always on (monthly rent).",
    "source": "Estimate from Swiss / EU GPU hosting offers (exoscale.com/pricing, hetzner.com GPU matrix)",
    "estimate": true,
@@ -1214,7 +1225,7 @@
    "billing": "hourly",
    "owned": true,
    "entity_id": "srv:test-01",
-   "measure_ids": [],
+   "measure_roles": [],
    "note": "Already paid and on in office hours; only the extra CPU power counts (4 vCPU × (3.63 − 0.76) W ≈ 11.5 W, rounded to 15 W with memory).",
    "source": "server_inventory.csv (test-01, 4 vCPU, 8 GB, CPU ≈ 3–7 %); CCF W per vCPU in pipeline/energy/factors.yaml",
    "estimate": true,
@@ -4367,19 +4378,19 @@
     "high": 900.0
    },
    "gpu_hours_per_year": {
-    "low": 44.9,
-    "mid": 59.8,
-    "high": 89.8
+    "low": 19.2,
+    "mid": 25.6,
+    "high": 38.4
    },
    "kwh_per_year": {
-    "low": 10.4,
-    "mid": 16.9,
-    "high": 37.3
+    "low": 4.4,
+    "mid": 7.3,
+    "high": 16.0
    },
    "co2_kg_per_year": {
-    "low": 3.42,
-    "mid": 6.15,
-    "high": 16.05
+    "low": 1.46,
+    "mid": 2.63,
+    "high": 6.87
    }
   },
   {
@@ -4397,19 +4408,19 @@
     "high": 900.0
    },
    "gpu_hours_per_year": {
-    "low": 44.9,
-    "mid": 59.8,
-    "high": 89.8
+    "low": 19.2,
+    "mid": 25.6,
+    "high": 38.4
    },
    "kwh_per_year": {
-    "low": 10.4,
-    "mid": 16.9,
-    "high": 37.3
+    "low": 4.4,
+    "mid": 7.3,
+    "high": 16.0
    },
    "co2_kg_per_year": {
-    "low": 0.59,
-    "mid": 1.86,
-    "high": 4.78
+    "low": 0.25,
+    "mid": 0.8,
+    "high": 2.04
    }
   },
   {
@@ -4427,19 +4438,19 @@
     "high": 2500.0
    },
    "gpu_hours_per_year": {
-    "low": 16.2,
-    "mid": 20.2,
-    "high": 26.9
+    "low": 6.9,
+    "mid": 8.6,
+    "high": 11.5
    },
    "kwh_per_year": {
-    "low": 4.3,
-    "mid": 5.8,
-    "high": 10.4
+    "low": 1.8,
+    "mid": 2.5,
+    "high": 4.4
    },
    "co2_kg_per_year": {
-    "low": 0.24,
-    "mid": 0.64,
-    "high": 1.33
+    "low": 0.1,
+    "mid": 0.27,
+    "high": 0.57
    }
   },
   {
@@ -4457,19 +4468,19 @@
     "high": 1200.0
    },
    "gpu_hours_per_year": {
-    "low": 33.7,
-    "mid": 44.9,
-    "high": 67.3
+    "low": 14.4,
+    "mid": 19.2,
+    "high": 28.8
    },
    "kwh_per_year": {
-    "low": 11.5,
-    "mid": 16.5,
-    "high": 32.7
+    "low": 4.9,
+    "mid": 7.1,
+    "high": 14.0
    },
    "co2_kg_per_year": {
-    "low": 0.65,
-    "mid": 1.82,
-    "high": 4.18
+    "low": 0.28,
+    "mid": 0.78,
+    "high": 1.79
    }
   },
   {
@@ -4487,19 +4498,19 @@
     "high": 1200.0
    },
    "gpu_hours_per_year": {
-    "low": 33.7,
-    "mid": 44.9,
-    "high": 67.3
+    "low": 14.4,
+    "mid": 19.2,
+    "high": 28.8
    },
    "kwh_per_year": {
-    "low": 13.6,
-    "mid": 21.0,
-    "high": 38.2
+    "low": 5.8,
+    "mid": 9.0,
+    "high": 16.3
    },
    "co2_kg_per_year": {
-    "low": 0.77,
-    "mid": 2.31,
-    "high": 4.89
+    "low": 0.33,
+    "mid": 0.99,
+    "high": 2.09
    }
   },
   {
@@ -4510,7 +4521,7 @@
    "feasible": false,
    "reasons": [
     "quality tier basic below the required advanced",
-    "throughput 8 tokens/s below the year-3 peak 84"
+    "throughput 8 tokens/s below the year-3 peak 36"
    ],
    "tps": {
     "low": 4.0,
@@ -4518,19 +4529,19 @@
     "high": 12.0
    },
    "gpu_hours_per_year": {
-    "low": 3366.2,
-    "mid": 5049.3,
-    "high": 10098.6
+    "low": 1440.4,
+    "mid": 2160.5,
+    "high": 4321.1
    },
    "kwh_per_year": {
-    "low": 55.5,
-    "mid": 89.4,
-    "high": 233.3
+    "low": 23.8,
+    "mid": 38.2,
+    "high": 99.8
    },
    "co2_kg_per_year": {
-    "low": 11.11,
-    "mid": 20.2,
-    "high": 82.11
+    "low": 4.75,
+    "mid": 8.64,
+    "high": 35.14
    }
   },
   {
@@ -4548,19 +4559,19 @@
     "high": 900.0
    },
    "gpu_hours_per_year": {
-    "low": 44.9,
-    "mid": 62.1,
-    "high": 101.0
+    "low": 19.2,
+    "mid": 26.6,
+    "high": 43.2
    },
    "kwh_per_year": {
-    "low": 10.4,
-    "mid": 17.6,
-    "high": 42.0
+    "low": 4.4,
+    "mid": 7.5,
+    "high": 18.0
    },
    "co2_kg_per_year": {
-    "low": 3.42,
-    "mid": 6.39,
-    "high": 18.06
+    "low": 1.46,
+    "mid": 2.73,
+    "high": 7.73
    }
   },
   {
@@ -4578,19 +4589,19 @@
     "high": 900.0
    },
    "gpu_hours_per_year": {
-    "low": 44.9,
-    "mid": 62.1,
-    "high": 101.0
+    "low": 19.2,
+    "mid": 26.6,
+    "high": 43.2
    },
    "kwh_per_year": {
-    "low": 10.4,
-    "mid": 17.6,
-    "high": 42.0
+    "low": 4.4,
+    "mid": 7.5,
+    "high": 18.0
    },
    "co2_kg_per_year": {
-    "low": 0.59,
-    "mid": 1.94,
-    "high": 5.37
+    "low": 0.25,
+    "mid": 0.83,
+    "high": 2.3
    }
   },
   {
@@ -4608,19 +4619,19 @@
     "high": 2500.0
    },
    "gpu_hours_per_year": {
-    "low": 16.2,
-    "mid": 21.3,
-    "high": 28.9
+    "low": 6.9,
+    "mid": 9.1,
+    "high": 12.3
    },
    "kwh_per_year": {
-    "low": 4.3,
-    "mid": 6.1,
-    "high": 11.1
+    "low": 1.8,
+    "mid": 2.6,
+    "high": 4.8
    },
    "co2_kg_per_year": {
-    "low": 0.24,
-    "mid": 0.68,
-    "high": 1.42
+    "low": 0.1,
+    "mid": 0.29,
+    "high": 0.61
    }
   },
   {
@@ -4638,19 +4649,19 @@
     "high": 1200.0
    },
    "gpu_hours_per_year": {
-    "low": 33.7,
-    "mid": 47.5,
-    "high": 73.4
+    "low": 14.4,
+    "mid": 20.3,
+    "high": 31.4
    },
    "kwh_per_year": {
-    "low": 11.5,
-    "mid": 17.5,
-    "high": 35.6
+    "low": 4.9,
+    "mid": 7.5,
+    "high": 15.2
    },
    "co2_kg_per_year": {
-    "low": 0.65,
-    "mid": 1.92,
-    "high": 4.56
+    "low": 0.28,
+    "mid": 0.82,
+    "high": 1.95
    }
   },
   {
@@ -4668,19 +4679,19 @@
     "high": 1200.0
    },
    "gpu_hours_per_year": {
-    "low": 33.7,
-    "mid": 47.5,
-    "high": 73.4
+    "low": 14.4,
+    "mid": 20.3,
+    "high": 31.4
    },
    "kwh_per_year": {
-    "low": 13.6,
-    "mid": 22.2,
-    "high": 41.6
+    "low": 5.8,
+    "mid": 9.5,
+    "high": 17.8
    },
    "co2_kg_per_year": {
-    "low": 0.77,
-    "mid": 2.45,
-    "high": 5.33
+    "low": 0.33,
+    "mid": 1.05,
+    "high": 2.28
    }
   },
   {
@@ -4698,19 +4709,19 @@
     "high": 600.0
    },
    "gpu_hours_per_year": {
-    "low": 67.3,
-    "mid": 89.8,
-    "high": 134.6
+    "low": 28.8,
+    "mid": 38.4,
+    "high": 57.6
    },
    "kwh_per_year": {
-    "low": 15.6,
-    "mid": 25.4,
-    "high": 56.0
+    "low": 6.7,
+    "mid": 10.9,
+    "high": 24.0
    },
    "co2_kg_per_year": {
-    "low": 5.13,
-    "mid": 9.23,
-    "high": 24.07
+    "low": 2.2,
+    "mid": 3.95,
+    "high": 10.3
    }
   },
   {
@@ -4728,19 +4739,19 @@
     "high": 600.0
    },
    "gpu_hours_per_year": {
-    "low": 67.3,
-    "mid": 89.8,
-    "high": 134.6
+    "low": 28.8,
+    "mid": 38.4,
+    "high": 57.6
    },
    "kwh_per_year": {
-    "low": 15.6,
-    "mid": 25.4,
-    "high": 56.0
+    "low": 6.7,
+    "mid": 10.9,
+    "high": 24.0
    },
    "co2_kg_per_year": {
-    "low": 0.89,
-    "mid": 2.8,
-    "high": 7.17
+    "low": 0.38,
+    "mid": 1.2,
+    "high": 3.07
    }
   },
   {
@@ -4758,19 +4769,19 @@
     "high": 1800.0
    },
    "gpu_hours_per_year": {
-    "low": 22.4,
-    "mid": 28.9,
-    "high": 40.4
+    "low": 9.6,
+    "mid": 12.3,
+    "high": 17.3
    },
    "kwh_per_year": {
-    "low": 5.9,
-    "mid": 8.3,
-    "high": 15.6
+    "low": 2.5,
+    "mid": 3.6,
+    "high": 6.7
    },
    "co2_kg_per_year": {
-    "low": 0.34,
-    "mid": 0.92,
-    "high": 1.99
+    "low": 0.14,
+    "mid": 0.39,
+    "high": 0.85
    }
   },
   {
@@ -4788,19 +4799,19 @@
     "high": 800.0
    },
    "gpu_hours_per_year": {
-    "low": 50.5,
-    "mid": 67.3,
-    "high": 101.0
+    "low": 21.6,
+    "mid": 28.8,
+    "high": 43.2
    },
    "kwh_per_year": {
-    "low": 17.2,
-    "mid": 24.8,
-    "high": 49.0
+    "low": 7.4,
+    "mid": 10.6,
+    "high": 21.0
    },
    "co2_kg_per_year": {
-    "low": 0.98,
-    "mid": 2.73,
-    "high": 6.27
+    "low": 0.42,
+    "mid": 1.17,
+    "high": 2.68
    }
   },
   {
@@ -4818,19 +4829,19 @@
     "high": 800.0
    },
    "gpu_hours_per_year": {
-    "low": 50.5,
-    "mid": 67.3,
-    "high": 101.0
+    "low": 21.6,
+    "mid": 28.8,
+    "high": 43.2
    },
    "kwh_per_year": {
-    "low": 20.3,
-    "mid": 31.5,
-    "high": 57.3
+    "low": 8.7,
+    "mid": 13.5,
+    "high": 24.5
    },
    "co2_kg_per_year": {
-    "low": 1.16,
-    "mid": 3.47,
-    "high": 7.33
+    "low": 0.5,
+    "mid": 1.48,
+    "high": 3.14
    }
   },
   {
@@ -4848,19 +4859,19 @@
     "high": 450.0
    },
    "gpu_hours_per_year": {
-    "low": 89.8,
-    "mid": 120.6,
-    "high": 183.6
+    "low": 38.4,
+    "mid": 51.6,
+    "high": 78.6
    },
    "kwh_per_year": {
-    "low": 20.7,
-    "mid": 34.1,
-    "high": 76.3
+    "low": 8.9,
+    "mid": 14.6,
+    "high": 32.7
    },
    "co2_kg_per_year": {
-    "low": 6.84,
-    "mid": 12.4,
-    "high": 32.83
+    "low": 2.93,
+    "mid": 5.3,
+    "high": 14.05
    }
   },
   {
@@ -4878,19 +4889,19 @@
     "high": 450.0
    },
    "gpu_hours_per_year": {
-    "low": 89.8,
-    "mid": 120.6,
-    "high": 183.6
+    "low": 38.4,
+    "mid": 51.6,
+    "high": 78.6
    },
    "kwh_per_year": {
-    "low": 20.7,
-    "mid": 34.1,
-    "high": 76.3
+    "low": 8.9,
+    "mid": 14.6,
+    "high": 32.7
    },
    "co2_kg_per_year": {
-    "low": 1.18,
-    "mid": 3.76,
-    "high": 9.77
+    "low": 0.51,
+    "mid": 1.61,
+    "high": 4.18
    }
   },
   {
@@ -4908,19 +4919,19 @@
     "high": 1500.0
    },
    "gpu_hours_per_year": {
-    "low": 26.9,
-    "mid": 33.7,
-    "high": 44.9
+    "low": 11.5,
+    "mid": 14.4,
+    "high": 19.2
    },
    "kwh_per_year": {
-    "low": 7.1,
-    "mid": 9.7,
-    "high": 17.3
+    "low": 3.0,
+    "mid": 4.2,
+    "high": 7.4
    },
    "co2_kg_per_year": {
-    "low": 0.41,
-    "mid": 1.07,
-    "high": 2.21
+    "low": 0.17,
+    "mid": 0.46,
+    "high": 0.95
    }
   },
   {
@@ -4938,19 +4949,19 @@
     "high": 600.0
    },
    "gpu_hours_per_year": {
-    "low": 67.3,
-    "mid": 89.8,
-    "high": 134.6
+    "low": 28.8,
+    "mid": 38.4,
+    "high": 57.6
    },
    "kwh_per_year": {
-    "low": 23.0,
-    "mid": 33.0,
-    "high": 65.3
+    "low": 9.8,
+    "mid": 14.1,
+    "high": 27.9
    },
    "co2_kg_per_year": {
-    "low": 1.31,
-    "mid": 3.64,
-    "high": 8.36
+    "low": 0.56,
+    "mid": 1.56,
+    "high": 3.58
    }
   },
   {
@@ -4968,19 +4979,19 @@
     "high": 600.0
    },
    "gpu_hours_per_year": {
-    "low": 67.3,
-    "mid": 89.8,
-    "high": 134.6
+    "low": 28.8,
+    "mid": 38.4,
+    "high": 57.6
    },
    "kwh_per_year": {
-    "low": 27.1,
-    "mid": 42.0,
-    "high": 76.3
+    "low": 11.6,
+    "mid": 18.0,
+    "high": 32.7
    },
    "co2_kg_per_year": {
-    "low": 1.55,
-    "mid": 4.62,
-    "high": 9.77
+    "low": 0.66,
+    "mid": 1.98,
+    "high": 4.18
    }
   },
   {
@@ -4998,19 +5009,19 @@
     "high": 500.0
    },
    "gpu_hours_per_year": {
-    "low": 80.8,
-    "mid": 107.7,
-    "high": 161.6
+    "low": 34.6,
+    "mid": 46.1,
+    "high": 69.1
    },
    "kwh_per_year": {
-    "low": 18.7,
-    "mid": 30.5,
-    "high": 67.2
+    "low": 8.0,
+    "mid": 13.1,
+    "high": 28.7
    },
    "co2_kg_per_year": {
-    "low": 6.16,
-    "mid": 11.07,
-    "high": 28.89
+    "low": 2.64,
+    "mid": 4.74,
+    "high": 12.36
    }
   },
   {
@@ -5028,19 +5039,19 @@
     "high": 500.0
    },
    "gpu_hours_per_year": {
-    "low": 80.8,
-    "mid": 107.7,
-    "high": 161.6
+    "low": 34.6,
+    "mid": 46.1,
+    "high": 69.1
    },
    "kwh_per_year": {
-    "low": 18.7,
-    "mid": 30.5,
-    "high": 67.2
+    "low": 8.0,
+    "mid": 13.1,
+    "high": 28.7
    },
    "co2_kg_per_year": {
-    "low": 1.06,
-    "mid": 3.36,
-    "high": 8.6
+    "low": 0.46,
+    "mid": 1.44,
+    "high": 3.68
    }
   },
   {
@@ -5058,19 +5069,19 @@
     "high": 1600.0
    },
    "gpu_hours_per_year": {
-    "low": 25.2,
-    "mid": 32.3,
-    "high": 44.9
+    "low": 10.8,
+    "mid": 13.8,
+    "high": 19.2
    },
    "kwh_per_year": {
-    "low": 6.7,
-    "mid": 9.3,
-    "high": 17.3
+    "low": 2.9,
+    "mid": 4.0,
+    "high": 7.4
    },
    "co2_kg_per_year": {
-    "low": 0.38,
-    "mid": 1.03,
-    "high": 2.21
+    "low": 0.16,
+    "mid": 0.44,
+    "high": 0.95
    }
   },
   {
@@ -5088,19 +5099,19 @@
     "high": 700.0
    },
    "gpu_hours_per_year": {
-    "low": 57.7,
-    "mid": 76.9,
-    "high": 115.4
+    "low": 24.7,
+    "mid": 32.9,
+    "high": 49.4
    },
    "kwh_per_year": {
-    "low": 19.7,
-    "mid": 28.3,
-    "high": 56.0
+    "low": 8.4,
+    "mid": 12.1,
+    "high": 24.0
    },
    "co2_kg_per_year": {
-    "low": 1.12,
-    "mid": 3.12,
-    "high": 7.17
+    "low": 0.48,
+    "mid": 1.33,
+    "high": 3.07
    }
   },
   {
@@ -5118,19 +5129,19 @@
     "high": 700.0
    },
    "gpu_hours_per_year": {
-    "low": 57.7,
-    "mid": 76.9,
-    "high": 115.4
+    "low": 24.7,
+    "mid": 32.9,
+    "high": 49.4
    },
    "kwh_per_year": {
-    "low": 23.3,
-    "mid": 36.0,
-    "high": 65.4
+    "low": 10.0,
+    "mid": 15.4,
+    "high": 28.0
    },
    "co2_kg_per_year": {
-    "low": 1.33,
-    "mid": 3.96,
-    "high": 8.38
+    "low": 0.57,
+    "mid": 1.69,
+    "high": 3.58
    }
   },
   {
@@ -5148,19 +5159,19 @@
     "high": 450.0
    },
    "gpu_hours_per_year": {
-    "low": 89.8,
-    "mid": 120.6,
-    "high": 183.6
+    "low": 38.4,
+    "mid": 51.6,
+    "high": 78.6
    },
    "kwh_per_year": {
-    "low": 20.7,
-    "mid": 34.1,
-    "high": 76.3
+    "low": 8.9,
+    "mid": 14.6,
+    "high": 32.7
    },
    "co2_kg_per_year": {
-    "low": 6.84,
-    "mid": 12.4,
-    "high": 32.83
+    "low": 2.93,
+    "mid": 5.3,
+    "high": 14.05
    }
   },
   {
@@ -5178,19 +5189,19 @@
     "high": 450.0
    },
    "gpu_hours_per_year": {
-    "low": 89.8,
-    "mid": 120.6,
-    "high": 183.6
+    "low": 38.4,
+    "mid": 51.6,
+    "high": 78.6
    },
    "kwh_per_year": {
-    "low": 20.7,
-    "mid": 34.1,
-    "high": 76.3
+    "low": 8.9,
+    "mid": 14.6,
+    "high": 32.7
    },
    "co2_kg_per_year": {
-    "low": 1.18,
-    "mid": 3.76,
-    "high": 9.77
+    "low": 0.51,
+    "mid": 1.61,
+    "high": 4.18
    }
   },
   {
@@ -5208,19 +5219,19 @@
     "high": 1400.0
    },
    "gpu_hours_per_year": {
-    "low": 28.9,
-    "mid": 36.7,
-    "high": 50.5
+    "low": 12.3,
+    "mid": 15.7,
+    "high": 21.6
    },
    "kwh_per_year": {
-    "low": 7.6,
-    "mid": 10.6,
-    "high": 19.4
+    "low": 3.3,
+    "mid": 4.5,
+    "high": 8.3
    },
    "co2_kg_per_year": {
-    "low": 0.43,
-    "mid": 1.17,
-    "high": 2.49
+    "low": 0.19,
+    "mid": 0.5,
+    "high": 1.06
    }
   },
   {
@@ -5238,19 +5249,19 @@
     "high": 600.0
    },
    "gpu_hours_per_year": {
-    "low": 67.3,
-    "mid": 89.8,
-    "high": 134.6
+    "low": 28.8,
+    "mid": 38.4,
+    "high": 57.6
    },
    "kwh_per_year": {
-    "low": 23.0,
-    "mid": 33.0,
-    "high": 65.3
+    "low": 9.8,
+    "mid": 14.1,
+    "high": 27.9
    },
    "co2_kg_per_year": {
-    "low": 1.31,
-    "mid": 3.64,
-    "high": 8.36
+    "low": 0.56,
+    "mid": 1.56,
+    "high": 3.58
    }
   },
   {
@@ -5268,19 +5279,19 @@
     "high": 600.0
    },
    "gpu_hours_per_year": {
-    "low": 67.3,
-    "mid": 89.8,
-    "high": 134.6
+    "low": 28.8,
+    "mid": 38.4,
+    "high": 57.6
    },
    "kwh_per_year": {
-    "low": 27.1,
-    "mid": 42.0,
-    "high": 76.3
+    "low": 11.6,
+    "mid": 18.0,
+    "high": 32.7
    },
    "co2_kg_per_year": {
-    "low": 1.55,
-    "mid": 4.62,
-    "high": 9.77
+    "low": 0.66,
+    "mid": 1.98,
+    "high": 4.18
    }
   },
   {
@@ -5298,19 +5309,19 @@
     "high": 2200.0
    },
    "gpu_hours_per_year": {
-    "low": 18.4,
-    "mid": 24.5,
-    "high": 36.7
+    "low": 7.9,
+    "mid": 10.5,
+    "high": 15.7
    },
    "kwh_per_year": {
-    "low": 4.2,
-    "mid": 6.9,
-    "high": 15.3
+    "low": 1.8,
+    "mid": 3.0,
+    "high": 6.5
    },
    "co2_kg_per_year": {
-    "low": 1.4,
-    "mid": 2.52,
-    "high": 6.57
+    "low": 0.6,
+    "mid": 1.08,
+    "high": 2.81
    }
   },
   {
@@ -5328,19 +5339,19 @@
     "high": 2200.0
    },
    "gpu_hours_per_year": {
-    "low": 18.4,
-    "mid": 24.5,
-    "high": 36.7
+    "low": 7.9,
+    "mid": 10.5,
+    "high": 15.7
    },
    "kwh_per_year": {
-    "low": 4.2,
-    "mid": 6.9,
-    "high": 15.3
+    "low": 1.8,
+    "mid": 3.0,
+    "high": 6.5
    },
    "co2_kg_per_year": {
-    "low": 0.24,
-    "mid": 0.76,
-    "high": 1.95
+    "low": 0.1,
+    "mid": 0.33,
+    "high": 0.84
    }
   },
   {
@@ -5358,19 +5369,19 @@
     "high": 5000.0
    },
    "gpu_hours_per_year": {
-    "low": 8.1,
-    "mid": 10.8,
-    "high": 16.2
+    "low": 3.5,
+    "mid": 4.6,
+    "high": 6.9
    },
    "kwh_per_year": {
-    "low": 2.1,
-    "mid": 3.1,
-    "high": 6.2
+    "low": 0.9,
+    "mid": 1.3,
+    "high": 2.7
    },
    "co2_kg_per_year": {
-    "low": 0.12,
-    "mid": 0.34,
-    "high": 0.8
+    "low": 0.05,
+    "mid": 0.15,
+    "high": 0.34
    }
   },
   {
@@ -5388,19 +5399,19 @@
     "high": 3000.0
    },
    "gpu_hours_per_year": {
-    "low": 13.5,
-    "mid": 18.0,
-    "high": 26.9
+    "low": 5.8,
+    "mid": 7.7,
+    "high": 11.5
    },
    "kwh_per_year": {
-    "low": 4.6,
-    "mid": 6.6,
-    "high": 13.1
+    "low": 2.0,
+    "mid": 2.8,
+    "high": 5.6
    },
    "co2_kg_per_year": {
-    "low": 0.26,
-    "mid": 0.73,
-    "high": 1.67
+    "low": 0.11,
+    "mid": 0.31,
+    "high": 0.72
    }
   },
   {
@@ -5418,19 +5429,19 @@
     "high": 3000.0
    },
    "gpu_hours_per_year": {
-    "low": 13.5,
-    "mid": 18.0,
-    "high": 26.9
+    "low": 5.8,
+    "mid": 7.7,
+    "high": 11.5
    },
    "kwh_per_year": {
-    "low": 5.4,
-    "mid": 8.4,
-    "high": 15.3
+    "low": 2.3,
+    "mid": 3.6,
+    "high": 6.5
    },
    "co2_kg_per_year": {
-    "low": 0.31,
-    "mid": 0.92,
-    "high": 1.95
+    "low": 0.13,
+    "mid": 0.4,
+    "high": 0.84
    }
   },
   {
@@ -5448,19 +5459,19 @@
     "high": 380.0
    },
    "gpu_hours_per_year": {
-    "low": 106.3,
-    "mid": 144.3,
-    "high": 224.4
+    "low": 45.5,
+    "mid": 61.7,
+    "high": 96.0
    },
    "kwh_per_year": {
-    "low": 24.6,
-    "mid": 40.9,
-    "high": 93.3
+    "low": 10.5,
+    "mid": 17.5,
+    "high": 39.9
    },
    "co2_kg_per_year": {
-    "low": 8.1,
-    "mid": 14.83,
-    "high": 40.12
+    "low": 3.47,
+    "mid": 6.35,
+    "high": 17.17
    }
   },
   {
@@ -5478,19 +5489,19 @@
     "high": 380.0
    },
    "gpu_hours_per_year": {
-    "low": 106.3,
-    "mid": 144.3,
-    "high": 224.4
+    "low": 45.5,
+    "mid": 61.7,
+    "high": 96.0
    },
    "kwh_per_year": {
-    "low": 24.6,
-    "mid": 40.9,
-    "high": 93.3
+    "low": 10.5,
+    "mid": 17.5,
+    "high": 39.9
    },
    "co2_kg_per_year": {
-    "low": 1.4,
-    "mid": 4.49,
-    "high": 11.94
+    "low": 0.6,
+    "mid": 1.92,
+    "high": 5.11
    }
   },
   {
@@ -5508,19 +5519,19 @@
     "high": 1100.0
    },
    "gpu_hours_per_year": {
-    "low": 36.7,
-    "mid": 47.5,
-    "high": 67.3
+    "low": 15.7,
+    "mid": 20.3,
+    "high": 28.8
    },
    "kwh_per_year": {
-    "low": 9.7,
-    "mid": 13.7,
-    "high": 25.9
+    "low": 4.1,
+    "mid": 5.9,
+    "high": 11.1
    },
    "co2_kg_per_year": {
-    "low": 0.55,
-    "mid": 1.51,
-    "high": 3.32
+    "low": 0.24,
+    "mid": 0.65,
+    "high": 1.42
    }
   },
   {
@@ -5538,19 +5549,19 @@
     "high": 500.0
    },
    "gpu_hours_per_year": {
-    "low": 80.8,
-    "mid": 107.7,
-    "high": 161.6
+    "low": 34.6,
+    "mid": 46.1,
+    "high": 69.1
    },
    "kwh_per_year": {
-    "low": 27.5,
-    "mid": 39.7,
-    "high": 78.4
+    "low": 11.8,
+    "mid": 17.0,
+    "high": 33.5
    },
    "co2_kg_per_year": {
-    "low": 1.57,
-    "mid": 4.36,
-    "high": 10.03
+    "low": 0.67,
+    "mid": 1.87,
+    "high": 4.29
    }
   },
   {
@@ -5568,19 +5579,19 @@
     "high": 500.0
    },
    "gpu_hours_per_year": {
-    "low": 80.8,
-    "mid": 107.7,
-    "high": 161.6
+    "low": 34.6,
+    "mid": 46.1,
+    "high": 69.1
    },
    "kwh_per_year": {
-    "low": 32.6,
-    "mid": 50.4,
-    "high": 91.6
+    "low": 13.9,
+    "mid": 21.6,
+    "high": 39.2
    },
    "co2_kg_per_year": {
-    "low": 1.86,
-    "mid": 5.55,
-    "high": 11.73
+    "low": 0.79,
+    "mid": 2.37,
+    "high": 5.02
    }
   },
   {
@@ -5598,19 +5609,19 @@
     "high": 3500.0
    },
    "gpu_hours_per_year": {
-    "low": 11.5,
-    "mid": 15.2,
-    "high": 22.4
+    "low": 4.9,
+    "mid": 6.5,
+    "high": 9.6
    },
    "kwh_per_year": {
-    "low": 2.7,
-    "mid": 4.3,
-    "high": 9.3
+    "low": 1.1,
+    "mid": 1.8,
+    "high": 4.0
    },
    "co2_kg_per_year": {
-    "low": 0.88,
-    "mid": 1.57,
-    "high": 4.01
+    "low": 0.38,
+    "mid": 0.67,
+    "high": 1.72
    }
   },
   {
@@ -5628,19 +5639,19 @@
     "high": 3500.0
    },
    "gpu_hours_per_year": {
-    "low": 11.5,
-    "mid": 15.2,
-    "high": 22.4
+    "low": 4.9,
+    "mid": 6.5,
+    "high": 9.6
    },
    "kwh_per_year": {
-    "low": 2.7,
-    "mid": 4.3,
-    "high": 9.3
+    "low": 1.1,
+    "mid": 1.8,
+    "high": 4.0
    },
    "co2_kg_per_year": {
-    "low": 0.15,
-    "mid": 0.47,
-    "high": 1.19
+    "low": 0.07,
+    "mid": 0.2,
+    "high": 0.51
    }
   },
   {
@@ -5658,19 +5669,19 @@
     "high": 8000.0
    },
    "gpu_hours_per_year": {
-    "low": 5.0,
-    "mid": 6.7,
-    "high": 10.1
+    "low": 2.2,
+    "mid": 2.9,
+    "high": 4.3
    },
    "kwh_per_year": {
-    "low": 1.3,
-    "mid": 1.9,
-    "high": 3.9
+    "low": 0.6,
+    "mid": 0.8,
+    "high": 1.7
    },
    "co2_kg_per_year": {
-    "low": 0.08,
-    "mid": 0.21,
-    "high": 0.5
+    "low": 0.03,
+    "mid": 0.09,
+    "high": 0.21
    }
   },
   {
@@ -5688,19 +5699,19 @@
     "high": 5000.0
    },
    "gpu_hours_per_year": {
-    "low": 8.1,
-    "mid": 10.8,
-    "high": 16.2
+    "low": 3.5,
+    "mid": 4.6,
+    "high": 6.9
    },
    "kwh_per_year": {
-    "low": 2.8,
-    "mid": 4.0,
-    "high": 7.8
+    "low": 1.2,
+    "mid": 1.7,
+    "high": 3.4
    },
    "co2_kg_per_year": {
-    "low": 0.16,
-    "mid": 0.44,
-    "high": 1.0
+    "low": 0.07,
+    "mid": 0.19,
+    "high": 0.43
    }
   },
   {
@@ -5718,19 +5729,19 @@
     "high": 5000.0
    },
    "gpu_hours_per_year": {
-    "low": 8.1,
-    "mid": 10.8,
-    "high": 16.2
+    "low": 3.5,
+    "mid": 4.6,
+    "high": 6.9
    },
    "kwh_per_year": {
-    "low": 3.3,
-    "mid": 5.0,
-    "high": 9.2
+    "low": 1.4,
+    "mid": 2.2,
+    "high": 3.9
    },
    "co2_kg_per_year": {
-    "low": 0.19,
-    "mid": 0.55,
-    "high": 1.17
+    "low": 0.08,
+    "mid": 0.24,
+    "high": 0.5
    }
   },
   {
@@ -5748,19 +5759,19 @@
     "high": 150.0
    },
    "gpu_hours_per_year": {
-    "low": 269.3,
-    "mid": 384.7,
-    "high": 673.2
+    "low": 115.2,
+    "mid": 164.6,
+    "high": 288.1
    },
    "kwh_per_year": {
-    "low": 62.2,
-    "mid": 108.9,
-    "high": 279.9
+    "low": 26.6,
+    "mid": 46.6,
+    "high": 119.8
    },
    "co2_kg_per_year": {
-    "low": 20.53,
-    "mid": 39.55,
-    "high": 120.37
+    "low": 8.78,
+    "mid": 16.92,
+    "high": 51.51
    }
   },
   {
@@ -5778,19 +5789,19 @@
     "high": 150.0
    },
    "gpu_hours_per_year": {
-    "low": 269.3,
-    "mid": 384.7,
-    "high": 673.2
+    "low": 115.2,
+    "mid": 164.6,
+    "high": 288.1
    },
    "kwh_per_year": {
-    "low": 62.2,
-    "mid": 108.9,
-    "high": 279.9
+    "low": 26.6,
+    "mid": 46.6,
+    "high": 119.8
    },
    "co2_kg_per_year": {
-    "low": 3.55,
-    "mid": 11.98,
-    "high": 35.83
+    "low": 1.52,
+    "mid": 5.13,
+    "high": 15.33
    }
   },
   {
@@ -5808,19 +5819,19 @@
     "high": 700.0
    },
    "gpu_hours_per_year": {
-    "low": 57.7,
-    "mid": 73.4,
-    "high": 101.0
+    "low": 24.7,
+    "mid": 31.4,
+    "high": 43.2
    },
    "kwh_per_year": {
-    "low": 15.2,
-    "mid": 21.2,
-    "high": 38.9
+    "low": 6.5,
+    "mid": 9.1,
+    "high": 16.6
    },
    "co2_kg_per_year": {
-    "low": 0.87,
-    "mid": 2.34,
-    "high": 4.98
+    "low": 0.37,
+    "mid": 1.0,
+    "high": 2.13
    }
   },
   {
@@ -5838,19 +5849,19 @@
     "high": 200.0
    },
    "gpu_hours_per_year": {
-    "low": 202.0,
-    "mid": 288.5,
-    "high": 504.9
+    "low": 86.4,
+    "mid": 123.5,
+    "high": 216.1
    },
    "kwh_per_year": {
-    "low": 68.9,
-    "mid": 106.2,
-    "high": 244.9
+    "low": 29.5,
+    "mid": 45.5,
+    "high": 104.8
    },
    "co2_kg_per_year": {
-    "low": 3.93,
-    "mid": 11.68,
-    "high": 31.35
+    "low": 1.68,
+    "mid": 5.0,
+    "high": 13.42
    }
   },
   {
@@ -5868,19 +5879,19 @@
     "high": 200.0
    },
    "gpu_hours_per_year": {
-    "low": 202.0,
-    "mid": 288.5,
-    "high": 504.9
+    "low": 86.4,
+    "mid": 123.5,
+    "high": 216.1
    },
    "kwh_per_year": {
-    "low": 81.4,
-    "mid": 135.0,
-    "high": 286.3
+    "low": 34.8,
+    "mid": 57.8,
+    "high": 122.5
    },
    "co2_kg_per_year": {
-    "low": 4.64,
-    "mid": 14.85,
-    "high": 36.65
+    "low": 1.99,
+    "mid": 6.36,
+    "high": 15.68
    }
   },
   {
@@ -5924,19 +5935,19 @@
     "high": 3000.0
    },
    "gpu_hours_per_year": {
-    "low": 13.5,
-    "mid": 18.0,
-    "high": 26.9
+    "low": 5.8,
+    "mid": 7.7,
+    "high": 11.5
    },
    "kwh_per_year": {
-    "low": 3.6,
-    "mid": 5.2,
-    "high": 10.4
+    "low": 1.5,
+    "mid": 2.2,
+    "high": 4.4
    },
    "co2_kg_per_year": {
-    "low": 0.2,
-    "mid": 0.57,
-    "high": 1.33
+    "low": 0.09,
+    "mid": 0.24,
+    "high": 0.57
    }
   },
   {
@@ -12275,7 +12286,7 @@
     "wl:report-agent"
    ],
    "kept_on_api": [],
-   "peak_tps_year3": 840.3,
+   "peak_tps_year3": 826.5,
    "model_id": null,
    "alternatives": [],
    "feasible": false,
@@ -12478,7 +12489,7 @@
       "source": "fact_cost"
      },
      {
-      "name": "vs today (24/7, without M-04): extra rent",
+      "name": "vs today (24/7, without the on-demand measure): extra rent",
       "value": 0,
       "unit": "CHF/year",
       "source": "gpu-ml-01 already billed 24/7 in the baseline"
@@ -12504,7 +12515,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 18700.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 29772.18,
+      "kwh": 461.2,
+      "co2_kg": 151.04
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 30992.81,
+      "kwh": 513.36,
+      "co2_kg": 165.51
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 32545.81,
+      "kwh": 579.71,
+      "co2_kg": 183.92
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:office-assistant@hw:gpu-ml-01",
@@ -12701,7 +12766,7 @@
       "source": "fact_cost"
      },
      {
-      "name": "vs today (24/7, without M-04): extra rent",
+      "name": "vs today (24/7, without the on-demand measure): extra rent",
       "value": 0,
       "unit": "CHF/year",
       "source": "gpu-ml-01 already billed 24/7 in the baseline"
@@ -12722,7 +12787,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 42042.66,
+      "kwh": 781.1,
+      "co2_kg": 216.43
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 46604.54,
+      "kwh": 920.36,
+      "co2_kg": 248.71
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 52408.62,
+      "kwh": 1097.55,
+      "co2_kg": 289.77
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:marketing-classify@hw:gpu-ml-01",
@@ -12928,7 +13047,7 @@
       "source": "fact_cost"
      },
      {
-      "name": "vs today (24/7, without M-04): extra rent",
+      "name": "vs today (24/7, without the on-demand measure): extra rent",
       "value": 0,
       "unit": "CHF/year",
       "source": "gpu-ml-01 already billed 24/7 in the baseline"
@@ -12953,7 +13072,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 60562.57,
+      "kwh": 1530.79,
+      "co2_kg": 369.0
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 70167.42,
+      "kwh": 1874.19,
+      "co2_kg": 442.82
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 82387.67,
+      "kwh": 2311.11,
+      "co2_kg": 536.75
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:quote-generator@hw:gpu-ml-01",
@@ -13157,7 +13330,7 @@
       "source": "fact_cost"
      },
      {
-      "name": "vs today (24/7, without M-04): extra rent",
+      "name": "vs today (24/7, without the on-demand measure): extra rent",
       "value": 0,
       "unit": "CHF/year",
       "source": "gpu-ml-01 already billed 24/7 in the baseline"
@@ -13180,7 +13353,61 @@
      "Q-0087"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 71073.7,
+      "kwh": 1785.15,
+      "co2_kg": 420.99
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 83540.73,
+      "kwh": 2197.82,
+      "co2_kg": 508.97
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 99402.53,
+      "kwh": 2722.86,
+      "co2_kg": 620.91
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:knowledge-chatbot@hw:gpu-ml-01",
@@ -13387,7 +13614,7 @@
       "source": "fact_cost"
      },
      {
-      "name": "vs today (24/7, without M-04): extra rent",
+      "name": "vs today (24/7, without the on-demand measure): extra rent",
       "value": 0,
       "unit": "CHF/year",
       "source": "gpu-ml-01 already billed 24/7 in the baseline"
@@ -13408,7 +13635,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 71369.98,
+      "kwh": 1798.86,
+      "co2_kg": 423.81
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 83917.69,
+      "kwh": 2215.25,
+      "co2_kg": 512.56
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 99882.14,
+      "kwh": 2745.04,
+      "co2_kg": 625.47
+     }
+    }
+   ]
   },
   {
    "id": "sc:all@hw:gpu-ml-01-zrh",
@@ -13424,7 +13705,7 @@
     "wl:report-agent"
    ],
    "kept_on_api": [],
-   "peak_tps_year3": 840.3,
+   "peak_tps_year3": 826.5,
    "model_id": null,
    "alternatives": [],
    "feasible": false,
@@ -13562,13 +13843,6 @@
       "high": 3623.0
      },
      "note": "M-04 stops gpu-ml-01 outside quarter days. Inference in office hours keeps it on 2530 h/year: this rent is the part of the M-04 saving given back (counted in the local cost). M-04 itself is not changed."
-    },
-    {
-     "measure_id": "M-05",
-     "title": "Run gpu-ml on demand in Zurich",
-     "in_package": false,
-     "cost_chf_per_year": null,
-     "note": "Same move as M-05; its 3.5 person-days are in the setup."
     }
    ],
    "pros": [
@@ -13586,7 +13860,7 @@
     "Languages: gpt-oss-20b (MXFP4) is partial (English-centric); texts in Basel are mostly German, test quality first. Alternative with full DE / FR / IT support: Qwen3-30B-A3B MoE (4-bit).",
     "3 advanced workload(s) stay on the API: two AI stacks to run.",
     "Quarterly training (ticket T-1101) shares gpu-ml-01 on quarter days: inference slows down then.",
-    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as M-05 (3.5 person-days). GPU quota in Switzerland North must be requested."
+    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as the package measure «on demand and move to Zurich» (3.5 person-days). GPU quota in Switzerland North must be requested."
    ],
    "calc": {
     "formula": "local = setup + 3 × (rent + operations); rent = on-hours × CHF/h (or 12 × CHF/month); API = Σ_y baseline API × (1 + token growth)^y; kWh = (on-h × (idle W + host W) + GPU-h × (TDP − idle W)) / 1000 × PUE; GPU-h = output-equivalent tokens / tokens/s / 3600; CO2 = kWh × grid",
@@ -13654,7 +13928,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 22550.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 30101.13,
+      "kwh": 461.2,
+      "co2_kg": 61.91
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 31321.76,
+      "kwh": 513.36,
+      "co2_kg": 70.69
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 32874.77,
+      "kwh": 579.71,
+      "co2_kg": 81.86
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:office-assistant@hw:gpu-ml-01-zrh",
@@ -13786,13 +14114,6 @@
       "high": 3623.0
      },
      "note": "M-04 stops gpu-ml-01 outside quarter days. Inference in office hours keeps it on 2530 h/year: this rent is the part of the M-04 saving given back (counted in the local cost). M-04 itself is not changed."
-    },
-    {
-     "measure_id": "M-05",
-     "title": "Run gpu-ml on demand in Zurich",
-     "in_package": false,
-     "cost_chf_per_year": null,
-     "note": "Same move as M-05; its 3.5 person-days are in the setup."
     }
    ],
    "pros": [
@@ -13810,7 +14131,7 @@
     "Languages: gpt-oss-20b (MXFP4) is partial (English-centric); texts in Basel are mostly German, test quality first. Alternative with full DE / FR / IT support: Qwen3-30B-A3B MoE (4-bit).",
     "6 advanced workload(s) stay on the API: two AI stacks to run.",
     "Quarterly training (ticket T-1101) shares gpu-ml-01 on quarter days: inference slows down then.",
-    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as M-05 (3.5 person-days). GPU quota in Switzerland North must be requested."
+    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as the package measure «on demand and move to Zurich» (3.5 person-days). GPU quota in Switzerland North must be requested."
    ],
    "calc": {
     "formula": "local = setup + 3 × (rent + operations); rent = on-hours × CHF/h (or 12 × CHF/month); API = Σ_y baseline API × (1 + token growth)^y; kWh = (on-h × (idle W + host W) + GPU-h × (TDP − idle W)) / 1000 × PUE; GPU-h = output-equivalent tokens / tokens/s / 3600; CO2 = kWh × grid",
@@ -13873,7 +14194,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 15950.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 42371.62,
+      "kwh": 781.1,
+      "co2_kg": 132.18
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 46933.5,
+      "kwh": 920.36,
+      "co2_kg": 160.09
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 52737.57,
+      "kwh": 1097.55,
+      "co2_kg": 195.61
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:marketing-classify@hw:gpu-ml-01-zrh",
@@ -14012,13 +14387,6 @@
       "high": 3623.0
      },
      "note": "M-04 stops gpu-ml-01 outside quarter days. Inference in office hours keeps it on 2530 h/year: this rent is the part of the M-04 saving given back (counted in the local cost). M-04 itself is not changed."
-    },
-    {
-     "measure_id": "M-05",
-     "title": "Run gpu-ml on demand in Zurich",
-     "in_package": false,
-     "cost_chf_per_year": null,
-     "note": "Same move as M-05; its 3.5 person-days are in the setup."
     }
    ],
    "pros": [
@@ -14037,7 +14405,7 @@
     "6 advanced workload(s) stay on the API: two AI stacks to run.",
     "Quarterly training (ticket T-1101) shares gpu-ml-01 on quarter days: inference slows down then.",
     "Dearer than the API over 3 years: CHF 49,240 more.",
-    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as M-05 (3.5 person-days). GPU quota in Switzerland North must be requested.",
+    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as the package measure «on demand and move to Zurich» (3.5 person-days). GPU quota in Switzerland North must be requested.",
     "No break-even within 36 months."
    ],
    "calc": {
@@ -14105,7 +14473,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 15950.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 60891.52,
+      "kwh": 1530.79,
+      "co2_kg": 296.62
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 70496.37,
+      "kwh": 1874.19,
+      "co2_kg": 369.31
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 82716.62,
+      "kwh": 2311.11,
+      "co2_kg": 461.8
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:quote-generator@hw:gpu-ml-01-zrh",
@@ -14242,13 +14664,6 @@
       "high": 3623.0
      },
      "note": "M-04 stops gpu-ml-01 outside quarter days. Inference in office hours keeps it on 2530 h/year: this rent is the part of the M-04 saving given back (counted in the local cost). M-04 itself is not changed."
-    },
-    {
-     "measure_id": "M-05",
-     "title": "Run gpu-ml on demand in Zurich",
-     "in_package": false,
-     "cost_chf_per_year": null,
-     "note": "Same move as M-05; its 3.5 person-days are in the setup."
     }
    ],
    "pros": [
@@ -14267,7 +14682,7 @@
     "6 advanced workload(s) stay on the API: two AI stacks to run.",
     "Quarterly training (ticket T-1101) shares gpu-ml-01 on quarter days: inference slows down then.",
     "Dearer than the API over 3 years: CHF 90,139 more.",
-    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as M-05 (3.5 person-days). GPU quota in Switzerland North must be requested.",
+    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as the package measure «on demand and move to Zurich» (3.5 person-days). GPU quota in Switzerland North must be requested.",
     "No break-even within 36 months."
    ],
    "calc": {
@@ -14333,7 +14748,61 @@
      "Q-0087"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 15950.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 71402.65,
+      "kwh": 1785.15,
+      "co2_kg": 352.36
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 83869.68,
+      "kwh": 2197.82,
+      "co2_kg": 440.24
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 99731.49,
+      "kwh": 2722.86,
+      "co2_kg": 552.04
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:knowledge-chatbot@hw:gpu-ml-01-zrh",
@@ -14473,13 +14942,6 @@
       "high": 3623.0
      },
      "note": "M-04 stops gpu-ml-01 outside quarter days. Inference in office hours keeps it on 2530 h/year: this rent is the part of the M-04 saving given back (counted in the local cost). M-04 itself is not changed."
-    },
-    {
-     "measure_id": "M-05",
-     "title": "Run gpu-ml on demand in Zurich",
-     "in_package": false,
-     "cost_chf_per_year": null,
-     "note": "Same move as M-05; its 3.5 person-days are in the setup."
     }
    ],
    "pros": [
@@ -14498,7 +14960,7 @@
     "6 advanced workload(s) stay on the API: two AI stacks to run.",
     "Quarterly training (ticket T-1101) shares gpu-ml-01 on quarter days: inference slows down then.",
     "Dearer than the API over 3 years: CHF 91,292 more.",
-    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as M-05 (3.5 person-days). GPU quota in Switzerland North must be requested.",
+    "Price or capacity is an estimate: Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as the package measure «on demand and move to Zurich» (3.5 person-days). GPU quota in Switzerland North must be requested.",
     "No break-even within 36 months."
    ],
    "calc": {
@@ -14562,7 +15024,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 15950.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 71698.93,
+      "kwh": 1798.86,
+      "co2_kg": 355.26
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 84246.64,
+      "kwh": 2215.25,
+      "co2_kg": 443.92
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 100211.09,
+      "kwh": 2745.04,
+      "co2_kg": 556.72
+     }
+    }
+   ]
   },
   {
    "id": "sc:all@hw:azure-a100-zrh",
@@ -14578,37 +15094,37 @@
     "wl:report-agent"
    ],
    "kept_on_api": [],
-   "peak_tps_year3": 840.3,
+   "peak_tps_year3": 826.5,
    "model_id": "gpt-oss-120b",
    "alternatives": [],
    "feasible": true,
    "reasons": [],
-   "utilisation": 0.1511,
+   "utilisation": 0.1459,
    "api_3y": {
     "cost_chf": {
-     "low": 184978.88,
-     "mid": 190060.37,
-     "high": 199136.92
+     "low": 175980.28,
+     "mid": 180814.57,
+     "high": 189449.57
     },
     "cost_eur": {
-     "low": 200063.68,
-     "mid": 205559.56,
-     "high": 215376.29
+     "low": 190331.25,
+     "mid": 195559.78,
+     "high": 204898.95
     },
     "cost_usd": {
-     "low": 232816.94,
-     "mid": 239212.57,
-     "high": 250636.44
+     "low": 221491.17,
+     "mid": 227575.68,
+     "high": 238443.82
     },
     "kwh": {
-     "low": 1209.9,
-     "mid": 6217.4,
-     "high": 26057.9
+     "low": 1167.5,
+     "mid": 5999.6,
+     "high": 25145.0
     },
     "co2_kg": {
-     "low": 181.6,
-     "mid": 1324.8,
-     "high": 7817.3
+     "low": 175.4,
+     "mid": 1278.2,
+     "high": 7543.5
     }
    },
    "local_3y": {
@@ -14628,41 +15144,41 @@
      "high": 210153.11
     },
     "kwh": {
-     "low": 1415.5,
-     "mid": 1920.0,
-     "high": 3204.3
+     "low": 1405.0,
+     "mid": 1905.3,
+     "high": 3176.1
     },
     "co2_kg": {
-     "low": 80.7,
-     "mid": 211.2,
-     "high": 410.1
+     "low": 80.1,
+     "mid": 209.6,
+     "high": 406.5
     }
    },
    "savings_3y": {
     "cost_chf": {
-     "low": 18006.98,
-     "mid": 67088.47,
-     "high": 103665.02
+     "low": 9008.38,
+     "mid": 57842.67,
+     "high": 93977.68
     },
     "cost_eur": {
-     "low": 19475.43,
-     "mid": 72559.46,
-     "high": 112118.78
+     "low": 9743.0,
+     "mid": 62559.67,
+     "high": 101641.44
     },
     "cost_usd": {
-     "low": 22663.83,
-     "mid": 84438.47,
-     "high": 130474.21
+     "low": 11338.07,
+     "mid": 72801.58,
+     "high": 118281.59
     },
     "kwh": {
-     "low": -1994.4,
-     "mid": 4297.5,
-     "high": 24642.5
+     "low": -2008.6,
+     "mid": 4094.3,
+     "high": 23740.0
     },
     "co2_kg": {
-     "low": -228.5,
-     "mid": 1113.6,
-     "high": 7736.6
+     "low": -231.2,
+     "mid": 1068.7,
+     "high": 7463.4
     }
    },
    "setup_chf": {
@@ -14676,15 +15192,15 @@
     "high": 43557.0
    },
    "breakeven_month": {
-    "low": 11,
-    "mid": 21,
+    "low": 12,
+    "mid": 22,
     "high": null
    },
    "interacts_with": [],
    "pros": [
     "Private data of 7 workload(s) stays on Azure in CH under company control instead of an external AI API (EU, location not stated).",
-    "API cost avoided over 3 years: CHF 190,060 (growing 27%/year).",
-    "3-year CO2: 211 kg local vs 1,325 kg via API.",
+    "API cost avoided over 3 years: CHF 180,815 (growing 27%/year).",
+    "3-year CO2: 210 kg local vs 1,278 kg via API.",
     "No per-token price risk: cost is fixed and known in advance."
    ],
    "cons": [
@@ -14700,7 +15216,7 @@
     "inputs": [
      {
       "name": "output-equivalent tokens (baseline year)",
-      "value": 2433247820,
+      "value": 2350051042,
       "unit": "tokens",
       "source": "ai_usage.csv"
      },
@@ -14736,7 +15252,7 @@
      },
      {
       "name": "API baseline cost (mid)",
-      "value": 38391.54,
+      "value": 36523.92,
       "unit": "CHF/year",
       "source": "fact_cost"
      }
@@ -14765,7 +15281,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 25300.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 32557.3,
+      "kwh": 603.39,
+      "co2_kg": 66.37
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 32557.3,
+      "kwh": 632.45,
+      "co2_kg": 69.57
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 32557.3,
+      "kwh": 669.42,
+      "co2_kg": 73.64
+     }
+    }
+   ]
   },
   {
    "id": "sc:hybrid@hw:azure-a100-zrh",
@@ -14972,7 +15542,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 18700.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 37039.96,
+      "kwh": 642.84,
+      "co2_kg": 81.89
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 38260.58,
+      "kwh": 682.64,
+      "co2_kg": 89.31
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 39813.59,
+      "kwh": 733.28,
+      "co2_kg": 98.75
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:office-assistant@hw:azure-a100-zrh",
@@ -15175,7 +15799,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 49310.44,
+      "kwh": 973.33,
+      "co2_kg": 153.32
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 53872.32,
+      "kwh": 1103.13,
+      "co2_kg": 180.2
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 59676.39,
+      "kwh": 1268.26,
+      "co2_kg": 214.39
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:marketing-classify@hw:azure-a100-zrh",
@@ -15387,11 +16065,65 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 67830.34,
+      "kwh": 1748.78,
+      "co2_kg": 320.6
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 77435.19,
+      "kwh": 2089.72,
+      "co2_kg": 393.02
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 89655.44,
+      "kwh": 2523.51,
+      "co2_kg": 485.16
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:other-agents@hw:azure-a100-zrh",
-   "label": "Other agents alone on Azure NC24ads A100 v4 (Zurich, 80 GB)",
+   "label": "Other agents (research, sales) alone on Azure NC24ads A100 v4 (Zurich, 80 GB)",
    "hardware_id": "hw:azure-a100-zrh",
    "workload_ids": [
     "wl:other-agents"
@@ -15404,37 +16136,37 @@
     "wl:knowledge-chatbot",
     "wl:report-agent"
    ],
-   "peak_tps_year3": 83.6,
+   "peak_tps_year3": 35.8,
    "model_id": "gpt-oss-120b",
    "alternatives": [],
    "feasible": true,
    "reasons": [],
-   "utilisation": 0.009,
+   "utilisation": 0.0039,
    "api_3y": {
     "cost_chf": {
-     "low": 15728.69,
-     "mid": 16160.77,
-     "high": 16932.55
+     "low": 6730.09,
+     "mid": 6914.97,
+     "high": 7245.2
     },
     "cost_eur": {
-     "low": 17011.35,
-     "mid": 17478.66,
-     "high": 18313.38
+     "low": 7278.92,
+     "mid": 7478.88,
+     "high": 7836.04
     },
     "cost_usd": {
-     "low": 19796.35,
-     "mid": 20340.17,
-     "high": 21311.53
+     "low": 8470.58,
+     "mid": 8703.27,
+     "high": 9118.91
     },
     "kwh": {
-     "low": 74.2,
-     "mid": 380.7,
-     "high": 1596.0
+     "low": 31.8,
+     "mid": 162.9,
+     "high": 683.1
     },
     "co2_kg": {
-     "low": 11.1,
-     "mid": 81.2,
-     "high": 478.8
+     "low": 4.8,
+     "mid": 34.7,
+     "high": 204.9
     }
    },
    "local_3y": {
@@ -15454,41 +16186,41 @@
      "high": 185232.56
     },
     "kwh": {
-     "low": 1127.1,
-     "mid": 1515.7,
-     "high": 2429.1
+     "low": 1116.6,
+     "mid": 1501.0,
+     "high": 2400.9
     },
     "co2_kg": {
-     "low": 64.2,
-     "mid": 166.7,
-     "high": 310.9
+     "low": 63.6,
+     "mid": 165.1,
+     "high": 307.3
     }
    },
    "savings_3y": {
     "cost_chf": {
-     "low": -131443.2,
-     "mid": -93611.13,
-     "high": -71939.35
+     "low": -140441.81,
+     "mid": -102856.93,
+     "high": -81626.69
     },
     "cost_eur": {
-     "low": -142162.24,
-     "mid": -101245.0,
-     "high": -77805.92
+     "low": -151894.66,
+     "mid": -111244.78,
+     "high": -88283.25
     },
     "cost_usd": {
-     "low": -165436.21,
-     "mid": -117820.24,
-     "high": -90543.85
+     "low": -176761.97,
+     "mid": -129457.13,
+     "high": -102736.47
     },
     "kwh": {
-     "low": -2354.9,
-     "mid": -1135.0,
-     "high": 469.0
+     "low": -2369.1,
+     "mid": -1338.1,
+     "high": -433.5
     },
     "co2_kg": {
-     "low": -299.8,
-     "mid": -85.5,
-     "high": 414.5
+     "low": -302.5,
+     "mid": -130.5,
+     "high": 141.2
     }
    },
    "setup_chf": {
@@ -15509,8 +16241,8 @@
    "interacts_with": [],
    "pros": [
     "Private data of 1 workload(s) stays on Azure in CH under company control instead of an external AI API (EU, location not stated).",
-    "API cost avoided over 3 years: CHF 16,161 (growing 27%/year).",
-    "3-year CO2: 167 kg local vs 81 kg via API.",
+    "API cost avoided over 3 years: CHF 6,915 (growing 27%/year).",
+    "3-year CO2: 165 kg local vs 35 kg via API.",
     "No per-token price risk: cost is fixed and known in advance."
    ],
    "cons": [
@@ -15521,7 +16253,7 @@
     "Includes advanced tasks (agents, contracts): the open-weight gap is largest there.",
     "Languages: gpt-oss-120b (MXFP4) is partial to yes; texts in Basel are mostly German, test quality first.",
     "6 advanced workload(s) stay on the API: two AI stacks to run.",
-    "Dearer than the API over 3 years: CHF 93,611 more.",
+    "Dearer than the API over 3 years: CHF 102,857 more.",
     "No break-even within 36 months."
    ],
    "calc": {
@@ -15529,7 +16261,7 @@
     "inputs": [
      {
       "name": "output-equivalent tokens (baseline year)",
-      "value": 145419949,
+      "value": 62223171,
       "unit": "tokens",
       "source": "ai_usage.csv"
      },
@@ -15565,7 +16297,7 @@
      },
      {
       "name": "API baseline cost (mid)",
-      "value": 3264.42,
+      "value": 1396.8,
       "unit": "CHF/year",
       "source": "fact_cost"
      }
@@ -15587,7 +16319,61 @@
      "Q-0085"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 77249.53,
+      "kwh": 1999.54,
+      "co2_kg": 374.55
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 89419.23,
+      "kwh": 2408.77,
+      "co2_kg": 461.66
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 104902.73,
+      "kwh": 2929.44,
+      "co2_kg": 572.49
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:support-agent@hw:azure-a100-zrh",
@@ -15788,7 +16574,61 @@
      "Q-0102"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 76464.24,
+      "kwh": 1979.28,
+      "co2_kg": 370.13
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 88420.11,
+      "kwh": 2382.99,
+      "co2_kg": 456.04
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 103631.55,
+      "kwh": 2896.63,
+      "co2_kg": 565.34
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:quote-generator@hw:azure-a100-zrh",
@@ -15995,7 +16835,61 @@
      "Q-0087"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 78341.47,
+      "kwh": 2011.3,
+      "co2_kg": 377.24
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 90808.5,
+      "kwh": 2423.73,
+      "co2_kg": 465.09
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 106670.31,
+      "kwh": 2948.46,
+      "co2_kg": 576.85
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:knowledge-chatbot@hw:azure-a100-zrh",
@@ -16203,7 +17097,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 78637.75,
+      "kwh": 2025.16,
+      "co2_kg": 380.15
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 91185.46,
+      "kwh": 2441.37,
+      "co2_kg": 468.79
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 107149.91,
+      "kwh": 2970.91,
+      "co2_kg": 581.57
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:report-agent@hw:azure-a100-zrh",
@@ -16403,7 +17351,61 @@
      "Q-0088"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 78883.61,
+      "kwh": 2035.37,
+      "co2_kg": 382.4
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 91498.27,
+      "kwh": 2454.36,
+      "co2_kg": 471.66
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 107547.89,
+      "kwh": 2987.44,
+      "co2_kg": 585.21
+     }
+    }
+   ]
   },
   {
    "id": "sc:all@hw:aws-l40s-zrh",
@@ -16419,7 +17421,7 @@
     "wl:report-agent"
    ],
    "kept_on_api": [],
-   "peak_tps_year3": 840.3,
+   "peak_tps_year3": 826.5,
    "model_id": null,
    "alternatives": [],
    "feasible": false,
@@ -16628,7 +17630,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 18700.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 31106.0,
+      "kwh": 348.21,
+      "co2_kg": 49.48
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 32326.62,
+      "kwh": 398.54,
+      "co2_kg": 58.06
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 33879.63,
+      "kwh": 462.57,
+      "co2_kg": 68.97
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:office-assistant@hw:aws-l40s-zrh",
@@ -16826,7 +17882,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 43376.48,
+      "kwh": 669.68,
+      "co2_kg": 119.92
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 47938.36,
+      "kwh": 807.54,
+      "co2_kg": 147.68
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 53742.44,
+      "kwh": 982.94,
+      "co2_kg": 183.0
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:marketing-classify@hw:aws-l40s-zrh",
@@ -17037,7 +18147,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 61896.38,
+      "kwh": 1423.18,
+      "co2_kg": 284.78
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 71501.23,
+      "kwh": 1766.22,
+      "co2_kg": 357.43
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 83721.48,
+      "kwh": 2202.67,
+      "co2_kg": 449.87
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:quote-generator@hw:aws-l40s-zrh",
@@ -17244,7 +18408,61 @@
      "Q-0087"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 72407.51,
+      "kwh": 1678.76,
+      "co2_kg": 340.66
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 84874.54,
+      "kwh": 2091.39,
+      "co2_kg": 428.53
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 100736.35,
+      "kwh": 2616.38,
+      "co2_kg": 540.32
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:knowledge-chatbot@hw:aws-l40s-zrh",
@@ -17452,7 +18670,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 72703.8,
+      "kwh": 1692.48,
+      "co2_kg": 343.56
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 85251.5,
+      "kwh": 2108.85,
+      "co2_kg": 432.21
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 101215.95,
+      "kwh": 2638.6,
+      "co2_kg": 545.01
+     }
+    }
+   ]
   },
   {
    "id": "sc:all@hw:hoster-l40s-ch",
@@ -17468,7 +18740,7 @@
     "wl:report-agent"
    ],
    "kept_on_api": [],
-   "peak_tps_year3": 840.3,
+   "peak_tps_year3": 826.5,
    "model_id": null,
    "alternatives": [],
    "feasible": false,
@@ -17678,7 +18950,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 18700.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 50482.66,
+      "kwh": 1254.5,
+      "co2_kg": 149.17
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 51703.28,
+      "kwh": 1310.43,
+      "co2_kg": 158.37
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 53256.29,
+      "kwh": 1381.59,
+      "co2_kg": 170.07
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:office-assistant@hw:hoster-l40s-ch",
@@ -17878,7 +19204,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 62753.14,
+      "kwh": 1571.16,
+      "co2_kg": 219.09
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 67315.02,
+      "kwh": 1713.32,
+      "co2_kg": 247.32
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 73119.1,
+      "kwh": 1894.18,
+      "co2_kg": 283.24
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:marketing-classify@hw:hoster-l40s-ch",
@@ -18089,7 +19469,61 @@
      "Q-0103"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 81273.04,
+      "kwh": 2312.98,
+      "co2_kg": 382.66
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 90877.89,
+      "kwh": 2657.13,
+      "co2_kg": 455.43
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 103098.14,
+      "kwh": 3095.0,
+      "co2_kg": 548.02
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:quote-generator@hw:hoster-l40s-ch",
@@ -18296,7 +19730,61 @@
      "Q-0087"
     ],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 91784.17,
+      "kwh": 2564.85,
+      "co2_kg": 438.13
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 104251.2,
+      "kwh": 2977.59,
+      "co2_kg": 526.01
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 120113.01,
+      "kwh": 3502.72,
+      "co2_kg": 637.82
+     }
+    }
+   ]
   },
   {
    "id": "sc:wl:knowledge-chatbot@hw:hoster-l40s-ch",
@@ -18504,7 +19992,61 @@
     "value_status": "estimated",
     "issue_ids": [],
     "note": "Advisory only: no number in measures, summary or forecast is changed."
-   }
+   },
+   "by_year": [
+    {
+     "year": 0,
+     "api_only": {
+      "cost_chf": 0.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     },
+     "with_option": {
+      "cost_chf": 12100.0,
+      "kwh": 0.0,
+      "co2_kg": 0.0
+     }
+    },
+    {
+     "year": 1,
+     "api_only": {
+      "cost_chf": 46469.38,
+      "kwh": 1541.9,
+      "co2_kg": 328.51
+     },
+     "with_option": {
+      "cost_chf": 92080.45,
+      "kwh": 2578.5,
+      "co2_kg": 441.02
+     }
+    },
+    {
+     "year": 2,
+     "api_only": {
+      "cost_chf": 59123.0,
+      "kwh": 1961.76,
+      "co2_kg": 417.96
+     },
+     "with_option": {
+      "cost_chf": 104628.16,
+      "kwh": 2994.96,
+      "co2_kg": 529.69
+     }
+    },
+    {
+     "year": 3,
+     "api_only": {
+      "cost_chf": 75222.19,
+      "kwh": 2495.95,
+      "co2_kg": 531.77
+     },
+     "with_option": {
+      "cost_chf": 120592.61,
+      "kwh": 3524.82,
+      "co2_kg": 642.5
+     }
+    }
+   ]
   },
   {
    "id": "sc:all@hw:cpu-test-servers",
@@ -18520,7 +20062,7 @@
     "wl:report-agent"
    ],
    "kept_on_api": [],
-   "peak_tps_year3": 840.3,
+   "peak_tps_year3": 826.5,
    "model_id": null,
    "alternatives": [],
    "feasible": false,
@@ -18554,7 +20096,7 @@
  ],
  "best": {
   "by_cost": "sc:hybrid@hw:gpu-ml-01",
-  "by_co2": "sc:all@hw:azure-a100-zrh",
+  "by_co2": "sc:hybrid@hw:aws-l40s-zrh",
   "by_workload": [
    {
     "workload_id": "wl:office-assistant",
@@ -18698,5 +20240,497 @@
    "source": "exchange_rates.csv",
    "estimate": false
   }
- ]
+ ],
+ "panel": {
+  "model": {
+   "title": "How we compute",
+   "steps": [
+    {
+     "label": "Demand",
+     "text": "Tokens per tool from ai_usage.csv (baseline year), growing 27%/year as in the forecast."
+    },
+    {
+     "label": "Fit",
+     "text": "A model qualifies if it fits the GPU memory, reaches the tool's quality level and handles the year-3 peak."
+    },
+    {
+     "label": "Energy",
+     "text": "kWh = (idle and host power while on + generation at full power) × PUE; CO₂ = kWh × grid of the site."
+    },
+    {
+     "label": "Cost",
+     "text": "Setup + rent + operations over 3 years, against the API fees the tools pay today."
+    }
+   ],
+   "servers_title": "Servers that could run local models",
+   "servers": [
+    {
+     "hardware_id": "hw:gpu-ml-01",
+     "label": "gpu-ml-01 as it is (Azure Frankfurt)",
+     "gpu": "1 GPU of the 300-W class (assumed NVIDIA A40, 48 GB)",
+     "vram_gb": 48,
+     "location": "DE",
+     "owned": true,
+     "price": {
+      "text": "own server; CHF 1.30/h for office hours (on-demand saving given back)",
+      "chf": 1.3,
+      "per": "hour"
+     },
+     "estimate": true
+    },
+    {
+     "hardware_id": "hw:gpu-ml-01-zrh",
+     "label": "gpu-ml-01 moved to Azure Zurich",
+     "gpu": "same GPU as gpu-ml-01 (assumed A40, 48 GB)",
+     "vram_gb": 48,
+     "location": "CH",
+     "owned": true,
+     "price": {
+      "text": "own server; CHF 1.43/h for office hours (on-demand saving given back)",
+      "chf": 1.43,
+      "per": "hour"
+     },
+     "estimate": true
+    },
+    {
+     "hardware_id": "hw:azure-a100-zrh",
+     "label": "Azure NC24ads A100 v4 (Zurich, 80 GB)",
+     "gpu": "NVIDIA A100 80 GB PCIe",
+     "vram_gb": 80,
+     "location": "CH",
+     "owned": false,
+     "price": {
+      "text": "CHF 4.17/h, office hours",
+      "chf": 4.17,
+      "per": "hour"
+     },
+     "estimate": false
+    },
+    {
+     "hardware_id": "hw:aws-l40s-zrh",
+     "label": "AWS g6e.xlarge (Zurich, L40S 48 GB)",
+     "gpu": "NVIDIA L40S 48 GB",
+     "vram_gb": 48,
+     "location": "CH",
+     "owned": false,
+     "price": {
+      "text": "CHF 1.83/h, office hours",
+      "chf": 1.83,
+      "per": "hour"
+     },
+     "estimate": true
+    },
+    {
+     "hardware_id": "hw:hoster-l40s-ch",
+     "label": "Swiss hoster, dedicated L40S server",
+     "gpu": "NVIDIA L40S 48 GB (dedicated)",
+     "vram_gb": 48,
+     "location": "CH",
+     "owned": false,
+     "price": {
+      "text": "CHF 2,000/month, always on",
+      "chf": 2000,
+      "per": "month"
+     },
+     "estimate": true
+    },
+    {
+     "hardware_id": "hw:cpu-test-servers",
+     "label": "CPU only on an existing test server (AWS Dublin, 4 vCPU)",
+     "gpu": "none (4 vCPU, 8 GB RAM)",
+     "vram_gb": 8,
+     "location": "IE",
+     "owned": true,
+     "price": {
+      "text": "already running (test-01), no extra cost",
+      "chf": 0,
+      "per": null
+     },
+     "estimate": true
+    }
+   ]
+  },
+  "options": [
+   {
+    "id": "best_value",
+    "title": "Best value",
+    "scenario_id": "sc:hybrid@hw:gpu-ml-01",
+    "summary": "4 tools on gpt-oss-20b (MXFP4) · gpu-ml-01 as it is (Azure Frankfurt); 3 stay on the API.",
+    "model": "gpt-oss-20b (MXFP4)",
+    "hardware": "gpu-ml-01 as it is (Azure Frankfurt)",
+    "owned": true,
+    "tools_local": [
+     "Office AI assistant",
+     "Marketing text analysis",
+     "Quote generator",
+     "Knowledge chatbot"
+    ],
+    "tools_api": [
+     "Other agents (research, sales)",
+     "Support-Agent",
+     "Report-Agent"
+    ],
+    "figures": [
+     {
+      "key": "api_3y",
+      "label": "API, 3 years",
+      "unit": "CHF",
+      "low": 159004.39,
+      "mid": 163372.34,
+      "high": 171174.37
+     },
+     {
+      "key": "local_3y",
+      "label": "In-house, 3 years",
+      "unit": "CHF",
+      "low": 70354.5,
+      "mid": 94568.58,
+      "high": 135281.74
+     },
+     {
+      "key": "saving",
+      "label": "Saving",
+      "unit": "CHF",
+      "low": 23722.65,
+      "mid": 68803.76,
+      "high": 100819.87
+     },
+     {
+      "key": "breakeven",
+      "label": "Break-even",
+      "unit": "months",
+      "low": 8,
+      "mid": 17,
+      "high": 33
+     },
+     {
+      "key": "co2_api",
+      "label": "CO₂ via API",
+      "unit": "kg",
+      "low": 162.9,
+      "mid": 1188.1,
+      "high": 7010.7
+     },
+     {
+      "key": "co2_local",
+      "label": "CO₂ in-house",
+      "unit": "kg",
+      "low": 228.6,
+      "mid": 410.4,
+      "high": 881.8
+     }
+    ]
+   },
+   {
+    "id": "lowest_co2",
+    "title": "Lowest CO₂",
+    "scenario_id": "sc:hybrid@hw:aws-l40s-zrh",
+    "summary": "4 tools on gpt-oss-20b (MXFP4) · AWS g6e.xlarge (Zurich, L40S 48 GB); 3 stay on the API.",
+    "model": "gpt-oss-20b (MXFP4)",
+    "hardware": "AWS g6e.xlarge (Zurich, L40S 48 GB)",
+    "owned": false,
+    "tools_local": [
+     "Office AI assistant",
+     "Marketing text analysis",
+     "Quote generator",
+     "Knowledge chatbot"
+    ],
+    "tools_api": [
+     "Other agents (research, sales)",
+     "Support-Agent",
+     "Report-Agent"
+    ],
+    "figures": [
+     {
+      "key": "api_3y",
+      "label": "API, 3 years",
+      "unit": "CHF",
+      "low": 159004.39,
+      "mid": 163372.34,
+      "high": 171174.37
+     },
+     {
+      "key": "local_3y",
+      "label": "In-house, 3 years",
+      "unit": "CHF",
+      "low": 73766.98,
+      "mid": 98570.02,
+      "high": 139873.07
+     },
+     {
+      "key": "saving",
+      "label": "Saving",
+      "unit": "CHF",
+      "low": 19131.32,
+      "mid": 64802.32,
+      "high": 97407.39
+     },
+     {
+      "key": "breakeven",
+      "label": "Break-even",
+      "unit": "months",
+      "low": 9,
+      "mid": 18,
+      "high": 35
+     },
+     {
+      "key": "co2_api",
+      "label": "CO₂ via API",
+      "unit": "kg",
+      "low": 162.9,
+      "mid": 1188.1,
+      "high": 7010.7
+     },
+     {
+      "key": "co2_local",
+      "label": "CO₂ in-house",
+      "unit": "kg",
+      "low": 34.4,
+      "mid": 86.4,
+      "high": 165.7
+     }
+    ]
+   }
+  ],
+  "charts": [
+   {
+    "id": "cost",
+    "title": "Cost, cumulative",
+    "unit": "CHF",
+    "x": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "x_labels": [
+     "Start",
+     "Year 1",
+     "Year 2",
+     "Year 3"
+    ],
+    "series": [
+     {
+      "id": "api_only",
+      "label": "All on the API (today)",
+      "values": [
+       0.0,
+       46469.4,
+       105592.4,
+       180814.6
+      ]
+     },
+     {
+      "id": "best_value",
+      "label": "Best value",
+      "values": [
+       18700.0,
+       48472.2,
+       79465.0,
+       112010.8
+      ]
+     },
+     {
+      "id": "lowest_co2",
+      "label": "Lowest CO₂",
+      "values": [
+       18700.0,
+       49806.0,
+       82132.6,
+       116012.2
+      ]
+     }
+    ],
+    "caption": "Setup first, then rent and operations; the lines cross at break-even."
+   },
+   {
+    "id": "kwh",
+    "title": "Electricity per year",
+    "unit": "kWh",
+    "x": [
+     1,
+     2,
+     3
+    ],
+    "x_labels": [
+     "Year 1",
+     "Year 2",
+     "Year 3"
+    ],
+    "series": [
+     {
+      "id": "api_only",
+      "label": "All on the API (today)",
+      "values": [
+       1541.9,
+       1961.8,
+       2495.9
+      ]
+     },
+     {
+      "id": "best_value",
+      "label": "Best value",
+      "values": [
+       461.2,
+       513.4,
+       579.7
+      ]
+     },
+     {
+      "id": "lowest_co2",
+      "label": "Lowest CO₂",
+      "values": [
+       348.2,
+       398.5,
+       462.6
+      ]
+     }
+    ],
+    "caption": "API energy is estimated per token (0.1–2 Wh per 1,000 tokens)."
+   },
+   {
+    "id": "co2",
+    "title": "CO₂ per year",
+    "unit": "kg",
+    "x": [
+     1,
+     2,
+     3
+    ],
+    "x_labels": [
+     "Year 1",
+     "Year 2",
+     "Year 3"
+    ],
+    "series": [
+     {
+      "id": "api_only",
+      "label": "All on the API (today)",
+      "values": [
+       328.5,
+       418.0,
+       531.8
+      ]
+     },
+     {
+      "id": "best_value",
+      "label": "Best value",
+      "values": [
+       151.0,
+       165.5,
+       183.9
+      ]
+     },
+     {
+      "id": "lowest_co2",
+      "label": "Lowest CO₂",
+      "values": [
+       49.5,
+       58.1,
+       69.0
+      ]
+     }
+    ],
+    "caption": "Location-based: grid of the server's site vs EU average for the API."
+   }
+  ],
+  "tools": {
+   "title": "Where local models make a difference",
+   "intro": "Local models keep private business data in-house. Coding stays on the API (agreed with ALTYCA).",
+   "headline": "4 of 7 tools (90% of today's API spend) can run locally in «Best value».",
+   "items": [
+    {
+     "workload_id": "wl:office-assistant",
+     "label": "Office AI assistant",
+     "private_data": "contracts, tables, summaries of internal documents",
+     "api_chf_per_year": 23356,
+     "api_co2_kg_per_year": 183.1,
+     "local_in": [
+      "best_value",
+      "lowest_co2"
+     ],
+     "status": "Local in both options",
+     "notes": [
+      "Includes contract review (14% of its cost): test quality before moving it."
+     ]
+    },
+    {
+     "workload_id": "wl:marketing-classify",
+     "label": "Marketing text analysis",
+     "private_data": "customer texts",
+     "api_chf_per_year": 8800,
+     "api_co2_kg_per_year": 49.8,
+     "local_in": [
+      "best_value",
+      "lowest_co2"
+     ],
+     "status": "Local in both options",
+     "notes": []
+    },
+    {
+     "workload_id": "wl:support-agent",
+     "label": "Support-Agent",
+     "private_data": "support tickets",
+     "api_chf_per_year": 2014,
+     "api_co2_kg_per_year": 10.6,
+     "local_in": [],
+     "status": "Stays on the API",
+     "notes": [
+      "Agent tasks need a frontier model: stays on the API."
+     ]
+    },
+    {
+     "workload_id": "wl:other-agents",
+     "label": "Other agents (research, sales)",
+     "private_data": "internal data read by agents",
+     "api_chf_per_year": 1397,
+     "api_co2_kg_per_year": 7.0,
+     "local_in": [],
+     "status": "Stays on the API",
+     "notes": [
+      "Code agent (57% of its use) stays on the API: coding is out of scope.",
+      "Agent tasks need a frontier model: stays on the API."
+     ]
+    },
+    {
+     "workload_id": "wl:quote-generator",
+     "label": "Quote generator",
+     "private_data": "prices and customer data",
+     "api_chf_per_year": 539,
+     "api_co2_kg_per_year": 4.7,
+     "local_in": [
+      "best_value",
+      "lowest_co2"
+     ],
+     "status": "Local in both options",
+     "notes": []
+    },
+    {
+     "workload_id": "wl:knowledge-chatbot",
+     "label": "Knowledge chatbot",
+     "private_data": "internal knowledge base",
+     "api_chf_per_year": 306,
+     "api_co2_kg_per_year": 2.4,
+     "local_in": [
+      "best_value",
+      "lowest_co2"
+     ],
+     "status": "Local in both options",
+     "notes": []
+    },
+    {
+     "workload_id": "wl:report-agent",
+     "label": "Report-Agent",
+     "private_data": "internal reports",
+     "api_chf_per_year": 112,
+     "api_co2_kg_per_year": 0.6,
+     "local_in": [],
+     "status": "Stays on the API",
+     "notes": [
+      "Agent tasks need a frontier model: stays on the API."
+     ]
+    }
+   ]
+  }
+ }
 }

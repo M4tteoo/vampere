@@ -816,6 +816,7 @@ export interface LocalAiWorkload {
   label: string; resource_id: string; tool: string; why_private: string;
   tier: LocalAiTier;              // highest tier among task types with >= 20 % of the API cost
   tasks: { task_type: string; tier: LocalAiTier; cost_share: number; out_eq_tokens: number }[];
+  excluded: { what: string; share: number; reason: string } | null;   // part kept on the API (coding agents), already removed from all figures
   models_today: string[];
   tokens_in: number; tokens_in_cache: number; tokens_out: number;
   out_eq_tokens: number;          // output + 0.1 x uncached input + 0.01 x cached input (as the energy engine)
@@ -842,7 +843,7 @@ export interface LocalAiHardware {
   on_hours_per_year: number;      // hourly: office hours; monthly: 8,760
   extra_setup_days: number;
   owned: boolean; entity_id: string | null;   // "srv:gpu-ml-01"
-  measure_ids: string[];          // measures it interacts with (e.g. M-04)
+  measure_roles: ("on_demand" | "move")[];   // package measures on this GPU, found by what they do (ids can change)
   pue_factor_id: string; grid_factor_id: string;
   note: string; source: string; estimate: boolean;
 }
@@ -871,6 +872,44 @@ export interface LocalAiScenario {
                      cost_chf_per_year: Range | null; note: string }[];
   pros?: string[]; cons?: string[];
   calc?: Calc;
+  // year 0 = setup; years 1..3 (mid): all analysed tools on the API vs this option (moved tools local + the rest on the API)
+  by_year?: LocalAiYear[];
+}
+
+export interface LocalAiYear {
+  year: number;
+  api_only: { cost_chf: number; kwh: number; co2_kg: number };
+  with_option: { cost_chf: number; kwh: number; co2_kg: number };
+}
+
+/** The four sections of the Local AI panel: data + short texts, ready to display (local_ai.json → panel). */
+export interface LocalAiPanel {
+  model: {                                      // 1. how we compute + servers that could run local models
+    title: string;
+    steps: { label: string; text: string }[];   // Demand · Fit · Energy · Cost
+    servers_title: string;
+    servers: { hardware_id: string; label: string; gpu: string; vram_gb: number; location: LocationCode;
+               owned: boolean; estimate: boolean;
+               price: { text: string; chf: number | null; per: "hour" | "month" | null } }[];
+  };
+  options: {                                    // 2. best value / lowest CO₂ (one entry if they are the same)
+    id: "best_value" | "lowest_co2"; title: string; scenario_id: string; summary: string;
+    model: string; hardware: string; owned: boolean;
+    tools_local: string[]; tools_api: string[];
+    figures: { key: "api_3y" | "local_3y" | "saving" | "breakeven" | "co2_api" | "co2_local";
+               label: string; unit: "CHF" | "kg" | "months";
+               low: number | null; mid: number | null; high: number | null }[];   // breakeven null = not within 36 months
+  }[];
+  charts: {                                     // 3. cost (cumulative), electricity and CO₂ per year, mid values
+    id: "cost" | "kwh" | "co2"; title: string; unit: "CHF" | "kWh" | "kg"; caption: string;
+    x: number[]; x_labels: string[];            // year 0 = start (setup)
+    series: { id: "api_only" | "best_value" | "lowest_co2"; label: string; values: number[] }[];
+  }[];
+  tools: {                                      // 4. where local models make a difference (privacy; coding stays on the API)
+    title: string; intro: string; headline: string;
+    items: { workload_id: string; label: string; private_data: string; api_chf_per_year: number;
+             api_co2_kg_per_year: number; local_in: ("best_value" | "lowest_co2")[]; status: string; notes: string[] }[];
+  };
 }
 
 export interface LocalAiFile {
@@ -888,4 +927,5 @@ export interface LocalAiFile {
           by_workload: { workload_id: string; fit: string | null }[] };
   assumptions: { id: string; label: string; value: number | Range | Record<string, number>;
                  unit: string; source: string; estimate: boolean }[];
+  panel: LocalAiPanel;               // ready-to-display sections (the fields above stay for detail views)
 }

@@ -245,7 +245,7 @@ hardware:
     price: derived          # baseline cost of gpu-ml / baseline billed GPU-hours (azure_costs.csv)
     owned: true
     entity_id: srv:gpu-ml-01
-    measure_ids: [M-04]
+    measure_roles: [on_demand]          # the package measure «run gpu-ml on demand», found by what it does
     pue: pue
     note: "VRAM is not in the data (only «300-W class»): A40 48 GB assumed. With an A100 80 GB PCIe (also 300 W), gpt-oss-120b would fit."
     source: "server_inventory.csv, azure_costs.csv, data_dictionary.md; idle W from pipeline/energy/factors.yaml"
@@ -266,10 +266,10 @@ hardware:
     extra_setup_days: 3.5
     owned: true
     entity_id: srv:gpu-ml-01
-    measure_ids: [M-04, M-05]
+    measure_roles: [on_demand, move]   # package measures on gpu-ml, found by what they do (ids can change)
     pue: pue
-    note: "Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as M-05 (3.5 person-days). GPU quota in Switzerland North must be requested."
-    source: "https://prices.azure.com/api/retail/prices (queried 2026-11-21); output/measures.json M-05"
+    note: "Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as the package measure «on demand and move to Zurich» (3.5 person-days). GPU quota in Switzerland North must be requested."
+    source: "https://prices.azure.com/api/retail/prices (queried 2026-11-21); output/measures.json (measure «on demand and move to Zurich»)"
     estimate: true
   - id: hw:azure-a100-zrh
     label: Azure NC24ads A100 v4 (Zurich, 80 GB)
@@ -285,7 +285,7 @@ hardware:
     price: {currency: USD, low: 5.252, mid: 5.252, high: 5.252}
     owned: false
     entity_id: null
-    measure_ids: []
+    measure_roles: []
     pue: pue
     note: "Pay-as-you-go list price, Linux, Switzerland North. 1-year reserved ≈ 3.43 USD/h but billed 24/7, so dearer for office hours."
     source: "https://prices.azure.com/api/retail/prices?$filter=armRegionName eq 'switzerlandnorth' and armSkuName eq 'Standard_NC24ads_A100_v4' (queried 2026-11-21); NVIDIA A100 datasheet (300 W)"
@@ -304,7 +304,7 @@ hardware:
     price: {currency: USD, low: 2.2, mid: 2.3, high: 2.4}
     owned: false
     entity_id: null
-    measure_ids: []
+    measure_roles: []
     pue: pue
     note: "US-East list 1.861 USD/h; eu-central-2 assumed +15–25 %. Availability in eu-central-2 not verified."
     source: "https://aws.amazon.com/ec2/pricing/on-demand/; NVIDIA L40S datasheet (350 W)"
@@ -323,7 +323,7 @@ hardware:
     price: {currency: CHF, low: 1500, mid: 2000, high: 2500}
     owned: false
     entity_id: null
-    measure_ids: []
+    measure_roles: []
     pue: pue_hoster
     note: "No published list price; ask the current hoster for a quote. Always on (monthly rent)."
     source: "Estimate from Swiss / EU GPU hosting offers (exoscale.com/pricing, hetzner.com GPU matrix)"
@@ -342,7 +342,7 @@ hardware:
     price: {currency: CHF, low: 0, mid: 0, high: 0}
     owned: true
     entity_id: srv:test-01
-    measure_ids: []
+    measure_roles: []
     pue: pue
     note: "Already paid and on in office hours; only the extra CPU power counts (4 vCPU × (3.63 − 0.76) W ≈ 11.5 W, rounded to 15 W with memory)."
     source: "server_inventory.csv (test-01, 4 vCPU, 8 GB, CPU ≈ 3–7 %); CCF W per vCPU in pipeline/energy/factors.yaml"
