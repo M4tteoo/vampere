@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
 <title>Vampère</title>
-<rect x="2" y="2" width="60" height="60" rx="14" fill="#121314"/>
-<path d="M16,15 L32,45 L48,15" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M22,54 L42,54" fill="none" stroke="#D7263D" stroke-width="4" stroke-linecap="round"/>
+<!-- La «E» finale del logo: tessera rossa del contatore con la E bianca (src/ui/VampereLogo.tsx). -->
+<rect x="2" y="2" width="60" height="60" rx="14" fill="#D7263D"/>
+<path transform="translate(21.5,14) scale(0.36)" d="M54,0 L0,0 L0,100 L54,100 M0,50 L46,50" fill="none" stroke="#FFFFFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
