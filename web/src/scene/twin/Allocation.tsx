@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import { Box3, BufferGeometry, Color, Group, Material, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, Vector3 } from 'three'
+import { Box3, BufferGeometry, Color, Group, InstancedMesh, Material, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, Vector3 } from 'three'
 import { useApp } from '../../store'
 import { DEPARTMENTS, DEPT_ACCENT, effectiveOf, makeCtx, resourceOf, statusOf, type Ctx } from '../../data/twin'
 import type { LayoutItem } from '../../data/types'
@@ -896,6 +896,8 @@ function OfficeModel({ info, stage, heatOn, hoverTint }: { info: OfficeInfo; sta
         onClick={(e: ThreeEvent<MouseEvent>) => {
           const r = ancestor(e.object, 'floor_')
           if (!r || !ROOMS.includes(r)) return
+          // Con un reparto aperto i pavimenti degli altri sono ritagliati (invisibili): non devono rubare il clic agli oggetti dietro.
+          if (room && r !== room) return
           e.stopPropagation()
           if (!room) setRoom(r)
           else if (stage === 'cloud') setStage('office')
@@ -912,7 +914,11 @@ function OfficeModel({ info, stage, heatOn, hoverTint }: { info: OfficeInfo; sta
             hover('stage:office')
           }
         }}
-        onPointerOut={() => hover(null)}
+        // Toglie solo gli evidenziati del pavimento (reparto o palco), non quelli degli oggetti sotto il mouse.
+        onPointerOut={() => {
+          const h = useApp.getState().hoverId
+          if (!h || h.startsWith('room:') || h === 'stage:office') hover(null)
+        }}
       />
       {/* Zoccolo del reparto ritagliato: chiude il taglio del basamento, come un plastico. */}
       {box && (
@@ -926,6 +932,9 @@ function OfficeModel({ info, stage, heatOn, hoverTint }: { info: OfficeInfo; sta
 }
 
 /** Un'isola: nel palco laterale un clic porta le isole al centro. Nella pianta non si clicca. */
+/** Il raggio del mouse colpisce un oggetto cliccabile (InstancedMesh) oltre all'isola? */
+const hitsItem = (e: ThreeEvent<MouseEvent | PointerEvent>) => e.intersections.some((i) => (i.object as InstancedMesh).isInstancedMesh)
+
 function IslandModel({ object, stage, heatOn, interactive }: { object: Object3D; stage: 'office' | 'cloud'; heatOn: boolean; interactive: boolean }) {
   const setStage = useApp((s) => s.setStage)
   const select = useApp((s) => s.select)
@@ -936,6 +945,9 @@ function IslandModel({ object, stage, heatOn, interactive }: { object: Object3D;
       object={object}
       onClick={(e: ThreeEvent<MouseEvent>) => {
         if (!interactive) return
+        // Un albero o un edificio dell'isola davanti a un oggetto non deve rubargli il clic: se il raggio colpisce
+        // anche un oggetto (istanze cliccabili; fantasmi e veli non si colpiscono) il clic passa a lui.
+        if (stage !== 'office' && hitsItem(e)) return
         e.stopPropagation()
         if (stage === 'office') setStage('cloud')
         else select(null)

@@ -57,7 +57,7 @@ export function LocalAiReport() {
           <div>
             <div className="text-[13px] text-muted">Advisory · a person decides · not part of the package budget</div>
             <h2 className="mt-1 text-[26px] leading-tight font-semibold tracking-[-0.5px] text-ink">Running our AI tools in-house</h2>
-            <p className="mt-1.5 max-w-[720px] text-[14px] text-body">{panel.tools.intro}</p>
+            <p className="mt-1.5 max-w-[720px] text-[14px] text-body">{panel.tools.intro.replace(/\s*\(agreed with [^)]*\)/i, '')}</p>
           </div>
           <button onClick={() => setOpen(false)} aria-label="Close" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface-strong text-ink hover:bg-hairline">
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
@@ -83,12 +83,19 @@ export function LocalAiReport() {
 function Options({ panel }: { panel: LocalAiPanel }) {
   // Il primo punto della curva dei costi cumulati è la spesa iniziale (setup) dell'opzione.
   const setup = panel.charts.find((c) => c.id === 'cost')?.series.find((x) => x.id !== 'api_only')?.values[0]
+  // Numeri del pareggio (opzione «Best value»): costo in casa al mese e quanto costano oggi, al mese, gli stessi strumenti sull'API.
+  const ai = useApp((s) => s.data?.localAi)
+  const sc = ai?.scenarios.find((x) => x.id === panel.options[0]?.scenario_id)
+  const localMonth = sc?.yearly_chf ? sc.yearly_chf.mid / 12 : null
+  const apiMonth = sc && ai ? sc.workload_ids.reduce((a, id) => a + (ai.workloads.find((w) => w.id === id)?.api.cost_chf.mid ?? 0), 0) / 12 : null
   return (
     <>
       {setup != null && setup > 0 && (
         <p className="mb-4 text-[13px] text-body">
           <span className="font-semibold text-ink">Why it is not paid back at once:</span> going in-house costs about {fmtChf(setup)} up front (setup of the server and the models). After that, every
-          month costs less than the API: «paid back after» is when those monthly savings have covered the setup.
+          month costs less than the API
+          {localMonth && apiMonth ? ` (in «${panel.options[0].title}»: about ${fmtChf(localMonth)} a month in-house against ${fmtChf(apiMonth)} today on the API, a gap that grows as AI use grows)` : ''}: «paid back after» is
+          when those monthly savings have covered the setup.
         </p>
       )}
       <section className={`grid gap-5 ${panel.options.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
