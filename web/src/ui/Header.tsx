@@ -1,5 +1,6 @@
 import { useApp, type Step } from '../store'
-import { Logo } from './Logo'
+import { useIntro } from '../intro/store'
+import { LOGO_H, LOGO_W, VampereLogo } from './VampereLogo'
 
 /** Passi della demo, nell'ordine in cui li racconta. Misure e limiti stanno dentro il passo 2 (interruttore), l'export nei passi 2 e 3. */
 export const STEPS: { id: Step; label: string }[] = [
@@ -17,6 +18,7 @@ export function Header() {
   const simDone = useApp((s) => s.simDone)
   const isMock = useApp((s) => s.data?.summary.is_mock)
   const hasExtra = useApp((s) => !!s.data?.extra)
+  const landed = useIntro((s) => s.landing === 'done')
 
   const ready = (id: Step): { ok: boolean; why?: string } => {
     if (id === 'allocation') return { ok: true }
@@ -27,8 +29,11 @@ export function Header() {
 
   return (
     <header className="relative z-40 flex h-[88px] shrink-0 items-center justify-between bg-white px-8">
-      <button onClick={() => setRoom(null)} className="flex w-48 items-center gap-2" aria-label="Back to the floor plan">
-        <Logo />
+      <button onClick={() => setRoom(null)} className="flex w-48 items-center" aria-label="Back to the floor plan">
+        {/* Qui si posa il logo dell'apertura (intro/Landing.tsx): resta nascosto finché non è atterrato. */}
+        <span data-landing-target className="block h-9" style={{ width: (36 * LOGO_W) / LOGO_H, opacity: landed ? 1 : 0 }}>
+          <VampereLogo className="block h-full w-full" />
+        </span>
       </button>
 
       <nav className="pill-shadow flex h-16 items-center rounded-full border border-hairline bg-white px-3">

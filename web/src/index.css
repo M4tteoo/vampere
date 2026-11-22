@@ -75,7 +75,7 @@ button:disabled { cursor: not-allowed; }
 .bp-detect #furniture path { fill: rgba(255, 197, 92, 0.18); }
 
 
-/* Vampere salta fuori dal cerchio a ogni cambio di posa (Chat.tsx). */
+/* Wattson salta fuori dal cerchio a ogni cambio di posa (Chat.tsx). */
 @keyframes vamp-pop {
   0% { transform: translateY(14%) scale(0.92); opacity: 0; }
   55% { transform: translateY(-4%) scale(1.03); opacity: 1; }
@@ -83,3 +83,25 @@ button:disabled { cursor: not-allowed; }
 }
 .vamp-pop { transform-origin: 50% 100%; animation: vamp-pop 0.42s cubic-bezier(0.3, 1.4, 0.5, 1) both; }
 @media (prefers-reduced-motion: reduce) { .vamp-pop { animation: none; } }
+
+/* Logo Vampère: la rotella rossa scatta di una cifra (stessa curva di design/logo/vampere-meter-animated.svg). */
+@keyframes vl-roll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-129px); }
+}
+.vl-roll { animation: vl-roll 1s cubic-bezier(0.65, 0, 0.35, 1) both; }
+
+/* Apertura (intro/Landing.tsx): i testi della pagina salgono uno dopo l'altro quando il logo vola nell'header. */
+@keyframes landing-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.landing-rise { animation: landing-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--rise-delay, 0ms); }
+.landing-hidden { opacity: 0; }
+
+/* Apertura in attesa del clic: l'invito pulsa piano. */
+@keyframes landing-hint {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+.landing-hint { animation: landing-hint 2.2s ease-in-out infinite; }

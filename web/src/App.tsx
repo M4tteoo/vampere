@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { loadDataset } from './data/load'
-import { useApp } from './store'
+import { useApp, type Step } from './store'
 import { Scene } from './scene/Scene'
 import { Header } from './ui/Header'
 import { RoomTitle } from './ui/RoomTitle'
@@ -12,6 +12,7 @@ import { useIntro } from './intro/store'
 import { useProgress } from '@react-three/drei'
 import { StepUi, Ticker } from './ui/Steps'
 import { Chat } from './ui/Chat'
+import { Landing } from './intro/Landing'
 
 /** Demo passo per passo. Per ora: Allocation (chi consuma cosa). Gli altri passi sono in src/scene/SceneAll.tsx e src/ui/*Panel. */
 export default function App() {
@@ -47,6 +48,16 @@ export default function App() {
       .catch((e: Error) => setError(e.message))
   }, [setData])
 
+  // L'apertura parte subito, anche mentre i dati e la scena si caricano sotto.
+  return (
+    <>
+      <Main data={!!data} error={error} step={step} introDone={introDone} />
+      <Landing />
+    </>
+  )
+}
+
+function Main({ data, error, step, introDone }: { data: boolean; error: string | null; step: Step; introDone: boolean }) {
   if (error) return <div className="grid h-full place-items-center text-error">{error}</div>
   if (!data) return <div className="grid h-full place-items-center text-[14px] font-medium text-muted">Loading data…</div>
 

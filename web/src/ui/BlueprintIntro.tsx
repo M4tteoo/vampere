@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { BLUEPRINT_URL, LAND_S, SCAN_S, useIntro, type BlueprintMeta, type PaperRect } from '../intro/store'
 import { loadBlueprintMeta, BUILD_ORDER } from '../scene/twin/BlueprintBuild'
-import { Logo } from './Logo'
 
 const LOG_W = 360
 /** Colore del riconoscimento (muri e vetrate, locali): lo stesso di .bp-detect #walls in index.css. */
@@ -38,19 +37,24 @@ export function BlueprintIntro() {
 function Upload() {
   const start = useIntro((s) => s.start)
   const input = useRef<HTMLInputElement>(null)
+  // Apertura (intro/Landing.tsx): testi nascosti mentre cade il cartello, poi salgono uno dopo l'altro.
+  const landing = useIntro((s) => s.landing)
+  const rise = landing === 'playing' ? 'landing-hidden' : 'landing-rise'
+  const delay = (i: number) => ({ ['--rise-delay' as string]: `${180 + i * 90}ms` }) as CSSProperties
 
   return (
     <div className="pointer-events-auto absolute inset-0 z-50 grid place-items-center bg-white">
-      <div className="absolute top-7 left-8">
-        <Logo />
-      </div>
 
       <div className="flex w-[min(880px,92vw)] flex-col items-center text-center">
-        <p className="text-[13px] font-semibold tracking-[0.12em] text-primary uppercase">Digital twin setup</p>
-        <h1 className="mt-3 text-[36px] leading-tight font-semibold tracking-[-0.6px] text-ink">Start from your floor plan</h1>
-        <p className="mt-3 max-w-[560px] text-[16px] text-muted">Vampére reads walls, rooms and workstations and builds the 3D office from its module library.</p>
+        <p className={`text-[13px] font-semibold tracking-[0.12em] text-primary uppercase ${rise}`} style={delay(0)}>
+          Digital twin setup
+        </p>
+        <h1 className={`mt-3 text-[36px] leading-tight font-semibold tracking-[-0.6px] text-ink ${rise}`} style={delay(1)}>Start from your floor plan</h1>
+        <p className={`mt-3 max-w-[560px] text-[16px] text-muted ${rise}`} style={delay(2)}>
+          Vampère reads walls, rooms and workstations and builds the 3D office from its module library.
+        </p>
 
-        <div className="mt-10 flex w-full items-center justify-between">
+        <div className={`mt-10 flex w-full items-center justify-between ${rise}`} style={delay(3)}>
           <h2 className="text-[16px] font-semibold text-ink">Your floor plans</h2>
           <button
             onClick={() => input.current?.click()}
@@ -73,7 +77,7 @@ function Upload() {
           />
         </div>
 
-        <div className="pill-shadow mt-4 flex w-full items-center gap-5 rounded-[var(--radius-md)] bg-white p-3 text-left">
+        <div style={delay(4)} className={`${rise} pill-shadow mt-4 flex w-full items-center gap-5 rounded-[var(--radius-md)] bg-white p-3 text-left`}>
           <img src={BLUEPRINT_URL} alt="Floor plan A-101" className="h-[92px] w-[130px] rounded-[var(--radius-sm)] border border-hairline-soft object-cover" />
           <div className="min-w-0 flex-1">
             <p className="text-[16px] font-semibold text-ink">A-101 · Floor plan · Level 01</p>
