@@ -105,3 +105,18 @@ button:disabled { cursor: not-allowed; }
   50% { opacity: 1; }
 }
 .landing-hint { animation: landing-hint 2.2s ease-in-out infinite; }
+
+/* Comandi di un passo che compaiono: breve dissolvenza con un piccolo spostamento verso l'alto. */
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.step-in {
+  animation: step-in 450ms ease-out both;
+}

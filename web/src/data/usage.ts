@@ -4,11 +4,12 @@ import type { Extra, XFinding, XLimit, XMeasure } from './extra'
 import type { Entity, LayoutItem, MetricKey, Metrics } from './types'
 import { effectiveOf, resourceOf, type Ctx } from './twin'
 
-export const GOAL_LABEL: Record<string, string> = { climate_first: 'Climate first', best_value: 'Best value', francs_first: 'Francs first' }
+export const GOAL_LABEL: Record<string, string> = { climate_first: 'Climate first', best_value: 'Best value', francs_first: 'Francs first', safest: 'Safest' }
 export const GOAL_HINT: Record<string, string> = {
   climate_first: 'Most CO₂ cut within the budget',
   best_value: 'Most CO₂ per franc spent',
   francs_first: 'Most money saved within the budget',
+  safest: 'Least risk for operations',
 }
 export const ISLAND_LOC: Record<string, string> = { zurich: 'CH', frankfurt: 'DE', dublin: 'IE' }
 
@@ -210,3 +211,14 @@ export function clusterOf(ctx: Ctx, x: Extra, unit: string): string | null {
 }
 
 export { sum }
+
+/** Unità di un reparto: i suoi computer e le risorse cloud (con un oggetto sulle isole) che usa, da proprietario o in quota. */
+export function deptUnits(ctx: Ctx, room: string): string[] {
+  const hw = new Set<string>()
+  for (const item of ctx.data.layout) {
+    if (item.view !== 'island') continue
+    const e = effectiveOf(ctx, resourceOf(item))?.entity
+    if (e && (e.department === room || e.allocation?.some((a) => a.department === room))) hw.add(e.id)
+  }
+  return [`pcs:${room}`, ...hw]
+}

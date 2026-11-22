@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import { Color, InstancedMesh, Matrix4, MeshStandardMaterial, Object3D, Quaternion, Vector3, type Material } from 'three'
 import { useKit, type Role } from './kit'
-import { focusPlanes } from './clip'
 
 /** Un'istanza di un asset nella scena: posizione e colori «di stato» calcolati dai dati. */
 export interface Inst {
@@ -45,11 +44,8 @@ interface Props {
 const TINTED: Role[] = ['screen', 'led', 'glow', 'accent', 'days', 'provider']
 const LIGHTS: Role[] = ['screen', 'led', 'glow', 'days']
 type Tint = Role | 'paint'
-/** Ruolo da cui prende il colore una parte (null = colore del modello). */
-const tintOf = (role: Role, paint?: boolean): Tint | null => (paint ? (LIGHTS.includes(role) ? role : 'paint') : TINTED.includes(role) ? role : null)
-const paintMaterial = new MeshStandardMaterial({ color: '#ffffff', roughness: 0.82 })
-paintMaterial.clippingPlanes = focusPlanes
-const paintUnclipped = new MeshStandardMaterial({ color: '#ffffff', roughness: 0.82 })
+/** Velocità del passaggio fra colori del modello e colori della mappa (stessa del plastico): circa 0,7 s. */
+const MORPH = 4.5
 const UP = new Vector3(0, 1, 0)
 
 interface Live {
@@ -65,18 +61,24 @@ interface Live {
 /** Disegna tutte le copie di un asset con poche draw call (una InstancedMesh per parte del modello). */
 export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickRoom, unclipped, paint }: Props) {
   const kit = useKit(asset)
+  // Le parti non luminose hanno un materiale bianco proprio: il colore lo dà l'istanza, così fra i colori del modello
+  // e quelli della mappa («paint») si passa con una sfumatura invece di cambiare materiale.
   const materials = useMemo(
     () =>
       kit.parts.map((p) => {
         if (ghost) return ghost
-        if (paint && !LIGHTS.includes(p.role)) return unclipped ? paintUnclipped : paintMaterial
-        if (!unclipped) return p.material
+        const lit = LIGHTS.includes(p.role)
+        if (lit && !unclipped) return p.material
         const m = p.material.clone()
-        m.clippingPlanes = null
+        m.clippingPlanes = unclipped ? null : p.material.clippingPlanes
+        if (!lit && (m as MeshStandardMaterial).color) (m as MeshStandardMaterial).color.set('#ffffff')
         return m
       }),
-    [kit, ghost, unclipped, paint],
+    [kit, ghost, unclipped],
   )
+  const partColor = useMemo(() => kit.parts.map((p) => ((p.material as MeshStandardMaterial).color ?? new Color('#ffffff')).clone()), [kit])
+  // 0 = colori del modello, 1 = colori della mappa.
+  const mix = useRef(paint ? 1 : 0)
   const refs = useRef<(InstancedMesh | null)[]>([])
   const live = useRef<Live[]>([])
   const dirty = useRef(true)
@@ -122,6 +124,12 @@ export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickR
   useFrame(({ clock }, dt) => {
     const time = clock.elapsedTime
     let moving = false
+    const wantMix = paint ? 1 : 0
+    if (mix.current !== wantMix) {
+      const d = wantMix - mix.current
+      mix.current = Math.abs(d) < 0.003 ? wantMix : mix.current + d * Math.min(1, dt * MORPH)
+      moving = true
+    }
     instances.forEach((inst, i) => {
       const l = live.current[i]
       const target = l.target
@@ -176,12 +184,18 @@ export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickR
         }
         tmp.m.multiply(part.matrix)
         mesh.setMatrixAt(i, tmp.m)
-        const tint = ghost ? null : tintOf(part.role, paint)
-        if (tint) {
-          tmp.c.copy(shown.current[i]?.[tint] ?? colors[i][tint]!)
-          if (inst.blink && tint !== 'accent' && tint !== 'paint') tmp.c.multiplyScalar(0.55 + 0.45 * (0.5 + 0.5 * Math.sin(time * 4 + i)))
-          mesh.setColorAt(i, tmp.c)
+        if (ghost) return
+        const col = (t: Tint) => shown.current[i]?.[t] ?? colors[i][t]!
+        if (LIGHTS.includes(part.role)) {
+          tmp.c.copy(col(part.role as Tint))
+          if (inst.blink && !paint) tmp.c.multiplyScalar(0.55 + 0.45 * (0.5 + 0.5 * Math.sin(time * 4 + i)))
+        } else {
+          // Colore del modello (con la tinta dell'istanza per accenti e fornitore) che sfuma verso il colore della mappa.
+          tmp.c.copy(partColor[pi])
+          if (TINTED.includes(part.role)) tmp.c.multiply(col(part.role as Tint))
+          if (mix.current > 0) tmp.c.lerp(col('paint'), mix.current)
         }
+        mesh.setColorAt(i, tmp.c)
       })
       mesh.instanceMatrix.needsUpdate = true
       if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true
@@ -201,7 +215,7 @@ export function KitInstances({ asset, instances, onHover, onSelect, ghost, pickR
     <group>
       {kit.parts.map((part, pi) => (
         <instancedMesh
-          key={`${pi}-${count}-${paint ? 1 : 0}`}
+          key={`${pi}-${count}`}
           ref={(m) => {
             refs.current[pi] = m
           }}

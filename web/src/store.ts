@@ -30,6 +30,9 @@ interface AppState {
   /** La simulazione della baseline è finita almeno una volta: si sbloccano le misure e i passi dopo. */
   simDone: boolean
   play: () => void
+  /** Passo 4: ferma la simulazione sul mese mostrato, oppure la fa ripartire da lì. */
+  pause: () => void
+  resume: () => void
   tick: () => void
   setMonth: (m: number | null) => void
   showMeasures: boolean
@@ -37,6 +40,26 @@ interface AppState {
   /** Obiettivo del pacchetto (climate_first, best_value, francs_first). null = quello predefinito del backend. */
   goal: string | null
   setGoal: (g: string) => void
+  /** Passo 3 (human in the loop): misure del pacchetto tolte a mano. Si azzerano cambiando pacchetto. */
+  dropped: string[]
+  toggleDropped: (id: string) => void
+  /** Passo 3: misura aperta (si vede il reparto o l'isola che tocca) e confronto senza/con lei. */
+  focus: string | null
+  setFocus: (id: string | null, room?: string | null) => void
+  compareBefore: boolean
+  /** Passi 2–4: CO₂ della rete del luogo (location-based, quello del caso) oppure market-based (bonus). */
+  co2Basis: 'location' | 'market'
+  /** Report «AI in casa» (bonus, solo consultivo) aperto sopra la scena. */
+  localAiOpen: boolean
+  setLocalAiOpen: (v: boolean) => void
+  /** Report «fasce del giorno» (bonus carbon-aware) aperto sopra la scena. */
+  hoursOpen: boolean
+  /** Passo 4: box dei grafici aperto a destra (al posto della scheda di un oggetto). */
+  chartsOpen: boolean
+  setChartsOpen: (v: boolean) => void
+  setHoursOpen: (v: boolean) => void
+  setCo2Basis: (b: 'location' | 'market') => void
+  setCompareBefore: (v: boolean) => void
   colorBy: ColorBy
   setColorBy: (c: ColorBy) => void
   /** Passo 4: la mappa mostra il futuro con il pacchetto (true) o senza. */
@@ -83,22 +106,29 @@ interface AppState {
 
 export const useApp = create<AppState>((set, get) => ({
   step: 'allocation',
+  // Cambiando passo si resta dove si è (pianta o reparto): cambia solo cosa mostra la scena.
   setStep: (step) =>
     set((s) => ({
       step,
-      room: null,
+      // Previsione: solo le isole, niente reparto (tornando agli altri passi si riparte dalla pianta).
+      room: step === 'forecast' ? null : s.room,
       stage: 'office',
       turns: { office: 0, cloud: 0 },
       selectedId: null,
+      focus: null,
+      compareBefore: false,
+      chartsOpen: false,
       hoverId: null,
-      // La baseline parte da sola la prima volta; la previsione ogni volta.
-      month: (step === 'baseline' && !s.simDone) || step === 'forecast' ? 0 : null,
-      playing: (step === 'baseline' && !s.simDone) || step === 'forecast',
+      // La previsione parte da sola; la baseline mostra subito l'anno intero (la crescita si guarda con un bottone).
+      month: step === 'forecast' ? 0 : null,
+      playing: step === 'forecast',
     })),
   month: null,
   playing: false,
   simDone: false,
   play: () => set({ month: 0, playing: true, selectedId: null }),
+  pause: () => set({ playing: false }),
+  resume: () => set((s) => ({ playing: true, month: s.month === null || s.month >= 11 ? 0 : s.month })),
   tick: () =>
     set((s) => {
       const m = (s.month ?? -1) + 1
@@ -109,7 +139,29 @@ export const useApp = create<AppState>((set, get) => ({
   showMeasures: false,
   setShowMeasures: (showMeasures) => set({ showMeasures }),
   goal: null,
-  setGoal: (goal) => set({ goal }),
+  setGoal: (goal) => set((s) => (s.goal === goal ? s : { goal, dropped: [], focus: null, compareBefore: false })),
+  dropped: [],
+  toggleDropped: (id) => set((s) => ({ dropped: s.dropped.includes(id) ? s.dropped.filter((x) => x !== id) : [...s.dropped, id] })),
+  focus: null,
+  // Aprendo una misura si va al reparto che la riguarda (se c'è); richiudendola si resta dove si è.
+  setFocus: (focus, room) =>
+    set((s) => ({
+      focus,
+      compareBefore: false,
+      selectedId: null,
+      ...(focus && room !== undefined && room !== s.room ? { room, turns: { office: 0, cloud: 0 }, stage: 'office' as const, hoverId: null } : {}),
+    })),
+  chartsOpen: false,
+  // Aprendo i grafici si chiude la scheda dell'oggetto (stesso posto a destra), e viceversa.
+  setChartsOpen: (chartsOpen) => set(chartsOpen ? { chartsOpen, selectedId: null } : { chartsOpen }),
+  hoursOpen: false,
+  setHoursOpen: (hoursOpen) => set({ hoursOpen }),
+  localAiOpen: false,
+  setLocalAiOpen: (localAiOpen) => set({ localAiOpen }),
+  co2Basis: 'location',
+  setCo2Basis: (co2Basis) => set({ co2Basis }),
+  compareBefore: false,
+  setCompareBefore: (compareBefore) => set({ compareBefore }),
   colorBy: 'co2_kg',
   setColorBy: (colorBy) => set({ colorBy }),
   withPackage: true,
@@ -121,7 +173,13 @@ export const useApp = create<AppState>((set, get) => ({
   stage: 'office',
   setStage: (stage) => set({ stage, selectedId: null, hoverId: null }),
   setRoom: (room) => intro() || set({ room, turns: { office: 0, cloud: 0 }, stage: 'office', selectedId: null, hoverId: null }),
-  turn: (dir) => set((s) => ({ turns: { ...s.turns, [s.stage]: s.turns[s.stage] + dir } })),
+  // Passo 1: gira solo l'oggetto in primo piano. Passi 2–4 (reparto e isole affiancati): girano insieme.
+  turn: (dir) =>
+    set((s) =>
+      s.step === 'allocation' || s.step === 'local_ai'
+        ? { turns: { ...s.turns, [s.stage]: s.turns[s.stage] + dir } }
+        : { turns: { office: s.turns.office + dir, cloud: s.turns.cloud + dir } },
+    ),
   data: null,
   metric: 'co2_kg',
   active: [],
@@ -162,7 +220,8 @@ export const useApp = create<AppState>((set, get) => ({
     set({ active: data.measures.filter((m) => m.recommended && m.status !== 'blocked').map((m) => m.id) })
   },
   reset: () => set({ active: [], notice: null, decisions: {} }),
-  select: (selectedId) => intro() || set({ selectedId }),
+  // Passo 3: niente schede a destra (le misure sono nel pannello a sinistra), quindi niente selezione.
+  select: (selectedId) => intro() || (selectedId && get().step === 'packages' && get().data?.extra ? undefined : set(selectedId ? { selectedId, chartsOpen: false } : { selectedId })),
   hover: (hoverId) => (intro() || get().hoverId === hoverId ? undefined : set({ hoverId })),
   setTour: (tour) => set({ tour }),
   decide: (measureId, d) =>

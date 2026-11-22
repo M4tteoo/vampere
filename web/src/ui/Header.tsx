@@ -1,13 +1,14 @@
 import { useApp, type Step } from '../store'
 import { useIntro } from '../intro/store'
 import { LOGO_H, LOGO_W, VampereLogo } from './VampereLogo'
+import { ExportButton } from './Steps'
 
 /** Passi della demo, nell'ordine in cui li racconta. Misure e limiti stanno dentro il passo 2 (interruttore), l'export nei passi 2 e 3. */
 export const STEPS: { id: Step; label: string }[] = [
   { id: 'allocation', label: 'Consumption map' },
   { id: 'baseline', label: 'Baseline & hotspots' },
   { id: 'packages', label: 'Packages' },
-  { id: 'forecast', label: 'Next 12 months' },
+  { id: 'forecast', label: 'Forecasting' },
 ]
 
 /** Barra in alto: logo a sinistra, i passi numerati in una pillola al centro (stile ricerca di Airbnb, senza icone). */
@@ -15,20 +16,25 @@ export function Header() {
   const step = useApp((s) => s.step)
   const setStep = useApp((s) => s.setStep)
   const setRoom = useApp((s) => s.setRoom)
-  const simDone = useApp((s) => s.simDone)
   const isMock = useApp((s) => s.data?.summary.is_mock)
+  const extra = useApp((s) => s.data?.extra)
   const hasExtra = useApp((s) => !!s.data?.extra)
   const landed = useIntro((s) => s.landing === 'done')
+  // Durante l'intro (caricamento della planimetria) solo il logo: niente passi né bottoni.
+  const introDone = useIntro((s) => s.phase === 'done')
 
   const ready = (id: Step): { ok: boolean; why?: string } => {
     if (id === 'allocation') return { ok: true }
     if (!hasExtra) return { ok: false, why: 'Needs the backend output (timeseries, measures)' }
-    if (id === 'baseline') return { ok: true }
-    return simDone ? { ok: true } : { ok: false, why: 'Play the baseline year first' }
+    return { ok: true }
   }
 
   return (
-    <header className="relative z-40 flex h-[88px] shrink-0 items-center justify-between bg-white px-8">
+    <header
+      // Durante l'intro niente fascia bianca: l'header è trasparente e sta sopra la scena (resta solo il logo).
+      // Sopra lo schermo dell'intro (z-50), così il logo resta visibile per tutta l'animazione della planimetria.
+      className={`flex h-[88px] shrink-0 items-center justify-between px-8 ${introDone ? 'relative z-40 bg-white' : 'pointer-events-none absolute inset-x-0 top-0 z-[60] bg-transparent'}`}
+    >
       <button onClick={() => setRoom(null)} className="flex w-48 items-center" aria-label="Back to the floor plan">
         {/* Qui si posa il logo dell'apertura (intro/Landing.tsx): resta nascosto finché non è atterrato. */}
         <span data-landing-target className="block h-9" style={{ width: (36 * LOGO_W) / LOGO_H, opacity: landed ? 1 : 0 }}>
@@ -36,7 +42,7 @@ export function Header() {
         </span>
       </button>
 
-      <nav className="pill-shadow flex h-16 items-center rounded-full border border-hairline bg-white px-3">
+      <nav className={`pill-shadow flex h-16 items-center rounded-full border border-hairline bg-white px-3 ${introDone ? '' : 'invisible'}`}>
         {STEPS.map((s, i) => {
           const on = s.id === step
           const r = ready(s.id)
@@ -63,7 +69,8 @@ export function Header() {
         })}
       </nav>
 
-      <div className="flex w-48 items-center justify-end gap-2">
+      <div className={`flex w-48 items-center justify-end gap-2 ${introDone ? "" : "invisible"}`}>
+        {hasExtra && (step === 'baseline' || step === 'packages') && <ExportButton x={extra!} />}
         {isMock && <span className="rounded-full border border-hairline px-2.5 py-1 text-[12px] font-medium text-muted">Demo data</span>}
       </div>
     </header>

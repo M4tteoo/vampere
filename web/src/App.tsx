@@ -4,6 +4,9 @@ import { useApp, type Step } from './store'
 import { Scene } from './scene/Scene'
 import { Header } from './ui/Header'
 import { RoomTitle } from './ui/RoomTitle'
+import { BottomLeft } from './ui/BottomLeft'
+import { LocalAiReport } from './ui/LocalAiReport'
+import { HoursReport } from './ui/HoursReport'
 import { ItemPanel } from './ui/ItemPanel'
 import { LocalAiPanel } from './ui/LocalAiPanel'
 import { SceneLabels } from './ui/SceneLabels'
@@ -64,7 +67,8 @@ function Main({ data, error, step, introDone }: { data: boolean; error: string |
   return (
     <div className="flex h-full flex-col bg-white">
       {/* Durante l'intro niente barra: si vede solo la pianta. */}
-      {introDone && <Header />}
+      {/* Sempre presente: il logo dell'apertura si posa qui; durante l'intro si vede solo il logo (vedi Header). */}
+      <Header />
       <Ticker />
       <main className="relative min-h-0 flex-1">
         <Scene />
@@ -74,8 +78,11 @@ function Main({ data, error, step, introDone }: { data: boolean; error: string |
           {introDone && <SceneLabels />}
           {introDone && <StepUi />}
           {introDone && <RoomTitle />}
+          {introDone && <BottomLeft />}
           <ItemPanel />
           {introDone && step !== 'local_ai' && <Chat />}
+          {introDone && <LocalAiReport />}
+          {introDone && <HoursReport />}
           {step === 'local_ai' && <LocalAiPanel />}
         </div>
       </main>

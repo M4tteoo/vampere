@@ -1,15 +1,20 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useApp, type ColorBy } from '../store'
+import { useApp } from '../store'
+import { makeCtx } from '../data/twin'
+import { islandsOf } from '../scene/twin/Allocation'
 import { fmtMetric } from '../data/compute'
 import type { Extra } from '../data/extra'
 import type { MetricKey, Metrics } from '../data/types'
-import { CLUSTER_COLORS, GOAL_HINT, GOAL_LABEL, HEAT, NEUTRAL } from '../data/usage'
-import { useHeat } from '../scene/twin/heat'
+import { GOAL_LABEL } from '../data/usage'
+import { forecastPlan, goalOf, planIds, savedByRaw, totalSaved, type ForecastMonth } from '../data/plan'
+import { PackagesPanel } from './PackagesPanel'
+import { useCo2 } from '../data/co2'
+import { MARK_COLOR, MARK_LABEL, type Mark } from '../scene/twin/heat'
+import { BEHAVIOUR_TEXT, BehaviourIcon } from './Behaviour'
 import { PANEL_W } from '../scene/Scene'
-import { Chip } from './primitives'
 
 const MONTH = (iso: string, opts: Intl.DateTimeFormatOptions = { month: 'short' }) => new Date(iso).toLocaleDateString('en-GB', opts)
-const heatStep = (step: string) => step === 'baseline' || step === 'packages' || step === 'forecast'
+export const heatStep = (step: string) => step === 'baseline' || step === 'packages' || step === 'forecast'
 
 /** Fa avanzare la simulazione di un mese ogni 0,65 s (12 mesi ≈ 8 s). */
 export function Ticker() {
@@ -28,27 +33,36 @@ export function StepUi() {
   const step = useApp((s) => s.step)
   const x = useApp((s) => s.data?.extra)
   const room = useApp((s) => s.room)
-  const selected = useApp((s) => !!s.selectedId)
-  const [charts, setCharts] = useState(false)
+  const charts = useApp((s) => s.chartsOpen)
+  const setCharts = useApp((s) => s.setChartsOpen)
+  // Il bottone dell'anno fa crescere le nuvole: senza isole (es. HR) non ha senso.
+  const data = useApp((s) => s.data)!
+  const hasIslands = useMemo(() => !!room && islandsOf(makeCtx(data, []), room).length > 0, [data, room])
   if (!x || !heatStep(step)) return null
+  // Cambiando passo i comandi compaiono con una breve dissolvenza (la scena intanto cambia colori e posizione).
   return (
-    <>
+    <div key={step} className="step-in pointer-events-none absolute inset-0">
+      {step === 'packages' && <PackagesPanel x={x} />}
       <div className="pointer-events-auto absolute top-3 left-1/2 -translate-x-1/2">
-        {step === 'baseline' && <Timeline months={x.months} />}
-        {step === 'packages' && <GoalPicker x={x} />}
+        {step === 'baseline' && hasIslands && <YearButton months={x.months} />}
         {step === 'forecast' && <ForecastBar x={x} />}
       </div>
-      {!selected && !charts && (
-        <div className="pointer-events-auto absolute top-3 right-6 flex items-center gap-2">
-          {step === 'baseline' && <MeasuresToggle />}
-          {(step === 'baseline' || step === 'packages') && <ExportButton x={x} />}
-          {step === 'forecast' && <PillButton onClick={() => setCharts(true)}>Show the charts</PillButton>}
+      {/* L'export sta nella barra in alto (Header). Subito sotto, dentro un reparto: le misure proposte (riducono le nuvole). */}
+      {step === 'baseline' && room && (
+        <div className="pointer-events-auto absolute top-3 right-6">
+          <MeasuresToggle />
+        </div>
+      )}
+      {/* Sempre visibile, allineato alla barra dei mesi: apre i grafici al posto della scheda di un oggetto (e li richiude). */}
+      {step === 'forecast' && (
+        <div className="pointer-events-auto absolute top-3 right-6">
+          <PillButton onClick={() => setCharts(!charts)}>{charts ? 'Hide the charts' : 'Show the charts'}</PillButton>
         </div>
       )}
       {step === 'forecast' && charts && <ForecastCharts x={x} onClose={() => setCharts(false)} />}
-      <Legend compact={!!room} />
-      {!room && <ResultPill x={x} />}
-    </>
+      {/* Passo 3: i totali del piano in un blocco proprio in alto a destra (niente schede a destra: sarebbero ripetizioni). */}
+      {!room && step === 'forecast' && <ResultPill x={x} />}
+    </div>
   )
 }
 
@@ -65,66 +79,39 @@ function PillButton({ children, onClick, disabled, title }: { children: React.Re
   )
 }
 
-/** Barra dei mesi: play / rigioca, un segmento per mese, «Year» = l'anno intero. */
-function Timeline({ months }: { months: string[] }) {
+/** Un bottone: le nuvole si riempiono mese per mese con la CO₂ dell'anno di baseline. */
+function YearButton({ months }: { months: string[] }) {
   const month = useApp((s) => s.month)
   const playing = useApp((s) => s.playing)
   const play = useApp((s) => s.play)
-  const setMonth = useApp((s) => s.setMonth)
-  const year = month === null
   return (
-    <div className="pill-shadow flex items-center gap-3 rounded-full bg-white py-2 pr-2 pl-2">
-      <button
-        onClick={play}
-        aria-label={playing ? 'Playing' : 'Play the year'}
-        className="grid h-9 w-9 place-items-center rounded-full bg-ink text-white transition hover:bg-black"
-      >
+    <button onClick={play} disabled={playing} className="pill-shadow flex items-center gap-3 rounded-full bg-white py-2 pr-5 pl-2 text-[14px] font-medium text-ink">
+      <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-white">
         {playing ? (
-          <span className="h-2.5 w-2.5 rounded-full bg-white" />
+          <span className="h-2 w-2 rounded-full bg-white" />
         ) : (
           <svg viewBox="0 0 24 24" className="ml-0.5 h-3.5 w-3.5" fill="currentColor">
             <path d="M7 5l12 7-12 7z" />
           </svg>
         )}
-      </button>
-      <div className="flex items-center gap-0.5">
-        {months.map((m, i) => {
-          const on = month === i
-          const past = year || (month !== null && i <= month)
-          return (
-            <button
-              key={m}
-              onClick={() => setMonth(i)}
-              className={`flex w-9 flex-col items-center rounded-full py-1 text-[11px] transition ${on ? 'bg-surface-strong font-semibold text-ink' : 'text-muted hover:text-ink'}`}
-            >
-              <span className={`mb-1 h-1 w-6 rounded-full ${past ? 'bg-primary' : 'bg-hairline'}`} />
-              {MONTH(m)}
-            </button>
-          )
-        })}
-      </div>
-      <button
-        onClick={() => {
-          setMonth(null)
-          useApp.setState({ simDone: true })
-        }}
-        className={`rounded-full px-4 py-2 text-[13px] font-semibold transition ${year ? 'bg-ink text-white' : 'text-ink hover:bg-surface-soft'}`}
-      >
-        Whole year
-      </button>
-    </div>
+      </span>
+      {playing && month !== null ? (
+        <span className="tabular-nums">
+          {MONTH(months[month], { month: 'long', year: 'numeric' })} <span className="text-muted">· emissions so far</span>
+        </span>
+      ) : (
+        'Watch the emissions grow over the year'
+      )}
+    </button>
   )
 }
 
 function MeasuresToggle() {
   const on = useApp((s) => s.showMeasures)
   const set = useApp((s) => s.setShowMeasures)
-  const simDone = useApp((s) => s.simDone)
   return (
     <button
       onClick={() => set(!on)}
-      disabled={!simDone}
-      title={simDone ? undefined : 'Available after the baseline year has played'}
       className="pill-shadow flex items-center gap-3 rounded-full bg-white py-2 pr-2 pl-4 text-[14px] font-medium text-ink disabled:text-muted-soft"
     >
       Show proposed measures
@@ -135,54 +122,22 @@ function MeasuresToggle() {
   )
 }
 
-/** Tre obiettivi del backend: cambio istantaneo, nessuna AI. */
-function GoalPicker({ x }: { x: Extra }) {
-  const goalSel = useApp((s) => s.goal)
-  const setGoal = useApp((s) => s.setGoal)
-  const goal = goalSel && x.packages[goalSel] ? goalSel : x.defaultGoal
-  return (
-    <div className="pill-shadow flex items-center gap-1 rounded-full bg-white p-1.5">
-      <span className="px-3 text-[13px] font-medium text-muted">Optimise for</span>
-      {x.goals.map((g) => (
-        <button
-          key={g}
-          onClick={() => setGoal(g)}
-          title={GOAL_HINT[g]}
-          className={`rounded-full px-4 py-2 text-left transition ${g === goal ? 'bg-ink text-white' : 'text-ink hover:bg-surface-soft'}`}
-        >
-          <div className="text-[14px] font-semibold">{GOAL_LABEL[g] ?? g}</div>
-          <div className={`text-[11px] ${g === goal ? 'text-white/75' : 'text-muted'}`}>{GOAL_HINT[g] ?? ''}</div>
-        </button>
-      ))}
-    </div>
-  )
-}
-
 function ForecastBar({ x }: { x: Extra }) {
-  const withPackage = useApp((s) => s.withPackage)
-  const setWith = useApp((s) => s.setWithPackage)
   const month = useApp((s) => s.month)
   const playing = useApp((s) => s.playing)
-  const play = useApp((s) => s.play)
+  const pause = useApp((s) => s.pause)
+  const resume = useApp((s) => s.resume)
   const setMonth = useApp((s) => s.setMonth)
   const fm = x.forecast?.months ?? []
   return (
     <div className="flex items-center gap-2">
-      <div className="pill-shadow flex items-center gap-1 rounded-full bg-white p-1.5">
-        {[false, true].map((w) => (
-          <button
-            key={String(w)}
-            onClick={() => setWith(w)}
-            className={`rounded-full px-4 py-2 text-[14px] font-semibold whitespace-nowrap transition ${withPackage === w ? 'bg-ink text-white' : 'text-ink hover:bg-surface-soft'}`}
-          >
-            {w ? 'With the package' : 'Without changes'}
-          </button>
-        ))}
-      </div>
       <div className="pill-shadow flex items-center gap-3 rounded-full bg-white py-2 pr-3 pl-2">
-        <button onClick={play} aria-label="Play" className="grid h-9 w-9 place-items-center rounded-full bg-ink text-white">
+        {/* Play / pausa: si ferma sul mese mostrato e riparte da lì (dall'inizio se l'anno è finito). */}
+        <button onClick={playing ? pause : resume} aria-label={playing ? 'Pause' : 'Play'} className="grid h-9 w-9 place-items-center rounded-full bg-ink text-white">
           {playing ? (
-            <span className="h-2.5 w-2.5 rounded-full bg-white" />
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
+              <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+            </svg>
           ) : (
             <svg viewBox="0 0 24 24" className="ml-0.5 h-3.5 w-3.5" fill="currentColor">
               <path d="M7 5l12 7-12 7z" />
@@ -201,7 +156,6 @@ function ForecastBar({ x }: { x: Extra }) {
               >
                 <span className={`mb-1 h-1 w-6 rounded-full ${month !== null && i <= month ? 'bg-primary' : 'bg-hairline'}`} />
                 {MONTH(m.month)}
-                {ev && <span className="absolute -top-0.5 right-1 h-1.5 w-1.5 rounded-full bg-human" />}
               </button>
             )
           })}
@@ -216,7 +170,6 @@ function ResultPill({ x }: { x: Extra }) {
   const step = useApp((s) => s.step)
   const month = useApp((s) => s.month)
   const goalSel = useApp((s) => s.goal)
-  const withPackage = useApp((s) => s.withPackage)
   const monthly = useMemo(() => {
     const out = x.months.map(() => ({ cost_chf: 0, kwh: 0, co2_kg: 0 }) as Metrics)
     for (const loc of ['CH', 'DE', 'IE', 'EU']) {
@@ -226,8 +179,15 @@ function ResultPill({ x }: { x: Extra }) {
     }
     return out
   }, [x])
-  const goal = goalSel && x.packages[goalSel] ? goalSel : x.defaultGoal
+  const dropped = useApp((s) => s.dropped)
+  const data = useApp((s) => s.data)!
+  const ctx = useMemo(() => makeCtx(data, []), [data])
+  const goal = goalOf(x, goalSel)
   const pkg = x.packages[goal]
+  const cv = useCo2(ctx)
+  // Previsione con la CO₂ nella vista scelta (market-based: fattore medio dell'azienda).
+  const fm = useMemo(() => (step === 'forecast' ? scaleCo2(forecastPlan(ctx, x, goal, dropped), cv.company) : []), [step, ctx, x, goal, dropped, cv])
+  const cut = useMemo(() => (step === 'packages' ? totalSaved(savedByRaw(ctx, x, planIds(x, goal, dropped))) : null), [step, ctx, x, goal, dropped])
   const line = (m: Metrics) => `${fmtMetric(m.cost_chf, 'cost_chf')} · ${fmtMetric(m.kwh, 'kwh')} · ${fmtMetric(m.co2_kg, 'co2_kg')}`
 
   let body: React.ReactNode = null
@@ -239,171 +199,131 @@ function ResultPill({ x }: { x: Extra }) {
         </>
       ) : (
         <>
-          <span className="text-muted">{MONTH(x.months[month], { month: 'long', year: 'numeric' })}</span>{' '}
-          <span className="font-semibold text-ink">{line(monthly[month])}</span>
+          <span className="text-muted">
+            So far, {MONTH(x.months[0], { month: 'short', year: 'numeric' })} – {MONTH(x.months[month], { month: 'short', year: 'numeric' })}
+          </span>{' '}
+          <span className="font-semibold text-ink tabular-nums">
+            {line(monthly.slice(0, month + 1).reduce((a, m) => ({ cost_chf: a.cost_chf + m.cost_chf, kwh: a.kwh + m.kwh, co2_kg: a.co2_kg + m.co2_kg }), { cost_chf: 0, kwh: 0, co2_kg: 0 }))}
+          </span>
         </>
       )
-  } else if (step === 'packages' && pkg) {
-    const conf = x.confidence?.byGoal[goal]
-    body = (
-      <span className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-        <span className="font-semibold text-ink">CO₂ −{Math.round(pkg.co2 * 100)}%</span>
-        <span className="text-muted">(at worst −{Math.round(pkg.co2_low * 100)}%)</span>
-        <span className="font-semibold text-ink">Cost −{Math.round(pkg.cost * 100)}%</span>
-        <span className="text-muted">
-          {pkg.measure_ids.length} measures · {pkg.effort_days} days = {fmtMetric(pkg.effort_chf, 'cost_chf')}
-        </span>
-        {pkg.meets.co2 && pkg.meets.cost && pkg.meets.budget && <Chip tone="primary">All targets met</Chip>}
-        {Number.isFinite(conf) && <Chip>{(conf! * 100).toFixed(1)}% of 10,000 scenarios reach both targets</Chip>}
+  } else if (step === 'packages' && pkg && cut) {
+    // Totali con le scelte del pannello: cambiano a ogni misura tolta o rimessa.
+    const after: Metrics = { cost_chf: x.baseline.cost_chf - cut.cost_chf, kwh: x.baseline.kwh - cut.kwh, co2_kg: x.baseline.co2_kg - cut.co2_kg }
+    const pair = (k: MetricKey) => (
+      <span className="whitespace-nowrap">
+        <span className="text-muted line-through">{fmtMetric(x.baseline[k], k)}</span> → <span className="font-semibold text-primary">{fmtMetric(after[k], k)}</span>
       </span>
     )
-  } else if (step === 'forecast' && x.forecast) {
-    const tot = (k: 'with' | 'without') =>
-      x.forecast!.months.reduce((a, m) => ({ cost_chf: a.cost_chf + m[k].cost_chf, kwh: a.kwh + m[k].kwh, co2_kg: a.co2_kg + m[k].co2_kg }), { cost_chf: 0, kwh: 0, co2_kg: 0 })
     body = (
-      <>
-        <span className="text-muted">Sep 2026 – Aug 2027</span>{' '}
-        <span className={withPackage ? 'text-muted line-through' : 'font-semibold text-ink'}>{line(tot('without'))}</span>
-        <span className="text-muted"> → </span>
-        <span className={withPackage ? 'font-semibold text-primary' : 'text-muted'}>{line(tot('with'))}</span>
-      </>
+      <span className="flex flex-wrap items-center justify-center gap-x-4">
+        <span className="font-semibold text-ink">{GOAL_LABEL[goal] ?? goal}, per year</span>
+        {pair('cost_chf')}
+        {pair('co2_kg')}
+      </span>
+    )
+  } else if (step === 'forecast' && x.forecast && fm.length) {
+    // Differenza fra i due lati dall'inizio della simulazione al mese mostrato: quanto fa risparmiare il pacchetto.
+    const upTo = month === null ? fm.length : month + 1
+    const tot = (k: 'with' | 'without') =>
+      fm.slice(0, upTo).reduce((a, m) => ({ cost_chf: a.cost_chf + m[k].cost_chf, kwh: a.kwh + m[k].kwh, co2_kg: a.co2_kg + m[k].co2_kg }), { cost_chf: 0, kwh: 0, co2_kg: 0 })
+    const w = tot('with')
+    const wo = tot('without')
+    const cut = (k: MetricKey) => (
+      <span className="whitespace-nowrap">
+        <span className="font-semibold text-primary tabular-nums">−{fmtMetric(Math.max(0, wo[k] - w[k]), k)}</span>
+        <span className="text-muted"> ({wo[k] > 0 ? Math.round(((wo[k] - w[k]) / wo[k]) * 100) : 0}%)</span>
+      </span>
+    )
+    body = (
+      <span className="flex flex-wrap items-center justify-center gap-x-4">
+        <span className="font-semibold text-ink">
+          Saved so far
+          <span className="font-normal text-muted">
+            {' · '}
+            {upTo > 1 && `${MONTH(fm[0].month, { month: 'short', year: 'numeric' })} – `}
+            {MONTH(fm[upTo - 1].month, { month: 'short', year: 'numeric' })}
+          </span>
+        </span>
+        {cut('cost_chf')}
+        {cut('co2_kg')}
+      </span>
     )
   }
   if (!body) return null
   return (
-    <div className="pill-shadow pointer-events-auto absolute bottom-6 left-1/2 max-w-[62%] -translate-x-1/2 rounded-[22px] bg-white px-5 py-3 text-center text-[14px]">
+    <div
+      className="pill-shadow pointer-events-auto absolute bottom-6 left-1/2 max-w-[56%] -translate-x-1/2 rounded-[22px] bg-white px-5 py-3 text-center text-[14px]"
+      // Passo 3: centrata nello spazio a destra del pannello dei pacchetti.
+      style={step === 'packages' ? { left: 'calc(50% + 192px)' } : undefined}
+    >
       {body}
     </div>
   )
 }
 
-/** Come leggere la mappa: colori, nuvole, punti critici. Nella vista del reparto si chiude in una pillola. */
-function Legend({ compact }: { compact: boolean }) {
-  const step = useApp((s) => s.step)
-  const colorBy = useApp((s) => s.colorBy)
-  const setColorBy = useApp((s) => s.setColorBy)
-  const month = useApp((s) => s.month)
+/** Legenda, sempre in basso a sinistra. Nella pianta solo rosso e arancio (il senso dei colori); nel reparto completa. */
+export function Legend({ compact, marks: only }: { compact: boolean; marks?: Mark[] }) {
   const x = useApp((s) => s.data?.extra)!
-  // Aperta nella pianta, chiusa nel reparto; si può aprire e chiudere a mano in entrambi.
-  const [toggled, setToggled] = useState<{ compact: boolean; open: boolean } | null>(null)
-  const open = toggled && toggled.compact === compact ? toggled.open : !compact
-  const setOpen = (v: boolean) => setToggled({ compact, open: v })
-  const heat = useHeat()
-  const scale = heat.scale ? { lo: heat.scale.lo, hi: heat.scale.hi, metric: heat.metric } : null
+  const [open, setOpen] = useState(true)
+  if (compact)
+    return (
+      <ul className="pill-shadow pointer-events-none space-y-0.5 rounded-[14px] bg-white px-4 py-3 text-[11px] leading-[16px] text-body">
+        {(only ?? (['driver', 'waste'] as Mark[])).map((m) => (
+          <li key={m} className="flex items-center gap-2 whitespace-nowrap">
+            <span className="h-2.5 w-2.5 shrink-0 rounded-[3px]" style={{ background: MARK_COLOR[m] }} />
+            {MARK_LABEL[m]}
+          </li>
+        ))}
+      </ul>
+    )
   if (!open)
     return (
-      <div className={`pointer-events-auto absolute left-6 ${compact ? 'bottom-[150px]' : 'bottom-6'}`}>
+      <div className="pointer-events-auto">
         <PillButton onClick={() => setOpen(true)}>How to read the map</PillButton>
       </div>
     )
-  const opts: { id: ColorBy; label: string }[] = [
-    { id: 'co2_kg', label: 'CO₂' },
-    { id: 'cost_chf', label: 'Cost' },
-    ...(x.clusters && step === 'baseline' ? [{ id: 'cluster' as ColorBy, label: 'Server groups' }] : []),
-  ]
-  const eu = x.series.get('loc:EU')?.co2_kg.reduce((a, v) => a + v, 0) ?? 0
+  const marks: Mark[] = ['driver', 'waste', 'none', 'kept']
   return (
-    <div className={`pill-shadow pointer-events-auto absolute left-6 w-[264px] rounded-[14px] bg-white p-4 text-[12px] text-body ${compact ? 'bottom-[150px]' : 'bottom-6'}`}>
-      <div className="flex items-center justify-between">
-        <h3 className="text-[14px] font-semibold text-ink">How to read the map</h3>
-        <button onClick={() => setOpen(false)} aria-label="Close" className="text-muted hover:text-ink">
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
-        </button>
-      </div>
-      <div className="mt-2 flex gap-1 rounded-full bg-surface-strong p-1">
-        {opts.map((o) => (
-          <button
-            key={o.id}
-            onClick={() => setColorBy(o.id)}
-            className={`flex-1 rounded-full px-2 py-1 text-[12px] font-semibold transition ${colorBy === o.id ? 'bg-white text-ink shadow-sm' : 'text-muted'}`}
-          >
-            {o.label}
-          </button>
-        ))}
-      </div>
-      {colorBy === 'cluster' && x.clusters ? (
-        <div className="mt-3 space-y-1.5">
-          <p className="text-muted">Servers grouped by how they behave over the year (k-means on usage):</p>
-          {x.clusters.groups.map((g, i) => (
-            <div key={g.id} className="flex items-start gap-2">
-              <span className="mt-1 h-3 w-3 shrink-0 rounded-[3px]" style={{ background: CLUSTER_COLORS[i % CLUSTER_COLORS.length] }} />
-              <span>
-                <span className="font-semibold text-ink">{g.name}</span> · {g.size} servers · {g.share_co2 < 0.01 ? '<1' : Math.round(g.share_co2 * 100)}% of their CO₂
-              </span>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="mt-3">
-          <p className="text-muted">
-            Colour = {colorBy === 'cost_chf' ? 'cost' : 'CO₂'} per year{step === 'baseline' && month !== null ? ' at this month’s rate' : ''}. Computers: one computer.
-          </p>
-          <div className="mt-1.5 flex h-3 overflow-hidden rounded-full">
-            {HEAT.map((c) => (
-              <span key={c} className="flex-1" style={{ background: c }} />
-            ))}
-          </div>
-          {scale && (
-            <div className="mt-1 flex justify-between text-[11px] text-muted tabular-nums">
-              <span>{fmtMetric(scale.lo, scale.metric)}</span>
-              <span>{fmtMetric(scale.hi, scale.metric)}</span>
-            </div>
-          )}
-        </div>
-      )}
-      <div className="mt-3 flex items-center gap-2">
-        <span className="h-3 w-3 rounded-[3px]" style={{ background: NEUTRAL }} />
-        <span className="text-muted">Neutral: building and landscape, no cost of their own</span>
-      </div>
-      <div className="mt-2 flex items-start gap-2">
-        <svg viewBox="0 0 24 16" className="mt-0.5 h-3 w-4 shrink-0 text-muted" fill="currentColor">
-          <path d="M6 15a5 5 0 01-.5-10A6 6 0 0117 4a4.5 4.5 0 011 11z" />
+    <div className="pill-shadow pointer-events-auto relative flex w-[260px] flex-col gap-2 rounded-[14px] bg-white py-3 pr-9 pl-4 text-[11px] leading-[16px] text-body">
+      <button onClick={() => setOpen(false)} aria-label="Close" className="absolute top-2.5 right-3 text-muted hover:text-ink">
+        <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
+          <path d="M6 6l12 12M18 6L6 18" />
         </svg>
-        <span className="text-muted">
-          Cloud = CO₂ of each data centre, bigger and darker = more. Another {fmtMetric(eu, 'co2_kg')} comes from AI and SaaS providers with no stated location.
-        </span>
-      </div>
-      {step === 'baseline' && (
-        <div className="mt-2 flex items-center gap-2">
-          <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-error text-[10px] font-bold text-white">!</span>
-          <span className="text-muted">Pain point found in the data (after the year has played)</span>
-        </div>
-      )}
-      {step === 'forecast' && <p className="mt-2 text-[12px] text-muted">Map: each object follows the forecast trend. Exact numbers in the charts.</p>}
-      {(step === 'packages' || step === 'baseline') && <Notes x={x} />}
+      </button>
+      <ul className="space-y-0.5">
+        {marks.map((m) => (
+          <li key={m} className="flex items-center gap-2 whitespace-nowrap">
+            <span className="h-2.5 w-2.5 shrink-0 rounded-[3px]" style={{ background: MARK_COLOR[m] }} />
+            {MARK_LABEL[m]}
+          </li>
+        ))}
+      </ul>
+      <ul className="space-y-0.5 border-t border-hairline-soft pt-2">
+        <li className="flex items-center gap-2 whitespace-nowrap">
+          <svg viewBox="0 0 24 16" className="h-2.5 w-3.5 shrink-0 text-muted" fill="currentColor">
+            <path d="M6 15a5 5 0 01-.5-10A6 6 0 0117 4a4.5 4.5 0 011 11z" />
+          </svg>
+          Cloud: CO₂ of the data centre
+        </li>
+        {x.clusters &&
+          (['idle', 'light', 'steady', 'demand'] as const).map((k) => (
+            <li key={k} className="flex items-center gap-2 whitespace-nowrap text-muted">
+              <span className="grid h-3.5 w-3.5 shrink-0 place-items-center rounded-full bg-white text-ink ring-1 ring-hairline">
+                <BehaviourIcon kind={k} className="h-2.5 w-2.5" />
+              </span>
+              {BEHAVIOUR_TEXT[k]}
+            </li>
+          ))}
+      </ul>
     </div>
   )
 }
 
-/** Due note brevi dei bonus: market-based e ore pulite. */
-function Notes({ x }: { x: Extra }) {
-  const [open, setOpen] = useState(false)
-  if (!x.market && !x.cleanHours) return null
-  return (
-    <div className="mt-3 border-t border-hairline-soft pt-2">
-      <button onClick={() => setOpen(!open)} className="text-[12px] font-semibold text-ink">
-        {open ? '−' : '+'} Good to know
-      </button>
-      {open && (
-        <ul className="mt-1.5 space-y-1.5 text-[12px] text-muted">
-          {x.market && (
-            <li>
-              <span className="font-semibold text-ink">On paper vs. on the grid.</span> With supplier mixes (market-based) the same energy counts{' '}
-              {fmtMetric(x.market.market_co2, 'co2_kg')} instead of {fmtMetric(x.market.location_co2, 'co2_kg')}. Buying certificates changes the paper, not the grid.
-            </li>
-          )}
-          {x.cleanHours && (
-            <li>
-              <span className="font-semibold text-ink">Clean hours.</span> Moving flexible jobs to greener hours saves only {fmtMetric(x.cleanHours.saving, 'co2_kg')} a year, against{' '}
-              {fmtMetric(x.cleanHours.m01, 'co2_kg')} for pausing dp-dev: where and whether matter more than when.
-            </li>
-          )}
-        </ul>
-      )}
-    </div>
-  )
+/** CO₂ dei mesi di previsione moltiplicata per un fattore (vista market-based). */
+function scaleCo2(fm: ForecastMonth[], k: number): ForecastMonth[] {
+  if (k === 1) return fm
+  return fm.map((m) => ({ ...m, without: { ...m.without, co2_kg: m.without.co2_kg * k }, with: { ...m.with, co2_kg: m.with.co2_kg * k } }))
 }
 
 // --- Export ------------------------------------------------------------------------------------------------------
@@ -452,14 +372,14 @@ function parseCsv(text: string): string[][] {
 }
 const toCsv = (rows: string[][]) => rows.map((r) => r.map((c) => (/[",\n]/.test(c) ? `"${c.replace(/"/g, '""')}"` : c)).join(',')).join('\n') + '\n'
 
-/** Il file del pacchetto del backend vale per l'obiettivo predefinito; per gli altri si ricompone con le stesse colonne. */
-async function packageCsv(x: Extra, goal: string): Promise<string> {
+/** Il file del pacchetto del backend vale per l'obiettivo predefinito intero; altrimenti (altro obiettivo, misure tolte) si ricompone. */
+async function packageCsv(x: Extra, goal: string, dropped: string[]): Promise<string> {
   const text = await (await fetch(`${SUB}/${PACKAGE_CSV}`)).text()
-  if (goal === x.defaultGoal) return text
+  if (goal === x.defaultGoal && !dropped.length) return text
   const rows = parseCsv(text.replace(/^﻿/, ''))
   const [head, ...body] = rows
   const byId = new Map(body.map((r) => [r[0], r]))
-  const ids = x.packages[goal]?.measure_ids ?? []
+  const ids = (x.packages[goal]?.measure_ids ?? []).filter((id) => !dropped.includes(id))
   const out = ids.map((id) => {
     const known = byId.get(id)
     if (known) return known
@@ -482,13 +402,14 @@ async function packageCsv(x: Extra, goal: string): Promise<string> {
   return '﻿' + toCsv([head, ...out])
 }
 
-function ExportButton({ x }: { x: Extra }) {
+export function ExportButton({ x }: { x: Extra }) {
   const step = useApp((s) => s.step)
   const goalSel = useApp((s) => s.goal)
-  const goal = goalSel && x.packages[goalSel] ? goalSel : x.defaultGoal
+  const dropped = useApp((s) => s.dropped)
+  const goal = goalOf(x, goalSel)
   const [open, setOpen] = useState(false)
   const baseline = async () => save(await (await fetch(`${SUB}/${BASELINE_CSV}`)).text(), BASELINE_CSV)
-  const pkg = async () => save(await packageCsv(x, goal), goal === x.defaultGoal ? PACKAGE_CSV : `template_measures_package_${goal}.csv`)
+  const pkg = async () => save(await packageCsv(x, goal, dropped), goal === x.defaultGoal && !dropped.length ? PACKAGE_CSV : `template_measures_package_${goal}${dropped.length ? '_edited' : ''}.csv`)
   if (step === 'baseline') return <PillButton onClick={baseline}>Export baseline (CSV)</PillButton>
   return (
     <div className="relative">
@@ -500,6 +421,7 @@ function ExportButton({ x }: { x: Extra }) {
           </button>
           <button onClick={pkg} className="w-full rounded-[8px] px-3 py-2 text-left hover:bg-surface-soft">
             Measures package · {GOAL_LABEL[goal] ?? goal}
+            {dropped.length ? ' (your version)' : ''}
           </button>
           <p className="px-3 pt-1 pb-1 text-[11px] text-muted">The two submission templates of the case, filled in.</p>
         </div>
@@ -512,10 +434,16 @@ function ExportButton({ x }: { x: Extra }) {
 
 function ForecastCharts({ x, onClose }: { x: Extra; onClose: () => void }) {
   const fc = x.forecast
+  const goalSel = useApp((s) => s.goal)
+  const dropped = useApp((s) => s.dropped)
+  const data = useApp((s) => s.data)!
+  const ctx = useMemo(() => makeCtx(data, []), [data])
+  const cv = useCo2(ctx)
+  const fm = useMemo(() => scaleCo2(forecastPlan(ctx, x, goalOf(x, goalSel), dropped), cv.company), [ctx, x, goalSel, dropped, cv])
   if (!fc) return null
-  const pkgGoal = GOAL_LABEL[fc.goal] ?? fc.goal
+  const pkgGoal = GOAL_LABEL[goalOf(x, goalSel)] ?? goalOf(x, goalSel)
   return (
-    <aside className="pill-shadow pointer-events-auto absolute top-6 right-6 flex max-h-[calc(100%-48px)] flex-col overflow-hidden rounded-[14px] bg-white" style={{ width: PANEL_W }}>
+    <aside className="step-in pill-shadow pointer-events-auto absolute top-[68px] right-6 flex max-h-[calc(100%-92px)] flex-col overflow-hidden rounded-[14px] bg-white" style={{ width: PANEL_W }}>
       <div className="flex items-start justify-between gap-4 px-6 pt-6">
         <div>
           <div className="text-[13px] text-muted">Sep 2026 – Aug 2027 · forecast</div>
@@ -528,9 +456,9 @@ function ForecastCharts({ x, onClose }: { x: Extra; onClose: () => void }) {
         </button>
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-6 pt-3 pb-6 text-[13px] text-body">
-        <p className="text-muted">Package «{pkgGoal}» from its start dates; prices and growth already announced are included.</p>
-        <LineChart title="CO₂ per month" k="co2_kg" x={x} />
-        <LineChart title="Cost per month" k="cost_chf" x={x} />
+        <p className="text-muted">Package «{pkgGoal}»{dropped.length ? ' with your changes' : ''}, from its start dates; prices and growth already announced are included.</p>
+        <LineChart title="CO₂ per month" k="co2_kg" fm={fm} />
+        <LineChart title="Cost per month" k="cost_chf" fm={fm} />
         <h3 className="mt-6 text-[14px] font-semibold text-ink">Known changes</h3>
         <ul className="mt-1 space-y-1.5">
           {fc.events.map((e) => (
@@ -547,8 +475,7 @@ function ForecastCharts({ x, onClose }: { x: Extra; onClose: () => void }) {
   )
 }
 
-function LineChart({ title, k, x }: { title: string; k: MetricKey; x: Extra }) {
-  const fm = x.forecast!.months
+function LineChart({ title, k, fm }: { title: string; k: MetricKey; fm: ForecastMonth[] }) {
   const W = 360
   const H = 120
   const max = Math.max(...fm.flatMap((m) => [m.without[k], m.with[k]])) * 1.1

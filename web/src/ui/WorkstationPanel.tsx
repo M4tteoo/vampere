@@ -117,10 +117,10 @@ export function ComputersBody({ ctx, room }: { ctx: Ctx; room: string }) {
   const { personal, software, ai, total, n, active, dept } = servicesOf(ctx, room)
   return (
     <>
-      <div className="flex flex-wrap gap-2">
-        <BigTag tone="primary">{active} in use</BigTag>
-        {n - active > 0 && <BigTag tone="warn">{n - active} without sign-in for 30 days</BigTag>}
-        <BigTag tone="neutral">{personal.length + software.length + ai.length} services</BigTag>
+      <div className="flex flex-wrap gap-1.5">
+        <Chip tone="primary">{active} in use</Chip>
+        {n - active > 0 && <Chip tone="warn">{n - active} without sign-in for 30 days</Chip>}
+        <Chip>{personal.length + software.length + ai.length} services</Chip>
       </div>
 
       <section className="mt-5">
@@ -135,25 +135,6 @@ export function ComputersBody({ ctx, room }: { ctx: Ctx; room: string }) {
       <Group title={`${dept} software`} items={software} />
       <Group title="AI applications" items={ai} />
     </>
-  )
-}
-
-const BIG_TONE: Record<'primary' | 'warn' | 'neutral', string> = {
-  primary: 'bg-primary-soft text-primary',
-  warn: 'bg-warn-soft text-warn',
-  neutral: 'bg-surface-strong text-ink',
-}
-
-function BigTag({ tone, children }: { tone: keyof typeof BIG_TONE; children: React.ReactNode }) {
-  return <span className={`rounded-full px-3 py-1.5 text-[14px] font-semibold ${BIG_TONE[tone]}`}>{children}</span>
-}
-
-/** Segnale di spreco: lo stesso «!» rosso dei punti critici nei passi successivi. */
-function WastePin({ title }: { title: string }) {
-  return (
-    <span title={title} className="grid h-4.5 w-4.5 shrink-0 place-items-center rounded-full bg-error text-[11px] leading-none font-bold text-white">
-      !
-    </span>
   )
 }
 
@@ -197,7 +178,7 @@ function ServiceRow({ s }: { s: Service }) {
             <path d="M9 6l6 6-6 6" />
           </svg>
           <span className="truncate text-[14px] text-ink">{s.name}</span>
-          {s.status?.tone === 'warn' && <WastePin title={s.status.label} />}
+          {s.status?.tone === 'warn' && <span className="h-2 w-2 shrink-0 rounded-full bg-warn" title={s.status.label} />}
         </span>
         <span className="shrink-0 text-[14px] font-semibold text-ink tabular-nums">{fmtMetric(s.dept.cost_chf, 'cost_chf')}</span>
       </button>

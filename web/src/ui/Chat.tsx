@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useApp } from '../store'
 import { makeCtx } from '../data/twin'
 import { unitOf } from '../data/usage'
-import { PANEL_W } from '../scene/Scene'
 import { SPINNER_INTERVAL_MS, randomVerb } from './spinnerVerbs'
 
 /** Indirizzo dell'assistente: in sviluppo il proxy di Vite (/api → 127.0.0.1:8787), altrimenti VITE_ASSISTANT_URL. */
@@ -99,7 +98,6 @@ export function PopAvatar({ size, pose = 'rest', className = '' }: { size: numbe
 export function Chat() {
   const open = useApp((s) => s.chatOpen)
   const setOpen = useApp((s) => s.setChatOpen)
-  const panel = useApp((s) => !!s.selectedId)
   const [chats, setChats] = useState<Conversation[]>(loadChats)
   /** Conversazione aperta; null = chat nuova, che entra in cronologia alla prima domanda. */
   const [cur, setCur] = useState<string | null>(null)
@@ -111,6 +109,16 @@ export function Chat() {
   const [tick, setTick] = useState(0)
   const [hover, setHover] = useState(false)
   const end = useRef<HTMLDivElement>(null)
+  // Un clic fuori dal box della chat (scena, pannelli, header) la chiude.
+  const box = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!open) return
+    const onDown = (e: PointerEvent) => {
+      if (box.current && !box.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('pointerdown', onDown)
+    return () => document.removeEventListener('pointerdown', onDown)
+  }, [open, setOpen])
   const curRef = useRef<string | null>(null)
   const msgs = chats.find((c) => c.id === cur)?.msgs ?? []
   const busy = cur !== null && pending.includes(cur)
@@ -172,9 +180,8 @@ export function Chat() {
     }
   }
 
-  const right = panel ? PANEL_W + 48 : 24
   return (
-    <div className="pointer-events-auto absolute bottom-6 z-50 flex flex-col items-end gap-3 transition-[right] duration-500" style={{ right }}>
+    <div ref={box} className="pointer-events-auto absolute right-6 bottom-6 z-50 flex flex-col items-end gap-3">
       {open && (
         <div className="pill-shadow flex h-[540px] w-[380px] flex-col overflow-hidden rounded-[14px] bg-white">
           <div className="flex items-center gap-3 border-b border-hairline-soft px-4 pt-2 pb-3">

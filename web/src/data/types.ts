@@ -304,4 +304,35 @@ export interface LocalAiFile {
   fits: LocalAiFit[]
   scenarios: LocalAiScenario[]
   best: { by_cost: string | null; by_co2: string | null; by_workload: { workload_id: string; fit: string | null }[] }
+  /** Le quattro sezioni del report, già pronte da mostrare (contract/types.ts LocalAiPanel). */
+  panel?: LocalAiPanel
+}
+
+type LaOption = 'best_value' | 'lowest_co2'
+export interface LocalAiPanel {
+  model: {
+    title: string
+    steps: { label: string; text: string }[]
+    servers_title: string
+    servers: { hardware_id: string; label: string; gpu: string; vram_gb: number; location: string; owned: boolean; estimate: boolean; price: { text: string; chf: number | null; per: 'hour' | 'month' | null } }[]
+  }
+  options: {
+    id: LaOption
+    title: string
+    scenario_id: string
+    summary: string
+    model: string
+    hardware: string
+    owned: boolean
+    tools_local: string[]
+    tools_api: string[]
+    figures: { key: 'api_3y' | 'local_3y' | 'saving' | 'breakeven' | 'co2_api' | 'co2_local'; label: string; unit: 'CHF' | 'kg' | 'months'; low: number | null; mid: number | null; high: number | null }[]
+  }[]
+  charts: { id: 'cost' | 'kwh' | 'co2'; title: string; unit: 'CHF' | 'kWh' | 'kg'; caption: string; x: number[]; x_labels: string[]; series: { id: 'api_only' | LaOption; label: string; values: number[] }[] }[]
+  tools: {
+    title: string
+    intro: string
+    headline: string
+    items: { workload_id: string; label: string; private_data: string; api_chf_per_year: number; api_co2_kg_per_year: number; local_in: LaOption[]; status: string; notes: string[] }[]
+  }
 }

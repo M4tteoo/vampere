@@ -4,7 +4,7 @@ import { CameraControls } from '@react-three/drei'
 import { MathUtils, PerspectiveCamera, Vector3 } from 'three'
 import { useApp } from '../store'
 import { useIntro } from '../intro/store'
-import { AllocationScene, ISO, TOP, useStageLayout } from './twin/Allocation'
+import { AllocationScene, DOCK_W, ISO, PKG_SPACE, TOP, useStageLayout } from './twin/Allocation'
 
 /** Obiettivo «lungo» (FOV piccolo): la vista sembra un'assonometria, come un plastico. */
 const FOV = 22
@@ -15,8 +15,6 @@ const TITLE_H = 130
 const TOP_H = 110
 /** Pianta dei passi 2–4: spazio in basso per la barra del tempo. */
 const PLAN_BOTTOM = 90
-/** Pianta dei passi 2–4: spazio a sinistra per la legenda. */
-const LEGEND_W = 300
 
 export function Scene() {
   const select = useApp((s) => s.select)
@@ -61,8 +59,12 @@ export function Scene() {
 function CameraRig() {
   const ref = useRef<CameraControls>(null)
   const room = useApp((s) => s.room)
-  const panel = useApp((s) => !!s.selectedId)
+  const last = useRef<string | null>(null)
+  // Passo 4: la scheda ha sempre il suo spazio riservato, aprirla non muove la camera.
+  // Passo 4: scheda o grafici aperti a destra: la camera si sposta (le isole restano dove sono, senza ricaricarsi).
+  const panel = useApp((s) => !!s.selectedId || (s.step === 'forecast' && s.chartsOpen))
   const step = useApp((s) => s.step)
+  const hasExtra = useApp((s) => !!s.data?.extra)
   const size = useThree((s) => s.size)
   const layout = useStageLayout()
   // Durante l'estrusione la camera la guida l'intro; alla fine si torna alla pianta.
@@ -74,12 +76,19 @@ function CameraRig() {
     const vf = MathUtils.degToRad(FOV)
     const aspect = size.width / size.height
     const plan = layout.view === 'plan'
+    const heatPlanStep = step === 'packages' || step === 'forecast'
+    // Passo 3: a sinistra il pannello dei pacchetti, sia nella pianta sia nel reparto.
+    const pkg = step === 'packages' && hasExtra
     const dir = plan ? TOP : ISO
     // Spazio libero (px): nel reparto sotto i titoli dei palchi, sopra il nome del reparto e a sinistra della scheda;
     // nella pianta dei passi 2–4 sopra la barra del tempo e la legenda.
-    const bottom = plan ? (step === 'allocation' ? 24 : PLAN_BOTTOM) : TITLE_H
-    const heatPlan = plan && step !== 'allocation'
-    const free = { l: heatPlan ? LEGEND_W : 24, r: size.width - 24 - (panel ? PANEL_W + 48 : 0), t: heatPlan ? 76 : plan ? 24 : TOP_H, b: size.height - bottom }
+    // Nel reparto dei passi 2–4 in basso ci sono totali, nome e legenda.
+    // Passo 3: niente totali in basso (sono nel blocco in alto a destra), quindi la pianta scende fino in fondo.
+    // Passo 4 con la scheda aperta: la scheda è in basso, larga quanto lo schermo; le isole stanno sopra.
+    const bottom = plan ? (heatPlanStep && step !== 'packages' ? PLAN_BOTTOM : 24) : TITLE_H
+    // Pianta: stessa inquadratura dello step 1; solo Packages e previsione hanno una barra in alto.
+    const heatPlan = plan && (step === 'packages' || step === 'forecast')
+        const free = { l: pkg ? PKG_SPACE : plan || step === 'allocation' || step === 'forecast' ? 24 : DOCK_W, r: size.width - 24 - (panel ? PANEL_W + 48 : 0), t: heatPlan && !pkg ? 76 : plan ? 24 : step === 'allocation' ? TOP_H : TOP_H + 70, b: size.height - bottom }
     const fx = [(free.l / size.width) * 2 - 1, (free.r / size.width) * 2 - 1]
     const fy = [1 - (free.b / size.height) * 2, 1 - (free.t / size.height) * 2]
     // Inquadratura con la prospettiva vera: si proiettano i punti, poi si ricentra e si regola la distanza (poche iterazioni).
@@ -110,8 +119,11 @@ function CameraRig() {
     const pos = target.clone().addScaledVector(dir, dist)
     c.normalizeRotations()
     c.setFocalOffset(0, 0, 0, true)
+    // Entrare/uscire da un reparto: svelto. Cambiare palco o aprire la scheda nello stesso reparto: lento come i palchi.
+    c.smoothTime = room && last.current === room ? 0.75 : 0.45
+    last.current = room
     c.setLookAt(pos.x, pos.y, pos.z, target.x, target.y, target.z, true)
-  }, [room, panel, size, layout, step, building])
+  }, [room, panel, size, layout, step, building, hasExtra])
 
-  return <CameraControls ref={ref} makeDefault enabled={false} smoothTime={0.45} minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
+  return <CameraControls ref={ref} makeDefault enabled={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2} />
 }

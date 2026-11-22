@@ -7,6 +7,7 @@ import { PANEL_W } from '../scene/Scene'
 import { Chip, Row, type Tone } from './primitives'
 import { ComputersBody } from './WorkstationPanel'
 import { UnitBody } from './UnitPanel'
+import { ForecastUnitBody } from './ForecastPanel'
 import { unitOf } from '../data/usage'
 
 /** Scheda a destra: cosa consuma l'oggetto cliccato (soldi, energia, CO₂ e ore di utilizzo) e come è calcolato. */
@@ -18,14 +19,15 @@ export function ItemPanel() {
   const ctx = useMemo(() => makeCtx(data, []), [data])
   const step = useApp((s) => s.step)
   const item = selectedId ? data.layout.find((i) => i.id === selectedId) : undefined
-  if (!room || !item) return null
+  // Passo 4: niente reparti, le schede si aprono sugli oggetti delle isole.
+  if ((!room && step !== 'forecast') || !item) return null
   const seat = item.id.startsWith('seat:')
   const heat = !!data.extra && (step === 'baseline' || step === 'packages' || step === 'forecast')
   const unit = unitOf(ctx, item)
 
   return (
     <aside
-      className="pill-shadow pointer-events-auto absolute top-6 right-6 flex max-h-[calc(100%-48px)] flex-col overflow-hidden rounded-[14px] bg-white"
+      className={`pill-shadow pointer-events-auto absolute right-6 flex flex-col overflow-hidden rounded-[14px] bg-white ${heat && (step === 'baseline' || step === 'forecast') ? 'top-[68px] max-h-[calc(100%-176px)]' : 'top-6 max-h-[calc(100%-132px)]'}`}
       style={{ width: PANEL_W }}
     >
       <div className="flex items-start justify-between gap-4 px-6 pt-6">
@@ -42,7 +44,9 @@ export function ItemPanel() {
         </button>
       </div>
       <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-6 pt-3 pb-6">
-        {heat && unit && data.extra ? (
+        {step === 'forecast' && unit && data.extra ? (
+          <ForecastUnitBody ctx={ctx} x={data.extra} unit={unit} />
+        ) : heat && unit && data.extra ? (
           <UnitBody ctx={ctx} x={data.extra} unit={unit} />
         ) : seat ? (
           <ComputersBody ctx={ctx} room={item.room ?? ''} />

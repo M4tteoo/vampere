@@ -58,6 +58,8 @@ function partMaterial(role: Role, original: Material): Material {
   }
   // Tutti i materiali rispettano il ritaglio del reparto selezionato.
   m.clippingPlanes = focusPlanes
+  // Le ombre rispettano il ritaglio: gli oggetti fuori dal reparto non proiettano ombre visibili.
+  m.clipShadows = true
   return m
 }
 
