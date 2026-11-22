@@ -493,6 +493,26 @@ export interface OptimizedHistoryCoverage {
   skipped: { id: string; reason: string }[];
 }
 
+export interface ForecastPackage {
+  goal: string; // climate_first | best_value | francs_first | safest
+  feasible: boolean;
+  note?: string; // why, when not feasible
+  measure_ids?: string[];
+  /** Set when this package holds exactly the measures of another goal (e.g. safest = climate_first); data is repeated. */
+  same_as?: string | null;
+  optimized_history?: OptimizedHistoryCoverage;
+  /** `with` side only; `without` is shared and lives in the top-level months. null when not feasible or nothing replayable. */
+  months:
+    | {
+        month: ISODate;
+        with: Metrics;
+        by_category: Partial<Record<Category, { with: Metrics }>>;
+        by_resource: Record<string, { category: Category; with: Metrics }>;
+      }[]
+    | null;
+  calculations?: ForecastCalculations | null;
+}
+
 export interface ForecastFile {
   meta: Meta;
   horizon: { start: ISODate; end_exclusive: ISODate };
@@ -502,6 +522,8 @@ export interface ForecastFile {
     /** One entry per consuming resource (resource_id); sums to the month total. */
     by_resource: Record<string, ForecastComparison & { category: Category }>;
   })[];
+  /** Forecast of every goal package of the optimiser, keyed by goal. Top-level `with` = the recommended one. */
+  packages: Record<string, ForecastPackage>;
   events: { date: ISODate; resource_id: string; label: string; source: string }[];
   assumptions: {
     id: string;

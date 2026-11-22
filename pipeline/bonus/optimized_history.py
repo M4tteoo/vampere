@@ -114,12 +114,44 @@ def replay(facts: pd.DataFrame, payload: dict | None, scenario: str, *,
     return optimized, report
 
 
+def replay_packages(ctx: Context, payload: dict | None) -> dict[str, dict]:
+    """Replay every goal package of measures.json (climate_first, best_value, francs_first, safest).
+
+    Returns {goal: {"feasible", "history", "report", "measure_ids", "same_as"}}. Goals whose package holds
+    the same measures share one replay; `same_as` names the first goal with that exact measure set."""
+    results: dict[str, dict] = {}
+    if not payload or not payload.get("packages"):
+        return results
+    default = payload["package"].get("goal")
+    goals = sorted(payload["packages"], key=lambda goal: goal != default)
+    solved: dict[tuple, tuple[str, pd.DataFrame | None, dict]] = {}
+    for goal in goals:
+        package = payload["packages"][goal]
+        if package.get("feasible") is False:
+            results[goal] = {"feasible": False, "note": package.get("note", ""), "measure_ids": []}
+            continue
+        ids = list(dict.fromkeys(package["measure_ids"]))
+        key = tuple(sorted(ids))
+        same_as = solved[key][0] if key in solved else None
+        if same_as is None:
+            history, report = replay(ctx.tables["fact_cost"], {**payload, "package": {**package, "measure_ids": ids}},
+                                     ctx.config["scenario"], advisor_facts=read_output(ctx, "advisor/facts.json"),
+                                     ai_usage=ctx.tables.get("stg_ai_usage"))
+            solved[key] = (goal, history, report)
+        _, history, report = solved[key]
+        results[goal] = {"feasible": True, "history": history, "report": report, "measure_ids": ids,
+                         "same_as": same_as}
+    return results
+
+
 def run(ctx: Context) -> None:
     payload = read_output(ctx, "measures.json")
     previous = read_output(ctx, REPORT)
     history, report = replay(ctx.tables["fact_cost"], payload, ctx.config["scenario"],
                              advisor_facts=read_output(ctx, "advisor/facts.json"),
                              ai_usage=ctx.tables.get("stg_ai_usage"))
+    if payload is not None:
+        report["goal"] = payload["package"].get("goal")
     if history is not None:
         for column in DATE_COLUMNS.intersection(history.columns):
             history[column] = pd.to_datetime(history[column]).dt.date
