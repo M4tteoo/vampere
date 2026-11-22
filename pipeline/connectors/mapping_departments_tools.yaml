@@ -1,0 +1,8 @@
+source: mapping_departments_tools.csv
+system: Master data
+table: dim_resource
+strings: [department, environment, criticality, default_project, rechargeable]
+transforms:
+  - normalize_project: {columns: [default_project]}
+  - fill_department_from_cc: {column: department, cc_column: cost_center}
+  - add_category

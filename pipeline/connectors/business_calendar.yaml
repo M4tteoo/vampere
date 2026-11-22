@@ -1,0 +1,6 @@
+source: business_calendar.csv
+system: Calendar (public holidays Basel-Stadt are real)
+table: dim_date
+dates: {date: "%Y-%m-%d"}
+transforms:
+  - calendar_flags

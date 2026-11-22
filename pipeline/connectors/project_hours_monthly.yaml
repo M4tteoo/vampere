@@ -1,0 +1,7 @@
+source: extra/project_hours_monthly.csv
+system: Time tracking
+table: alloc_project_hours
+dates: {month: "%Y-%m-%d"}
+transforms:
+  - normalize_project: {columns: [project_id]}
+  - department_alias: {column: department}

@@ -1,0 +1,341 @@
+{
+ "constraints": [
+  {
+   "ticket_id": "T-1074",
+   "applies_to": [
+    "dp-dev"
+   ],
+   "type": "info",
+   "summary": "Development cluster is in Frankfurt for cost reasons; moving to Switzerland is technically possible.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1189",
+   "applies_to": [
+    "net-egress"
+   ],
+   "type": "one_off",
+   "summary": "Migration caused one-off data egress; this is not a permanent usage pattern.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1204",
+   "applies_to": [
+    "vm-test"
+   ],
+   "type": "window",
+   "summary": "Test environment had to remain continuously available during March 2026 acceptance testing and release freeze.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-03-01",
+    "end_date": "2026-03-31"
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1035",
+   "applies_to": [
+    "gpu-ml",
+    "srv:gpu-ml-01"
+   ],
+   "type": "info",
+   "summary": "GPU server was provisioned in Frankfurt for an AI pilot and is currently running continuously.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1058",
+   "applies_to": [
+    "vm-test"
+   ],
+   "type": "planned_change",
+   "summary": "Test environment was enlarged for a project; scale-back is planned after go-live.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1094",
+   "applies_to": [
+    "srv:dr-failover"
+   ],
+   "type": "block",
+   "summary": "Disaster recovery fallback server must keep running even when idle, per management requirement.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": "Head of Management"
+  },
+  {
+   "ticket_id": "T-1128",
+   "applies_to": [
+    "ai-assistant"
+   ],
+   "type": "info",
+   "summary": "AI assistant licences are procured per department rather than per individual user.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1172",
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "planned_change",
+   "summary": "Production platform is planned to grow from 16 to 20 nodes from 1 January 2026.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-01-01",
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1195",
+   "applies_to": [
+    "st-backup"
+   ],
+   "type": "block",
+   "summary": "Backup archive must not be deleted because of a retention obligation.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1053",
+   "applies_to": [
+    "dp-dev"
+   ],
+   "type": "window",
+   "summary": "Development cluster must be available continuously on the first three days of each quarter for model training.",
+   "schedule": {
+    "kind": "quarter_days",
+    "days": 3,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1101",
+   "applies_to": [
+    "gpu-ml"
+   ],
+   "type": "info",
+   "summary": "Quarterly training also uses the GPU server during the first three days of January, April, July and October.",
+   "schedule": {
+    "kind": "quarter_days",
+    "days": 3,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1029",
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "Production platform must be available on the last three working days of each month until 04:00 for finance closing.",
+   "schedule": {
+    "kind": "monthly_last_workdays",
+    "days": 3,
+    "from_time": null,
+    "until_time": "04:00",
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1039",
+   "applies_to": [
+    "st-backup"
+   ],
+   "type": "block",
+   "summary": "Backups must be retained for 10 years for legal reasons and must not be deleted.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1167",
+   "applies_to": [
+    "pbi-07"
+   ],
+   "type": "block",
+   "summary": "Legacy receivables report is needed for audit in the closing month and must not be switched off.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null
+  },
+  {
+   "ticket_id": "T-1261",
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "planned_change",
+   "summary": "Production platform is planned to grow from 20 to 24 nodes from 1 October 2026.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-10-01",
+    "end_date": null
+   },
+   "decided_by": null
+  }
+ ],
+ "ignored": [],
+ "withheld": [
+  {
+   "ticket_id": "T-1230",
+   "reason": "free-text risk classifier: instruction aimed at AI systems (withheld, never sent)"
+  },
+  {
+   "ticket_id": "T-1251",
+   "reason": "free-text risk classifier: instruction aimed at AI systems (withheld, never sent)"
+  }
+ ],
+ "tickets_read": [
+  "T-1000",
+  "T-1004",
+  "T-1005",
+  "T-1016",
+  "T-1019",
+  "T-1024",
+  "T-1026",
+  "T-1029",
+  "T-1031",
+  "T-1035",
+  "T-1038",
+  "T-1039",
+  "T-1042",
+  "T-1046",
+  "T-1053",
+  "T-1054",
+  "T-1057",
+  "T-1058",
+  "T-1068",
+  "T-1073",
+  "T-1074",
+  "T-1077",
+  "T-1078",
+  "T-1083",
+  "T-1091",
+  "T-1094",
+  "T-1101",
+  "T-1102",
+  "T-1115",
+  "T-1128",
+  "T-1137",
+  "T-1150",
+  "T-1152",
+  "T-1153",
+  "T-1156",
+  "T-1157",
+  "T-1159",
+  "T-1163",
+  "T-1166",
+  "T-1167",
+  "T-1168",
+  "T-1172",
+  "T-1183",
+  "T-1188",
+  "T-1189",
+  "T-1195",
+  "T-1196",
+  "T-1202",
+  "T-1204",
+  "T-1205",
+  "T-1206",
+  "T-1212",
+  "T-1216",
+  "T-1226",
+  "T-1242",
+  "T-1244",
+  "T-1247",
+  "T-1248",
+  "T-1254",
+  "T-1261",
+  "T-1263",
+  "T-1264",
+  "T-1271",
+  "T-1275",
+  "T-1276",
+  "T-1278",
+  "T-1283"
+ ],
+ "fingerprint": "ec92f0a50e9d67cf"
+}

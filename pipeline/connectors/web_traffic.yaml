@@ -1,0 +1,17 @@
+source: extra/web_traffic.csv
+system: Web hosting and CDN (hourly, UTC)
+table: stg_web_traffic
+transforms:
+  - local_date_from_utc: {column: time_utc, target: date}
+  - scale_by_sample_rate: {columns: [requests, gb_out]}
+  - add_constant: {column: resource_id, value: web-cdn}
+activity:
+  - entity: resource_id
+    entity_type: resource
+    agg: {bot_share_pct: mean}
+    rename_metrics: {requests_scaled: requests, gb_out_scaled: gb_out}
+    metrics:
+      requests_scaled: requests
+      gb_out_scaled: GB
+      bot_share_pct: percent
+      status_5xx: errors

@@ -1,0 +1,39 @@
+source: azure_costs.csv
+system: Azure Cost Management (cost and usage details)
+table: stg_azure_costs
+rename:
+  Date: date
+  ResourceId: resource_path
+  ServiceName: service
+  ResourceLocation: region
+  Quantity: quantity
+  UnitOfMeasure: unit
+  CostInBillingCurrency: amount_native
+  BillingCurrency: currency_native
+  ChargeType: charge_type
+  Tags: tags_json
+  AvgCpuPercent: cpu_avg_pct
+  Notes: notes
+dates: {date: "%Y-%m-%d"}
+month_from: date
+transforms:
+  - dedupe_exact
+  - resource_id_last: {column: resource_path, sep: "/"}
+  - parse_json_tags: {column: tags_json, prefix: tag_}
+  - normalize_project: {columns: [tag_project]}
+free_text: {columns: [notes], resource_id: resource_id}
+cost:
+  provider: {fixed: Azure}
+  service: service
+  region: region
+  quantity: quantity
+  unit: unit
+  charge_category: charge_type
+  department_columns: [tag_department]
+  project_column: tag_project
+  environment_column: tag_environment
+  impute: unit_price
+activity:
+  - entity: resource_id
+    entity_type: resource
+    metrics: {cpu_avg_pct: percent}

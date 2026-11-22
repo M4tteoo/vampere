@@ -1,0 +1,18 @@
+source: server_metrics_weekly.csv
+system: Server monitoring
+table: stg_server_metrics_weekly
+dates: {week_start: "%Y-%m-%d"}
+transforms:
+  - server_to_resource: {column: server_id}
+activity:
+  - date: week_start
+    period: week
+    entity: server_id
+    entity_type: server
+    metrics:
+      cpu_avg_pct: percent
+      cpu_max_pct: percent
+      ram_avg_pct: percent
+      network_gb: GB
+      uptime_h: hours
+      gpu_avg_pct: percent

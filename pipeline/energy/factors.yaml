@@ -1,0 +1,174 @@
+# Conversion factors: usage → energy (kWh) → location-based CO2 (kg).
+# Not in the case data: researched by the team. Every value is an estimate
+# with low / mid / high, a source with date and the reasoning.
+# Ranges are combined «all low» / «all high» (deliberately wide).
+# Retrieved: 2026-11-21. Data year of the factors: latest available (mostly
+# 2024); the baseline year is Sep 2025 – Aug 2026.
+
+# ----------------------------------------------------------- grid mix (kg CO2/kWh)
+grid:
+  CH:
+    template: grid_mix_location_based_switzerland
+    label: "Switzerland: consumption mix incl. imports (location-based)"
+    low: 0.057
+    mid: 0.110
+    high: 0.128
+    source: >-
+      BFE/treeze electricity label, consumer mix 2021–2023: 111 g fossil CO2/kWh at the low-voltage socket
+      (pubdb.bfe.admin.ch); VSE strom.ch «CO2-Gehalt des Strommix Schweiz» based on the BAFU Scope Emissions
+      Tool: 57–59 g CO2e/kWh for 2024, 90 g for 2025 (preliminary); BAFU/treeze «Umweltbilanz Strommix Schweiz»:
+      consumer mix 128 g CO2e/kWh; Empa: ~108 g incl. imports. Retrieved 2026-11-21.
+    calculation: >-
+      CHOICE: consumption mix incl. imports, not production mix. A Zurich data centre draws electricity from the
+      grid as it is, imports included (Switzerland imports in winter, largely from DE/FR). The production mix
+      (~30 g) would ignore those imports and understate the footprint about fourfold. mid = BFE consumer mix
+      (111 g, rounded to 0.110), low = VSE 2024 (57 g, a year with high hydro), high = BAFU consumer mix (128 g).
+    variants:
+      ch_consumption: {low: 0.057, mid: 0.110, high: 0.128}
+      ch_production:  {low: 0.020, mid: 0.030, high: 0.040}
+    variant_source: "BAFU/treeze production mix 29.6 g CO2e/kWh; Empa ~40 g for domestic production"
+  DE:
+    template: grid_mix_location_based_germany
+    label: "Germany (Frankfurt): national electricity mix"
+    low: 0.330
+    mid: 0.363
+    high: 0.430
+    source: >-
+      Umweltbundesamt, «Entwicklung der spezifischen Treibhausgas-Emissionen des deutschen Strommix 1990–2024»
+      (Climate Change 13/2025) and UBA topic page «CO2-Emissionen pro Kilowattstunde Strom 2024»: 363 g CO2/kWh
+      in 2024 (estimate), 386 g in 2023. Retrieved 2026-11-21.
+    calculation: >-
+      mid = UBA 2024 (direct CO2 of electricity consumed in Germany). low = ~2025 level (UBA: slightly lower than
+      2024). high = 2022-like level (433 g) / life-cycle upstream emissions on top of direct CO2.
+  IE:
+    template: grid_mix_location_based_ireland
+    label: "Ireland (Dublin): national electricity mix"
+    low: 0.200
+    mid: 0.226
+    high: 0.352
+    source: >-
+      EPA Ireland, Provisional Greenhouse Gas Emissions 1990–2024: power generation intensity 226 g CO2/kWh in
+      2024 (254 g in 2023); Electricity Maps «Grid in review 2025 – Ireland»: 352 g CO2e/kWh mean 2024
+      (life-cycle, flow-traced). Retrieved 2026-11-21.
+    calculation: >-
+      mid = EPA 2024 (production-based, direct). high = Electricity Maps life-cycle flow-traced value (includes
+      imports and upstream). low = continuing trend (−10 %/year).
+  EU:
+    template: null   # not a template row: used for AI providers and SaaS («EU (mixed)»)
+    label: "EU-27 average (AI providers and SaaS: location «EU (mixed)», not specified)"
+    low: 0.150
+    mid: 0.213
+    high: 0.300
+    source: >-
+      Ember, European Electricity Review 2025: EU-27 power sector intensity 213 g CO2/kWh in 2024.
+      data_center_locations.csv: AI provider (API) «EU (mixed)», location not specified. Retrieved 2026-11-21.
+    calculation: >-
+      Location unknown inside the EU → EU average. Range spans likely host countries (Nordics/France lower,
+      Germany/Netherlands/Ireland higher).
+
+# ----------------------------------------------------- data centre efficiency
+pue:
+  hyperscaler:
+    template: pue
+    label: "PUE Azure / AWS data centres"
+    low: 1.10
+    mid: 1.18
+    high: 1.54
+    source: >-
+      Cloud Carbon Footprint methodology (cloudcarbonfootprint.org/docs/methodology): AWS 1.135, Azure 1.185
+      (provider-declared); Uptime Institute Global Data Center Survey 2025: industry weighted average 1.54.
+      Retrieved 2026-11-21.
+    calculation: >-
+      mid = provider-declared values (~1.16–1.19). How far to trust them: they are fleet-wide design/annual
+      figures published by the providers themselves, not per site, not audited per region; so the high end uses
+      the industry average 1.54 as a conservative bound.
+  hoster:
+    template: null
+    label: "PUE Swiss hoster (small colocation, no published value)"
+    low: 1.30
+    mid: 1.50
+    high: 1.80
+    source: "Uptime Institute Global Data Center Survey 2025 (average 1.54; Europe among the lowest regions). Retrieved 2026-11-21."
+    calculation: "No published PUE for the hoster → industry average as mid, wider range."
+
+# ----------------------------------------------------- energy per unit (coefficients)
+# Compute power model (Cloud Carbon Footprint): W per vCPU = Wmin + u × (Wmax − Wmin),
+# u = observed CPU utilisation (fallback 50 %, the CCF default), plus memory power.
+compute:
+  cpu_w_min:   {low: 0.50, mid: 0.76, high: 1.00}
+  cpu_w_max:   {low: 2.50, mid: 3.63, high: 5.00}
+  mem_w_per_gb: {low: 0.30, mid: 0.392, high: 0.50}
+  default_utilisation: 0.50
+  # CPU utilisation of a server during hours WITHOUT work (used only by the advisor's savings calculator when a
+  # measure removes idle hours): monitoring agents, OS and cluster services keep running while no job runs.
+  # TEAM ASSUMPTION (proof of concept), shown in the submission table as an «Additional» row.
+  idle_background_utilisation: {low: 0.0, mid: 0.05, high: 0.10}
+  source: >-
+    Cloud Carbon Footprint methodology: average min/max W per vCPU AWS 0.74/3.5, Azure 0.78/3.76 (mid = mean),
+    memory 0.392 W per GB; default utilisation 50 % when not measured. Retrieved 2026-11-21.
+  calculation: "low/high = ±30–40 % around the CCF averages for newer / older processor generations."
+
+gpu:
+  tdp_w: 300                       # data_dictionary.md: «one GPU of the 300-watt class»
+  idle_w: {low: 30, mid: 60, high: 90}
+  host: {vcpu: 8, ram_gb: 56}      # server_inventory.csv gpu-ml-01
+  source: "data_dictionary.md (300-W class GPU); idle 10–30 % of TDP is an assumption for data-centre GPUs."
+  calculation: "W = idle + u_gpu × (300 − idle) + host (8 vCPU at host CPU utilisation + 56 GB memory)."
+
+storage:
+  template: energy_per_gb_storage_day
+  kwh_per_gb_day: {low: 0.0000156, mid: 0.0000468, high: 0.0000864}
+  source: "Cloud Carbon Footprint methodology: HDD 0.65 Wh/TB-h, SSD 1.2 Wh/TB-h; replication factor up to 3. Retrieved 2026-11-21."
+  calculation: >-
+    low = HDD, no replication: 0.65 Wh/TB-h × 24 h / 1000 = 0.0156 Wh/GB-day; mid = HDD × 3 replicas;
+    high = SSD × 3 replicas (1.2 × 3 × 24 / 1000 = 0.0864 Wh/GB-day).
+
+network:
+  kwh_per_gb: {low: 0.001, mid: 0.002, high: 0.006}
+  source: >-
+    Cloud Carbon Footprint methodology: 0.001 kWh/GB; Aslan et al. (2018), Journal of Industrial Ecology:
+    0.06 kWh/GB in 2015, halving about every two years (→ ~0.002 by 2025). Retrieved 2026-11-21.
+  calculation: "mid = Aslan trend extrapolated to 2025; low = CCF; high = conservative (older access networks)."
+
+# Specific resource shapes (from the data or provider documentation)
+shapes:
+  vcpu_mem_gb: 2.0                 # server_inventory: 4 vCPU / 8 GB and 0.5 vCPU / 1 GB → 2 GB per vCPU
+  vcore_mem_gb: 5.1                # Azure SQL Database Gen5: 5.1 GB per vCore (Microsoft docs)
+  node: {vcpu: 16, ram_gb: 64}     # data_dictionary.md
+  powerbi_capacity: {vcpu: 8, ram_gb: 25}   # Power BI Premium P1: 8 v-cores, 25 GB RAM (Microsoft docs)
+  runner_vcpu: 2                   # derived from the data: CI cpu_h / billed runner-hours ≈ 2
+  runner_utilisation: 0.9          # builds are CPU-bound (cpu_h per run ≈ vCPU × duration)
+
+# ----------------------------------------------------------- AI
+ai_tokens:
+  template: energy_per_1000_tokens
+  # Wh per 1000 output-equivalent tokens, large model, fully loaded (incl. data-centre overhead)
+  wh_per_1000_output_tokens: {low: 0.10, mid: 0.50, high: 2.00}
+  input_weight: 0.10               # an uncached input token ≈ 1/10 of an output token (prefill is compute-efficient)
+  cached_weight: 0.01              # cached input ≈ 1/100
+  small_model_factor: 0.25         # «small» models (mini): ~1/4, consistent with list price ratio 0.30
+  source: >-
+    Google (Aug 2025, arXiv 2508.15734): median Gemini text prompt 0.24 Wh fully loaded (0.10 Wh counting only
+    active accelerators); Epoch AI (2025): ~0.3 Wh per typical ChatGPT query (~500 output tokens); OpenAI CEO
+    (Jun 2025): 0.34 Wh average query. ML.ENERGY leaderboard for open models. Retrieved 2026-11-21.
+  calculation: >-
+    0.24–0.34 Wh for a prompt with a few hundred output tokens → ~0.5 Wh per 1000 output tokens (mid).
+    low = active-accelerator-only figure; high = long context / reasoning models / less efficient serving.
+    Output-equivalent tokens = output + 0.1 × uncached input + 0.01 × cached input. Fully loaded → no PUE on top.
+
+ai_messages:
+  template: energy_per_subscription_message
+  wh_per_message: {low: 0.10, mid: 0.30, high: 2.50}
+  source: >-
+    Google (Aug 2025): 0.24 Wh median prompt, 0.10 Wh active-only; Epoch AI (2025): ~0.3 Wh typical query,
+    up to ~2.5 Wh with long inputs; OpenAI CEO (Jun 2025): 0.34 Wh. Retrieved 2026-11-21.
+  calculation: "Per message in Copilot / ChatGPT Team / Claude Team; fully loaded → no PUE on top."
+
+# ----------------------------------------------------------- SaaS (no usage data per licence)
+saas:
+  kwh_per_active_licence_month: {low: 0.05, mid: 0.15, high: 0.50}
+  source: "Team assumption (bottom-up), no public per-licence figure; documented as an estimate."
+  calculation: >-
+    Multi-tenant SaaS: ~0.05 vCPU continuously per active user (0.05 × 730 h × ~3 W ≈ 0.11 kWh) + ~10 GB storage
+    (≈ 0.014 kWh) ≈ 0.12 kWh IT energy, × PUE ≈ 0.15 kWh per active licence-month. Unused licences cost money
+    but add almost no energy in a multi-tenant service → energy counts active licences only.

@@ -1,0 +1,283 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-22T01:18:00+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
+  },
+  "answers": {
+    "q1_find": {
+      "question": "How many AI subscription seats were purchased but not active in August 2026, and what do they cost per month?",
+      "answer": "67 of 157 AI seats were not active in August 2026, costing CHF 1,223.51 per month (USD → CHF at 0.8076, the August 2026 ECB average).",
+      "table": [
+        {
+          "product": "ChatGPT Team",
+          "purchased": 23,
+          "active": 2,
+          "inactive": 21,
+          "price_per_seat_usd": 25.0,
+          "inactive_cost_usd_per_month": 525.0,
+          "inactive_cost_chf_per_month": 423.99,
+          "by_cost_center": {
+            "4100": {
+              "purchased": 12,
+              "active": 1
+            },
+            "4300": {
+              "purchased": 7,
+              "active": 1
+            },
+            "4400": {
+              "purchased": 4,
+              "active": 0
+            }
+          }
+        },
+        {
+          "product": "Claude Team",
+          "purchased": 34,
+          "active": 28,
+          "inactive": 6,
+          "price_per_seat_usd": 25.0,
+          "inactive_cost_usd_per_month": 150.0,
+          "inactive_cost_chf_per_month": 121.14,
+          "by_cost_center": {
+            "4000": {
+              "purchased": 20,
+              "active": 17
+            },
+            "4300": {
+              "purchased": 6,
+              "active": 5
+            },
+            "4500": {
+              "purchased": 8,
+              "active": 6
+            }
+          }
+        },
+        {
+          "product": "Microsoft Copilot",
+          "purchased": 100,
+          "active": 60,
+          "inactive": 40,
+          "price_per_seat_usd": 21.0,
+          "inactive_cost_usd_per_month": 840.0,
+          "inactive_cost_chf_per_month": 678.38,
+          "by_cost_center": {
+            "4000": {
+              "purchased": 36,
+              "active": 23
+            },
+            "4100": {
+              "purchased": 18,
+              "active": 11
+            },
+            "4200": {
+              "purchased": 11,
+              "active": 5
+            },
+            "4300": {
+              "purchased": 11,
+              "active": 7
+            },
+            "4400": {
+              "purchased": 5,
+              "active": 2
+            },
+            "4500": {
+              "purchased": 14,
+              "active": 9
+            },
+            "4900": {
+              "purchased": 5,
+              "active": 3
+            }
+          }
+        }
+      ],
+      "sources": [
+        "ai_subscriptions.csv (contract_status = Final; Draft rows next to Final versions dropped)",
+        "exchange_rates.csv (usd_chf, 2026-08)"
+      ],
+      "calc": "inactive = licences_purchased − licences_active_30d; cost = inactive × price_per_seat (USD) × usd_chf of the month",
+      "note": "Draft rows for the same month and cost center ignored (0 kept as Draft-only: none expected)."
+    },
+    "q2_decide": {
+      "question": "What does it bring to start the GPU server only when needed? State the effort and the savings in CHF and CO2 (location-based) per year.",
+      "utilisation": {
+        "gpu_avg_pct": 9.2,
+        "uptime_h_per_week": 168.0,
+        "weeks": 52
+      },
+      "sources": [
+        "azure_costs.csv (gpu-ml)",
+        "server_inventory.csv",
+        "server_metrics_weekly.csv",
+        "it_tickets.csv",
+        "pipeline/energy/factors.yaml"
+      ],
+      "answer": "Today gpu-ml-01 (Frankfurt) runs 168 of 168 h a week at 9.2 % average GPU utilisation. Measure M-04 «Run gpu-ml on demand»: effort 1.5 person-days (CHF 1,650); savings per year 9,471 CHF (range 9,457–9,483), 766 kWh (range 491–1,322) and 278.2 kg CO2 (range 162.0–568.3) location-based. Status: ok (decides: Head of Consulting).",
+      "measure_id": "M-04",
+      "effort_days": 1.5,
+      "effort_chf": 1650.0,
+      "savings": {
+        "cost_chf": {
+          "low": 9457.13,
+          "mid": 9470.64,
+          "high": 9483.27
+        },
+        "cost_eur": {
+          "low": 10228.41,
+          "mid": 10243.02,
+          "high": 10256.68
+        },
+        "cost_usd": {
+          "low": 11902.48,
+          "mid": 11919.48,
+          "high": 11935.38
+        },
+        "kwh": {
+          "low": 490.9,
+          "mid": 766.5,
+          "high": 1321.7
+        },
+        "co2_kg": {
+          "low": 162.0,
+          "mid": 278.2,
+          "high": 568.3
+        }
+      },
+      "status": "ok",
+      "owner_role": "Head of Consulting",
+      "limit_ids": [],
+      "calc": "savings = recurring baseline of each scope × shares chosen by the advisor; CO2 of relocated load × (1 − grid target / grid origin). res:gpu-ml: cost × 0.83, energy × 0.66",
+      "assumptions": [
+        {
+          "id": "energy_per_gpu_hour",
+          "label": "Energy per GPU-hour (300-W class at 10 % GPU, incl. host)",
+          "unit": "kWh",
+          "low": 0.0786,
+          "mid": 0.1132,
+          "high": 0.1486,
+          "source": "data_dictionary.md (300-W class GPU); idle 10–30 % of TDP is an assumption for data-centre GPUs."
+        },
+        {
+          "id": "grid_mix_location_based_germany",
+          "label": "Germany (Frankfurt): national electricity mix",
+          "unit": "kg CO2 per kWh",
+          "low": 0.33,
+          "mid": 0.363,
+          "high": 0.43,
+          "source": "Umweltbundesamt, «Entwicklung der spezifischen Treibhausgas-Emissionen des deutschen Strommix 1990–2024» (Climate Change 13/2025) and UBA topic page «CO2-Emissionen pro Kilowattstunde Strom 2024»: 363 g CO2/kWh in 2024 (estimate), 386 g in 2023. Retrieved 2026-11-21."
+        }
+      ]
+    },
+    "q3_limits": {
+      "question": "May the production platform be switched off at night and at weekends?",
+      "answer": "Not as a general rule, and not without a decision. Nights: fixed jobs need the platform every day («Nightly ETL» starts 02:00 (median 1.5 h), must be done by 06:00; «PBI refresh large» starts 05:30 (median 1.2 h), must be done by 07:30), and finance closing needs it on the last 3 working days until 04:00 (T-1029). Weekends: 1.5 active h/day and 41.1 queries/day (working days: 10.33 h, 1952.6 queries), so mostly idle but not unused. A narrower switch-off outside these windows can be assessed; the Head of Consulting decides before anything changes.",
+      "usage_by_day_type": {
+        "holiday": {
+          "days": 47,
+          "active_h_per_day": 6.34,
+          "queries_per_day": 971.2
+        },
+        "last 3 working days": {
+          "days": 30,
+          "active_h_per_day": 20.57,
+          "queries_per_day": 5060.4
+        },
+        "other working day": {
+          "days": 189,
+          "active_h_per_day": 10.33,
+          "queries_per_day": 1952.6
+        },
+        "weekend": {
+          "days": 92,
+          "active_h_per_day": 1.5,
+          "queries_per_day": 41.1
+        }
+      },
+      "protection": [
+        {
+          "id": "L-05",
+          "type": "window",
+          "title": "Production platform must be available on the last three working days of each month until 04:00 for finance closing.",
+          "period": "last 3 working days of every month until 04:00",
+          "source": {
+            "kind": "ticket",
+            "ref": "T-1029"
+          }
+        },
+        {
+          "id": "L-08",
+          "type": "window",
+          "title": "scheduled job «Month-end close» starts 18:00 (median 10.1 h); runs on 65 days a year",
+          "period": "see summary",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        },
+        {
+          "id": "L-09",
+          "type": "window",
+          "title": "scheduled job «Nightly ETL» starts 02:00 (median 1.5 h), must be done by 06:00",
+          "period": "every day from 02:00 until 06:00 (next 7 days shown)",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        },
+        {
+          "id": "L-10",
+          "type": "window",
+          "title": "scheduled job «PBI refresh large» starts 05:30 (median 1.2 h), must be done by 07:30",
+          "period": "every day from 05:30 until 07:30 (next 7 days shown)",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        },
+        {
+          "id": "L-11",
+          "type": "window",
+          "title": "scheduled job «Reporting export» starts 06:00 (median 0.5 h), must be done by 08:00; runs on 456 days a year",
+          "period": "see summary",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        },
+        {
+          "id": "L-12",
+          "type": "window",
+          "title": "scheduled job «Year-end close analysis» starts 20:00 (median 5.9 h); runs on 43 days a year",
+          "period": "see summary",
+          "source": {
+            "kind": "file",
+            "ref": "extra/data_platform_jobs.csv"
+          }
+        }
+      ],
+      "decided_by": "Head of Consulting",
+      "measures_on_dp_prod": [
+        {
+          "id": "M-03",
+          "status": "human",
+          "in_package": true
+        }
+      ],
+      "sources": [
+        "data_platform_usage.csv",
+        "it_tickets.csv (T-1029 and others, via the quarantined reader)",
+        "extra/data_platform_jobs.csv",
+        "business_calendar.csv",
+        "mapping_departments_tools.csv"
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+source: hoster_invoice.csv
+system: Swiss hoster invoice (no resource key)
+table: stg_hoster_invoice
+rename:
+  Date: date
+  Item: item
+  Service: service
+  Quantity: quantity
+  Unit: unit
+  Amount_CHF: amount_native
+  CostCenter: cost_center
+  ProjectNumber: project_id
+  Accesses: accesses
+  Remark: remark
+strings: [project_id, remark]
+dates: {date: "%d.%m.%Y"}
+month_from: date
+transforms:
+  - dedupe_exact
+  - tool_to_resource: {column: item}
+  - normalize_project: {columns: [project_id]}
+  - add_constant: {column: currency_native, value: CHF}
+  # data_center_locations.csv: the hoster's used location is Zurich
+  - add_constant: {column: region, value: "Switzerland (Zurich)"}
+free_text: {columns: [remark], resource_id: resource_id}
+cost:
+  provider: {fixed: Swiss hoster}
+  service: service
+  region: region
+  quantity: quantity
+  unit: unit
+  cost_center_column: cost_center
+  project_column: project_id
+  impute: unit_price
+activity:
+  - entity: resource_id
+    entity_type: resource
+    metrics: {accesses: accesses}

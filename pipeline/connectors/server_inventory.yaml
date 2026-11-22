@@ -1,0 +1,11 @@
+source: server_inventory.csv
+system: Server administration (CMDB), as of 06.09.2026
+table: dim_server
+strings: [tags, project_id, criticality]
+transforms:
+  - server_to_resource: {column: server_id}
+  - normalize_project: {columns: [project_id]}
+  - fill_cpu_from_metrics
+  - cost_center_department: {column: owner_cost_center, target: owner_department}
+  - flag_missing: {column: owner_cost_center, issue: missing_owner, action: "servers without owner cost center (orphan candidates)", severity: warn}
+  - flag_missing: {column: criticality, issue: missing_value, action: "criticality empty (and documented as unreliable): use tickets and mapping instead"}

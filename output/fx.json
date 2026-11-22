@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "generated_at": "2026-11-22T01:17:58+01:00",
+    "baseline": {
+      "start": "2025-09-01",
+      "end": "2026-08-31"
+    },
+    "scenario": "ch_consumption"
+  },
+  "source": "ECB reference rates via Deutsche Bundesbank (exchange_rates.csv); EUR\u2194USD as cross rate",
+  "baseline_avg": {
+    "CHF_CHF": 1.0,
+    "CHF_EUR": 1.081549,
+    "CHF_USD": 1.258614,
+    "EUR_CHF": 0.9246,
+    "EUR_EUR": 1.0,
+    "EUR_USD": 1.163714,
+    "USD_CHF": 0.794525,
+    "USD_EUR": 0.859318,
+    "USD_USD": 1.0
+  },
+  "monthly": {
+    "2024-11-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.068947,
+      "CHF_USD": 1.136235,
+      "EUR_CHF": 0.9355,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.062947,
+      "USD_CHF": 0.8801,
+      "USD_EUR": 0.94078,
+      "USD_USD": 1.0
+    },
+    "2024-12-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.070778,
+      "CHF_USD": 1.122083,
+      "EUR_CHF": 0.9339,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.047913,
+      "USD_CHF": 0.8912,
+      "USD_EUR": 0.954278,
+      "USD_USD": 1.0
+    },
+    "2025-01-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.062248,
+      "CHF_USD": 1.099868,
+      "EUR_CHF": 0.9414,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.035416,
+      "USD_CHF": 0.9092,
+      "USD_EUR": 0.965796,
+      "USD_USD": 1.0
+    },
+    "2025-02-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.062361,
+      "CHF_USD": 1.106195,
+      "EUR_CHF": 0.9413,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.041261,
+      "USD_CHF": 0.904,
+      "USD_EUR": 0.960374,
+      "USD_USD": 1.0
+    },
+    "2025-03-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.04734,
+      "CHF_USD": 1.131862,
+      "EUR_CHF": 0.9548,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.080702,
+      "USD_CHF": 0.8835,
+      "USD_EUR": 0.925325,
+      "USD_USD": 1.0
+    },
+    "2025-04-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.067236,
+      "CHF_USD": 1.196745,
+      "EUR_CHF": 0.937,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.12135,
+      "USD_CHF": 0.8356,
+      "USD_EUR": 0.891782,
+      "USD_USD": 1.0
+    },
+    "2025-05-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.068833,
+      "CHF_USD": 1.2054,
+      "EUR_CHF": 0.9356,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.127772,
+      "USD_CHF": 0.8296,
+      "USD_EUR": 0.886704,
+      "USD_USD": 1.0
+    },
+    "2025-06-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.066098,
+      "CHF_USD": 1.227747,
+      "EUR_CHF": 0.938,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.151627,
+      "USD_CHF": 0.8145,
+      "USD_EUR": 0.868337,
+      "USD_USD": 1.0
+    },
+    "2025-07-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.072386,
+      "CHF_USD": 1.252191,
+      "EUR_CHF": 0.9325,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.167668,
+      "USD_CHF": 0.7986,
+      "USD_EUR": 0.856408,
+      "USD_USD": 1.0
+    },
+    "2025-08-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.065303,
+      "CHF_USD": 1.239004,
+      "EUR_CHF": 0.9387,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.163053,
+      "USD_CHF": 0.8071,
+      "USD_EUR": 0.859806,
+      "USD_USD": 1.0
+    },
+    "2025-09-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.069519,
+      "CHF_USD": 1.254705,
+      "EUR_CHF": 0.935,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.173149,
+      "USD_CHF": 0.797,
+      "USD_EUR": 0.852406,
+      "USD_USD": 1.0
+    },
+    "2025-10-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.076542,
+      "CHF_USD": 1.252035,
+      "EUR_CHF": 0.9289,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.163015,
+      "USD_CHF": 0.7987,
+      "USD_EUR": 0.859834,
+      "USD_USD": 1.0
+    },
+    "2025-11-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.076426,
+      "CHF_USD": 1.2444,
+      "EUR_CHF": 0.929,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.156048,
+      "USD_CHF": 0.8036,
+      "USD_EUR": 0.865016,
+      "USD_USD": 1.0
+    },
+    "2025-12-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.071582,
+      "CHF_USD": 1.254705,
+      "EUR_CHF": 0.9332,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.170891,
+      "USD_CHF": 0.797,
+      "USD_EUR": 0.854051,
+      "USD_USD": 1.0
+    },
+    "2026-01-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.078516,
+      "CHF_USD": 1.265983,
+      "EUR_CHF": 0.9272,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.173819,
+      "USD_CHF": 0.7899,
+      "USD_EUR": 0.85192,
+      "USD_USD": 1.0
+    },
+    "2026-02-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.094092,
+      "CHF_USD": 1.293661,
+      "EUR_CHF": 0.914,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.182406,
+      "USD_CHF": 0.773,
+      "USD_EUR": 0.845733,
+      "USD_USD": 1.0
+    },
+    "2026-03-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.099626,
+      "CHF_USD": 1.270971,
+      "EUR_CHF": 0.9094,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.155821,
+      "USD_CHF": 0.7868,
+      "USD_EUR": 0.865186,
+      "USD_USD": 1.0
+    },
+    "2026-04-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.085423,
+      "CHF_USD": 1.270648,
+      "EUR_CHF": 0.9213,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.170648,
+      "USD_CHF": 0.787,
+      "USD_EUR": 0.854228,
+      "USD_USD": 1.0
+    },
+    "2026-05-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.093016,
+      "CHF_USD": 1.275836,
+      "EUR_CHF": 0.9149,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.167262,
+      "USD_CHF": 0.7838,
+      "USD_EUR": 0.856706,
+      "USD_USD": 1.0
+    },
+    "2026-06-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.086366,
+      "CHF_USD": 1.251251,
+      "EUR_CHF": 0.9205,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.151777,
+      "USD_CHF": 0.7992,
+      "USD_EUR": 0.868224,
+      "USD_USD": 1.0
+    },
+    "2026-07-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.08038,
+      "CHF_USD": 1.233502,
+      "EUR_CHF": 0.9256,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.141729,
+      "USD_CHF": 0.8107,
+      "USD_EUR": 0.875864,
+      "USD_USD": 1.0
+    },
+    "2026-08-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.068148,
+      "CHF_USD": 1.238237,
+      "EUR_CHF": 0.9362,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.159237,
+      "USD_CHF": 0.8076,
+      "USD_EUR": 0.862636,
+      "USD_USD": 1.0
+    },
+    "2026-09-01": {
+      "CHF_CHF": 1.0,
+      "CHF_EUR": 1.060445,
+      "CHF_USD": 1.220852,
+      "EUR_CHF": 0.943,
+      "EUR_EUR": 1.0,
+      "EUR_USD": 1.151264,
+      "USD_CHF": 0.8191,
+      "USD_EUR": 0.868611,
+      "USD_USD": 1.0
+    }
+  }
+}

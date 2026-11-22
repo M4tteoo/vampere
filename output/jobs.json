@@ -1,0 +1,1322 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-22T01:18:00+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "method": {
+  "policies": {
+   "static": "one new fixed start per job (cron change)",
+   "dynamic": "best placement per run on the monthly profile (carbon-aware scheduler)"
+  },
+  "energy_bases": {
+   "marginal": "today: cluster runs 24/7, only the job's extra power moves",
+   "full": "after auto-pause: the run's whole energy depends on the hour"
+  },
+  "protected_hours": {
+   "dp-prod": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "st-backup": [
+    22
+   ]
+  },
+  "ticket_constraints": {
+   "Quarterly model training": "T-1053, T-1101: training needs dp-dev continuously on days 1–3 of the quarter, together with the GPU server → keep the days, move only the start hour; confirm with the responsible role"
+  },
+  "assumptions": {
+   "u_job": {
+    "low": 0.5,
+    "mid": 0.7,
+    "high": 0.9
+   },
+   "u_idle": 0.05,
+   "effort_days": 1.0
+  }
+ },
+ "profiles": [
+  {
+   "location": "CH",
+   "season": "winter",
+   "day_type": "workday",
+   "g_per_kwh": [
+    180.0,
+    183.1,
+    182.5,
+    179.8,
+    176.2,
+    168.6,
+    141.4,
+    116.9,
+    112.3,
+    115.9,
+    123.4,
+    126.5,
+    131.4,
+    129.0,
+    126.0,
+    115.5,
+    107.6,
+    102.4,
+    105.6,
+    114.4,
+    129.5,
+    149.7,
+    168.0,
+    177.6
+   ]
+  },
+  {
+   "location": "CH",
+   "season": "summer",
+   "day_type": "workday",
+   "g_per_kwh": [
+    91.0,
+    94.5,
+    95.7,
+    92.5,
+    91.0,
+    82.4,
+    78.8,
+    81.5,
+    86.8,
+    88.3,
+    86.2,
+    84.8,
+    85.4,
+    85.2,
+    85.6,
+    85.4,
+    84.5,
+    82.2,
+    79.3,
+    78.5,
+    79.9,
+    81.3,
+    84.5,
+    88.7
+   ]
+  },
+  {
+   "location": "CH",
+   "season": "year",
+   "day_type": "workday",
+   "g_per_kwh": [
+    129.2,
+    132.1,
+    133.1,
+    130.2,
+    127.4,
+    117.5,
+    99.2,
+    91.4,
+    93.8,
+    98.3,
+    101.3,
+    102.6,
+    104.5,
+    103.3,
+    101.9,
+    97.6,
+    93.2,
+    88.1,
+    87.5,
+    88.6,
+    94.8,
+    106.8,
+    118.3,
+    126.7
+   ]
+  },
+  {
+   "location": "DE",
+   "season": "winter",
+   "day_type": "workday",
+   "g_per_kwh": [
+    381.4,
+    379.2,
+    379.4,
+    380.6,
+    384.8,
+    393.4,
+    404.1,
+    414.1,
+    411.9,
+    397.4,
+    379.3,
+    366.1,
+    363.1,
+    370.6,
+    389.8,
+    414.5,
+    428.9,
+    427.8,
+    420.6,
+    414.4,
+    408.6,
+    403.2,
+    404.1,
+    397.1
+   ]
+  },
+  {
+   "location": "DE",
+   "season": "summer",
+   "day_type": "workday",
+   "g_per_kwh": [
+    451.5,
+    452.7,
+    455.2,
+    458.5,
+    461.2,
+    455.6,
+    429.1,
+    385.9,
+    328.6,
+    271.0,
+    224.4,
+    195.2,
+    181.7,
+    177.4,
+    179.4,
+    189.9,
+    218.3,
+    267.6,
+    333.4,
+    401.8,
+    449.9,
+    461.2,
+    458.3,
+    453.8
+   ]
+  },
+  {
+   "location": "DE",
+   "season": "year",
+   "day_type": "workday",
+   "g_per_kwh": [
+    417.2,
+    416.9,
+    418.2,
+    420.1,
+    423.8,
+    427.6,
+    422.4,
+    404.5,
+    370.0,
+    329.3,
+    293.7,
+    271.3,
+    262.4,
+    264.4,
+    276.5,
+    298.4,
+    327.3,
+    361.0,
+    396.6,
+    425.4,
+    438.2,
+    436.2,
+    433.0,
+    426.6
+   ]
+  },
+  {
+   "location": "IE",
+   "season": "winter",
+   "day_type": "workday",
+   "g_per_kwh": [
+    200.1,
+    194.3,
+    193.5,
+    189.8,
+    188.4,
+    186.6,
+    186.9,
+    192.0,
+    204.6,
+    212.3,
+    214.9,
+    216.3,
+    224.1,
+    225.1,
+    224.2,
+    223.5,
+    227.3,
+    230.7,
+    229.2,
+    225.0,
+    222.1,
+    219.9,
+    216.3,
+    206.2
+   ]
+  },
+  {
+   "location": "IE",
+   "season": "summer",
+   "day_type": "workday",
+   "g_per_kwh": [
+    265.3,
+    267.5,
+    267.2,
+    264.7,
+    263.9,
+    266.2,
+    270.7,
+    275.7,
+    283.9,
+    289.2,
+    282.1,
+    273.9,
+    260.3,
+    248.6,
+    244.3,
+    240.6,
+    238.5,
+    236.9,
+    246.3,
+    254.4,
+    261.6,
+    269.2,
+    271.8,
+    271.7
+   ]
+  },
+  {
+   "location": "IE",
+   "season": "year",
+   "day_type": "workday",
+   "g_per_kwh": [
+    221.3,
+    219.8,
+    219.8,
+    218.6,
+    218.1,
+    218.5,
+    222.0,
+    228.0,
+    238.4,
+    243.4,
+    240.9,
+    236.2,
+    228.8,
+    222.8,
+    218.9,
+    217.2,
+    218.3,
+    221.8,
+    228.1,
+    230.9,
+    232.2,
+    233.4,
+    231.5,
+    226.1
+   ]
+  }
+ ],
+ "profile_source": "Energy-Charts API (Fraunhofer ISE), /v2/public_power and /v2/cbpf, 15-min, 2025-09-01 … 2026-08-31; licence CC BY 4.0, attribution: energy-charts.info; retrieved 2026-11-21",
+ "profile_stats": {
+  "CH": {
+   "annual_load_weighted_g_per_kwh": 77.8,
+   "hourly_min_max_g_per_kwh": [
+    44.1,
+    206.9
+   ],
+   "median_daily_spread_pct": 53.0,
+   "cleanest_hour_year": 18,
+   "dirtiest_hour_year": 2,
+   "winter_cleanest_dirtiest_hour": [
+    17,
+    1
+   ],
+   "summer_cleanest_dirtiest_hour": [
+    19,
+    2
+   ],
+   "hourly_profile_year_rel": [
+    1.181,
+    1.204,
+    1.21,
+    1.188,
+    1.166,
+    1.098,
+    0.972,
+    0.92,
+    0.927,
+    0.941,
+    0.952,
+    0.954,
+    0.968,
+    0.959,
+    0.951,
+    0.923,
+    0.886,
+    0.84,
+    0.826,
+    0.842,
+    0.896,
+    0.996,
+    1.09,
+    1.162
+   ],
+   "hours": 8760
+  },
+  "DE": {
+   "annual_load_weighted_g_per_kwh": 316.1,
+   "hourly_min_max_g_per_kwh": [
+    87.6,
+    611.4
+   ],
+   "median_daily_spread_pct": 76.5,
+   "cleanest_hour_year": 12,
+   "dirtiest_hour_year": 20,
+   "winter_cleanest_dirtiest_hour": [
+    12,
+    16
+   ],
+   "summer_cleanest_dirtiest_hour": [
+    13,
+    21
+   ],
+   "hourly_profile_year_rel": [
+    1.139,
+    1.135,
+    1.134,
+    1.141,
+    1.148,
+    1.153,
+    1.13,
+    1.071,
+    0.968,
+    0.858,
+    0.768,
+    0.713,
+    0.692,
+    0.699,
+    0.731,
+    0.788,
+    0.863,
+    0.953,
+    1.053,
+    1.136,
+    1.175,
+    1.172,
+    1.165,
+    1.148
+   ],
+   "hours": 8760
+  },
+  "IE": {
+   "annual_load_weighted_g_per_kwh": 277.1,
+   "hourly_min_max_g_per_kwh": [
+    11.0,
+    626.2
+   ],
+   "median_daily_spread_pct": 63.6,
+   "cleanest_hour_year": 15,
+   "dirtiest_hour_year": 9,
+   "winter_cleanest_dirtiest_hour": [
+    5,
+    17
+   ],
+   "summer_cleanest_dirtiest_hour": [
+    17,
+    9
+   ],
+   "hourly_profile_year_rel": [
+    0.984,
+    0.979,
+    0.981,
+    0.977,
+    0.975,
+    0.973,
+    0.983,
+    1.001,
+    1.035,
+    1.056,
+    1.044,
+    1.031,
+    1.002,
+    0.978,
+    0.964,
+    0.958,
+    0.962,
+    0.975,
+    1.0,
+    1.019,
+    1.026,
+    1.031,
+    1.021,
+    0.999
+   ],
+   "hours": 8746
+  }
+ },
+ "jobs": [
+  {
+   "job_name": "Text analysis script",
+   "resource_id": "ai-marketing",
+   "entity_id": "res:ai-marketing",
+   "location": "EU",
+   "window_type": "flexible",
+   "window_rule": "within 24 h",
+   "runs": 359,
+   "usual_start": "01:00",
+   "avg_duration_h": 0.99,
+   "shiftable": false,
+   "locked": false,
+   "reason": "runs at an AI provider in «EU (mixed)»: no hourly profile for an unknown location",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  },
+  {
+   "job_name": "Nightly ETL",
+   "resource_id": "dp-prod",
+   "entity_id": "res:dp-prod",
+   "location": "CH",
+   "window_type": "fixed",
+   "window_rule": "done by 06:00 (morning reports)",
+   "runs": 359,
+   "usual_start": "02:00",
+   "avg_duration_h": 1.51,
+   "shiftable": false,
+   "locked": true,
+   "reason": "fixed time window (protection window / deadline): never moved",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  },
+  {
+   "job_name": "Log rotation",
+   "resource_id": "logs",
+   "entity_id": "res:logs",
+   "location": "CH",
+   "window_type": "flexible",
+   "window_rule": "within 24 h",
+   "runs": 361,
+   "usual_start": "04:00",
+   "avg_duration_h": 0.2,
+   "shiftable": false,
+   "locked": false,
+   "reason": "billed per GB stored / transferred, not per run: no energy per run to move",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  },
+  {
+   "job_name": "Archiving",
+   "resource_id": "st-archive",
+   "entity_id": "res:st-archive",
+   "location": "CH",
+   "window_type": "flexible",
+   "window_rule": "within the month",
+   "runs": 11,
+   "usual_start": "04:00",
+   "avg_duration_h": 3.05,
+   "shiftable": false,
+   "locked": false,
+   "reason": "billed per GB stored / transferred, not per run: no energy per run to move",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  },
+  {
+   "job_name": "Catalogue scan",
+   "resource_id": "dp-prod",
+   "entity_id": "res:dp-prod",
+   "location": "CH",
+   "window_type": "flexible",
+   "window_rule": "within the week",
+   "runs": 52,
+   "usual_start": "05:00",
+   "avg_duration_h": 0.6,
+   "shiftable": true,
+   "locked": false,
+   "reason": null,
+   "needs_human": null,
+   "suggested_start": "17:00",
+   "suggested_day_type": "workday",
+   "relative_intensity": {
+    "now": 1.065,
+    "static": 0.8,
+    "dynamic": 0.768
+   },
+   "kwh_per_run": {
+    "marginal": {
+     "low": 0.18,
+     "mid": 0.39,
+     "high": 0.93
+    },
+    "full": {
+     "low": 0.53,
+     "mid": 0.91,
+     "high": 1.81
+    }
+   },
+   "co2_kg_year": {
+    "marginal": {
+     "now": {
+      "low": 0.55,
+      "mid": 2.38,
+      "high": 6.59
+     },
+     "saving_static": {
+      "low": 0.13,
+      "mid": 0.57,
+      "high": 1.58
+     },
+     "saving_dynamic": {
+      "low": 0.15,
+      "mid": 0.65,
+      "high": 1.79
+     }
+    },
+    "full": {
+     "now": {
+      "low": 1.66,
+      "mid": 5.53,
+      "high": 12.79
+     },
+     "saving_static": {
+      "low": 0.4,
+      "mid": 1.33,
+      "high": 3.07
+     },
+     "saving_dynamic": {
+      "low": 0.45,
+      "mid": 1.5,
+      "high": 3.48
+     }
+    }
+   }
+  },
+  {
+   "job_name": "PBI refresh large",
+   "resource_id": "dp-prod",
+   "entity_id": "res:dp-prod",
+   "location": "CH",
+   "window_type": "fixed",
+   "window_rule": "done by 07:30",
+   "runs": 358,
+   "usual_start": "05:00",
+   "avg_duration_h": 1.19,
+   "shiftable": false,
+   "locked": true,
+   "reason": "fixed time window (protection window / deadline): never moved",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  },
+  {
+   "job_name": "Reporting export",
+   "resource_id": "dp-prod",
+   "entity_id": "res:dp-prod",
+   "location": "CH",
+   "window_type": "fixed",
+   "window_rule": "done by 08:00",
+   "runs": 248,
+   "usual_start": "06:00",
+   "avg_duration_h": 0.5,
+   "shiftable": false,
+   "locked": true,
+   "reason": "fixed time window (protection window / deadline): never moved",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  },
+  {
+   "job_name": "Cost export",
+   "resource_id": "dp-prod",
+   "entity_id": "res:dp-prod",
+   "location": "CH",
+   "window_type": "flexible",
+   "window_rule": "within 24 h",
+   "runs": 358,
+   "usual_start": "06:00",
+   "avg_duration_h": 0.1,
+   "shiftable": true,
+   "locked": false,
+   "reason": null,
+   "needs_human": null,
+   "suggested_start": "17:00",
+   "suggested_day_type": "same day",
+   "relative_intensity": {
+    "now": 0.971,
+    "static": 0.84,
+    "dynamic": 0.8
+   },
+   "kwh_per_run": {
+    "marginal": {
+     "low": 0.03,
+     "mid": 0.07,
+     "high": 0.16
+    },
+    "full": {
+     "low": 0.09,
+     "mid": 0.15,
+     "high": 0.3
+    }
+   },
+   "co2_kg_year": {
+    "marginal": {
+     "now": {
+      "low": 0.59,
+      "mid": 2.52,
+      "high": 6.97
+     },
+     "saving_static": {
+      "low": 0.08,
+      "mid": 0.33,
+      "high": 0.9
+     },
+     "saving_dynamic": {
+      "low": 0.1,
+      "mid": 0.43,
+      "high": 1.2
+     }
+    },
+    "full": {
+     "now": {
+      "low": 1.76,
+      "mid": 5.85,
+      "high": 13.53
+     },
+     "saving_static": {
+      "low": 0.23,
+      "mid": 0.76,
+      "high": 1.75
+     },
+     "saving_dynamic": {
+      "low": 0.3,
+      "mid": 1.01,
+      "high": 2.33
+     }
+    }
+   }
+  },
+  {
+   "job_name": "Dev smoke test",
+   "resource_id": "dp-dev",
+   "entity_id": "res:dp-dev",
+   "location": "DE",
+   "window_type": "flexible",
+   "window_rule": "working day 08:00 to 18:00",
+   "runs": 247,
+   "usual_start": "10:00",
+   "avg_duration_h": 0.3,
+   "shiftable": true,
+   "locked": false,
+   "reason": null,
+   "needs_human": null,
+   "suggested_start": "12:00",
+   "suggested_day_type": "same day",
+   "relative_intensity": {
+    "now": 0.81,
+    "static": 0.723,
+    "dynamic": 0.718
+   },
+   "kwh_per_run": {
+    "marginal": {
+     "low": 0.04,
+     "mid": 0.08,
+     "high": 0.2
+    },
+    "full": {
+     "low": 0.11,
+     "mid": 0.2,
+     "high": 0.39
+    }
+   },
+   "co2_kg_year": {
+    "marginal": {
+     "now": {
+      "low": 2.52,
+      "mid": 6.16,
+      "high": 17.37
+     },
+     "saving_static": {
+      "low": 0.27,
+      "mid": 0.66,
+      "high": 1.86
+     },
+     "saving_dynamic": {
+      "low": 0.29,
+      "mid": 0.7,
+      "high": 1.97
+     }
+    },
+    "full": {
+     "now": {
+      "low": 7.56,
+      "mid": 14.33,
+      "high": 33.71
+     },
+     "saving_static": {
+      "low": 0.81,
+      "mid": 1.54,
+      "high": 3.62
+     },
+     "saving_dynamic": {
+      "low": 0.86,
+      "mid": 1.62,
+      "high": 3.82
+     }
+    }
+   }
+  },
+  {
+   "job_name": "Embedding update",
+   "resource_id": "dp-dev",
+   "entity_id": "res:dp-dev",
+   "location": "DE",
+   "window_type": "flexible",
+   "window_rule": "within 24 h",
+   "runs": 247,
+   "usual_start": "12:00",
+   "avg_duration_h": 0.8,
+   "shiftable": true,
+   "locked": false,
+   "reason": null,
+   "needs_human": null,
+   "suggested_start": "12:00",
+   "suggested_day_type": "same day",
+   "relative_intensity": {
+    "now": 0.718,
+    "static": 0.718,
+    "dynamic": 0.71
+   },
+   "kwh_per_run": {
+    "marginal": {
+     "low": 0.1,
+     "mid": 0.23,
+     "high": 0.54
+    },
+    "full": {
+     "low": 0.31,
+     "mid": 0.53,
+     "high": 1.05
+    }
+   },
+   "co2_kg_year": {
+    "marginal": {
+     "now": {
+      "low": 5.96,
+      "mid": 14.58,
+      "high": 41.08
+     },
+     "saving_static": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     },
+     "saving_dynamic": {
+      "low": 0.07,
+      "mid": 0.16,
+      "high": 0.46
+     }
+    },
+    "full": {
+     "now": {
+      "low": 17.88,
+      "mid": 33.9,
+      "high": 79.75
+     },
+     "saving_static": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     },
+     "saving_dynamic": {
+      "low": 0.2,
+      "mid": 0.38,
+      "high": 0.89
+     }
+    }
+   }
+  },
+  {
+   "job_name": "Backup snapshot",
+   "resource_id": "st-backup",
+   "entity_id": "res:st-backup",
+   "location": "IE",
+   "window_type": "fixed",
+   "window_rule": "backup window 22:00 to 06:00",
+   "runs": 364,
+   "usual_start": "22:00",
+   "avg_duration_h": 0.7,
+   "shiftable": false,
+   "locked": true,
+   "reason": "fixed time window (protection window / deadline): never moved",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  },
+  {
+   "job_name": "Test data refresh",
+   "resource_id": "dp-dev",
+   "entity_id": "res:dp-dev",
+   "location": "DE",
+   "window_type": "flexible",
+   "window_rule": "before the next working day",
+   "runs": 49,
+   "usual_start": "17:00",
+   "avg_duration_h": 1.48,
+   "shiftable": true,
+   "locked": false,
+   "reason": null,
+   "needs_human": null,
+   "suggested_start": "17:00",
+   "suggested_day_type": "same day",
+   "relative_intensity": {
+    "now": 1.023,
+    "static": 1.023,
+    "dynamic": 0.964
+   },
+   "kwh_per_run": {
+    "marginal": {
+     "low": 0.19,
+     "mid": 0.42,
+     "high": 0.99
+    },
+    "full": {
+     "low": 0.56,
+     "mid": 0.97,
+     "high": 1.93
+    }
+   },
+   "co2_kg_year": {
+    "marginal": {
+     "now": {
+      "low": 3.11,
+      "mid": 7.6,
+      "high": 21.43
+     },
+     "saving_static": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     },
+     "saving_dynamic": {
+      "low": 0.18,
+      "mid": 0.44,
+      "high": 1.23
+     }
+    },
+    "full": {
+     "now": {
+      "low": 9.33,
+      "mid": 17.68,
+      "high": 41.6
+     },
+     "saving_static": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     },
+     "saving_dynamic": {
+      "low": 0.54,
+      "mid": 1.01,
+      "high": 2.39
+     }
+    }
+   }
+  },
+  {
+   "job_name": "Data cleansing",
+   "resource_id": "dp-prod",
+   "entity_id": "res:dp-prod",
+   "location": "CH",
+   "window_type": "flexible",
+   "window_rule": "within the week",
+   "runs": 52,
+   "usual_start": "03:00",
+   "avg_duration_h": 2.01,
+   "shiftable": true,
+   "locked": false,
+   "reason": null,
+   "needs_human": null,
+   "suggested_start": "17:00",
+   "suggested_day_type": "workday",
+   "relative_intensity": {
+    "now": 1.195,
+    "static": 0.798,
+    "dynamic": 0.77
+   },
+   "kwh_per_run": {
+    "marginal": {
+     "low": 0.6,
+     "mid": 1.32,
+     "high": 3.15
+    },
+    "full": {
+     "low": 1.79,
+     "mid": 3.08,
+     "high": 6.11
+    }
+   },
+   "co2_kg_year": {
+    "marginal": {
+     "now": {
+      "low": 2.1,
+      "mid": 9.01,
+      "high": 24.93
+     },
+     "saving_static": {
+      "low": 0.68,
+      "mid": 2.93,
+      "high": 8.11
+     },
+     "saving_dynamic": {
+      "low": 0.73,
+      "mid": 3.14,
+      "high": 8.69
+     }
+    },
+    "full": {
+     "now": {
+      "low": 6.3,
+      "mid": 20.94,
+      "high": 48.4
+     },
+     "saving_static": {
+      "low": 2.05,
+      "mid": 6.81,
+      "high": 15.75
+     },
+     "saving_dynamic": {
+      "low": 2.2,
+      "mid": 7.3,
+      "high": 16.88
+     }
+    }
+   }
+  },
+  {
+   "job_name": "Month-end close",
+   "resource_id": "dp-prod",
+   "entity_id": "res:dp-prod",
+   "location": "CH",
+   "window_type": "fixed",
+   "window_rule": "month-end close (protection window)",
+   "runs": 35,
+   "usual_start": "18:00",
+   "avg_duration_h": 10.09,
+   "shiftable": false,
+   "locked": true,
+   "reason": "fixed time window (protection window / deadline): never moved",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  },
+  {
+   "job_name": "Quarterly model training",
+   "resource_id": "dp-dev",
+   "entity_id": "res:dp-dev",
+   "location": "DE",
+   "window_type": "flexible",
+   "window_rule": "first week of the quarter",
+   "runs": 12,
+   "usual_start": "00:00",
+   "avg_duration_h": 20.2,
+   "shiftable": true,
+   "locked": false,
+   "reason": null,
+   "needs_human": "T-1053, T-1101: training needs dp-dev continuously on days 1–3 of the quarter, together with the GPU server → keep the days, move only the start hour; confirm with the responsible role",
+   "suggested_start": "00:00",
+   "suggested_day_type": "same day",
+   "relative_intensity": {
+    "now": 0.992,
+    "static": 0.992,
+    "dynamic": 0.986
+   },
+   "kwh_per_run": {
+    "marginal": {
+     "low": 2.56,
+     "mid": 5.69,
+     "high": 13.54
+    },
+    "full": {
+     "low": 7.68,
+     "mid": 13.23,
+     "high": 26.28
+    }
+   },
+   "co2_kg_year": {
+    "marginal": {
+     "now": {
+      "low": 10.06,
+      "mid": 24.6,
+      "high": 69.31
+     },
+     "saving_static": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     },
+     "saving_dynamic": {
+      "low": 0.07,
+      "mid": 0.16,
+      "high": 0.45
+     }
+    },
+    "full": {
+     "now": {
+      "low": 30.17,
+      "mid": 57.19,
+      "high": 134.55
+     },
+     "saving_static": {
+      "low": 0.0,
+      "mid": 0.0,
+      "high": 0.0
+     },
+     "saving_dynamic": {
+      "low": 0.2,
+      "mid": 0.37,
+      "high": 0.87
+     }
+    }
+   }
+  },
+  {
+   "job_name": "Year-end close analysis",
+   "resource_id": "dp-prod",
+   "entity_id": "res:dp-prod",
+   "location": "CH",
+   "window_type": "fixed",
+   "window_rule": "year-end close (protection window)",
+   "runs": 21,
+   "usual_start": "20:00",
+   "avg_duration_h": 6.07,
+   "shiftable": false,
+   "locked": true,
+   "reason": "fixed time window (protection window / deadline): never moved",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  },
+  {
+   "job_name": "Release test run UAT",
+   "resource_id": "vm-test",
+   "entity_id": "res:vm-test",
+   "location": "IE",
+   "window_type": "other",
+   "window_rule": "by arrangement with the project",
+   "runs": 22,
+   "usual_start": "08:00",
+   "avg_duration_h": 8.9,
+   "shiftable": false,
+   "locked": false,
+   "reason": "scheduled by arrangement with the project: a human decides",
+   "suggested_start": null,
+   "kwh_per_run": null,
+   "co2_kg_year": null
+  }
+ ],
+ "totals": {
+  "marginal": {
+   "now": {
+    "low": 24.9,
+    "mid": 66.8,
+    "high": 187.7
+   },
+   "saving_static": {
+    "low": 1.2,
+    "mid": 4.5,
+    "high": 12.4
+   },
+   "saving_dynamic": {
+    "low": 1.6,
+    "mid": 5.7,
+    "high": 15.8
+   }
+  },
+  "full": {
+   "now": {
+    "low": 74.7,
+    "mid": 155.4,
+    "high": 364.3
+   },
+   "saving_static": {
+    "low": 3.5,
+    "mid": 10.4,
+    "high": 24.2
+   },
+   "saving_dynamic": {
+    "low": 4.8,
+    "mid": 13.2,
+    "high": 30.7
+   }
+  },
+  "baseline_co2_kg": 4483.1,
+  "share_of_baseline_full_dynamic": 0.0029
+ },
+ "after_package": {
+  "package_measures": [
+   "M-02",
+   "M-03",
+   "M-04",
+   "M-08",
+   "M-19",
+   "M-34"
+  ],
+  "relocated": {
+   "dp-dev": "CH"
+  },
+  "energy_basis": {
+   "dp-prod": "full",
+   "dp-dev": "marginal"
+  },
+  "because_of": {
+   "dp-dev": [
+    "M-02"
+   ],
+   "dp-prod": [
+    "M-03"
+   ]
+  },
+  "saving": {
+   "saving_static": {
+    "low": 3.0,
+    "mid": 10.4,
+    "high": 24.7
+   },
+   "saving_dynamic": {
+    "low": 3.4,
+    "mid": 11.5,
+    "high": 27.5
+   }
+  },
+  "jobs": [
+   {
+    "job_name": "Catalogue scan",
+    "resource_id": "dp-prod",
+    "location": "CH",
+    "basis": "full",
+    "suggested_start": "17:00",
+    "saving_dynamic": {
+     "low": 0.45,
+     "mid": 1.5,
+     "high": 3.48
+    }
+   },
+   {
+    "job_name": "Cost export",
+    "resource_id": "dp-prod",
+    "location": "CH",
+    "basis": "full",
+    "suggested_start": "17:00",
+    "saving_dynamic": {
+     "low": 0.3,
+     "mid": 1.01,
+     "high": 2.33
+    }
+   },
+   {
+    "job_name": "Dev smoke test",
+    "resource_id": "dp-dev",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "17:00",
+    "saving_dynamic": {
+     "low": 0.07,
+     "mid": 0.29,
+     "high": 0.81
+    }
+   },
+   {
+    "job_name": "Embedding update",
+    "resource_id": "dp-dev",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "18:00",
+    "saving_dynamic": {
+     "low": 0.26,
+     "mid": 1.12,
+     "high": 3.09
+    }
+   },
+   {
+    "job_name": "Test data refresh",
+    "resource_id": "dp-dev",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "18:00",
+    "saving_dynamic": {
+     "low": 0.01,
+     "mid": 0.06,
+     "high": 0.16
+    }
+   },
+   {
+    "job_name": "Data cleansing",
+    "resource_id": "dp-prod",
+    "location": "CH",
+    "basis": "full",
+    "suggested_start": "17:00",
+    "saving_dynamic": {
+     "low": 2.2,
+     "mid": 7.3,
+     "high": 16.88
+    }
+   },
+   {
+    "job_name": "Quarterly model training",
+    "resource_id": "dp-dev",
+    "location": "CH",
+    "basis": "marginal",
+    "suggested_start": "03:00",
+    "saving_dynamic": {
+     "low": 0.06,
+     "mid": 0.26,
+     "high": 0.73
+    }
+   }
+  ],
+  "fits_budget": false,
+  "note": "The package already uses 15.0 of 15 person-days: adding 1.0 d for carbon-aware scheduling exceeds the budget unless another measure is trimmed."
+ },
+ "calc": {
+  "formula": "saving = Σ runs energy per run × location factor × (relative intensity now − at the new hours); energy per run = nodes × hours × node power (CCF) × PUE; relative intensity from the hourly profile (Energy-Charts, baseline year), scaled to the location-based factor",
+  "inputs": [
+   {
+    "name": "job utilisation",
+    "value": 0.7,
+    "unit": "CPU share",
+    "source": "assumption"
+   },
+   {
+    "name": "idle utilisation",
+    "value": 0.05,
+    "unit": "CPU share",
+    "source": "assumption"
+   }
+  ],
+  "factor_ids": [
+   "energy_per_node_hour",
+   "pue",
+   "grid_mix_location_based_switzerland",
+   "grid_mix_location_based_germany"
+  ],
+  "source_files": [
+   "extra/data_platform_jobs.csv",
+   "data_platform_usage.csv",
+   "Energy-Charts (CC BY 4.0)"
+  ],
+  "row_count": 3155,
+  "value_status": "estimated",
+  "issue_ids": [],
+  "note": "Profiles are monthly averages per hour: a scheduler using live grid forecasts would gain more on windy / sunny days."
+ }
+}

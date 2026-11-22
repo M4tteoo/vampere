@@ -1,0 +1,19 @@
+source: extra/m365_usage.csv
+system: Microsoft 365 administration
+table: stg_m365_usage
+dates: {week_start: "%Y-%m-%d"}
+transforms:
+  - department_alias: {column: department}
+  - to_gb: {value: storage, unit: storage_unit}
+  - add_constant: {column: resource_id, value: m365-usage}
+activity:
+  - date: week_start
+    period: week
+    entity: department
+    entity_type: department
+    department: department
+    metrics:
+      active_users: users
+      storage: GB
+      teams_video_minutes: minutes
+      mails_sent: mails

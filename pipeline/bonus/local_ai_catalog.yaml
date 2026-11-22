@@ -1,0 +1,349 @@
+# Catalogue for the advisory «Local AI» view (pipeline/bonus/local_ai.py).
+# Open-weight models and the hardware the company has or could rent from its current providers.
+# Every entry carries a source and a date; `estimate: true` marks values that are not published as such.
+# Throughput = aggregate batched decode tokens/s (vLLM, concurrency 16–32), low / mid / high.
+
+source_date: "2026-11-21"
+
+assumptions:
+  person_day_chf:
+    value: 1100
+    unit: CHF
+    source: "data/case/README.md: 1 person-day = CHF 1,100"
+    estimate: false
+  office_hours_per_workday:
+    value: 10
+    unit: h
+    source: "Assumption: hourly-billed GPUs are started for office hours only (07:00–17:00 on workdays, dim_date.workday)."
+    estimate: true
+  vram_headroom:
+    value: 1.2
+    unit: ratio
+    source: "Weights × 1.2 for runtime and KV cache (vLLM deployment guidance: keep 10–20 % free for KV cache)."
+    estimate: true
+  host_cpu_utilisation:
+    value: 0.10
+    unit: ratio
+    source: "Assumption: inference is GPU-bound; the host CPU mostly idles (server_metrics_weekly.csv gpu-ml-01 CPU ≈ 4–6 %)."
+    estimate: true
+  setup_platform_days:
+    value: {low: 6, mid: 9, high: 12}
+    unit: person-days
+    source: >-
+      Estimate from typical task breakdowns: endpoint on the GPU host (vLLM, drivers, TLS) 2–4, auth layer 2–4,
+      monitoring 2–4 person-days. vLLM deployment docs (docs.vllm.ai/en/latest/deployment/) describe the steps.
+    estimate: true
+  setup_per_workload_days:
+    value: {low: 1, mid: 2, high: 3}
+    unit: person-days
+    source: "Estimate: point one tool at an OpenAI-compatible local endpoint, re-test prompts and outputs."
+    estimate: true
+  maint_days_per_year:
+    value: {low: 15, mid: 20, high: 30}
+    unit: person-days per year
+    source: "Estimate: model updates, vLLM / driver / OS patching, incidents, re-evaluation (≈ 0.07–0.15 FTE)."
+    estimate: true
+
+# Weight memory in GB for the stated format; tier: basic < standard < advanced.
+# throughput keys are GPU classes used by `hardware[].gpu_class`.
+models:
+  - id: llama-3.1-8b
+    label: Llama 3.1 8B Instruct (BF16)
+    params_b: 8.0
+    active_params_b: null
+    format: BF16
+    weights_gb: 16
+    licence: Llama 3.1 Community Licence
+    commercial_use: true
+    context_k: 128
+    tier: basic
+    languages: "DE / FR / IT officially supported"
+    quality_note: "MMLU-Pro ≈ 45; AA Intelligence Index ≈ 12 (Sonnet 4.x / GPT-5 ≈ 60–70)."
+    throughput: {a40: {low: 450, mid: 675, high: 900}, l40s: {low: 600, mid: 900, high: 1200}, a100_80: {low: 1500, mid: 2000, high: 2500}}
+    source: "https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct; throughput derived from bandwidth, docs.vllm.ai benchmarks"
+    estimate: true
+  - id: llama-3.1-8b-q4-cpu
+    label: Llama 3.1 8B Instruct (Q4, CPU only)
+    params_b: 8.0
+    active_params_b: null
+    format: Q4_K_M
+    weights_gb: 4.9
+    licence: Llama 3.1 Community Licence
+    commercial_use: true
+    context_k: 128
+    tier: basic
+    languages: "DE / FR / IT officially supported"
+    quality_note: "As Llama 3.1 8B, slightly lower after 4-bit quantisation."
+    throughput: {cpu4: {low: 4, mid: 8, high: 12}}
+    source: "https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct; llama.cpp CPU benchmarks (github.com/ggml-org/llama.cpp/discussions/4167)"
+    estimate: true
+  - id: qwen3-8b
+    label: Qwen3-8B (BF16)
+    params_b: 8.2
+    active_params_b: null
+    format: BF16
+    weights_gb: 16
+    licence: Apache 2.0
+    commercial_use: true
+    context_k: 32
+    tier: basic
+    languages: "119 languages claimed, DE / FR / IT yes"
+    quality_note: "MMLU-Pro ≈ 60 (higher in thinking mode)."
+    throughput: {a40: {low: 400, mid: 650, high: 900}, l40s: {low: 550, mid: 850, high: 1200}, a100_80: {low: 1400, mid: 1900, high: 2500}}
+    source: "https://huggingface.co/Qwen/Qwen3-8B; throughput derived (±10 % of Llama 3.1 8B)"
+    estimate: true
+  - id: gemma-3-12b
+    label: Gemma 3 12B (BF16)
+    params_b: 12.2
+    active_params_b: null
+    format: BF16
+    weights_gb: 24
+    licence: Gemma Terms of Use (prohibited-use policy)
+    commercial_use: true
+    context_k: 128
+    tier: basic
+    languages: "DE / FR / IT yes"
+    quality_note: "MMLU-Pro ≈ 60."
+    throughput: {a40: {low: 300, mid: 450, high: 600}, l40s: {low: 400, mid: 600, high: 800}, a100_80: {low: 1000, mid: 1400, high: 1800}}
+    source: "https://huggingface.co/google/gemma-3-12b-it; throughput interpolated between 8B and 14B figures"
+    estimate: true
+  - id: phi-4
+    label: Phi-4 14B (BF16)
+    params_b: 14.7
+    active_params_b: null
+    format: BF16
+    weights_gb: 29
+    licence: MIT
+    commercial_use: true
+    context_k: 16
+    tier: standard
+    languages: "partial (English-centric)"
+    quality_note: "MMLU-Pro 70.4 (model card)."
+    throughput: {a40: {low: 220, mid: 335, high: 450}, l40s: {low: 300, mid: 450, high: 600}, a100_80: {low: 900, mid: 1200, high: 1500}}
+    source: "https://huggingface.co/microsoft/phi-4"
+    estimate: true
+  - id: mistral-small-3.2-24b
+    label: Mistral Small 3.2 24B (FP8)
+    params_b: 24
+    active_params_b: null
+    format: FP8
+    weights_gb: 25
+    licence: Apache 2.0
+    commercial_use: true
+    context_k: 128
+    tier: standard
+    languages: "DE / FR / IT yes (strong in FR)"
+    quality_note: "MMLU-Pro ≈ 66; AA Intelligence Index ≈ 15."
+    throughput: {a40: {low: 250, mid: 375, high: 500}, l40s: {low: 350, mid: 525, high: 700}, a100_80: {low: 900, mid: 1250, high: 1600}}
+    source: "https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+    estimate: true
+  - id: gemma-3-27b
+    label: Gemma 3 27B (FP8)
+    params_b: 27.4
+    active_params_b: null
+    format: FP8
+    weights_gb: 28
+    licence: Gemma Terms of Use (prohibited-use policy)
+    commercial_use: true
+    context_k: 128
+    tier: standard
+    languages: "DE / FR / IT yes"
+    quality_note: "MMLU-Pro ≈ 67; AA Intelligence Index ≈ 10–12."
+    throughput: {a40: {low: 220, mid: 335, high: 450}, l40s: {low: 300, mid: 450, high: 600}, a100_80: {low: 800, mid: 1100, high: 1400}}
+    source: "https://huggingface.co/google/gemma-3-27b-it"
+    estimate: true
+  - id: qwen3-30b-a3b
+    label: Qwen3-30B-A3B MoE (4-bit)
+    params_b: 30.5
+    active_params_b: 3.3
+    format: 4-bit
+    weights_gb: 18
+    licence: Apache 2.0
+    commercial_use: true
+    context_k: 32
+    tier: standard
+    languages: "DE / FR / IT yes"
+    quality_note: "MMLU-Pro ≈ 75–78 (thinking mode); AA Intelligence Index ≈ 15–20."
+    throughput: {a40: {low: 1100, mid: 1650, high: 2200}, l40s: {low: 1500, mid: 2250, high: 3000}, a100_80: {low: 2500, mid: 3750, high: 5000}}
+    source: "https://huggingface.co/Qwen/Qwen3-30B-A3B"
+    estimate: true
+  - id: qwen3-32b
+    label: Qwen3-32B (4-bit)
+    params_b: 32.8
+    active_params_b: null
+    format: 4-bit
+    weights_gb: 19
+    licence: Apache 2.0
+    commercial_use: true
+    context_k: 32
+    tier: standard
+    languages: "DE / FR / IT yes"
+    quality_note: "MMLU-Pro ≈ 75 (thinking mode); AA Intelligence Index ≈ 15–17."
+    throughput: {a40: {low: 180, mid: 280, high: 380}, l40s: {low: 250, mid: 375, high: 500}, a100_80: {low: 600, mid: 850, high: 1100}}
+    source: "https://huggingface.co/Qwen/Qwen3-32B"
+    estimate: true
+  - id: gpt-oss-20b
+    label: gpt-oss-20b (MXFP4)
+    params_b: 21
+    active_params_b: 3.6
+    format: MXFP4 (native)
+    weights_gb: 12.8
+    licence: Apache 2.0
+    commercial_use: true
+    context_k: 128
+    tier: standard
+    languages: "partial (English-centric)"
+    quality_note: "MMLU-Pro ≈ 74; AA Intelligence Index ≈ 25."
+    throughput: {a40: {low: 1800, mid: 2650, high: 3500}, l40s: {low: 2500, mid: 3750, high: 5000}, a100_80: {low: 4000, mid: 6000, high: 8000}}
+    source: "https://huggingface.co/openai/gpt-oss-20b"
+    estimate: true
+  - id: llama-3.3-70b
+    label: Llama 3.3 70B Instruct (4-bit)
+    params_b: 70.6
+    active_params_b: null
+    format: 4-bit
+    weights_gb: 40
+    licence: Llama 3.3 Community Licence
+    commercial_use: true
+    context_k: 128
+    tier: standard
+    languages: "DE / FR / IT officially supported"
+    quality_note: "MMLU-Pro ≈ 69; AA Intelligence Index ≈ 14. Tight on 48 GB (little KV cache)."
+    throughput: {a40: {low: 60, mid: 105, high: 150}, l40s: {low: 80, mid: 140, high: 200}, a100_80: {low: 400, mid: 550, high: 700}}
+    source: "https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct"
+    estimate: true
+  - id: gpt-oss-120b
+    label: gpt-oss-120b (MXFP4)
+    params_b: 117
+    active_params_b: 5.1
+    format: MXFP4 (native)
+    weights_gb: 61
+    licence: Apache 2.0
+    commercial_use: true
+    context_k: 128
+    tier: advanced
+    languages: "partial to yes"
+    quality_note: "MMLU-Pro ≈ 79; AA Intelligence Index ≈ 33, still clearly below Sonnet 4.x / GPT-5 (≈ 60–70) on contract review and multi-step agents."
+    throughput: {a100_80: {low: 1500, mid: 2250, high: 3000}}
+    source: "https://huggingface.co/openai/gpt-oss-120b; does not fit a 48 GB GPU"
+    estimate: true
+
+# Prices: per hour (billing: hourly, office hours only) or per month (billing: monthly, always on).
+# Currency is converted with the baseline-average exchange rate (fx_monthly).
+hardware:
+  - id: hw:gpu-ml-01
+    label: gpu-ml-01 as it is (Azure Frankfurt)
+    provider: Azure
+    location: DE
+    gpu: "1 GPU of the 300-W class (assumed NVIDIA A40, 48 GB)"
+    gpu_class: a40
+    vram_gb: 48
+    tdp_w: 300
+    idle_w: {low: 30, mid: 60, high: 90}
+    host: {vcpu: 8, ram_gb: 56}
+    billing: hourly
+    price: derived          # baseline cost of gpu-ml / baseline billed GPU-hours (azure_costs.csv)
+    owned: true
+    entity_id: srv:gpu-ml-01
+    measure_roles: [on_demand]          # the package measure «run gpu-ml on demand», found by what it does
+    pue: pue
+    note: "VRAM is not in the data (only «300-W class»): A40 48 GB assumed. With an A100 80 GB PCIe (also 300 W), gpt-oss-120b would fit."
+    source: "server_inventory.csv, azure_costs.csv, data_dictionary.md; idle W from pipeline/energy/factors.yaml"
+    estimate: true
+  - id: hw:gpu-ml-01-zrh
+    label: gpu-ml-01 moved to Azure Zurich
+    provider: Azure
+    location: CH
+    gpu: "same GPU as gpu-ml-01 (assumed A40, 48 GB)"
+    gpu_class: a40
+    vram_gb: 48
+    tdp_w: 300
+    idle_w: {low: 30, mid: 60, high: 90}
+    host: {vcpu: 8, ram_gb: 56}
+    billing: hourly
+    price: derived
+    price_factor: {low: 1.10, mid: 1.10, high: 1.10}
+    extra_setup_days: 3.5
+    owned: true
+    entity_id: srv:gpu-ml-01
+    measure_roles: [on_demand, move]   # package measures on gpu-ml, found by what they do (ids can change)
+    pue: pue
+    note: "Switzerland North is ≈ +10 % over Germany West Central (Azure Retail Prices API, NC24ads_A100_v4 5.252 vs 4.775 USD/h). Move effort as the package measure «on demand and move to Zurich» (3.5 person-days). GPU quota in Switzerland North must be requested."
+    source: "https://prices.azure.com/api/retail/prices (queried 2026-11-21); output/measures.json (measure «on demand and move to Zurich»)"
+    estimate: true
+  - id: hw:azure-a100-zrh
+    label: Azure NC24ads A100 v4 (Zurich, 80 GB)
+    provider: Azure
+    location: CH
+    gpu: "NVIDIA A100 80 GB PCIe"
+    gpu_class: a100_80
+    vram_gb: 80
+    tdp_w: 300
+    idle_w: {low: 50, mid: 55, high: 60}
+    host: {vcpu: 24, ram_gb: 220}
+    billing: hourly
+    price: {currency: USD, low: 5.252, mid: 5.252, high: 5.252}
+    owned: false
+    entity_id: null
+    measure_roles: []
+    pue: pue
+    note: "Pay-as-you-go list price, Linux, Switzerland North. 1-year reserved ≈ 3.43 USD/h but billed 24/7, so dearer for office hours."
+    source: "https://prices.azure.com/api/retail/prices?$filter=armRegionName eq 'switzerlandnorth' and armSkuName eq 'Standard_NC24ads_A100_v4' (queried 2026-11-21); NVIDIA A100 datasheet (300 W)"
+    estimate: false
+  - id: hw:aws-l40s-zrh
+    label: AWS g6e.xlarge (Zurich, L40S 48 GB)
+    provider: AWS
+    location: CH
+    gpu: "NVIDIA L40S 48 GB"
+    gpu_class: l40s
+    vram_gb: 48
+    tdp_w: 350
+    idle_w: {low: 35, mid: 38, high: 40}
+    host: {vcpu: 4, ram_gb: 32}
+    billing: hourly
+    price: {currency: USD, low: 2.2, mid: 2.3, high: 2.4}
+    owned: false
+    entity_id: null
+    measure_roles: []
+    pue: pue
+    note: "US-East list 1.861 USD/h; eu-central-2 assumed +15–25 %. Availability in eu-central-2 not verified."
+    source: "https://aws.amazon.com/ec2/pricing/on-demand/; NVIDIA L40S datasheet (350 W)"
+    estimate: true
+  - id: hw:hoster-l40s-ch
+    label: Swiss hoster, dedicated L40S server
+    provider: Swiss hoster
+    location: CH
+    gpu: "NVIDIA L40S 48 GB (dedicated)"
+    gpu_class: l40s
+    vram_gb: 48
+    tdp_w: 350
+    idle_w: {low: 35, mid: 38, high: 40}
+    host: {vcpu: 16, ram_gb: 64}
+    billing: monthly
+    price: {currency: CHF, low: 1500, mid: 2000, high: 2500}
+    owned: false
+    entity_id: null
+    measure_roles: []
+    pue: pue_hoster
+    note: "No published list price; ask the current hoster for a quote. Always on (monthly rent)."
+    source: "Estimate from Swiss / EU GPU hosting offers (exoscale.com/pricing, hetzner.com GPU matrix)"
+    estimate: true
+  - id: hw:cpu-test-servers
+    label: CPU only on an existing test server (AWS Dublin, 4 vCPU)
+    provider: AWS
+    location: IE
+    gpu: "none (4 vCPU, 8 GB RAM)"
+    gpu_class: cpu4
+    vram_gb: 8
+    tdp_w: 15
+    idle_w: {low: 0, mid: 0, high: 0}
+    host: {vcpu: 0, ram_gb: 0}
+    billing: hourly
+    price: {currency: CHF, low: 0, mid: 0, high: 0}
+    owned: true
+    entity_id: srv:test-01
+    measure_roles: []
+    pue: pue
+    note: "Already paid and on in office hours; only the extra CPU power counts (4 vCPU × (3.63 − 0.76) W ≈ 11.5 W, rounded to 15 W with memory)."
+    source: "server_inventory.csv (test-01, 4 vCPU, 8 GB, CPU ≈ 3–7 %); CCF W per vCPU in pipeline/energy/factors.yaml"
+    estimate: true

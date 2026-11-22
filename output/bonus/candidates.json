@@ -1,0 +1,200 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-22T01:18:00+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "by_module": {
+  "clusters": {
+   "findings": [
+    {
+     "id": "F-CL-C-2",
+     "kind": "waste",
+     "title": "6 machines always on at 0.1–9.2 % average load",
+     "entity_ids": [
+      "srv:build-agent-old",
+      "srv:dr-failover",
+      "srv:gpu-ml-01",
+      "srv:migration-alt",
+      "srv:poc-ki-2024",
+      "res:dp-dev"
+     ],
+     "evidence": [
+      {
+       "statement": "median utilisation in the group (members: 0.1–9.2 %)",
+       "value": 0.36,
+       "unit": "%",
+       "source_files": [
+        "server_metrics_weekly.csv"
+       ]
+      },
+      {
+       "statement": "median share of time switched on",
+       "value": 100.0,
+       "unit": "%",
+       "source_files": [
+        "server_metrics_weekly.csv"
+       ]
+      }
+     ],
+     "severity": "high",
+     "impact": {
+      "cost_chf": {
+       "low": 56120.84,
+       "mid": 56202.45,
+       "high": 56283.93
+      },
+      "cost_eur": {
+       "low": 60698.34,
+       "mid": 60786.61,
+       "high": 60874.73
+      },
+      "cost_usd": {
+       "low": 70633.12,
+       "mid": 70735.86,
+       "high": 70838.38
+      },
+      "kwh": {
+       "low": 3259.17,
+       "mid": 4880.04,
+       "high": 8311.23
+      },
+      "co2_kg": {
+       "low": 1048.87,
+       "mid": 1729.08,
+       "high": 3532.52
+      },
+      "co2_kg_market": {
+       "low": 2217.95,
+       "mid": 3320.2,
+       "high": 5653.68
+      }
+     },
+     "measure_ids": [],
+     "calc": {
+      "formula": "z-scores of 5 behaviour features → k-means (k by silhouette) → groups named by rules on the group medians; outlier = robust z of the distance to the own centroid > 3",
+      "inputs": [
+       {
+        "name": "k",
+        "value": 4,
+        "unit": "groups",
+        "source": "silhouette"
+       },
+       {
+        "name": "silhouette",
+        "value": 0.713,
+        "unit": "−1…1",
+        "source": "clusters.py"
+       },
+       {
+        "name": "entities",
+        "value": 55,
+        "unit": "servers + clusters",
+        "source": "server_inventory.csv"
+       }
+      ],
+      "factor_ids": [],
+      "row_count": 2319,
+      "value_status": "observed",
+      "issue_ids": [],
+      "source_files": [
+       "server_metrics_weekly.csv",
+       "data_platform_usage.csv",
+       "server_inventory.csv"
+      ],
+      "note": "Group costs and CO2 are the sums of the members' baseline metrics from entities.json."
+     }
+    }
+   ],
+   "measures": []
+  },
+  "carbon_aware": {
+   "findings": [],
+   "measures": [
+    {
+     "id": "M-CA",
+     "title": "Carbon-aware scheduling of flexible data-platform jobs",
+     "description": "Move the flexible jobs of dp-dev and dp-prod to the cleanest allowed hours (Catalogue scan → 17:00; Cost export → 17:00; Dev smoke test → 12:00; Embedding update → 12:00; Test data refresh → 17:00; Data cleansing → 17:00; Quarterly model training → 00:00). Fixed jobs and protected hours are untouched. Pays off fully only together with auto-pause of the clusters.",
+     "type": "schedule",
+     "entity_ids": [
+      "res:dp-dev",
+      "res:dp-prod"
+     ],
+     "finding_ids": [],
+     "limit_ids": [],
+     "effort_days": 1.0,
+     "effort_chf": 1100.0,
+     "savings": {
+      "cost_chf": {
+       "low": 0.0,
+       "mid": 0.0,
+       "high": 0.0
+      },
+      "cost_eur": {
+       "low": 0.0,
+       "mid": 0.0,
+       "high": 0.0
+      },
+      "cost_usd": {
+       "low": 0.0,
+       "mid": 0.0,
+       "high": 0.0
+      },
+      "kwh": {
+       "low": 0.0,
+       "mid": 0.0,
+       "high": 0.0
+      },
+      "co2_kg": {
+       "low": 3.4,
+       "mid": 11.5,
+       "high": 27.5
+      }
+     },
+     "status": "ok",
+     "owner_role": "Head of Consulting",
+     "reason": "",
+     "start_date": "2026-10-01",
+     "in_package": false,
+     "calc": {
+      "formula": "saving = Σ runs energy per run × location factor × (relative intensity now − at the new hours); energy per run = nodes × hours × node power (CCF) × PUE; relative intensity from the hourly profile (Energy-Charts, baseline year), scaled to the location-based factor",
+      "inputs": [
+       {
+        "name": "job utilisation",
+        "value": 0.7,
+        "unit": "CPU share",
+        "source": "assumption"
+       },
+       {
+        "name": "idle utilisation",
+        "value": 0.05,
+        "unit": "CPU share",
+        "source": "assumption"
+       }
+      ],
+      "factor_ids": [
+       "energy_per_node_hour",
+       "pue",
+       "grid_mix_location_based_switzerland",
+       "grid_mix_location_based_germany"
+      ],
+      "source_files": [
+       "extra/data_platform_jobs.csv",
+       "data_platform_usage.csv",
+       "Energy-Charts (CC BY 4.0)"
+      ],
+      "row_count": 3155,
+      "value_status": "estimated",
+      "issue_ids": [],
+      "note": "Profiles are monthly averages per hour: a scheduler using live grid forecasts would gain more on windy / sunny days."
+     },
+     "note": "Same kWh and CHF, less CO2: the energy is used at cleaner hours. Savings computed ON TOP of the package (relocations and auto-pause applied, no overlap). The package already uses 15.0 of 15 person-days: adding 1.0 d for carbon-aware scheduling exceeds the budget unless another measure is trimmed."
+    }
+   ]
+  }
+ }
+}

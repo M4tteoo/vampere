@@ -1,0 +1,6 @@
+source: it_tickets.csv
+system: IT service management
+table: stg_it_tickets
+strings: [resource_id]
+dates: {date: "%Y-%m-%d"}
+free_text: {columns: [title, description], key: ticket_id, resource_id: resource_id}

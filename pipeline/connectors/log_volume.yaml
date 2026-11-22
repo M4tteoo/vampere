@@ -1,0 +1,17 @@
+source: extra/log_volume.csv
+system: Logging and monitoring
+table: stg_log_volume
+strings: [project_id]
+dates: {date: "%Y-%m-%d"}
+transforms:
+  - to_gb: {value: log_gb, unit: unit}
+  - normalize_project: {columns: [project_id]}
+  - add_constant: {column: resource_id, value: logs}
+  - cost_center_department: {column: owner_cost_center, target: department}
+activity:
+  - entity: service
+    entity_type: service
+    department: department
+    metrics:
+      log_gb: GB
+      retention_days: days

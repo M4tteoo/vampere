@@ -1,0 +1,8027 @@
+{
+ "facts": {
+  "baseline.cost": {
+   "value": 475079.3,
+   "unit": "CHF",
+   "statement": "baseline year total cost (actual, location-based CO2)",
+   "sources": [
+    "fact_cost"
+   ]
+  },
+  "baseline.energy": {
+   "value": 25169.6,
+   "unit": "kWh",
+   "statement": "baseline year total energy (actual, location-based CO2)",
+   "sources": [
+    "fact_cost"
+   ]
+  },
+  "baseline.co2": {
+   "value": 4483.1,
+   "unit": "kg CO2",
+   "statement": "baseline year total co2 (actual, location-based CO2)",
+   "sources": [
+    "fact_cost"
+   ]
+  },
+  "baseline.cost_recurring": {
+   "value": 474323.5,
+   "unit": "CHF",
+   "statement": "baseline cost without one-off events",
+   "sources": [
+    "fact_cost"
+   ]
+  },
+  "target.co2_reduction": {
+   "value": 0.4,
+   "unit": "share",
+   "statement": "required CO2 reduction (location-based)",
+   "sources": [
+    "case.md"
+   ]
+  },
+  "target.cost_reduction": {
+   "value": 0.25,
+   "unit": "share",
+   "statement": "required cost reduction",
+   "sources": [
+    "case.md"
+   ]
+  },
+  "target.budget_chf": {
+   "value": 16500.0,
+   "unit": "CHF",
+   "statement": "max implementation effort (15 person-days × CHF 1,100)",
+   "sources": [
+    "case.md"
+   ]
+  },
+  "grid.CH": {
+   "value": 0.11,
+   "unit": "kg CO2/kWh",
+   "statement": "grid mix CH (location-based)",
+   "sources": [
+    "pipeline/energy/factors.yaml"
+   ]
+  },
+  "grid.DE": {
+   "value": 0.363,
+   "unit": "kg CO2/kWh",
+   "statement": "grid mix DE (location-based)",
+   "sources": [
+    "pipeline/energy/factors.yaml"
+   ]
+  },
+  "grid.IE": {
+   "value": 0.226,
+   "unit": "kg CO2/kWh",
+   "statement": "grid mix IE (location-based)",
+   "sources": [
+    "pipeline/energy/factors.yaml"
+   ]
+  },
+  "grid.EU": {
+   "value": 0.213,
+   "unit": "kg CO2/kWh",
+   "statement": "grid mix EU (location-based)",
+   "sources": [
+    "pipeline/energy/factors.yaml"
+   ]
+  },
+  "ai-agent.cost": {
+   "value": 2014.0,
+   "unit": "CHF/year",
+   "statement": "ai-agent baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent.energy": {
+   "value": 50.0,
+   "unit": "kWh/year",
+   "statement": "ai-agent baseline energy",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent.co2": {
+   "value": 10.6,
+   "unit": "kg CO2/year",
+   "statement": "ai-agent baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent.share_cost": {
+   "value": 0.0042,
+   "unit": "share",
+   "statement": "ai-agent share of baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent.share_co2": {
+   "value": 0.0024,
+   "unit": "share",
+   "statement": "ai-agent share of baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent.usage_tokens": {
+   "value": 827792933.0,
+   "unit": "tokens/year",
+   "statement": "ai-agent billed usage",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent2.cost": {
+   "value": 3264.4,
+   "unit": "CHF/year",
+   "statement": "ai-agent2 baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent2.energy": {
+   "value": 76.9,
+   "unit": "kWh/year",
+   "statement": "ai-agent2 baseline energy",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent2.co2": {
+   "value": 16.4,
+   "unit": "kg CO2/year",
+   "statement": "ai-agent2 baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent2.share_cost": {
+   "value": 0.0069,
+   "unit": "share",
+   "statement": "ai-agent2 share of baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent2.share_co2": {
+   "value": 0.0037,
+   "unit": "share",
+   "statement": "ai-agent2 share of baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-agent2.usage_tokens": {
+   "value": 1346634102.0,
+   "unit": "tokens/year",
+   "statement": "ai-agent2 billed usage",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-assistant.cost": {
+   "value": 23356.3,
+   "unit": "CHF/year",
+   "statement": "ai-assistant baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-assistant.energy": {
+   "value": 859.7,
+   "unit": "kWh/year",
+   "statement": "ai-assistant baseline energy",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-assistant.co2": {
+   "value": 183.1,
+   "unit": "kg CO2/year",
+   "statement": "ai-assistant baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-assistant.share_cost": {
+   "value": 0.0492,
+   "unit": "share",
+   "statement": "ai-assistant share of baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-assistant.share_co2": {
+   "value": 0.0408,
+   "unit": "share",
+   "statement": "ai-assistant share of baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-assistant.usage_tokens": {
+   "value": 5280725606.0,
+   "unit": "tokens/year",
+   "statement": "ai-assistant billed usage",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-chatbot.cost": {
+   "value": 305.7,
+   "unit": "CHF/year",
+   "statement": "ai-chatbot baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-chatbot.energy": {
+   "value": 11.0,
+   "unit": "kWh/year",
+   "statement": "ai-chatbot baseline energy",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-chatbot.co2": {
+   "value": 2.3521,
+   "unit": "kg CO2/year",
+   "statement": "ai-chatbot baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-chatbot.share_cost": {
+   "value": 0.0006,
+   "unit": "share",
+   "statement": "ai-chatbot share of baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-chatbot.share_co2": {
+   "value": 0.0005,
+   "unit": "share",
+   "statement": "ai-chatbot share of baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-chatbot.usage_tokens": {
+   "value": 85182322.0,
+   "unit": "tokens/year",
+   "statement": "ai-chatbot billed usage",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-marketing.cost": {
+   "value": 12173.2,
+   "unit": "CHF/year",
+   "statement": "ai-marketing baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-marketing.energy": {
+   "value": 312.9,
+   "unit": "kWh/year",
+   "statement": "ai-marketing baseline energy",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-marketing.co2": {
+   "value": 66.6,
+   "unit": "kg CO2/year",
+   "statement": "ai-marketing baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-marketing.share_cost": {
+   "value": 0.0256,
+   "unit": "share",
+   "statement": "ai-marketing share of baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-marketing.share_co2": {
+   "value": 0.0149,
+   "unit": "share",
+   "statement": "ai-marketing share of baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-marketing.usage_tokens": {
+   "value": 4216552241.3,
+   "unit": "tokens/year",
+   "statement": "ai-marketing billed usage",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-quote.cost": {
+   "value": 538.6,
+   "unit": "CHF/year",
+   "statement": "ai-quote baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-quote.energy": {
+   "value": 22.0,
+   "unit": "kWh/year",
+   "statement": "ai-quote baseline energy",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-quote.co2": {
+   "value": 4.6861,
+   "unit": "kg CO2/year",
+   "statement": "ai-quote baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-quote.share_cost": {
+   "value": 0.0011,
+   "unit": "share",
+   "statement": "ai-quote share of baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-quote.share_co2": {
+   "value": 0.001,
+   "unit": "share",
+   "statement": "ai-quote share of baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-quote.usage_tokens": {
+   "value": 60325917.0,
+   "unit": "tokens/year",
+   "statement": "ai-quote billed usage",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-report.cost": {
+   "value": 112.5,
+   "unit": "CHF/year",
+   "statement": "ai-report baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-report.energy": {
+   "value": 2.7015,
+   "unit": "kWh/year",
+   "statement": "ai-report baseline energy",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-report.co2": {
+   "value": 0.5754,
+   "unit": "kg CO2/year",
+   "statement": "ai-report baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-report.share_cost": {
+   "value": 0.0002,
+   "unit": "share",
+   "statement": "ai-report share of baseline cost",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-report.share_co2": {
+   "value": 0.0001,
+   "unit": "share",
+   "statement": "ai-report share of baseline CO2",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "ai-report.usage_tokens": {
+   "value": 41741761.7,
+   "unit": "tokens/year",
+   "statement": "ai-report billed usage",
+   "sources": [
+    "ai_usage.csv",
+    "extra/ai_invoice_monthly.csv"
+   ]
+  },
+  "cicd.cost": {
+   "value": 5566.3,
+   "unit": "CHF/year",
+   "statement": "cicd baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "cicd.energy": {
+   "value": 112.8,
+   "unit": "kWh/year",
+   "statement": "cicd baseline energy",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "cicd.co2": {
+   "value": 25.5,
+   "unit": "kg CO2/year",
+   "statement": "cicd baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "cicd.share_cost": {
+   "value": 0.0117,
+   "unit": "share",
+   "statement": "cicd share of baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "cicd.share_co2": {
+   "value": 0.0057,
+   "unit": "share",
+   "statement": "cicd share of baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "cicd.usage_runner-minute": {
+   "value": 695130.2,
+   "unit": "runner-minute/year",
+   "statement": "cicd billed usage",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "db-fin.cost": {
+   "value": 12003.1,
+   "unit": "CHF/year",
+   "statement": "db-fin baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "db-fin.energy": {
+   "value": 603.8,
+   "unit": "kWh/year",
+   "statement": "db-fin baseline energy",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "db-fin.co2": {
+   "value": 66.4,
+   "unit": "kg CO2/year",
+   "statement": "db-fin baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "db-fin.share_cost": {
+   "value": 0.0253,
+   "unit": "share",
+   "statement": "db-fin share of baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "db-fin.share_co2": {
+   "value": 0.0148,
+   "unit": "share",
+   "statement": "db-fin share of baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "db-fin.usage_vCore-hour": {
+   "value": 140160.0,
+   "unit": "vCore-hour/year",
+   "statement": "db-fin billed usage",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "db-fin.cpu_utilisation": {
+   "value": 0.3108,
+   "unit": "share",
+   "statement": "db-fin average CPU utilisation of billed hours",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-dev.cost": {
+   "value": 38591.7,
+   "unit": "CHF/year",
+   "statement": "dp-dev baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-dev.energy": {
+   "value": 3410.7,
+   "unit": "kWh/year",
+   "statement": "dp-dev baseline energy",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-dev.co2": {
+   "value": 1238.1,
+   "unit": "kg CO2/year",
+   "statement": "dp-dev baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-dev.share_cost": {
+   "value": 0.0812,
+   "unit": "share",
+   "statement": "dp-dev share of baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-dev.share_co2": {
+   "value": 0.2762,
+   "unit": "share",
+   "statement": "dp-dev share of baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-dev.usage_node-hour": {
+   "value": 70080.0,
+   "unit": "node-hour/year",
+   "statement": "dp-dev billed usage",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-dev.cpu_utilisation": {
+   "value": 0.087,
+   "unit": "share",
+   "statement": "dp-dev average CPU utilisation of billed hours",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-prod.cost": {
+   "value": 87730.8,
+   "unit": "CHF/year",
+   "statement": "dp-prod baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-prod.energy": {
+   "value": 10297.7,
+   "unit": "kWh/year",
+   "statement": "dp-prod baseline energy",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-prod.co2": {
+   "value": 1132.7,
+   "unit": "kg CO2/year",
+   "statement": "dp-prod baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-prod.share_cost": {
+   "value": 0.1847,
+   "unit": "share",
+   "statement": "dp-prod share of baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-prod.share_co2": {
+   "value": 0.2527,
+   "unit": "share",
+   "statement": "dp-prod share of baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-prod.usage_node-hour": {
+   "value": 163488.0,
+   "unit": "node-hour/year",
+   "statement": "dp-prod billed usage",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-prod.cpu_utilisation": {
+   "value": 0.3513,
+   "unit": "share",
+   "statement": "dp-prod average CPU utilisation of billed hours",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-storage.cost": {
+   "value": 6321.8,
+   "unit": "CHF/year",
+   "statement": "dp-storage baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-storage.energy": {
+   "value": 498.9,
+   "unit": "kWh/year",
+   "statement": "dp-storage baseline energy",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-storage.co2": {
+   "value": 54.9,
+   "unit": "kg CO2/year",
+   "statement": "dp-storage baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-storage.share_cost": {
+   "value": 0.0133,
+   "unit": "share",
+   "statement": "dp-storage share of baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-storage.share_co2": {
+   "value": 0.0122,
+   "unit": "share",
+   "statement": "dp-storage share of baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "dp-storage.usage_GB-day": {
+   "value": 9033497.9,
+   "unit": "GB-day/year",
+   "statement": "dp-storage billed usage",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "gpu-ml.cost": {
+   "value": 11389.8,
+   "unit": "CHF/year",
+   "statement": "gpu-ml baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "gpu-ml.energy": {
+   "value": 1159.7,
+   "unit": "kWh/year",
+   "statement": "gpu-ml baseline energy",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "gpu-ml.co2": {
+   "value": 421.0,
+   "unit": "kg CO2/year",
+   "statement": "gpu-ml baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "gpu-ml.share_cost": {
+   "value": 0.024,
+   "unit": "share",
+   "statement": "gpu-ml share of baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "gpu-ml.share_co2": {
+   "value": 0.0939,
+   "unit": "share",
+   "statement": "gpu-ml share of baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "gpu-ml.usage_GPU-hour": {
+   "value": 8760.0,
+   "unit": "GPU-hour/year",
+   "statement": "gpu-ml billed usage",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "gpu-ml.cpu_utilisation": {
+   "value": 0.0915,
+   "unit": "share",
+   "statement": "gpu-ml average CPU utilisation of billed hours",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "gpu-ml.gpu_utilisation": {
+   "value": 0.0919,
+   "unit": "share",
+   "statement": "gpu-ml average GPU utilisation",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "logs.cost": {
+   "value": 13950.5,
+   "unit": "CHF/year",
+   "statement": "logs baseline cost",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "logs.energy": {
+   "value": 1399.7,
+   "unit": "kWh/year",
+   "statement": "logs baseline energy",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "logs.co2": {
+   "value": 154.0,
+   "unit": "kg CO2/year",
+   "statement": "logs baseline CO2",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "logs.share_cost": {
+   "value": 0.0294,
+   "unit": "share",
+   "statement": "logs share of baseline cost",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "logs.share_co2": {
+   "value": 0.0343,
+   "unit": "share",
+   "statement": "logs share of baseline CO2",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "logs.usage_GB-day": {
+   "value": 19938076.6,
+   "unit": "GB-day/year",
+   "statement": "logs billed usage",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "net-egress.cost": {
+   "value": 2682.4,
+   "unit": "CHF/year",
+   "statement": "net-egress baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "net-egress.energy": {
+   "value": 84.4,
+   "unit": "kWh/year",
+   "statement": "net-egress baseline energy",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "net-egress.co2": {
+   "value": 9.2887,
+   "unit": "kg CO2/year",
+   "statement": "net-egress baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "net-egress.share_cost": {
+   "value": 0.0056,
+   "unit": "share",
+   "statement": "net-egress share of baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "net-egress.share_co2": {
+   "value": 0.0021,
+   "unit": "share",
+   "statement": "net-egress share of baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "net-egress.usage_GB": {
+   "value": 35780.6,
+   "unit": "GB/year",
+   "statement": "net-egress billed usage",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "pbi-kap.cost": {
+   "value": 24083.6,
+   "unit": "CHF/year",
+   "statement": "pbi-kap baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "pbi-kap.energy": {
+   "value": 282.8,
+   "unit": "kWh/year",
+   "statement": "pbi-kap baseline energy",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "pbi-kap.co2": {
+   "value": 31.1,
+   "unit": "kg CO2/year",
+   "statement": "pbi-kap baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "pbi-kap.share_cost": {
+   "value": 0.0507,
+   "unit": "share",
+   "statement": "pbi-kap share of baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "pbi-kap.share_co2": {
+   "value": 0.0069,
+   "unit": "share",
+   "statement": "pbi-kap share of baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "pbi-kap.usage_capacity-day": {
+   "value": 365.0,
+   "unit": "capacity-day/year",
+   "statement": "pbi-kap billed usage",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "saas-m365.cost": {
+   "value": 14241.0,
+   "unit": "CHF/year",
+   "statement": "saas-m365 baseline cost",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-m365.energy": {
+   "value": 183.8,
+   "unit": "kWh/year",
+   "statement": "saas-m365 baseline energy",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-m365.co2": {
+   "value": 39.1,
+   "unit": "kg CO2/year",
+   "statement": "saas-m365 baseline CO2",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-m365.share_cost": {
+   "value": 0.03,
+   "unit": "share",
+   "statement": "saas-m365 share of baseline cost",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-m365.share_co2": {
+   "value": 0.0087,
+   "unit": "share",
+   "statement": "saas-m365 share of baseline CO2",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-m365.usage_licence-month": {
+   "value": 1405.0,
+   "unit": "licence-month/year",
+   "statement": "saas-m365 billed usage",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-other.cost": {
+   "value": 99916.9,
+   "unit": "CHF/year",
+   "statement": "saas-other baseline cost",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-other.energy": {
+   "value": 818.4,
+   "unit": "kWh/year",
+   "statement": "saas-other baseline energy",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-other.co2": {
+   "value": 174.3,
+   "unit": "kg CO2/year",
+   "statement": "saas-other baseline CO2",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-other.share_cost": {
+   "value": 0.2103,
+   "unit": "share",
+   "statement": "saas-other share of baseline cost",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-other.share_co2": {
+   "value": 0.0389,
+   "unit": "share",
+   "statement": "saas-other share of baseline CO2",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "saas-other.usage_licence-month": {
+   "value": 8424.0,
+   "unit": "licence-month/year",
+   "statement": "saas-other billed usage",
+   "sources": [
+    "saas_contracts.csv"
+   ]
+  },
+  "sandbox.cost": {
+   "value": 60.4,
+   "unit": "CHF/year",
+   "statement": "sandbox baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "sandbox.energy": {
+   "value": 2.8527,
+   "unit": "kWh/year",
+   "statement": "sandbox baseline energy",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "sandbox.co2": {
+   "value": 0.6447,
+   "unit": "kg CO2/year",
+   "statement": "sandbox baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "sandbox.share_cost": {
+   "value": 0.0001,
+   "unit": "share",
+   "statement": "sandbox share of baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "sandbox.share_co2": {
+   "value": 0.0001,
+   "unit": "share",
+   "statement": "sandbox share of baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "sandbox.usage_vCPU-hour": {
+   "value": 1518.0,
+   "unit": "vCPU-hour/year",
+   "statement": "sandbox billed usage",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "sandbox.cpu_utilisation": {
+   "value": 0.0169,
+   "unit": "share",
+   "statement": "sandbox average CPU utilisation of billed hours",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-archive.cost": {
+   "value": 7496.8,
+   "unit": "CHF/year",
+   "statement": "st-archive baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-archive.energy": {
+   "value": 592.1,
+   "unit": "kWh/year",
+   "statement": "st-archive baseline energy",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-archive.co2": {
+   "value": 65.1,
+   "unit": "kg CO2/year",
+   "statement": "st-archive baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-archive.share_cost": {
+   "value": 0.0158,
+   "unit": "share",
+   "statement": "st-archive share of baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-archive.share_co2": {
+   "value": 0.0145,
+   "unit": "share",
+   "statement": "st-archive share of baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-archive.usage_GB-day": {
+   "value": 10721275.0,
+   "unit": "GB-day/year",
+   "statement": "st-archive billed usage",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-backup.cost": {
+   "value": 9396.6,
+   "unit": "CHF/year",
+   "statement": "st-backup baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-backup.energy": {
+   "value": 1299.3,
+   "unit": "kWh/year",
+   "statement": "st-backup baseline energy",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-backup.co2": {
+   "value": 293.7,
+   "unit": "kg CO2/year",
+   "statement": "st-backup baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-backup.share_cost": {
+   "value": 0.0198,
+   "unit": "share",
+   "statement": "st-backup share of baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-backup.share_co2": {
+   "value": 0.0655,
+   "unit": "share",
+   "statement": "st-backup share of baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-backup.usage_GB-day": {
+   "value": 23528698.4,
+   "unit": "GB-day/year",
+   "statement": "st-backup billed usage",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "st-proj.cost": {
+   "value": 4210.6,
+   "unit": "CHF/year",
+   "statement": "st-proj baseline cost",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "st-proj.energy": {
+   "value": 422.8,
+   "unit": "kWh/year",
+   "statement": "st-proj baseline energy",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "st-proj.co2": {
+   "value": 46.5,
+   "unit": "kg CO2/year",
+   "statement": "st-proj baseline CO2",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "st-proj.share_cost": {
+   "value": 0.0089,
+   "unit": "share",
+   "statement": "st-proj share of baseline cost",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "st-proj.share_co2": {
+   "value": 0.0104,
+   "unit": "share",
+   "statement": "st-proj share of baseline CO2",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "st-proj.usage_GB-day": {
+   "value": 6022089.2,
+   "unit": "GB-day/year",
+   "statement": "st-proj billed usage",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "sub-chatgpt.cost": {
+   "value": 5482.2,
+   "unit": "CHF/year",
+   "statement": "sub-chatgpt baseline cost",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-chatgpt.energy": {
+   "value": 1.8639,
+   "unit": "kWh/year",
+   "statement": "sub-chatgpt baseline energy",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-chatgpt.co2": {
+   "value": 0.397,
+   "unit": "kg CO2/year",
+   "statement": "sub-chatgpt baseline CO2",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-chatgpt.share_cost": {
+   "value": 0.0115,
+   "unit": "share",
+   "statement": "sub-chatgpt share of baseline cost",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-chatgpt.share_co2": {
+   "value": 0.0001,
+   "unit": "share",
+   "statement": "sub-chatgpt share of baseline CO2",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-chatgpt.usage_seat-month": {
+   "value": 276.0,
+   "unit": "seat-month/year",
+   "statement": "sub-chatgpt billed usage",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-claude.cost": {
+   "value": 8104.2,
+   "unit": "CHF/year",
+   "statement": "sub-claude baseline cost",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-claude.energy": {
+   "value": 42.9,
+   "unit": "kWh/year",
+   "statement": "sub-claude baseline energy",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-claude.co2": {
+   "value": 9.1334,
+   "unit": "kg CO2/year",
+   "statement": "sub-claude baseline CO2",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-claude.share_cost": {
+   "value": 0.0171,
+   "unit": "share",
+   "statement": "sub-claude share of baseline cost",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-claude.share_co2": {
+   "value": 0.002,
+   "unit": "share",
+   "statement": "sub-claude share of baseline CO2",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-claude.usage_seat-month": {
+   "value": 408.0,
+   "unit": "seat-month/year",
+   "statement": "sub-claude billed usage",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-copilot.cost": {
+   "value": 22181.4,
+   "unit": "CHF/year",
+   "statement": "sub-copilot baseline cost",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-copilot.energy": {
+   "value": 60.0,
+   "unit": "kWh/year",
+   "statement": "sub-copilot baseline energy",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-copilot.co2": {
+   "value": 12.8,
+   "unit": "kg CO2/year",
+   "statement": "sub-copilot baseline CO2",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-copilot.share_cost": {
+   "value": 0.0467,
+   "unit": "share",
+   "statement": "sub-copilot share of baseline cost",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-copilot.share_co2": {
+   "value": 0.0029,
+   "unit": "share",
+   "statement": "sub-copilot share of baseline CO2",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "sub-copilot.usage_seat-month": {
+   "value": 1200.0,
+   "unit": "seat-month/year",
+   "statement": "sub-copilot billed usage",
+   "sources": [
+    "ai_subscriptions.csv"
+   ]
+  },
+  "support.cost": {
+   "value": 10788.5,
+   "unit": "CHF/year",
+   "statement": "support baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "support.energy": {
+   "value": 0.0,
+   "unit": "kWh/year",
+   "statement": "support baseline energy",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "support.co2": {
+   "value": 0.0,
+   "unit": "kg CO2/year",
+   "statement": "support baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "support.share_cost": {
+   "value": 0.0227,
+   "unit": "share",
+   "statement": "support share of baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "support.share_co2": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "support share of baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "support.usage_month": {
+   "value": 12.0,
+   "unit": "month/year",
+   "statement": "support billed usage",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "vm-app.cost": {
+   "value": 23319.0,
+   "unit": "CHF/year",
+   "statement": "vm-app baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "vm-app.energy": {
+   "value": 1286.9,
+   "unit": "kWh/year",
+   "statement": "vm-app baseline energy",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "vm-app.co2": {
+   "value": 141.6,
+   "unit": "kg CO2/year",
+   "statement": "vm-app baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "vm-app.share_cost": {
+   "value": 0.0491,
+   "unit": "share",
+   "statement": "vm-app share of baseline cost",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "vm-app.share_co2": {
+   "value": 0.0316,
+   "unit": "share",
+   "statement": "vm-app share of baseline CO2",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "vm-app.usage_vCPU-hour": {
+   "value": 448458.2,
+   "unit": "vCPU-hour/year",
+   "statement": "vm-app billed usage",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "vm-app.cpu_utilisation": {
+   "value": 0.3094,
+   "unit": "share",
+   "statement": "vm-app average CPU utilisation of billed hours",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "vm-test.cost": {
+   "value": 24674.3,
+   "unit": "CHF/year",
+   "statement": "vm-test baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "vm-test.energy": {
+   "value": 1228.1,
+   "unit": "kWh/year",
+   "statement": "vm-test baseline energy",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "vm-test.co2": {
+   "value": 277.6,
+   "unit": "kg CO2/year",
+   "statement": "vm-test baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "vm-test.share_cost": {
+   "value": 0.0519,
+   "unit": "share",
+   "statement": "vm-test share of baseline cost",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "vm-test.share_co2": {
+   "value": 0.0619,
+   "unit": "share",
+   "statement": "vm-test share of baseline CO2",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "vm-test.usage_vCPU-hour": {
+   "value": 560640.0,
+   "unit": "vCPU-hour/year",
+   "statement": "vm-test billed usage",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "vm-test.cpu_utilisation": {
+   "value": 0.1089,
+   "unit": "share",
+   "statement": "vm-test average CPU utilisation of billed hours",
+   "sources": [
+    "aws_costs.csv"
+   ]
+  },
+  "web-cdn.cost": {
+   "value": 1122.8,
+   "unit": "CHF/year",
+   "statement": "web-cdn baseline cost",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "web-cdn.energy": {
+   "value": 44.9,
+   "unit": "kWh/year",
+   "statement": "web-cdn baseline energy",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "web-cdn.co2": {
+   "value": 4.9336,
+   "unit": "kg CO2/year",
+   "statement": "web-cdn baseline CO2",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "web-cdn.share_cost": {
+   "value": 0.0024,
+   "unit": "share",
+   "statement": "web-cdn share of baseline cost",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "web-cdn.share_co2": {
+   "value": 0.0011,
+   "unit": "share",
+   "statement": "web-cdn share of baseline CO2",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "web-cdn.usage_GB": {
+   "value": 14950.3,
+   "unit": "GB/year",
+   "statement": "web-cdn billed usage",
+   "sources": [
+    "hoster_invoice.csv"
+   ]
+  },
+  "dp-dev.running_h_per_day": {
+   "value": 24.0,
+   "unit": "h/day",
+   "statement": "dp-dev running hours per day",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-dev.active_h_weekday": {
+   "value": 2.846,
+   "unit": "h/day",
+   "statement": "dp-dev active hours on weekdays",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-dev.active_h_weekend": {
+   "value": 0.2139,
+   "unit": "h/day",
+   "statement": "dp-dev active hours at weekends",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-dev.idle_share": {
+   "value": 0.9132,
+   "unit": "share",
+   "statement": "dp-dev share of running hours without work",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-dev.nodes_avg": {
+   "value": 8.0,
+   "unit": "nodes",
+   "statement": "dp-dev average nodes (16 vCPU, 64 GB each)",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-dev.nodes_last": {
+   "value": 8.0,
+   "unit": "nodes",
+   "statement": "dp-dev nodes at the end of the baseline year",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-prod.running_h_per_day": {
+   "value": 24.0,
+   "unit": "h/day",
+   "statement": "dp-prod running hours per day",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-prod.active_h_weekday": {
+   "value": 11.2,
+   "unit": "h/day",
+   "statement": "dp-prod active hours on weekdays",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-prod.active_h_weekend": {
+   "value": 1.5,
+   "unit": "h/day",
+   "statement": "dp-prod active hours at weekends",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-prod.idle_share": {
+   "value": 0.6501,
+   "unit": "share",
+   "statement": "dp-prod share of running hours without work",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-prod.nodes_avg": {
+   "value": 18.6,
+   "unit": "nodes",
+   "statement": "dp-prod average nodes (16 vCPU, 64 GB each)",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "dp-prod.nodes_last": {
+   "value": 20.0,
+   "unit": "nodes",
+   "statement": "dp-prod nodes at the end of the baseline year",
+   "sources": [
+    "data_platform_usage.csv"
+   ]
+  },
+  "gpu-ml.hours_running_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "GPU server share of hours running",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "gpu-ml.gpu_util_weekly_max": {
+   "value": 0.438,
+   "unit": "share",
+   "statement": "highest weekly GPU utilisation",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "gpu-ml.gpu_util_weekly_median": {
+   "value": 0.0645,
+   "unit": "share",
+   "statement": "median weekly GPU utilisation",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "gpu-ml.cost_on_quarter_days_1_3": {
+   "value": 375.8,
+   "unit": "CHF/year",
+   "statement": "GPU cost on days 1–3 of Jan/Apr/Jul/Oct",
+   "sources": [
+    "azure_costs.csv"
+   ]
+  },
+  "srv:app-01.cpu_avg": {
+   "value": 0.267,
+   "unit": "share",
+   "statement": "app-01 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-01.cpu_peak_week": {
+   "value": 0.301,
+   "unit": "share",
+   "statement": "app-01 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-01.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-01 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-01.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-01 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-01.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-01 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-01.share_of_resource": {
+   "value": 0.0792,
+   "unit": "share",
+   "statement": "app-01 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-02.cpu_avg": {
+   "value": 0.3642,
+   "unit": "share",
+   "statement": "app-02 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-02.cpu_peak_week": {
+   "value": 0.42,
+   "unit": "share",
+   "statement": "app-02 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-02.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-02 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-02.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-02 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-02.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-02 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-02.share_of_resource": {
+   "value": 0.084,
+   "unit": "share",
+   "statement": "app-02 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-03.cpu_avg": {
+   "value": 0.3598,
+   "unit": "share",
+   "statement": "app-03 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-03.cpu_peak_week": {
+   "value": 0.426,
+   "unit": "share",
+   "statement": "app-03 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-03.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-03 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-03.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-03 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-03.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-03 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-03.share_of_resource": {
+   "value": 0.0856,
+   "unit": "share",
+   "statement": "app-03 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-04.cpu_avg": {
+   "value": 0.3896,
+   "unit": "share",
+   "statement": "app-04 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-04.cpu_peak_week": {
+   "value": 0.448,
+   "unit": "share",
+   "statement": "app-04 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-04.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-04 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-04.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-04 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-04.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-04 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-04.share_of_resource": {
+   "value": 0.084,
+   "unit": "share",
+   "statement": "app-04 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-05.cpu_avg": {
+   "value": 0.3164,
+   "unit": "share",
+   "statement": "app-05 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-05.cpu_peak_week": {
+   "value": 0.362,
+   "unit": "share",
+   "statement": "app-05 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-05.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-05 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-05.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-05 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-05.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-05 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-05.share_of_resource": {
+   "value": 0.084,
+   "unit": "share",
+   "statement": "app-05 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-06.cpu_avg": {
+   "value": 0.2618,
+   "unit": "share",
+   "statement": "app-06 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-06.cpu_peak_week": {
+   "value": 0.293,
+   "unit": "share",
+   "statement": "app-06 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-06.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-06 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-06.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-06 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-06.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-06 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-06.share_of_resource": {
+   "value": 0.0824,
+   "unit": "share",
+   "statement": "app-06 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-07.cpu_avg": {
+   "value": 0.4315,
+   "unit": "share",
+   "statement": "app-07 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-07.cpu_peak_week": {
+   "value": 0.488,
+   "unit": "share",
+   "statement": "app-07 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-07.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-07 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-07.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-07 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-07.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-07 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-07.share_of_resource": {
+   "value": 0.0824,
+   "unit": "share",
+   "statement": "app-07 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-08.cpu_avg": {
+   "value": 0.4507,
+   "unit": "share",
+   "statement": "app-08 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-08.cpu_peak_week": {
+   "value": 0.511,
+   "unit": "share",
+   "statement": "app-08 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-08.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-08 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-08.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-08 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-08.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-08 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-08.share_of_resource": {
+   "value": 0.0824,
+   "unit": "share",
+   "statement": "app-08 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-09.cpu_avg": {
+   "value": 0.4204,
+   "unit": "share",
+   "statement": "app-09 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-09.cpu_peak_week": {
+   "value": 0.477,
+   "unit": "share",
+   "statement": "app-09 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-09.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-09 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-09.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-09 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-09.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-09 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-09.share_of_resource": {
+   "value": 0.084,
+   "unit": "share",
+   "statement": "app-09 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-10.cpu_avg": {
+   "value": 0.3824,
+   "unit": "share",
+   "statement": "app-10 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-10.cpu_peak_week": {
+   "value": 0.435,
+   "unit": "share",
+   "statement": "app-10 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-10.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-10 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-10.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-10 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-10.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-10 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-10.share_of_resource": {
+   "value": 0.0856,
+   "unit": "share",
+   "statement": "app-10 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-11.cpu_avg": {
+   "value": 0.4051,
+   "unit": "share",
+   "statement": "app-11 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-11.cpu_peak_week": {
+   "value": 0.463,
+   "unit": "share",
+   "statement": "app-11 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-11.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-11 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-11.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-11 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-11.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-11 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-11.share_of_resource": {
+   "value": 0.084,
+   "unit": "share",
+   "statement": "app-11 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-12.cpu_avg": {
+   "value": 0.424,
+   "unit": "share",
+   "statement": "app-12 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-12.cpu_peak_week": {
+   "value": 0.491,
+   "unit": "share",
+   "statement": "app-12 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-12.weeks_under_10pct_cpu": {
+   "value": 0.0,
+   "unit": "share",
+   "statement": "app-12 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-12.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "app-12 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:app-12.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "app-12 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:app-12.share_of_resource": {
+   "value": 0.0824,
+   "unit": "share",
+   "statement": "app-12 share of vm-app (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-01.cpu_avg": {
+   "value": 0.1025,
+   "unit": "share",
+   "statement": "test-01 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-01.cpu_peak_week": {
+   "value": 0.745,
+   "unit": "share",
+   "statement": "test-01 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-01.weeks_under_10pct_cpu": {
+   "value": 0.8846,
+   "unit": "share",
+   "statement": "test-01 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-01.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "test-01 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-01.days_since_login": {
+   "value": 4.0,
+   "unit": "days",
+   "statement": "test-01 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-01.share_of_resource": {
+   "value": 0.063,
+   "unit": "share",
+   "statement": "test-01 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-02.cpu_avg": {
+   "value": 0.1238,
+   "unit": "share",
+   "statement": "test-02 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-02.cpu_peak_week": {
+   "value": 0.781,
+   "unit": "share",
+   "statement": "test-02 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-02.weeks_under_10pct_cpu": {
+   "value": 0.8846,
+   "unit": "share",
+   "statement": "test-02 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-02.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "test-02 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-02.days_since_login": {
+   "value": 3.0,
+   "unit": "days",
+   "statement": "test-02 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-02.share_of_resource": {
+   "value": 0.063,
+   "unit": "share",
+   "statement": "test-02 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-03.cpu_avg": {
+   "value": 0.1035,
+   "unit": "share",
+   "statement": "test-03 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-03.cpu_peak_week": {
+   "value": 0.792,
+   "unit": "share",
+   "statement": "test-03 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-03.weeks_under_10pct_cpu": {
+   "value": 0.8846,
+   "unit": "share",
+   "statement": "test-03 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-03.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "test-03 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-03.days_since_login": {
+   "value": 2.0,
+   "unit": "days",
+   "statement": "test-03 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-03.share_of_resource": {
+   "value": 0.063,
+   "unit": "share",
+   "statement": "test-03 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-04.cpu_avg": {
+   "value": 0.1212,
+   "unit": "share",
+   "statement": "test-04 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-04.cpu_peak_week": {
+   "value": 0.702,
+   "unit": "share",
+   "statement": "test-04 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-04.weeks_under_10pct_cpu": {
+   "value": 0.88,
+   "unit": "share",
+   "statement": "test-04 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-04.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "test-04 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-04.days_since_login": {
+   "value": 1.0,
+   "unit": "days",
+   "statement": "test-04 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-04.share_of_resource": {
+   "value": 0.0606,
+   "unit": "share",
+   "statement": "test-04 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-05.cpu_avg": {
+   "value": 0.1235,
+   "unit": "share",
+   "statement": "test-05 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-05.cpu_peak_week": {
+   "value": 0.751,
+   "unit": "share",
+   "statement": "test-05 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-05.weeks_under_10pct_cpu": {
+   "value": 0.8824,
+   "unit": "share",
+   "statement": "test-05 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-05.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "test-05 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-05.days_since_login": {
+   "value": 5.0,
+   "unit": "days",
+   "statement": "test-05 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-05.share_of_resource": {
+   "value": 0.0618,
+   "unit": "share",
+   "statement": "test-05 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-06.cpu_avg": {
+   "value": 0.1378,
+   "unit": "share",
+   "statement": "test-06 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-06.cpu_peak_week": {
+   "value": 0.797,
+   "unit": "share",
+   "statement": "test-06 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-06.weeks_under_10pct_cpu": {
+   "value": 0.7692,
+   "unit": "share",
+   "statement": "test-06 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-06.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "test-06 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-06.days_since_login": {
+   "value": 4.0,
+   "unit": "days",
+   "statement": "test-06 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-06.share_of_resource": {
+   "value": 0.063,
+   "unit": "share",
+   "statement": "test-06 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-07.cpu_avg": {
+   "value": 0.1438,
+   "unit": "share",
+   "statement": "test-07 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-07.cpu_peak_week": {
+   "value": 0.729,
+   "unit": "share",
+   "statement": "test-07 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-07.weeks_under_10pct_cpu": {
+   "value": 0.7,
+   "unit": "share",
+   "statement": "test-07 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-07.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "test-07 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-07.days_since_login": {
+   "value": 3.0,
+   "unit": "days",
+   "statement": "test-07 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-07.share_of_resource": {
+   "value": 0.0606,
+   "unit": "share",
+   "statement": "test-07 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-08.cpu_avg": {
+   "value": 0.1438,
+   "unit": "share",
+   "statement": "test-08 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-08.cpu_peak_week": {
+   "value": 0.704,
+   "unit": "share",
+   "statement": "test-08 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-08.weeks_under_10pct_cpu": {
+   "value": 0.72,
+   "unit": "share",
+   "statement": "test-08 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-08.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "test-08 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:test-08.days_since_login": {
+   "value": 2.0,
+   "unit": "days",
+   "statement": "test-08 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:test-08.share_of_resource": {
+   "value": 0.0606,
+   "unit": "share",
+   "statement": "test-08 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:qa-regression-01.cpu_avg": {
+   "value": 0.1688,
+   "unit": "share",
+   "statement": "qa-regression-01 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:qa-regression-01.cpu_peak_week": {
+   "value": 0.76,
+   "unit": "share",
+   "statement": "qa-regression-01 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:qa-regression-01.weeks_under_10pct_cpu": {
+   "value": 0.4808,
+   "unit": "share",
+   "statement": "qa-regression-01 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:qa-regression-01.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "qa-regression-01 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:qa-regression-01.days_since_login": {
+   "value": 7.0,
+   "unit": "days",
+   "statement": "qa-regression-01 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:qa-regression-01.share_of_resource": {
+   "value": 0.063,
+   "unit": "share",
+   "statement": "qa-regression-01 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:qa-regression-02.cpu_avg": {
+   "value": 0.1558,
+   "unit": "share",
+   "statement": "qa-regression-02 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:qa-regression-02.cpu_peak_week": {
+   "value": 0.782,
+   "unit": "share",
+   "statement": "qa-regression-02 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:qa-regression-02.weeks_under_10pct_cpu": {
+   "value": 0.5769,
+   "unit": "share",
+   "statement": "qa-regression-02 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:qa-regression-02.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "qa-regression-02 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:qa-regression-02.days_since_login": {
+   "value": 8.0,
+   "unit": "days",
+   "statement": "qa-regression-02 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:qa-regression-02.share_of_resource": {
+   "value": 0.063,
+   "unit": "share",
+   "statement": "qa-regression-02 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:uat-portal.cpu_avg": {
+   "value": 0.1579,
+   "unit": "share",
+   "statement": "uat-portal average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:uat-portal.cpu_peak_week": {
+   "value": 0.788,
+   "unit": "share",
+   "statement": "uat-portal busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:uat-portal.weeks_under_10pct_cpu": {
+   "value": 0.4528,
+   "unit": "share",
+   "statement": "uat-portal share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:uat-portal.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "uat-portal share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:uat-portal.days_since_login": {
+   "value": 9.0,
+   "unit": "days",
+   "statement": "uat-portal days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:uat-portal.share_of_resource": {
+   "value": 0.0642,
+   "unit": "share",
+   "statement": "uat-portal share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:uat-shop.cpu_avg": {
+   "value": 0.1437,
+   "unit": "share",
+   "statement": "uat-shop average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:uat-shop.cpu_peak_week": {
+   "value": 0.772,
+   "unit": "share",
+   "statement": "uat-shop busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:uat-shop.weeks_under_10pct_cpu": {
+   "value": 0.7451,
+   "unit": "share",
+   "statement": "uat-shop share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:uat-shop.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "uat-shop share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:uat-shop.days_since_login": {
+   "value": 10.0,
+   "unit": "days",
+   "statement": "uat-shop days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:uat-shop.share_of_resource": {
+   "value": 0.0618,
+   "unit": "share",
+   "statement": "uat-shop share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:dr-failover.cpu_avg": {
+   "value": 0.004,
+   "unit": "share",
+   "statement": "dr-failover average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:dr-failover.cpu_peak_week": {
+   "value": 0.005,
+   "unit": "share",
+   "statement": "dr-failover busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:dr-failover.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "dr-failover share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:dr-failover.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "dr-failover share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:dr-failover.days_since_login": {
+   "value": 86.0,
+   "unit": "days",
+   "statement": "dr-failover days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:dr-failover.share_of_resource": {
+   "value": 0.0642,
+   "unit": "share",
+   "statement": "dr-failover share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:poc-ki-2024.cpu_avg": {
+   "value": 0.0021,
+   "unit": "share",
+   "statement": "poc-ki-2024 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:poc-ki-2024.cpu_peak_week": {
+   "value": 0.003,
+   "unit": "share",
+   "statement": "poc-ki-2024 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:poc-ki-2024.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "poc-ki-2024 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:poc-ki-2024.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "poc-ki-2024 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:poc-ki-2024.days_since_login": {
+   "value": 625.0,
+   "unit": "days",
+   "statement": "poc-ki-2024 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:poc-ki-2024.share_of_resource": {
+   "value": 0.0606,
+   "unit": "share",
+   "statement": "poc-ki-2024 share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:migration-alt.cpu_avg": {
+   "value": 0.001,
+   "unit": "share",
+   "statement": "migration-alt average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:migration-alt.cpu_peak_week": {
+   "value": 0.001,
+   "unit": "share",
+   "statement": "migration-alt busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:migration-alt.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "migration-alt share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:migration-alt.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "migration-alt share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:migration-alt.days_since_login": {
+   "value": 573.0,
+   "unit": "days",
+   "statement": "migration-alt days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:migration-alt.share_of_resource": {
+   "value": 0.0642,
+   "unit": "share",
+   "statement": "migration-alt share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:build-agent-old.cpu_avg": {
+   "value": 0.0032,
+   "unit": "share",
+   "statement": "build-agent-old average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:build-agent-old.cpu_peak_week": {
+   "value": 0.004,
+   "unit": "share",
+   "statement": "build-agent-old busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:build-agent-old.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "build-agent-old share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:build-agent-old.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "build-agent-old share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:build-agent-old.days_since_login": {
+   "value": 554.0,
+   "unit": "days",
+   "statement": "build-agent-old days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:build-agent-old.share_of_resource": {
+   "value": 0.063,
+   "unit": "share",
+   "statement": "build-agent-old share of vm-test (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-alex-01.cpu_avg": {
+   "value": 0.0136,
+   "unit": "share",
+   "statement": "sbx-alex-01 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-01.cpu_peak_week": {
+   "value": 0.062,
+   "unit": "share",
+   "statement": "sbx-alex-01 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-01.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-alex-01 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-01.uptime_share": {
+   "value": 0.0369,
+   "unit": "share",
+   "statement": "sbx-alex-01 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-01.days_since_login": {
+   "value": 27.0,
+   "unit": "days",
+   "statement": "sbx-alex-01 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-alex-01.share_of_resource": {
+   "value": 0.0419,
+   "unit": "share",
+   "statement": "sbx-alex-01 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-bea-02.cpu_avg": {
+   "value": 0.0215,
+   "unit": "share",
+   "statement": "sbx-bea-02 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-02.cpu_peak_week": {
+   "value": 0.106,
+   "unit": "share",
+   "statement": "sbx-bea-02 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-02.weeks_under_10pct_cpu": {
+   "value": 0.9677,
+   "unit": "share",
+   "statement": "sbx-bea-02 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-02.uptime_share": {
+   "value": 0.0373,
+   "unit": "share",
+   "statement": "sbx-bea-02 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-02.days_since_login": {
+   "value": 26.0,
+   "unit": "days",
+   "statement": "sbx-bea-02 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-bea-02.share_of_resource": {
+   "value": 0.0438,
+   "unit": "share",
+   "statement": "sbx-bea-02 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-chris-03.cpu_avg": {
+   "value": 0.0088,
+   "unit": "share",
+   "statement": "sbx-chris-03 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-03.cpu_peak_week": {
+   "value": 0.045,
+   "unit": "share",
+   "statement": "sbx-chris-03 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-03.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-chris-03 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-03.uptime_share": {
+   "value": 0.033,
+   "unit": "share",
+   "statement": "sbx-chris-03 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-03.days_since_login": {
+   "value": 25.0,
+   "unit": "days",
+   "statement": "sbx-chris-03 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-chris-03.share_of_resource": {
+   "value": 0.0362,
+   "unit": "share",
+   "statement": "sbx-chris-03 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-dana-04.cpu_avg": {
+   "value": 0.0049,
+   "unit": "share",
+   "statement": "sbx-dana-04 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-04.cpu_peak_week": {
+   "value": 0.029,
+   "unit": "share",
+   "statement": "sbx-dana-04 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-04.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-dana-04 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-04.uptime_share": {
+   "value": 0.0389,
+   "unit": "share",
+   "statement": "sbx-dana-04 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-04.days_since_login": {
+   "value": 155.0,
+   "unit": "days",
+   "statement": "sbx-dana-04 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-dana-04.share_of_resource": {
+   "value": 0.0456,
+   "unit": "share",
+   "statement": "sbx-dana-04 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-eli-05.cpu_avg": {
+   "value": 0.0233,
+   "unit": "share",
+   "statement": "sbx-eli-05 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-05.cpu_peak_week": {
+   "value": 0.081,
+   "unit": "share",
+   "statement": "sbx-eli-05 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-05.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-eli-05 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-05.uptime_share": {
+   "value": 0.0423,
+   "unit": "share",
+   "statement": "sbx-eli-05 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-05.days_since_login": {
+   "value": 23.0,
+   "unit": "days",
+   "statement": "sbx-eli-05 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-eli-05.share_of_resource": {
+   "value": 0.048,
+   "unit": "share",
+   "statement": "sbx-eli-05 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-fay-06.cpu_avg": {
+   "value": 0.0279,
+   "unit": "share",
+   "statement": "sbx-fay-06 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-06.cpu_peak_week": {
+   "value": 0.095,
+   "unit": "share",
+   "statement": "sbx-fay-06 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-06.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-fay-06 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-06.uptime_share": {
+   "value": 0.0403,
+   "unit": "share",
+   "statement": "sbx-fay-06 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-06.days_since_login": {
+   "value": 22.0,
+   "unit": "days",
+   "statement": "sbx-fay-06 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-fay-06.share_of_resource": {
+   "value": 0.0427,
+   "unit": "share",
+   "statement": "sbx-fay-06 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-alex-07.cpu_avg": {
+   "value": 0.0229,
+   "unit": "share",
+   "statement": "sbx-alex-07 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-07.cpu_peak_week": {
+   "value": 0.084,
+   "unit": "share",
+   "statement": "sbx-alex-07 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-07.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-alex-07 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-07.uptime_share": {
+   "value": 0.0395,
+   "unit": "share",
+   "statement": "sbx-alex-07 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-07.days_since_login": {
+   "value": 21.0,
+   "unit": "days",
+   "statement": "sbx-alex-07 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-alex-07.share_of_resource": {
+   "value": 0.0449,
+   "unit": "share",
+   "statement": "sbx-alex-07 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-bea-08.cpu_avg": {
+   "value": 0.0173,
+   "unit": "share",
+   "statement": "sbx-bea-08 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-08.cpu_peak_week": {
+   "value": 0.124,
+   "unit": "share",
+   "statement": "sbx-bea-08 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-08.weeks_under_10pct_cpu": {
+   "value": 0.9032,
+   "unit": "share",
+   "statement": "sbx-bea-08 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-08.uptime_share": {
+   "value": 0.0378,
+   "unit": "share",
+   "statement": "sbx-bea-08 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-08.days_since_login": {
+   "value": 151.0,
+   "unit": "days",
+   "statement": "sbx-bea-08 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-bea-08.share_of_resource": {
+   "value": 0.0443,
+   "unit": "share",
+   "statement": "sbx-bea-08 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-chris-09.cpu_avg": {
+   "value": 0.0129,
+   "unit": "share",
+   "statement": "sbx-chris-09 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-09.cpu_peak_week": {
+   "value": 0.056,
+   "unit": "share",
+   "statement": "sbx-chris-09 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-09.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-chris-09 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-09.uptime_share": {
+   "value": 0.0385,
+   "unit": "share",
+   "statement": "sbx-chris-09 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-09.days_since_login": {
+   "value": 19.0,
+   "unit": "days",
+   "statement": "sbx-chris-09 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-chris-09.share_of_resource": {
+   "value": 0.0437,
+   "unit": "share",
+   "statement": "sbx-chris-09 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-dana-10.cpu_avg": {
+   "value": 0.0103,
+   "unit": "share",
+   "statement": "sbx-dana-10 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-10.cpu_peak_week": {
+   "value": 0.054,
+   "unit": "share",
+   "statement": "sbx-dana-10 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-10.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-dana-10 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-10.uptime_share": {
+   "value": 0.0359,
+   "unit": "share",
+   "statement": "sbx-dana-10 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-10.days_since_login": {
+   "value": 18.0,
+   "unit": "days",
+   "statement": "sbx-dana-10 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-dana-10.share_of_resource": {
+   "value": 0.0407,
+   "unit": "share",
+   "statement": "sbx-dana-10 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-eli-11.cpu_avg": {
+   "value": 0.0263,
+   "unit": "share",
+   "statement": "sbx-eli-11 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-11.cpu_peak_week": {
+   "value": 0.12,
+   "unit": "share",
+   "statement": "sbx-eli-11 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-11.weeks_under_10pct_cpu": {
+   "value": 0.8966,
+   "unit": "share",
+   "statement": "sbx-eli-11 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-11.uptime_share": {
+   "value": 0.0299,
+   "unit": "share",
+   "statement": "sbx-eli-11 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-11.days_since_login": {
+   "value": 17.0,
+   "unit": "days",
+   "statement": "sbx-eli-11 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-eli-11.share_of_resource": {
+   "value": 0.0328,
+   "unit": "share",
+   "statement": "sbx-eli-11 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-fay-12.cpu_avg": {
+   "value": 0.0185,
+   "unit": "share",
+   "statement": "sbx-fay-12 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-12.cpu_peak_week": {
+   "value": 0.109,
+   "unit": "share",
+   "statement": "sbx-fay-12 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-12.weeks_under_10pct_cpu": {
+   "value": 0.931,
+   "unit": "share",
+   "statement": "sbx-fay-12 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-12.uptime_share": {
+   "value": 0.0315,
+   "unit": "share",
+   "statement": "sbx-fay-12 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-12.days_since_login": {
+   "value": 147.0,
+   "unit": "days",
+   "statement": "sbx-fay-12 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-fay-12.share_of_resource": {
+   "value": 0.0346,
+   "unit": "share",
+   "statement": "sbx-fay-12 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-alex-13.cpu_avg": {
+   "value": 0.0193,
+   "unit": "share",
+   "statement": "sbx-alex-13 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-13.cpu_peak_week": {
+   "value": 0.087,
+   "unit": "share",
+   "statement": "sbx-alex-13 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-13.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-alex-13 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-13.uptime_share": {
+   "value": 0.0364,
+   "unit": "share",
+   "statement": "sbx-alex-13 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-13.days_since_login": {
+   "value": 15.0,
+   "unit": "days",
+   "statement": "sbx-alex-13 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-alex-13.share_of_resource": {
+   "value": 0.0427,
+   "unit": "share",
+   "statement": "sbx-alex-13 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-bea-14.cpu_avg": {
+   "value": 0.0402,
+   "unit": "share",
+   "statement": "sbx-bea-14 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-14.cpu_peak_week": {
+   "value": 0.137,
+   "unit": "share",
+   "statement": "sbx-bea-14 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-14.weeks_under_10pct_cpu": {
+   "value": 0.8387,
+   "unit": "share",
+   "statement": "sbx-bea-14 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-14.uptime_share": {
+   "value": 0.0367,
+   "unit": "share",
+   "statement": "sbx-bea-14 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-14.days_since_login": {
+   "value": 14.0,
+   "unit": "days",
+   "statement": "sbx-bea-14 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-bea-14.share_of_resource": {
+   "value": 0.043,
+   "unit": "share",
+   "statement": "sbx-bea-14 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-chris-15.cpu_avg": {
+   "value": 0.0077,
+   "unit": "share",
+   "statement": "sbx-chris-15 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-15.cpu_peak_week": {
+   "value": 0.036,
+   "unit": "share",
+   "statement": "sbx-chris-15 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-15.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-chris-15 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-15.uptime_share": {
+   "value": 0.0394,
+   "unit": "share",
+   "statement": "sbx-chris-15 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-15.days_since_login": {
+   "value": 13.0,
+   "unit": "days",
+   "statement": "sbx-chris-15 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-chris-15.share_of_resource": {
+   "value": 0.0432,
+   "unit": "share",
+   "statement": "sbx-chris-15 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-dana-16.cpu_avg": {
+   "value": 0.016,
+   "unit": "share",
+   "statement": "sbx-dana-16 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-16.cpu_peak_week": {
+   "value": 0.05,
+   "unit": "share",
+   "statement": "sbx-dana-16 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-16.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-dana-16 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-16.uptime_share": {
+   "value": 0.0403,
+   "unit": "share",
+   "statement": "sbx-dana-16 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-16.days_since_login": {
+   "value": 143.0,
+   "unit": "days",
+   "statement": "sbx-dana-16 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-dana-16.share_of_resource": {
+   "value": 0.0427,
+   "unit": "share",
+   "statement": "sbx-dana-16 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-eli-17.cpu_avg": {
+   "value": 0.0238,
+   "unit": "share",
+   "statement": "sbx-eli-17 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-17.cpu_peak_week": {
+   "value": 0.109,
+   "unit": "share",
+   "statement": "sbx-eli-17 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-17.weeks_under_10pct_cpu": {
+   "value": 0.9677,
+   "unit": "share",
+   "statement": "sbx-eli-17 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-17.uptime_share": {
+   "value": 0.0416,
+   "unit": "share",
+   "statement": "sbx-eli-17 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-17.days_since_login": {
+   "value": 11.0,
+   "unit": "days",
+   "statement": "sbx-eli-17 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-eli-17.share_of_resource": {
+   "value": 0.0488,
+   "unit": "share",
+   "statement": "sbx-eli-17 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-fay-18.cpu_avg": {
+   "value": 0.0115,
+   "unit": "share",
+   "statement": "sbx-fay-18 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-18.cpu_peak_week": {
+   "value": 0.058,
+   "unit": "share",
+   "statement": "sbx-fay-18 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-18.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-fay-18 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-18.uptime_share": {
+   "value": 0.0436,
+   "unit": "share",
+   "statement": "sbx-fay-18 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-18.days_since_login": {
+   "value": 10.0,
+   "unit": "days",
+   "statement": "sbx-fay-18 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-fay-18.share_of_resource": {
+   "value": 0.0478,
+   "unit": "share",
+   "statement": "sbx-fay-18 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-alex-19.cpu_avg": {
+   "value": 0.0263,
+   "unit": "share",
+   "statement": "sbx-alex-19 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-19.cpu_peak_week": {
+   "value": 0.141,
+   "unit": "share",
+   "statement": "sbx-alex-19 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-19.weeks_under_10pct_cpu": {
+   "value": 0.9355,
+   "unit": "share",
+   "statement": "sbx-alex-19 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-19.uptime_share": {
+   "value": 0.041,
+   "unit": "share",
+   "statement": "sbx-alex-19 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-alex-19.days_since_login": {
+   "value": 9.0,
+   "unit": "days",
+   "statement": "sbx-alex-19 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-alex-19.share_of_resource": {
+   "value": 0.0481,
+   "unit": "share",
+   "statement": "sbx-alex-19 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-bea-20.cpu_avg": {
+   "value": 0.0106,
+   "unit": "share",
+   "statement": "sbx-bea-20 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-20.cpu_peak_week": {
+   "value": 0.058,
+   "unit": "share",
+   "statement": "sbx-bea-20 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-20.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-bea-20 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-20.uptime_share": {
+   "value": 0.0333,
+   "unit": "share",
+   "statement": "sbx-bea-20 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-bea-20.days_since_login": {
+   "value": 139.0,
+   "unit": "days",
+   "statement": "sbx-bea-20 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-bea-20.share_of_resource": {
+   "value": 0.039,
+   "unit": "share",
+   "statement": "sbx-bea-20 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-chris-21.cpu_avg": {
+   "value": 0.0077,
+   "unit": "share",
+   "statement": "sbx-chris-21 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-21.cpu_peak_week": {
+   "value": 0.038,
+   "unit": "share",
+   "statement": "sbx-chris-21 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-21.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-chris-21 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-21.uptime_share": {
+   "value": 0.0291,
+   "unit": "share",
+   "statement": "sbx-chris-21 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-chris-21.days_since_login": {
+   "value": 27.0,
+   "unit": "days",
+   "statement": "sbx-chris-21 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-chris-21.share_of_resource": {
+   "value": 0.0331,
+   "unit": "share",
+   "statement": "sbx-chris-21 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-dana-22.cpu_avg": {
+   "value": 0.0059,
+   "unit": "share",
+   "statement": "sbx-dana-22 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-22.cpu_peak_week": {
+   "value": 0.048,
+   "unit": "share",
+   "statement": "sbx-dana-22 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-22.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-dana-22 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-22.uptime_share": {
+   "value": 0.0294,
+   "unit": "share",
+   "statement": "sbx-dana-22 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-dana-22.days_since_login": {
+   "value": 26.0,
+   "unit": "days",
+   "statement": "sbx-dana-22 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-dana-22.share_of_resource": {
+   "value": 0.0345,
+   "unit": "share",
+   "statement": "sbx-dana-22 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-eli-23.cpu_avg": {
+   "value": 0.0084,
+   "unit": "share",
+   "statement": "sbx-eli-23 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-23.cpu_peak_week": {
+   "value": 0.072,
+   "unit": "share",
+   "statement": "sbx-eli-23 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-23.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-eli-23 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-23.uptime_share": {
+   "value": 0.036,
+   "unit": "share",
+   "statement": "sbx-eli-23 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-eli-23.days_since_login": {
+   "value": 25.0,
+   "unit": "days",
+   "statement": "sbx-eli-23 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-eli-23.share_of_resource": {
+   "value": 0.0422,
+   "unit": "share",
+   "statement": "sbx-eli-23 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-fay-24.cpu_avg": {
+   "value": 0.0212,
+   "unit": "share",
+   "statement": "sbx-fay-24 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-24.cpu_peak_week": {
+   "value": 0.089,
+   "unit": "share",
+   "statement": "sbx-fay-24 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-24.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "sbx-fay-24 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-24.uptime_share": {
+   "value": 0.0363,
+   "unit": "share",
+   "statement": "sbx-fay-24 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:sbx-fay-24.days_since_login": {
+   "value": 135.0,
+   "unit": "days",
+   "statement": "sbx-fay-24 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:sbx-fay-24.share_of_resource": {
+   "value": 0.0357,
+   "unit": "share",
+   "statement": "sbx-fay-24 share of sandbox (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:gpu-ml-01.cpu_avg": {
+   "value": 0.0423,
+   "unit": "share",
+   "statement": "gpu-ml-01 average weekly CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:gpu-ml-01.cpu_peak_week": {
+   "value": 0.063,
+   "unit": "share",
+   "statement": "gpu-ml-01 busiest week CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:gpu-ml-01.weeks_under_10pct_cpu": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "gpu-ml-01 share of weeks under 10 % CPU",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:gpu-ml-01.uptime_share": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "gpu-ml-01 share of hours running",
+   "sources": [
+    "server_metrics_weekly.csv"
+   ]
+  },
+  "srv:gpu-ml-01.days_since_login": {
+   "value": 65.0,
+   "unit": "days",
+   "statement": "gpu-ml-01 days since last human login",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "srv:gpu-ml-01.share_of_resource": {
+   "value": 1.0,
+   "unit": "share",
+   "statement": "gpu-ml-01 share of gpu-ml (vCPU × uptime)",
+   "sources": [
+    "server_inventory.csv"
+   ]
+  },
+  "lic:Accounting software.cost": {
+   "value": 4560.0,
+   "unit": "CHF/year",
+   "statement": "Accounting software cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Accounting software.active_share": {
+   "value": 0.85,
+   "unit": "share",
+   "statement": "Accounting software active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Accounting software.seats_purchased": {
+   "value": 10.0,
+   "unit": "seats",
+   "statement": "Accounting software seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Accounting software.seats_active": {
+   "value": 8.0,
+   "unit": "seats",
+   "statement": "Accounting software seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Accounting software.cost_inactive_seats": {
+   "value": 684.0,
+   "unit": "CHF/year",
+   "statement": "Accounting software cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Accounting software.days_to_contract_end": {
+   "value": 206.0,
+   "unit": "days",
+   "statement": "Accounting software days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Accounting software.notice_days": {
+   "value": 90.0,
+   "unit": "days",
+   "statement": "Accounting software notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:CRM platform.cost": {
+   "value": 17765.0,
+   "unit": "CHF/year",
+   "statement": "CRM platform cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:CRM platform.active_share": {
+   "value": 0.582,
+   "unit": "share",
+   "statement": "CRM platform active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:CRM platform.seats_purchased": {
+   "value": 27.0,
+   "unit": "seats",
+   "statement": "CRM platform seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:CRM platform.seats_active": {
+   "value": 16.0,
+   "unit": "seats",
+   "statement": "CRM platform seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:CRM platform.cost_inactive_seats": {
+   "value": 7425.0,
+   "unit": "CHF/year",
+   "statement": "CRM platform cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:CRM platform.days_to_contract_end": {
+   "value": 116.0,
+   "unit": "days",
+   "statement": "CRM platform days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:CRM platform.notice_days": {
+   "value": 60.0,
+   "unit": "days",
+   "statement": "CRM platform notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Chat tool.cost": {
+   "value": 7144.7,
+   "unit": "CHF/year",
+   "statement": "Chat tool cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Chat tool.active_share": {
+   "value": 0.6797,
+   "unit": "share",
+   "statement": "Chat tool active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Chat tool.seats_purchased": {
+   "value": 95.0,
+   "unit": "seats",
+   "statement": "Chat tool seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Chat tool.seats_active": {
+   "value": 68.0,
+   "unit": "seats",
+   "statement": "Chat tool seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Chat tool.cost_inactive_seats": {
+   "value": 2288.3,
+   "unit": "CHF/year",
+   "statement": "Chat tool cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Chat tool.days_to_contract_end": {
+   "value": 116.0,
+   "unit": "days",
+   "statement": "Chat tool days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Chat tool.notice_days": {
+   "value": 30.0,
+   "unit": "days",
+   "statement": "Chat tool notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:ChatGPT Team.cost": {
+   "value": 5482.2,
+   "unit": "CHF/year",
+   "statement": "ChatGPT Team cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:ChatGPT Team.active_share": {
+   "value": 0.1413,
+   "unit": "share",
+   "statement": "ChatGPT Team active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:ChatGPT Team.seats_purchased": {
+   "value": 23.0,
+   "unit": "seats",
+   "statement": "ChatGPT Team seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:ChatGPT Team.seats_active": {
+   "value": 2.0,
+   "unit": "seats",
+   "statement": "ChatGPT Team seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:ChatGPT Team.cost_inactive_seats": {
+   "value": 4707.6,
+   "unit": "CHF/year",
+   "statement": "ChatGPT Team cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:ChatGPT Team.days_to_contract_end": {
+   "value": 85.0,
+   "unit": "days",
+   "statement": "ChatGPT Team days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:ChatGPT Team.notice_days": {
+   "value": 30.0,
+   "unit": "days",
+   "statement": "ChatGPT Team notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Claude Team.cost": {
+   "value": 8104.2,
+   "unit": "CHF/year",
+   "statement": "Claude Team cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Claude Team.active_share": {
+   "value": 0.848,
+   "unit": "share",
+   "statement": "Claude Team active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Claude Team.seats_purchased": {
+   "value": 34.0,
+   "unit": "seats",
+   "statement": "Claude Team seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Claude Team.seats_active": {
+   "value": 28.0,
+   "unit": "seats",
+   "statement": "Claude Team seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Claude Team.cost_inactive_seats": {
+   "value": 1231.5,
+   "unit": "CHF/year",
+   "statement": "Claude Team cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Claude Team.days_to_contract_end": {
+   "value": 116.0,
+   "unit": "days",
+   "statement": "Claude Team days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Claude Team.notice_days": {
+   "value": 30.0,
+   "unit": "days",
+   "statement": "Claude Team notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Design tool.cost": {
+   "value": 1525.5,
+   "unit": "CHF/year",
+   "statement": "Design tool cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Design tool.active_share": {
+   "value": 0.375,
+   "unit": "share",
+   "statement": "Design tool active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Design tool.seats_purchased": {
+   "value": 8.0,
+   "unit": "seats",
+   "statement": "Design tool seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Design tool.seats_active": {
+   "value": 3.0,
+   "unit": "seats",
+   "statement": "Design tool seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Design tool.cost_inactive_seats": {
+   "value": 953.4,
+   "unit": "CHF/year",
+   "statement": "Design tool cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Design tool.days_to_contract_end": {
+   "value": 55.0,
+   "unit": "days",
+   "statement": "Design tool days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Design tool.notice_days": {
+   "value": 30.0,
+   "unit": "days",
+   "statement": "Design tool notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:E-signature.cost": {
+   "value": 8075.0,
+   "unit": "CHF/year",
+   "statement": "E-signature cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:E-signature.active_share": {
+   "value": 0.2972,
+   "unit": "share",
+   "statement": "E-signature active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:E-signature.seats_purchased": {
+   "value": 27.0,
+   "unit": "seats",
+   "statement": "E-signature seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:E-signature.seats_active": {
+   "value": 8.0,
+   "unit": "seats",
+   "statement": "E-signature seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:E-signature.cost_inactive_seats": {
+   "value": 5675.0,
+   "unit": "CHF/year",
+   "statement": "E-signature cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:E-signature.days_to_contract_end": {
+   "value": 147.0,
+   "unit": "days",
+   "statement": "E-signature days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:E-signature.notice_days": {
+   "value": 60.0,
+   "unit": "days",
+   "statement": "E-signature notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:HR software.cost": {
+   "value": 2160.0,
+   "unit": "CHF/year",
+   "statement": "HR software cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:HR software.active_share": {
+   "value": 0.8125,
+   "unit": "share",
+   "statement": "HR software active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:HR software.seats_purchased": {
+   "value": 20.0,
+   "unit": "seats",
+   "statement": "HR software seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:HR software.seats_active": {
+   "value": 17.0,
+   "unit": "seats",
+   "statement": "HR software seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:HR software.cost_inactive_seats": {
+   "value": 405.0,
+   "unit": "CHF/year",
+   "statement": "HR software cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:HR software.days_to_contract_end": {
+   "value": 267.0,
+   "unit": "days",
+   "statement": "HR software days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:HR software.notice_days": {
+   "value": 90.0,
+   "unit": "days",
+   "statement": "HR software notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Knowledge base.cost": {
+   "value": 4934.4,
+   "unit": "CHF/year",
+   "statement": "Knowledge base cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Knowledge base.active_share": {
+   "value": 0.4799,
+   "unit": "share",
+   "statement": "Knowledge base active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Knowledge base.seats_purchased": {
+   "value": 53.0,
+   "unit": "seats",
+   "statement": "Knowledge base seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Knowledge base.seats_active": {
+   "value": 27.0,
+   "unit": "seats",
+   "statement": "Knowledge base seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Knowledge base.cost_inactive_seats": {
+   "value": 2566.5,
+   "unit": "CHF/year",
+   "statement": "Knowledge base cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Knowledge base.days_to_contract_end": {
+   "value": 236.0,
+   "unit": "days",
+   "statement": "Knowledge base days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Knowledge base.notice_days": {
+   "value": 60.0,
+   "unit": "days",
+   "statement": "Knowledge base notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Microsoft 365.cost": {
+   "value": 14241.0,
+   "unit": "CHF/year",
+   "statement": "Microsoft 365 cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft 365.active_share": {
+   "value": 0.8719,
+   "unit": "share",
+   "statement": "Microsoft 365 active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft 365.seats_purchased": {
+   "value": 119.0,
+   "unit": "seats",
+   "statement": "Microsoft 365 seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft 365.seats_active": {
+   "value": 106.0,
+   "unit": "seats",
+   "statement": "Microsoft 365 seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft 365.cost_inactive_seats": {
+   "value": 1824.5,
+   "unit": "CHF/year",
+   "statement": "Microsoft 365 cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft 365.days_to_contract_end": {
+   "value": 297.0,
+   "unit": "days",
+   "statement": "Microsoft 365 days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Microsoft 365.notice_days": {
+   "value": 90.0,
+   "unit": "days",
+   "statement": "Microsoft 365 notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Microsoft Copilot.cost": {
+   "value": 22181.4,
+   "unit": "CHF/year",
+   "statement": "Microsoft Copilot cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft Copilot.active_share": {
+   "value": 0.5925,
+   "unit": "share",
+   "statement": "Microsoft Copilot active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft Copilot.seats_purchased": {
+   "value": 100.0,
+   "unit": "seats",
+   "statement": "Microsoft Copilot seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft Copilot.seats_active": {
+   "value": 60.0,
+   "unit": "seats",
+   "statement": "Microsoft Copilot seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft Copilot.cost_inactive_seats": {
+   "value": 9038.9,
+   "unit": "CHF/year",
+   "statement": "Microsoft Copilot cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Microsoft Copilot.days_to_contract_end": {
+   "value": 175.0,
+   "unit": "days",
+   "statement": "Microsoft Copilot days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Microsoft Copilot.notice_days": {
+   "value": 30.0,
+   "unit": "days",
+   "statement": "Microsoft Copilot notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Note-taking tool.cost": {
+   "value": 2555.3,
+   "unit": "CHF/year",
+   "statement": "Note-taking tool cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Note-taking tool.active_share": {
+   "value": 0.4428,
+   "unit": "share",
+   "statement": "Note-taking tool active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Note-taking tool.seats_purchased": {
+   "value": 34.0,
+   "unit": "seats",
+   "statement": "Note-taking tool seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Note-taking tool.seats_active": {
+   "value": 16.0,
+   "unit": "seats",
+   "statement": "Note-taking tool seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Note-taking tool.cost_inactive_seats": {
+   "value": 1423.8,
+   "unit": "CHF/year",
+   "statement": "Note-taking tool cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Note-taking tool.days_to_contract_end": {
+   "value": 85.0,
+   "unit": "days",
+   "statement": "Note-taking tool days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Note-taking tool.notice_days": {
+   "value": 30.0,
+   "unit": "days",
+   "statement": "Note-taking tool notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Password manager.cost": {
+   "value": 3572.3,
+   "unit": "CHF/year",
+   "statement": "Password manager cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Password manager.active_share": {
+   "value": 0.9146,
+   "unit": "share",
+   "statement": "Password manager active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Password manager.seats_purchased": {
+   "value": 95.0,
+   "unit": "seats",
+   "statement": "Password manager seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Password manager.seats_active": {
+   "value": 88.0,
+   "unit": "seats",
+   "statement": "Password manager seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Password manager.cost_inactive_seats": {
+   "value": 305.1,
+   "unit": "CHF/year",
+   "statement": "Password manager cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Password manager.days_to_contract_end": {
+   "value": 389.0,
+   "unit": "days",
+   "statement": "Password manager days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Password manager.notice_days": {
+   "value": 60.0,
+   "unit": "days",
+   "statement": "Password manager notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Project management.cost": {
+   "value": 7261.7,
+   "unit": "CHF/year",
+   "statement": "Project management cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project management.active_share": {
+   "value": 0.5383,
+   "unit": "share",
+   "statement": "Project management active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project management.seats_purchased": {
+   "value": 48.0,
+   "unit": "seats",
+   "statement": "Project management seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project management.seats_active": {
+   "value": 26.0,
+   "unit": "seats",
+   "statement": "Project management seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project management.cost_inactive_seats": {
+   "value": 3352.5,
+   "unit": "CHF/year",
+   "statement": "Project management cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project management.days_to_contract_end": {
+   "value": 85.0,
+   "unit": "days",
+   "statement": "Project management days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Project management.notice_days": {
+   "value": 30.0,
+   "unit": "days",
+   "statement": "Project management notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Project scheduling.cost": {
+   "value": 7780.3,
+   "unit": "CHF/year",
+   "statement": "Project scheduling cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project scheduling.active_share": {
+   "value": 0.5882,
+   "unit": "share",
+   "statement": "Project scheduling active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project scheduling.seats_purchased": {
+   "value": 48.0,
+   "unit": "seats",
+   "statement": "Project scheduling seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project scheduling.seats_active": {
+   "value": 28.0,
+   "unit": "seats",
+   "statement": "Project scheduling seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project scheduling.cost_inactive_seats": {
+   "value": 3203.7,
+   "unit": "CHF/year",
+   "statement": "Project scheduling cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Project scheduling.days_to_contract_end": {
+   "value": 147.0,
+   "unit": "days",
+   "statement": "Project scheduling days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Project scheduling.notice_days": {
+   "value": 60.0,
+   "unit": "days",
+   "statement": "Project scheduling notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Survey tool.cost": {
+   "value": 3328.6,
+   "unit": "CHF/year",
+   "statement": "Survey tool cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Survey tool.active_share": {
+   "value": 0.1167,
+   "unit": "share",
+   "statement": "Survey tool active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Survey tool.seats_purchased": {
+   "value": 10.0,
+   "unit": "seats",
+   "statement": "Survey tool seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Survey tool.seats_active": {
+   "value": 1.0,
+   "unit": "seats",
+   "statement": "Survey tool seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Survey tool.cost_inactive_seats": {
+   "value": 2940.2,
+   "unit": "CHF/year",
+   "statement": "Survey tool cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Survey tool.days_to_contract_end": {
+   "value": 116.0,
+   "unit": "days",
+   "statement": "Survey tool days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Survey tool.notice_days": {
+   "value": 60.0,
+   "unit": "days",
+   "statement": "Survey tool notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Ticket system.cost": {
+   "value": 8915.4,
+   "unit": "CHF/year",
+   "statement": "Ticket system cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Ticket system.active_share": {
+   "value": 0.6257,
+   "unit": "share",
+   "statement": "Ticket system active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Ticket system.seats_purchased": {
+   "value": 48.0,
+   "unit": "seats",
+   "statement": "Ticket system seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Ticket system.seats_active": {
+   "value": 32.0,
+   "unit": "seats",
+   "statement": "Ticket system seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Ticket system.cost_inactive_seats": {
+   "value": 3337.3,
+   "unit": "CHF/year",
+   "statement": "Ticket system cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Ticket system.days_to_contract_end": {
+   "value": 85.0,
+   "unit": "days",
+   "statement": "Ticket system days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Ticket system.notice_days": {
+   "value": 30.0,
+   "unit": "days",
+   "statement": "Ticket system notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Time tracking.cost": {
+   "value": 7868.0,
+   "unit": "CHF/year",
+   "statement": "Time tracking cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Time tracking.active_share": {
+   "value": 0.8674,
+   "unit": "share",
+   "statement": "Time tracking active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Time tracking.seats_purchased": {
+   "value": 95.0,
+   "unit": "seats",
+   "statement": "Time tracking seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Time tracking.seats_active": {
+   "value": 84.0,
+   "unit": "seats",
+   "statement": "Time tracking seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Time tracking.cost_inactive_seats": {
+   "value": 1043.0,
+   "unit": "CHF/year",
+   "statement": "Time tracking cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Time tracking.days_to_contract_end": {
+   "value": 359.0,
+   "unit": "days",
+   "statement": "Time tracking days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Time tracking.notice_days": {
+   "value": 90.0,
+   "unit": "days",
+   "statement": "Time tracking notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Video conferencing tool.cost": {
+   "value": 12470.7,
+   "unit": "CHF/year",
+   "statement": "Video conferencing tool cost",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Video conferencing tool.active_share": {
+   "value": 0.5329,
+   "unit": "share",
+   "statement": "Video conferencing tool active / purchased seats (year average)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Video conferencing tool.seats_purchased": {
+   "value": 95.0,
+   "unit": "seats",
+   "statement": "Video conferencing tool seats purchased (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Video conferencing tool.seats_active": {
+   "value": 53.0,
+   "unit": "seats",
+   "statement": "Video conferencing tool seats active in 30 days (last month)",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Video conferencing tool.cost_inactive_seats": {
+   "value": 5824.9,
+   "unit": "CHF/year",
+   "statement": "Video conferencing tool cost of inactive seats",
+   "sources": [
+    "ai_subscriptions.csv / saas_contracts.csv"
+   ]
+  },
+  "lic:Video conferencing tool.days_to_contract_end": {
+   "value": 175.0,
+   "unit": "days",
+   "statement": "Video conferencing tool days until contract end",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "lic:Video conferencing tool.notice_days": {
+   "value": 30.0,
+   "unit": "days",
+   "statement": "Video conferencing tool notice period",
+   "sources": [
+    "contracts"
+   ]
+  },
+  "ai:ai-agent:Agent run:large.cost": {
+   "value": 1917.7,
+   "unit": "CHF/year",
+   "statement": "ai-agent «Agent run» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-agent:Agent run:large.energy": {
+   "value": 47.5,
+   "unit": "kWh/year",
+   "statement": "ai-agent «Agent run» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-agent2:Agent run:large.cost": {
+   "value": 3099.6,
+   "unit": "CHF/year",
+   "statement": "ai-agent2 «Agent run» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-agent2:Agent run:large.energy": {
+   "value": 72.7,
+   "unit": "kWh/year",
+   "statement": "ai-agent2 «Agent run» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Analyse table:large.cost": {
+   "value": 2909.1,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Analyse table» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Analyse table:large.energy": {
+   "value": 100.4,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Analyse table» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Analyse table:small.cost": {
+   "value": 17.9,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Analyse table» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Analyse table:small.energy": {
+   "value": 0.5143,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Analyse table» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Draft texts:large.cost": {
+   "value": 6029.3,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Draft texts» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Draft texts:large.energy": {
+   "value": 246.5,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Draft texts» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Draft texts:small.cost": {
+   "value": 37.8,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Draft texts» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Draft texts:small.energy": {
+   "value": 1.2889,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Draft texts» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Manual question:large.cost": {
+   "value": 1431.0,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Manual question» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Manual question:large.energy": {
+   "value": 55.1,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Manual question» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Manual question:small.cost": {
+   "value": 37.2,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Manual question» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Manual question:small.energy": {
+   "value": 1.1943,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Manual question» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Review contract:large.cost": {
+   "value": 2989.1,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Review contract» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Review contract:large.energy": {
+   "value": 99.6,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Review contract» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Review contract:small.cost": {
+   "value": 18.6,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Review contract» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Review contract:small.energy": {
+   "value": 0.5168,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Review contract» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Summarise:large.cost": {
+   "value": 4872.1,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Summarise» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Summarise:large.energy": {
+   "value": 160.6,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Summarise» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Summarise:small.cost": {
+   "value": 128.5,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Summarise» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Summarise:small.energy": {
+   "value": 3.53,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Summarise» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Translate:large.cost": {
+   "value": 3421.7,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Translate» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Translate:large.energy": {
+   "value": 136.2,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Translate» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Translate:small.cost": {
+   "value": 89.0,
+   "unit": "CHF/year",
+   "statement": "ai-assistant «Translate» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-assistant:Translate:small.energy": {
+   "value": 2.9507,
+   "unit": "kWh/year",
+   "statement": "ai-assistant «Translate» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-chatbot:Manual question:large.cost": {
+   "value": 224.6,
+   "unit": "CHF/year",
+   "statement": "ai-chatbot «Manual question» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-chatbot:Manual question:large.energy": {
+   "value": 8.4841,
+   "unit": "kWh/year",
+   "statement": "ai-chatbot «Manual question» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-chatbot:Manual question:small.cost": {
+   "value": 65.5,
+   "unit": "CHF/year",
+   "statement": "ai-chatbot «Manual question» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-chatbot:Manual question:small.energy": {
+   "value": 2.1329,
+   "unit": "kWh/year",
+   "statement": "ai-chatbot «Manual question» on small models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-marketing:Classify:large.cost": {
+   "value": 11537.2,
+   "unit": "CHF/year",
+   "statement": "ai-marketing «Classify» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-marketing:Classify:large.energy": {
+   "value": 296.8,
+   "unit": "kWh/year",
+   "statement": "ai-marketing «Classify» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-quote:Draft texts:large.cost": {
+   "value": 511.5,
+   "unit": "CHF/year",
+   "statement": "ai-quote «Draft texts» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-quote:Draft texts:large.energy": {
+   "value": 20.9,
+   "unit": "kWh/year",
+   "statement": "ai-quote «Draft texts» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-report:Agent run:large.cost": {
+   "value": 106.7,
+   "unit": "CHF/year",
+   "statement": "ai-report «Agent run» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai:ai-report:Agent run:large.energy": {
+   "value": 2.5544,
+   "unit": "kWh/year",
+   "statement": "ai-report «Agent run» on large models",
+   "sources": [
+    "ai_usage.csv"
+   ]
+  },
+  "ai.small_to_large_price_ratio": {
+   "value": 0.3,
+   "unit": "share",
+   "statement": "list price small / large model",
+   "sources": [
+    "reference.yaml"
+   ]
+  },
+  "dp-storage.catalog_gb": {
+   "value": 27638.9,
+   "unit": "GB",
+   "statement": "data catalogue total",
+   "sources": [
+    "extra/data_catalog_tables.csv"
+   ]
+  },
+  "dp-storage.stale_gb_no_retention": {
+   "value": 6576.4,
+   "unit": "GB",
+   "statement": "tables not read > 1 year, retention_required = no",
+   "sources": [
+    "extra/data_catalog_tables.csv"
+   ]
+  },
+  "dp-storage.stale_gb_retention_unknown": {
+   "value": 3898.0,
+   "unit": "GB",
+   "statement": "tables not read > 1 year, retention flag empty",
+   "sources": [
+    "extra/data_catalog_tables.csv"
+   ]
+  },
+  "dp-storage.stale_gb_retention_required": {
+   "value": 1138.7,
+   "unit": "GB",
+   "statement": "tables not read > 1 year but under retention obligation",
+   "sources": [
+    "extra/data_catalog_tables.csv"
+   ]
+  },
+  "dp-storage.tmp_schema_gb": {
+   "value": 3824.6,
+   "unit": "GB",
+   "statement": "tables in schema tmp",
+   "sources": [
+    "extra/data_catalog_tables.csv"
+   ]
+  },
+  "st-backup.sources_in_3_tools": {
+   "value": 21.0,
+   "unit": "sources",
+   "statement": "backup sources copied by all three tools",
+   "sources": [
+    "extra/backup_chains.csv"
+   ]
+  },
+  "st-backup.third_copy_share": {
+   "value": 0.1482,
+   "unit": "share",
+   "statement": "share of backup GB in third copies",
+   "sources": [
+    "extra/backup_chains.csv"
+   ]
+  },
+  "st-backup.copies_10y_retention_share": {
+   "value": 0.3026,
+   "unit": "share",
+   "statement": "share of backup GB with 10-year retention",
+   "sources": [
+    "extra/backup_chains.csv"
+   ]
+  },
+  "cicd.nightly_without_changes_share": {
+   "value": 0.2118,
+   "unit": "share",
+   "statement": "nightly builds with 0 commits since the last one",
+   "sources": [
+    "extra/ci_pipeline_runs.jsonl"
+   ]
+  },
+  "cicd.minutes_share_unchanged_nightly": {
+   "value": 0.0322,
+   "unit": "share",
+   "statement": "share of build minutes spent on unchanged nightly builds",
+   "sources": [
+    "extra/ci_pipeline_runs.jsonl"
+   ]
+  },
+  "cicd.rerun_share": {
+   "value": 0.0505,
+   "unit": "share",
+   "statement": "share of runs that are re-runs",
+   "sources": [
+    "extra/ci_pipeline_runs.jsonl"
+   ]
+  },
+  "pbi-kap.reports_refreshed_rarely_viewed": {
+   "value": 19.0,
+   "unit": "reports",
+   "statement": "reports refreshed but < 20 views per year",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.refresh_share_rarely_viewed": {
+   "value": 0.6483,
+   "unit": "share",
+   "statement": "their share of refresh minutes on the capacity",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.regulatory_among_them": {
+   "value": 0.0,
+   "unit": "reports",
+   "statement": "regulatory reports among them",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "ai-report.unopened_share": {
+   "value": 0.9057,
+   "unit": "share",
+   "statement": "report-agent outputs never opened",
+   "sources": [
+    "extra/ai_agent_runs.jsonl"
+   ]
+  },
+  "web-cdn.bot_share": {
+   "value": 0.3648,
+   "unit": "share",
+   "statement": "bot share of delivered GB",
+   "sources": [
+    "extra/web_traffic.csv"
+   ]
+  },
+  "logs.volume_share_retention_90d": {
+   "value": 0.1758,
+   "unit": "share",
+   "statement": "share of new log volume kept 90 days",
+   "sources": [
+    "extra/log_volume.csv"
+   ]
+  },
+  "logs.volume_share_retention_180d": {
+   "value": 0.1487,
+   "unit": "share",
+   "statement": "share of new log volume kept 180 days",
+   "sources": [
+    "extra/log_volume.csv"
+   ]
+  },
+  "logs.volume_share_retention_365d": {
+   "value": 0.6756,
+   "unit": "share",
+   "statement": "share of new log volume kept 365 days",
+   "sources": [
+    "extra/log_volume.csv"
+   ]
+  },
+  "pbi-kap.reports_total": {
+   "value": 60.0,
+   "unit": "reports",
+   "statement": "Power BI reports on the capacity",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.reports_unused": {
+   "value": 21.0,
+   "unit": "reports",
+   "statement": "reports refreshed but opened < 30 times a year (not copies, not quarterly, not protected)",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.reports_duplicate": {
+   "value": 4.0,
+   "unit": "reports",
+   "statement": "reports that are «(copy)» duplicates",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.reports_quarterly": {
+   "value": 4.0,
+   "unit": "reports",
+   "statement": "quarterly reports (needed in closing months only)",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.reports_protected": {
+   "value": 1.0,
+   "unit": "reports",
+   "statement": "regulatory or ticket-protected reports (keep)",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.refresh_load_removable_share": {
+   "value": 0.7913,
+   "unit": "share",
+   "statement": "share of refresh minutes removed by the clean-up (unused + copies + quarterly outside closing months)",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.cleanup_energy_share": {
+   "value": 0.332,
+   "unit": "share",
+   "statement": "energy share of the capacity saved by the clean-up (cost unchanged: billed per day)",
+   "sources": [
+    "factors.yaml capacity model"
+   ]
+  },
+  "pbi-kap.downsize_fits_half": {
+   "value": 1.0,
+   "unit": "flag",
+   "statement": "1 if the load after clean-up fits 80 % of half the capacity",
+   "sources": [
+    "extra/powerbi_usage.csv"
+   ]
+  },
+  "pbi-kap.downsize_cost_share": {
+   "value": 0.5,
+   "unit": "share",
+   "statement": "cost share saved by moving one tier down (ASSUMPTION: price ∝ capacity units; human decision)",
+   "sources": [
+    "Azure capacity SKUs"
+   ]
+  },
+  "pbi-kap.cleanup_and_downsize_energy_share": {
+   "value": 0.6222,
+   "unit": "share",
+   "statement": "energy share saved by clean-up + one tier down",
+   "sources": [
+    "factors.yaml capacity model"
+   ]
+  },
+  "cicd.co2_saved_if_moved_to_CH": {
+   "value": 13.1,
+   "unit": "kg CO2/year",
+   "statement": "cicd: CO2 saved per year if its load ran in CH (aws offers it); AWS compute in CH costs +18% vs IE (m6i.large list price, README)",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "dp-dev.co2_saved_if_moved_to_CH": {
+   "value": 862.9,
+   "unit": "kg CO2/year",
+   "statement": "dp-dev: CO2 saved per year if its load ran in CH (azure offers it); price difference not in the data",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "gpu-ml.co2_saved_if_moved_to_CH": {
+   "value": 293.4,
+   "unit": "kg CO2/year",
+   "statement": "gpu-ml: CO2 saved per year if its load ran in CH (azure offers it); price difference not in the data",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "st-backup.co2_saved_if_moved_to_CH": {
+   "value": 150.7,
+   "unit": "kg CO2/year",
+   "statement": "st-backup: CO2 saved per year if its load ran in CH (aws offers it); price difference not in the data",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "vm-test.co2_saved_if_moved_to_CH": {
+   "value": 142.5,
+   "unit": "kg CO2/year",
+   "statement": "vm-test: CO2 saved per year if its load ran in CH (aws offers it); AWS compute in CH costs +18% vs IE (m6i.large list price, README)",
+   "sources": [
+    "extra/data_center_locations.csv"
+   ]
+  },
+  "dp-storage.removable_share": {
+   "value": 0.3337,
+   "unit": "share",
+   "statement": "share of stored GB that is unread > 1 year or temporary and not under retention",
+   "sources": [
+    "extra/data_catalog_tables.csv"
+   ]
+  },
+  "dp-storage.stale_gb_retention_unknown_share": {
+   "value": 0.141,
+   "unit": "share",
+   "statement": "share of stored GB unread > 1 year with an empty retention flag (owner must answer)",
+   "sources": [
+    "extra/data_catalog_tables.csv"
+   ]
+  },
+  "logs.retention_90d_stored_share_saved": {
+   "value": 0.6888,
+   "unit": "share",
+   "statement": "share of stored log GB saved if every service kept logs at most 90 days",
+   "sources": [
+    "extra/log_volume.csv"
+   ]
+  },
+  "ai-agent2.research_retries_per_run": {
+   "value": 1.6397,
+   "unit": "retries",
+   "statement": "average retries per research-agent run (part of ai-agent2)",
+   "sources": [
+    "extra/ai_agent_runs.jsonl"
+   ]
+  },
+  "st-backup.copies_without_restore_test": {
+   "value": 29.0,
+   "unit": "copies",
+   "statement": "backup copies never restore-tested (a risk, not a saving)",
+   "sources": [
+    "extra/backup_chains.csv"
+   ]
+  },
+  "project.P-004.cost_after_end": {
+   "value": 23258.6,
+   "unit": "CHF/year",
+   "statement": "P-004 (Internal AI pilot) ended 2025-06-30: cost still billed in the baseline year",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-004.co2_after_end": {
+   "value": 707.6,
+   "unit": "kg CO2/year",
+   "statement": "P-004: CO2 of resources still running after the project end",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-006.cost_after_end": {
+   "value": 2289.0,
+   "unit": "CHF/year",
+   "statement": "P-006 (Customer Beta: reporting setup) ended 2026-06-30: cost still billed in the baseline year",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-006.co2_after_end": {
+   "value": 16.5,
+   "unit": "kg CO2/year",
+   "statement": "P-006: CO2 of resources still running after the project end",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-008.cost_after_end": {
+   "value": 391.0,
+   "unit": "CHF/year",
+   "statement": "P-008 (Customer Delta: migration) ended 2025-09-30: cost still billed in the baseline year",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-008.co2_after_end": {
+   "value": 4.3074,
+   "unit": "kg CO2/year",
+   "statement": "P-008: CO2 of resources still running after the project end",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-009.cost_after_end": {
+   "value": 1156.2,
+   "unit": "CHF/year",
+   "statement": "P-009 (Customer portal relaunch) ended 2026-03-31: cost still billed in the baseline year",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "project.P-009.co2_after_end": {
+   "value": 6.877,
+   "unit": "kg CO2/year",
+   "statement": "P-009: CO2 of resources still running after the project end",
+   "sources": [
+    "extra/projects.csv"
+   ]
+  },
+  "saas-m365.active_users_admin": {
+   "value": 104.0,
+   "unit": "users",
+   "statement": "M365 active users (admin data, weekly average)",
+   "sources": [
+    "extra/m365_usage.csv"
+   ]
+  },
+  "saas-m365.unused_seat_share": {
+   "value": 0.1116,
+   "unit": "share",
+   "statement": "M365 purchased seats without an active user (admin data)",
+   "sources": [
+    "extra/m365_usage.csv"
+   ]
+  },
+  "saas-m365.admin_vs_licence_difference": {
+   "value": 0.019,
+   "unit": "share",
+   "statement": "admin active users vs licence data active (consistency)",
+   "sources": [
+    "extra/m365_usage.csv"
+   ]
+  },
+  "one_off.OO-1.excess": {
+   "value": 3307.2,
+   "unit": "CHF",
+   "statement": "one-off Script stuck in an endless loop (bug, fixed after three days) (not recurring, no savings may be claimed)",
+   "sources": [
+    "fact_cost"
+   ]
+  },
+  "one_off.OO-2.excess": {
+   "value": 365.2,
+   "unit": "CHF",
+   "statement": "one-off One-off data egress due to file storage migration (not recurring, no savings may be claimed)",
+   "sources": [
+    "fact_cost"
+   ]
+  },
+  "one_off.OO-3.excess": {
+   "value": -3000.0,
+   "unit": "CHF",
+   "statement": "one-off SLA credits (refunds) are not recurring spend (not recurring, no savings may be claimed)",
+   "sources": [
+    "fact_cost"
+   ]
+  }
+ },
+ "resources": [
+  {
+   "id": "ai-agent",
+   "label": "Support-Agent",
+   "category": "ai",
+   "location": "EU",
+   "provider": "Anthropic",
+   "owner_department": "Consulting",
+   "decides": "Head of Consulting",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": "P-015",
+   "project_status": "ongoing",
+   "facts": [
+    "ai-agent.co2",
+    "ai-agent.cost",
+    "ai-agent.energy",
+    "ai-agent.share_co2",
+    "ai-agent.share_cost",
+    "ai-agent.usage_tokens"
+   ]
+  },
+  {
+   "id": "ai-agent2",
+   "label": "Other agents",
+   "category": "ai",
+   "location": "EU",
+   "provider": "Anthropic",
+   "owner_department": "Sales",
+   "decides": "Head of Sales",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": "P-005",
+   "project_status": "ongoing",
+   "facts": [
+    "ai-agent2.co2",
+    "ai-agent2.cost",
+    "ai-agent2.energy",
+    "ai-agent2.share_co2",
+    "ai-agent2.share_cost",
+    "ai-agent2.usage_tokens"
+   ]
+  },
+  {
+   "id": "ai-assistant",
+   "label": "Office AI assistant",
+   "category": "ai",
+   "location": "EU",
+   "provider": "Azure OpenAI",
+   "owner_department": "Overhead",
+   "decides": "Head of IT",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": "P-015",
+   "project_status": "ongoing",
+   "facts": [
+    "ai-assistant.co2",
+    "ai-assistant.cost",
+    "ai-assistant.energy",
+    "ai-assistant.share_co2",
+    "ai-assistant.share_cost",
+    "ai-assistant.usage_tokens"
+   ]
+  },
+  {
+   "id": "ai-chatbot",
+   "label": "Knowledge chatbot",
+   "category": "ai",
+   "location": "EU",
+   "provider": "OpenAI",
+   "owner_department": "HR",
+   "decides": "Head of HR",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "facts": [
+    "ai-chatbot.co2",
+    "ai-chatbot.cost",
+    "ai-chatbot.energy",
+    "ai-chatbot.share_co2",
+    "ai-chatbot.share_cost",
+    "ai-chatbot.usage_tokens"
+   ]
+  },
+  {
+   "id": "ai-marketing",
+   "label": "Marketing text analysis",
+   "category": "ai",
+   "location": "EU",
+   "provider": "Anthropic",
+   "owner_department": "Marketing",
+   "decides": "Head of Marketing",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": null,
+   "project_status": null,
+   "facts": [
+    "ai-marketing.co2",
+    "ai-marketing.cost",
+    "ai-marketing.energy",
+    "ai-marketing.share_co2",
+    "ai-marketing.share_cost",
+    "ai-marketing.usage_tokens"
+   ]
+  },
+  {
+   "id": "ai-quote",
+   "label": "Quote generator",
+   "category": "ai",
+   "location": "EU",
+   "provider": "OpenAI",
+   "owner_department": "Sales",
+   "decides": "Head of Sales",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": "P-013",
+   "project_status": "ongoing",
+   "facts": [
+    "ai-quote.co2",
+    "ai-quote.cost",
+    "ai-quote.energy",
+    "ai-quote.share_co2",
+    "ai-quote.share_cost",
+    "ai-quote.usage_tokens"
+   ]
+  },
+  {
+   "id": "ai-report",
+   "label": "Report-Agent",
+   "category": "ai",
+   "location": "EU",
+   "provider": "Anthropic",
+   "owner_department": "Finance",
+   "decides": "Head of Finance",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": "P-015",
+   "project_status": "ongoing",
+   "facts": [
+    "ai-report.co2",
+    "ai-report.cost",
+    "ai-report.energy",
+    "ai-report.share_co2",
+    "ai-report.share_cost",
+    "ai-report.usage_tokens"
+   ]
+  },
+  {
+   "id": "cicd",
+   "label": "CI/CD pipelines",
+   "category": "cloud",
+   "location": "IE",
+   "provider": "AWS",
+   "owner_department": "IT",
+   "decides": "Head of IT",
+   "environment": "dev",
+   "criticality_masterdata": "<NA>",
+   "project": null,
+   "project_status": null,
+   "facts": [
+    "cicd.co2",
+    "cicd.cost",
+    "cicd.energy",
+    "cicd.share_co2",
+    "cicd.share_cost",
+    "cicd.usage_runner-minute"
+   ]
+  },
+  {
+   "id": "db-fin",
+   "label": "Finance database",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "Azure",
+   "owner_department": "Finance",
+   "decides": "Head of Finance",
+   "environment": "prod",
+   "criticality_masterdata": "<NA>",
+   "project": "P-015",
+   "project_status": "ongoing",
+   "facts": [
+    "db-fin.co2",
+    "db-fin.cost",
+    "db-fin.cpu_utilisation",
+    "db-fin.energy",
+    "db-fin.share_co2",
+    "db-fin.share_cost",
+    "db-fin.usage_vCore-hour"
+   ]
+  },
+  {
+   "id": "dp-dev",
+   "label": "Data platform development",
+   "category": "cloud",
+   "location": "DE",
+   "provider": "Azure",
+   "owner_department": "IT",
+   "decides": "Head of IT",
+   "environment": "dev",
+   "criticality_masterdata": "low",
+   "project": "P-003",
+   "project_status": "ongoing",
+   "facts": [
+    "dp-dev.co2",
+    "dp-dev.cost",
+    "dp-dev.cpu_utilisation",
+    "dp-dev.energy",
+    "dp-dev.share_co2",
+    "dp-dev.share_cost",
+    "dp-dev.usage_node-hour"
+   ]
+  },
+  {
+   "id": "dp-prod",
+   "label": "Data platform production",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "Azure",
+   "owner_department": "Consulting",
+   "decides": "Head of Consulting",
+   "environment": "prod",
+   "criticality_masterdata": "high",
+   "project": "P-003",
+   "project_status": "ongoing",
+   "facts": [
+    "dp-prod.co2",
+    "dp-prod.cost",
+    "dp-prod.cpu_utilisation",
+    "dp-prod.energy",
+    "dp-prod.share_co2",
+    "dp-prod.share_cost",
+    "dp-prod.usage_node-hour"
+   ]
+  },
+  {
+   "id": "dp-storage",
+   "label": "Data platform storage",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "Azure",
+   "owner_department": "Consulting",
+   "decides": "Head of Consulting",
+   "environment": "prod",
+   "criticality_masterdata": "<NA>",
+   "project": "P-003",
+   "project_status": "ongoing",
+   "facts": [
+    "dp-storage.co2",
+    "dp-storage.cost",
+    "dp-storage.energy",
+    "dp-storage.share_co2",
+    "dp-storage.share_cost",
+    "dp-storage.usage_GB-day"
+   ]
+  },
+  {
+   "id": "gpu-ml",
+   "label": "AI compute server (GPU)",
+   "category": "server",
+   "location": "DE",
+   "provider": "Azure",
+   "owner_department": "Consulting",
+   "decides": "Head of Consulting",
+   "environment": "dev",
+   "criticality_masterdata": "<NA>",
+   "project": "P-004",
+   "project_status": "completed",
+   "facts": [
+    "gpu-ml.co2",
+    "gpu-ml.cost",
+    "gpu-ml.cpu_utilisation",
+    "gpu-ml.energy",
+    "gpu-ml.gpu_utilisation",
+    "gpu-ml.share_co2",
+    "gpu-ml.share_cost",
+    "gpu-ml.usage_GPU-hour"
+   ]
+  },
+  {
+   "id": "logs",
+   "label": "Logging and monitoring",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "Swiss hoster",
+   "owner_department": "IT",
+   "decides": "Head of IT",
+   "environment": "prod",
+   "criticality_masterdata": "<NA>",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "facts": [
+    "logs.co2",
+    "logs.cost",
+    "logs.energy",
+    "logs.share_co2",
+    "logs.share_cost",
+    "logs.usage_GB-day"
+   ]
+  },
+  {
+   "id": "net-egress",
+   "label": "Data egress",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "AWS",
+   "owner_department": "IT",
+   "decides": "Head of IT",
+   "environment": "prod",
+   "criticality_masterdata": "medium",
+   "project": "P-002",
+   "project_status": "ongoing",
+   "facts": [
+    "net-egress.co2",
+    "net-egress.cost",
+    "net-egress.energy",
+    "net-egress.share_co2",
+    "net-egress.share_cost",
+    "net-egress.usage_GB"
+   ]
+  },
+  {
+   "id": "pbi-kap",
+   "label": "Power BI capacity",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "Azure",
+   "owner_department": "IT",
+   "decides": "Head of IT",
+   "environment": "prod",
+   "criticality_masterdata": "medium",
+   "project": "P-015",
+   "project_status": "ongoing",
+   "facts": [
+    "pbi-kap.co2",
+    "pbi-kap.cost",
+    "pbi-kap.energy",
+    "pbi-kap.share_co2",
+    "pbi-kap.share_cost",
+    "pbi-kap.usage_capacity-day"
+   ]
+  },
+  {
+   "id": "saas-m365",
+   "label": "Microsoft 365 (licences)",
+   "category": "saas",
+   "location": "EU",
+   "provider": "Microsoft",
+   "owner_department": "Overhead",
+   "decides": "Head of Finance",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": null,
+   "project_status": null,
+   "facts": [
+    "saas-m365.co2",
+    "saas-m365.cost",
+    "saas-m365.energy",
+    "saas-m365.share_co2",
+    "saas-m365.share_cost",
+    "saas-m365.usage_licence-month"
+   ]
+  },
+  {
+   "id": "saas-other",
+   "label": "Other SaaS contracts",
+   "category": "saas",
+   "location": "EU",
+   "provider": "Vendor A1",
+   "owner_department": "Overhead",
+   "decides": "Head of Finance",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": null,
+   "project_status": null,
+   "facts": [
+    "saas-other.co2",
+    "saas-other.cost",
+    "saas-other.energy",
+    "saas-other.share_co2",
+    "saas-other.share_cost",
+    "saas-other.usage_licence-month"
+   ]
+  },
+  {
+   "id": "sandbox",
+   "label": "Test account",
+   "category": "server",
+   "location": "IE",
+   "provider": "AWS",
+   "owner_department": "Test account",
+   "decides": "Head of IT",
+   "environment": "dev",
+   "criticality_masterdata": "low",
+   "project": "P-004",
+   "project_status": "completed",
+   "facts": [
+    "sandbox.co2",
+    "sandbox.cost",
+    "sandbox.cpu_utilisation",
+    "sandbox.energy",
+    "sandbox.share_co2",
+    "sandbox.share_cost",
+    "sandbox.usage_vCPU-hour"
+   ]
+  },
+  {
+   "id": "st-archive",
+   "label": "Legacy project archive",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "AWS",
+   "owner_department": "Sales",
+   "decides": "Head of Sales",
+   "environment": "prod",
+   "criticality_masterdata": "medium",
+   "project": "P-015",
+   "project_status": "ongoing",
+   "facts": [
+    "st-archive.co2",
+    "st-archive.cost",
+    "st-archive.energy",
+    "st-archive.share_co2",
+    "st-archive.share_cost",
+    "st-archive.usage_GB-day"
+   ]
+  },
+  {
+   "id": "st-backup",
+   "label": "Backup archive",
+   "category": "cloud",
+   "location": "IE",
+   "provider": "AWS",
+   "owner_department": "IT",
+   "decides": "Head of IT",
+   "environment": "prod",
+   "criticality_masterdata": "high",
+   "project": "P-015",
+   "project_status": "ongoing",
+   "facts": [
+    "st-backup.co2",
+    "st-backup.cost",
+    "st-backup.energy",
+    "st-backup.share_co2",
+    "st-backup.share_cost",
+    "st-backup.usage_GB-day"
+   ]
+  },
+  {
+   "id": "st-proj",
+   "label": "Project file storage",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "Swiss hoster",
+   "owner_department": "Consulting",
+   "decides": "Head of Consulting",
+   "environment": "prod",
+   "criticality_masterdata": "medium",
+   "project": "P-005",
+   "project_status": "ongoing",
+   "facts": [
+    "st-proj.co2",
+    "st-proj.cost",
+    "st-proj.energy",
+    "st-proj.share_co2",
+    "st-proj.share_cost",
+    "st-proj.usage_GB-day"
+   ]
+  },
+  {
+   "id": "sub-chatgpt",
+   "label": "ChatGPT Team (subscription)",
+   "category": "ai",
+   "location": "EU",
+   "provider": "OpenAI",
+   "owner_department": "Overhead",
+   "decides": "Head of Finance",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": null,
+   "project_status": null,
+   "facts": [
+    "sub-chatgpt.co2",
+    "sub-chatgpt.cost",
+    "sub-chatgpt.energy",
+    "sub-chatgpt.share_co2",
+    "sub-chatgpt.share_cost",
+    "sub-chatgpt.usage_seat-month"
+   ]
+  },
+  {
+   "id": "sub-claude",
+   "label": "Claude Team (subscription)",
+   "category": "ai",
+   "location": "EU",
+   "provider": "Anthropic",
+   "owner_department": "Overhead",
+   "decides": "Head of Finance",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": null,
+   "project_status": null,
+   "facts": [
+    "sub-claude.co2",
+    "sub-claude.cost",
+    "sub-claude.energy",
+    "sub-claude.share_co2",
+    "sub-claude.share_cost",
+    "sub-claude.usage_seat-month"
+   ]
+  },
+  {
+   "id": "sub-copilot",
+   "label": "Microsoft Copilot (subscription)",
+   "category": "ai",
+   "location": "EU",
+   "provider": "Microsoft",
+   "owner_department": "Overhead",
+   "decides": "Head of Finance",
+   "environment": "<NA>",
+   "criticality_masterdata": "<NA>",
+   "project": null,
+   "project_status": null,
+   "facts": [
+    "sub-copilot.co2",
+    "sub-copilot.cost",
+    "sub-copilot.energy",
+    "sub-copilot.share_co2",
+    "sub-copilot.share_cost",
+    "sub-copilot.usage_seat-month"
+   ]
+  },
+  {
+   "id": "support",
+   "label": "Cloud support",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "AWS",
+   "owner_department": "IT",
+   "decides": "Head of IT",
+   "environment": "<NA>",
+   "criticality_masterdata": "medium",
+   "project": "P-015",
+   "project_status": "ongoing",
+   "facts": [
+    "support.co2",
+    "support.cost",
+    "support.energy",
+    "support.share_co2",
+    "support.share_cost",
+    "support.usage_month"
+   ]
+  },
+  {
+   "id": "vm-app",
+   "label": "App server",
+   "category": "server",
+   "location": "CH",
+   "provider": "Azure",
+   "owner_department": "IT",
+   "decides": "Head of IT",
+   "environment": "prod",
+   "criticality_masterdata": "high",
+   "project": null,
+   "project_status": null,
+   "facts": [
+    "vm-app.co2",
+    "vm-app.cost",
+    "vm-app.cpu_utilisation",
+    "vm-app.energy",
+    "vm-app.share_co2",
+    "vm-app.share_cost",
+    "vm-app.usage_vCPU-hour"
+   ]
+  },
+  {
+   "id": "vm-test",
+   "label": "Test environments",
+   "category": "server",
+   "location": "IE",
+   "provider": "AWS",
+   "owner_department": "IT",
+   "decides": "Head of IT",
+   "environment": "test",
+   "criticality_masterdata": "low",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "facts": [
+    "vm-test.co2",
+    "vm-test.cost",
+    "vm-test.cpu_utilisation",
+    "vm-test.energy",
+    "vm-test.share_co2",
+    "vm-test.share_cost",
+    "vm-test.usage_vCPU-hour"
+   ]
+  },
+  {
+   "id": "web-cdn",
+   "label": "Web hosting and CDN",
+   "category": "cloud",
+   "location": "CH",
+   "provider": "Swiss hoster",
+   "owner_department": "Marketing",
+   "decides": "Head of Marketing",
+   "environment": "prod",
+   "criticality_masterdata": "medium",
+   "project": "P-002",
+   "project_status": "ongoing",
+   "facts": [
+    "web-cdn.co2",
+    "web-cdn.cost",
+    "web-cdn.energy",
+    "web-cdn.share_co2",
+    "web-cdn.share_cost",
+    "web-cdn.usage_GB"
+   ]
+  }
+ ],
+ "servers": [
+  {
+   "id": "srv:app-01",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:app-02",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "high",
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:app-03",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:app-04",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "high",
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:app-05",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "high",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:app-06",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:app-07",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "high",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:app-08",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:app-09",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "high",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:app-10",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:app-11",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:app-12",
+   "resource": "vm-app",
+   "type": "prod",
+   "environment": "prod",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:test-01",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:test-02",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-002",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:test-03",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:test-04",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:test-05",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:test-06",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": "P-002",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:test-07",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:test-08",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-002",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:qa-regression-01",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-001",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:qa-regression-02",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:uat-portal",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:uat-shop",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:dr-failover",
+   "resource": "vm-test",
+   "type": "dr",
+   "environment": "dr",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": "high",
+   "project": "P-015",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:poc-ki-2024",
+   "resource": "vm-test",
+   "type": "poc",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": false,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:migration-alt",
+   "resource": "vm-test",
+   "type": "test",
+   "environment": "test",
+   "vcpu": 4.0,
+   "has_owner": false,
+   "criticality_inventory": null,
+   "project": "P-008",
+   "project_status": "completed",
+   "project_end": "2025-09-30"
+  },
+  {
+   "id": "srv:build-agent-old",
+   "resource": "vm-test",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 4.0,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:sbx-alex-01",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": false,
+   "criticality_inventory": "low",
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  },
+  {
+   "id": "srv:sbx-bea-02",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:sbx-chris-03",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  },
+  {
+   "id": "srv:sbx-dana-04",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": false,
+   "criticality_inventory": "low",
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:sbx-eli-05",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:sbx-fay-06",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:sbx-alex-07",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": false,
+   "criticality_inventory": "low",
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  },
+  {
+   "id": "srv:sbx-bea-08",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-014",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:sbx-chris-09",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  },
+  {
+   "id": "srv:sbx-dana-10",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": false,
+   "criticality_inventory": null,
+   "project": "P-014",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:sbx-eli-11",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  },
+  {
+   "id": "srv:sbx-fay-12",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": "P-014",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:sbx-alex-13",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": false,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:sbx-bea-14",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:sbx-chris-15",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  },
+  {
+   "id": "srv:sbx-dana-16",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": false,
+   "criticality_inventory": null,
+   "project": "P-014",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:sbx-eli-17",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  },
+  {
+   "id": "srv:sbx-fay-18",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-014",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:sbx-alex-19",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": false,
+   "criticality_inventory": null,
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  },
+  {
+   "id": "srv:sbx-bea-20",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-014",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:sbx-chris-21",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  },
+  {
+   "id": "srv:sbx-dana-22",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": false,
+   "criticality_inventory": "low",
+   "project": "P-014",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:sbx-eli-23",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": null,
+   "project": null,
+   "project_status": null,
+   "project_end": null
+  },
+  {
+   "id": "srv:sbx-fay-24",
+   "resource": "sandbox",
+   "type": "dev",
+   "environment": "dev",
+   "vcpu": 0.5,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-014",
+   "project_status": "ongoing",
+   "project_end": NaN
+  },
+  {
+   "id": "srv:gpu-ml-01",
+   "resource": "gpu-ml",
+   "type": "ml",
+   "environment": "dev",
+   "vcpu": 8.0,
+   "has_owner": true,
+   "criticality_inventory": "low",
+   "project": "P-004",
+   "project_status": "completed",
+   "project_end": "2025-06-30"
+  }
+ ],
+ "licences": [
+  {
+   "id": "lic:Accounting software",
+   "tool": "Accounting software",
+   "billing": "annual",
+   "currency": "CHF",
+   "price_per_seat": 38.0,
+   "contract_end": "2027-03-31",
+   "departments": {
+    "Finance": {
+     "purchased": 10,
+     "active": 8
+    }
+   }
+  },
+  {
+   "id": "lic:CRM platform",
+   "tool": "CRM platform",
+   "billing": "annual",
+   "currency": "CHF",
+   "price_per_seat": 55.0,
+   "contract_end": "2026-12-31",
+   "departments": {
+    "Marketing": {
+     "purchased": 10,
+     "active": 6
+    },
+    "Sales": {
+     "purchased": 17,
+     "active": 10
+    }
+   }
+  },
+  {
+   "id": "lic:Chat tool",
+   "tool": "Chat tool",
+   "billing": "monthly",
+   "currency": "USD",
+   "price_per_seat": 8.0,
+   "contract_end": "2026-12-31",
+   "departments": {
+    "Consulting": {
+     "purchased": 34,
+     "active": 24
+    },
+    "Finance": {
+     "purchased": 10,
+     "active": 7
+    },
+    "HR": {
+     "purchased": 5,
+     "active": 4
+    },
+    "IT": {
+     "purchased": 14,
+     "active": 10
+    },
+    "Management": {
+     "purchased": 5,
+     "active": 4
+    },
+    "Marketing": {
+     "purchased": 10,
+     "active": 7
+    },
+    "Sales": {
+     "purchased": 17,
+     "active": 12
+    }
+   }
+  },
+  {
+   "id": "lic:ChatGPT Team",
+   "tool": "ChatGPT Team",
+   "billing": "monthly",
+   "currency": "USD",
+   "price_per_seat": 25.0,
+   "contract_end": "2026-11-30",
+   "departments": {
+    "HR": {
+     "purchased": 4,
+     "active": 0
+    },
+    "Marketing": {
+     "purchased": 7,
+     "active": 1
+    },
+    "Sales": {
+     "purchased": 12,
+     "active": 1
+    }
+   }
+  },
+  {
+   "id": "lic:Claude Team",
+   "tool": "Claude Team",
+   "billing": "monthly",
+   "currency": "USD",
+   "price_per_seat": 25.0,
+   "contract_end": "2026-12-31",
+   "departments": {
+    "Consulting": {
+     "purchased": 20,
+     "active": 17
+    },
+    "IT": {
+     "purchased": 8,
+     "active": 6
+    },
+    "Marketing": {
+     "purchased": 6,
+     "active": 5
+    }
+   }
+  },
+  {
+   "id": "lic:Design tool",
+   "tool": "Design tool",
+   "billing": "monthly",
+   "currency": "USD",
+   "price_per_seat": 20.0,
+   "contract_end": "2026-10-31",
+   "departments": {
+    "Marketing": {
+     "purchased": 8,
+     "active": 3
+    }
+   }
+  },
+  {
+   "id": "lic:E-signature",
+   "tool": "E-signature",
+   "billing": "annual",
+   "currency": "CHF",
+   "price_per_seat": 25.0,
+   "contract_end": "2027-01-31",
+   "departments": {
+    "Finance": {
+     "purchased": 10,
+     "active": 3
+    },
+    "Sales": {
+     "purchased": 17,
+     "active": 5
+    }
+   }
+  },
+  {
+   "id": "lic:HR software",
+   "tool": "HR software",
+   "billing": "annual",
+   "currency": "CHF",
+   "price_per_seat": 9.0,
+   "contract_end": "2027-05-31",
+   "departments": {
+    "Finance": {
+     "purchased": 10,
+     "active": 9
+    },
+    "HR": {
+     "purchased": 5,
+     "active": 4
+    },
+    "Management": {
+     "purchased": 5,
+     "active": 4
+    }
+   }
+  },
+  {
+   "id": "lic:Knowledge base",
+   "tool": "Knowledge base",
+   "billing": "annual",
+   "currency": "USD",
+   "price_per_seat": 10.0,
+   "contract_end": "2027-04-30",
+   "departments": {
+    "Consulting": {
+     "purchased": 34,
+     "active": 17
+    },
+    "HR": {
+     "purchased": 5,
+     "active": 3
+    },
+    "IT": {
+     "purchased": 14,
+     "active": 7
+    }
+   }
+  },
+  {
+   "id": "lic:Microsoft 365",
+   "tool": "Microsoft 365",
+   "billing": "annual",
+   "currency": "USD",
+   "price_per_seat": 14.0,
+   "contract_end": "2027-06-30",
+   "departments": {
+    "Consulting": {
+     "purchased": 43,
+     "active": 37
+    },
+    "Finance": {
+     "purchased": 13,
+     "active": 11
+    },
+    "HR": {
+     "purchased": 6,
+     "active": 6
+    },
+    "IT": {
+     "purchased": 17,
+     "active": 15
+    },
+    "Management": {
+     "purchased": 6,
+     "active": 6
+    },
+    "Marketing": {
+     "purchased": 13,
+     "active": 12
+    },
+    "Sales": {
+     "purchased": 21,
+     "active": 19
+    }
+   }
+  },
+  {
+   "id": "lic:Microsoft Copilot",
+   "tool": "Microsoft Copilot",
+   "billing": "monthly",
+   "currency": "USD",
+   "price_per_seat": 21.0,
+   "contract_end": "2027-02-28",
+   "departments": {
+    "Consulting": {
+     "purchased": 36,
+     "active": 23
+    },
+    "Finance": {
+     "purchased": 11,
+     "active": 5
+    },
+    "HR": {
+     "purchased": 5,
+     "active": 2
+    },
+    "IT": {
+     "purchased": 14,
+     "active": 9
+    },
+    "Management": {
+     "purchased": 5,
+     "active": 3
+    },
+    "Marketing": {
+     "purchased": 11,
+     "active": 7
+    },
+    "Sales": {
+     "purchased": 18,
+     "active": 11
+    }
+   }
+  },
+  {
+   "id": "lic:Note-taking tool",
+   "tool": "Note-taking tool",
+   "billing": "monthly",
+   "currency": "USD",
+   "price_per_seat": 8.0,
+   "contract_end": "2026-11-30",
+   "departments": {
+    "Consulting": {
+     "purchased": 34,
+     "active": 16
+    }
+   }
+  },
+  {
+   "id": "lic:Password manager",
+   "tool": "Password manager",
+   "billing": "annual",
+   "currency": "USD",
+   "price_per_seat": 4.0,
+   "contract_end": "2027-09-30",
+   "departments": {
+    "Consulting": {
+     "purchased": 34,
+     "active": 32
+    },
+    "Finance": {
+     "purchased": 10,
+     "active": 9
+    },
+    "HR": {
+     "purchased": 5,
+     "active": 5
+    },
+    "IT": {
+     "purchased": 14,
+     "active": 12
+    },
+    "Management": {
+     "purchased": 5,
+     "active": 5
+    },
+    "Marketing": {
+     "purchased": 10,
+     "active": 9
+    },
+    "Sales": {
+     "purchased": 17,
+     "active": 16
+    }
+   }
+  },
+  {
+   "id": "lic:Project management",
+   "tool": "Project management",
+   "billing": "monthly",
+   "currency": "EUR",
+   "price_per_seat": 14.0,
+   "contract_end": "2026-11-30",
+   "departments": {
+    "Consulting": {
+     "purchased": 34,
+     "active": 18
+    },
+    "IT": {
+     "purchased": 14,
+     "active": 8
+    }
+   }
+  },
+  {
+   "id": "lic:Project scheduling",
+   "tool": "Project scheduling",
+   "billing": "annual",
+   "currency": "EUR",
+   "price_per_seat": 15.0,
+   "contract_end": "2027-01-31",
+   "departments": {
+    "Consulting": {
+     "purchased": 34,
+     "active": 20
+    },
+    "IT": {
+     "purchased": 14,
+     "active": 8
+    }
+   }
+  },
+  {
+   "id": "lic:Survey tool",
+   "tool": "Survey tool",
+   "billing": "annual",
+   "currency": "EUR",
+   "price_per_seat": 30.0,
+   "contract_end": "2026-12-31",
+   "departments": {
+    "Marketing": {
+     "purchased": 10,
+     "active": 1
+    }
+   }
+  },
+  {
+   "id": "lic:Ticket system",
+   "tool": "Ticket system",
+   "billing": "monthly",
+   "currency": "USD",
+   "price_per_seat": 20.0,
+   "contract_end": "2026-11-30",
+   "departments": {
+    "Consulting": {
+     "purchased": 34,
+     "active": 23
+    },
+    "IT": {
+     "purchased": 14,
+     "active": 9
+    }
+   }
+  },
+  {
+   "id": "lic:Time tracking",
+   "tool": "Time tracking",
+   "billing": "annual",
+   "currency": "CHF",
+   "price_per_seat": 7.0,
+   "contract_end": "2027-08-31",
+   "departments": {
+    "Consulting": {
+     "purchased": 34,
+     "active": 32
+    },
+    "Finance": {
+     "purchased": 10,
+     "active": 8
+    },
+    "HR": {
+     "purchased": 5,
+     "active": 4
+    },
+    "IT": {
+     "purchased": 14,
+     "active": 12
+    },
+    "Management": {
+     "purchased": 5,
+     "active": 4
+    },
+    "Marketing": {
+     "purchased": 10,
+     "active": 9
+    },
+    "Sales": {
+     "purchased": 17,
+     "active": 15
+    }
+   }
+  },
+  {
+   "id": "lic:Video conferencing tool",
+   "tool": "Video conferencing tool",
+   "billing": "monthly",
+   "currency": "EUR",
+   "price_per_seat": 12.0,
+   "contract_end": "2027-02-28",
+   "departments": {
+    "Consulting": {
+     "purchased": 34,
+     "active": 18
+    },
+    "Finance": {
+     "purchased": 10,
+     "active": 6
+    },
+    "HR": {
+     "purchased": 5,
+     "active": 3
+    },
+    "IT": {
+     "purchased": 14,
+     "active": 8
+    },
+    "Management": {
+     "purchased": 5,
+     "active": 3
+    },
+    "Marketing": {
+     "purchased": 10,
+     "active": 5
+    },
+    "Sales": {
+     "purchased": 17,
+     "active": 10
+    }
+   }
+  }
+ ],
+ "ai_tasks": [
+  {
+   "id": "ai:ai-agent:Agent run:large",
+   "resource": "ai-agent",
+   "task": "Agent run",
+   "model_class": "large",
+   "models": [
+    "Claude Sonnet 4.6"
+   ]
+  },
+  {
+   "id": "ai:ai-agent2:Agent run:large",
+   "resource": "ai-agent2",
+   "task": "Agent run",
+   "model_class": "large",
+   "models": [
+    "Claude Sonnet 4.6"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Analyse table:large",
+   "resource": "ai-assistant",
+   "task": "Analyse table",
+   "model_class": "large",
+   "models": [
+    "Azure OpenAI GPT-5.4"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Analyse table:small",
+   "resource": "ai-assistant",
+   "task": "Analyse table",
+   "model_class": "small",
+   "models": [
+    "Azure OpenAI GPT-5.4 mini"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Draft texts:large",
+   "resource": "ai-assistant",
+   "task": "Draft texts",
+   "model_class": "large",
+   "models": [
+    "Azure OpenAI GPT-5.4"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Draft texts:small",
+   "resource": "ai-assistant",
+   "task": "Draft texts",
+   "model_class": "small",
+   "models": [
+    "Azure OpenAI GPT-5.4 mini"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Manual question:large",
+   "resource": "ai-assistant",
+   "task": "Manual question",
+   "model_class": "large",
+   "models": [
+    "Azure OpenAI GPT-5.4"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Manual question:small",
+   "resource": "ai-assistant",
+   "task": "Manual question",
+   "model_class": "small",
+   "models": [
+    "Azure OpenAI GPT-5.4 mini"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Review contract:large",
+   "resource": "ai-assistant",
+   "task": "Review contract",
+   "model_class": "large",
+   "models": [
+    "Azure OpenAI GPT-5.4"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Review contract:small",
+   "resource": "ai-assistant",
+   "task": "Review contract",
+   "model_class": "small",
+   "models": [
+    "Azure OpenAI GPT-5.4 mini"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Summarise:large",
+   "resource": "ai-assistant",
+   "task": "Summarise",
+   "model_class": "large",
+   "models": [
+    "Azure OpenAI GPT-5.4"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Summarise:small",
+   "resource": "ai-assistant",
+   "task": "Summarise",
+   "model_class": "small",
+   "models": [
+    "Azure OpenAI GPT-5.4 mini"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Translate:large",
+   "resource": "ai-assistant",
+   "task": "Translate",
+   "model_class": "large",
+   "models": [
+    "Azure OpenAI GPT-5.4"
+   ]
+  },
+  {
+   "id": "ai:ai-assistant:Translate:small",
+   "resource": "ai-assistant",
+   "task": "Translate",
+   "model_class": "small",
+   "models": [
+    "Azure OpenAI GPT-5.4 mini"
+   ]
+  },
+  {
+   "id": "ai:ai-chatbot:Manual question:large",
+   "resource": "ai-chatbot",
+   "task": "Manual question",
+   "model_class": "large",
+   "models": [
+    "Claude Sonnet 4.6"
+   ]
+  },
+  {
+   "id": "ai:ai-chatbot:Manual question:small",
+   "resource": "ai-chatbot",
+   "task": "Manual question",
+   "model_class": "small",
+   "models": [
+    "GPT-5.4 mini"
+   ]
+  },
+  {
+   "id": "ai:ai-marketing:Classify:large",
+   "resource": "ai-marketing",
+   "task": "Classify",
+   "model_class": "large",
+   "models": [
+    "Claude Sonnet 4.6"
+   ]
+  },
+  {
+   "id": "ai:ai-quote:Draft texts:large",
+   "resource": "ai-quote",
+   "task": "Draft texts",
+   "model_class": "large",
+   "models": [
+    "GPT-5.4"
+   ]
+  },
+  {
+   "id": "ai:ai-report:Agent run:large",
+   "resource": "ai-report",
+   "task": "Agent run",
+   "model_class": "large",
+   "models": [
+    "Claude Sonnet 4.6"
+   ]
+  }
+ ],
+ "anomalies": [
+  {
+   "resource": "ai-agent",
+   "start": "2026-05-18",
+   "end": "2026-05-20",
+   "kind": "spike",
+   "excess_chf": 214.18,
+   "explained_by": null
+  },
+  {
+   "resource": "ai-marketing",
+   "start": "2026-03-17",
+   "end": "2026-03-19",
+   "kind": "one_off_or_peak",
+   "excess_chf": 3308.96,
+   "explained_by": "one-off T-1212"
+  },
+  {
+   "resource": "gpu-ml",
+   "start": "2025-02-01",
+   "end": "2025-02-14",
+   "kind": "level_shift",
+   "excess_chf": 435.95,
+   "explained_by": null
+  },
+  {
+   "resource": "net-egress",
+   "start": "2026-01-12",
+   "end": "2026-01-14",
+   "kind": "one_off_or_peak",
+   "excess_chf": 365.47,
+   "explained_by": "one-off T-1189"
+  },
+  {
+   "resource": "vm-test",
+   "start": "2025-04-01",
+   "end": "2025-04-14",
+   "kind": "level_shift",
+   "excess_chf": 707.24,
+   "explained_by": null
+  }
+ ],
+ "regions_offered": {
+  "ai provider (api)": [
+   "EU",
+   "US"
+  ],
+  "aws": [
+   "CH",
+   "DE",
+   "IE",
+   "SE"
+  ],
+  "azure": [
+   "CH",
+   "DE",
+   "FR",
+   "NL"
+  ],
+  "swiss hoster": [
+   "CH"
+  ]
+ },
+ "calendar": {
+  "baseline": [
+   "2025-09-01",
+   "2026-08-31"
+  ],
+  "data_as_of": "2026-09-06",
+  "note": "quarter days 1–3 = Jan/Apr/Jul/Oct; month-end = last 3 working days (business_calendar.csv)"
+ }
+}

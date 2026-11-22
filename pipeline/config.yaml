@@ -1,0 +1,117 @@
+# Tunable parameters of the GreenOps pipeline.
+# Everything a team member may want to tweak lives here, never in the code.
+
+data_dir: data/case
+output_dir: output
+duckdb_file: output/greenops.duckdb
+
+# Baseline year required by the case (README «Submission»)
+baseline:
+  start: 2025-09-01
+  end: 2026-08-31          # inclusive
+
+# Swiss grid mix scenario of the exported numbers (B2): ch_consumption | ch_production
+scenario: ch_consumption
+
+# Bonus modules (pipeline/bonus/<name>.py, see bonus-plan.md), run in this order.
+# Add a module here once its file exists, e.g. [market, scenarios, clusters, forecast,
+# montecarlo, carbon_aware]. A failing module is reported and skipped unless fail_fast.
+bonus:
+  enabled: [text_risk, clusters, carbon_aware, market, extras, optimized_history, forecast, scenarios, montecarlo, local_ai]
+  fail_fast: false
+
+handover:
+  # Data gaps / source contradictions whose CHF impact exceeds this share of
+  # their category's baseline cost are handed to a human instead of being
+  # resolved automatically.
+  materiality_pct_of_category: 1.0
+
+fx:
+  display_currency: CHF       # CHF | EUR | USD (frontend can override)
+  # Rates used to value measure savings: baseline_avg = average of the 12
+  # monthly rates of the baseline year, so FX moves never create savings.
+  savings_rate_mode: baseline_avg
+
+imputation:
+  # Range of an «estimated» cost = quantity × these quantiles of the
+  # resource's observed unit price.
+  unit_price_range_quantiles: [0.05, 0.95]
+  # Fill whole missing days of resources that are expected to bill daily.
+  gap_fill: true
+  gap_fill_window_days: 7     # neighbours on each side used for the median
+  # Only always-on billing sources: a missing day there is a gap. In usage-
+  # driven sources (AI gateway) a missing day may simply mean no usage.
+  gap_fill_sources: [azure_costs.csv, aws_costs.csv, hoster_invoice.csv]
+  gap_fill_min_coverage: 0.9  # resources billing on fewer expected days are periodic (e.g. monthly support fee)
+
+units:
+  mb_per_gb: 1000             # verified on log_volume and m365_usage
+
+anomaly:
+  # Candidate spikes: daily cost > ratio × rolling median of the resource.
+  daily_cost_ratio_vs_rolling_median: 3.0
+  rolling_window_days: 28
+  min_daily_cost_chf: 5.0
+  min_episode_excess_chf: 50.0   # ignore blips below this
+  # A spike that persists is a level shift (new normal), not an anomaly:
+  # median of the following window > this × median before the episode.
+  level_shift_ratio: 2.0
+  related_ticket_window_days: 14 # tickets on the same resource near the start are attached as context
+
+# Steps 5–8 · LLM advisor (pipeline/advisor/). The LLM reasons and designs the
+# measures; code provides the facts, computes every number and checks safety.
+advisor:
+  agent_model: gpt-5.4-mini      # small, fast model for the area agents and the ticket reader (OpenAI; key in .env)
+  reasoning_effort: low
+  reader_model: gpt-5.4          # ticket reader: restrictions are a safety matter; runs only when tickets change
+  reader_batches: 4              # tickets read in parallel batches
+  goal: climate_first            # climate_first (max CO2) | best_value (cheapest way to the thresholds) | francs_first (max savings)
+  budget_chf: 16500              # implementation budget of this planning round (15 person-days × CHF 1,100)
+  thresholds: {co2: 0.40, cost: 0.25}
+  value_idle_hours_at_idle_power: true    # energy saved by removing idle hours valued at idle power (same model as the energy engine)
+  safety:                        # «safe in X %» = share of the Monte Carlo scenarios in which a package still reaches −40 % CO2
+    method: monte_carlo          # same scenarios and model as the Monte Carlo panel (pipeline/bonus/montecarlo.py)
+    min_share_of_scenarios: 0.7  # no option is proposed below 70 % safety (safety still reported per option)
+    min_share_by_goal:           # risk appetite per option: climate first is the safest by design (max CO2),
+      best_value: 0.8            # best value keeps a comfortable margin, francs first accepts the general 70 %
+    sample: 400                  # scenarios the optimiser decides on (results reported on all 10,000)
+    live_scenarios: 1000         # scenarios exported per measure so the UI can recount safety live when measures are removed
+  data_as_of: 2026-09-06
+  usage_log: output/assistant/usage.jsonl   # tokens per call → «energy of our own AI» (shared with the assistant)
+  severity:                      # finding severity by impact share of the baseline (cost or CO2, whichever is higher)
+    high: 0.02
+    medium: 0.005
+
+# Order matters: dimensions first (later connectors look them up).
+connectors_order:
+  # master data / dimensions
+  - exchange_rates
+  - mapping_departments_tools
+  - business_calendar
+  - projects
+  - data_center_locations
+  - headcount
+  - project_hours_monthly
+  # core sources
+  - azure_costs
+  - aws_costs
+  - hoster_invoice
+  - data_platform_usage
+  - server_metrics_weekly
+  - server_inventory
+  - ai_usage
+  - ai_subscriptions
+  - saas_contracts
+  - it_tickets
+  # extra sources
+  - ai_invoice_monthly
+  - ai_agent_runs
+  - ci_pipeline_runs
+  - data_platform_jobs
+  - data_catalog_tables
+  - powerbi_usage
+  - m365_usage
+  - web_traffic
+  - log_volume
+  - backup_chains
+  - provider_monthly_report

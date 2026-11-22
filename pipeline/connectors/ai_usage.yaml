@@ -1,0 +1,32 @@
+source: ai_usage.csv
+system: AI gateway (daily totals)
+table: stg_ai_usage
+strings: [project_id]
+dates: {date: "%Y-%m-%d"}
+month_from: date
+transforms:
+  - dedupe_exact
+  - normalize_project: {columns: [project_id]}
+  - recover_tokens_out
+  - chf_to_native_usd: {amount_chf: cost_chf}
+  - compute: {target: tokens_total, expr: "tokens_in + tokens_out"}
+cost:
+  provider: provider
+  service: model
+  location: {fixed: EU}
+  quantity: tokens_total
+  unit: {fixed: tokens}
+  department_columns: [department]
+  tool_column: tool
+  project_column: project_id
+  method: "gateway cost = tokens × USD list price × monthly USD→CHF rate"
+activity:
+  - entity: model
+    entity_type: model
+    department: department
+    agg: {}
+    metrics:
+      requests: requests
+      tokens_in: tokens
+      tokens_in_cache: tokens
+      tokens_out: tokens

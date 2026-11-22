@@ -1,0 +1,5 @@
+source: extra/data_center_locations.csv
+system: Provider information
+table: dim_region
+transforms:
+  - region_code: {column: region, target: location_code}

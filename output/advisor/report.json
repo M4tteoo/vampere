@@ -1,0 +1,673 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-22T01:18:00+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "analysis": {
+  "analysed_at": "2026-11-22T01:07:21+01:00",
+  "data_as_of": "2026-09-06",
+  "seconds": 22.4,
+  "timings": {
+   "reader_s": 9.1,
+   "agents_s": 12.2
+  },
+  "model": {
+   "agents": "gpt-5.4-mini",
+   "reader": "gpt-5.4"
+  },
+  "reasoning_effort": "low",
+  "ai_footprint": {
+   "calls": 8,
+   "calls_by_purpose": {
+    "advisor.agent.ai_other": 1,
+    "advisor.agent.licences": 1,
+    "advisor.agent.platform": 1,
+    "advisor.agent.servers": 1,
+    "advisor.reader.b1": 1,
+    "advisor.reader.b2": 1,
+    "advisor.reader.b3": 1,
+    "advisor.reader.b4": 1
+   },
+   "input_tokens": 33578,
+   "cached_input_tokens": 11264,
+   "output_tokens": 8378,
+   "reasoning_tokens": 4070,
+   "output_equivalent_tokens": 4726,
+   "kwh": {
+    "low": 0.00047,
+    "mid": 0.00236,
+    "high": 0.00945
+   },
+   "co2_kg": {
+    "low": 7.1e-05,
+    "mid": 0.000503,
+    "high": 0.002836
+   },
+   "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
+   "source": "measured during this run (token usage returned by the API)",
+   "models": [
+    "gpt-5.4",
+    "gpt-5.4-mini"
+   ]
+  },
+  "calls": [
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b1",
+    "input_tokens": 3667,
+    "cached_input_tokens": 2816,
+    "output_tokens": 329,
+    "reasoning_tokens": 74,
+    "seconds": 3.6
+   },
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b3",
+    "input_tokens": 3677,
+    "cached_input_tokens": 2816,
+    "output_tokens": 419,
+    "reasoning_tokens": 243,
+    "seconds": 6.5
+   },
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b4",
+    "input_tokens": 3635,
+    "cached_input_tokens": 2816,
+    "output_tokens": 667,
+    "reasoning_tokens": 321,
+    "seconds": 6.7
+   },
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b2",
+    "input_tokens": 3707,
+    "cached_input_tokens": 2816,
+    "output_tokens": 858,
+    "reasoning_tokens": 372,
+    "seconds": 9.1
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.platform",
+    "input_tokens": 4060,
+    "cached_input_tokens": 0,
+    "output_tokens": 1165,
+    "reasoning_tokens": 686,
+    "seconds": 6.8
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.servers",
+    "input_tokens": 5007,
+    "cached_input_tokens": 0,
+    "output_tokens": 1238,
+    "reasoning_tokens": 824,
+    "seconds": 8.0
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.licences",
+    "input_tokens": 4621,
+    "cached_input_tokens": 0,
+    "output_tokens": 1721,
+    "reasoning_tokens": 733,
+    "seconds": 10.1
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.ai_other",
+    "input_tokens": 5204,
+    "cached_input_tokens": 0,
+    "output_tokens": 1981,
+    "reasoning_tokens": 817,
+    "seconds": 12.2
+   }
+  ],
+  "previous": null,
+  "reused": {
+   "reader": true,
+   "agents": true
+  },
+  "fingerprint": {
+   "reader": "ec92f0a50e9d67cf",
+   "agents": "654253229382075a"
+  }
+ },
+ "ai_footprint": {
+  "calls": 8,
+  "calls_by_purpose": {
+   "advisor.agent.ai_other": 1,
+   "advisor.agent.licences": 1,
+   "advisor.agent.platform": 1,
+   "advisor.agent.servers": 1,
+   "advisor.reader.b1": 1,
+   "advisor.reader.b2": 1,
+   "advisor.reader.b3": 1,
+   "advisor.reader.b4": 1
+  },
+  "input_tokens": 33578,
+  "cached_input_tokens": 11264,
+  "output_tokens": 8378,
+  "reasoning_tokens": 4070,
+  "output_equivalent_tokens": 4726,
+  "kwh": {
+   "low": 0.00047,
+   "mid": 0.00236,
+   "high": 0.00945
+  },
+  "co2_kg": {
+   "low": 7.1e-05,
+   "mid": 0.000503,
+   "high": 0.002836
+  },
+  "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
+  "source": "measured during this run (token usage returned by the API)",
+  "models": [
+   "gpt-5.4",
+   "gpt-5.4-mini"
+  ]
+ },
+ "constraints": [
+  {
+   "id": "C-01",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1074"
+   },
+   "ticket_id": "T-1074",
+   "applies_to": [
+    "dp-dev"
+   ],
+   "type": "info",
+   "summary": "Development cluster is in Frankfurt for cost reasons; moving to Switzerland is technically possible.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-02",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1189"
+   },
+   "ticket_id": "T-1189",
+   "applies_to": [
+    "net-egress"
+   ],
+   "type": "one_off",
+   "summary": "Migration caused one-off data egress; this is not a permanent usage pattern.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-03",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1204"
+   },
+   "ticket_id": "T-1204",
+   "applies_to": [
+    "vm-test"
+   ],
+   "type": "window",
+   "summary": "Test environment had to remain continuously available during March 2026 acceptance testing and release freeze.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-03-01",
+    "end_date": "2026-03-31"
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-04",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1035"
+   },
+   "ticket_id": "T-1035",
+   "applies_to": [
+    "gpu-ml",
+    "srv:gpu-ml-01"
+   ],
+   "type": "info",
+   "summary": "GPU server was provisioned in Frankfurt for an AI pilot and is currently running continuously.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-05",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1058"
+   },
+   "ticket_id": "T-1058",
+   "applies_to": [
+    "vm-test"
+   ],
+   "type": "planned_change",
+   "summary": "Test environment was enlarged for a project; scale-back is planned after go-live.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-06",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1094"
+   },
+   "ticket_id": "T-1094",
+   "applies_to": [
+    "srv:dr-failover"
+   ],
+   "type": "block",
+   "summary": "Disaster recovery fallback server must keep running even when idle, per management requirement.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": "Head of Management",
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-07",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1128"
+   },
+   "ticket_id": "T-1128",
+   "applies_to": [
+    "ai-assistant"
+   ],
+   "type": "info",
+   "summary": "AI assistant licences are procured per department rather than per individual user.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-08",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1172"
+   },
+   "ticket_id": "T-1172",
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "planned_change",
+   "summary": "Production platform is planned to grow from 16 to 20 nodes from 1 January 2026.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-01-01",
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-09",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1195"
+   },
+   "ticket_id": "T-1195",
+   "applies_to": [
+    "st-backup"
+   ],
+   "type": "block",
+   "summary": "Backup archive must not be deleted because of a retention obligation.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-10",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1053"
+   },
+   "ticket_id": "T-1053",
+   "applies_to": [
+    "dp-dev"
+   ],
+   "type": "window",
+   "summary": "Development cluster must be available continuously on the first three days of each quarter for model training.",
+   "schedule": {
+    "kind": "quarter_days",
+    "days": 3,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-11",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1101"
+   },
+   "ticket_id": "T-1101",
+   "applies_to": [
+    "gpu-ml"
+   ],
+   "type": "info",
+   "summary": "Quarterly training also uses the GPU server during the first three days of January, April, July and October.",
+   "schedule": {
+    "kind": "quarter_days",
+    "days": 3,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-12",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1029"
+   },
+   "ticket_id": "T-1029",
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "Production platform must be available on the last three working days of each month until 04:00 for finance closing.",
+   "schedule": {
+    "kind": "monthly_last_workdays",
+    "days": 3,
+    "from_time": null,
+    "until_time": "04:00",
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-13",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1039"
+   },
+   "ticket_id": "T-1039",
+   "applies_to": [
+    "st-backup"
+   ],
+   "type": "block",
+   "summary": "Backups must be retained for 10 years for legal reasons and must not be deleted.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ambiguous"
+  },
+  {
+   "id": "C-14",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1167"
+   },
+   "ticket_id": "T-1167",
+   "applies_to": [
+    "pbi-07"
+   ],
+   "type": "block",
+   "summary": "Legacy receivables report is needed for audit in the closing month and must not be switched off.",
+   "schedule": {
+    "kind": "always",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-15",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1261"
+   },
+   "ticket_id": "T-1261",
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "planned_change",
+   "summary": "Production platform is planned to grow from 20 to 24 nodes from 1 October 2026.",
+   "schedule": {
+    "kind": "date_range",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": "2026-10-01",
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-16",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Month-end close» starts 18:00 (median 10.1 h); runs on 65 days a year",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": "18:00",
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-17",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Nightly ETL» starts 02:00 (median 1.5 h), must be done by 06:00",
+   "schedule": {
+    "kind": "daily",
+    "days": null,
+    "from_time": "02:00",
+    "until_time": "06:00",
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-18",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «PBI refresh large» starts 05:30 (median 1.2 h), must be done by 07:30",
+   "schedule": {
+    "kind": "daily",
+    "days": null,
+    "from_time": "05:30",
+    "until_time": "07:30",
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-19",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Reporting export» starts 06:00 (median 0.5 h), must be done by 08:00; runs on 456 days a year",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": "06:00",
+    "until_time": "08:00",
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-20",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "dp-prod"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Year-end close analysis» starts 20:00 (median 5.9 h); runs on 43 days a year",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": "20:00",
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  },
+  {
+   "id": "C-21",
+   "source": {
+    "kind": "file",
+    "ref": "extra/data_platform_jobs.csv"
+   },
+   "ticket_id": null,
+   "applies_to": [
+    "st-backup"
+   ],
+   "type": "window",
+   "summary": "scheduled job «Backup snapshot» starts 22:00 (median 0.7 h)",
+   "schedule": {
+    "kind": "daily",
+    "days": null,
+    "from_time": "22:00",
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "system"
+  }
+ ],
+ "reader_ignored": [],
+ "reader_withheld": [
+  {
+   "ticket_id": "T-1230",
+   "reason": "free-text risk classifier: instruction aimed at AI systems (withheld, never sent)"
+  },
+  {
+   "ticket_id": "T-1251",
+   "reason": "free-text risk classifier: instruction aimed at AI systems (withheld, never sent)"
+  }
+ ]
+}

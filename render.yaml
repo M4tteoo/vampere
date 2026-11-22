@@ -1,0 +1,14 @@
+# Render Blueprint for the chat assistant. Lives on the deploy-assistant branch (see deploy/assistant/deploy.sh).
+services:
+  - type: web
+    name: vampere-wattson
+    runtime: docker
+    plan: free
+    branch: deploy-assistant
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false          # asked once in the Render dashboard, never in git
+      - key: ASSISTANT_CORS_ORIGINS
+        sync: false          # e.g. https://vampere.pages.dev

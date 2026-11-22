@@ -1,0 +1,651 @@
+{
+ "fingerprint": "654253229382075a",
+ "reviews": {
+  "platform": {
+   "decisions": [
+    {
+     "key": "C-dp-dev-pause",
+     "keep": true,
+     "cost_share": 0.7762,
+     "energy_share": 0.7762,
+     "effort_days": 3,
+     "status": "ok",
+     "respects_constraints": [
+      "C-01",
+      "C-10"
+     ],
+     "title": "Pause dp-dev when idle",
+     "risk": "Quarter-start training must stay available.",
+     "assumption": "Pause outside required windows only."
+    },
+    {
+     "key": "C-dp-dev-pause-ch",
+     "keep": true,
+     "cost_share": 0.7762,
+     "energy_share": 0.7762,
+     "effort_days": 6,
+     "status": "ok",
+     "respects_constraints": [
+      "C-01",
+      "C-10"
+     ],
+     "title": "Pause dp-dev and move to Zurich",
+     "risk": "Move only if operations accept CH hosting.",
+     "assumption": "CH is available and no extra downtime is planned."
+    },
+    {
+     "key": "C-dp-prod-pause",
+     "keep": true,
+     "cost_share": 0.5526,
+     "energy_share": 0.5526,
+     "effort_days": 4,
+     "status": "human",
+     "respects_constraints": [
+      "C-08",
+      "C-12",
+      "C-15",
+      "C-16",
+      "C-17",
+      "C-18",
+      "C-19",
+      "C-20"
+     ],
+     "title": "Pause dp-prod when idle",
+     "risk": "Could clash with close, ETL, refresh, and export windows.",
+     "assumption": "Ops confirms safe pause rules around all closing jobs."
+    },
+    {
+     "key": "C-gpu-ml-ondemand",
+     "keep": true,
+     "cost_share": 0.8315,
+     "energy_share": 0.8315,
+     "effort_days": 1.5,
+     "status": "ok",
+     "respects_constraints": [
+      "C-04",
+      "C-11"
+     ],
+     "title": "Run gpu-ml on demand",
+     "risk": "Quarterly training days must still run uninterrupted.",
+     "assumption": "Training schedule is preserved."
+    },
+    {
+     "key": "C-gpu-ml-ondemand-ch",
+     "keep": true,
+     "cost_share": 0.8315,
+     "energy_share": 0.8315,
+     "effort_days": 3.5,
+     "status": "ok",
+     "respects_constraints": [
+      "C-04",
+      "C-11"
+     ],
+     "title": "Run gpu-ml on demand in Zurich",
+     "risk": "Move only if the service owner accepts CH hosting.",
+     "assumption": "CH hosting is available and operationally acceptable."
+    }
+   ],
+   "extra_measures": []
+  },
+  "servers": {
+   "decisions": [
+    {
+     "key": "C-zombies",
+     "keep": true,
+     "cost_share": 1,
+     "energy_share": 1,
+     "effort_days": 1,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Decommission forgotten servers",
+     "risk": "Owner sign-off and data retention checks needed.",
+     "assumption": "Systems are truly unused and can be removed safely."
+    },
+    {
+     "key": "C-test-office-hours",
+     "keep": true,
+     "cost_share": 0.5464,
+     "energy_share": 0.5464,
+     "effort_days": 1.5,
+     "status": "ok",
+     "respects_constraints": [
+      "C-03"
+     ],
+     "title": "Run test servers office-hours only",
+     "risk": "Some teams may need off-hours access.",
+     "assumption": "Only noncritical test/QA loads can pause outside office hours."
+    },
+    {
+     "key": "C-vm-test-rightsize",
+     "keep": true,
+     "cost_share": 0.75,
+     "energy_share": 0.75,
+     "effort_days": 2,
+     "status": "human",
+     "respects_constraints": [
+      "C-05"
+     ],
+     "title": "Rightsize vm-test after go-live",
+     "risk": "Capacity might be too tight before project end.",
+     "assumption": "Scale-back happens only after the enlarged project phase ends."
+    },
+    {
+     "key": "C-vm-test-rightsize-ch",
+     "keep": true,
+     "cost_share": 0.75,
+     "energy_share": 0.75,
+     "effort_days": 5,
+     "status": "human",
+     "respects_constraints": [
+      "C-05"
+     ],
+     "title": "Rightsize vm-test and move to Zurich",
+     "risk": "Needs owner approval and migration window.",
+     "assumption": "Provider offers Zurich for this VM and scale-back is allowed."
+    },
+    {
+     "key": "C-vm-test-move-ch",
+     "keep": true,
+     "cost_share": 0,
+     "energy_share": 0,
+     "effort_days": 3,
+     "status": "human",
+     "respects_constraints": [
+      "C-03",
+      "C-05"
+     ],
+     "title": "Move vm-test to Zurich",
+     "risk": "Requires production-style change approval.",
+     "assumption": "Only the electricity mix changes; service stays available."
+    }
+   ],
+   "extra_measures": []
+  },
+  "ai_other": {
+   "decisions": [
+    {
+     "key": "C-cicd-move-ch",
+     "keep": true,
+     "cost_share": 0,
+     "energy_share": 0,
+     "effort_days": 3,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Move cicd to Zurich",
+     "risk": "Needs ops sign-off; migration can affect builds.",
+     "assumption": "Only grid changes; service stays available."
+    },
+    {
+     "key": "C-st-backup-move-ch",
+     "keep": true,
+     "cost_share": 0,
+     "energy_share": 0,
+     "effort_days": 4,
+     "status": "human",
+     "respects_constraints": [
+      "C-09",
+      "C-13",
+      "C-21"
+     ],
+     "title": "Move st-backup to Zurich",
+     "risk": "Backup windows and retention must stay intact.",
+     "assumption": "Data remains kept; only hosting region changes."
+    },
+    {
+     "key": "C-ai-assistant-Drafttexts",
+     "keep": true,
+     "cost_share": 0.42,
+     "energy_share": 0.45,
+     "effort_days": 1,
+     "status": "human",
+     "respects_constraints": [
+      "C-07"
+     ],
+     "title": "Draft texts on small model",
+     "risk": "Quality and tone need business approval.",
+     "assumption": "Default routing only; department licensing unchanged."
+    },
+    {
+     "key": "C-ai-assistant-Summarise",
+     "keep": true,
+     "cost_share": 0.42,
+     "energy_share": 0.45,
+     "effort_days": 1,
+     "status": "human",
+     "respects_constraints": [
+      "C-07"
+     ],
+     "title": "Summarise on small model",
+     "risk": "Summaries may lose nuance on harder inputs.",
+     "assumption": "Default routing only; department licensing unchanged."
+    },
+    {
+     "key": "C-ai-assistant-Translate",
+     "keep": true,
+     "cost_share": 0.42,
+     "energy_share": 0.45,
+     "effort_days": 1,
+     "status": "human",
+     "respects_constraints": [
+      "C-07"
+     ],
+     "title": "Translate on small model",
+     "risk": "Terminology quality may drop for legal text.",
+     "assumption": "Default routing only; department licensing unchanged."
+    },
+    {
+     "key": "C-ai-marketing-Classify",
+     "keep": true,
+     "cost_share": 0.42,
+     "energy_share": 0.45,
+     "effort_days": 1,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Classify on small model",
+     "risk": "Needs marketing acceptance for edge cases.",
+     "assumption": "Only default changes; manual override remains."
+    },
+    {
+     "key": "C-stale-tables",
+     "keep": true,
+     "cost_share": 0.1904,
+     "energy_share": 0.1904,
+     "effort_days": 2,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove unread tables",
+     "risk": "Some unread tables may still need retention review.",
+     "assumption": "Only tables without retention obligation are removed."
+    },
+    {
+     "key": "C-ci-skip",
+     "keep": true,
+     "cost_share": 0.0322,
+     "energy_share": 0.0322,
+     "effort_days": 0.5,
+     "status": "ok",
+     "respects_constraints": [],
+     "title": "Skip unchanged nightly builds",
+     "risk": "Low risk; only no-change runs are skipped.",
+     "assumption": "Change detection is reliable enough."
+    },
+    {
+     "key": "C-ci-skip-ch",
+     "keep": true,
+     "cost_share": 0.0322,
+     "energy_share": 0.0322,
+     "effort_days": 1.5,
+     "status": "human",
+     "respects_constraints": [
+      "C-21"
+     ],
+     "title": "Skip builds and move to Zurich",
+     "risk": "Migration needs release timing and owner approval.",
+     "assumption": "Build behavior stays unchanged except region."
+    },
+    {
+     "key": "C-report-agent",
+     "keep": true,
+     "cost_share": 0.7246,
+     "energy_share": 0.7246,
+     "effort_days": 0.5,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Generate reports on request",
+     "risk": "May affect reporting habits and expectations.",
+     "assumption": "Requests cover only truly needed reports."
+    },
+    {
+     "key": "C-log-retention",
+     "keep": true,
+     "cost_share": 0.3563,
+     "energy_share": 0.3563,
+     "effort_days": 1,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Shorten log retention",
+     "risk": "Compliance and troubleshooting needs must be checked.",
+     "assumption": "Only services allowed to shorten retention are changed."
+    }
+   ],
+   "extra_measures": [
+    {
+     "title": "Small model for manual questions",
+     "description": "Default ai-assistant manual questions to the small model.",
+     "effects": [
+      {
+       "scope": "ai:ai-assistant:Manual question:large",
+       "cost_share": 0.42,
+       "energy_share": 0.45,
+       "relocate_to": null
+      }
+     ],
+     "effort_days": 1,
+     "status": "human",
+     "owner_role": "Head of Consulting",
+     "respects_constraints": [
+      "C-07"
+     ],
+     "basis_fact_ids": [
+      "ai:ai-assistant:Manual question:large.cost",
+      "ai:ai-assistant:Manual question:small.cost",
+      "ai:ai-assistant:Manual question:large.energy",
+      "ai:ai-assistant:Manual question:small.energy"
+     ],
+     "risk": "May reduce answer quality for complex queries.",
+     "assumption": "Escalation to large model stays available."
+    },
+    {
+     "title": "Small model for contract review",
+     "description": "Default ai-assistant contract reviews to the small model.",
+     "effects": [
+      {
+       "scope": "ai:ai-assistant:Review contract:large",
+       "cost_share": 0.42,
+       "energy_share": 0.45,
+       "relocate_to": null
+      }
+     ],
+     "effort_days": 1,
+     "status": "human",
+     "owner_role": "Head of Management",
+     "respects_constraints": [
+      "C-07"
+     ],
+     "basis_fact_ids": [
+      "ai:ai-assistant:Review contract:large.cost",
+      "ai:ai-assistant:Review contract:small.cost",
+      "ai:ai-assistant:Review contract:large.energy",
+      "ai:ai-assistant:Review contract:small.energy"
+     ],
+     "risk": "Legal nuance may need manual review.",
+     "assumption": "High-risk contracts can still use the large model."
+    }
+   ]
+  },
+  "licences": {
+   "decisions": [
+    {
+     "key": "C-CRM platform",
+     "keep": true,
+     "cost_share": 0.3762,
+     "energy_share": 0.0,
+     "effort_days": 0.75,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive CRM seats",
+     "risk": "Some inactive users may need access by quarter-end.",
+     "assumption": "Renew at contract end; inactive seats are truly unused."
+    },
+    {
+     "key": "C-Chat tool",
+     "keep": true,
+     "cost_share": 0.2883,
+     "energy_share": 0.0,
+     "effort_days": 0.5,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive chat seats",
+     "risk": "Occasional users may lose access to chat history.",
+     "assumption": "Renewal can trim only confirmed inactive seats."
+    },
+    {
+     "key": "C-ChatGPT Team",
+     "keep": true,
+     "cost_share": 0.7728,
+     "energy_share": 0.0,
+     "effort_days": 0.5,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive ChatGPT seats",
+     "risk": "A few users may still need AI access occasionally.",
+     "assumption": "Most paid seats are unused and removable at renewal."
+    },
+    {
+     "key": "C-Design tool",
+     "keep": true,
+     "cost_share": 0.5625,
+     "energy_share": 0.0,
+     "effort_days": 0.5,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive design seats",
+     "risk": "Design handovers may need temporary access reinstatement.",
+     "assumption": "Inactive seats are spare or redundant."
+    },
+    {
+     "key": "C-E-signature",
+     "keep": true,
+     "cost_share": 0.6325,
+     "energy_share": 0.0,
+     "effort_days": 0.75,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive e-sign seats",
+     "risk": "Signing peaks may need extra seats later.",
+     "assumption": "Inactive seats are not needed for approvals."
+    },
+    {
+     "key": "C-Knowledge base",
+     "keep": true,
+     "cost_share": 0.4681,
+     "energy_share": 0.0,
+     "effort_days": 0.75,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive knowledge seats",
+     "risk": "Some readers may only access content seasonally.",
+     "assumption": "Unused seats can be reassigned or dropped."
+    },
+    {
+     "key": "C-Microsoft Copilot",
+     "keep": true,
+     "cost_share": 0.3667,
+     "energy_share": 0.0,
+     "effort_days": 0.5,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive Copilot seats",
+     "risk": "Executive or project spikes may need quick reactivation.",
+     "assumption": "Inactive users are not using Copilot in practice."
+    },
+    {
+     "key": "C-Note-taking tool",
+     "keep": true,
+     "cost_share": 0.5015,
+     "energy_share": 0.0,
+     "effort_days": 0.5,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive note seats",
+     "risk": "Meeting-heavy periods may briefly need extra seats.",
+     "assumption": "Inactive seats are not business-critical."
+    },
+    {
+     "key": "C-Project management",
+     "keep": true,
+     "cost_share": 0.4155,
+     "energy_share": 0.0,
+     "effort_days": 0.5,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive PM seats",
+     "risk": "Project leads may need access during resourcing changes.",
+     "assumption": "Only confirmed inactive seats are removed."
+    },
+    {
+     "key": "C-Project scheduling",
+     "keep": true,
+     "cost_share": 0.3706,
+     "energy_share": 0.0,
+     "effort_days": 0.75,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive scheduling seats",
+     "risk": "Scheduling coverage may temporarily drop during absences.",
+     "assumption": "Renewal allows trimming unused seats safely."
+    },
+    {
+     "key": "C-Survey tool",
+     "keep": true,
+     "cost_share": 0.795,
+     "energy_share": 0.0,
+     "effort_days": 0.75,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive survey seats",
+     "risk": "Rare campaign users may need access later.",
+     "assumption": "Most purchased seats are nonessential and removable."
+    },
+    {
+     "key": "C-Ticket system",
+     "keep": true,
+     "cost_share": 0.3369,
+     "energy_share": 0.0,
+     "effort_days": 0.5,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive ticket seats",
+     "risk": "Support coverage may need a small buffer.",
+     "assumption": "Inactive seats are unused and can be dropped."
+    },
+    {
+     "key": "C-Video conferencing tool",
+     "keep": true,
+     "cost_share": 0.4204,
+     "energy_share": 0.0,
+     "effort_days": 0.5,
+     "status": "human",
+     "respects_constraints": [],
+     "title": "Remove inactive conferencing seats",
+     "risk": "Temporary external meetings may need extra licenses.",
+     "assumption": "Inactive seats are not required for normal operations."
+    }
+   ],
+   "extra_measures": []
+  }
+ },
+ "analysis": {
+  "analysed_at": "2026-11-22T01:07:21+01:00",
+  "data_as_of": "2026-09-06",
+  "seconds": 22.4,
+  "timings": {
+   "reader_s": 9.1,
+   "agents_s": 12.2
+  },
+  "model": {
+   "agents": "gpt-5.4-mini",
+   "reader": "gpt-5.4"
+  },
+  "reasoning_effort": "low",
+  "ai_footprint": {
+   "calls": 8,
+   "calls_by_purpose": {
+    "advisor.agent.ai_other": 1,
+    "advisor.agent.licences": 1,
+    "advisor.agent.platform": 1,
+    "advisor.agent.servers": 1,
+    "advisor.reader.b1": 1,
+    "advisor.reader.b2": 1,
+    "advisor.reader.b3": 1,
+    "advisor.reader.b4": 1
+   },
+   "input_tokens": 33578,
+   "cached_input_tokens": 11264,
+   "output_tokens": 8378,
+   "reasoning_tokens": 4070,
+   "output_equivalent_tokens": 4726,
+   "kwh": {
+    "low": 0.00047,
+    "mid": 0.00236,
+    "high": 0.00945
+   },
+   "co2_kg": {
+    "low": 7.1e-05,
+    "mid": 0.000503,
+    "high": 0.002836
+   },
+   "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
+   "source": "measured during this run (token usage returned by the API)",
+   "models": [
+    "gpt-5.4",
+    "gpt-5.4-mini"
+   ]
+  },
+  "calls": [
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b1",
+    "input_tokens": 3667,
+    "cached_input_tokens": 2816,
+    "output_tokens": 329,
+    "reasoning_tokens": 74,
+    "seconds": 3.6
+   },
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b3",
+    "input_tokens": 3677,
+    "cached_input_tokens": 2816,
+    "output_tokens": 419,
+    "reasoning_tokens": 243,
+    "seconds": 6.5
+   },
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b4",
+    "input_tokens": 3635,
+    "cached_input_tokens": 2816,
+    "output_tokens": 667,
+    "reasoning_tokens": 321,
+    "seconds": 6.7
+   },
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b2",
+    "input_tokens": 3707,
+    "cached_input_tokens": 2816,
+    "output_tokens": 858,
+    "reasoning_tokens": 372,
+    "seconds": 9.1
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.platform",
+    "input_tokens": 4060,
+    "cached_input_tokens": 0,
+    "output_tokens": 1165,
+    "reasoning_tokens": 686,
+    "seconds": 6.8
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.servers",
+    "input_tokens": 5007,
+    "cached_input_tokens": 0,
+    "output_tokens": 1238,
+    "reasoning_tokens": 824,
+    "seconds": 8.0
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.licences",
+    "input_tokens": 4621,
+    "cached_input_tokens": 0,
+    "output_tokens": 1721,
+    "reasoning_tokens": 733,
+    "seconds": 10.1
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.ai_other",
+    "input_tokens": 5204,
+    "cached_input_tokens": 0,
+    "output_tokens": 1981,
+    "reasoning_tokens": 817,
+    "seconds": 12.2
+   }
+  ],
+  "previous": null
+ }
+}

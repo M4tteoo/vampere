@@ -1,0 +1,42 @@
+source: aws_costs.csv
+system: AWS Cost and Usage Report
+table: stg_aws_costs
+rename:
+  line_item_usage_start_date: usage_start
+  line_item_resource_id: resource_arn
+  product_servicecode: service
+  product_region: region
+  line_item_usage_amount: quantity
+  pricing_unit: unit
+  line_item_unblended_cost: amount_native
+  line_item_currency_code: currency_native
+  line_item_line_item_type: charge_type
+  resource_tags_user_department: tag_department
+  resource_tags_user_tool: tag_tool
+  resource_tags_user_project: tag_project
+  resource_tags_user_environment: tag_environment
+  avg_cpu_utilization: cpu_avg_pct
+  line_item_description: description
+strings: [tag_department, tag_tool, tag_project, tag_environment, description]
+month_from: date
+transforms:
+  - dedupe_exact
+  - date_part: {column: usage_start, target: date}
+  - resource_id_last: {column: resource_arn, sep: ":"}
+  - normalize_project: {columns: [tag_project]}
+free_text: {columns: [description], resource_id: resource_id}
+cost:
+  provider: {fixed: AWS}
+  service: service
+  region: region
+  quantity: quantity
+  unit: unit
+  charge_category: charge_type
+  department_columns: [tag_department]
+  project_column: tag_project
+  environment_column: tag_environment
+  impute: unit_price
+activity:
+  - entity: resource_id
+    entity_type: resource
+    metrics: {cpu_avg_pct: percent, object_requests: requests}

@@ -1,0 +1,27 @@
+{
+ "meta": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-22T01:18:00+01:00",
+  "baseline": {
+   "start": "2025-09-01",
+   "end": "2026-08-31"
+  },
+  "scenario": "ch_consumption"
+ },
+ "status": "complete",
+ "applied_measure_ids": [
+  "M-02",
+  "M-03",
+  "M-04",
+  "M-08",
+  "M-19",
+  "M-34"
+ ],
+ "requires_confirmation": [
+  "M-03",
+  "M-08",
+  "M-34"
+ ],
+ "skipped": [],
+ "goal": "climate_first"
+}

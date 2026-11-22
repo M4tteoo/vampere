@@ -1,0 +1,5 @@
+source: extra/projects.csv
+system: Project administration
+table: dim_project
+transforms:
+  - normalize_project: {columns: [project_id]}
