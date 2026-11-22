@@ -3,6 +3,7 @@ import { useApp } from '../store'
 import { makeCtx } from '../data/twin'
 import { unitOf } from '../data/usage'
 import { PANEL_W } from '../scene/Scene'
+import { SPINNER_INTERVAL_MS, randomVerb } from './spinnerVerbs'
 
 /** Indirizzo dell'assistente: in sviluppo il proxy di Vite (/api → 127.0.0.1:8787), altrimenti VITE_ASSISTANT_URL. */
 const API = (import.meta.env.VITE_ASSISTANT_URL as string | undefined) ?? ''
@@ -106,7 +107,7 @@ export function Chat() {
                 </div>
               </div>
             ))}
-            {busy && <div className="text-[13px] text-muted">Thinking…</div>}
+            {busy && <SpinnerVerb />}
             <div ref={end} />
           </div>
           <form
@@ -133,6 +134,16 @@ export function Chat() {
       </button>
     </div>
   )
+}
+
+/** Verbo casuale che cambia a intervalli mentre l'assistente lavora. */
+function SpinnerVerb() {
+  const [verb, setVerb] = useState(() => randomVerb())
+  useEffect(() => {
+    const id = setInterval(() => setVerb((v) => randomVerb(v)), SPINNER_INTERVAL_MS)
+    return () => clearInterval(id)
+  }, [])
+  return <div className="text-[13px] text-muted">{verb}…</div>
 }
 
 /** Oggetti citati nella risposta: un clic apre il reparto che li usa e li seleziona. */
