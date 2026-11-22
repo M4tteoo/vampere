@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useApp } from '../store'
 import { DEPARTMENTS, DEPT_LABEL, makeCtx } from '../data/twin'
 import { fmtMetric } from '../data/compute'
@@ -47,6 +47,13 @@ export function PackagesPanel({ x }: { x: Extra }) {
   const goal = goalOf(x, goalSel)
   // Le misure della strategia scelta si possono chiudere, così si vedono tutte le strategie insieme.
   const [open, setOpen] = useState(true)
+  // Una misura aperta da un clic nella scena: la lista si riapre e la misura scorre in vista.
+  const focus = useApp((s) => s.focus)
+  useEffect(() => {
+    if (!focus) return
+    setOpen(true)
+    requestAnimationFrame(() => document.getElementById(`measure-${focus}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }))
+  }, [focus])
   const co2 = useCo2(ctx)
   const reduction = (ids: string[]) => {
     const t = totalSaved(co2.saved(savedByRaw(ctx, x, ids)))
@@ -86,6 +93,12 @@ export function PackagesPanel({ x }: { x: Extra }) {
                   <span className="min-w-0">
                   <span className="block text-[15px] font-semibold text-ink">{GOAL_LABEL[g] ?? g}</span>
                   <span className="block text-[12px] text-muted">{GOAL_HINT[g] ?? ''}</span>
+                  {/* Quanto costa realizzarla: spiega perché «Best value» può togliere un po' meno CO₂ ma per meno lavoro. */}
+                  {x.packages[g] && (
+                    <span className="block text-[11px] text-muted-soft tabular-nums">
+                      {x.packages[g].effort_days} days of work · {fmtMetric(x.packages[g].effort_chf, 'cost_chf')}
+                    </span>
+                  )}
                   </span>
                 </span>
                 <span className="shrink-0 text-right text-[12px] leading-[17px] tabular-nums">
@@ -147,7 +160,7 @@ function MeasureList({ x, goal }: { x: Extra; goal: string }) {
           const open = focus === m.id
           const tag = measureTag(m)
           return (
-            <li key={m.id} className={`rounded-[10px] transition ${open ? 'bg-surface-soft ring-1 ring-ink/15' : 'hover:bg-surface-soft'}`}>
+            <li key={m.id} id={`measure-${m.id}`} className={`rounded-[10px] transition ${open ? 'bg-surface-soft ring-1 ring-ink/15' : 'hover:bg-surface-soft'}`}>
               <div className="flex items-start gap-2.5 px-2 py-2">
                 <button
                   onClick={() => toggle(m.id)}

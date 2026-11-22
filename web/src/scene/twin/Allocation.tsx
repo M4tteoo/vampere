@@ -14,6 +14,7 @@ import { useAnchors } from './Environment'
 import { useScreen } from './screen'
 import { MARK_COLOR, deptMark, useHeat, type HeatView } from './heat'
 import { BlueprintBuild, buildGroups } from './BlueprintBuild'
+import { goalOf, planIds } from '../../data/plan'
 
 const OFFICE = `${MODELS}/env_office_v1.glb`
 const ISLANDS = `${MODELS}/env_islands_v1.glb`
@@ -692,16 +693,27 @@ export function AllocationScene() {
     if (!room) hover(`room:${roomOf(id)}`)
     else hover(stage === 'office' ? id : 'stage:office')
   }
+  // Passo 3: niente schede a destra; un clic su un oggetto apre (nel pannello a sinistra) la misura del pacchetto che lo riguarda.
+  const goalSel = useApp((s) => s.goal)
+  const setFocus = useApp((s) => s.setFocus)
+  const stepNow = useApp((s) => s.step)
+  const pickItem = (id: string) => {
+    if (stepNow !== 'packages' || !data.extra) return select(id)
+    const u = unitAt(id)
+    if (!u) return
+    const m = planIds(data.extra, goalOf(data.extra, goalSel), []).find((mid) => heat.unitsOfMeasure(mid).includes(u))
+    if (m) setFocus(m)
+  }
   const onOfficeSelect = (id: string) => {
     if (!room) {
       const r = roomOf(id)
       if (r) setRoom(r)
     } else if (stage === 'cloud') setStage('office')
-    else select(id)
+    else pickItem(id)
   }
   const split = !!layout?.split
   const onIslandHover = (id: string | null) => (live3d ? hover(id ? (split || stage === 'cloud' ? id : 'stage:cloud') : null) : undefined)
-  const onIslandSelect = (id: string) => (live3d ? (!split && stage === 'office' ? setStage('cloud') : select(id)) : undefined)
+  const onIslandSelect = (id: string) => (live3d ? (!split && stage === 'office' ? setStage('cloud') : pickItem(id)) : undefined)
 
   return (
     <group>

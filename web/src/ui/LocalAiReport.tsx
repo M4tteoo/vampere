@@ -9,8 +9,7 @@ import { Chip } from './primitives'
 
 const SERIES_COLOR: Record<string, string> = { api_only: '#8A8A8A', best_value: '#1F7A57', lowest_co2: '#6E9FD6' }
 
-const fig = (unit: 'CHF' | 'kg' | 'months', v: number | null) =>
-  v == null ? 'not within 3 years' : unit === 'CHF' ? fmtChf(v) : unit === 'kg' ? fmtMetric(v, 'co2_kg') : `${Math.round(v)} months`
+const fig = (unit: 'CHF' | 'kg' | 'months', v: number | null) => (v == null ? 'not within 3 years' : unit === 'CHF' ? fmtChf(v) : unit === 'kg' ? fmtMetric(v, 'co2_kg') : `${Math.round(v)} months`)
 const short = (unit: string, v: number) => (unit === 'CHF' ? fmtChf(v) : unit === 'kg' ? fmtMetric(v, 'co2_kg') : fmtMetric(v, 'kwh'))
 
 /** Scheda in fondo all'elenco dei pacchetti: la conclusione in una riga e il bottone per il report. */
@@ -29,7 +28,7 @@ export function LocalAiCard() {
       <p className="mt-1 text-[12px] leading-[17px] text-body">{panel.tools.headline}</p>
       {saving?.mid != null && (
         <p className="mt-1 text-[12px] text-muted">
-          <span className="font-semibold text-primary">−{fmtChf(saving.mid)}</span> in 3 years · break-even {fig('months', be?.mid ?? null)}
+          <span className="font-semibold text-primary">−{fmtChf(saving.mid)}</span> in 3 years · setup paid back after {fig('months', be?.mid ?? null)}
         </p>
       )}
       <button onClick={() => open(true)} className="mt-2 rounded-full bg-ink px-3.5 py-1.5 text-[13px] font-semibold text-white">
@@ -82,42 +81,56 @@ export function LocalAiReport() {
 }
 
 function Options({ panel }: { panel: LocalAiPanel }) {
+  // Il primo punto della curva dei costi cumulati è la spesa iniziale (setup) dell'opzione.
+  const setup = panel.charts.find((c) => c.id === 'cost')?.series.find((x) => x.id !== 'api_only')?.values[0]
   return (
-    <section className={`grid gap-5 ${panel.options.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
-      {panel.options.map((o) => {
-        const f = (k: string) => o.figures.find((x) => x.key === k)
-        const saving = f('saving')
-        const be = f('breakeven')
-        return (
-          <div key={o.id} className="rounded-[14px] border border-hairline-soft p-5">
-            <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full" style={{ background: SERIES_COLOR[o.id] }} />
-              <h3 className="text-[18px] font-semibold text-ink">{o.title}</h3>
-              {o.owned && <Chip tone="primary">Server we already have</Chip>}
+    <>
+      {setup != null && setup > 0 && (
+        <p className="mb-4 text-[13px] text-body">
+          <span className="font-semibold text-ink">Why it is not paid back at once:</span> going in-house costs about {fmtChf(setup)} up front (setup of the server and the models). After that, every
+          month costs less than the API: «paid back after» is when those monthly savings have covered the setup.
+        </p>
+      )}
+      <section className={`grid gap-5 ${panel.options.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        {panel.options.map((o) => {
+          const f = (k: string) => o.figures.find((x) => x.key === k)
+          const saving = f('saving')
+          const be = f('breakeven')
+          return (
+            <div key={o.id} className="rounded-[14px] border border-hairline-soft p-5">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full" style={{ background: SERIES_COLOR[o.id] }} />
+                <h3 className="text-[18px] font-semibold text-ink">{o.title}</h3>
+                {o.owned && <Chip tone="primary">Server we already have</Chip>}
+              </div>
+              <p className="mt-1 text-[13px] text-body">{o.summary}</p>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <Big
+                  label="Saving in 3 years"
+                  value={fig('CHF', saving?.mid ?? null)}
+                  range={saving && saving.low != null && saving.high != null ? `${fmtChf(saving.low)} – ${fmtChf(saving.high)}` : undefined}
+                />
+                <Big label="Paid back after" value={fig('months', be?.mid ?? null)} range={be && be.low != null && be.high != null ? `${be.low} – ${be.high} months` : undefined} />
+              </div>
+              <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1 text-[12px]">
+                {(['api_3y', 'local_3y', 'co2_api', 'co2_local'] as const).map((k) => {
+                  const x = f(k)
+                  return x ? (
+                    <div key={k} className="flex justify-between gap-2 border-b border-hairline-soft py-1">
+                      <dt className="text-muted">{x.label}</dt>
+                      <dd className="font-semibold text-ink tabular-nums">{fig(x.unit, x.mid)}</dd>
+                    </div>
+                  ) : null
+                })}
+              </dl>
+              <p className="mt-3 text-[12px] text-muted">
+                <span className="font-semibold text-ink">In-house:</span> {o.tools_local.join(', ')}. <span className="font-semibold text-ink">Stay on the API:</span> {o.tools_api.join(', ')}.
+              </p>
             </div>
-            <p className="mt-1 text-[13px] text-body">{o.summary}</p>
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              <Big label="Saving in 3 years" value={fig('CHF', saving?.mid ?? null)} range={saving && saving.low != null && saving.high != null ? `${fmtChf(saving.low)} – ${fmtChf(saving.high)}` : undefined} />
-              <Big label="Break-even" value={fig('months', be?.mid ?? null)} range={be && be.low != null && be.high != null ? `${be.low} – ${be.high} months` : undefined} />
-            </div>
-            <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1 text-[12px]">
-              {(['api_3y', 'local_3y', 'co2_api', 'co2_local'] as const).map((k) => {
-                const x = f(k)
-                return x ? (
-                  <div key={k} className="flex justify-between gap-2 border-b border-hairline-soft py-1">
-                    <dt className="text-muted">{x.label}</dt>
-                    <dd className="font-semibold text-ink tabular-nums">{fig(x.unit, x.mid)}</dd>
-                  </div>
-                ) : null
-              })}
-            </dl>
-            <p className="mt-3 text-[12px] text-muted">
-              <span className="font-semibold text-ink">In-house:</span> {o.tools_local.join(', ')}. <span className="font-semibold text-ink">Stay on the API:</span> {o.tools_api.join(', ')}.
-            </p>
-          </div>
-        )
-      })}
-    </section>
+          )
+        })}
+      </section>
+    </>
   )
 }
 
