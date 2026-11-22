@@ -123,8 +123,13 @@ export function Chat() {
   const msgs = chats.find((c) => c.id === cur)?.msgs ?? []
   const busy = cur !== null && pending.includes(cur)
 
-  useEffect(() => saveChats(chats), [chats])
-  useEffect(() => end.current?.scrollIntoView({ behavior: 'smooth' }), [msgs.length, busy, view])
+  useEffect(() => {
+    saveChats(chats)
+  }, [chats])
+  // Graffe: nei Chrome recenti scrollIntoView restituisce una Promise, che React prenderebbe per la funzione di pulizia (pagina bianca).
+  useEffect(() => {
+    end.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [msgs.length, busy, view])
 
   const show = (id: string | null) => {
     curRef.current = id
@@ -146,7 +151,9 @@ export function Chat() {
       return [next, ...cs.filter((x) => x.id !== id)].slice(0, MAX_CHATS)
     })
   // Carica subito tutte le pose, così i cambi sono istantanei.
-  useEffect(() => POSES.forEach((p) => (new Image().src = poseSrc(p))), [])
+  useEffect(() => {
+    POSES.forEach((p) => (new Image().src = poseSrc(p)))
+  }, [])
   // Mentre lavora alterna «pensa» e «cerca», allo stesso ritmo dei verbi dello spinner.
   useEffect(() => {
     if (!busy) return
