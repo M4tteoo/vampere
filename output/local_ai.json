@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T19:41:33+01:00",
+  "generated_at": "2026-11-22T01:18:20+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -12405,8 +12405,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3285.0,
       "mid": 3290.0,
@@ -12628,8 +12628,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3285.0,
       "mid": 3290.0,
@@ -12853,8 +12853,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3285.0,
       "mid": 3290.0,
@@ -13082,8 +13082,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3285.0,
       "mid": 3290.0,
@@ -13312,8 +13312,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3285.0,
       "mid": 3290.0,
@@ -13554,8 +13554,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3613.0,
       "mid": 3618.0,
@@ -13565,7 +13565,7 @@
     },
     {
      "measure_id": "M-05",
-     "title": "Use GPU on demand and move",
+     "title": "Run gpu-ml on demand in Zurich",
      "in_package": false,
      "cost_chf_per_year": null,
      "note": "Same move as M-05; its 3.5 person-days are in the setup."
@@ -13778,8 +13778,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3613.0,
       "mid": 3618.0,
@@ -13789,7 +13789,7 @@
     },
     {
      "measure_id": "M-05",
-     "title": "Use GPU on demand and move",
+     "title": "Run gpu-ml on demand in Zurich",
      "in_package": false,
      "cost_chf_per_year": null,
      "note": "Same move as M-05; its 3.5 person-days are in the setup."
@@ -14004,8 +14004,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3613.0,
       "mid": 3618.0,
@@ -14015,7 +14015,7 @@
     },
     {
      "measure_id": "M-05",
-     "title": "Use GPU on demand and move",
+     "title": "Run gpu-ml on demand in Zurich",
      "in_package": false,
      "cost_chf_per_year": null,
      "note": "Same move as M-05; its 3.5 person-days are in the setup."
@@ -14234,8 +14234,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3613.0,
       "mid": 3618.0,
@@ -14245,7 +14245,7 @@
     },
     {
      "measure_id": "M-05",
-     "title": "Use GPU on demand and move",
+     "title": "Run gpu-ml on demand in Zurich",
      "in_package": false,
      "cost_chf_per_year": null,
      "note": "Same move as M-05; its 3.5 person-days are in the setup."
@@ -14465,8 +14465,8 @@
    "interacts_with": [
     {
      "measure_id": "M-04",
-     "title": "Use GPU only on demand",
-     "in_package": false,
+     "title": "Run gpu-ml on demand",
+     "in_package": true,
      "cost_chf_per_year": {
       "low": 3613.0,
       "mid": 3618.0,
@@ -14476,7 +14476,7 @@
     },
     {
      "measure_id": "M-05",
-     "title": "Use GPU on demand and move",
+     "title": "Run gpu-ml on demand in Zurich",
      "in_package": false,
      "cost_chf_per_year": null,
      "note": "Same move as M-05; its 3.5 person-days are in the setup."

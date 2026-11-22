@@ -12,6 +12,7 @@ from ..harmonize.context import Context
 from ..harmonize.store import _meta
 from .calculator import PERSON_DAY_CHF, Calculator
 from .plan import evaluate as _eval_measures
+from .toolbox import TRIGGERS
 
 TZ = "Europe/Zurich"
 
@@ -160,15 +161,17 @@ def build(ctx: Context, facts: dict, constraints: list[dict], raw_c: dict, assem
                        for l in m["_lines"]] + [{"name": f"{l['scope']} cost share removed", "value": l["cost_share"], "unit": "share",
                                                   "source": ", ".join(l["basis_fact_ids"]) or "advisor"} for l in m["_lines"]]
         reason = m["status_reason"] if m["status"] != "ok" else ""
+        trig = [m["human_trigger"]] if reason and m.get("human_trigger") else []
         if m["gate_reasons"]:
             reason = (reason + " · " if reason else "") + "Safety gate: " + "; ".join(m["gate_reasons"])
+            trig += [] if "protected" in trig else ["protected"]   # gate reasons come from tickets / protection windows
         out_m.append({
             "id": mkey[m["key"]], "title": m["title"], "description": m["description"], "type": m["type"],
             "entity_ids": ents, "finding_ids": [fkey[k] for k in m["finding_keys"] if k in fkey],
             "limit_ids": [limit_of[c_] for c_ in m["limit_ids"] if c_ in limit_of],
             "effort_days": m["effort_days"], "effort_chf": m["effort_days"] * PERSON_DAY_CHF,
             "savings": metrics(m["_savings"]), "status": m["status"], "owner_role": m["owner_role"],
-            "reason": reason, "start_date": m["start_date"], "in_package": m["key"] in in_pkg and m["status"] != "blocked",
+            "reason": reason, "triggers": [{"id": t, "label": TRIGGERS[t]} for t in trig], "start_date": m["start_date"], "in_package": m["key"] in in_pkg and m["status"] != "blocked",
             "calc": c, "effects": m["_lines"], "proposed_status": m["proposed_status"],
             "effort_reasoning": m["effort_reasoning"], "risks": m["risks"], "assumptions": m["assumptions"],
             "generated_by": ("candidate from the toolbox (code), calibrated by an area agent "
@@ -323,7 +326,8 @@ def export(ctx: Context) -> None:
                 "savings_energy_kwh_per_year": round(s["kwh"]["mid"]),
                 "savings_co2_kg_location_based": round(s["co2_kg"]["mid"]),
                 "savings_co2_kg_market_based": "",
-                "risks_and_exceptions": f"Status: {m['status']} (decides: {m['owner_role']}). {m['reason']} {m['risks']}".strip(),
+                "risks_and_exceptions": f"Status: {m['status']} (decides: {m['owner_role']})"
+                                         + "".join(f" [{t['label']}]" for t in m["triggers"]) + f". {m['reason']} {m['risks']}".strip(),
                 "assumptions_and_sources": f"{m['assumptions']} Calculation: {m['calc']['formula']} "
                                            f"Ranges CHF {s['cost_chf']['low']:,.0f}–{s['cost_chf']['high']:,.0f}, "
                                            f"CO2 {s['co2_kg']['low']:,.0f}–{s['co2_kg']['high']:,.0f} kg. "

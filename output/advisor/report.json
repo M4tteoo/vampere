@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T19:40:54+01:00",
+  "generated_at": "2026-11-22T01:18:00+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -9,11 +9,12 @@
   "scenario": "ch_consumption"
  },
  "analysis": {
-  "analysed_at": "2026-11-21T16:07:03+01:00",
+  "analysed_at": "2026-11-22T01:07:21+01:00",
   "data_as_of": "2026-09-06",
-  "seconds": 14.4,
+  "seconds": 22.4,
   "timings": {
-   "agents_s": 13.3
+   "reader_s": 9.1,
+   "agents_s": 12.2
   },
   "model": {
    "agents": "gpt-5.4-mini",
@@ -21,70 +22,111 @@
   },
   "reasoning_effort": "low",
   "ai_footprint": {
-   "calls": 4,
+   "calls": 8,
    "calls_by_purpose": {
     "advisor.agent.ai_other": 1,
     "advisor.agent.licences": 1,
     "advisor.agent.platform": 1,
-    "advisor.agent.servers": 1
+    "advisor.agent.servers": 1,
+    "advisor.reader.b1": 1,
+    "advisor.reader.b2": 1,
+    "advisor.reader.b3": 1,
+    "advisor.reader.b4": 1
    },
-   "input_tokens": 19456,
-   "cached_input_tokens": 0,
-   "output_tokens": 6548,
-   "reasoning_tokens": 3178,
-   "output_equivalent_tokens": 2123,
+   "input_tokens": 33578,
+   "cached_input_tokens": 11264,
+   "output_tokens": 8378,
+   "reasoning_tokens": 4070,
+   "output_equivalent_tokens": 4726,
    "kwh": {
-    "low": 0.00021,
-    "mid": 0.00106,
-    "high": 0.00425
+    "low": 0.00047,
+    "mid": 0.00236,
+    "high": 0.00945
    },
    "co2_kg": {
-    "low": 3.2e-05,
-    "mid": 0.000226,
-    "high": 0.001274
+    "low": 7.1e-05,
+    "mid": 0.000503,
+    "high": 0.002836
    },
    "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
    "source": "measured during this run (token usage returned by the API)",
    "models": [
+    "gpt-5.4",
     "gpt-5.4-mini"
    ]
   },
   "calls": [
    {
-    "model": "gpt-5.4-mini",
-    "purpose": "advisor.agent.licences",
-    "input_tokens": 4621,
-    "cached_input_tokens": 0,
-    "output_tokens": 1455,
-    "reasoning_tokens": 381,
-    "seconds": 9.6
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b1",
+    "input_tokens": 3667,
+    "cached_input_tokens": 2816,
+    "output_tokens": 329,
+    "reasoning_tokens": 74,
+    "seconds": 3.6
+   },
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b3",
+    "input_tokens": 3677,
+    "cached_input_tokens": 2816,
+    "output_tokens": 419,
+    "reasoning_tokens": 243,
+    "seconds": 6.5
+   },
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b4",
+    "input_tokens": 3635,
+    "cached_input_tokens": 2816,
+    "output_tokens": 667,
+    "reasoning_tokens": 321,
+    "seconds": 6.7
+   },
+   {
+    "model": "gpt-5.4",
+    "purpose": "advisor.reader.b2",
+    "input_tokens": 3707,
+    "cached_input_tokens": 2816,
+    "output_tokens": 858,
+    "reasoning_tokens": 372,
+    "seconds": 9.1
    },
    {
     "model": "gpt-5.4-mini",
     "purpose": "advisor.agent.platform",
-    "input_tokens": 3966,
+    "input_tokens": 4060,
     "cached_input_tokens": 0,
-    "output_tokens": 1384,
-    "reasoning_tokens": 766,
-    "seconds": 9.6
+    "output_tokens": 1165,
+    "reasoning_tokens": 686,
+    "seconds": 6.8
    },
    {
     "model": "gpt-5.4-mini",
     "purpose": "advisor.agent.servers",
-    "input_tokens": 5661,
+    "input_tokens": 5007,
     "cached_input_tokens": 0,
-    "output_tokens": 1379,
-    "reasoning_tokens": 804,
-    "seconds": 10.9
+    "output_tokens": 1238,
+    "reasoning_tokens": 824,
+    "seconds": 8.0
+   },
+   {
+    "model": "gpt-5.4-mini",
+    "purpose": "advisor.agent.licences",
+    "input_tokens": 4621,
+    "cached_input_tokens": 0,
+    "output_tokens": 1721,
+    "reasoning_tokens": 733,
+    "seconds": 10.1
    },
    {
     "model": "gpt-5.4-mini",
     "purpose": "advisor.agent.ai_other",
-    "input_tokens": 5208,
+    "input_tokens": 5204,
     "cached_input_tokens": 0,
-    "output_tokens": 2330,
-    "reasoning_tokens": 1227,
-    "seconds": 13.3
+    "output_tokens": 1981,
+    "reasoning_tokens": 817,
+    "seconds": 12.2
    }
   ],
   "previous": null,
@@ -94,35 +136,40 @@
   },
   "fingerprint": {
    "reader": "ec92f0a50e9d67cf",
-   "agents": "150e8d85e2d3c6a3"
+   "agents": "654253229382075a"
   }
  },
  "ai_footprint": {
-  "calls": 4,
+  "calls": 8,
   "calls_by_purpose": {
    "advisor.agent.ai_other": 1,
    "advisor.agent.licences": 1,
    "advisor.agent.platform": 1,
-   "advisor.agent.servers": 1
+   "advisor.agent.servers": 1,
+   "advisor.reader.b1": 1,
+   "advisor.reader.b2": 1,
+   "advisor.reader.b3": 1,
+   "advisor.reader.b4": 1
   },
-  "input_tokens": 19456,
-  "cached_input_tokens": 0,
-  "output_tokens": 6548,
-  "reasoning_tokens": 3178,
-  "output_equivalent_tokens": 2123,
+  "input_tokens": 33578,
+  "cached_input_tokens": 11264,
+  "output_tokens": 8378,
+  "reasoning_tokens": 4070,
+  "output_equivalent_tokens": 4726,
   "kwh": {
-   "low": 0.00021,
-   "mid": 0.00106,
-   "high": 0.00425
+   "low": 0.00047,
+   "mid": 0.00236,
+   "high": 0.00945
   },
   "co2_kg": {
-   "low": 3.2e-05,
-   "mid": 0.000226,
-   "high": 0.001274
+   "low": 7.1e-05,
+   "mid": 0.000503,
+   "high": 0.002836
   },
   "formula": "eq = output (incl. reasoning) + 0.1 × uncached input + 0.01 × cached input (× 0.25 small models); kWh = eq / 1000 × Wh per 1000 tokens (factors.yaml ai_tokens: 0.1 / 0.5 / 2.0); CO2 = kWh × EU grid (0.150 / 0.213 / 0.300 kg/kWh)",
   "source": "measured during this run (token usage returned by the API)",
   "models": [
+   "gpt-5.4",
    "gpt-5.4-mini"
   ]
  },
@@ -138,7 +185,7 @@
     "dp-dev"
    ],
    "type": "info",
-   "summary": "Development cluster is in Frankfurt for cost reasons; moving it to Switzerland is technically possible.",
+   "summary": "Development cluster is in Frankfurt for cost reasons; moving to Switzerland is technically possible.",
    "schedule": {
     "kind": "none",
     "days": null,
@@ -184,7 +231,7 @@
     "vm-test"
    ],
    "type": "window",
-   "summary": "Test environment must remain continuously available during March 2026 acceptance testing and change freeze.",
+   "summary": "Test environment had to remain continuously available during March 2026 acceptance testing and release freeze.",
    "schedule": {
     "kind": "date_range",
     "days": null,
@@ -200,14 +247,15 @@
    "id": "C-04",
    "source": {
     "kind": "ticket",
-    "ref": "T-1058"
+    "ref": "T-1035"
    },
-   "ticket_id": "T-1058",
+   "ticket_id": "T-1035",
    "applies_to": [
-    "vm-test"
+    "gpu-ml",
+    "srv:gpu-ml-01"
    ],
-   "type": "planned_change",
-   "summary": "Test environment was temporarily enlarged for a project; scale-back is planned after go-live.",
+   "type": "info",
+   "summary": "GPU server was provisioned in Frankfurt for an AI pilot and is currently running continuously.",
    "schedule": {
     "kind": "none",
     "days": null,
@@ -223,6 +271,29 @@
    "id": "C-05",
    "source": {
     "kind": "ticket",
+    "ref": "T-1058"
+   },
+   "ticket_id": "T-1058",
+   "applies_to": [
+    "vm-test"
+   ],
+   "type": "planned_change",
+   "summary": "Test environment was enlarged for a project; scale-back is planned after go-live.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-06",
+   "source": {
+    "kind": "ticket",
     "ref": "T-1094"
    },
    "ticket_id": "T-1094",
@@ -230,7 +301,7 @@
     "srv:dr-failover"
    ],
    "type": "block",
-   "summary": "Emergency fallback server must remain running at all times per management requirement.",
+   "summary": "Disaster recovery fallback server must keep running even when idle, per management requirement.",
    "schedule": {
     "kind": "always",
     "days": null,
@@ -243,7 +314,30 @@
    "source_risk": "ok"
   },
   {
-   "id": "C-06",
+   "id": "C-07",
+   "source": {
+    "kind": "ticket",
+    "ref": "T-1128"
+   },
+   "ticket_id": "T-1128",
+   "applies_to": [
+    "ai-assistant"
+   ],
+   "type": "info",
+   "summary": "AI assistant licences are procured per department rather than per individual user.",
+   "schedule": {
+    "kind": "none",
+    "days": null,
+    "from_time": null,
+    "until_time": null,
+    "start_date": null,
+    "end_date": null
+   },
+   "decided_by": null,
+   "source_risk": "ok"
+  },
+  {
+   "id": "C-08",
    "source": {
     "kind": "ticket",
     "ref": "T-1172"
@@ -253,7 +347,7 @@
     "dp-prod"
    ],
    "type": "planned_change",
-   "summary": "Production data platform must grow from 16 to 20 nodes due to higher data volume from 2026-01-01.",
+   "summary": "Production platform is planned to grow from 16 to 20 nodes from 1 January 2026.",
    "schedule": {
     "kind": "date_range",
     "days": null,
@@ -266,7 +360,7 @@
    "source_risk": "ok"
   },
   {
-   "id": "C-07",
+   "id": "C-09",
    "source": {
     "kind": "ticket",
     "ref": "T-1195"
@@ -289,7 +383,7 @@
    "source_risk": "ok"
   },
   {
-   "id": "C-08",
+   "id": "C-10",
    "source": {
     "kind": "ticket",
     "ref": "T-1053"
@@ -299,7 +393,7 @@
     "dp-dev"
    ],
    "type": "window",
-   "summary": "Development cluster required continuously on days 1–3 of each quarter for training; may pause outside that window.",
+   "summary": "Development cluster must be available continuously on the first three days of each quarter for model training.",
    "schedule": {
     "kind": "quarter_days",
     "days": 3,
@@ -312,7 +406,7 @@
    "source_risk": "ok"
   },
   {
-   "id": "C-09",
+   "id": "C-11",
    "source": {
     "kind": "ticket",
     "ref": "T-1101"
@@ -322,7 +416,7 @@
     "gpu-ml"
    ],
    "type": "info",
-   "summary": "Quarterly training also uses the GPU server on days 1–3 of January, April, July and October.",
+   "summary": "Quarterly training also uses the GPU server during the first three days of January, April, July and October.",
    "schedule": {
     "kind": "quarter_days",
     "days": 3,
@@ -335,7 +429,7 @@
    "source_risk": "ok"
   },
   {
-   "id": "C-10",
+   "id": "C-12",
    "source": {
     "kind": "ticket",
     "ref": "T-1029"
@@ -349,7 +443,7 @@
    "schedule": {
     "kind": "monthly_last_workdays",
     "days": 3,
-    "from_time": "00:00",
+    "from_time": null,
     "until_time": "04:00",
     "start_date": null,
     "end_date": null
@@ -358,7 +452,7 @@
    "source_risk": "ok"
   },
   {
-   "id": "C-11",
+   "id": "C-13",
    "source": {
     "kind": "ticket",
     "ref": "T-1039"
@@ -381,7 +475,7 @@
    "source_risk": "ambiguous"
   },
   {
-   "id": "C-12",
+   "id": "C-14",
    "source": {
     "kind": "ticket",
     "ref": "T-1167"
@@ -391,7 +485,7 @@
     "pbi-07"
    ],
    "type": "block",
-   "summary": "Legacy receivables report must not be switched off because internal audit needs it in the closing month.",
+   "summary": "Legacy receivables report is needed for audit in the closing month and must not be switched off.",
    "schedule": {
     "kind": "always",
     "days": null,
@@ -404,30 +498,7 @@
    "source_risk": "ok"
   },
   {
-   "id": "C-13",
-   "source": {
-    "kind": "ticket",
-    "ref": "T-1212"
-   },
-   "ticket_id": "T-1212",
-   "applies_to": [
-    "ai-marketing"
-   ],
-   "type": "one_off",
-   "summary": "Unintended requests came from a script bug and lasted three days before being fixed.",
-   "schedule": {
-    "kind": "none",
-    "days": null,
-    "from_time": null,
-    "until_time": null,
-    "start_date": null,
-    "end_date": null
-   },
-   "decided_by": null,
-   "source_risk": "ok"
-  },
-  {
-   "id": "C-14",
+   "id": "C-15",
    "source": {
     "kind": "ticket",
     "ref": "T-1261"
@@ -450,7 +521,7 @@
    "source_risk": "ok"
   },
   {
-   "id": "C-15",
+   "id": "C-16",
    "source": {
     "kind": "file",
     "ref": "extra/data_platform_jobs.csv"
@@ -473,7 +544,7 @@
    "source_risk": "system"
   },
   {
-   "id": "C-16",
+   "id": "C-17",
    "source": {
     "kind": "file",
     "ref": "extra/data_platform_jobs.csv"
@@ -496,7 +567,7 @@
    "source_risk": "system"
   },
   {
-   "id": "C-17",
+   "id": "C-18",
    "source": {
     "kind": "file",
     "ref": "extra/data_platform_jobs.csv"
@@ -519,7 +590,7 @@
    "source_risk": "system"
   },
   {
-   "id": "C-18",
+   "id": "C-19",
    "source": {
     "kind": "file",
     "ref": "extra/data_platform_jobs.csv"
@@ -542,7 +613,7 @@
    "source_risk": "system"
   },
   {
-   "id": "C-19",
+   "id": "C-20",
    "source": {
     "kind": "file",
     "ref": "extra/data_platform_jobs.csv"
@@ -565,7 +636,7 @@
    "source_risk": "system"
   },
   {
-   "id": "C-20",
+   "id": "C-21",
    "source": {
     "kind": "file",
     "ref": "extra/data_platform_jobs.csv"

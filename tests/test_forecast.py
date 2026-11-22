@@ -94,6 +94,38 @@ class ForecastTest(unittest.TestCase):
         self.assertEqual(last_cloud["without"]["cost_chf"]["mid"], 360)
         self.assertEqual(last_cloud["with"]["cost_chf"]["mid"], 180)
 
+    def test_every_goal_package_gets_its_own_forecast(self):
+        months = ("2026-06-01", "2026-07-01", "2026-08-01")
+        original = [row(month, "dp-prod", "cloud", 310, kwh=100) for month in months]
+        half = pd.DataFrame([row(month, "dp-prod", "cloud", 155, kwh=50) for month in months])
+        third = pd.DataFrame([row(month, "dp-prod", "cloud", 100, kwh=30) for month in months])
+        report = {"status": "complete", "applied_measure_ids": ["M-1"], "requires_confirmation": [], "skipped": []}
+        packages = {
+            "climate_first": {"feasible": True, "history": half, "report": report, "measure_ids": ["M-1"], "same_as": None},
+            "best_value": {"feasible": True, "history": third, "report": report, "measure_ids": ["M-2"], "same_as": None},
+            "safest": {"feasible": True, "history": half, "report": report, "measure_ids": ["M-1"], "same_as": "climate_first"},
+            "francs_first": {"feasible": False, "note": "no package", "measure_ids": []},
+        }
+        from pipeline.bonus.forecast import build_forecast
+
+        ctx = context(original)
+        ctx.tables["fact_cost_optimized"] = half
+        forecast = build_forecast(ctx, packages)
+        goals = forecast["packages"]
+        self.assertEqual(list(goals), ["climate_first", "best_value", "safest", "francs_first"])
+        self.assertFalse(goals["francs_first"]["feasible"])
+        self.assertIsNone(goals["francs_first"]["months"])
+        self.assertEqual(goals["safest"]["same_as"], "climate_first")
+        self.assertEqual(goals["safest"]["months"], goals["climate_first"]["months"])
+        self.assertEqual(len(goals["best_value"]["months"]), 12)
+        sep = lambda goal: goals[goal]["months"][0]
+        self.assertEqual(sep("climate_first")["with"]["cost_chf"]["mid"], 155)
+        self.assertEqual(sep("best_value")["with"]["cost_chf"]["mid"], 100)
+        self.assertEqual(sep("best_value")["by_resource"]["dp-prod"]["with"]["kwh"]["mid"], 30)
+        self.assertEqual(sep("best_value")["by_category"]["cloud"]["with"]["cost_chf"]["mid"], 100)
+        # The recommended package is also the top-level `with`.
+        self.assertEqual(forecast["months"][0]["with"], sep("climate_first")["with"])
+
     def test_rejects_optimized_history_missing_a_baseline_month(self):
         rows = [row(f"2026-0{month}-01", "dp-dev", "cloud", 100) for month in (6, 7, 8)]
         with self.assertRaisesRegex(ValueError, "fact_cost_optimized.*2026-07"):

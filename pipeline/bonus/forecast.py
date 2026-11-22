@@ -16,7 +16,7 @@ import pandas as pd
 
 from ..harmonize.context import Context
 from .common import Calc, fill_baseline_row, read_output, rng, write_json
-from .optimized_history import REPORT, TABLE as OPTIMIZED_HISTORY
+from .optimized_history import REPORT, TABLE as OPTIMIZED_HISTORY, replay_packages
 
 METRICS = ("cost_chf", "kwh", "co2_kg")
 COLUMNS = ("cost_chf_low", "cost_chf", "cost_chf_high",
@@ -50,8 +50,9 @@ def _seasonality(facts: pd.DataFrame) -> dict[int, float]:
     return (profile / profile.mean()).clip(0.9, 1.1).to_dict()
 
 
-def _prepare_history(ctx: Context, table: str, first: pd.Timestamp, fx: dict[str, float]) -> tuple[dict, dict, dict]:
-    source = ctx.tables[table]
+def _prepare_history(ctx: Context, table: str, first: pd.Timestamp, fx: dict[str, float],
+                     source: pd.DataFrame | None = None) -> tuple[dict, dict, dict]:
+    source = ctx.tables[table] if source is None else source
     required = {*COLUMNS, "month", "is_one_off", "currency_native", "fx_rate_chf", "resource_id",
                 "category", "location", "provider", "unit", "source_file", "value_status"}
     if missing := required - set(source.columns):
@@ -113,7 +114,25 @@ def _project(rates: dict, season: dict, seats: np.ndarray, ai: np.ndarray, month
     return categories, resources
 
 
-def build_forecast(ctx: Context) -> dict:
+def _package_months(optimized: tuple, plan: list[tuple], seats: np.ndarray, ai: np.ndarray,
+                    fx: dict[str, float]) -> list[dict]:
+    """The `with` side only, per month, for one goal package: same keys as the top-level `months`."""
+    zero = np.zeros((3, 3))
+    months = []
+    for month, years, fraction in plan:
+        total, resources = _project(optimized[0], optimized[1], seats, ai, month, years, fraction)
+        months.append({
+            "month": month.date().isoformat(),
+            "with": _format(sum(total.values(), zero), fx),
+            "by_category": {cat: {"with": _format(values, fx)} for cat, values in sorted(total.items())},
+            "by_resource": {resource: {"category": category, "with": _format(values, fx)}
+                            for (resource, category), values in sorted(resources.items(), key=str)},
+        })
+    return months
+
+
+def build_forecast(ctx: Context, packages: dict[str, dict] | None = None) -> dict:
+    """`packages` (optional): output of optimized_history.replay_packages, one entry per goal."""
     baseline = ctx.config["baseline"]
     first = pd.Timestamp(baseline["end"]).to_period("M").to_timestamp() + pd.offsets.MonthBegin()
     end = first - pd.offsets.MonthBegin()
@@ -136,12 +155,14 @@ def build_forecast(ctx: Context) -> dict:
          "source": "data/case/README.md"},
     ]
     months = []
+    plan = []
     end_exclusive = first + pd.Timedelta(weeks=52)
     zero = np.zeros((3, 3))
     for step, month in enumerate(pd.date_range(first, end_exclusive, freq="MS", inclusive="left")):
         month_end = min(month + pd.offsets.MonthBegin(), end_exclusive)
         month_fraction = (month_end - month).days / month.days_in_month
         years = step / 12
+        plan.append((month, years, month_fraction))
         without, without_res = _project(original_rates, original_season, seats, ai, month, years, month_fraction)
         with_, with_res = (_project(optimized[0], optimized[1], seats, ai, month, years, month_fraction)
                            if optimized else (None, None))
@@ -161,9 +182,30 @@ def build_forecast(ctx: Context) -> dict:
                             for resource, category in sorted(resources, key=str)},
         })
 
+    by_goal = {}
+    prepared: dict[str, tuple[tuple | None, list[dict] | None]] = {}
+    for goal, entry in (packages or {}).items():
+        if not entry["feasible"]:
+            by_goal[goal] = {"goal": goal, "feasible": False, "note": entry["note"], "months": None}
+            continue
+        report = {key: value for key, value in entry["report"].items() if key != "meta"}
+        same_as = entry["same_as"]
+        if same_as is not None:
+            package_history, package_months = prepared[same_as]
+        elif entry["history"] is None:
+            package_history, package_months = None, None
+        else:
+            package_history = _prepare_history(ctx, OPTIMIZED_HISTORY, first, fx, source=entry["history"])
+            package_months = _package_months(package_history, plan, seats, ai, fx)
+        prepared[goal] = (package_history, package_months)
+        by_goal[goal] = {"goal": goal, "feasible": True, "measure_ids": entry["measure_ids"], "same_as": same_as,
+                         "optimized_history": report, "months": package_months,
+                         "calculations": package_history[2] if package_history else None}
+
     return {
         "horizon": {"start": first.date().isoformat(), "end_exclusive": end_exclusive.date().isoformat()},
         "months": months, "events": events,
+        "packages": by_goal,
         "calculations": {"without": original_calcs, "with": optimized[2] if optimized else None},
         "assumptions": [
             {"id": "run_rate", "source": "fact_cost and fact_cost_optimized (if provided)",
@@ -189,7 +231,8 @@ def build_forecast(ctx: Context) -> dict:
 
 
 def run(ctx: Context) -> None:
-    forecast = build_forecast(ctx)
+    packages = replay_packages(ctx, read_output(ctx, "measures.json"))
+    forecast = build_forecast(ctx, packages)
     if OPTIMIZED_HISTORY in ctx.tables and (report := read_output(ctx, REPORT)) and report["applied_measure_ids"]:
         forecast["optimized_history"] = {key: value for key, value in report.items() if key != "meta"}
     write_json(ctx, "forecast.json", forecast)

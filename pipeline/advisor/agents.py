@@ -5,8 +5,10 @@ its candidates, the facts of its scopes (numbers with ids) and the typed
 constraints on those scopes. No free text from the data. Short, strict JSON.
 
 The agent may: keep or drop a candidate, LOWER its shares (never above the cap),
-adjust effort, status (code can only make it stricter), title, risk, assumption,
+adjust effort, title, risk, assumption, block a measure (status «blocked»),
 and propose up to two extra measures in the same «effects» format.
+The final «ok / a person decides» status is set by code from a written reason (toolbox
+rule; agent ideas always go to a person), then the safety gate can only make it stricter.
 """
 from __future__ import annotations
 
@@ -104,19 +106,26 @@ def review(llm, candidates: list[dict], facts: dict, typed: list[dict], scopes_a
         return dict(ex.map(run, list(by_area)))
 
 
-def merge(candidates: list[dict], reviews: dict, owner_of) -> tuple[list[dict], list[str]]:
-    """Apply the agents' decisions to the candidates (code enforces caps and strictness)."""
-    strict = {"ok": 0, "human": 1, "blocked": 2}
+def merge(candidates: list[dict], reviews: dict, cap_of=None) -> tuple[list[dict], list[str]]:
+    """Apply the agents' decisions to the candidates (code enforces caps and strictness).
+    cap_of(scope): the physical maximum code computed for the scope's resource (plan.resource_caps); an agent's
+    own idea is capped by it like every toolbox candidate, otherwise by the generic 0.9."""
     notes = []
     dec = {d["key"]: d for r in reviews.values() for d in r.get("decisions", [])}
     out = []
     for c in candidates:
         m = {**c, "effects": [dict(e) for e in c["effects"]], "respects_constraints": [], "agent_reviewed": c["key"] in dec}
         d = dec.get(c["key"])
+        # A measure with a handover trigger (Critical, Protected by a ticket, ...) is a PERSON's decision: the agent
+        # may not drop or block it; it goes to a person with the agent's concern as the risk (case: «hand over to a
+        # human when in doubt»; example question 3). Only tickets (the code's safety gate) can block it.
+        vetoed = bool(d and c["area"] != "edge" and c.get("human_reason") and (not d["keep"] or d["status"] == "blocked"))
         if d:
-            if not d["keep"] and c["area"] != "edge":
+            if not d["keep"] and c["area"] != "edge" and not vetoed:
                 notes.append(f"{c['key']}: dropped by the agent ({d['risk']})")
                 continue
+            if vetoed:   # the agent advised against it: its shares are not a calibration, the person sees code's estimate
+                d = {**d, "cost_share": m["effects"][0]["cost_cap"], "energy_share": m["effects"][0]["energy_cap"]}
             for e in m["effects"]:
                 e["cost_share"] = min(max(float(d["cost_share"]), 0.0), e["cost_cap"]) if len(m["effects"]) == 1 else e["cost_share"]
                 e["energy_share"] = min(max(float(d["energy_share"]), 0.0), e["energy_cap"]) if len(m["effects"]) == 1 else e["energy_share"]
@@ -126,12 +135,19 @@ def merge(candidates: list[dict], reviews: dict, owner_of) -> tuple[list[dict], 
                     e["cost_share"] = round(e["cost_cap"] * r, 4)
                     e["energy_share"] = round(e["energy_cap"] * r, 4)
             m["effort_days"] = max(float(d["effort_days"]), 0.25)
-            if strict[d["status"]] > strict[m["proposed_status"]]:
-                m["proposed_status"] = d["status"]
+            if d["status"] == "blocked" and not vetoed:   # an agent may block a measure without a handover trigger
+                m["proposed_status"] = "blocked"
             m["respects_constraints"] = [x for x in d["respects_constraints"] if x != "none"]
             m["title"] = d["title"] or m["title"]
             m["risks"] = d["risk"] or m["risks"]
             m["assumptions"] = d["assumption"] or m["assumptions"]
+            if vetoed:
+                m["risks"] = f"The AI agent advised against it: {d['risk']}"
+                notes.append(f"{c['key']}: the agent advised against it ({d['risk']}); a person decides ({c['human_reason']})")
+        # «a person decides» only with a written reason (toolbox rule); the safety gate adds tickets,
+        # protection windows and protected resources afterwards (it can only make a status stricter)
+        if m["proposed_status"] != "blocked":
+            m["proposed_status"] = "human" if m.get("human_reason") else "ok"
         out.append(m)
     # combined variants («pause and move») take the calibrated shares of their base candidate («pause»)
     by_key = {m["key"]: m for m in out}
@@ -151,12 +167,22 @@ def merge(candidates: list[dict], reviews: dict, owner_of) -> tuple[list[dict], 
     for area, r in reviews.items():
         for x in r.get("extra_measures", [])[:2]:
             n += 1
-            effects = [{"scope": e["scope"], "cost_share": min(max(e["cost_share"], 0), 0.9),
-                        "energy_share": min(max(e["energy_share"], 0), 0.9), "relocate_to": e["relocate_to"],
-                        "cost_cap": 0.9, "energy_cap": 0.9} for e in x["effects"]]
+            effects = []
+            for e in x["effects"]:
+                cap = cap_of(e["scope"]) if cap_of else None
+                cc, ec = (min(0.9, cap["cost"]), min(0.9, cap["energy"])) if cap else (0.9, 0.9)
+                eff = {"scope": e["scope"], "cost_share": round(min(max(e["cost_share"], 0), cc), 4),
+                       "energy_share": round(min(max(e["energy_share"], 0), ec), 4), "relocate_to": e["relocate_to"],
+                       "cost_cap": round(cc, 4), "energy_cap": round(ec, 4)}
+                if cap and cap.get("removes"):
+                    eff["removes"] = cap["removes"]
+                if cap and (e["cost_share"] > cc + 1e-9 or e["energy_share"] > ec + 1e-9):
+                    notes.append(f"A-{area}-{n}: {e['scope']} capped at {cc:.0%} (the physical maximum code computed in {cap['from']})")
+                effects.append(eff)
             out.append({"key": f"A-{area}-{n}", "area": area, "lever": "agent_idea", "title": x["title"],
                         "description": x["description"], "effects": effects, "effort_days": max(float(x["effort_days"]), 0.25),
-                        "owner_role": x["owner_role"], "proposed_status": "human" if x["status"] == "ok" else x["status"],
+                        "owner_role": x["owner_role"], "proposed_status": "blocked" if x["status"] == "blocked" else "human",
+                        "human_trigger": "ai_idea", "human_reason": "proposed by an AI agent, not one of the code's checked levers: a person reviews it",
                         "start_date": "2026-10-01", "group": f"agent:{area}:{n}", "basis_fact_ids": x["basis_fact_ids"],
                         "finding": None, "risks": x["risk"], "assumptions": x["assumption"],
                         "respects_constraints": [c for c in x["respects_constraints"] if c != "none"], "agent_reviewed": True})

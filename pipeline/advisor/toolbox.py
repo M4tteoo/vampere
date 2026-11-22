@@ -13,12 +13,20 @@ Conscious optimisation («not everything unused may be switched off»):
     retention, audit/regulatory reports) are never proposed for reduction: they go
     to the «kept on» list with the reason;
   - regular peaks in the usage data (e.g. every quarter) count as needed time;
-  - production / critical resources start as «a person decides».
+  - «a person decides» only for one of the case's triggers («hand over to a human when in doubt;
+    nothing critical may be disrupted»), written on the measure (human_reason):
+      Critical · Protected · Data can't answer · Can't be undone   (TRIGGERS)
+    plus our own rule: AI idea (an agent's own idea, not a checked lever). Everything else is «ok»
+    (the owner is still named). The safety gate adds tickets and protection windows on top.
 """
 from __future__ import annotations
 
 import pandas as pd
 
+# Why a person must decide (case: «hand over to a human when in doubt; nothing critical may be disrupted»).
+# id → short label for the UI chip; the explanation goes in the measure's reason text.
+TRIGGERS = {"critical": "Critical", "protected": "Protected", "data_gap": "Data can't answer",
+            "irreversible": "Can't be undone", "ai_idea": "AI idea"}
 ROUTINE_TASKS = ["Classify", "Translate", "Summarise", "Draft texts"]   # a small model handles most of these
 BLOCK_TYPES = ("block",)
 
@@ -36,7 +44,8 @@ class Toolbox:
         self.candidates: list[dict] = []
         self.findings: list[dict] = []
         self.kept_on: list[dict] = []
-        self.blocked_targets = {t for c in constraints if c["type"] in BLOCK_TYPES for t in c["applies_to"]}
+        self.protected_by = {t: c["id"] for c in constraints if c["type"] in BLOCK_TYPES for t in c["applies_to"]}
+        self.blocked_targets = set(self.protected_by)
         self.offered = {p: set(v) for p, v in facts.get("regions_offered", {}).items()}
 
     def can_move(self, rid, to="CH") -> bool:
@@ -58,10 +67,16 @@ class Toolbox:
         return r.get("environment") == "prod" or r.get("criticality_masterdata") == "high"
 
     def add(self, key, area, lever, title, description, effects, effort, rid, basis, finding=None,
-            status=None, start="2026-10-01", group=None, risks="", assumptions="", same_shares_as=None):
+            status=None, start="2026-10-01", group=None, risks="", assumptions="", same_shares_as=None, human=None):
         """same_shares_as: a combined variant (e.g. «pause and move») takes the calibrated shares of its base
-        candidate («pause»), so the two can never disagree; the variant only adds the relocation."""
-        self.candidates.append({"same_shares_as": same_shares_as,
+        candidate («pause»), so the two can never disagree; the variant only adds the relocation.
+        status: the status shown to the area agent (a cautious hint; unchanged so saved agent answers stay valid).
+        human: (trigger id from TRIGGERS, explanation): why a person must decide. The FINAL status is set by code from this reason (agents.merge):
+        no reason → «ok»; production resources always get one."""
+        if human is None and rid and self.is_prod(rid):
+            human = ("critical", f"production resource ({rid}): its owner decides")
+        self.candidates.append({"same_shares_as": same_shares_as, "human_trigger": human[0] if human else None,
+                                "human_reason": human[1] if human else None,
             "key": key, "area": area, "lever": lever, "title": title, "description": description,
             "effects": effects, "effort_days": effort, "owner_role": self.owner(rid),
             "proposed_status": status or ("human" if self.is_prod(rid) else "ok"),
@@ -137,8 +152,11 @@ class Toolbox:
 
     def servers(self):
         zombies, office = [], []
+        # resources that already have their own schedule lever (e.g. the GPU server: on demand) are not scheduled twice
+        scheduled = {e["scope"][4:] for c in self.candidates if c["lever"] == "schedule" for e in c["effects"]
+                     if e["scope"].startswith("res:")}
         for sid, s in self.srv.items():
-            if sid in self.blocked_targets or s["type"] == "dr":
+            if sid in self.blocked_targets or s["type"] == "dr" or s["resource"] in scheduled:
                 continue
             days = self.f(f"{sid}.days_since_login", 0)
             cpu = self.f(f"{sid}.cpu_avg", 1)
@@ -156,7 +174,8 @@ class Toolbox:
             self.add("C-zombies", "servers", "decommission", f"Decommission {len(zombies)} forgotten servers",
                      f"Snapshot, then delete {', '.join(z[4:] for z in zombies)} after the owner confirms.",
                      [self.eff(z, 1.0) for z in zombies], 1, rid, [f"{z}.days_since_login" for z in zombies], fk,
-                     group="servers:zombies", status="human", risks="hidden dependency; keep a snapshot for 90 days")
+                     group="servers:zombies", status="human", risks="hidden dependency; keep a snapshot for 90 days",
+                     human=("irreversible", "deletes servers (hidden dependencies possible): the owner confirms"))
         if office:
             rid = self.srv[office[0]]["resource"]
             share = (1 - 60 / 168) * 0.85      # office hours Mon–Fri 07–19 = 60 of 168 h
@@ -213,6 +232,7 @@ class Toolbox:
                      + ("; retention obligations stay fully respected." if protected else "."),
                      [self.eff(f"res:{rid}", 0.0, relocate="CH")], 4 if storage else 3, rid,
                      [f"{rid}.co2", f"grid.{r['location']}", "grid.CH"], fk, group=f"move:{rid}", status="human",
+                     human=(("protected", f"{rid} is protected by a ticket ({self.protected_by[rid]}): its owner confirms the move") if protected else None),
                      risks=("one-off transfer of the data (egress fee, not in the data); Zurich price to check" if storage
                             else "Zurich price to check (AWS compute +18 %)"),
                      assumptions="same energy, Zurich grid factor instead of " + r["location"])
@@ -255,7 +275,7 @@ class Toolbox:
                      "Route the task to the small model; the large model stays available for complex cases.",
                      [self.eff(a["id"], moved * 0.70, energy=moved * 0.75)], 1, a["resource"],
                      [f"{a['id']}.cost", "ai.small_to_large_price_ratio"], fk, group=a["id"], status="human",
-                     risks="quality pilot with users first", assumptions="60 % of requests moved; 70 % cost and 75 % energy saved on them")
+                     risks="spot-check output quality with users first", assumptions="60 % of requests moved; 70 % cost and 75 % energy saved on them")
 
     def extras(self):
         st = self.f("dp-storage.stale_gb_no_retention", 0)
@@ -269,7 +289,8 @@ class Toolbox:
             self.add("C-stale-tables", "ai_other", "storage", "Archive or delete unread tables without retention",
                      "Owners review the list; unread tables without retention are archived to cold storage or deleted.",
                      [self.eff("res:dp-storage", share)], 2, "dp-storage", ["dp-storage.stale_gb_no_retention"], fk,
-                     group="res:dp-storage", status="human", risks="owners must confirm; personal data rules apply")
+                     group="res:dp-storage", status="human", risks="owners must confirm; personal data rules apply",
+                     human=("irreversible", "deletes data: owners confirm, personal-data rules apply"))
         nightly = self.f("cicd.minutes_share_unchanged_nightly")
         if nightly:
             fk = self.finding("W-ci-nightly", "waste", f"{self.f('cicd.nightly_without_changes_share', 0):.0%} of nightly builds run without changes",
@@ -300,7 +321,8 @@ class Toolbox:
             self.add("C-log-retention", "ai_other", "storage", "Shorten log retention from 365 to 90 days where allowed",
                      "Services without a retention obligation keep logs 90 days; older logs go to cheap archive.",
                      [self.eff("res:logs", share)], 1, "logs", ["logs.volume_share_retention_365d"], fk, group="res:logs",
-                     status="human", risks="compliance check per service")
+                     status="human", risks="compliance check per service",
+                     human=("data_gap", "which services must keep logs longer is not in the data: check per service"))
 
     # ------------------------------------------------- kept on deliberately
     def kept(self):

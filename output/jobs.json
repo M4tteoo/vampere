@@ -1,7 +1,7 @@
 {
  "meta": {
   "schema_version": "0.1",
-  "generated_at": "2026-11-21T19:40:55+01:00",
+  "generated_at": "2026-11-22T01:18:00+01:00",
   "baseline": {
    "start": "2025-09-01",
    "end": "2026-08-31"
@@ -596,7 +596,7 @@
      "saving_dynamic": {
       "low": 0.45,
       "mid": 1.5,
-      "high": 3.47
+      "high": 3.48
      }
     }
    }
@@ -700,7 +700,7 @@
      "saving_dynamic": {
       "low": 0.3,
       "mid": 1.01,
-      "high": 2.32
+      "high": 2.33
      }
     }
    }
@@ -1156,7 +1156,7 @@
    "saving_dynamic": {
     "low": 4.8,
     "mid": 13.2,
-    "high": 30.6
+    "high": 30.7
    }
   },
   "baseline_co2_kg": 4483.1,
@@ -1166,10 +1166,10 @@
   "package_measures": [
    "M-02",
    "M-03",
+   "M-04",
    "M-08",
    "M-19",
-   "M-25",
-   "M-36"
+   "M-34"
   ],
   "relocated": {
    "dp-dev": "CH"
@@ -1208,7 +1208,7 @@
     "saving_dynamic": {
      "low": 0.45,
      "mid": 1.5,
-     "high": 3.47
+     "high": 3.48
     }
    },
    {
@@ -1220,7 +1220,7 @@
     "saving_dynamic": {
      "low": 0.3,
      "mid": 1.01,
-     "high": 2.32
+     "high": 2.33
     }
    },
    {
