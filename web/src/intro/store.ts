@@ -31,7 +31,15 @@ export interface BlueprintMeta {
   counts: { wall_segments: number; glass_segments: number; workstations: number; furniture: number; axes: number }
 }
 
+/**
+ * Apertura (Landing.tsx), prima di tutto il resto: il cartello cade, il logo resta, scatta il contatore e vola in alto a sinistra.
+ * playing → reveal (il logo vola, la pagina compare sotto) → done (il logo è quello dell'header).
+ */
+export type LandingPhase = 'playing' | 'reveal' | 'done'
+
 interface IntroState {
+  landing: LandingPhase
+  setLanding: (p: LandingPhase) => void
   phase: IntroPhase
   /** performance.now() all'inizio della fase. */
   t0: number
@@ -47,7 +55,14 @@ interface IntroState {
 
 const skipped = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('nointro')
 
+const noLanding =
+  skipped ||
+  (typeof window !== 'undefined' &&
+    (new URLSearchParams(window.location.search).has('nolanding') || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches))
+
 export const useIntro = create<IntroState>((set, get) => ({
+  landing: noLanding ? 'done' : 'playing',
+  setLanding: (landing) => set({ landing }),
   phase: skipped ? 'done' : 'upload',
   t0: 0,
   fileName: null,

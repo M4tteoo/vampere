@@ -1,5 +1,6 @@
 import { useApp, type Step } from '../store'
 import { useIntro } from '../intro/store'
+import { LOGO_H, LOGO_W, VampereLogo } from './VampereLogo'
 
 /** Passi della demo, nell'ordine in cui li racconta. Misure e limiti stanno dentro il passo 2 (interruttore), l'export nei passi 2 e 3. */
 export const STEPS: { id: Step; label: string }[] = [
@@ -18,6 +19,7 @@ export function Header() {
   const isMock = useApp((s) => s.data?.summary.is_mock)
   const hasExtra = useApp((s) => !!s.data?.extra)
   const hasLocalAi = useApp((s) => !!s.data?.localAi)
+  const landed = useIntro((s) => s.landing === 'done')
 
   const ready = (id: Step): { ok: boolean; why?: string } => {
     if (id === 'allocation') return { ok: true }
@@ -28,11 +30,11 @@ export function Header() {
 
   return (
     <header className="relative z-40 flex h-[88px] shrink-0 items-center justify-between bg-white px-8">
-      <button onClick={() => setRoom(null)} className="flex w-48 items-center gap-2" aria-label="Back to the floor plan">
-        <svg viewBox="0 0 32 32" className="h-7 w-7 text-primary" fill="currentColor" aria-hidden>
-          <path d="M27 5c-9.5-.4-17.6 2.6-20.4 9.3-1.6 3.8-.8 7.4 1.2 9.9-1.3 1.3-2.3 2.6-3 3.8l1.7 1c.7-1.2 1.7-2.5 3-3.8 2.5 1.6 6.1 2 9.6.2C25.5 22.3 27.8 13.8 27 5zm-6 6.4c-3.6 2.2-7.4 5.4-10.4 8.7l-1.4-1.4c3.1-3.4 7-6.7 10.8-9z" />
-        </svg>
-        <span className="text-[20px] font-semibold tracking-[-0.4px] text-primary">greenops</span>
+      <button onClick={() => setRoom(null)} className="flex w-48 items-center" aria-label="Back to the floor plan">
+        {/* Qui si posa il logo dell'apertura (intro/Landing.tsx): resta nascosto finché non è atterrato. */}
+        <span data-landing-target className="block h-9" style={{ width: (36 * LOGO_W) / LOGO_H, opacity: landed ? 1 : 0 }}>
+          <VampereLogo className="block h-full w-full" />
+        </span>
       </button>
 
       <nav className="pill-shadow flex h-16 items-center rounded-full border border-hairline bg-white px-3">

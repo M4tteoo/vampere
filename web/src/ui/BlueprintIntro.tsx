@@ -39,6 +39,10 @@ function Upload() {
   const skip = useIntro((s) => s.skip)
   const [over, setOver] = useState(false)
   const input = useRef<HTMLInputElement>(null)
+  // Apertura (intro/Landing.tsx): testi nascosti mentre cade il cartello, poi salgono uno dopo l'altro.
+  const landing = useIntro((s) => s.landing)
+  const rise = landing === 'playing' ? 'landing-hidden' : 'landing-rise'
+  const delay = (i: number) => ({ ['--rise-delay' as string]: `${180 + i * 90}ms` }) as CSSProperties
 
   return (
     <div
@@ -55,20 +59,23 @@ function Upload() {
         if (f) start(f.name)
       }}
     >
-      <button onClick={skip} className="absolute top-5 right-8 text-[14px] font-medium text-muted hover:text-ink">
+      <button onClick={skip} className={`absolute top-5 right-8 text-[14px] font-medium text-muted hover:text-ink ${rise}`} style={delay(5)}>
         Skip intro
       </button>
 
       <div className="flex w-[min(880px,92vw)] flex-col items-center text-center">
-        <p className="text-[13px] font-semibold tracking-[0.12em] text-primary uppercase">Digital twin setup</p>
-        <h1 className="mt-3 text-[36px] leading-tight font-semibold tracking-[-0.6px] text-ink">Start from your floor plan</h1>
-        <p className="mt-3 max-w-[560px] text-[16px] text-muted">
+        <p className={`text-[13px] font-semibold tracking-[0.12em] text-primary uppercase ${rise}`} style={delay(0)}>
+          Digital twin setup
+        </p>
+        <h1 className={`mt-3 text-[36px] leading-tight font-semibold tracking-[-0.6px] text-ink ${rise}`} style={delay(1)}>Start from your floor plan</h1>
+        <p className={`mt-3 max-w-[560px] text-[16px] text-muted ${rise}`} style={delay(2)}>
           Upload an architectural plan. GreenOps reads walls, rooms and workstations and builds the 3D office from its module library.
         </p>
 
         <div
           onClick={() => input.current?.click()}
-          className={`mt-9 flex w-full cursor-pointer flex-col items-center rounded-[var(--radius-lg)] border-2 border-dashed px-8 py-10 transition ${
+          style={delay(3)}
+          className={`${rise} mt-9 flex w-full cursor-pointer flex-col items-center rounded-[var(--radius-lg)] border-2 border-dashed px-8 py-10 transition ${
             over ? 'border-primary bg-primary-soft' : 'border-hairline hover:border-muted-soft hover:bg-surface-soft'
           }`}
         >
@@ -90,13 +97,13 @@ function Upload() {
           />
         </div>
 
-        <div className="mt-6 flex w-full items-center gap-4 text-[13px] text-muted-soft">
+        <div className={`mt-6 flex w-full items-center gap-4 text-[13px] text-muted-soft ${rise}`} style={delay(4)}>
           <span className="h-px flex-1 bg-hairline" />
           or try the sample
           <span className="h-px flex-1 bg-hairline" />
         </div>
 
-        <div className="pill-shadow mt-6 flex w-full items-center gap-5 rounded-[var(--radius-md)] bg-white p-3 text-left">
+        <div style={delay(4)} className={`${rise} pill-shadow mt-6 flex w-full items-center gap-5 rounded-[var(--radius-md)] bg-white p-3 text-left`}>
           <img src={BLUEPRINT_URL} alt="Sample floor plan A-101" className="h-[92px] w-[130px] rounded-[var(--radius-sm)] border border-hairline-soft object-cover" />
           <div className="min-w-0 flex-1">
             <p className="text-[16px] font-semibold text-ink">A-101 · Floor plan · Level 01</p>

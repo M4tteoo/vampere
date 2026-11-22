@@ -59,7 +59,7 @@ const EXAMPLES = [
 /** Ritratti del vampiro (render di Vampire.png, PNG trasparenti). */
 const V = `${import.meta.env.BASE_URL}vampire/`
 
-/** Ritratto piccolo e rotondo di Vampere, accanto alle sue risposte. */
+/** Ritratto piccolo e rotondo di Wattson, accanto alle sue risposte. */
 export function Mascot({ className = '' }: { className?: string }) {
   return (
     <span className={`block overflow-hidden rounded-full bg-vampire ${className}`} aria-hidden>
@@ -68,14 +68,14 @@ export function Mascot({ className = '' }: { className?: string }) {
   )
 }
 
-/** Pose di Vampere (Pose_PNG/, ritagliate in public/vampire/pose-*.png):
+/** Pose di Wattson (Pose_PNG/, ritagliate in public/vampire/pose-*.png):
  *  hello saluta · think pensa · search cerca nei dati · talk risponde · scared i dati hanno provato a dargli ordini ·
  *  hide si copre col mantello quando l'assistente non risponde. `rest` è il ritratto di Vampire.png. */
 type Pose = 'rest' | 'hello' | 'think' | 'search' | 'talk' | 'scared' | 'hide'
 const POSES: Pose[] = ['rest', 'hello', 'think', 'search', 'talk', 'scared', 'hide']
 const poseSrc = (p: Pose) => `${V}${p === 'rest' ? 'pop' : `pose-${p}`}.png`
 
-/** Vampere che esce dal cerchio: il cerchio è il quadrato in basso (size × size), la testa sporge sopra.
+/** Wattson che esce dal cerchio: il cerchio è il quadrato in basso (size × size), la testa sporge sopra.
  *  Una maschera lascia visibile tutto ciò che sta sopra il centro del cerchio (con margine `pad` in alto e ai lati,
  *  così il rimbalzo di vamp-pop non taglia testa e mani) e sotto segue il bordo del cerchio, dove finisce il mantello. */
 export function PopAvatar({ size, pose = 'rest', className = '' }: { size: number; pose?: Pose; className?: string }) {
@@ -165,7 +165,7 @@ export function Chat() {
       push(id, '', { role: 'assistant', content: String(a.answer ?? ''), sources: a.sources ?? [], focus: a.focus_entity_ids ?? [] })
       if (mine()) setPose(a.ignored_data_instructions ? 'scared' : 'talk')
     } catch {
-      push(id, '', { role: 'assistant', content: 'Vampere is still asleep in his coffin. Start the assistant with: python -m assistant serve', error: true })
+      push(id, '', { role: 'assistant', content: 'Wattson is still asleep in his coffin. Start the assistant with: python -m assistant serve', error: true })
       if (mine()) setPose('hide')
     } finally {
       setPending((p) => p.filter((x) => x !== id))
@@ -178,11 +178,11 @@ export function Chat() {
       {open && (
         <div className="pill-shadow flex h-[540px] w-[380px] flex-col overflow-hidden rounded-[14px] bg-white">
           <div className="flex items-center gap-3 border-b border-hairline-soft px-4 pt-2 pb-3">
-            <button onClick={() => !busy && setPose('hello')} aria-label="Wave at Vampere" className="shrink-0">
+            <button onClick={() => !busy && setPose('hello')} aria-label="Wave at Wattson" className="shrink-0">
               <PopAvatar size={60} pose={shown} />
             </button>
             <div className="min-w-0 flex-1">
-              <div className="text-[15px] font-semibold text-ink">Vampere</div>
+              <div className="text-[15px] font-semibold text-ink">Wattson</div>
               <div className="text-[12px] text-muted">Hunter of energy vampires · every number checked by code</div>
             </div>
             <button
@@ -214,7 +214,7 @@ export function Chat() {
           {view === 'history' ? (
             <div className="scroll-thin min-h-0 flex-1 overflow-y-auto px-2 py-2 text-[14px]">
               <div className="px-2 pt-1 pb-2 text-[13px] font-semibold text-ink">Past chats</div>
-              {!chats.length && <p className="px-2 text-[13px] text-muted">No chats yet. Ask Vampere something and it will appear here.</p>}
+              {!chats.length && <p className="px-2 text-[13px] text-muted">No chats yet. Ask Wattson something and it will appear here.</p>}
               {chats.map((c) => (
                 <div key={c.id} className={`group flex items-center gap-1 rounded-[10px] hover:bg-surface-soft ${c.id === cur ? 'bg-surface-soft' : ''}`}>
                   <button onClick={() => openChat(c.id)} className="min-w-0 flex-1 px-2 py-2 text-left">
@@ -282,13 +282,13 @@ export function Chat() {
           )}
         </div>
       )}
-      {/* Il cerchio in basso c'è solo a chat chiusa: aperta, Vampere sta nell'intestazione e la X la richiude. */}
+      {/* Il cerchio in basso c'è solo a chat chiusa: aperta, Wattson sta nell'intestazione e la X la richiude. */}
       {!open && (
         <button
           onClick={() => (!busy && setPose(msgs.length ? 'hello' : 'talk'), setHover(false), setOpen(true))}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
-          aria-label="Ask Vampere"
+          aria-label="Ask Wattson"
           className="origin-bottom transition hover:scale-105"
         >
           <PopAvatar size={80} pose={hover ? 'hello' : busy ? shown : 'rest'} />
