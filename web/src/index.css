@@ -20,6 +20,8 @@
   --color-surface-soft: #f7f7f7;
   --color-surface-strong: #f2f2f2;
   --color-scene: #f3f0ea;
+  /* Sfondo dei render del vampiro (public/vampire/*): avatar e clip si fondono senza bordi. */
+  --color-vampire: #beb7ad;
 
   --color-warn: #a85a12;
   --color-warn-soft: #fdf1e3;
@@ -72,3 +74,12 @@ button:disabled { cursor: not-allowed; }
 .bp-detect #furniture { stroke: #ffc55c; stroke-width: 0.05; opacity: var(--furn, 0); }
 .bp-detect #furniture path { fill: rgba(255, 197, 92, 0.18); }
 
+
+/* Vampere salta fuori dal cerchio a ogni cambio di posa (Chat.tsx). */
+@keyframes vamp-pop {
+  0% { transform: translateY(14%) scale(0.92); opacity: 0; }
+  55% { transform: translateY(-4%) scale(1.03); opacity: 1; }
+  100% { transform: none; }
+}
+.vamp-pop { transform-origin: 50% 100%; animation: vamp-pop 0.42s cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+@media (prefers-reduced-motion: reduce) { .vamp-pop { animation: none; } }

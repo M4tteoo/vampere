@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 934 230" width="934" height="230">
+<title>Vampère</title>
+<defs><clipPath id="wheel"><rect x="784" y="40" width="110" height="150" rx="14"/></clipPath></defs>
+<g fill="none" stroke-width="10" stroke-linecap="round"><path stroke="#121314" d="M760,22 L42,22 A20,20 0 0 0 22,42 L22,188 A20,20 0 0 0 42,208 L752,208"/><path stroke="#D7263D" d="M790,22 L892,22 A20,20 0 0 1 912,42 L912,188 A20,20 0 0 1 892,208 L790,208"/></g>
+<rect x="40" y="40" width="110" height="150" rx="14" fill="#121314"/>
+<rect x="164" y="40" width="110" height="150" rx="14" fill="#121314"/>
+<rect x="288" y="40" width="110" height="150" rx="14" fill="#121314"/>
+<rect x="412" y="40" width="110" height="150" rx="14" fill="#121314"/>
+<rect x="536" y="40" width="110" height="150" rx="14" fill="#121314"/>
+<rect x="660" y="40" width="110" height="150" rx="14" fill="#121314"/>
+<rect x="784" y="40" width="110" height="150" rx="14" fill="#D7263D"/>
+<g fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(64.6,84) scale(0.8)" d="M0,0 L38,100 L76,0"/><path transform="translate(188.6,84) scale(0.8)" d="M0,100 L38,0 L76,100 M17,62 L59,62"/><path transform="translate(308.6,84) scale(0.8)" d="M0,100 L0,0 L43,66 L86,0 L86,100"/><path transform="translate(443.8,84) scale(0.8)" d="M0,100 L0,0 L32,0 A26,26 0 0 1 32,52 L0,52"/><path transform="translate(569.4,84) scale(0.8)" d="M54,0 L0,0 L0,100 L54,100 M0,50 L46,50 M16,-36 L34,-18"/><path transform="translate(691,84) scale(0.8)" d="M0,100 L0,0 L32,0 A26,26 0 0 1 32,52 L0,52 M30,52 L60,100"/></g>
+<g clip-path="url(#wheel)"><g fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(817.4,32) scale(0.8)" d="M54,0 L0,0 L0,100 L54,100 M0,50 L46,50"/><path transform="translate(817.4,161) scale(0.8)" d="M54,0 L0,0 L0,100 L54,100 M0,50 L46,50"/><path transform="translate(817.4,290) scale(0.8)" d="M54,0 L0,0 L0,100 L54,100 M0,50 L46,50"/><animateTransform attributeName="transform" type="translate" dur="3.2s" repeatCount="indefinite" values="0 0;0 0;0 -129" keyTimes="0;0.62;1" calcMode="spline" keySplines="0 0 1 1;0.65 0 0.35 1"/></g></g>
+</svg>
