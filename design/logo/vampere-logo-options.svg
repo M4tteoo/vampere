@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1878" width="1400" height="1878">
+<title>Vampere — wordmark options</title>
+<defs>
+<linearGradient id="dawn" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="681" y2="0"><stop offset="0" stop-color="#D21F3C"/><stop offset="0.45" stop-color="#C9A227"/><stop offset="1" stop-color="#3DDC84"/></linearGradient>
+</defs>
+<rect width="1400" height="1878" fill="#E9E8E2"/>
+<text x="28" y="44" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#15171A">VAMPERE — wordmark options</text>
+<g transform="translate(28,60)">
+<rect width="1344" height="330" rx="18" fill="#F6F5F0"/>
+<text x="28" y="40" font-family="Inter, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#15171A">01  Fang</text>
+<text x="28" y="306" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" fill="#5E625F">The V is a red canine dipping below the baseline. AMPERE stays green: the vampire is the only thing that bites.</text>
+<g transform="translate(261.5,101.5) scale(1.35)"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#123D2B" stroke-width="14"><g transform="translate(0.0,0)"><path d="M-2,0 L18,0 L38,74 L58,0 L78,0 L38,112 Z" fill="#B0122B" stroke="none"/></g><path d="M70.0856,100 L108.086,0 L146.086,100 M87.0856,60 L129.086,60"/><path d="M176.086,100 L176.086,0 L219.086,66 L262.086,0 L262.086,100"/><path d="M292.086,100 L292.086,0 L324.086,0 A26,26,0,0,1,324.086,52 L292.086,52"/><path d="M434.086,0 L380.086,0 L380.086,100 L434.086,100 M380.086,50 L426.086,50"/><path d="M464.086,100 L464.086,0 L496.086,0 A26,26,0,0,1,496.086,52 L464.086,52 M494.086,52 L524.086,100"/><path d="M608.086,0 L554.086,0 L554.086,100 L608.086,100 M554.086,50 L600.086,50"/></g></g>
+</g>
+<g transform="translate(28,418)">
+<rect width="1344" height="330" rx="18" fill="#F6F5F0"/>
+<text x="28" y="40" font-family="Inter, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#15171A">02  Spark</text>
+<text x="28" y="306" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" fill="#5E625F">The A’s crossbar is a current spark: ampere, measured. Ink and one green accent.</text>
+<g transform="translate(261.5,101.5) scale(1.35)"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#15171A" stroke-width="14"><path d="M0,0 L38,100 L76,0"/><g transform="translate(70.1,0)"><path d="M0,100 L38,0 L76,100" stroke="#15171A"/><path d="M10,66 L39,50 L36,68 L66,52" stroke="#22A35A" stroke-width="11" stroke-linejoin="miter" stroke-linecap="butt"/></g><path d="M176.086,100 L176.086,0 L219.086,66 L262.086,0 L262.086,100"/><path d="M292.086,100 L292.086,0 L324.086,0 A26,26,0,0,1,324.086,52 L292.086,52"/><path d="M434.086,0 L380.086,0 L380.086,100 L434.086,100 M380.086,50 L426.086,50"/><path d="M464.086,100 L464.086,0 L496.086,0 A26,26,0,0,1,496.086,52 L464.086,52 M494.086,52 L524.086,100"/><path d="M608.086,0 L554.086,0 L554.086,100 L608.086,100 M554.086,50 L600.086,50"/></g></g>
+</g>
+<g transform="translate(28,776)">
+<rect width="1344" height="330" rx="18" fill="#0D1311"/>
+<text x="28" y="40" font-family="Inter, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#F2F2EE">03  Dawn</text>
+<text x="28" y="306" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" fill="#9AA6A0">Blood red fades to green across the word, on a night background: the vampire load drains into daylight.</text>
+<g transform="translate(212.4,101.5) scale(1.35)"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="url(#dawn)" stroke-width="10"><path d="M0,0 L38,100 L76,0"/><path d="M82.9198,100 L120.92,0 L158.92,100 M99.9198,60 L141.92,60"/><path d="M200.92,100 L200.92,0 L243.92,66 L286.92,0 L286.92,100"/><path d="M328.92,100 L328.92,0 L360.92,0 A26,26,0,0,1,360.92,52 L328.92,52"/><path d="M482.92,0 L428.92,0 L428.92,100 L482.92,100 M428.92,50 L474.92,50"/><path d="M524.92,100 L524.92,0 L556.92,0 A26,26,0,0,1,556.92,52 L524.92,52 M554.92,52 L584.92,100"/><path d="M680.92,0 L626.92,0 L626.92,100 L680.92,100 M626.92,50 L672.92,50"/></g></g>
+</g>
+<g transform="translate(28,1134)">
+<rect width="1344" height="330" rx="18" fill="#F6F5F0"/>
+<text x="28" y="40" font-family="Inter, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#15171A">04  Cape</text>
+<text x="28" y="306" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" fill="#5E625F">A heavy black V with the cape’s red lining in its notch, the collar from the character. Strong at small sizes.</text>
+<g transform="translate(245.2,101.5) scale(1.35)"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#123D2B" stroke-width="20"><g transform="translate(0.0,0)"><path d="M-4,0 L26,0 L38,42 L50,0 L80,0 L38,106 Z" fill="#15171A" stroke="none"/><path d="M26,0 L50,0 L38,42 Z" fill="#B0122B" stroke="none"/></g><path d="M74.3636,100 L112.364,0 L150.364,100 M91.3636,60 L133.364,60"/><path d="M184.364,100 L184.364,0 L227.364,66 L270.364,0 L270.364,100"/><path d="M304.364,100 L304.364,0 L336.364,0 A26,26,0,0,1,336.364,52 L304.364,52"/><path d="M450.364,0 L396.364,0 L396.364,100 L450.364,100 M396.364,50 L442.364,50"/><path d="M484.364,100 L484.364,0 L516.364,0 A26,26,0,0,1,516.364,52 L484.364,52 M514.364,52 L544.364,100"/><path d="M632.364,0 L578.364,0 L578.364,100 L632.364,100 M578.364,50 L624.364,50"/></g></g>
+</g>
+<g transform="translate(28,1492)">
+<rect width="1344" height="330" rx="18" fill="#F6F5F0"/>
+<text x="28" y="40" font-family="Inter, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#15171A">05  Power down</text>
+<text x="28" y="306" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" fill="#5E625F">Each letter draws less power than the last: weight and colour step down from ink to green.</text>
+<g transform="translate(228.8,101.5) scale(1.35)"><g fill="none" stroke-linecap="round" stroke-linejoin="round" ><path d="M0,0 L38,100 L76,0" stroke-width="24" stroke="#15171A"/><path d="M78.6417,100 L116.642,0 L154.642,100 M95.6417,60 L137.642,60" stroke-width="20" stroke="#1A2A22"/><path d="M192.642,100 L192.642,0 L235.642,66 L278.642,0 L278.642,100" stroke-width="16.5" stroke="#183A2B"/><path d="M316.642,100 L316.642,0 L348.642,0 A26,26,0,0,1,348.642,52 L316.642,52" stroke-width="13.5" stroke="#165034"/><path d="M466.642,0 L412.642,0 L412.642,100 L466.642,100 M412.642,50 L458.642,50" stroke-width="11" stroke="#17693F"/><path d="M504.642,100 L504.642,0 L536.642,0 A26,26,0,0,1,536.642,52 L504.642,52 M534.642,52 L564.642,100" stroke-width="8.5" stroke="#1B864C"/><path d="M656.642,0 L602.642,0 L602.642,100 L656.642,100 M602.642,50 L648.642,50" stroke-width="6.5" stroke="#22A35A"/></g></g>
+</g>
+</svg>
