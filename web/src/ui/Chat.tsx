@@ -331,16 +331,22 @@ function Focus({ ids }: { ids: string[] }) {
       return item && room ? { label: e.label, item, room } : null
     })
     .filter(Boolean) as { label: string; item: { id: string; view?: string }; room: string }[]
-  if (!targets.length) return null
+  // Più id grezzi possono puntare allo stesso oggetto: un bottone per nome.
+  const seen = new Set<string>()
+  const unique = targets.filter((t) => !seen.has(t.label) && !!seen.add(t.label))
+  if (!unique.length) return null
   return (
     <div className="mt-2 flex flex-wrap gap-1">
-      {targets.slice(0, 3).map((t) => (
+      {unique.slice(0, 3).map((t) => (
         <button
           key={t.item.id}
           onClick={() => {
             const s = useApp.getState()
-            s.setRoom(t.room)
-            if (t.item.view === 'island') s.setStage('cloud')
+            // Previsione: la scena è solo le isole affiancate, senza reparto; aprirne uno ci disegnerebbe sopra i titoli.
+            if (s.step !== 'forecast') {
+              s.setRoom(t.room)
+              if (t.item.view === 'island') s.setStage('cloud')
+            }
             s.select(t.item.id)
           }}
           className="rounded-full border border-primary px-2.5 py-0.5 text-[12px] font-semibold text-primary hover:bg-primary-soft"

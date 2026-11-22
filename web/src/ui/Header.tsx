@@ -23,6 +23,15 @@ export function Header() {
   // Durante l'intro (caricamento della planimetria) solo il logo: niente passi né bottoni.
   const introDone = useIntro((s) => s.phase === 'done')
 
+  // Logo = home: si torna alla schermata «Digital twin setup» (scelta della pianta); la demo riparte dal passo 1, dalla pianta.
+  const goHome = () => {
+    const s = useApp.getState()
+    s.setChatOpen(false)
+    if (s.step !== 'allocation') setStep('allocation')
+    setRoom(null)
+    useIntro.getState().replay()
+  }
+
   const ready = (id: Step): { ok: boolean; why?: string } => {
     if (id === 'allocation') return { ok: true }
     if (!hasExtra) return { ok: false, why: 'Needs the backend output (timeseries, measures)' }
@@ -35,7 +44,7 @@ export function Header() {
       // Sopra lo schermo dell'intro (z-50), così il logo resta visibile per tutta l'animazione della planimetria.
       className={`flex h-[88px] shrink-0 items-center justify-between px-8 ${introDone ? 'relative z-40 bg-white' : 'pointer-events-none absolute inset-x-0 top-0 z-[60] bg-transparent'}`}
     >
-      <button onClick={() => setRoom(null)} className="flex w-48 items-center" aria-label="Back to the floor plan">
+      <button onClick={goHome} disabled={!landed} className="flex w-48 items-center" aria-label="Back to the home page">
         {/* Qui si posa il logo dell'apertura (intro/Landing.tsx): resta nascosto finché non è atterrato. */}
         <span data-landing-target className="block h-9" style={{ width: (36 * LOGO_W) / LOGO_H, opacity: landed ? 1 : 0 }}>
           <VampereLogo className="block h-full w-full" />
